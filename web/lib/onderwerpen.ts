@@ -5,6 +5,8 @@ import type { Periodesoort, Variant } from "./cohesie";
 import type { Paar } from "./zaal";
 
 export type TerreinPaar = Paar & { terrein: string };
+// Onder dit aantal gezamenlijke stemmingen telt een terrein niet mee in de koppen en staat het onderaan
+export const MINIMUM_UITERSTEN = 50;
 
 // Per beleidsterrein: de cohesie van een fractie met elke andere fractie
 export async function cohesiePerTerrein(soort: Periodesoort, periode: string, variant: Variant, fractie: string): Promise<Map<string, Map<string, Paar>> | null> {
@@ -30,20 +32,20 @@ export async function stemmingenPerTerrein(soort: Periodesoort, periode: string)
   return new Map((rijen ?? []).map((r) => [r.beleidsterrein, r.stemmingen]));
 }
 
-// Het paar per terrein, van meest naar minst eens; terreinen met te weinig data achteraan
+// Het paar per terrein, van meest naar minst eens. Daarna de kleine terreinen (minder dan 50 stemmingen samen,
+// zie MINIMUM_UITERSTEN): een klein terrein haalt anders de top met 100%. Te weinig data helemaal achteraan.
 export function paarPerTerrein(perTerrein: Map<string, Map<string, Paar>>, met: string): TerreinPaar[] {
   const lijst: TerreinPaar[] = [];
   for (const [terrein, m] of perTerrein) {
     const p = m.get(met);
     if (p) lijst.push({ terrein, ...p });
   }
-  const waarde = (p: TerreinPaar) => (p.teWeinig || p.cohesie == null ? -1 : p.cohesie);
-  return lijst.sort((a, b) => waarde(b) - waarde(a) || a.terrein.localeCompare(b.terrein));
+  const groep = (p: TerreinPaar) => (p.teWeinig || p.cohesie == null ? 2 : p.gezamenlijk < MINIMUM_UITERSTEN ? 1 : 0);
+  return lijst.sort((a, b) => groep(a) - groep(b) || (b.cohesie ?? -1) - (a.cohesie ?? -1) || a.terrein.localeCompare(b.terrein));
 }
 
 // Het terrein waarop het paar het vaakst en het minst vaak hetzelfde stemde. Alleen terreinen met minstens
 // 50 gezamenlijke stemmingen: een klein terrein geeft snel een uitschieter die de kop zou halen.
-export const MINIMUM_UITERSTEN = 50;
 export function uitersten(lijst: TerreinPaar[]): { hoog: TerreinPaar; laag: TerreinPaar } | null {
   const geldig = lijst.filter((p) => !p.teWeinig && p.cohesie != null && p.gezamenlijk >= MINIMUM_UITERSTEN);
   return geldig.length >= 2 ? { hoog: geldig[0], laag: geldig[geldig.length - 1] } : null;

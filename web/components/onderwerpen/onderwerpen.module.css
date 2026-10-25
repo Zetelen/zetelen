@@ -374,3 +374,8 @@ a.balkRij[data-actief="true"] {
 @media (prefers-reduced-motion: reduce) {
   .paneel { animation: none; }
 }
+
+/* Terrein met weinig stemmingen samen: onderaan en gedimd */
+.balkRij[data-klein="true"] {
+  opacity: 0.6;
+}

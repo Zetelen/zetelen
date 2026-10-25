@@ -20,6 +20,10 @@ describe("paarPerTerrein en uitersten", () => {
     expect([u.hoog.terrein, u.laag.terrein]).toEqual(["Zorg", "Defensie"]);
     expect(uitersten(paarPerTerrein(perTerrein, "C"))).toBeNull();
   });
+  it("zet terreinen met weinig stemmingen samen onder de grote, ook bij 100%", () => {
+    const klein = new Map([...perTerrein, ["Koninkrijk", new Map([["B", { cohesie: 100, gezamenlijk: 26, teWeinig: false }]])]]);
+    expect(paarPerTerrein(klein, "B").map((x) => x.terrein)).toEqual(["Zorg", "Defensie", "Koninkrijk"]);
+  });
   it("laat terreinen met minder dan 50 gezamenlijke stemmingen buiten de koppen", () => {
     const klein = new Map([...perTerrein, ["Koninkrijk", new Map([["B", { cohesie: 10, gezamenlijk: 26, teWeinig: false }]])]]);
     expect(uitersten(paarPerTerrein(klein, "B"))!.laag.terrein).toBe("Defensie");

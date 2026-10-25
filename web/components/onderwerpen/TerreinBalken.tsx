@@ -4,7 +4,7 @@
 import Link from "next/link";
 import { getal, procent } from "@/lib/cohesie";
 import { schaalkleur } from "@/lib/kleur";
-import type { TerreinPaar } from "@/lib/onderwerpen";
+import { MINIMUM_UITERSTEN, type TerreinPaar } from "@/lib/onderwerpen";
 import s from "./onderwerpen.module.css";
 
 type Props = { lijst: TerreinPaar[]; totaal?: number | null; label: string; hrefVoor?: (terrein: string) => string; actief?: string | null };
@@ -14,11 +14,12 @@ export function TerreinBalken({ lijst, totaal, label, hrefVoor, actief }: Props)
     <ol className={s.balken} aria-label={label}>
       {lijst.map((p) => {
         const geldig = !p.teWeinig && p.cohesie != null;
+        const klein = geldig && p.gezamenlijk < MINIMUM_UITERSTEN;
         const inhoud = (
           <>
             <span className={s.terrein}>
               {p.terrein}
-              <span className={s.aantal}>{getal(p.gezamenlijk)} stemmingen samen</span>
+              <span className={s.aantal}>{getal(p.gezamenlijk)} stemmingen samen{klein ? ", weinig" : ""}</span>
             </span>
             <span className={s.baan} aria-hidden="true">
               {geldig ? <span style={{ width: `${p.cohesie}%`, background: schaalkleur(p.cohesie!) }} /> : <span className={s.teWeinig} />}
@@ -30,12 +31,12 @@ export function TerreinBalken({ lijst, totaal, label, hrefVoor, actief }: Props)
         return (
           <li key={p.terrein}>
             {hrefVoor ? (
-              <Link href={hrefVoor(p.terrein)} className={s.balkRij} data-actief={actief === p.terrein} scroll={false}
+              <Link href={hrefVoor(p.terrein)} className={s.balkRij} data-actief={actief === p.terrein} data-klein={klein} scroll={false}
                 aria-current={actief === p.terrein ? "true" : undefined}>
                 {inhoud}
               </Link>
             ) : (
-              <div className={s.balkRij}>{inhoud}</div>
+              <div className={s.balkRij} data-klein={klein}>{inhoud}</div>
             )}
           </li>
         );
