@@ -1,6 +1,6 @@
 # Component: onderwerpen
 
-Status: voorstel (25 oktober 2026), nog niet goedgekeurd. Lees eerst `_conventies.md`.
+Status: in bouw (goedgekeurd door Niels op 25 oktober 2026). Lees eerst `_conventies.md`.
 
 ## Doel
 
@@ -49,8 +49,14 @@ Wat er moet gebeuren:
 
 8 tot 14 uur, waarvan de koppeltabel 1 tot 2 uur nakijken voor Niels.
 
-## Vragen aan Niels
+## Besluiten Niels (25 oktober 2026)
 
-1. Akkoord met beleidsterrein via het dossier, en dossier als fijner niveau?
-2. Motie bij meer dossiers: overal meetellen of het eerste?
-3. In R1 of erna?
+1. Beleidsterrein via het dossier, dossier als fijner niveau: akkoord.
+2. Een motie bij meer dossiers telt overal mee.
+3. In R1.
+
+## Interface (gebouwd, migratie 014)
+
+- `api.cohesie_terrein`: periodesoort, periode, beleidsterrein, variant, fractie, andere_fractie, cohesie, gezamenlijk, te_weinig_data
+- `api.beleidsterrein_periode`: periodesoort, periode, beleidsterrein, stemmingen
+- Handmatig: `core.beleidsterrein_commissie` (commissie, beleidsterrein, gecontroleerd_op)
