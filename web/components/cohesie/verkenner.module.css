@@ -248,9 +248,7 @@
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: var(--r-3) var(--r-6);
 }
-.leeswijzer > :first-child {
-  grid-column: 1 / -1;
-}
+
 /* Op een smal scherm zijn de labels onleesbaar klein; de knoppen onder de zaal tonen dan naam en percentage */
 @media (max-width: 640px) {
   .label,

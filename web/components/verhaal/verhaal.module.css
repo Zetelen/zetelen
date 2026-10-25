@@ -51,6 +51,26 @@
   color: var(--koper);
 }
 
+.hoofdstuk {
+  display: block;
+  margin-bottom: var(--r-3);
+  font-size: var(--tekst-label);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--koper);
+}
+.verder {
+  display: inline-block;
+  margin-top: var(--r-3);
+  color: var(--koper);
+  font-weight: 600;
+  text-decoration: none;
+}
+.verder:hover {
+  text-decoration: underline;
+}
+
 /* Tijdlijn: kaarten links langs een verticale lijn, tekening rechts */
 .verhaal[data-tijdlijn="true"] {
   display: grid;

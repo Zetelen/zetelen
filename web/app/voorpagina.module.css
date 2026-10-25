@@ -1,0 +1,69 @@
+.opening {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-5);
+  max-width: 860px;
+}
+.snel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--r-2);
+  align-items: center;
+}
+.snel a {
+  min-height: var(--doel-min);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--r-2);
+  padding: 0 var(--r-4);
+  border-radius: var(--hoek-pil);
+  border: 1px solid var(--lijn);
+  color: var(--tekst);
+  text-decoration: none;
+}
+.snel a:hover {
+  background: var(--nacht-700);
+}
+.snel a.overslaan {
+  border-color: transparent;
+  color: var(--tekst-zacht);
+  text-decoration: underline;
+}
+.concept {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--koper);
+}
+.hoofdstuk {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-4);
+  max-width: 760px;
+}
+.tegels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--r-4);
+}
+.tegel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-3);
+  padding: var(--r-5);
+  border: 1px solid var(--lijn);
+  border-radius: var(--hoek-paneel);
+  background: var(--nacht-900);
+  color: var(--tekst);
+  text-decoration: none;
+}
+.tegel:hover {
+  border-color: var(--koper);
+}
+.tegel strong {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 26px;
+}
+.tegel span {
+  color: var(--tekst-zacht);
+}

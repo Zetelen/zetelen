@@ -11,6 +11,7 @@ import { Label, SectieKop, Tekst } from "@/components/Typografie";
 import { cohesieIn, fractiesIn, keuzeUitUrl, perioden } from "@/lib/cohesie";
 import { ordenFracties } from "@/lib/ordening";
 import s from "@/components/cohesie/verkenner.module.css";
+import { Inklapbaar } from "@/components/Inklapbaar";
 
 export const metadata: Metadata = {
   title: "Verkenner",
@@ -35,8 +36,7 @@ export default async function VerkennerPagina({ searchParams }: Props) {
         <PeriodeKeuze perioden={lijst} soort={soort} periode={periode?.naam ?? null} variant={variant} />
       </section>
 
-      <section className={s.leeswijzer}>
-          <Label>Zo lees je dit</Label>
+      <Inklapbaar titel="Zo lees je dit" className={s.leeswijzer}>
           <Tekst>
             Kies een fractie in de lijst naast de zaal. Die licht op in koper; de andere fracties kleuren naar het aandeel stemmingen waarop zij
             dezelfde kant kozen. Licht is een hoge cohesie, donker een lage. Gearceerd betekent te weinig gezamenlijke
@@ -50,7 +50,7 @@ export default async function VerkennerPagina({ searchParams }: Props) {
             Zaal, boog en tabel tonen dezelfde cijfers; de tabel is het meest precies.{" "}
             <Link href="/methodiek#cohesie">Hoe is dit berekend?</Link>
           </Tekst>
-        </section>
+        </Inklapbaar>
       <div className={s.indeling}>
         <div style={{ minWidth: 0 }}>
           {!lijst.length ? (

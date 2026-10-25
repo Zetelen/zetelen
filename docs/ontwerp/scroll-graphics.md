@@ -8,6 +8,10 @@ Concept, 25 oktober 2026. Gebouwd als conceptpagina `/verhaal` (niet in het menu
 - Tekstkaarten als tijdlijn: op brede schermen links langs een verticale lijn, met de datum groot bij een punt; de zaal staat rechts stil. Op smalle schermen kaarten onder de zaal.
 - Graphic 1 is het verhaal "Hoe zijn we hier gekomen?" op `/verhaal`. Graphic 2 krijgt een andere plek: voorlopig `/verhaal/stemming`, met minder scrollafstand per stap (60vh).
 
+## Voorpagina (25 oktober 2026)
+
+Het verhaal staat nu op de voorpagina (`web/app/page.tsx`, data in `web/lib/voorpagina.ts`); `/verhaal` stuurt door. Opbouw: opening met snelknoppen en "sla het verhaal over", hoofdstuk 1 (hoe zijn we hier gekomen, knop naar Fracties), hoofdstuk 2 (hoe stemt elke partij nu: de zaal kleurt naar cohesie met de grootste kabinets- en de grootste oppositiefractie, knop naar de Verkenner), de oproep naar de coalitiebouwer (concept), en tegels naar de rest van de site. Het hoofdstuk over onderwerpen komt tussen 2 en de coalitiebouwer zodra de beleidsterreinen gevuld zijn.
+
 ## Uitgangspunten (besluiten Niels)
 
 - Op de voorpagina, als het overkoepelende verhaal. Verhaalpagina's kunnen later.

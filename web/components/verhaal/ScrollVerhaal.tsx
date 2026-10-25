@@ -2,6 +2,7 @@
 // Scroll graphic (ontwerp: docs/ontwerp/scroll-graphics.md): een vaste tekening met tekstkaarten ernaast
 // (tijdlijn) of eroverheen. Staat een kaart het dichtst bij het midden van het scherm, dan schuiven de
 // stippen naar hun plek in die stap. Alleen kijken, geen klikken. Plekken rekent de server uit (lib/verhaal.ts).
+import Link from "next/link";
 import { type CSSProperties, useEffect, useRef, useState } from "react";
 import type { Stap, Verhaal } from "@/lib/verhaal";
 import { MIDDEN } from "@/lib/zaal";
@@ -92,8 +93,10 @@ export function ScrollVerhaal({ verhaal, label, hoogteSmal = 555, stapHoogte = "
         {verhaal.breed.map((st, i) => (
           <li key={i} data-stap={i} className={s.kaart} data-actief={i === actief}>
             <div>
+              {st.hoofdstuk && <span className={s.hoofdstuk}>{st.hoofdstuk}</span>}
               <span className={s.datum}>{st.datum}</span>
               {st.tekst}
+              {st.link && <Link href={st.link.href} className={s.verder}>{st.link.tekst} →</Link>}
             </div>
           </li>
         ))}

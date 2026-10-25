@@ -5,10 +5,14 @@ import { MIDDEN, punt, zetels as zaalZetels } from "./zaal";
 // Nadruk per stip: kabinet (gouden rand), nadruk (lichte rand), uit (gedimd), zacht (sterk gedimd)
 export type Kleur = "kabinet" | "nadruk" | "uit" | "zacht" | null;
 export type Stip = { key: string; x: number; y: number; kleur: Kleur; tint: string };
-export type Tekstlabel = { x: number; y: number; tekst: string; waarde?: string; anchor?: "start" | "middle" | "end"; tint?: string };
+export type Tekstlabel = { x: number; y: number; tekst: string; waarde?: string; anchor?: "start" | "middle" | "end"; tint?: string; fractie?: string };
 // Kader: een lijn om de stippen van een fractie (alleen in de gegroepeerde blokken)
 export type Kader = { x: number; y: number; b: number; h: number; fractie: string; tint?: string };
-export type Stap = { datum: string; tekst: string; stippen: Stip[]; labels: Tekstlabel[]; kaders?: Kader[]; groot?: string; klein?: string };
+export type Stap = {
+  datum: string; tekst: string; stippen: Stip[]; labels: Tekstlabel[]; kaders?: Kader[]; groot?: string; klein?: string;
+  hoofdstuk?: string; // kop boven de kaart, bij het begin van een hoofdstuk
+  link?: { href: string; tekst: string }; // verder op de site
+};
 export type Verhaal = { breed: Stap[]; smal?: Stap[] }; // smal: alleen als het op mobiel anders is
 export const rond = (n: number) => Math.round(n * 10) / 10;
 
@@ -92,7 +96,7 @@ export function zaalLabels(stippen: ZaalStip[], tint?: Map<string, string>): Tek
   return [...per].filter(([, zs]) => zs.length >= 5).map(([f, zs]) => {
     const h = zs.reduce((t, z) => t + z.hoek, 0) / zs.length;
     const p = punt(475, h);
-    return { x: Math.round(p.x), y: Math.round(p.y), tekst: KORT[f] ?? f, waarde: String(zs.length), tint: tint?.get(f),
+    return { x: Math.round(p.x), y: Math.round(p.y), tekst: KORT[f] ?? f, waarde: String(zs.length), tint: tint?.get(f), fractie: f,
       anchor: p.x < MIDDEN.x - 40 ? "end" : p.x > MIDDEN.x + 40 ? "start" : "middle" };
   });
 }
