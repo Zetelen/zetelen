@@ -41,6 +41,10 @@ describe("oppositie", () => {
     const stappen = hoofdstukKabinetten(rijen, ["A", "B"], "Motie", ["A"]);
     expect(stappen[2].tekst).toContain("gemiddeld 40% van de oppositiemoties het, onder de meerderheidskabinetten 20%");
   });
+  it("zegt het eerlijk als minderheid en meerderheid nauwelijks verschillen", () => {
+    const rijen = ["A", "B"].map((periode) => ({ periode, soort: "Motie" as const, indiener_rol: "oppositie", ingediend: 1000, aangenomen: periode === "A" ? 410 : 400, brede_steun: 0 }));
+    expect(hoofdstukKabinetten(rijen, ["A", "B"], "Motie", ["A"])[2].tekst).toContain("Nauwelijks");
+  });
   it("kleurt verbindingen over de grens tussen kabinet en oppositie", () => {
     const [stap] = hoofdstukNetwerk([{ kabinet: "K", verbindingen: [{ fractie_a: "A", fractie_b: "B", stukken: 4 }, { fractie_a: "B", fractie_b: "C", stukken: 2 }], rollen: new Map([["A", "kabinet"], ["B", "oppositie"], ["C", "oppositie"]]) }]);
     expect(stap.paden?.map((p) => p.tint)).toEqual(["#e0915a", "#566aa6"]);

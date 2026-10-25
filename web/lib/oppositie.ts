@@ -129,7 +129,10 @@ export function hoofdstukKabinetten(rijen: PeriodeWerk[], kabinetten: string[], 
     },
     {
       datum: "twee lezingen",
-      tekst: `Onder ${minderheid.map((k) => `kabinet-${k}`).join(" en ")}, zonder eigen meerderheid of met gedoogsteun, haalde gemiddeld ${gem(minderheid)}% van de oppositiemoties het, onder de meerderheidskabinetten ${gem(meerderheid)}%. Meer invloed voor de oppositie als het kabinet steun nodig heeft? Of moties die het kabinet toch al wilde? Allebei te verdedigen.`,
+      // De lezing volgt het verschil: is er geen verschil tussen minderheid en meerderheid, dan zegt de tekst dat
+      tekst: Math.abs(gem(minderheid) - gem(meerderheid)) < 5
+        ? `Maakt het uit of het kabinet een meerderheid heeft? Nauwelijks: onder ${minderheid.map((k) => `kabinet-${k}`).join(" en ")} haalde gemiddeld ${gem(minderheid)}% van de oppositiemoties het, onder de meerderheidskabinetten ${gem(meerderheid)}%. Wat wel verschuift, is de tijd: van ${succes(kabinetten[0])}% onder kabinet-${kabinetten[0]} naar ${succes(kabinetten[kabinetten.length - 1])}% onder kabinet-${kabinetten[kabinetten.length - 1]}. Twee lezingen: de oppositie wint terrein, of haar moties vragen minder.`
+        : `Onder ${minderheid.map((k) => `kabinet-${k}`).join(" en ")}, zonder eigen meerderheid of met gedoogsteun, haalde gemiddeld ${gem(minderheid)}% van de oppositiemoties het, onder de meerderheidskabinetten ${gem(meerderheid)}%. Meer invloed voor de oppositie als het kabinet steun nodig heeft? Of moties die het kabinet toch al wilde? Allebei te verdedigen.`,
       stippen: bouw("aangenomen"), labels: [...labels, ...legenda(-20)],
     },
   ];
