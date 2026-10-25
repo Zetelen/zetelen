@@ -121,3 +121,17 @@ def test_cohesie_per_terrein_telt_elk_terrein(conn):
     aantallen = dict(conn.execute("select beleidsterrein, stemmingen from api.beleidsterrein_periode "
                                   "where periodesoort = 'kabinet'").fetchall())
     assert aantallen == {"Financiën": 30, "Overig": 30}
+
+
+@db
+def test_trefwoord_in_de_titel_gaat_voor_de_commissie(conn):
+    # Een dossier over vreemdelingen bij de commissie Justitie: toch Asiel en migratie
+    jv, d, z = nieuw(), nieuw(), nieuw()
+    conn.execute('insert into raw.commissie ("Id", "NaamNL") values (%s, %s)', (jv, "Vaste commissie voor Justitie en Veiligheid"))
+    conn.execute('insert into raw.kamerstukdossier ("Id", "Nummer", "Titel") values (%s, 19637, %s)', (d, "Vreemdelingenbeleid"))
+    conn.execute('insert into raw.zaakactor ("Id", "Zaak_Id", "Relatie", "ActorNaam", "Commissie_Id") '
+                 "values (%s, %s, 'Voortouwcommissie', 'vaste commissie voor Justitie en Veiligheid', %s)", (nieuw(), z, jv))
+    conn.execute('insert into raw.zaak_kamerstukdossier values (%s, %s)', (z, d))
+    conn.execute("select * from core.herbouw_dossiers()")
+    rij = conn.execute("select commissie, beleidsterrein from core.dossier where id = %s", (d,)).fetchone()
+    assert rij == ("vaste commissie voor justitie en veiligheid", "Asiel en migratie")

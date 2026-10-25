@@ -20,6 +20,7 @@ erDiagram
     zaak ||--o{ zaak_dossier : "hoort bij"
     dossier ||--o{ zaak_dossier : "bevat"
     beleidsterrein_commissie ||--o{ dossier : "geeft terrein"
+    beleidsterrein_trefwoord ||--o{ dossier : "gaat voor de commissie"
 ```
 
 ## Handmatige tabellen
@@ -45,6 +46,10 @@ Welke fracties in welk kabinet zaten (rol `kabinet`) of het kabinet gedoogden (r
 ### beleidsterrein_commissie
 
 Zet een vaste commissie (naam zoals in de API, in kleine letters) om in een van vijftien beleidsterreinen, zodat namen die per kabinet veranderen onder hetzelfde terrein vallen. Een commissie die hier niet staat, telt als 'Overig'. Opgesteld op 25 oktober 2026 (`db/migrations/014_onderwerpen.sql`), nog na te kijken door Niels.
+
+### beleidsterrein_trefwoord
+
+Trefwoorden (patronen) in de titel van een dossier die het beleidsterrein bepalen, vóór de commissie: zo vallen asiel, wonen en digitalisering onder hun eigen terrein, ook in de jaren dat een andere commissie ze behandelde. Toegevoegd op 25 oktober 2026 (`db/migrations/015_trefwoorden.sql`), nog na te kijken door Niels.
 
 ## Afgeleide tabellen
 
