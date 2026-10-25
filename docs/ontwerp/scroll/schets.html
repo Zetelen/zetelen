@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scrollschets</title>
+<!-- Schets voor de scroll graphics op de voorpagina (docs/ontwerp/scroll-graphics.md).
+     Geen productiecode: losse HTML om het scrollen te voelen. Cijfers uit de API van de Tweede Kamer
+     en uit api.fractie_periode, opgehaald op 25 oktober 2026. Geen partijkleuren (besluit R1). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Hanken+Grotesk:wght@400;600&family=DM+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --nacht-950: #070b18; --nacht-900: #0b1226; --nacht-800: #111b36; --nacht-700: #1a2748;
+    --lijn: #2a3a63; --lijn-licht: #566aa6; --tekst: #e8ecf5; --tekst-zacht: #a9b4cc;
+    --koper: #d08a55; --goud: #e3b76a;
+    --serif: "Newsreader", Georgia, serif; --sans: "Hanken Grotesk", system-ui, sans-serif; --mono: "DM Mono", ui-monospace, monospace;
+    --duur: 900ms;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--nacht-950); color: var(--tekst); font-family: var(--sans); font-size: 17px; line-height: 1.55; }
+  header { max-width: 760px; margin: 0 auto; padding: 96px 16px 48px; }
+  .label { font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--koper); }
+  h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(40px, 6vw, 80px); line-height: 1.05; margin: 12px 0 16px; }
+  h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(28px, 3.6vw, 44px); margin: 0; }
+  p.zacht { color: var(--tekst-zacht); }
+  .verhaal { position: relative; max-width: 1240px; margin: 0 auto; padding: 0 16px; }
+  .kop { max-width: 760px; margin: 0 auto; padding: 72px 0 24px; }
+  .figuur { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; justify-content: center; }
+  .figuur svg { width: min(100%, 980px); height: auto; max-height: 82vh; overflow: visible; }
+  .stappen { position: relative; margin-top: -100vh; pointer-events: none; }
+  .stap { min-height: 100vh; display: flex; align-items: flex-end; padding-bottom: 12vh; }
+  .stap > div {
+    pointer-events: auto; max-width: 380px; padding: 20px 24px; border-radius: 8px;
+    background: rgba(17, 27, 54, 0.92); border: 1px solid var(--lijn);
+    opacity: 0.35; transition: opacity 400ms;
+  }
+  .stap.actief > div { opacity: 1; }
+  .stap .datum { font-family: var(--mono); font-size: 12px; color: var(--koper); display: block; margin-bottom: 6px; }
+  .zetel { transition: transform var(--duur) cubic-bezier(.6,0,.2,1), fill 500ms, opacity 500ms; fill: var(--nacht-700); stroke: var(--lijn-licht); stroke-width: 1.5; }
+  .zetel[data-kleur="koper"] { fill: var(--koper); stroke: var(--koper); }
+  .zetel[data-kleur="goud"] { fill: var(--goud); stroke: var(--goud); }
+  .zetel[data-kleur="zacht"] { opacity: 0.25; }
+  .zetel[data-weg="ja"] { opacity: 0; }
+  .lbl { font-family: var(--sans); font-size: 15px; fill: var(--tekst-zacht); transition: opacity 500ms; }
+  .lbl tspan { font-family: var(--mono); fill: var(--tekst); }
+  .groot { font-family: var(--serif); font-size: 56px; fill: var(--tekst); text-anchor: middle; }
+  .klein { font-family: var(--mono); font-size: 14px; fill: var(--tekst-zacht); text-anchor: middle; }
+  footer { max-width: 760px; margin: 0 auto; padding: 96px 16px; color: var(--tekst-zacht); font-size: 14px; }
+  @media (max-width: 640px) {
+    .stap { align-items: flex-end; padding-bottom: 6vh; }
+    .stap > div { max-width: none; width: 100%; font-size: 16px; }
+    .figuur { align-items: flex-start; padding-top: 10vh; }
+    :root { --duur: 600ms; }
+    #g2 .zetel { r: 14px; }
+    #g2 .lbl { font-size: 26px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :root { --duur: 0ms; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <span class="label">Schets · scroll graphics</span>
+  <h1>Vier jaar Kamer in drie beelden</h1>
+  <p class="zacht">Schets voor de voorpagina. Scroll rustig door. Graphic 3 (wie stemt met wie, per onderwerp) volgt als de onderwerpen in de data zitten.</p>
+</header>
+
+<section class="verhaal" id="g1">
+  <div class="kop"><span class="label">1 · De zaal door de tijd</span><h2>Van Rutte IV tot nu</h2></div>
+  <div class="figuur"><svg viewBox="-60 -50 1120 555" role="img" aria-label="De zaal van de Tweede Kamer, per stap van het verhaal"><g class="zetels"></g><g class="labels"></g><g class="uitlees"></g></svg></div>
+  <div class="stappen"></div>
+</section>
+
+<section class="verhaal" id="g2">
+  <div class="kop"><span class="label">2 · Eén stemming uit elkaar gehaald</span><h2>Het asielplan van Wilders</h2></div>
+  <div class="figuur"><svg viewBox="-60 -50 1120 555" role="img" aria-label="De stemming over de motie-Eerdmans, per stap"><g class="zetels"></g><g class="labels"></g><g class="uitlees"></g></svg></div>
+  <div class="stappen"></div>
+</section>
+
+<footer>
+  Bron: Tweede Kamer, open data (CC0). Zetels per fractie bij de eerste stemmingen van elke stap; stemming over motie 2025Z11623 (hoofdelijk, 10 juni 2025). Datums in de teksten nog na te kijken.
+</footer>
+
+<script>
+// Zaal: zelfde opbouw als web/lib/zaal.ts (150 zetels, zes rijen, hoefijzer van 220 graden)
+const RIJEN = [[150, 13], [205, 18], [260, 23], [315, 27], [370, 32], [425, 37]];
+const MIDDEN = { x: 500, y: 455 };
+const punt = (r, h) => ({ x: MIDDEN.x + r * Math.cos(h * Math.PI / 180), y: MIDDEN.y - r * Math.sin(h * Math.PI / 180) });
+const PLEKKEN = [];
+for (const [r, n] of RIJEN) for (let i = 0; i < n; i++) { const h = 200 - 220 * i / (n - 1); PLEKKEN.push({ ...punt(r, h), h }); }
+PLEKKEN.sort((a, b) => b.h - a.h || a.x - b.x);
+
+// Vaste volgorde over alle stappen: de MDS-volgorde van de site op cohesie 2023-2025,
+// met fracties die toen niet bestonden naast hun voorganger of opvolger
+const VOLGORDE = ["PvdD", "BIJ1", "GroenLinks", "PvdA", "GroenLinks-PvdA", "PRO", "SP", "DENK", "Volt", "D66", "ChristenUnie", "CDA", "50PLUS",
+  "Omtzigt", "Nieuw Sociaal Contract", "Fractie Den Haan", "SGP", "VVD", "FVD", "Groep Van Haga", "JA21", "BBB", "Lid Keijzer", "PVV", "Groep Markuszower"];
+// Wie de zetels van wie overneemt (zelfde stip, andere fractie)
+const VOORGANGER = { "GroenLinks-PvdA": ["GroenLinks", "PvdA"], "PRO": ["GroenLinks-PvdA"], "Groep Markuszower": ["PVV"], "Nieuw Sociaal Contract": ["Omtzigt"] };
+const KORT = { "GroenLinks-PvdA": "GL-PvdA", "Nieuw Sociaal Contract": "NSC", "ChristenUnie": "CU", "Groep Markuszower": "Gr. Markuszower" };
+
+function zaal(zetels) {
+  const lijst = VOLGORDE.filter((f) => zetels[f]).map((f) => [f, zetels[f]]);
+  const uit = []; let k = 0;
+  for (const [f, n] of lijst) for (let i = 0; i < n; i++) uit.push({ fractie: f, ...PLEKKEN[k++] });
+  return uit;
+}
+
+// Kent stippen (vaste sleutels) toe aan zetels, zodat een fractie haar stippen houdt en
+// een opvolger de stippen van zijn voorganger overneemt
+function sleutels(stappen) {
+  let vorige = {};
+  let teller = 0;
+  for (const stap of stappen) {
+    const nu = {};
+    const per = {};
+    for (const z of stap.zetels) (per[z.fractie] ??= []).push(z);
+    const vrij = {};
+    for (const [f, ks] of Object.entries(vorige)) vrij[f] = [...ks];
+    for (const [f, zs] of Object.entries(per)) {
+      nu[f] = [];
+      for (const z of zs) {
+        let key = vrij[f]?.shift();
+        if (!key) for (const v of VOORGANGER[f] ?? []) { key = vrij[v]?.pop(); if (key) break; }
+        z.key = key ?? `s${teller++}`;
+        nu[f].push(z.key);
+      }
+    }
+    vorige = nu;
+  }
+}
+
+function maakVerhaal(id, stappen, tekenExtra) {
+  const sectie = document.getElementById(id);
+  const svg = sectie.querySelector("svg");
+  const gZ = svg.querySelector(".zetels"), gL = svg.querySelector(".labels"), gU = svg.querySelector(".uitlees");
+  const lijst = sectie.querySelector(".stappen");
+  const NS = "http://www.w3.org/2000/svg";
+  const stippen = new Map();
+  for (const stap of stappen) for (const z of stap.zetels) if (!stippen.has(z.key)) {
+    const c = document.createElementNS(NS, "circle");
+    c.setAttribute("r", "10.5"); c.setAttribute("class", "zetel"); c.dataset.weg = "ja";
+    c.style.transform = `translate(${MIDDEN.x}px, ${MIDDEN.y}px)`;
+    gZ.appendChild(c); stippen.set(z.key, c);
+  }
+  stappen.forEach((s, i) => {
+    const el = document.createElement("div"); el.className = "stap"; el.dataset.i = i;
+    el.innerHTML = `<div><span class="datum">${s.datum}</span>${s.tekst}</div>`;
+    lijst.appendChild(el);
+  });
+  function toon(i) {
+    const s = stappen[i];
+    const gebruikt = new Set();
+    for (const z of s.zetels) {
+      const c = stippen.get(z.key); gebruikt.add(z.key);
+      c.dataset.weg = "nee";
+      c.dataset.kleur = s.kleur(z) ?? "";
+      c.style.transform = `translate(${z.x.toFixed(1)}px, ${z.y.toFixed(1)}px)`;
+    }
+    for (const [k, c] of stippen) if (!gebruikt.has(k)) c.dataset.weg = "ja";
+    gL.innerHTML = ""; gU.innerHTML = "";
+    tekenExtra(s, gL, gU);
+    lijst.querySelectorAll(".stap").forEach((el) => el.classList.toggle("actief", Number(el.dataset.i) === i));
+  }
+  const kijker = new IntersectionObserver((items) => {
+    for (const it of items) if (it.isIntersecting) toon(Number(it.target.dataset.i));
+  }, { rootMargin: "-45% 0px -45% 0px" });
+  lijst.querySelectorAll(".stap").forEach((el) => kijker.observe(el));
+  toon(0);
+}
+
+const svgTekst = (x, y, cls, inhoud, anchor) => `<text x="${x}" y="${y}" class="${cls}"${anchor ? ` text-anchor="${anchor}"` : ""}>${inhoud}</text>`;
+
+// Labels bij de zaal: fracties vanaf 5 zetels, buiten het hoefijzer
+function zaalLabels(s, gL, gU) {
+  const per = {};
+  for (const z of s.zetels) (per[z.fractie] ??= []).push(z);
+  let html = "";
+  for (const [f, zs] of Object.entries(per)) {
+    if (zs.length < 5) continue;
+    const h = zs.reduce((t, z) => t + z.h, 0) / zs.length;
+    const p = punt(475, h);
+    const anchor = p.x < MIDDEN.x - 40 ? "end" : p.x > MIDDEN.x + 40 ? "start" : "middle";
+    html += svgTekst(p.x.toFixed(0), p.y.toFixed(0), "lbl", `${KORT[f] ?? f} <tspan>${zs.length}</tspan>`, anchor);
+  }
+  gL.innerHTML = html;
+  if (s.groot) gU.innerHTML = svgTekst(MIDDEN.x, MIDDEN.y - 40, "groot", s.groot) + svgTekst(MIDDEN.x, MIDDEN.y - 8, "klein", s.klein ?? "");
+}
+
+// ---- Graphic 1: de zaal door de tijd ----
+const R4 = { FVD: 5, D66: 24, GroenLinks: 8, ChristenUnie: 5, SGP: 3, Omtzigt: 1, PVV: 17, CDA: 14, "Groep Van Haga": 3, PvdA: 9, BBB: 1, SP: 9, "Fractie Den Haan": 1, DENK: 3, BIJ1: 1, PvdD: 6, JA21: 3, VVD: 34, Volt: 3 };
+const SCHOOF = { PVV: 37, "GroenLinks-PvdA": 25, VVD: 24, "Nieuw Sociaal Contract": 20, D66: 9, BBB: 7, CDA: 5, SP: 5, ChristenUnie: 3, FVD: 3, SGP: 3, PvdD: 3, DENK: 3, Volt: 2, JA21: 1 };
+const VERKIEZING = { D66: 26, PVV: 26, VVD: 22, "GroenLinks-PvdA": 20, CDA: 18, JA21: 9, FVD: 7, BBB: 4, DENK: 3, SP: 3, PvdD: 3, ChristenUnie: 3, SGP: 3, "50PLUS": 2, Volt: 1 };
+const SPLITSING = { ...VERKIEZING, PVV: 19, "Groep Markuszower": 7 };
+const NU = { ...SPLITSING, "GroenLinks-PvdA": 0, PRO: 20, BBB: 3, "Lid Keijzer": 1 };
+const in_ = (lijst) => (z) => (lijst.includes(z.fractie) ? "koper" : null);
+const g1 = [
+  { datum: "januari 2022", tekst: "Rutte IV begint met 77 van de 150 zetels: VVD, D66, CDA en ChristenUnie.", zetels: zaal(R4), kleur: in_(["VVD", "D66", "CDA", "ChristenUnie"]), groot: "77", klein: "zetels voor het kabinet" },
+  { datum: "juli 2024", tekst: "Na de verkiezingen van 2023 begint kabinet-Schoof. PVV, VVD, NSC en BBB hebben samen 88 zetels. GroenLinks en PvdA zijn nu één fractie.", zetels: zaal(SCHOOF), kleur: in_(["PVV", "VVD", "Nieuw Sociaal Contract", "BBB"]), groot: "88", klein: "zetels voor het kabinet" },
+  { datum: "3 juni 2025", tekst: "De PVV stapt uit het kabinet. Er blijven 51 zetels over.", zetels: zaal(SCHOOF), kleur: in_(["VVD", "Nieuw Sociaal Contract", "BBB"]), groot: "51", klein: "zetels voor het kabinet" },
+  { datum: "22 augustus 2025", tekst: "Ook NSC vertrekt. Het demissionaire kabinet steunt nog op 31 zetels.", zetels: zaal(SCHOOF), kleur: in_(["VVD", "BBB"]), groot: "31", klein: "zetels voor het kabinet" },
+  { datum: "29 oktober 2025", tekst: "Verkiezingen. D66 en PVV worden even groot: 26 zetels. NSC verdwijnt uit de Kamer.", zetels: zaal(VERKIEZING), kleur: (z) => (z.fractie === "D66" || z.fractie === "PVV" ? "goud" : null) },
+  { datum: "januari 2026", tekst: "Zeven Kamerleden verlaten de PVV en gaan verder als Groep Markuszower.", zetels: zaal(SPLITSING), kleur: (z) => (z.fractie === "Groep Markuszower" ? "goud" : z.fractie === "PVV" ? null : "zacht") },
+  { datum: "februari 2026", tekst: "Kabinet-Jetten begint als minderheidskabinet: D66, VVD en CDA, samen 66 zetels.", zetels: zaal(SPLITSING), kleur: in_(["D66", "VVD", "CDA"]), groot: "66", klein: "zetels voor het kabinet" },
+  { datum: "nu", tekst: "GroenLinks-PvdA gaat verder als PRO. Het kabinet zoekt per stemming tien zetels of meer bij de oppositie.", zetels: zaal(NU), kleur: in_(["D66", "VVD", "CDA"]), groot: "66", klein: "van de 76 voor een meerderheid" },
+];
+sleutels(g1);
+maakVerhaal("g1", g1, zaalLabels);
+
+// ---- Graphic 2: de motie-Eerdmans, 10 juni 2025 (hoofdelijk) ----
+// Stemmen per fractie uit de API (Stemming bij besluit over zaak 2025Z11623)
+const STEM = {
+  Voor: { VVD: 23, "Nieuw Sociaal Contract": 18, FVD: 3, BBB: 7, SGP: 3, JA21: 1 },
+  Tegen: { PVV: 34, "GroenLinks-PvdA": 24, D66: 9, VVD: 1, SP: 5, PvdD: 3, CDA: 4, Volt: 2, ChristenUnie: 3, DENK: 3 },
+  "Niet deelgenomen": { "Nieuw Sociaal Contract": 2, PVV: 3, "GroenLinks-PvdA": 1, CDA: 1 },
+};
+const zaalE = zaal(SCHOOF);
+zaalE.forEach((z, i) => (z.key = `e${i}`));
+// Elke zetel krijgt een stem; per fractie in vaste volgorde: voor, tegen, niet deelgenomen
+{
+  const per = {};
+  for (const z of zaalE) (per[z.fractie] ??= []).push(z);
+  for (const [f, zs] of Object.entries(per)) {
+    let i = 0;
+    for (const s of ["Voor", "Tegen", "Niet deelgenomen"]) for (let k = 0; k < (STEM[s][f] ?? 0); k++) zs[i++].stem = s;
+  }
+}
+// Op smalle schermen staan de blokken onder elkaar, met grotere stippen (zie de CSS) en een hogere tekening
+const SMAL = matchMedia("(max-width: 640px)").matches;
+const BLOK = SMAL
+  ? { Voor: { x: 200, y: 20 }, Tegen: { x: 200, y: 330 }, "Niet deelgenomen": { x: 200, y: 900 } }
+  : { Voor: { x: 40, y: 0 }, Tegen: { x: 560, y: 0 }, "Niet deelgenomen": { x: 300, y: 420 } };
+const STAP = SMAL ? 31 : 23, KOLOMMEN = SMAL ? 27 : 18;
+if (SMAL) document.querySelector("#g2 svg").setAttribute("viewBox", "-60 -50 1120 1080");
+function blokken(gegroepeerd) {
+  const uit = []; const labels = [];
+  for (const s of Object.keys(BLOK)) {
+    const b = BLOK[s];
+    const leden = zaalE.filter((z) => z.stem === s).sort((a, c) => VOLGORDE.indexOf(a.fractie) - VOLGORDE.indexOf(c.fractie));
+    let rij = 0, kol = 0, vorige = null;
+    labels.push({ x: b.x, y: b.y - 22, tekst: `${s} <tspan>${leden.length}</tspan>`, s });
+    for (const z of leden) {
+      if (gegroepeerd && vorige && z.fractie !== vorige) { rij += kol ? 1 : 0; kol = 0; rij += 0.35; }
+      if (gegroepeerd && z.fractie !== vorige) labels.push({ x: b.x - 14, y: b.y + rij * STAP + 5, tekst: KORT[z.fractie] ?? z.fractie, anchor: "end", klein: true });
+      uit.push({ ...z, x: b.x + 11 + kol * STAP, y: b.y + 11 + rij * STAP });
+      vorige = z.fractie;
+      if (++kol === KOLOMMEN) { kol = 0; rij++; }
+    }
+  }
+  return { zetels: uit, labels };
+}
+const los = blokken(false), groep = blokken(true);
+const g2 = [
+  { datum: "10 juni 2025", tekst: "Een week na de val van kabinet-Schoof stemt de Kamer over een motie van JA21: werk het asielplan van Wilders uit en voer het waar mogelijk uit.", zetels: zaalE, kleur: () => null, labels: null },
+  { datum: "de uitslag", tekst: "55 voor, 88 tegen. De motie is verworpen.", zetels: los.zetels, kleur: (z) => (z.stem === "Voor" ? "koper" : null), labels: los.labels.filter((l) => l.s) },
+  { datum: "per fractie", tekst: "Voor stemmen VVD, NSC, BBB, FVD, SGP en JA21. Tegen de hele linkerkant van de Kamer, D66 en CDA.", zetels: groep.zetels, kleur: (z) => (z.stem === "Voor" ? "koper" : null), labels: groep.labels },
+  { datum: "de PVV", tekst: "En de PVV: 34 van haar 37 leden stemmen tegen het uitvoeren van het eigen plan. De andere 3 doen niet mee.", zetels: groep.zetels, kleur: (z) => (z.fractie === "PVV" ? "goud" : "zacht"), labels: groep.labels },
+  { datum: "één stem", tekst: "Eén VVD-Kamerlid stemt anders dan de rest van de fractie. Bij een hoofdelijke stemming is dat zichtbaar; bij handopsteken telt de fractie als één stem.", zetels: groep.zetels, kleur: (z) => (z.fractie === "VVD" && z.stem === "Tegen" ? "goud" : z.fractie === "VVD" ? null : "zacht"), labels: groep.labels },
+];
+maakVerhaal("g2", g2, (s, gL, gU) => {
+  if (!s.labels) return zaalLabels(s, gL, gU);
+  gL.innerHTML = s.labels.map((l) => svgTekst(l.x, l.y, "lbl", l.tekst, l.anchor)).join("");
+});
+</script>
+</body>
+</html>
