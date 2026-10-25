@@ -169,6 +169,7 @@ def ververs_alles(conn, meta, haal=http_json, base=BASE, pauze=PAUZE):
         herbouw(conn, "core", "herbouw_dossiers")
         herbouw(conn, "analyses")
         herbouw(conn, "analyses", "herbouw_terrein")
+        herbouw(conn, "analyses", "herbouw_zetelwerk")
         herbouw_stemmatrix(conn)
         controleer_datakwaliteit(conn)
     except Exception as e:
