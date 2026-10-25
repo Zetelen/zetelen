@@ -47,6 +47,7 @@ PROEVEN = [
     ("Overstappers lezen uit api", "GET", "overstap?select=van&limit=1", "api", None, True),
     ("Cohesie per beleidsterrein lezen uit api", "GET", "cohesie_terrein?select=beleidsterrein&limit=1", "api", None, True),
     ("Stemmingen per beleidsterrein lezen uit api", "GET", "beleidsterrein_periode?select=beleidsterrein&limit=1", "api", None, True),
+    ("Stemmingen per dossier lezen uit api", "GET", "stemming_dossier?select=dossier&limit=1", "api", None, True),
     ("Stemmatrix lezen uit api", "GET", "stemmatrix?select=periode&limit=1", "api", None, True),
     ("Tussenstap analyses lezen", "GET", "fractie_besluit_stem?limit=1", "analyses", None, False),
     ("Kabinet toevoegen", "POST", "kabinet", "api", {"naam": "x", "begin": "2030-01-01"}, False),

@@ -1,6 +1,6 @@
 // Tests voor de cohesie per beleidsterrein (lib/onderwerpen.ts)
 import { describe, expect, it } from "vitest";
-import { paarPerTerrein, uitersten } from "../lib/onderwerpen";
+import { type StemmingRij, paarPerTerrein, perDossier, uitersten } from "../lib/onderwerpen";
 import type { Paar } from "../lib/zaal";
 
 const p = (cohesie: number | null, teWeinig = false): Paar => ({ cohesie, gezamenlijk: teWeinig ? 10 : 100, teWeinig });
@@ -23,5 +23,16 @@ describe("paarPerTerrein en uitersten", () => {
   it("laat terreinen met minder dan 50 gezamenlijke stemmingen buiten de koppen", () => {
     const klein = new Map([...perTerrein, ["Koninkrijk", new Map([["B", { cohesie: 10, gezamenlijk: 26, teWeinig: false }]])]]);
     expect(uitersten(paarPerTerrein(klein, "B"))!.laag.terrein).toBe("Defensie");
+  });
+});
+
+describe("perDossier", () => {
+  const r = (dossier: string, a: string | null, b: string | null): StemmingRij => ({
+    besluit: Math.random().toString(), dossier, datum: "2026-01-01", zaakNummer: null, zaakSoort: null, onderwerp: null, uitslag: null,
+    dossierNummer: 1, dossierToevoeging: null, dossierTitel: dossier, andereDossiers: [], a, b,
+  });
+  it("telt samen en eens per dossier en zet het minst eens bovenaan", () => {
+    const uit = perDossier([r("X", "Voor", "Voor"), r("X", "Voor", "Tegen"), r("Y", "Tegen", "Voor"), r("Y", null, "Voor"), r("Z", null, null)]);
+    expect(uit.map((d) => [d.titel, d.eens, d.samen, d.stemmingen])).toEqual([["Y", 0, 1, 2], ["X", 1, 2, 2]]);
   });
 });

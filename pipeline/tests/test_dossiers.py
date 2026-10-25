@@ -135,3 +135,22 @@ def test_trefwoord_in_de_titel_gaat_voor_de_commissie(conn):
     conn.execute("select * from core.herbouw_dossiers()")
     rij = conn.execute("select commissie, beleidsterrein from core.dossier where id = %s", (d,)).fetchone()
     assert rij == ("vaste commissie voor justitie en veiligheid", "Asiel en migratie")
+
+
+@db
+def test_verdieping_per_stemming_en_dossier(conn):
+    # Een stemming bij twee dossiers staat er twee keer in, met het andere dossier erbij en de stem per fractie
+    d1, d2, zaken = vul_dossierdata(conn)
+    z = nieuw()
+    conn.execute('insert into raw.zaak_kamerstukdossier values (%s, %s), (%s, %s)', (z, d1, z, d2))
+    conn.execute("insert into core.zaak (id, nummer, soort, titel, onderwerp) values (%s, 'Z9', 'Motie', 'Belastingplan', 'Motie over iets')", (z,))
+    conn.execute("select * from core.herbouw_dossiers()")
+    fa, fb, b = nieuw(), nieuw(), nieuw()
+    conn.execute("insert into core.besluit (id, datum, kabinet, besluittekst) values (%s, '2023-02-01', 'Rutte IV', 'Verworpen.')", (b,))
+    conn.execute("insert into core.besluit_zaak values (%s, %s)", (b, z))
+    conn.execute("insert into analyses.fractie_besluit_stem values (%s, %s, 'Voor', false), (%s, %s, 'Tegen', false)", (b, fa, b, fb))
+    uit = dict(conn.execute("select tabel, rijen from analyses.herbouw_terrein()").fetchall())
+    assert uit["stemming_dossier"] == 2
+    rij = conn.execute("select onderwerp, uitslag, andere_dossiers, verdeeld, stemmen ->> %s, stemmen ->> %s "
+                       "from api.stemming_dossier where dossier = %s", (fa, fb, d1)).fetchone()
+    assert rij == ("Motie over iets", "Verworpen.", ["Kabinetscrisis"], True, "Voor", "Tegen")

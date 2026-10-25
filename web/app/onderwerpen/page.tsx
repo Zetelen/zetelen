@@ -1,6 +1,7 @@
 // Onderwerpen (concept, component onderwerpen, hoofdstuk 3 van het verhaal): waar zijn fracties het over eens?
-// Cohesie per beleidsterrein. Zonder tweede fractie een kaart van terrein tegen fractie; met een tweede fractie
-// een balk per terrein, met de cohesie over alle stemmingen als referentie. Keuzes staan in de URL.
+// Cohesie per beleidsterrein. Zonder tweede fractie een kaart van terrein tegen fractie (op een telefoon een lijst
+// per terrein); met een tweede fractie een balk per terrein, met de cohesie over alle stemmingen als referentie.
+// Verdieping: tik op een terrein voor de dossiers, op een dossier voor de stemmingen. Keuzes staan in de URL.
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -8,11 +9,14 @@ import { Bronregel } from "@/components/cohesie/Bronregel";
 import { PeriodeKeuze } from "@/components/cohesie/PeriodeKeuze";
 import { Inhoud, LegeStaat } from "@/components/Kader";
 import { FractieKeuze } from "@/components/onderwerpen/FractieKeuze";
+import { MobieleBalk } from "@/components/onderwerpen/MobieleBalk";
 import { TerreinBalken } from "@/components/onderwerpen/TerreinBalken";
+import { TerreinLijst } from "@/components/onderwerpen/TerreinLijst";
+import { DossierLijst, StemmingLijst } from "@/components/onderwerpen/Verdieping";
 import { Data, Label, SectieKop, Tekst } from "@/components/Typografie";
 import { cohesieIn, fractiesIn, keuzeUitUrl, perioden, procent } from "@/lib/cohesie";
 import { schaalkleur, tekstOp } from "@/lib/kleur";
-import { cohesiePerTerrein, paarPerTerrein, stemmingenPerTerrein, uitersten } from "@/lib/onderwerpen";
+import { cohesiePerTerrein, paarPerTerrein, perDossier, stemmingenInTerrein, stemmingenPerTerrein, uitersten } from "@/lib/onderwerpen";
 import { sleutel } from "@/lib/zaal";
 import s from "@/components/onderwerpen/onderwerpen.module.css";
 
@@ -47,6 +51,12 @@ export default async function Onderwerpen({ searchParams }: Props) {
   const u = paar ? uitersten(paar) : null;
   const query = (extra: Record<string, string>) =>
     `?${new URLSearchParams({ soort, ...(periode ? { periode: periode.naam } : {}), variant, ...extra }).toString()}`;
+  // Verdieping: dossiers in een terrein, en de stemmingen van een dossier
+  const terrein = met && paar?.some((p) => p.terrein === waarde("terrein")) ? waarde("terrein")! : null;
+  const stemmingen = terrein && periode && met ? await stemmingenInTerrein(soort, periode.naam, variant, terrein, gekozen.id, met.id) : null;
+  const dossiers = stemmingen ? perDossier(stemmingen) : null;
+  const dossier = dossiers?.find((d) => d.dossier === waarde("dossier")) ?? null;
+  const paarQuery: Record<string, string> = met ? { fractie: gekozen.afkorting, met: met.afkorting } : {};
 
   return (
     <Inhoud>
@@ -57,11 +67,19 @@ export default async function Onderwerpen({ searchParams }: Props) {
           Elke stemming hoort bij een dossier, en elk dossier bij een beleidsterrein. Kies een fractie en zie per terrein hoe vaak
           andere fracties dezelfde kant kozen. Kies een tweede fractie om het paar per onderwerp te vergelijken.
         </Tekst>
-        <Suspense>
-          <PeriodeKeuze perioden={lijst} soort={soort} periode={periode?.naam ?? null} variant={variant} pad="/onderwerpen" />
-          {gekozen && <FractieKeuze fracties={zaal.map((f) => ({ afkorting: f.afkorting, zetels: f.zetels }))} fractie={gekozen.afkorting} met={met?.afkorting ?? null} />}
-        </Suspense>
+        <div className={s.alleenBreed} style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
+          <Suspense>
+            <PeriodeKeuze perioden={lijst} soort={soort} periode={periode?.naam ?? null} variant={variant} pad="/onderwerpen" />
+            {gekozen && <FractieKeuze fracties={zaal.map((f) => ({ afkorting: f.afkorting, zetels: f.zetels }))} fractie={gekozen.afkorting} met={met?.afkorting ?? null} />}
+          </Suspense>
+        </div>
       </section>
+      {periode && gekozen && (
+        <Suspense>
+          <MobieleBalk perioden={lijst} soort={soort} periode={periode.naam} variant={variant}
+            fracties={zaal.map((f) => ({ afkorting: f.afkorting, zetels: f.zetels }))} fractie={gekozen.afkorting} met={met?.afkorting ?? null} />
+        </Suspense>
+      )}
 
       {!periode || !gekozen || !perTerrein ? (
         <LegeStaat label="Niet bereikbaar" titel="De onderwerpen konden niet worden geladen" uitleg="Probeer het over een paar minuten opnieuw." />
@@ -74,13 +92,35 @@ export default async function Onderwerpen({ searchParams }: Props) {
               {totaal != null ? ` Over alle stemmingen samen: ${procent(totaal)} (de witte lijn).` : ""}
             </Tekst>
           )}
-          <TerreinBalken lijst={paar} totaal={totaal} label={`Cohesie van ${gekozen.afkorting} en ${met.afkorting} per beleidsterrein`} />
+          <Data>Tik op een terrein voor de dossiers waarin {gekozen.afkorting} en {met.afkorting} het minst eens waren.</Data>
+          <TerreinBalken lijst={paar} totaal={totaal} label={`Cohesie van ${gekozen.afkorting} en ${met.afkorting} per beleidsterrein`}
+            hrefVoor={(t) => `/onderwerpen${query({ ...paarQuery, terrein: t })}#verdieping`} actief={terrein} />
           <Data><Link href={`/onderwerpen${query({ fractie: gekozen.afkorting })}`}>Terug naar alle fracties</Link></Data>
+          {terrein && (
+            <section id="verdieping" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
+              <Label>{terrein} · dossiers, van minst naar meest eens</Label>
+              {!dossiers ? (
+                <Tekst>De dossiers konden niet worden geladen. Probeer het over een paar minuten opnieuw.</Tekst>
+              ) : (
+                <>
+                  <Data>Geteld zijn de stemmingen waarop {gekozen.afkorting} en {met.afkorting} allebei voor of tegen stemden. Per dossier zijn het er te weinig voor een percentage.</Data>
+                  <DossierLijst dossiers={dossiers} a={gekozen.afkorting} b={met.afkorting} actief={dossier?.dossier ?? null}
+                    hrefVoor={(d) => `/onderwerpen${query({ ...paarQuery, terrein, dossier: d })}#stemmingen`} />
+                </>
+              )}
+              {dossier && stemmingen && (
+                <div id="stemmingen" style={{ scrollMarginTop: 80 }}>
+                  <StemmingLijst rijen={stemmingen.filter((r) => r.dossier === dossier.dossier)} a={gekozen.afkorting} b={met.afkorting}
+                    titel={`${dossier.titel} · ${dossier.eens} van de ${dossier.samen} keer eens`} />
+                </div>
+              )}
+            </section>
+          )}
         </section>
       ) : (
         <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
           <Label>{gekozen.afkorting} tegenover elke fractie, per beleidsterrein · {periode.naam}</Label>
-          <div className={s.kaartKader}>
+          <div className={`${s.kaartKader} ${s.alleenBreed}`}>
             <table className={s.kaart}>
               <caption className="verborgen">Cohesie van {gekozen.afkorting} met elke fractie, per beleidsterrein, in procenten</caption>
               <thead>
@@ -110,6 +150,11 @@ export default async function Onderwerpen({ searchParams }: Props) {
                 ))}
               </tbody>
             </table>
+          </div>
+          <div className={s.alleenSmal}>
+            <TerreinLijst terreinen={terreinen} perTerrein={perTerrein} aantallen={aantallen}
+              fracties={zaal.filter((f) => f.id !== gekozen.id).map((f) => ({ id: f.id, afkorting: f.afkorting }))}
+              hrefMet={(afk) => `/onderwerpen${query({ fractie: gekozen.afkorting, met: afk })}`} />
           </div>
           <Data>
             Het getal achter een terrein is het aantal stemmingen in deze periode. Kies een cel om {gekozen.afkorting} en die fractie per terrein te
