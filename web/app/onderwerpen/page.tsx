@@ -13,6 +13,10 @@ import { MobieleBalk } from "@/components/onderwerpen/MobieleBalk";
 import { TerreinBalken } from "@/components/onderwerpen/TerreinBalken";
 import { TerreinLijst } from "@/components/onderwerpen/TerreinLijst";
 import { DossierLijst, StemmingLijst } from "@/components/onderwerpen/Verdieping";
+import { ScrollVerhaal } from "@/components/verhaal/ScrollVerhaal";
+import { Inklapbaar } from "@/components/Inklapbaar";
+import { dagMaandJaar } from "@/lib/verhaal";
+import { stemVerhaal, stemming } from "@/lib/stemmingVerhaal";
 import { Data, Label, SectieKop, Tekst } from "@/components/Typografie";
 import { cohesieIn, fractiesIn, keuzeUitUrl, perioden, procent } from "@/lib/cohesie";
 import { schaalkleur, tekstOp } from "@/lib/kleur";
@@ -64,9 +68,17 @@ export default async function Onderwerpen({ searchParams }: Props) {
         <Label>Onderwerpen · concept</Label>
         <SectieKop>Waar zijn ze het over eens?</SectieKop>
         <Tekst>
-          Elke stemming hoort bij een dossier, en elk dossier bij een beleidsterrein. Kies een fractie en zie per terrein hoe vaak
-          andere fracties dezelfde kant kozen. Kies een tweede fractie om het paar per onderwerp te vergelijken.
+          Kies een fractie en zie per beleidsterrein hoe vaak andere fracties dezelfde kant kozen. Kies een tweede fractie om het
+          paar per onderwerp te vergelijken, en een terrein voor de dossiers en stemmingen erachter.
         </Tekst>
+        <Inklapbaar titel="Zo lees je dit">
+          <Tekst>
+            Elke stemming hoort bij een Kamerstukdossier, en elk dossier bij een beleidsterrein: via een trefwoord in de titel
+            (asiel, wonen, digitaal) of anders de vaste commissie die het dossier het vaakst behandelt. Een stemming bij meer
+            dossiers telt bij elk terrein mee. Lichter is vaker hetzelfde; gearceerd betekent minder dan 25 gezamenlijke
+            stemmingen. <Link href="/methodiek#onderwerpen">Hoe is dit ingedeeld?</Link>
+          </Tekst>
+        </Inklapbaar>
         <div className={s.alleenBreed} style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
           <Suspense>
             <PeriodeKeuze perioden={lijst} soort={soort} periode={periode?.naam ?? null} variant={variant} pad="/onderwerpen" />
@@ -162,6 +174,18 @@ export default async function Onderwerpen({ searchParams }: Props) {
           </Data>
         </section>
       )}
+
+      {/* Graphic 2: een stemming uit elkaar gehaald, als voorbeeld van wat er achter een cijfer zit */}
+      <section id="een-stemming" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
+        <Label>Achter het cijfer · één stemming uit elkaar gehaald</Label>
+        <SectieKop>Het asielplan van Wilders</SectieKop>
+        <Tekst>
+          Elk percentage hierboven telt stemmingen zoals deze. Een hoofdelijke stemming laat zien wat bij handopsteken
+          verborgen blijft: hoe elk Kamerlid stemde.
+        </Tekst>
+        <ScrollVerhaal verhaal={{ breed: stemVerhaal(false), smal: stemVerhaal(true) }} label="De stemming over de motie-Eerdmans" hoogteSmal={1080} stapHoogte="60vh" tijdlijn />
+        <Data>Stemming over zaak {stemming.zaak}, hoofdelijk, {dagMaandJaar(stemming.datum)}. Kleuren zijn een eigen palet, geen partijkleuren.</Data>
+      </section>
 
       <Bronregel toelichting={`Beleidsterrein via het Kamerstukdossier: een trefwoord in de titel, anders de vaste commissie die het dossier het vaakst behandelt. Een stemming bij meer dossiers telt bij elk terrein mee. ${variant === "alle" ? "Alle stemmingen" : "Alleen verdeelde stemmingen"}.`} />
     </Inhoud>

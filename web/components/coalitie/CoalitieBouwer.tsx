@@ -122,6 +122,16 @@ export function CoalitieBouwer({ fracties, soort, periode, alleenVerdeeld }: {
                 deze fractie niet meer. Zetels van het moment van de stemming. Kies een partner voor de stemmingen waarop die beslissend was.
               </Data>
               {partner && <Beslissend partner={partner} besluiten={matrix?.besluiten ?? []} />}
+              {partner && groep.length > 0 && (
+                <div className={s.verder}>
+                  {(() => {
+                    // De grootste fractie van de groep tegenover de partner, per onderwerp
+                    const grootste = zaal.filter((f) => groep.includes(f.id)).sort((a, b) => b.zetels - a.zetels)[0];
+                    const q = new URLSearchParams({ soort, periode, variant: alleenVerdeeld ? "verdeeld" : "alle", fractie: grootste.afkorting, met: partner.afkorting });
+                    return <a href={`/onderwerpen?${q.toString()}`}>{grootste.afkorting} en {partner.afkorting} per onderwerp →</a>;
+                  })()}
+                </div>
+              )}
             </>
           )}
         </section>

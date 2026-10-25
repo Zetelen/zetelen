@@ -111,9 +111,18 @@ export default async function FractiePagina({ params, searchParams }: Props) {
             ))}
           </ol>
           <Bronregel toelichting={`${periode.naam} · ${variant === "alle" ? "alle stemmingen" : "alleen verdeelde stemmingen"}`} />
-          <Link href={`/verkenner?${new URLSearchParams({ soort, periode: periode.naam, variant, fractie: ik.afkorting }).toString()}`} className={knopKlasse}>
-            Bekijk in de verkenner
-          </Link>
+          {/* Verder op de site (samentrekken, 25 oktober 2026): dezelfde fractie en periode in de andere tools */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--r-3)" }}>
+            <Link href={`/verkenner?${new URLSearchParams({ soort, periode: periode.naam, variant, fractie: ik.afkorting }).toString()}`} className={knopKlasse}>
+              Bekijk in de verkenner
+            </Link>
+            <Link href={`/onderwerpen?${new URLSearchParams({ soort, periode: periode.naam, variant, fractie: ik.afkorting }).toString()}`} className={knopKlasse}>
+              {ik.afkorting} per onderwerp
+            </Link>
+            <Link href={`/coalitie?${new URLSearchParams({ soort, periode: periode.naam, groep: ik.afkorting }).toString()}`} className={knopKlasse}>
+              Bij wie haalt {ik.afkorting} een meerderheid?
+            </Link>
+          </div>
         </section>
       )}
     </Inhoud>

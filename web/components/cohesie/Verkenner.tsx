@@ -1,6 +1,7 @@
 "use client";
 // Cohesie-verkenner (component cohesie-pagina, E2-S3 tot en met E2-S5): zaal, boog en matrix
 // van dezelfde cijfers. De keuze van fractie en weergave staat in de URL, net als periode en variant.
+import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import type { FractieInPeriode } from "@/lib/cohesie";
@@ -78,6 +79,7 @@ export function Verkenner({ fracties, paren, periodeNaam }: VerkennerProps) {
                 uitlees={uitlees} uitleesPaar={uitleesPaar} />
             )}
             <Schaal />
+            <Verder gekozen={gekozen.afkorting} zoek={zoek} />
             {fracties.some((f) => !f.inZaal) && (
               <Data>
                 Niet in de zaal, wel in deze periode: {fracties.filter((f) => !f.inZaal).map((f) => f.afkorting).join(", ")}. Deze
@@ -87,6 +89,20 @@ export function Verkenner({ fracties, paren, periodeNaam }: VerkennerProps) {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+// Verder op de site (samentrekken, 25 oktober 2026): de gekozen fractie per onderwerp en in de coalitiebouwer
+function Verder({ gekozen, zoek }: { gekozen: string; zoek: URLSearchParams }) {
+  const basis = new URLSearchParams(zoek.toString());
+  basis.delete("weergave");
+  basis.set("fractie", gekozen);
+  const coalitie = new URLSearchParams({ soort: basis.get("soort") ?? "kabinet", ...(basis.get("periode") ? { periode: basis.get("periode")! } : {}), groep: gekozen });
+  return (
+    <div className={s.verder}>
+      <Link href={`/onderwerpen?${basis.toString()}`}>{gekozen} per onderwerp →</Link>
+      <Link href={`/coalitie?${coalitie.toString()}`}>Bij wie haalt {gekozen} een meerderheid? →</Link>
     </div>
   );
 }

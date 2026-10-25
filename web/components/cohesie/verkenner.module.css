@@ -418,3 +418,18 @@
     display: none;
   }
 }
+
+/* Verder op de site, onder de zaal */
+.verder {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--r-3) var(--r-5);
+}
+.verder a {
+  color: var(--koper);
+  font-weight: 600;
+  text-decoration: none;
+}
+.verder a:hover {
+  text-decoration: underline;
+}

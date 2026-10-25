@@ -1,4 +1,10 @@
 {
   "toelichting": "Publiek wijzigingslog (E7-S3): elke inhoudelijke correctie van een cijfer of tekst op de site, nieuwste eerst. Velden: datum (JJJJ-MM-DD), pagina, beschrijving.",
-  "wijzigingen": []
+  "wijzigingen": [
+    {
+      "datum": "2026-10-25",
+      "pagina": "/fracties",
+      "beschrijving": "De zetels bij het begin van een kabinet worden nu 30 dagen na de start gemeten in plaats van bij de eerste stemming. Bij de eerste stemmingen waren zetels soms tijdelijk leeg omdat Kamerleden minister werden; daardoor stond kabinet-Rutte IV op 76 zetels in plaats van 77."
+    }
+  ]
 }

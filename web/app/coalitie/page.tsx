@@ -8,6 +8,7 @@ import { CoalitieBouwer } from "@/components/coalitie/CoalitieBouwer";
 import { Bronregel } from "@/components/cohesie/Bronregel";
 import { PeriodeKeuze } from "@/components/cohesie/PeriodeKeuze";
 import { Inhoud, LegeStaat } from "@/components/Kader";
+import { Inklapbaar } from "@/components/Inklapbaar";
 import { MobielPaneel } from "@/components/MobielPaneel";
 import { Kaart } from "@/components/Onderdelen";
 import { Label, SectieKop, Tekst } from "@/components/Typografie";
@@ -61,6 +62,14 @@ export default async function Coalitie({ searchParams }: Props) {
           </MobielPaneel>
         </Suspense>
       )}
+      <Inklapbaar titel="Zo lees je dit">
+        <Tekst>
+          Eensgezind: elke fractie in je groep stemde voor of tegen, allemaal hetzelfde. Meegestemd: een andere fractie koos
+          dezelfde kant. Beslissend: de groep had de meerderheid, en zonder die fractie niet meer. Zetels tellen zoals ze op het
+          moment van de stemming waren. Standaard alleen verdeelde stemmingen (fracties voor en tegen).{" "}
+          <a href="/methodiek#coalitie">Hoe is dit berekend?</a>
+        </Tekst>
+      </Inklapbaar>
       <Kaart>
         <Label>Terugkijken, geen voorspelling</Label>
         <Tekst>

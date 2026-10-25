@@ -100,3 +100,15 @@
   text-decoration: none;
   cursor: pointer;
 }
+.feedbackBalk {
+  padding: var(--r-2) var(--r-4);
+  text-align: center;
+  font-size: 14px;
+  color: var(--tekst-zacht);
+  background: var(--nacht-900);
+  border-bottom: 1px solid var(--lijn);
+}
+.feedbackBalk a {
+  color: var(--koper);
+  font-weight: 600;
+}

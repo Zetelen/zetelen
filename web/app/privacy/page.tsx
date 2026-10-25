@@ -31,6 +31,14 @@ export default function Privacy() {
         <Tekst>Nog niet gekozen. Deze tekst wordt aangevuld voordat er statistieken worden bijgehouden.</Tekst>
       </section>
       <section style={sectie}>
+        <SectieKop>Feedback</SectieKop>
+        <Tekst>
+          In de testperiode staat er een link naar een vragenlijst bij een externe dienst. Wat je daar invult, verwerkt die
+          dienst; Zetelen gebruikt de antwoorden alleen om de site te verbeteren en vraagt niet om je naam. Invullen is
+          vrijwillig. {/* Niels: naam van de dienst en bewaartermijn aanvullen zodra het formulier er is */}
+        </Tekst>
+      </section>
+      <section style={sectie}>
         <SectieKop>Kamerleden</SectieKop>
         <Tekst>
           Van Kamerleden gebruikt Zetelen alleen naam, fractie en stemgedrag uit de open data van de Tweede Kamer. Geen

@@ -12,6 +12,8 @@ import { cohesieIn, fractiesIn, keuzeUitUrl, perioden } from "@/lib/cohesie";
 import { ordenFracties } from "@/lib/ordening";
 import s from "@/components/cohesie/verkenner.module.css";
 import { Inklapbaar } from "@/components/Inklapbaar";
+import { MobielPaneel } from "@/components/MobielPaneel";
+import o from "@/components/onderwerpen/onderwerpen.module.css";
 
 export const metadata: Metadata = {
   title: "Verkenner",
@@ -21,8 +23,10 @@ export const metadata: Metadata = {
 type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> };
 
 export default async function VerkennerPagina({ searchParams }: Props) {
+  const zoek = await searchParams;
   const lijst = await perioden();
-  const { soort, periode, variant } = keuzeUitUrl(await searchParams, lijst);
+  const { soort, periode, variant } = keuzeUitUrl(zoek, lijst);
+  const fractieKeuze = (Array.isArray(zoek.fractie) ? zoek.fractie[0] : zoek.fractie) as string | undefined;
   const [fracties, kaart] = periode
     ? await Promise.all([fractiesIn(soort, periode.naam), cohesieIn(soort, periode.naam, variant)])
     : [null, null];
@@ -33,8 +37,17 @@ export default async function VerkennerPagina({ searchParams }: Props) {
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
         <Label>Verkenner</Label>
         <SectieKop>Elke fractie tegenover elke andere</SectieKop>
-        <PeriodeKeuze perioden={lijst} soort={soort} periode={periode?.naam ?? null} variant={variant} />
+        <div className={o.alleenBreed}>
+          <PeriodeKeuze perioden={lijst} soort={soort} periode={periode?.naam ?? null} variant={variant} />
+        </div>
       </section>
+      {periode && (
+        <Suspense>
+          <MobielPaneel samenvatting={<>{periode.naam} · {variant === "alle" ? "alle stemmingen" : "verdeelde stemmingen"}{fractieKeuze ? <> · <strong>{fractieKeuze}</strong></> : ""}</>}>
+            <PeriodeKeuze perioden={lijst} soort={soort} periode={periode.naam} variant={variant} />
+          </MobielPaneel>
+        </Suspense>
+      )}
 
       <Inklapbaar titel="Zo lees je dit" className={s.leeswijzer}>
           <Tekst>
