@@ -24,6 +24,7 @@ Opgesteld: 22 oktober 2026. Bron: `../06-epics.md`. Gedeelde regels: `_conventie
 | 16 | `prestatie-audit` | Frontend | E3-S8 | 2 tot 4 |
 | 17 | `coalitie-analyse` | Backend | E2-S7, E2-S8 | 8 tot 14 |
 | 18 | `coalitie-pagina` | Frontend | E2-S9 | 6 tot 12 |
+| 19 | `onderwerpen` (voorstel, nog niet goedgekeurd) | Backend | nog te maken | 8 tot 14 |
 
 Alle 35 stories van R1 uit `../06-epics.md` zijn aan een component gekoppeld. Componenten 17 en 18 en de stories E2-S7 tot en met E2-S10 zijn op 24 oktober 2026 toegevoegd (besluit Niels: coalitiebouwer in R1); E2-S10 hoort bij `lezingen`.
 
