@@ -37,7 +37,8 @@
   border: 1px solid var(--lijn);
   font-size: var(--tekst-lopend);
   line-height: 1.55;
-  opacity: 0.35;
+  /* Niet-actieve kaarten gedimd, maar met genoeg contrast om te lezen (Lighthouse, 26 oktober 2026) */
+  opacity: 0.6;
   transition: opacity 400ms;
 }
 .kaart[data-actief="true"] > div {
