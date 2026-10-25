@@ -43,7 +43,7 @@ Bijgehouden door Claude in de nacht van 25 op 26 oktober 2026. Per punt: wat het
 
 ## Keuzes
 
-- [ ] **Lezingen:** welke komen vast in het verhaal? Zie [lezingen-kandidaten.md](lezingen-kandidaten.md). Mijn advies: 3 (eens tegenover regeerakkoord), 1 en 2 (coalitie), en 6 (asiel). De dynamische lezingen in de tools bouw ik daarna.
+- [ ] **Lezingen:** kijk op de proefpagina https://zetelen.vercel.app/lezingen (niet in het menu). Daar staan de vier aanbevolen lezingen met een grafiek op echte data en de twee lezingen naast elkaar. Welke komen vast in het verhaal? Zie [lezingen-kandidaten.md](lezingen-kandidaten.md). Mijn advies: 3 (eens tegenover regeerakkoord), 1 en 2 (coalitie), en 6 (asiel). De dynamische lezingen in de tools bouw ik daarna.
 - [ ] **Feedbackronde:** de link naar je vragenlijst, voor `FEEDBACK_URL` in `web/lib/site.ts`, plus de naam van de dienst en de bewaartermijn in de privacytekst.
 - [ ] **Menu:** er staan nu zeven onderdelen in (Verkenner, Onderwerpen, Coalitie, Oppositie, Fracties, Methodiek, Over). Kamerleden staat er niet in, maar is bereikbaar via Oppositiewerk, de fractiepagina's en de tegels. Akkoord, of liever korter?
 - [ ] **Labels "concept":** wanneer mogen ze eraf, en waarvan?
