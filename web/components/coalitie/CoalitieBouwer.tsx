@@ -224,7 +224,7 @@ function Zaal({ zaal, groep, wissel, hover, setHover, kleurVan, zetelsGroep, tek
         <text x={MIDDEN.x} y={MIDDEN.y - 78} className={s.uitleesKlein}>{groep.length ? "Gekozen groep" : "Kies fracties"}</text>
         <text x={MIDDEN.x} y={MIDDEN.y - 26} className={s.uitleesGroot}>{groep.length ? `${zetelsGroep} zetels` : "0"}</text>
         <text x={MIDDEN.x} y={MIDDEN.y + 4} className={s.uitleesKlein}>
-          {groep.length ? (tekort > 0 ? `${tekort} tekort voor een meerderheid` : `meerderheid, ${-tekort + 1} over`) : "in de lijst of de zaal"}
+          {groep.length ? (tekort > 0 ? `${tekort} tekort voor een meerderheid` : tekort === 0 ? "precies een meerderheid" : `meerderheid, ${-tekort} over`) : "in de lijst of de zaal"}
         </text>
       </g>
     </svg>
