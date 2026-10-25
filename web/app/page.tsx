@@ -1,16 +1,20 @@
 // Voorpagina (E3-S1), herzien op 25 oktober 2026: het verhaal van de site in hoofdstukken, die elk eindigen
-// bij de plek op de site waar je verder kunt kijken (besluit Niels). Hoofdstuk over onderwerpen volgt zodra
-// de beleidsterreinen gevuld zijn (component onderwerpen).
+// bij de plek op de site waar je verder kunt kijken (besluit Niels). Hoofdstuk 3 (onderwerpen) laat de twee
+// grootste kabinetspartijen per beleidsterrein zien (component onderwerpen).
 import Link from "next/link";
 import { Inhoud, knopKlasse } from "@/components/Kader";
 import { Bronregel } from "@/components/cohesie/Bronregel";
 import { HeroKop, Label, SectieKop, Tekst } from "@/components/Typografie";
+import { TerreinBalken } from "@/components/onderwerpen/TerreinBalken";
 import { ScrollVerhaal } from "@/components/verhaal/ScrollVerhaal";
-import { kabinetNu, laadVerhaal, zaalVerhaal } from "@/lib/voorpagina";
+import { procent } from "@/lib/cohesie";
+import { cohesiePerTerrein, paarPerTerrein, uitersten } from "@/lib/onderwerpen";
+import { kabinetNu, kabinetspartners, laadVerhaal, zaalVerhaal } from "@/lib/voorpagina";
 import s from "./voorpagina.module.css";
 
 const TOOLS = [
   { href: "/verkenner", titel: "Verkenner", tekst: "Kies een fractie en zie hoe vaak elke andere fractie met haar meestemde, per kabinet of Kamerperiode." },
+  { href: "/onderwerpen", titel: "Onderwerpen", tekst: "Waar zijn fracties het over eens? Cohesie per beleidsterrein, voor elk paar fracties.", concept: true },
   { href: "/fracties", titel: "Fracties", tekst: "Alle fracties sinds 2010: zetels, kabinet of oppositie, en wie er overstapte." },
   { href: "/coalitie", titel: "Coalitiebouwer", tekst: "Stel zelf een groep fracties samen en zie bij wie die een meerderheid haalde.", concept: true },
   { href: "/methodiek", titel: "Methodiek", tekst: "Hoe de cijfers tot stand komen, wat ze wel en niet zeggen, en wat er veranderde." },
@@ -19,6 +23,10 @@ const TOOLS = [
 export default async function Voorpagina() {
   const d = await laadVerhaal();
   const kabinet = d ? kabinetNu(d) : null;
+  const partners = d ? kabinetspartners(d) : null;
+  const perTerrein = partners && kabinet ? await cohesiePerTerrein("kabinet", kabinet.naam, "alle", partners.a.id) : null;
+  const paar = partners && perTerrein ? paarPerTerrein(perTerrein, partners.b.id) : null;
+  const u = paar ? uitersten(paar) : null;
   return (
     <Inhoud>
       <section className={s.opening}>
@@ -45,8 +53,25 @@ export default async function Voorpagina() {
         <Tekst>Het verhaal kon niet worden geladen. Probeer het over een paar minuten opnieuw, of ga direct naar de verkenner.</Tekst>
       )}
 
+      {partners && paar && u && kabinet && (
+        <section className={s.hoofdstuk} style={{ maxWidth: 960 }}>
+          <Label>3 · Waar zijn ze het over eens?</Label>
+          <SectieKop>Samen in het kabinet, niet overal eens</SectieKop>
+          <Tekst>
+            {partners.a.afkorting} en {partners.b.afkorting} zijn de grootste partijen van kabinet-{kabinet.naam}
+            {partners.totaal != null ? ` en stemmen in ${procent(partners.totaal)} van de stemmingen hetzelfde` : ""}. Per onderwerp
+            verschilt dat: het vaakst eens bij {u.hoog.terrein} ({procent(u.hoog.cohesie)}), het minst bij {u.laag.terrein} ({procent(u.laag.cohesie)}).
+          </Tekst>
+          <TerreinBalken lijst={paar} totaal={partners.totaal} label={`Cohesie van ${partners.a.afkorting} en ${partners.b.afkorting} per beleidsterrein`} />
+          <Link href={`/onderwerpen?soort=kabinet&periode=${encodeURIComponent(kabinet.naam)}&fractie=${encodeURIComponent(partners.a.afkorting)}&met=${encodeURIComponent(partners.b.afkorting)}`}
+            className={knopKlasse}>
+            Vergelijk zelf twee fracties per onderwerp
+          </Link>
+        </section>
+      )}
+
       <section className={s.hoofdstuk}>
-        <Label>Kun jij een meerderheid vinden?</Label>
+        <Label>4 · Kun jij een meerderheid vinden?</Label>
         <SectieKop>Zoek mee naar 76 zetels</SectieKop>
         <Tekst>
           {kabinet && kabinet.zetels < 76

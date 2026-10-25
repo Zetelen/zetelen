@@ -1,0 +1,133 @@
+.balken {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--lijn);
+}
+.balkRij {
+  display: grid;
+  grid-template-columns: minmax(150px, 220px) minmax(0, 1fr) 52px;
+  gap: var(--r-3);
+  align-items: center;
+  min-height: 40px;
+  border-bottom: 1px solid var(--lijn);
+}
+.terrein {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.aantal {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--tekst-zacht);
+}
+.baan {
+  position: relative;
+  height: 12px;
+  background: var(--nacht-900);
+  border-radius: 3px;
+}
+.baan > span {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+}
+.teWeinig {
+  width: 100%;
+  background: var(--te-weinig-data);
+}
+.referentie {
+  position: absolute;
+  top: -5px;
+  bottom: -5px;
+  width: 2px;
+  background: var(--tekst);
+}
+.waarde {
+  font-family: var(--mono);
+  font-size: 13px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.keuze {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--r-5);
+  align-items: flex-end;
+}
+.keuze label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.kaartKader {
+  overflow-x: auto;
+  border: 1px solid var(--lijn);
+  border-radius: var(--hoek-paneel);
+}
+.kaart {
+  border-collapse: separate;
+  border-spacing: 2px;
+  font-size: 13px;
+}
+.kaart th {
+  font-weight: 400;
+  color: var(--tekst-zacht);
+  padding: var(--r-2);
+  white-space: nowrap;
+}
+.kaart thead th {
+  font-family: var(--mono);
+  font-size: 11px;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  text-align: left;
+  height: 110px;
+}
+.kaart tbody th {
+  position: sticky;
+  left: 0;
+  background: var(--nacht-950);
+  text-align: left;
+  color: var(--tekst);
+}
+.cel {
+  min-width: 44px;
+  height: 34px;
+  text-align: center;
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 12px;
+}
+.cel a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+.cel a:hover,
+.cel a:focus-visible {
+  outline: 2px solid var(--koper);
+  outline-offset: -2px;
+  border-radius: 4px;
+}
+.celTeWeinig {
+  background: var(--te-weinig-data);
+}
+@media (max-width: 640px) {
+  .balkRij {
+    grid-template-columns: minmax(0, 1fr) 48px;
+    grid-template-areas: "terrein waarde" "baan baan";
+    row-gap: 6px;
+    padding: 6px 0;
+  }
+  .terrein { grid-area: terrein; }
+  .waarde { grid-area: waarde; }
+  .baan { grid-area: baan; }
+}

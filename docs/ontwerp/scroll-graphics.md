@@ -10,7 +10,7 @@ Concept, 25 oktober 2026. Gebouwd als conceptpagina `/verhaal` (niet in het menu
 
 ## Voorpagina (25 oktober 2026)
 
-Het verhaal staat nu op de voorpagina (`web/app/page.tsx`, data in `web/lib/voorpagina.ts`); `/verhaal` stuurt door. Opbouw: opening met snelknoppen en "sla het verhaal over", hoofdstuk 1 (hoe zijn we hier gekomen, knop naar Fracties), hoofdstuk 2 (hoe stemt elke partij nu: de zaal kleurt naar cohesie met de grootste kabinets- en de grootste oppositiefractie, knop naar de Verkenner), de oproep naar de coalitiebouwer (concept), en tegels naar de rest van de site. Het hoofdstuk over onderwerpen komt tussen 2 en de coalitiebouwer zodra de beleidsterreinen gevuld zijn.
+Het verhaal staat nu op de voorpagina (`web/app/page.tsx`, data in `web/lib/voorpagina.ts`); `/verhaal` stuurt door. Opbouw: opening met snelknoppen en "sla het verhaal over", hoofdstuk 1 (hoe zijn we hier gekomen, knop naar Fracties), hoofdstuk 2 (hoe stemt elke partij nu: de zaal kleurt naar cohesie met de grootste kabinets- en de grootste oppositiefractie, knop naar de Verkenner), de oproep naar de coalitiebouwer (concept), en tegels naar de rest van de site. Hoofdstuk 3 (waar zijn ze het over eens?) toont de twee grootste kabinetspartijen per beleidsterrein, met een knop naar `/onderwerpen` (concept): een kaart van terrein tegen fractie, en per paar een balk per terrein. De koppen "het vaakst eens bij" en "het minst bij" tellen alleen terreinen met minstens 50 gezamenlijke stemmingen.
 
 ## Uitgangspunten (besluiten Niels)
 

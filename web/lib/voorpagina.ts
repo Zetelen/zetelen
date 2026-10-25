@@ -133,3 +133,12 @@ export function kabinetNu(d: VerhaalData): { naam: string; zetels: number } {
     .reduce((t, r) => t + r.zetels, 0);
   return { naam, zetels };
 }
+
+// Hoofdstuk 3: de twee grootste fracties van het huidige kabinet, met hun cohesie over alle stemmingen
+export function kabinetspartners(d: VerhaalData): { a: { id: string; afkorting: string }; b: { id: string; afkorting: string }; totaal: number | null } | null {
+  const naam = KABINETTEN[KABINETTEN.length - 1];
+  const fr = new Set(d.co.filter((c) => c.kabinet === naam && c.rol === "kabinet" && !c.tot).map((c) => c.afkorting));
+  const [a, b] = d.fracties.filter((f) => f.inZaal && fr.has(f.afkorting)).sort((x, y) => y.zetels - x.zetels);
+  if (!a || !b) return null;
+  return { a: { id: a.id, afkorting: a.afkorting }, b: { id: b.id, afkorting: b.afkorting }, totaal: d.cohesie.get(sleutel(a.id, b.id))?.cohesie ?? null };
+}
