@@ -26,7 +26,7 @@ import s from "@/components/onderwerpen/onderwerpen.module.css";
 
 export const metadata: Metadata = {
   title: "Onderwerpen",
-  description: "Waar zijn fracties in de Tweede Kamer het over eens? Cohesie per beleidsterrein, per kabinet of Kamerperiode.",
+  description: "Waar zijn fracties in de Tweede Kamer het over eens? Kijk per beleidsterrein, per kabinet of Kamerperiode.",
   robots: { index: false, follow: false },
 };
 
@@ -68,15 +68,15 @@ export default async function Onderwerpen({ searchParams }: Props) {
         <Label>Onderwerpen · concept</Label>
         <SectieKop>Waar zijn ze het over eens?</SectieKop>
         <Tekst>
-          Kies een fractie en zie per beleidsterrein hoe vaak andere fracties dezelfde kant kozen. Kies een tweede fractie om het
-          paar per onderwerp te vergelijken, en een terrein voor de dossiers en stemmingen erachter.
+          Kies een fractie en zie per beleidsterrein hoe vaak andere fracties dezelfde kant kozen. Kies er een tweede bij en
+          vergelijk het paar per onderwerp. Kies daarna een terrein, en je ziet de dossiers en stemmingen erachter.
         </Tekst>
         <Inklapbaar titel="Zo lees je dit">
           <Tekst>
-            Elke stemming hoort bij een Kamerstukdossier, en elk dossier bij een beleidsterrein: via een trefwoord in de titel
-            (asiel, wonen, digitaal) of anders de vaste commissie die het dossier het vaakst behandelt. Een stemming bij meer
-            dossiers telt bij elk terrein mee. Lichter is vaker hetzelfde; gearceerd betekent minder dan 25 gezamenlijke
-            stemmingen. <Link href="/methodiek#onderwerpen">Hoe is dit ingedeeld?</Link>
+            Elke stemming hoort bij een Kamerstukdossier, en elk dossier bij een beleidsterrein. Dat gaat via een trefwoord in de
+            titel (asiel, wonen, digitaal), en anders via de vaste commissie die het dossier het vaakst behandelt. Hoort een
+            stemming bij meer dossiers, dan telt ze bij elk terrein mee. Lichter betekent vaker hetzelfde gestemd. Gestreept:
+            minder dan 25 stemmingen samen, dus geen oordeel. <Link href="/methodiek#onderwerpen">Benieuwd hoe we indelen?</Link>
           </Tekst>
         </Inklapbaar>
         <div className={s.alleenBreed} style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
@@ -94,7 +94,7 @@ export default async function Onderwerpen({ searchParams }: Props) {
       )}
 
       {!periode || !gekozen || !perTerrein ? (
-        <LegeStaat label="Niet bereikbaar" titel="De onderwerpen konden niet worden geladen" uitleg="Probeer het over een paar minuten opnieuw." />
+        <LegeStaat label="Niet bereikbaar" titel="De onderwerpen laden nu niet" uitleg="Probeer het over een paar minuten nog eens." />
       ) : met && paar ? (
         <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
           <Label>{gekozen.afkorting} en {met.afkorting} · {periode.naam}</Label>
@@ -104,14 +104,14 @@ export default async function Onderwerpen({ searchParams }: Props) {
               {totaal != null ? ` Over alle stemmingen samen: ${procent(totaal)} (de witte lijn).` : ""}
             </Tekst>
           )}
-          <Data>Tik op een terrein voor de dossiers waarin {gekozen.afkorting} en {met.afkorting} het minst eens waren.</Data>
-          <TerreinBalken lijst={paar} totaal={totaal} label={`Cohesie van ${gekozen.afkorting} en ${met.afkorting} per beleidsterrein`}
+          <Data>Tik op een terrein en zie waar {gekozen.afkorting} en {met.afkorting} verschillend stemden.</Data>
+          <TerreinBalken lijst={paar} totaal={totaal} label={`Hoe vaak ${gekozen.afkorting} en ${met.afkorting} hetzelfde stemden, per beleidsterrein`}
             hrefVoor={(t) => `/onderwerpen${query({ ...paarQuery, terrein: t })}#verdieping`} actief={terrein} />
           <Data><Link href={`/onderwerpen${query({ fractie: gekozen.afkorting })}`}>Terug naar alle fracties</Link></Data>
           {terrein && (
             <section id="verdieping" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
               {!dossiers || !stemmingen ? (
-                <Tekst>De dossiers konden niet worden geladen. Probeer het over een paar minuten opnieuw.</Tekst>
+                <Tekst>De dossiers laden nu niet. Probeer het over een paar minuten nog eens.</Tekst>
               ) : (
                 <>
                   {!dossier && (() => {
@@ -130,13 +130,13 @@ export default async function Onderwerpen({ searchParams }: Props) {
                             )}
                           </>
                         ) : (
-                          <Tekst>In dit terrein stemden ze, als ze allebei stemden, steeds hetzelfde.</Tekst>
+                          <Tekst>Als ze allebei stemden, stemden ze in dit terrein steeds hetzelfde.</Tekst>
                         )}
                       </>
                     );
                   })()}
                   <Label>{terrein} · per dossier, van minst naar meest eens</Label>
-                  <Data>Geteld zijn de stemmingen waarop {gekozen.afkorting} en {met.afkorting} allebei voor of tegen stemden. Per dossier zijn het er te weinig voor een percentage.</Data>
+                  <Data>Geteld: de stemmingen waarop {gekozen.afkorting} en {met.afkorting} allebei voor of tegen stemden. Per dossier zijn dat er te weinig voor een percentage, dus staat er een telling.</Data>
                   <DossierLijst dossiers={dossiers} a={gekozen.afkorting} b={met.afkorting} actief={dossier?.dossier ?? null}
                     hrefVoor={(d) => `/onderwerpen${query({ ...paarQuery, terrein, dossier: d })}#stemmingen`} />
                 </>
@@ -152,10 +152,10 @@ export default async function Onderwerpen({ searchParams }: Props) {
         </section>
       ) : (
         <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
-          <Label>{gekozen.afkorting} tegenover elke fractie, per beleidsterrein · {periode.naam}</Label>
+          <Label>{gekozen.afkorting} en elke andere fractie, per beleidsterrein · {periode.naam}</Label>
           <div className={`${s.kaartKader} ${s.alleenBreed}`}>
             <table className={s.kaart}>
-              <caption className="verborgen">Cohesie van {gekozen.afkorting} met elke fractie, per beleidsterrein, in procenten</caption>
+              <caption className="verborgen">Hoe vaak {gekozen.afkorting} hetzelfde stemde als elke andere fractie, per beleidsterrein, in procenten</caption>
               <thead>
                 <tr>
                   <th scope="col">Beleidsterrein</th>
@@ -173,8 +173,8 @@ export default async function Onderwerpen({ searchParams }: Props) {
                       return (
                         <td key={f.id} className={kleur ? s.cel : `${s.cel} ${s.celTeWeinig}`} style={kleur ? { background: kleur, color: tekstOp(kleur) } : undefined}>
                           <Link href={`/onderwerpen${query({ fractie: gekozen.afkorting, met: f.afkorting })}`}
-                            title={`${gekozen.afkorting} en ${f.afkorting}, ${t}: ${geldig ? procent(p.cohesie, 1) : "te weinig data"}`}>
-                            {geldig ? procent(p.cohesie) : <span className="verborgen">te weinig data</span>}
+                            title={`${gekozen.afkorting} en ${f.afkorting}, ${t}: ${geldig ? procent(p.cohesie, 1) : "te weinig stemmingen"}`}>
+                            {geldig ? procent(p.cohesie) : <span className="verborgen">te weinig stemmingen</span>}
                           </Link>
                         </td>
                       );
@@ -190,8 +190,8 @@ export default async function Onderwerpen({ searchParams }: Props) {
               hrefMet={(afk) => `/onderwerpen${query({ fractie: gekozen.afkorting, met: afk })}`} />
           </div>
           <Data>
-            Het getal achter een terrein is het aantal stemmingen in deze periode. Kies een cel om {gekozen.afkorting} en die fractie per terrein te
-            vergelijken. Gearceerd: minder dan 25 gezamenlijke stemmingen.
+            Het getal achter een terrein is het aantal stemmingen in deze periode. Kies een cel en vergelijk {gekozen.afkorting} en die fractie per
+            terrein. Gestreept: minder dan 25 stemmingen samen.
           </Data>
         </section>
       )}
@@ -201,8 +201,8 @@ export default async function Onderwerpen({ searchParams }: Props) {
         <Label>Achter het cijfer · één stemming uit elkaar gehaald</Label>
         <SectieKop>Het asielplan van Wilders</SectieKop>
         <Tekst>
-          Elk percentage hierboven telt stemmingen zoals deze. Een hoofdelijke stemming laat zien wat bij handopsteken
-          verborgen blijft: hoe elk Kamerlid stemde.
+          Elk percentage hierboven is opgeteld uit stemmingen zoals deze. Een hoofdelijke stemming laat zien wat bij
+          handopsteken verborgen blijft: hoe elk Kamerlid stemde.
         </Tekst>
         <ScrollVerhaal verhaal={{ breed: stemVerhaal(false), smal: stemVerhaal(true) }} label="De stemming over de motie-Eerdmans" hoogteSmal={1080} stapHoogte="60vh" tijdlijn />
         <Data>Stemming over zaak {stemming.zaak}, hoofdelijk, {dagMaandJaar(stemming.datum)}. Kleuren zijn een eigen palet, geen partijkleuren.</Data>

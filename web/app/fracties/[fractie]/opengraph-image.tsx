@@ -26,7 +26,7 @@ export default async function Deelplaatje({ params }: { params: Promise<{ fracti
         <div style={{ display: "flex", fontSize: 26, letterSpacing: 8, color: "#D08A55" }}>ZETELEN</div>
         <div style={{ display: "flex", fontSize: 58, lineHeight: 1.08 }}>{inhoud.titel}</div>
         {inhoud.teWeinig ? (
-          <div style={{ display: "flex", fontSize: 34, color: "#A9B4CC" }}>Te weinig data</div>
+          <div style={{ display: "flex", fontSize: 34, color: "#A9B4CC" }}>Te weinig stemmingen om iets te zeggen</div>
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
             {inhoud.regels.map((r) => (

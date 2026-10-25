@@ -27,7 +27,7 @@ export function stemVerhaal(smal: boolean): Stap[] {
       stippen: maak(groep, kleurVoor), labels: groep.labels, kaders },
     { datum: "de PVV", tekst: `En de PVV: ${st.Tegen.PVV} van haar ${pvv} leden stemmen tegen het uitvoeren van het eigen plan. De andere ${pvv - st.Tegen.PVV} doen niet mee.`,
       stippen: maak(groep, (p) => (p.fractie === "PVV" ? "nadruk" : "zacht")), labels: groep.labels, kaders },
-    { datum: "één stem", tekst: "Eén VVD-Kamerlid stemt anders dan de rest van de fractie. Bij een hoofdelijke stemming is dat zichtbaar; bij handopsteken telt de fractie als één stem.",
+    { datum: "één stem", tekst: "Eén VVD-Kamerlid stemt anders dan de rest van de fractie. Bij een hoofdelijke stemming zie je dat. Bij handopsteken telt de fractie als één stem.",
       stippen: maak(groep, (p) => (p.fractie === "VVD" && p.stem === "Tegen" ? "nadruk" : p.fractie === "VVD" ? null : "zacht")), labels: groep.labels, kaders },
   ];
 }

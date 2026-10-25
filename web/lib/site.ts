@@ -5,7 +5,7 @@ export const SITE = {
   contact: "niels@datavizd.io",
   broncode: "https://github.com/Zetelen/zetelen",
   bron: "https://opendata.tweedekamer.nl",
-  beschrijving: "Hoe vaak stemmen fracties in de Tweede Kamer hetzelfde? Op basis van de open data van de Tweede Kamer.",
+  beschrijving: "Wie stemt met wie in de Tweede Kamer? Geteld uit de open data van de Tweede Kamer.",
 };
 
 export const LIVE = false;

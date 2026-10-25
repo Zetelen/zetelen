@@ -72,7 +72,7 @@ export function zaalVerhaal(d: VerhaalData): Stap[] {
   const nieuweKamer = zetels("kamerperiode", KAMER, true);
   const grootste = Math.max(...Object.values(nieuweKamer));
   const kop = Object.keys(nieuweKamer).filter((f) => nieuweKamer[f] === grootste);
-  ruw.push({ datum: maandJaar(d.kp.find((p) => p.naam === KAMER)?.begin ?? ""), tekst: `Een nieuwe Kamer na de verkiezingen. Grootste: ${lijstTekst(kop.map(naam))}, met ${grootste} zetels.`,
+  ruw.push({ datum: maandJaar(d.kp.find((p) => p.naam === KAMER)?.begin ?? ""), tekst: `Verkiezingen, en een nieuwe Kamer. De grootste: ${lijstTekst(kop.map(naam))}, met ${grootste} zetels.`,
     zetels: nieuweKamer, kleur: (f) => (kop.includes(f) ? "nadruk" : null) });
   const jettenBegin = zetels("kabinet", "Jetten", true);
   for (const o of d.ov.filter((x) => x.periodesoort === "kamerperiode" && x.leden >= 2 && jettenBegin[x.naar] && !nieuweKamer[x.naar])) {
@@ -86,7 +86,7 @@ export function zaalVerhaal(d: VerhaalData): Stap[] {
   const n = som(nu, fr);
   const verder = d.ov.filter((o) => o.periodesoort === "kabinet" && !jettenBegin[o.naar] && nu[o.naar] && o.leden >= 0.8 * (jettenBegin[o.van] ?? 0))
     .map((o) => `${naam(o.van)} gaat verder als ${naam(o.naar)}.`);
-  ruw.push({ datum: "nu", tekst: `${verder.join(" ")} ${n < 76 ? `Het kabinet zoekt per stemming ${76 - n} zetels of meer bij de oppositie.` : ""}`.trim(),
+  ruw.push({ datum: "nu", tekst: `${verder.join(" ")} ${n < 76 ? `Per stemming moet het kabinet minstens ${76 - n} zetels bij de oppositie vinden.` : ""}`.trim(),
     zetels: nu, kleur: koper(fr), groot: String(n), klein: n < 76 ? "van de 76 voor een meerderheid" : "zetels voor het kabinet",
     link: { href: "/fracties", tekst: "Alle fracties per kabinet" } });
 

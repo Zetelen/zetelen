@@ -40,7 +40,7 @@ export function CoalitieBouwer({ fracties, soort, periode, alleenVerdeeld }: {
     fetch(`/api/stemmatrix?${new URLSearchParams({ soort, periode })}`)
       .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
       .then((m: Stemmatrix) => !weg && setMatrix(m))
-      .catch(() => !weg && setFout("De stemmingen konden niet worden geladen. Probeer het over een paar minuten opnieuw."));
+      .catch(() => !weg && setFout("De stemmingen laden nu niet. Probeer het over een paar minuten nog eens."));
     return () => { weg = true; };
   }, [soort, periode]);
 
@@ -76,7 +76,7 @@ export function CoalitieBouwer({ fracties, soort, periode, alleenVerdeeld }: {
     <div className={s.verkenner}>
       <p className="verborgen" aria-live="polite">
         {groep.length ? `Gekozen groep: ${zetelsGroep} zetels.` : "Nog geen fracties gekozen."}
-        {uitkomst ? ` Eensgezind in ${uitkomst.eensgezind} stemmingen, met een meerderheid in ${uitkomst.meerderheid}.` : ""}
+        {uitkomst ? ` De groep stemde ${uitkomst.eensgezind} keer eensgezind en had ${uitkomst.meerderheid} keer een meerderheid.` : ""}
       </p>
       <div className={s.werkvlak}>
         <GroepPaneel zaal={zaal} groep={groep} wissel={wissel} hover={hover} setHover={setHover} perPartner={perPartner} genoeg={genoeg} />
@@ -94,16 +94,17 @@ export function CoalitieBouwer({ fracties, soort, periode, alleenVerdeeld }: {
           <Label>Bij wie haalde deze groep een meerderheid? · {periode} · {alleenVerdeeld ? "verdeelde stemmingen" : "alle stemmingen"}</Label>
           {!genoeg ? (
             <Tekst>
-              Deze groep stemde maar {uitkomst.eensgezind} keer eensgezind in deze periode: te weinig om iets over te zeggen (minder dan {DREMPEL}).
+              Deze groep stemde in deze periode maar {uitkomst.eensgezind} keer eensgezind. Dat zijn te weinig stemmingen om iets te
+              zeggen: de grens ligt op {DREMPEL}.
             </Tekst>
           ) : (
             <>
               <Tekst>
-                De groep stemde {getal(uitkomst.eensgezind)} keer eensgezind. Daarvan won de kant van de groep{" "}
-                {getal(uitkomst.meerderheid)} keer ({procent((100 * uitkomst.meerderheid) / uitkomst.eensgezind)}), en{" "}
-                {getal(uitkomst.zonderHulp)} keer op eigen kracht.
+                De groep stemde {getal(uitkomst.eensgezind)} keer eensgezind. Daarvan won haar kant{" "}
+                {getal(uitkomst.meerderheid)} keer ({procent((100 * uitkomst.meerderheid) / uitkomst.eensgezind)}). Op eigen kracht lukte dat{" "}
+                {getal(uitkomst.zonderHulp)} keer.
               </Tekst>
-              <ol className={c.partners} aria-label="Partners, eerst op beslissend, dan op meegestemd">
+              <ol className={c.partners} aria-label="Partners, eerst op beslissend en dan op meegestemd">
                 {uitkomst.partners.map((p) => (
                   <li key={p.id}>
                     <button type="button" className={c.partnerRij} aria-pressed={p.id === partnerId} data-aan={hover === p.id}
@@ -118,8 +119,9 @@ export function CoalitieBouwer({ fracties, soort, periode, alleenVerdeeld }: {
                 ))}
               </ol>
               <Data>
-                Meegestemd: hoe vaak de fractie dezelfde kant koos als de groep. Beslissend: de groep had de meerderheid, en zonder
-                deze fractie niet meer. Zetels van het moment van de stemming. Kies een partner voor de stemmingen waarop die beslissend was.
+                Meegestemd: hoe vaak de fractie dezelfde kant koos als de groep. Beslissend: de groep had een meerderheid, en zonder
+                deze fractie niet meer. De zetels tellen zoals ze waren op het moment van de stemming. Kies een partner en zie op welke
+                stemmingen die beslissend was.
               </Data>
               {partner && <Beslissend partner={partner} besluiten={matrix?.besluiten ?? []} />}
               {partner && groep.length > 0 && (
@@ -248,9 +250,9 @@ function Beslissend({ partner, besluiten }: { partner: Partner; besluiten: strin
   return (
     <section className={c.beslissend} aria-label={`Stemmingen waarop ${partner.afkorting} beslissend was`}>
       <Label>{partner.afkorting} was {getal(partner.beslissend)} keer beslissend{partner.beslissend > 40 ? " · de 40 nieuwste" : ""}</Label>
-      {!besluiten.length ? <Tekst>De stemmingen zijn hier nog niet beschikbaar; ze komen na de volgende verversing.</Tekst>
-        : fout ? <Tekst>De stemmingen konden niet worden geladen.</Tekst> : !rijen ? <Data>Stemmingen laden…</Data> : !rijen.length ? (
-        <Tekst>Geen stemmingen waarop {partner.afkorting} beslissend was.</Tekst>
+      {!besluiten.length ? <Tekst>Deze stemmingen staan hier nog niet. Ze komen mee met de volgende verversing.</Tekst>
+        : fout ? <Tekst>De stemmingen laden nu niet. Probeer het later nog eens.</Tekst> : !rijen ? <Data>Stemmingen laden…</Data> : !rijen.length ? (
+        <Tekst>{partner.afkorting} was op geen enkele stemming beslissend.</Tekst>
       ) : (
         <ol>
           {rijen.map((r) => (

@@ -145,7 +145,7 @@ export function Schaal() {
       </div>
       <span style={{ display: "inline-flex", gap: 8, alignItems: "center" }}>
         <span className={`${s.cel} ${s.teWeinig}`} style={{ minWidth: 32, minHeight: 20 }} aria-hidden="true" />
-        <Data>Te weinig data: minder dan 25 gezamenlijke stemmingen</Data>
+        <Data>Te weinig stemmingen: minder dan 25 samen, dus geen oordeel</Data>
       </span>
     </div>
   );
@@ -155,8 +155,8 @@ export function Schaal() {
 export function CohesieCel({ procent }: { procent: number | null }) {
   if (procent === null) {
     return (
-      <span className={`${s.cel} ${s.teWeinig}`} title="Te weinig data">
-        <span className="verborgen">Te weinig data</span>
+      <span className={`${s.cel} ${s.teWeinig}`} title="Te weinig stemmingen">
+        <span className="verborgen">Te weinig stemmingen</span>
       </span>
     );
   }

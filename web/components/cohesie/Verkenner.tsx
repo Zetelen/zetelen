@@ -62,7 +62,7 @@ export function Verkenner({ fracties, paren, periodeNaam }: VerkennerProps) {
       {/* Voor schermlezers: wat er gekozen is en wat de muis aanwijst */}
       <p className="verborgen" aria-live="polite">
         Gekozen fractie: {gekozen.naam}.
-        {uitlees && uitleesPaar ? ` Cohesie met ${uitlees.naam}: ${uitleesPaar.teWeinig ? "te weinig data" : procent(uitleesPaar.cohesie, 1)}.` : ""}
+        {uitlees && uitleesPaar ? ` Stemde hetzelfde als ${uitlees.naam}: ${uitleesPaar.teWeinig ? "te weinig stemmingen" : procent(uitleesPaar.cohesie, 1)}.` : ""}
       </p>
 
       {weergave === "tabel" ? (
@@ -83,7 +83,7 @@ export function Verkenner({ fracties, paren, periodeNaam }: VerkennerProps) {
             {fracties.some((f) => !f.inZaal) && (
               <Data>
                 Niet in de zaal, wel in deze periode: {fracties.filter((f) => !f.inZaal).map((f) => f.afkorting).join(", ")}. Deze
-                fracties stopten halverwege {periodeNaam}; ze staan wel in de tabel.
+                fracties stopten halverwege {periodeNaam}. In de tabel staan ze wel.
               </Data>
             )}
           </div>
@@ -155,7 +155,7 @@ function Paneel({ fracties, gekozen, hover, setHover, kies, paar }: Omit<Weergav
       <div className={s.paneelKop} aria-hidden="true">
         <span>Zetels</span>
         <span>Fractie</span>
-        <span>Cohesie met {gekozen.afkorting}</span>
+        <span>Eens met {gekozen.afkorting}</span>
       </div>
       {rijen.map((f) => {
         const ik = f.id === gekozen.id;
@@ -164,7 +164,7 @@ function Paneel({ fracties, gekozen, hover, setHover, kies, paar }: Omit<Weergav
         const waarde = ik ? "gekozen" : p ? (p.teWeinig ? "te weinig" : procent(p.cohesie)) : "geen";
         return (
           <button key={f.id} type="button" className={s.paneelRij} aria-pressed={ik} data-aan={hover === f.id}
-            aria-label={`${f.naam}, ${f.zetels} zetels, cohesie ${waarde}`}
+            aria-label={`${f.naam}, ${f.zetels} zetels, stemde hetzelfde: ${waarde}`}
             onClick={() => kies(f.afkorting)} onMouseEnter={() => setHover(f.id)} onMouseLeave={() => setHover(null)}
             onFocus={() => setHover(f.id)} onBlur={() => setHover(null)}>
             <span className={s.paneelZetels}>{f.zetels}</span>
@@ -293,7 +293,7 @@ function Matrix({ fracties, gekozen, kies, paar }: Omit<WeergaveProps, "hover" |
   }, [fracties, sorteer, paar]);
   return (
     <div className={s.matrixKader}>
-      <div role="table" aria-label="Cohesie tussen elke twee fracties, in procenten" className={s.matrix}
+      <div role="table" aria-label="Hoe vaak elke twee fracties hetzelfde stemden, in procenten" className={s.matrix}
         style={{ gridTemplateColumns: `minmax(120px, max-content) repeat(${fracties.length}, minmax(52px, 1fr))` }}>
         <div role="row" className={s.matrixRij}>
           <div role="columnheader" className={`${s.kop} ${s.eerste}`}>Fractie</div>
@@ -320,15 +320,15 @@ function Matrix({ fracties, gekozen, kies, paar }: Omit<WeergaveProps, "hover" |
               return (
                 <div role="cell" key={k.id} className={kleur ? s.cel : `${s.cel} ${s.celTeWeinig}`}
                   style={kleur ? { background: kleur, color: tekstOp(kleur) } : undefined}
-                  title={p ? `${r.afkorting} en ${k.afkorting}: ${p.teWeinig ? "te weinig data" : procent(p.cohesie, 1)}, ${getal(p.gezamenlijk)} stemmingen` : "geen gezamenlijke stemmingen"}>
-                  {p && !p.teWeinig ? procent(p.cohesie) : <span className="verborgen">{p ? "te weinig data" : "geen"}</span>}
+                  title={p ? `${r.afkorting} en ${k.afkorting}: ${p.teWeinig ? "te weinig stemmingen" : procent(p.cohesie, 1)}, ${getal(p.gezamenlijk)} stemmingen` : "geen gezamenlijke stemmingen"}>
+                  {p && !p.teWeinig ? procent(p.cohesie) : <span className="verborgen">{p ? "te weinig stemmingen" : "geen"}</span>}
                 </div>
               );
             })}
           </div>
         ))}
       </div>
-      <Data>Kies een kolomkop om de rijen te sorteren. Kies een fractie in de eerste kolom om haar te markeren.</Data>
+      <Data>Kies een kolomkop en de rijen sorteren zich. Kies een fractie in de eerste kolom en ze licht op.</Data>
     </div>
   );
 }

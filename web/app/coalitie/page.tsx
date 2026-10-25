@@ -27,7 +27,7 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
     title: "Coalitiebouwer",
     description: groep
       ? `${groep.split(",").join(", ")}: bij wie haalde deze groep een meerderheid in de Tweede Kamer?`
-      : "Stel zelf een groep fracties samen en zie bij wie die groep in het verleden een meerderheid haalde.",
+      : "Stel zelf een groep fracties samen. Bij welke andere fracties haalde die groep eerder een meerderheid?",
     openGraph: { images: [{ url: `/coalitie/plaatje?${plaatje.toString()}`, width: 1200, height: 630 }] },
   };
 }
@@ -46,8 +46,8 @@ export default async function Coalitie({ searchParams }: Props) {
         <Label>Coalitiebouwer · concept</Label>
         <SectieKop>Bij wie haal je een meerderheid?</SectieKop>
         <Tekst>
-          Kies fracties in de lijst of in de zaal en stel zo een (fictief) kabinet samen. Je ziet hun zetels, en bij welke andere fracties
-          die groep in de gekozen periode een meerderheid haalde.
+          Nu zetel jij. Kies fracties in de lijst of in de zaal en stel een kabinet samen, fictief of niet. Je ziet hoeveel zetels het
+          heeft, en bij welke andere fracties die groep in de gekozen periode een meerderheid haalde.
         </Tekst>
         <div className={o.alleenBreed}>
           <Suspense>
@@ -64,21 +64,21 @@ export default async function Coalitie({ searchParams }: Props) {
       )}
       <Inklapbaar titel="Zo lees je dit">
         <Tekst>
-          Eensgezind: elke fractie in je groep stemde voor of tegen, allemaal hetzelfde. Meegestemd: een andere fractie koos
-          dezelfde kant. Beslissend: de groep had de meerderheid, en zonder die fractie niet meer. Zetels tellen zoals ze op het
-          moment van de stemming waren. Standaard alleen verdeelde stemmingen (fracties voor en tegen).{" "}
-          <a href="/methodiek#coalitie">Hoe is dit berekend?</a>
+          Eensgezind: alle fracties in je groep stemden hetzelfde, allemaal voor of allemaal tegen. Meegestemd: een andere fractie
+          koos dezelfde kant. Beslissend: de groep had een meerderheid, en zonder die fractie niet meer. De zetels tellen zoals ze
+          waren op het moment van de stemming. Standaard tellen alleen verdeelde stemmingen mee: er stemden fracties voor en tegen.{" "}
+          <a href="/methodiek#coalitie">Benieuwd hoe we tellen?</a>
         </Tekst>
       </Inklapbaar>
       <Kaart>
         <Label>Terugkijken, geen voorspelling</Label>
         <Tekst>
-          Dit telt hoe er in het verleden echt is gestemd. Het zegt niets over hoe fracties in de toekomst zouden stemmen, en
-          het is geen advies over welke samenwerking goed of wenselijk is.
+          Hier tel je hoe er echt is gestemd. Het zegt niets over hoe fracties straks zullen stemmen. En het is geen advies over
+          welke samenwerking goed of wenselijk is.
         </Tekst>
       </Kaart>
       {!periode || !fracties?.length || !kaart ? (
-        <LegeStaat label="Geen stemmingen" titel="Geen stemmingen in deze periode" uitleg="Kies een andere periode." />
+        <LegeStaat label="Geen stemmingen" titel="In deze periode zijn geen stemmingen" uitleg="Kies een andere periode en tel opnieuw." />
       ) : (
         <Suspense>
           <CoalitieBouwer fracties={ordenFracties(fracties, kaart)} soort={soort} periode={periode.naam} alleenVerdeeld={variant === "verdeeld"} />

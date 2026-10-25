@@ -64,7 +64,7 @@ export function PeriodeKeuze({
           </div>
         </div>
       )}
-      <Data>Een kabinet loopt tot het volgende is beëdigd; de demissionaire tijd telt mee.</Data>
+      <Data>Een kabinet loopt tot het volgende is beëdigd. De demissionaire tijd telt dus mee.</Data>
     </div>
   );
 }

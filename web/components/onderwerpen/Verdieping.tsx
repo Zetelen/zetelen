@@ -10,7 +10,7 @@ import s from "./onderwerpen.module.css";
 export function DossierLijst({ dossiers, a, b, hrefVoor, actief }: {
   dossiers: DossierTelling[]; a: string; b: string; hrefVoor: (dossier: string) => string; actief: string | null;
 }) {
-  if (!dossiers.length) return <Tekst>Geen stemmingen waarop {a} en {b} allebei stemden.</Tekst>;
+  if (!dossiers.length) return <Tekst>Hier stemden {a} en {b} nooit allebei.</Tekst>;
   return (
     <ol className={s.dossiers} aria-label={`Dossiers, van minst naar meest eens tussen ${a} en ${b}`}>
       {dossiers.map((d) => (

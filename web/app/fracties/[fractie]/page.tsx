@@ -89,8 +89,8 @@ export default async function FractiePagina({ params, searchParams }: Props) {
       </nav>
 
       {!periode || !ik ? (
-        <LegeStaat label="Geen stemmingen" titel={`Geen stemmingen van ${f.afkorting} in deze ${soort === "kabinet" ? "kabinetsperiode" : "Kamerperiode"}`}
-          uitleg="Deze fractie bestond in de gekozen periode niet, of stemde niet mee. Kies een andere periode." />
+        <LegeStaat label="Geen stemmingen" titel={`${f.afkorting} stemde niet mee in deze ${soort === "kabinet" ? "kabinetsperiode" : "Kamerperiode"}`}
+          uitleg="Deze fractie bestond toen niet, of deed niet mee aan de stemmingen. Kies een andere periode." />
       ) : (
         <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
           <Label>Met wie stemt {f.afkorting} het vaakst hetzelfde? · {periode.naam}</Label>
@@ -105,7 +105,7 @@ export default async function FractiePagina({ params, searchParams }: Props) {
                     <span className={`${s.balk} ${s.teWeinig}`} style={{ width: "100%" }} />
                   )}
                 </span>
-                <span className={s.waarde}>{p && !p.teWeinig ? procent(p.cohesie, 1) : "te weinig data"}</span>
+                <span className={s.waarde}>{p && !p.teWeinig ? procent(p.cohesie, 1) : "te weinig stemmingen"}</span>
                 <span className={s.aantal}>{p ? `${getal(p.gezamenlijk)} stemmingen` : ""}</span>
               </li>
             ))}

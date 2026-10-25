@@ -12,7 +12,7 @@ import s from "@/components/cohesie/fractie.module.css";
 
 export const metadata: Metadata = {
   title: "Fracties",
-  description: "Alle fracties in de Tweede Kamer sinds 2010: zetels, kabinet of oppositie, en met wie ze het vaakst hetzelfde stemden.",
+  description: "Alle fracties in de Tweede Kamer sinds 2010. Hoeveel zetels, kabinet of oppositie, en met wie stemden ze het vaakst hetzelfde?",
 };
 
 type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> };
@@ -29,7 +29,7 @@ export default async function Fracties({ searchParams }: Props) {
   if (!fracties || !alle || !periode) {
     return (
       <Inhoud>
-        <LegeStaat label="Niet bereikbaar" titel="De fracties konden niet worden geladen" uitleg="Probeer het over een paar minuten opnieuw." />
+        <LegeStaat label="Niet bereikbaar" titel="De fracties laden nu niet" uitleg="Probeer het over een paar minuten nog eens." />
       </Inhoud>
     );
   }
@@ -46,14 +46,14 @@ export default async function Fracties({ searchParams }: Props) {
         <Label>Fracties</Label>
         <SectieKop>Wie zit er in de Kamer?</SectieKop>
         <Tekst>
-          De fracties bij het begin van de gekozen periode, op volgorde van zetels. Een lichter deel van de balk: Kamerleden die
-          tijdens de periode naar een andere fractie overstapten. Kies een fractie voor haar cohesie met alle andere.
+          De fracties bij het begin van de gekozen periode, de grootste bovenaan. Het lichte stuk van een balk: Kamerleden die
+          tijdens de periode overstapten naar een andere fractie. Kies een fractie en zie met wie ze het vaakst hetzelfde stemde.
         </Tekst>
         <PeriodeKeuze perioden={lijst} soort={soort} periode={periode.naam} pad="/fracties" />
         {metRollen && (
           <Data>
             Kabinet-{periode.naam} begon met {kabinetZetels} van de 150 zetels{kabinetZetels < 76 ? ", als minderheidskabinet" : ""}.
-            Samenstelling nog na te kijken.
+            Deze samenstelling kijken we nog na.
           </Data>
         )}
       </section>

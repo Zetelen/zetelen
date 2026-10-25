@@ -29,7 +29,7 @@ export function TerreinLijst({ terreinen, perTerrein, fracties, aantallen, hrefM
                 <span className={s.aantal}>{aantallen.get(t)} stemmingen</span>
                 <span className={s.spreiding}>
                   {hoog && laag && hoog !== laag
-                    ? `meest eens met ${hoog.f.afkorting} ${procent(hoog.c)}, minst met ${laag.f.afkorting} ${procent(laag.c)}`
+                    ? `vaakst eens met ${hoog.f.afkorting} ${procent(hoog.c)}, minst vaak met ${laag.f.afkorting} ${procent(laag.c)}`
                     : "te weinig stemmingen"}
                 </span>
               </summary>

@@ -7,8 +7,8 @@ export function FeedbackBalk() {
   if (!FEEDBACK_URL) return null;
   return (
     <div className={s.feedbackBalk}>
-      Dit is een testversie van Zetelen. Wat vind je ervan?{" "}
-      <a href={FEEDBACK_URL} target="_blank" rel="noopener noreferrer">Geef feedback in 3 minuten ↗</a>
+      Zetelen is nog een testversie. Wat vind je ervan?{" "}
+      <a href={FEEDBACK_URL} target="_blank" rel="noopener noreferrer">Zeg het in 3 minuten ↗</a>
     </div>
   );
 }
