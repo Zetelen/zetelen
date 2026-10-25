@@ -79,7 +79,9 @@ export function hoofdstukJaren(rijen: JaarWerk[], ditJaar: number): Stap[] {
     },
     {
       datum: "twee lezingen",
-      tekst: `Meer moties is meer invloed: de oppositie krijgt er meer door dan ooit, in aantallen. Of inflatie: wie meer indient, haalt naar verhouding niet per se meer, en een aangenomen motie is nog geen uitgevoerd besluit. Jij kiest.`,
+      tekst: pct(eind.aangenomen, eind.ingediend) > pct(begin.aangenomen, begin.ingediend)
+        ? `Twee lezingen. Meer invloed: de oppositie krijgt vaker iets binnen dan in ${eerste}, en in aantallen meer dan ooit. Of inflatie: moties vragen vaak weinig, een kabinet stemt makkelijk in met een onderzoek of een brief, en een aangenomen motie is nog geen uitgevoerd besluit.`
+        : `Twee lezingen. Meer moties, meer kansen: in aantallen krijgt de oppositie meer binnen dan in ${eerste}. Of inflatie: naar verhouding haalt minder het, en een aangenomen motie is nog geen uitgevoerd besluit.`,
       stippen: bouw("aangenomen"), labels: [...labels, ...legenda(-20)],
     },
   ];
@@ -135,19 +137,26 @@ export function hoofdstukKabinetten(rijen: PeriodeWerk[], kabinetten: string[], 
 
 // Hoofdstuk 4: tegenstemmen tegenover aangenomen eigen moties, per fractie, door de kabinetten heen (met sporen)
 export function hoofdstukSpreiding(rijen: Array<FractieWerk & { periode: string }>, kabinetten: string[]): Stap[] {
-  const X0 = 60, X1 = 960, Y0 = 440, Y1 = 30, XMAX = 60;
-  const sx = (t: number) => rond(X0 + (Math.min(t, XMAX) / XMAX) * (X1 - X0));
-  const sy = (a: number) => rond(Y0 - (a / 100) * (Y0 - Y1));
-  const geldig = rijen.filter((r) => r.soort === "Motie" && r.ingediend >= MINIMUM && r.tegen_aandeel != null);
+  const X0 = 60, X1 = 960, Y0 = 440, Y1 = 30;
+  const geldig = rijen.filter((r) => r.soort === "Motie" && r.ingediend >= MINIMUM && r.tegen_aandeel != null && kabinetten.includes(r.periode));
+  // De assen lopen over het bereik in de data (afgerond op 5), zodat de fracties niet op een kluitje staan
+  const xs = geldig.map((r) => r.tegen_aandeel!), ys = geldig.map((r) => (100 * r.aangenomen) / r.ingediend);
+  const XMIN = Math.max(0, Math.floor((Math.min(...xs) - 3) / 5) * 5), XMAX = Math.min(100, Math.ceil((Math.max(...xs) + 3) / 5) * 5);
+  const YMIN = Math.max(0, Math.floor((Math.min(...ys) - 3) / 10) * 10);
+  const sx = (t: number) => rond(X0 + ((t - XMIN) / (XMAX - XMIN)) * (X1 - X0));
+  const sy = (a: number) => rond(Y0 - ((a - YMIN) / (100 - YMIN)) * (Y0 - Y1));
   const tint = tinten(kabinetten.map((k) => Object.fromEntries(geldig.filter((r) => r.periode === k).map((r) => [r.afkorting, 10]))));
+  const midX = (XMIN + XMAX) / 2, midY = (YMIN + 100) / 2;
   const assen: Pad[] = [
-    { d: `M${X0},${Y0} H${X1}` }, { d: `M${X0},${Y0} V${Y1}` },
-    { d: `M${sx(XMAX / 2)},${Y0} V${Y1}`, streep: true, zacht: true }, { d: `M${X0},${sy(50)} H${X1}`, streep: true, zacht: true },
+    { d: `M${X0},${Y0} H${X1}`, tint: "#566aa6" }, { d: `M${X0},${Y0} V${Y1}`, tint: "#566aa6" },
+    { d: `M${sx(midX)},${Y0} V${Y1}`, tint: "#566aa6", streep: true, zacht: true }, { d: `M${X0},${sy(midY)} H${X1}`, tint: "#566aa6", streep: true, zacht: true },
   ];
   const vast: Tekstlabel[] = [
-    { x: X1, y: Y0 + 30, tekst: `vaker tegen →`, anchor: "end" },
-    { x: X0, y: Y0 + 30, tekst: "0%", anchor: "start" },
-    { x: X0 - 10, y: Y1 + 5, tekst: "100% aangenomen", anchor: "end" },
+    { x: X1, y: Y0 + 30, tekst: `${XMAX}% tegen gestemd →`, anchor: "end" },
+    { x: X0, y: Y0 + 30, tekst: `${XMIN}%`, anchor: "start" },
+    { x: X0 - 10, y: Y1 + 5, tekst: "100%", anchor: "end" },
+    { x: X0 - 10, y: Y0, tekst: `${YMIN}%`, anchor: "end" },
+    { x: X0 - 10, y: sy(midY) + 5, tekst: "eigen moties aangenomen", anchor: "end" },
     { x: X0 + 10, y: Y1 + 20, tekst: "weinig tegen, veel eigen succes", tint: "#a9b4cc" },
     { x: X1 - 10, y: Y1 + 20, tekst: "veel tegen, veel eigen succes", anchor: "end", tint: "#a9b4cc" },
     { x: X0 + 10, y: Y0 - 12, tekst: "weinig tegen, weinig eigen succes", tint: "#a9b4cc" },
@@ -156,18 +165,28 @@ export function hoofdstukSpreiding(rijen: Array<FractieWerk & { periode: string 
   const plek = (r: FractieWerk) => ({ x: sx(r.tegen_aandeel!), y: sy((100 * r.aangenomen) / r.ingediend) });
   const stappen: Stap[] = kabinetten.map((k, i) => {
     const hier = geldig.filter((r) => r.periode === k);
+    // Sporen alleen voor fracties die van rol wisselden (kabinet en oppositie): daar zit de beweging
     const sporen: Pad[] = [...new Set(hier.map((r) => r.afkorting))].flatMap((f) => {
-      const punten = kabinetten.slice(0, i + 1).map((kk) => geldig.find((r) => r.periode === kk && r.afkorting === f)).filter((r): r is NonNullable<typeof r> => !!r).map(plek);
-      return punten.length > 1 ? [{ d: `M${punten.map((p) => `${p.x},${p.y}`).join(" L")}`, tint: tint.get(f), breedte: 2, zacht: true }] : [];
+      const eerder = kabinetten.slice(0, i + 1).map((kk) => geldig.find((r) => r.periode === kk && r.afkorting === f)).filter((r): r is NonNullable<typeof r> => !!r);
+      if (new Set(eerder.map((r) => r.rol)).size < 2) return [];
+      const punten = eerder.map(plek);
+      return punten.length > 1 ? [{ d: `M${punten.map((p) => `${p.x},${p.y}`).join(" L")}`, tint: tint.get(f), breedte: 2.5 }] : [];
     });
-    const tegen = [...hier].sort((a, b) => (b.tegen_aandeel ?? 0) - (a.tegen_aandeel ?? 0))[0];
-    const succes = [...hier].sort((a, b) => b.aangenomen / b.ingediend - a.aangenomen / a.ingediend)[0];
+    // De oppositie centraal: wie stemde daar het vaakst tegen, en wie kreeg naar verhouding het meeste binnen?
+    const opp = hier.filter((r) => r.rol !== "kabinet");
+    const kab = hier.filter((r) => r.rol === "kabinet");
+    const gemTegen = (rs: typeof hier) => Math.round(rs.reduce((t, r) => t + (r.tegen_aandeel ?? 0), 0) / Math.max(rs.length, 1));
+    const tegen = [...opp].sort((a, b) => (b.tegen_aandeel ?? 0) - (a.tegen_aandeel ?? 0))[0];
+    const succes = [...opp].sort((a, b) => b.aangenomen / b.ingediend - a.aangenomen / a.ingediend)[0];
+    const oppZin = tegen && succes
+      ? `In de oppositie stemde ${naam(tegen.afkorting)} het vaakst tegen (${Math.round(tegen.tegen_aandeel!)}%), en kreeg ${naam(succes.afkorting)} naar verhouding de meeste eigen moties aangenomen (${pct(succes.aangenomen, succes.ingediend)}%).`
+      : "";
     return {
       hoofdstuk: i === 0 ? "4 · Tegenstemmen en zelf scoren" : undefined,
       datum: `kabinet-${k}`,
       tekst: i === 0
-        ? `Elke stip is een fractie. Naar rechts: vaker tegen gestemd. Naar boven: meer eigen moties aangenomen. Een gouden rand: in het kabinet. Onder kabinet-${k} stemde ${naam(tegen.afkorting)} het vaakst tegen (${Math.round(tegen.tegen_aandeel!)}%), en haalde ${naam(succes.afkorting)} naar verhouding de meeste eigen moties binnen (${pct(succes.aangenomen, succes.ingediend)}%).`
-        : `Onder kabinet-${k} stemde ${naam(tegen.afkorting)} het vaakst tegen (${Math.round(tegen.tegen_aandeel!)}%), en haalde ${naam(succes.afkorting)} naar verhouding de meeste eigen moties binnen (${pct(succes.aangenomen, succes.ingediend)}%). De lijnen laten zien waar elke fractie vandaan kwam.`,
+        ? `Elke stip is een fractie. Naar rechts: vaker tegen gestemd. Naar boven: meer eigen moties aangenomen. Een gouden rand: in het kabinet. Wat opvalt: wie regeert, stemt het vaakst tegen. Onder kabinet-${k} stemden de kabinetsfracties gemiddeld op ${gemTegen(kab)}% van de stemmingen tegen, de oppositie op ${gemTegen(opp)}%. Ze stemmen tegen de vele moties van de oppositie. ${oppZin}`
+        : `Onder kabinet-${k}: kabinetsfracties gemiddeld ${gemTegen(kab)}% tegen, oppositie ${gemTegen(opp)}%. ${oppZin} De lijnen volgen fracties die van rol wisselden.`,
       stippen: hier.map((r) => ({ key: `f-${r.afkorting}`, ...plek(r), r: 9 + Math.min(10, Math.sqrt(r.ingediend) / 3), tint: tint.get(r.afkorting)!, kleur: (r.rol === "kabinet" ? "kabinet" : null) as Kleur })),
       labels: [...vast, ...hier.map((r) => ({ x: plek(r).x + 14, y: plek(r).y + 5, tekst: naam(r.afkorting), tint: tint.get(r.afkorting) }))],
       paden: [...assen, ...sporen],
@@ -176,7 +195,7 @@ export function hoofdstukSpreiding(rijen: Array<FractieWerk & { periode: string 
   const laatste = stappen[stappen.length - 1];
   stappen.push({
     ...laatste, datum: "twee lezingen",
-    tekst: "Veel tegenstemmen en weinig eigen succes: dwarsliggen? Of precies het werk van de oppositie, het kabinet controleren en een alternatief laten zien? Kijk welke fracties van kwadrant wisselden zodra ze gingen regeren, of ophielden.",
+    tekst: "Twee lezingen. Wie vaak tegen stemt en zelf weinig binnenhaalt, ligt dwars. Of: tegenstemmen is gewoon wat een meerderheid doet met moties die ze niet wil, en het zegt meer over je rol dan over je houding. De lijnen volgen de fracties die van rol wisselden: kijk hoe ze verschoven zodra ze gingen regeren, of ermee ophielden.",
     hoofdstuk: undefined,
   });
   return stappen;
@@ -190,16 +209,18 @@ export function hoofdstukNetwerk(perKabinet: Array<{ kabinet: string; verbinding
     const hoek = (2 * Math.PI * i) / fracties.length - Math.PI / 2;
     return [f, { x: rond(500 + 330 * Math.cos(hoek)), y: rond(235 + 210 * Math.sin(hoek)) }];
   }));
-  return perKabinet.map((p, i) => {
+  return perKabinet.map((pAlles, i) => {
+    // Alleen de 25 sterkste verbindingen in beeld; de tellingen in de tekst gaan over alle
+    const p = { ...pAlles, verbindingen: [...pAlles.verbindingen].sort((a, b) => b.stukken - a.stukken).slice(0, 25) };
     const max = Math.max(1, ...p.verbindingen.map((v) => v.stukken));
     const actief = new Set(p.verbindingen.flatMap((v) => [v.fractie_a, v.fractie_b]));
     const grens = (v: Verbinding) => (p.rollen.get(v.fractie_a) ?? "oppositie") !== (p.rollen.get(v.fractie_b) ?? "oppositie");
-    const over = p.verbindingen.filter(grens);
+    const over = pAlles.verbindingen.filter(grens);
     const sterkste = [...over].sort((a, b) => b.stukken - a.stukken)[0];
     return {
       hoofdstuk: i === 0 ? "5 · Samenwerken over de grens" : undefined,
       datum: `kabinet-${p.kabinet}`,
-      tekst: `Een lijn: samen moties ingediend, hoe dikker hoe vaker. Oranje lijnen lopen tussen kabinet en oppositie. Onder kabinet-${p.kabinet} ${getal(over.reduce((t, v) => t + v.stukken, 0))} keer over de grens${sterkste ? `, het vaakst ${naam(sterkste.fractie_a)} met ${naam(sterkste.fractie_b)} (${getal(sterkste.stukken)} keer)` : ""}.`,
+      tekst: `Een lijn: samen moties ingediend, hoe dikker hoe vaker; de 25 sterkste verbindingen staan in beeld. Oranje lijnen lopen tussen kabinet en oppositie. Onder kabinet-${p.kabinet} ${getal(over.reduce((t, v) => t + v.stukken, 0))} keer over de grens${sterkste ? `, het vaakst ${naam(sterkste.fractie_a)} met ${naam(sterkste.fractie_b)} (${getal(sterkste.stukken)} keer)` : ""}.`,
       stippen: fracties.filter((f) => actief.has(f)).map((f) => ({ key: `n-${f}`, ...plek.get(f)!, tint: tint.get(f)!, kleur: (p.rollen.get(f) === "kabinet" ? "kabinet" : null) as Kleur, r: 11 })),
       labels: fracties.filter((f) => actief.has(f)).map((f) => {
         const q = plek.get(f)!;

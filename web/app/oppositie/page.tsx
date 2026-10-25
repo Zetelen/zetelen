@@ -4,7 +4,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Bronregel } from "@/components/cohesie/Bronregel";
-import { Inhoud, LegeStaat, knopKlasse } from "@/components/Kader";
+import { Inhoud, knopKlasse } from "@/components/Kader";
 import { Label, SectieKop, Tekst } from "@/components/Typografie";
 import { ScrollVerhaal } from "@/components/verhaal/ScrollVerhaal";
 import { hoofdstukJaren, hoofdstukKabinetten, hoofdstukNetwerk, hoofdstukSpreiding } from "@/lib/oppositie";
@@ -22,13 +22,9 @@ const KABINETTEN = ["Rutte I", "Rutte II", "Rutte III", "Rutte IV", "Schoof", "J
 export default async function Oppositie() {
   const [jaren, perioden, fracties] = await Promise.all([jaarWerk(), periodeWerk("kabinet"), fractieWerk("kabinet")]);
   const netwerken = await Promise.all(["Schoof", "Jetten"].map(async (k) => ({ kabinet: k, verbindingen: (await netwerk("kabinet", k, "Motie")) ?? [] })));
-  if (!jaren?.length || !perioden || !fracties) {
-    return (
-      <Inhoud>
-        <LegeStaat label="Niet bereikbaar" titel="De cijfers laden nu niet" uitleg="Probeer het over een paar minuten opnieuw." />
-      </Inhoud>
-    );
-  }
+  // Geen data: een fout in plaats van een lege staat. Dan bewaart de site die mislukte versie niet, en blijft de
+  // laatste goede pagina staan (E3-S9); de foutpagina verschijnt alleen als er nog nooit een goede versie was.
+  if (!jaren?.length || !perioden || !fracties) throw new Error("Oppositiewerk: de gegevens zijn niet bereikbaar");
   // Minderheid of gedoogd: Rutte I (gedoogsteun van de PVV) en Jetten (66 zetels)
   const minderheid = ["Rutte I", "Jetten"];
   const rollen = (k: string) => new Map(fracties.filter((r) => r.periode === k && r.soort === "Motie").map((r) => [r.afkorting, r.rol]));
