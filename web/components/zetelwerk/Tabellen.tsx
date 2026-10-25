@@ -28,10 +28,10 @@ export function FractieTabel({ rijen, hrefVoor, actief, stuk }: { rijen: Fractie
           {rijen.map((r) => (
             <tr key={r.fractie} data-actief={actief === r.afkorting}>
               <td><Link href={hrefVoor(r.afkorting)} scroll={false}>{r.afkorting}</Link><span className={s.rol} data-rol={r.rol}>{r.rol}</span></td>
-              <td>{getal(r.ingediend)}</td>
-              <td><Aangenomen aangenomen={r.aangenomen} ingediend={r.ingediend} /></td>
-              <td>{getal(r.brede_steun)}</td>
-              <td>{getal(r.mede)}</td>
+              <td data-label="Ingediend">{getal(r.ingediend)}</td>
+              <td data-label="Aangenomen"><Aangenomen aangenomen={r.aangenomen} ingediend={r.ingediend} /></td>
+              <td data-label="Brede steun">{getal(r.brede_steun)}</td>
+              <td data-label="Mede ingediend">{getal(r.mede)}</td>
             </tr>
           ))}
         </tbody>
@@ -55,12 +55,16 @@ export function KamerledenTabel({ leden, hrefVoor, actief }: { leden: Kamerlid[]
           {leden.map((k) => (
             <tr key={k.persoon} data-actief={actief === k.persoon}>
               <td><Link href={hrefVoor(k.persoon)} scroll={false}>{k.naam}</Link> <span className={s.zacht}>{k.fractie}</span></td>
-              <td>{getal(k.motie?.ingediend ?? 0)}</td>
-              <td><Aangenomen aangenomen={k.motie?.aangenomen ?? 0} ingediend={k.motie?.ingediend ?? 0} /></td>
-              <td>{getal(k.motie?.brede_steun ?? 0)}</td>
-              <td>{getal(k.amendement?.ingediend ?? 0)}</td>
-              <td><Aangenomen aangenomen={k.amendement?.aangenomen ?? 0} ingediend={k.amendement?.ingediend ?? 0} /></td>
-              <td>{getal((k.motie?.mede ?? 0) + (k.amendement?.mede ?? 0))}</td>
+              <td data-label="Moties">{getal(k.motie?.ingediend ?? 0)}</td>
+              <td data-label="Moties aangenomen">
+                <Aangenomen aangenomen={k.motie?.aangenomen ?? 0} ingediend={k.motie?.ingediend ?? 0} />
+              </td>
+              <td data-label="Brede steun">{getal(k.motie?.brede_steun ?? 0)}</td>
+              <td data-label="Amendementen">{getal(k.amendement?.ingediend ?? 0)}</td>
+              <td data-label="Amendementen aangenomen">
+                <Aangenomen aangenomen={k.amendement?.aangenomen ?? 0} ingediend={k.amendement?.ingediend ?? 0} />
+              </td>
+              <td data-label="Mede ingediend">{getal((k.motie?.mede ?? 0) + (k.amendement?.mede ?? 0))}</td>
             </tr>
           ))}
         </tbody>

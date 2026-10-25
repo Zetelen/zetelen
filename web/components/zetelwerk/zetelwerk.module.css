@@ -129,3 +129,39 @@
   font-size: 14px;
   color: var(--koper);
 }
+
+/* Telefoon: elke rij een kaart, met het label bij elk getal */
+@media (max-width: 640px) {
+  .tabel thead {
+    display: none;
+  }
+  .tabel,
+  .tabel tbody,
+  .tabel tr,
+  .tabel td {
+    display: block;
+    width: 100%;
+  }
+  .tabel tr {
+    padding: var(--r-3) 0;
+    border-bottom: 1px solid var(--lijn);
+  }
+  .tabel td {
+    border: 0;
+    padding: 2px 0;
+    text-align: left;
+    white-space: normal;
+  }
+  .tabel td:first-child {
+    font-size: 17px;
+    padding-bottom: var(--r-2);
+  }
+  .tabel td[data-label]::before {
+    content: attr(data-label) ": ";
+    display: inline-block;
+    min-width: 170px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--tekst-zacht);
+  }
+}
