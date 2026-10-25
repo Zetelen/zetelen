@@ -129,6 +129,11 @@ Ook vergeleken: de aantallen per jaar met de telling in de API. In 2010 tellen w
 **Correctie op wat ik eerder schreef**
 Het "onbekende terrein" bij 23 van de 59 beslissende stemmingen van JA21 kwam uit mijn eigen analyse-script, dat rijen kwijtraakte bij het ophalen in pagina's. Op de site ontbrak alleen één stemming, en die staat er nu in.
 
+**Bekende beperkingen op de telefoon (nog niet opgelost)**
+- Kamerleden: de tabellen zijn breder dan het scherm en scrollen binnen hun eigen kader. Beter zou een kaart per fractie of Kamerlid zijn.
+- Lezingen (proef): de grafieken schalen mee, maar de letters worden dan klein. Komen de lezingen vast op de site, dan maak ik er een smalle versie van.
+- Oppositiewerk: werkt, maar de stippen zijn op een telefoon klein. Hoofdstuk 4 en 5 zijn op een smal scherm minder goed te lezen dan op desktop.
+
 **Nog niet gedaan, en waarom**
 - **De dynamische lezingen in de tools:** daarvoor wacht ik op jouw keuze van de lezingen.
 - **Een eigen deelplaatje voor Oppositiewerk en Kamerleden:** nu gebruiken ze het algemene plaatje.
