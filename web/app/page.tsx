@@ -4,19 +4,22 @@
 import Link from "next/link";
 import { Inhoud, knopKlasse } from "@/components/Kader";
 import { Bronregel } from "@/components/cohesie/Bronregel";
-import { HeroKop, Label, SectieKop, Tekst } from "@/components/Typografie";
+import { Data, HeroKop, Label, SectieKop, Tekst } from "@/components/Typografie";
 import { TerreinBalken } from "@/components/onderwerpen/TerreinBalken";
 import { ScrollVerhaal } from "@/components/verhaal/ScrollVerhaal";
 import { procent } from "@/lib/cohesie";
 import { cohesiePerTerrein, paarPerTerrein, uitersten } from "@/lib/onderwerpen";
 import { kabinetNu, kabinetspartners, laadVerhaal, zaalVerhaal } from "@/lib/voorpagina";
+import { jaarWerk } from "@/lib/zetelwerk";
 import s from "./voorpagina.module.css";
 
 const TOOLS = [
   { href: "/verkenner", titel: "Verkenner", tekst: "Kies een fractie en zie hoe vaak elke andere fractie met haar meestemde, per kabinet of Kamerperiode." },
-  { href: "/onderwerpen", titel: "Onderwerpen", tekst: "Waar zijn fracties het over eens? Cohesie per beleidsterrein, voor elk paar fracties.", concept: true },
+  { href: "/onderwerpen", titel: "Onderwerpen", tekst: "Waar zijn fracties het over eens? Per beleidsterrein, voor elk paar fracties, tot op de motie.", concept: true },
   { href: "/coalitie", titel: "Coalitiebouwer", tekst: "Stel zelf een groep fracties samen en zie bij wie die een meerderheid haalde.", concept: true },
+  { href: "/oppositie", titel: "Oppositiewerk", tekst: "Wat kun je als je niet regeert? Zestien jaar moties en amendementen.", concept: true },
   { href: "/fracties", titel: "Fracties", tekst: "Alle fracties sinds 2010: zetels, kabinet of oppositie, en wie er overstapte." },
+  { href: "/kamerleden", titel: "Kamerleden", tekst: "Wie diende wat in, en wat haalde het? Per fractie en per Kamerlid.", concept: true },
   { href: "/methodiek", titel: "Methodiek", tekst: "Hoe de cijfers tot stand komen, wat ze wel en niet zeggen, en wat er veranderde." },
 ];
 
@@ -27,6 +30,7 @@ export default async function Voorpagina() {
   const perTerrein = partners && kabinet ? await cohesiePerTerrein("kabinet", kabinet.naam, "alle", partners.a.id) : null;
   const paar = partners && perTerrein ? paarPerTerrein(perTerrein, partners.b.id) : null;
   const u = paar ? uitersten(paar) : null;
+  const jaren = await jaarWerk();
   return (
     <Inhoud>
       <section className={s.opening}>
@@ -78,10 +82,41 @@ export default async function Voorpagina() {
             ? `Kabinet-${kabinet.naam} heeft ${kabinet.zetels} zetels en heeft er 76 nodig voor een meerderheid. `
             : ""}
           Stel zelf een groep fracties samen en zie bij welke andere fracties die groep in het verleden een meerderheid
-          haalde. De coalitiebouwer is nog een concept: de rekenwijze wordt nog nagekeken.
+          haalde. De coalitiebouwer is nog een concept.
         </Tekst>
         <Link href="/coalitie" className={knopKlasse}>Naar de coalitiebouwer</Link>
       </section>
+
+      {jaren && jaren.length > 0 && (() => {
+        // Hoofdstuk 5: de andere kant. Het kabinet heeft de oppositie nodig; wat kan de oppositie zelf?
+        const moties = jaren.filter((r) => r.soort === "Motie");
+        const perJaar = [...new Set(moties.map((r) => r.jaar))].sort().map((j) => ({
+          jaar: j, totaal: moties.filter((r) => r.jaar === j).reduce((t, r) => t + r.ingediend, 0),
+          oppositie: moties.filter((r) => r.jaar === j && r.indiener_rol === "oppositie").reduce((t, r) => t + r.ingediend, 0),
+        }));
+        const max = Math.max(...perJaar.map((x) => x.totaal));
+        const eerste = perJaar[0], laatste = perJaar.filter((x) => x.jaar < new Date().getFullYear()).pop() ?? perJaar[perJaar.length - 1];
+        return (
+          <section className={s.hoofdstuk}>
+            <Label>5 · En de oppositie?</Label>
+            <SectieKop>Wat kun je als je niet regeert?</SectieKop>
+            <Tekst>
+              Moties indienen, vooral. In {eerste.jaar} stemde de Kamer over {eerste.totaal.toLocaleString("nl-NL")} moties, in {laatste.jaar} over{" "}
+              {laatste.totaal.toLocaleString("nl-NL")}. Het grootste deel komt van de oppositie. Maar hoeveel haalt het, en verandert dat
+              als het kabinet geen meerderheid heeft?
+            </Tekst>
+            <Data>Moties per jaar sinds {eerste.jaar}; blauw is het deel van de oppositie.</Data>
+            <div className={s.jaren} aria-hidden="true">
+              {perJaar.map((x) => (
+                <span key={x.jaar} title={`${x.jaar}: ${x.totaal} moties`} style={{ height: `${(100 * x.totaal) / max}%` }}>
+                  <span style={{ height: `${x.totaal ? (100 * x.oppositie) / x.totaal : 0}%` }} />
+                </span>
+              ))}
+            </div>
+            <Link href="/oppositie" className={knopKlasse}>Naar Oppositiewerk</Link>
+          </section>
+        );
+      })()}
 
       <section id="verder" className={s.hoofdstuk} style={{ maxWidth: "none" }}>
         <Label>Maar hoe werd er nou echt gezeteld? Kijk zelf</Label>

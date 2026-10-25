@@ -173,6 +173,20 @@
 @keyframes verschijn {
   from { opacity: 0; }
 }
+.pad {
+  fill: none;
+  stroke: var(--lijn);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  animation: verschijnPad 700ms 300ms both;
+}
+.pad[data-zacht="ja"] {
+  opacity: 0.35;
+}
+@keyframes verschijnPad {
+  from { opacity: 0; }
+}
 .label {
   font-family: var(--sans);
   font-size: 15px;
@@ -239,6 +253,9 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
+  .pad {
+    animation: none;
+  }
   .stip {
     --duur-verhaal: 0ms;
   }

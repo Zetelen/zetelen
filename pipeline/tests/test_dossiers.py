@@ -154,3 +154,17 @@ def test_verdieping_per_stemming_en_dossier(conn):
     rij = conn.execute("select onderwerp, uitslag, andere_dossiers, verdeeld, stemmen ->> %s, stemmen ->> %s "
                        "from api.stemming_dossier where dossier = %s", (fa, fb, d1)).fetchone()
     assert rij == ("Motie over iets", "Verworpen.", ["Kabinetscrisis"], True, "Voor", "Tegen")
+
+
+@db
+def test_stemming_zonder_dossier_krijgt_een_rij_onder_overig(conn):
+    # Migratie 020: een stemming zonder dossier staat er ook in, met de titel uit de zaak
+    z, b, fa = nieuw(), nieuw(), nieuw()
+    conn.execute("insert into core.zaak (id, nummer, soort, onderwerp) values (%s, 'V1', 'Verzoek', 'Verzoek over de agenda')", (z,))
+    conn.execute("insert into core.besluit (id, datum, kabinet, besluittekst) values (%s, '2023-02-01', 'Rutte IV', 'Aangenomen.')", (b,))
+    conn.execute("insert into core.besluit_zaak values (%s, %s)", (b, z))
+    conn.execute("insert into analyses.fractie_besluit_stem values (%s, %s, 'Voor', false)", (b, fa))
+    conn.execute("select * from core.herbouw_dossiers()")
+    conn.execute("select * from analyses.herbouw_terrein()")
+    rij = conn.execute("select dossier_titel, beleidsterrein, onderwerp from api.stemming_dossier where besluit = %s", (b,)).fetchone()
+    assert rij == ("Zonder dossier", "Overig", "Verzoek over de agenda")

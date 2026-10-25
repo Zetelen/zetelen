@@ -61,4 +61,24 @@ export const MATEN: Maat[] = [
       "Een fractie die vaak meestemt, deed dat niet per se om dezelfde reden als de groep.",
     ],
   },
+  {
+    id: "zetelwerk",
+    naam: "Zetelwerk: ingediend, aangenomen en brede steun",
+    definitie:
+      "Zetelwerk is wat Kamerleden en fracties zelf op tafel leggen: moties (een verzoek aan het kabinet) en amendementen (een wijziging van een wet). We tellen wie een stuk indiende, of het werd aangenomen, en met wiens steun. Moties en amendementen tellen we altijd apart.",
+    formule:
+      "ingediend: het aantal stukken met het Kamerlid of de fractie als indiener. Aangenomen: meer zetels voor dan tegen, geteld uit de stemmen. Brede steun: aangenomen met stemmen voor van minstens een kabinets- en een oppositiefractie die zelf geen indiener of medeindiener was. Onder 10 ingediende stukken geen percentage.",
+    keuzes: [
+      "De uitslag komt uit de stemmen, niet uit de tekst van het besluit: in een handvol gevallen spreekt de bron zichzelf tegen. Bij handopsteken telt de fractiegrootte, bij een hoofdelijke stemming het aantal leden dat voor of tegen stemde.",
+      "Is er vaker over een stuk gestemd, dan telt de laatste stemming.",
+      "Kabinet of oppositie op de dag van de stemming. Gedoogsteun telt als kabinet.",
+      "Een stuk met meer indieners telt voor elk van hen volledig. Medeindieners tellen apart, als mede ingediend.",
+      "Tegenstemmen per fractie: het aandeel van alle stemmingen in de periode waarop de fractie tegen stemde.",
+    ],
+    beperkingen: [
+      "Een aangenomen motie is een verzoek aan het kabinet. Of het ook gebeurt, staat niet in de data.",
+      "Kabinet en oppositie hebben een andere rol. Wensen van kabinetspartijen staan vaak in het regeerakkoord, dus zij dienen minder in. Vergelijk binnen de eigen kant.",
+      "Elk stuk telt even zwaar, of het nu een kleine procedurele motie is of een amendement dat een wet verandert.",
+    ],
+  },
 ];

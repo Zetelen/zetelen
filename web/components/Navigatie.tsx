@@ -10,6 +10,7 @@ const MENU = [
   { href: "/verkenner", tekst: "Verkenner" },
   { href: "/onderwerpen", tekst: "Onderwerpen" },
   { href: "/coalitie", tekst: "Coalitie" },
+  { href: "/oppositie", tekst: "Oppositie" },
   { href: "/fracties", tekst: "Fracties" },
   { href: "/methodiek", tekst: "Methodiek" },
   { href: "/over", tekst: "Over" },

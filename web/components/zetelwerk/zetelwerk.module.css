@@ -1,0 +1,131 @@
+.pillen {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--r-2);
+}
+.pillen a {
+  min-height: var(--doel-min);
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--r-4);
+  border-radius: var(--hoek-pil);
+  border: 1px solid var(--lijn);
+  color: var(--tekst);
+  text-decoration: none;
+}
+.pillen a[aria-current="true"] {
+  background: var(--nacht-700);
+  border-color: var(--koper);
+}
+.tabelKader {
+  overflow-x: auto;
+}
+.tabel {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+.tabel th,
+.tabel td {
+  padding: var(--r-2) var(--r-3);
+  border-bottom: 1px solid var(--lijn);
+  text-align: right;
+  white-space: nowrap;
+}
+.tabel th:first-child,
+.tabel td:first-child {
+  text-align: left;
+}
+.tabel thead th {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--tekst-zacht);
+}
+.tabel td {
+  font-variant-numeric: tabular-nums;
+}
+.tabel tr[data-actief="true"] td {
+  background: var(--nacht-800);
+}
+.tabel a {
+  color: var(--tekst);
+}
+.zacht {
+  color: var(--tekst-zacht);
+  font-family: var(--mono);
+  font-size: 12px;
+}
+.rol {
+  display: inline-block;
+  margin-left: var(--r-2);
+  padding: 1px 8px;
+  border-radius: var(--hoek-pil);
+  border: 1px solid var(--lijn);
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--tekst-zacht);
+}
+.rol[data-rol="kabinet"] {
+  border-color: var(--goud);
+  color: var(--goud);
+}
+.balkje {
+  display: inline-block;
+  width: 60px;
+  height: 8px;
+  margin-left: var(--r-2);
+  background: var(--nacht-900);
+  border-radius: 3px;
+  vertical-align: middle;
+  overflow: hidden;
+}
+.balkje > span {
+  display: block;
+  height: 100%;
+}
+.zoek {
+  display: flex;
+  gap: var(--r-2);
+  flex-wrap: wrap;
+}
+.zoek input {
+  min-height: var(--doel-min);
+  min-width: 220px;
+  padding: 0 var(--r-3);
+  border-radius: var(--hoek-klein);
+  border: 1px solid var(--lijn);
+  background: var(--nacht-900);
+  color: var(--tekst);
+  font: inherit;
+}
+.zoek button {
+  min-height: var(--doel-min);
+  padding: 0 var(--r-4);
+  border-radius: var(--hoek-pil);
+  border: 1px solid var(--koper);
+  background: transparent;
+  color: var(--koper);
+  font: inherit;
+}
+.stukken {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--lijn);
+}
+.stukken li {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--r-3) var(--r-2) var(--r-3) var(--r-4);
+  border-bottom: 1px solid var(--lijn);
+  border-left: 3px solid var(--lijn);
+}
+.stukken li[data-aangenomen="true"] {
+  border-left-color: var(--schaal-100);
+}
+.stukken a {
+  font-size: 14px;
+  color: var(--koper);
+}

@@ -64,10 +64,16 @@ export function ScrollVerhaal({ verhaal, label, hoogteSmal = 555, stapHoogte = "
     <div className={s.verhaal} data-tijdlijn={tijdlijn} style={{ "--stap": stapHoogte } as CSSProperties}>
       <div className={s.figuur}>
         <svg viewBox={`-60 -50 1120 ${hoogte}`} className={s.svg} role="img" aria-label={`${label}: ${stap.datum}. ${stap.tekst}`}>
+          <g aria-hidden="true">
+            {stap.paden?.map((p, i) => (
+              <path key={`${actief}-p${i}`} d={p.d} className={s.pad} data-zacht={p.zacht ? "ja" : undefined}
+                style={{ stroke: p.tint, strokeWidth: p.breedte, strokeDasharray: p.streep ? "4 6" : undefined }} />
+            ))}
+          </g>
           {alle.map((k) => {
             const p = hier.get(k);
             return (
-              <circle key={k} r={10.5} className={s.stip} data-kleur={p?.kleur ?? ""} data-weg={p ? "nee" : "ja"}
+              <circle key={k} r={p?.r ?? 10.5} className={s.stip} data-kleur={p?.kleur ?? ""} data-weg={p ? "nee" : "ja"}
                 style={{ fill: p?.tint, transform: p ? `translate(${p.x}px, ${p.y}px)` : `translate(${MIDDEN.x}px, ${MIDDEN.y}px)` }} />
             );
           })}

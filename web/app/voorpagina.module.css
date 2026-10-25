@@ -67,3 +67,25 @@
 .tegel span {
   color: var(--tekst-zacht);
 }
+
+/* Hoofdstuk 5: moties per jaar, met het deel van de oppositie */
+.jaren {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 120px;
+  max-width: 560px;
+}
+.jaren > span {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: #d2bb5a;
+  border-radius: 3px 3px 0 0;
+}
+.jaren > span > span {
+  display: block;
+  background: #7fb7c9;
+  border-radius: 3px 3px 0 0;
+}
