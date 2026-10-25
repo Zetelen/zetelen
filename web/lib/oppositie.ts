@@ -176,8 +176,10 @@ export function hoofdstukSpreiding(rijen: Array<FractieWerk & { periode: string 
     const opp = hier.filter((r) => r.rol !== "kabinet");
     const kab = hier.filter((r) => r.rol === "kabinet");
     const gemTegen = (rs: typeof hier) => Math.round(rs.reduce((t, r) => t + (r.tegen_aandeel ?? 0), 0) / Math.max(rs.length, 1));
-    const tegen = [...opp].sort((a, b) => (b.tegen_aandeel ?? 0) - (a.tegen_aandeel ?? 0))[0];
-    const succes = [...opp].sort((a, b) => b.aangenomen / b.ingediend - a.aangenomen / a.ingediend)[0];
+    // In de zinnen alleen fracties met minstens 25 eigen moties: een afsplitsing met net 10 haalt anders de kop
+    const groot = opp.filter((r) => r.ingediend >= 25);
+    const tegen = [...groot].sort((a, b) => (b.tegen_aandeel ?? 0) - (a.tegen_aandeel ?? 0))[0];
+    const succes = [...groot].sort((a, b) => b.aangenomen / b.ingediend - a.aangenomen / a.ingediend)[0];
     const oppZin = tegen && succes
       ? `In de oppositie stemde ${naam(tegen.afkorting)} het vaakst tegen (${Math.round(tegen.tegen_aandeel!)}%), en kreeg ${naam(succes.afkorting)} naar verhouding de meeste eigen moties aangenomen (${pct(succes.aangenomen, succes.ingediend)}%).`
       : "";
