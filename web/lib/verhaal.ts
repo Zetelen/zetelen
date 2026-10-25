@@ -6,7 +6,9 @@ import { MIDDEN, punt, zetels as zaalZetels } from "./zaal";
 export type Kleur = "kabinet" | "nadruk" | "uit" | "zacht" | null;
 export type Stip = { key: string; x: number; y: number; kleur: Kleur; tint: string };
 export type Tekstlabel = { x: number; y: number; tekst: string; waarde?: string; anchor?: "start" | "middle" | "end"; tint?: string };
-export type Stap = { datum: string; tekst: string; stippen: Stip[]; labels: Tekstlabel[]; groot?: string; klein?: string };
+// Kader: een lijn om de stippen van een fractie (alleen in de gegroepeerde blokken)
+export type Kader = { x: number; y: number; b: number; h: number; fractie: string; tint?: string };
+export type Stap = { datum: string; tekst: string; stippen: Stip[]; labels: Tekstlabel[]; kaders?: Kader[]; groot?: string; klein?: string };
 export type Verhaal = { breed: Stap[]; smal?: Stap[] }; // smal: alleen als het op mobiel anders is
 export const rond = (n: number) => Math.round(n * 10) / 10;
 
@@ -23,7 +25,7 @@ export const KORT: Record<string, string> = { "GroenLinks-PvdA": "GL-PvdA", "Nie
 
 // Eigen palet per fractie (geen partijkleuren: besluit 22 oktober 2026). Tien tinten, elk minstens
 // 6:1 contrast op nacht-950. Fracties met minder dan 5 zetels in elke stap delen een neutrale tint.
-export const PALET = ["#7fb7c9", "#e0915a", "#a08fe0", "#6fbf8e", "#e57f93", "#d2bb5a", "#5f93dc", "#4fb8ad", "#c2885c", "#b9bfcc"];
+export const PALET = ["#7fb7c9", "#e0915a", "#a08fe0", "#6fbf8e", "#e57f93", "#d2bb5a", "#5f93dc", "#d46fc0", "#c2885c", "#b9bfcc"];
 export const KLEIN = "#6d7590";
 // Een opvolger die de fractie voortzet (naamswijziging), houdt de tint
 export const ERFT_TINT: Record<string, string> = { PRO: "GroenLinks-PvdA" };
@@ -114,26 +116,36 @@ export function stemZaal(stemming: Stemming): StemStip[] {
 }
 
 // Blokken per stem; gegroepeerd: per fractie een eigen rij met naam
-export function blokken(zaalStippen: StemStip[], gegroepeerd: boolean, smal: boolean): { stippen: Array<StemStip>; labels: Tekstlabel[] } {
+export function blokken(zaalStippen: StemStip[], gegroepeerd: boolean, smal: boolean): { stippen: Array<StemStip>; labels: Tekstlabel[]; kaders: Kader[] } {
   const blok = smal
     ? { Voor: { x: 200, y: 20 }, Tegen: { x: 200, y: 330 }, "Niet deelgenomen": { x: 200, y: 900 } }
     : { Voor: { x: 40, y: 0 }, Tegen: { x: 560, y: 0 }, "Niet deelgenomen": { x: 300, y: 420 } };
   const stap = smal ? 31 : 23, kolommen = smal ? 27 : 18;
-  const stippen: StemStip[] = [], labels: Tekstlabel[] = [];
+  const stippen: StemStip[] = [], labels: Tekstlabel[] = [], kaders: Kader[] = [];
+  const marge = 5; // ruimte tussen stip en kader
   for (const s of STEMSOORTEN) {
     const b = blok[s];
     const leden = zaalStippen.filter((z) => z.stem === s).sort((p, q) => rang(p.fractie) - rang(q.fractie) || p.hoek - q.hoek);
     labels.push({ x: b.x, y: b.y - 22, tekst: s, waarde: String(leden.length) });
     let rij = 0, kol = 0, vorige: string | null = null;
     for (const z of leden) {
-      if (gegroepeerd && vorige && z.fractie !== vorige) { rij += kol ? 1 : 0; kol = 0; rij += 0.35; }
+      if (gegroepeerd && vorige && z.fractie !== vorige) { rij += kol ? 1 : 0; kol = 0; rij += 0.6; }
       if (gegroepeerd && z.fractie !== vorige) labels.push({ x: b.x - 14, y: Math.round(b.y + rij * stap + 5), tekst: KORT[z.fractie] ?? z.fractie, anchor: "end" });
       stippen.push({ ...z, x: b.x + 11 + kol * stap, y: b.y + 11 + rij * stap });
       vorige = z.fractie;
       if (++kol === kolommen) { kol = 0; rij++; }
     }
+    if (gegroepeerd) {
+      const per = new Map<string, StemStip[]>();
+      for (const z of stippen) if (z.stem === s) per.set(z.fractie, [...(per.get(z.fractie) ?? []), z]);
+      for (const [fractie, zs] of per) {
+        const xs = zs.map((z) => z.x), ys = zs.map((z) => z.y);
+        const x = Math.min(...xs) - 10.5 - marge, y = Math.min(...ys) - 10.5 - marge;
+        kaders.push({ fractie, x, y, b: Math.max(...xs) + 10.5 + marge - x, h: Math.max(...ys) + 10.5 + marge - y });
+      }
+    }
   }
-  return { stippen, labels };
+  return { stippen, labels, kaders };
 }
 
 export function maandJaar(datum: string): string {

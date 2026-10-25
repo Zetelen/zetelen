@@ -140,6 +140,16 @@
 .stip[data-weg="ja"] {
   opacity: 0;
 }
+.kader {
+  fill: none;
+  stroke: var(--lijn-licht);
+  stroke-width: 1.5;
+  opacity: 0.8;
+  animation: verschijn 600ms 500ms both;
+}
+@keyframes verschijn {
+  from { opacity: 0; }
+}
 .label {
   font-family: var(--sans);
   font-size: 15px;
@@ -208,5 +218,8 @@
 @media (prefers-reduced-motion: reduce) {
   .stip {
     --duur-verhaal: 0ms;
+  }
+  .kader {
+    animation: none;
   }
 }
