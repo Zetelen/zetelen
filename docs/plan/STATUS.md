@@ -111,6 +111,10 @@ Besluit Niels, 25 oktober 2026. Beleidsterrein via het Kamerstukdossier (de vast
 
 Besluit Niels, 25 oktober 2026 (advies van Claude gevolgd): standaard alleen verdeelde stemmingen met een schakelaar naar alle; zetels bij hoofdelijk de leden die echt stemden; rangorde eerst beslissend, dan meegestemd; drempel 25 eensgezinde stemmingen. Opzet: bediening als de verkenner (bullet chart links, zaal rechts), partners met verdieping naar de stemmingen waarop een partner beslissend was (migratie 017: besluiten in de stemmatrix), vaste balk met paneel op de telefoon, deelplaatje per combinatie (`/coalitie/plaatje`), in het menu en de sitemap. Label "concept" tot de lezingen (E2-S10) en de nacontrole van een steekproef er zijn. Bevinding: ook met alleen verdeelde stemmingen wint een kabinet van 66 zetels (Jetten) 98% van zijn eensgezinde stemmingen; maar ongeveer 9% van die stemmingen was unaniem.
 
+## Zetelwerk en Oppositiewerk (nacht 25 op 26 oktober 2026)
+
+Gebouwd op verzoek van Niels, die sliep: analyse zetelwerk (migraties 018 tot en met 020), de pagina's Kamerleden, Oppositiewerk en Lezingen (proef), en hoofdstuk 5 op de voorpagina. Alles met het label concept. Wat Niels moet beoordelen, staat in `docs/plan/te-beoordelen.md`.
+
 ## Gebruiksvoorwaarden open data
 
 Op data.overheid.nl staat de dataset met licentie CC0 1.0 (22 oktober 2026). De licentielink in de sectie "Hergebruik" is daar leeg en de API-pagina op developer.overheid.nl vermeldt niets over licentie of limieten. Niet gecontroleerd: foto's van Kamerleden, tekst van documenten, persoonsgegevens. Voorstel voor de voetnoot: de bron noemen, ook al is dat niet verplicht.

@@ -116,6 +116,16 @@ Ook vergeleken: de aantallen per jaar met de telling in de API. In 2010 tellen w
 - **De oppositie haalt vaker iets binnen dan vroeger.** Van de oppositiemoties werd in 2010 tot en met 2012 32% aangenomen, in de laatste drie volle jaren 50%. De lezing in hoofdstuk 1 volgt nu deze data: "meer invloed" tegenover "inflatie: moties vragen vaak weinig".
 - **Ook coalitiepartners verschillen.** D66 en VVD stemden onder Jetten 47 keer anders over asiel. Je ziet het via Onderwerpen, de vergelijking van D66 met VVD, en dan het terrein Asiel.
 
+- **Een minderheidskabinet maakt voor de oppositie nauwelijks verschil.** Onder Rutte I en Jetten haalde gemiddeld 41% van de oppositiemoties het, onder de meerderheidskabinetten 40%. De tijd maakt wel verschil: van 31% onder Rutte I naar 50% onder Jetten. De tekst in hoofdstuk 3 volgt nu de data. Mijn eerdere kandidaat-lezing ("meer invloed onder een minderheidskabinet") houdt dus geen stand.
+- **Ook amendementen van de oppositie halen het vaker:** van 23% onder Rutte I naar 34% onder Jetten, met 39% onder Schoof als hoogste.
+
+**Later in de nacht nog gedaan**
+- **Proefpagina lezingen** (https://zetelen.vercel.app/lezingen): de vier aanbevolen lezingen met grafieken. Lezing 2 heeft een kanttekening gekregen: een stemming is krap juist doordat weinig fracties meestemmen, dus dat de oppositie daar minder meestemt, volgt deels uit de definitie.
+- **Menu op de telefoon:** liep van het scherm af ("Over" was onzichtbaar), en loopt nu door op een tweede regel.
+- **Deelplaatje voor Oppositiewerk:** de groei van het aantal moties per jaar en het aandeel dat de oppositie binnenhaalt.
+- **Onderwerpen en voorpagina:** terreinen met minder dan 50 stemmingen samen staan onderaan en gedimd. Koninkrijk, met 26 stemmingen en 100%, stond eerst bovenaan.
+- **Oppositiewerk, hoofdstuk 4:** de zinnen noemen alleen fracties met minstens 25 eigen moties, en de assen lopen over het bereik in de data.
+
 **Correctie op wat ik eerder schreef**
 Het "onbekende terrein" bij 23 van de 59 beslissende stemmingen van JA21 kwam uit mijn eigen analyse-script, dat rijen kwijtraakte bij het ophalen in pagina's. Op de site ontbrak alleen één stemming, en die staat er nu in.
 

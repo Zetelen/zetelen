@@ -1,6 +1,6 @@
 # Component: zetelwerk (moties, amendementen en oppositiewerk)
 
-Status: plan, 25 oktober 2026, ter goedkeuring. Besluit Niels: in R1, moties en amendementen allebei en apart, met een eigen pagina over oppositiewerk met motion graphics.
+Status: in bouw, live als concept (26 oktober 2026). Definities goedgekeurd door Niels op 25 oktober 2026; gebouwd in de nacht erna: migraties 018 tot en met 020, /kamerleden, /oppositie, blok op de fractiepagina's, hoofdstuk 5 op de voorpagina. Steekproef: 19 van 19 klopt (docs/plan/te-beoordelen.md). Besluit Niels: in R1, moties en amendementen allebei en apart, met een eigen pagina over oppositiewerk met motion graphics.
 Eerst lezen: `_conventies.md`, `../../ontwerp/tone-of-voice.md`, `coalitie-analyse.md`, `../lezingen-kandidaten.md`.
 
 ## Doel
