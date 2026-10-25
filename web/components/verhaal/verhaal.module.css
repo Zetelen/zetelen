@@ -1,0 +1,114 @@
+.verhaal {
+  position: relative;
+}
+.figuur {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.svg {
+  width: min(100%, 980px);
+  height: auto;
+  max-height: 82vh;
+  overflow: visible;
+}
+.kaarten {
+  list-style: none;
+  margin: -100vh 0 0;
+  padding: 0;
+  position: relative;
+  pointer-events: none;
+}
+.kaart {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 12vh;
+}
+.kaart > div {
+  pointer-events: auto;
+  max-width: 380px;
+  padding: var(--r-4) var(--r-5);
+  border-radius: var(--hoek-paneel);
+  background: color-mix(in srgb, var(--nacht-800) 92%, transparent);
+  border: 1px solid var(--lijn);
+  font-size: var(--tekst-lopend);
+  line-height: 1.55;
+  opacity: 0.35;
+  transition: opacity 400ms;
+}
+.kaart[data-actief="true"] > div {
+  opacity: 1;
+}
+.datum {
+  display: block;
+  margin-bottom: 6px;
+  font-family: var(--mono);
+  font-size: var(--tekst-data);
+  color: var(--koper);
+}
+.stip {
+  fill: var(--nacht-700);
+  stroke: var(--lijn-licht);
+  stroke-width: 1.5;
+  transition: transform var(--duur-verhaal, 900ms) cubic-bezier(0.6, 0, 0.2, 1), fill 500ms, opacity 500ms;
+}
+.stip[data-kleur="koper"] {
+  fill: var(--koper);
+  stroke: var(--koper);
+}
+.stip[data-kleur="goud"] {
+  fill: var(--goud);
+  stroke: var(--goud);
+}
+.stip[data-kleur="zacht"] {
+  opacity: 0.25;
+}
+.stip[data-weg="ja"] {
+  opacity: 0;
+}
+.label {
+  font-family: var(--sans);
+  font-size: 15px;
+  fill: var(--tekst-zacht);
+}
+.waarde {
+  font-family: var(--mono);
+  fill: var(--tekst);
+}
+.groot {
+  font-family: var(--serif);
+  font-size: 56px;
+  fill: var(--tekst);
+  text-anchor: middle;
+}
+.klein {
+  font-family: var(--mono);
+  font-size: 14px;
+  fill: var(--tekst-zacht);
+  text-anchor: middle;
+}
+@media (max-width: 640px) {
+  .figuur {
+    align-items: flex-start;
+    padding-top: 10vh;
+  }
+  .kaart {
+    padding-bottom: 6vh;
+  }
+  .kaart > div {
+    max-width: none;
+    width: 100%;
+  }
+  .stip {
+    --duur-verhaal: 600ms;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stip {
+    --duur-verhaal: 0ms;
+  }
+}

@@ -1,6 +1,6 @@
 # Ontwerpvoorstel: scroll graphics op de voorpagina
 
-Concept, 25 oktober 2026. Op basis van de vragen aan Niels (24 en 25 oktober 2026). Werkende schets met echte cijfers: `docs/ontwerp/scroll/schets.html` (open via een lokale webserver, bijvoorbeeld `python3 -m http.server` in die map).
+Concept, 25 oktober 2026. Gebouwd als conceptpagina `/verhaal` (niet in het menu, niet in de sitemap) tot Niels akkoord is voor de voorpagina; graphic 1 rekent alle stappen, datums en aantallen uit de data, graphic 2 leest de stemming uit `web/content/verhaal-stemming.json` (controle: `db/controles/verhaal_stemming.sql`). Op basis van de vragen aan Niels (24 en 25 oktober 2026). Werkende schets met echte cijfers: `docs/ontwerp/scroll/schets.html` (open via een lokale webserver, bijvoorbeeld `python3 -m http.server` in die map).
 
 ## Uitgangspunten (besluiten Niels)
 
