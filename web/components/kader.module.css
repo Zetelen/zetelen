@@ -40,6 +40,13 @@
 .links a[aria-current="page"] {
   color: var(--tekst);
 }
+/* Smal scherm: het menu loopt door op een tweede regel in plaats van van het scherm af te vallen */
+@media (max-width: 760px) {
+  .links {
+    flex-wrap: wrap;
+    gap: 0 var(--r-4);
+  }
+}
 .inhoud {
   max-width: var(--pagina-max);
   margin: 0 auto;
