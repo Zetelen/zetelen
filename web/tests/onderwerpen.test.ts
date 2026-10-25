@@ -1,6 +1,6 @@
 // Tests voor de cohesie per beleidsterrein (lib/onderwerpen.ts)
 import { describe, expect, it } from "vitest";
-import { type StemmingRij, paarPerTerrein, perDossier, uitersten } from "../lib/onderwerpen";
+import { type StemmingRij, paarPerTerrein, perDossier, uitersten, verschillen } from "../lib/onderwerpen";
 import type { Paar } from "../lib/zaal";
 
 const p = (cohesie: number | null, teWeinig = false): Paar => ({ cohesie, gezamenlijk: teWeinig ? 10 : 100, teWeinig });
@@ -34,5 +34,16 @@ describe("perDossier", () => {
   it("telt samen en eens per dossier en zet het minst eens bovenaan", () => {
     const uit = perDossier([r("X", "Voor", "Voor"), r("X", "Voor", "Tegen"), r("Y", "Tegen", "Voor"), r("Y", null, "Voor"), r("Z", null, null)]);
     expect(uit.map((d) => [d.titel, d.eens, d.samen, d.stemmingen])).toEqual([["Y", 0, 1, 2], ["X", 1, 2, 2]]);
+  });
+});
+
+describe("verschillen", () => {
+  const r = (besluit: string, datum: string, a: string | null, b: string | null, dossier = "X"): StemmingRij => ({
+    besluit, dossier, datum, zaakNummer: null, zaakSoort: null, onderwerp: null, uitslag: null,
+    dossierNummer: 1, dossierToevoeging: null, dossierTitel: dossier, andereDossiers: [], a, b,
+  });
+  it("geeft elke stemming waarop ze verschilden een keer, nieuwste eerst", () => {
+    const uit = verschillen([r("1", "2026-01-01", "Voor", "Tegen"), r("1", "2026-01-01", "Voor", "Tegen", "Y"), r("2", "2026-02-01", "Tegen", "Voor"), r("3", "2026-03-01", "Voor", "Voor"), r("4", "2026-04-01", null, "Voor")]);
+    expect(uit.map((x) => x.besluit)).toEqual(["2", "1"]);
   });
 });

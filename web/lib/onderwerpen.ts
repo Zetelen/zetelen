@@ -107,3 +107,12 @@ export function perDossier(rijen: StemmingRij[]): DossierTelling[] {
 export function linkTweedeKamer(zaakNummer: string): string {
   return `https://www.tweedekamer.nl/zoeken?qry=${encodeURIComponent(zaakNummer)}`;
 }
+
+// De stemmingen waarop twee fracties allebei stemden en verschilden, elk een keer (een stemming bij meer
+// dossiers komt in de rijen vaker voor), nieuwste eerst
+export function verschillen(rijen: StemmingRij[]): StemmingRij[] {
+  const gezien = new Set<string>();
+  return rijen
+    .filter((r) => r.a && r.b && r.a !== r.b && !gezien.has(r.besluit) && (gezien.add(r.besluit), true))
+    .sort((x, y) => y.datum.localeCompare(x.datum));
+}

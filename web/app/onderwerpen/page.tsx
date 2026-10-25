@@ -20,7 +20,7 @@ import { stemVerhaal, stemming } from "@/lib/stemmingVerhaal";
 import { Data, Label, SectieKop, Tekst } from "@/components/Typografie";
 import { cohesieIn, fractiesIn, keuzeUitUrl, perioden, procent } from "@/lib/cohesie";
 import { schaalkleur, tekstOp } from "@/lib/kleur";
-import { cohesiePerTerrein, paarPerTerrein, perDossier, stemmingenInTerrein, stemmingenPerTerrein, uitersten } from "@/lib/onderwerpen";
+import { cohesiePerTerrein, paarPerTerrein, perDossier, stemmingenInTerrein, stemmingenPerTerrein, uitersten, verschillen } from "@/lib/onderwerpen";
 import { sleutel } from "@/lib/zaal";
 import s from "@/components/onderwerpen/onderwerpen.module.css";
 
@@ -110,11 +110,32 @@ export default async function Onderwerpen({ searchParams }: Props) {
           <Data><Link href={`/onderwerpen${query({ fractie: gekozen.afkorting })}`}>Terug naar alle fracties</Link></Data>
           {terrein && (
             <section id="verdieping" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
-              <Label>{terrein} · dossiers, van minst naar meest eens</Label>
-              {!dossiers ? (
+              {!dossiers || !stemmingen ? (
                 <Tekst>De dossiers konden niet worden geladen. Probeer het over een paar minuten opnieuw.</Tekst>
               ) : (
                 <>
+                  {!dossier && (() => {
+                    // Direct de stemmingen waarop het paar verschilde (verzoek Niels, 25 oktober 2026): daar zit het verhaal
+                    const anders = verschillen(stemmingen);
+                    const toonAlle = waarde("alle") === "1";
+                    return (
+                      <>
+                        <Label>{terrein} · hier verschilden {gekozen.afkorting} en {met.afkorting}</Label>
+                        {anders.length ? (
+                          <>
+                            <StemmingLijst rijen={toonAlle ? anders : anders.slice(0, 15)} a={gekozen.afkorting} b={met.afkorting}
+                              titel={`${anders.length} stemmingen waarop ze allebei stemden en verschilden${!toonAlle && anders.length > 15 ? " · de 15 nieuwste" : ""}`} />
+                            {!toonAlle && anders.length > 15 && (
+                              <Data><Link href={`/onderwerpen${query({ ...paarQuery, terrein, alle: "1" })}#verdieping`} scroll={false}>Toon alle {anders.length}</Link></Data>
+                            )}
+                          </>
+                        ) : (
+                          <Tekst>In dit terrein stemden ze, als ze allebei stemden, steeds hetzelfde.</Tekst>
+                        )}
+                      </>
+                    );
+                  })()}
+                  <Label>{terrein} · per dossier, van minst naar meest eens</Label>
                   <Data>Geteld zijn de stemmingen waarop {gekozen.afkorting} en {met.afkorting} allebei voor of tegen stemden. Per dossier zijn het er te weinig voor een percentage.</Data>
                   <DossierLijst dossiers={dossiers} a={gekozen.afkorting} b={met.afkorting} actief={dossier?.dossier ?? null}
                     hrefVoor={(d) => `/onderwerpen${query({ ...paarQuery, terrein, dossier: d })}#stemmingen`} />
