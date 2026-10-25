@@ -103,6 +103,10 @@ Besluit Niels, 24 oktober 2026. De samenstelling van elk kabinet sinds Balkenend
 
 25 oktober 2026. Ontwerp in `docs/ontwerp/scroll-graphics.md`, gebouwd als conceptpagina `/verhaal`. Open voor Niels: naar de voorpagina, volgorde (nu Rutte IV naar nu), datums nakijken, graphic 3 na de onderwerpen (voorstel in de plan-PR, component `onderwerpen`).
 
+## Besluit: onderwerpen in R1
+
+Besluit Niels, 25 oktober 2026. Beleidsterrein via het Kamerstukdossier (de vaste commissie die het vaakst voortouw heeft over de zaken in dat dossier), dossier als fijner niveau; een stemming telt mee bij elk terrein van haar dossiers; in R1. Ook akkoord: de lijn voor het verhaal van de site (hoe zijn we hier gekomen, hoe stemt elke partij nu, waar zijn ze het over eens, kun jij een meerderheid vinden). Gebouwd: migratie 014 (`raw.kamerstukdossier`, `raw.zaak_kamerstukdossier`, `core.beleidsterrein_commissie` handmatig, `core.dossier`, `core.zaak_dossier`, `analyses.cohesie_terrein`, `api.cohesie_terrein`, `api.beleidsterrein_periode`) en `pipeline/dossiers.py`, dat meedraait in de dagelijkse verversing. Nog na te kijken door Niels: de koppeltabel van commissie naar beleidsterrein (39 rijen, vijftien terreinen inclusief Overig).
+
 ## Gebruiksvoorwaarden open data
 
 Op data.overheid.nl staat de dataset met licentie CC0 1.0 (22 oktober 2026). De licentielink in de sectie "Hergebruik" is daar leeg en de API-pagina op developer.overheid.nl vermeldt niets over licentie of limieten. Niet gecontroleerd: foto's van Kamerleden, tekst van documenten, persoonsgegevens. Voorstel voor de voetnoot: de bron noemen, ook al is dat niet verplicht.
