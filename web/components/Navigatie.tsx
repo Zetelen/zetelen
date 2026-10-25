@@ -9,6 +9,7 @@ import s from "./kader.module.css";
 const MENU = [
   { href: "/verkenner", tekst: "Verkenner" },
   { href: "/fracties", tekst: "Fracties" },
+  { href: "/coalitie", tekst: "Coalitie" },
   { href: "/methodiek", tekst: "Methodiek" },
   { href: "/over", tekst: "Over" },
 ];

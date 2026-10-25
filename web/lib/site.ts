@@ -17,4 +17,4 @@ export function siteUrl(): URL {
 }
 
 // Publieke pagina's, voor de sitemap
-export const PAGINAS = ["/", "/verkenner", "/fracties", "/methodiek", "/wijzigingen", "/over"];
+export const PAGINAS = ["/", "/verkenner", "/fracties", "/coalitie", "/methodiek", "/wijzigingen", "/over"];
