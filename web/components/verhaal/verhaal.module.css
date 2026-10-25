@@ -80,19 +80,22 @@
 .verhaal[data-tijdlijn="true"] .figuur {
   grid-column: 2;
   grid-row: 1;
+  /* Bovenin het beeld in plaats van gecentreerd: geen lege band tussen de opening en de zaal */
+  align-items: flex-start;
+  padding-top: 8vh;
 }
 .verhaal[data-tijdlijn="true"] .kaarten {
   grid-column: 1;
   grid-row: 1;
   margin: 0;
-  padding: 40vh 0 40vh;
+  padding: 18vh 0 40vh;
   pointer-events: auto;
 }
 .verhaal[data-tijdlijn="true"] .kaarten::before {
   content: "";
   position: absolute;
   left: 7px;
-  top: 40vh;
+  top: 18vh;
   bottom: 40vh;
   width: 2px;
   background: var(--lijn);
