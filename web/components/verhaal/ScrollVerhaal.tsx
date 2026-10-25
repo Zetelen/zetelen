@@ -1,13 +1,21 @@
 "use client";
-// Scroll graphic (ontwerp: docs/ontwerp/scroll-graphics.md): een vaste tekening met tekstkaarten die
-// eroverheen scrollen. Staat een kaart het dichtst bij het midden van het scherm, dan schuiven de stippen naar
-// hun plek in die stap. Alleen kijken, geen klikken. Plekken rekent de server uit (lib/verhaal.ts).
-import { useEffect, useRef, useState } from "react";
+// Scroll graphic (ontwerp: docs/ontwerp/scroll-graphics.md): een vaste tekening met tekstkaarten ernaast
+// (tijdlijn) of eroverheen. Staat een kaart het dichtst bij het midden van het scherm, dan schuiven de
+// stippen naar hun plek in die stap. Alleen kijken, geen klikken. Plekken rekent de server uit (lib/verhaal.ts).
+import { type CSSProperties, useEffect, useRef, useState } from "react";
 import type { Stap, Verhaal } from "@/lib/verhaal";
 import { MIDDEN } from "@/lib/zaal";
 import s from "./verhaal.module.css";
 
-export function ScrollVerhaal({ verhaal, label, hoogteSmal = 555 }: { verhaal: Verhaal; label: string; hoogteSmal?: number }) {
+type Props = {
+  verhaal: Verhaal;
+  label: string;
+  hoogteSmal?: number; // hoogte van de tekening op smalle schermen (viewBox)
+  stapHoogte?: string; // scrollafstand per stap
+  tijdlijn?: boolean; // kaarten links als tijdlijn, tekening rechts (op brede schermen)
+};
+
+export function ScrollVerhaal({ verhaal, label, hoogteSmal = 555, stapHoogte = "100vh", tijdlijn = false }: Props) {
   const [smal, setSmal] = useState(false);
   const [actief, setActief] = useState(0);
   const lijst = useRef<HTMLOListElement>(null);
@@ -20,17 +28,19 @@ export function ScrollVerhaal({ verhaal, label, hoogteSmal = 555 }: { verhaal: V
     return () => m.removeEventListener("change", kies);
   }, []);
 
-  // Actieve stap: de kaart waarvan de tekst het dichtst bij het midden van het scherm staat.
+  // Actieve stap: de kaart waarvan de tekst het dichtst bij de leeslijn staat: het midden van het scherm,
+  // op smalle schermen lager (78%), zodat de kaart onder de tekening blijft.
   // Rekenen bij het scrollen, hooguit een keer per beeldje (requestAnimationFrame).
   useEffect(() => {
     let wacht = false;
     const kies = () => {
       wacht = false;
       const kaarten = lijst.current?.querySelectorAll<HTMLElement>("[data-stap] > div") ?? [];
+      const leeslijn = innerHeight * (innerWidth <= 640 ? 0.78 : 0.5);
       let beste = 0, afstand = Infinity;
       kaarten.forEach((k, i) => {
         const r = k.getBoundingClientRect();
-        const d = Math.abs((r.top + r.bottom) / 2 - innerHeight / 2);
+        const d = Math.abs((r.top + r.bottom) / 2 - leeslijn);
         if (d < afstand) { afstand = d; beste = i; }
       });
       setActief(beste);
@@ -50,19 +60,19 @@ export function ScrollVerhaal({ verhaal, label, hoogteSmal = 555 }: { verhaal: V
   const hoogte = smal ? hoogteSmal : 555;
 
   return (
-    <div className={s.verhaal}>
+    <div className={s.verhaal} data-tijdlijn={tijdlijn} style={{ "--stap": stapHoogte } as CSSProperties}>
       <div className={s.figuur}>
         <svg viewBox={`-60 -50 1120 ${hoogte}`} className={s.svg} role="img" aria-label={`${label}: ${stap.datum}. ${stap.tekst}`}>
           {alle.map((k) => {
             const p = hier.get(k);
             return (
               <circle key={k} r={10.5} className={s.stip} data-kleur={p?.kleur ?? ""} data-weg={p ? "nee" : "ja"}
-                style={{ transform: p ? `translate(${p.x}px, ${p.y}px)` : `translate(${MIDDEN.x}px, ${MIDDEN.y}px)` }} />
+                style={{ fill: p?.tint, transform: p ? `translate(${p.x}px, ${p.y}px)` : `translate(${MIDDEN.x}px, ${MIDDEN.y}px)` }} />
             );
           })}
           <g aria-hidden="true">
             {stap.labels.map((l, i) => (
-              <text key={`${actief}-${i}`} x={l.x} y={l.y} textAnchor={l.anchor} className={s.label}>
+              <text key={`${actief}-${i}`} x={l.x} y={l.y} textAnchor={l.anchor} className={s.label} style={l.tint ? { fill: l.tint } : undefined}>
                 {l.tekst}{l.waarde ? <tspan className={s.waarde}> {l.waarde}</tspan> : null}
               </text>
             ))}

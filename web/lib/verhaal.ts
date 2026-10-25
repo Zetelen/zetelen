@@ -2,9 +2,10 @@
 // De server rekent per stap de plek van elke stip uit; de browser verplaatst alleen nog stippen.
 import { MIDDEN, punt, zetels as zaalZetels } from "./zaal";
 
-export type Kleur = "koper" | "goud" | "zacht" | null;
-export type Stip = { key: string; x: number; y: number; kleur: Kleur };
-export type Tekstlabel = { x: number; y: number; tekst: string; waarde?: string; anchor?: "start" | "middle" | "end" };
+// Nadruk per stip: kabinet (gouden rand), nadruk (lichte rand), uit (gedimd), zacht (sterk gedimd)
+export type Kleur = "kabinet" | "nadruk" | "uit" | "zacht" | null;
+export type Stip = { key: string; x: number; y: number; kleur: Kleur; tint: string };
+export type Tekstlabel = { x: number; y: number; tekst: string; waarde?: string; anchor?: "start" | "middle" | "end"; tint?: string };
 export type Stap = { datum: string; tekst: string; stippen: Stip[]; labels: Tekstlabel[]; groot?: string; klein?: string };
 export type Verhaal = { breed: Stap[]; smal?: Stap[] }; // smal: alleen als het op mobiel anders is
 export const rond = (n: number) => Math.round(n * 10) / 10;
@@ -20,9 +21,38 @@ export const VOORGANGER: Record<string, string[]> = {
 };
 export const KORT: Record<string, string> = { "GroenLinks-PvdA": "GL-PvdA", "Nieuw Sociaal Contract": "NSC", ChristenUnie: "CU", "Groep Markuszower": "Gr. Markuszower" };
 
+// Eigen palet per fractie (geen partijkleuren: besluit 22 oktober 2026). Tien tinten, elk minstens
+// 6:1 contrast op nacht-950. Fracties met minder dan 5 zetels in elke stap delen een neutrale tint.
+export const PALET = ["#7fb7c9", "#e0915a", "#a08fe0", "#6fbf8e", "#e57f93", "#d2bb5a", "#5f93dc", "#4fb8ad", "#c2885c", "#b9bfcc"];
+export const KLEIN = "#6d7590";
+// Een opvolger die de fractie voortzet (naamswijziging), houdt de tint
+export const ERFT_TINT: Record<string, string> = { PRO: "GroenLinks-PvdA" };
+
 const rang = (f: string) => { const i = VOLGORDE.indexOf(f); return i < 0 ? VOLGORDE.length : i; };
 
 export type ZaalStip = { fractie: string; x: number; y: number; hoek: number };
+
+// Tint per fractie: grote fracties krijgen, in zaalvolgorde, de eerste tint die geen andere grote fractie
+// in dezelfde stap al heeft. Zo zijn buren en tijdgenoten altijd verschillend; een tint komt pas terug
+// bij een fractie die nooit tegelijk in de Kamer zat.
+export function tinten(verdelingen: Array<Record<string, number>>): Map<string, string> {
+  const max = new Map<string, number>();
+  for (const v of verdelingen) for (const [f, n] of Object.entries(v)) max.set(f, Math.max(max.get(f) ?? 0, n));
+  const groot = (f: string) => (max.get(f) ?? 0) >= 5;
+  const samen = new Map<string, Set<string>>();
+  for (const v of verdelingen) {
+    const hier = Object.keys(v).filter((f) => v[f] > 0 && groot(f));
+    for (const f of hier) for (const g of hier) if (f !== g) samen.set(f, (samen.get(f) ?? new Set()).add(g));
+  }
+  const uit = new Map<string, string>();
+  for (const f of [...max.keys()].sort((a, b) => rang(a) - rang(b) || a.localeCompare(b))) {
+    if (ERFT_TINT[f] && uit.has(ERFT_TINT[f])) { uit.set(f, uit.get(ERFT_TINT[f])!); continue; }
+    if (!groot(f)) { uit.set(f, KLEIN); continue; }
+    const bezet = new Set([...(samen.get(f) ?? [])].map((g) => uit.get(g)).filter(Boolean));
+    uit.set(f, PALET.find((t) => !bezet.has(t)) ?? PALET[uit.size % PALET.length]);
+  }
+  return uit;
+}
 
 // De zaal voor een verdeling van zetels, in de vaste volgorde (onbekende fracties achteraan, op naam)
 export function zaal(zetels: Record<string, number>): ZaalStip[] {
@@ -54,13 +84,13 @@ export function sleutels(stappen: ZaalStip[][]): string[][] {
 }
 
 // Labels buiten het hoefijzer, voor fracties vanaf 5 zetels
-export function zaalLabels(stippen: ZaalStip[]): Tekstlabel[] {
+export function zaalLabels(stippen: ZaalStip[], tint?: Map<string, string>): Tekstlabel[] {
   const per = new Map<string, ZaalStip[]>();
   for (const z of stippen) per.set(z.fractie, [...(per.get(z.fractie) ?? []), z]);
   return [...per].filter(([, zs]) => zs.length >= 5).map(([f, zs]) => {
     const h = zs.reduce((t, z) => t + z.hoek, 0) / zs.length;
     const p = punt(475, h);
-    return { x: Math.round(p.x), y: Math.round(p.y), tekst: KORT[f] ?? f, waarde: String(zs.length),
+    return { x: Math.round(p.x), y: Math.round(p.y), tekst: KORT[f] ?? f, waarde: String(zs.length), tint: tint?.get(f),
       anchor: p.x < MIDDEN.x - 40 ? "end" : p.x > MIDDEN.x + 40 ? "start" : "middle" };
   });
 }

@@ -2,6 +2,12 @@
 
 Concept, 25 oktober 2026. Gebouwd als conceptpagina `/verhaal` (niet in het menu, niet in de sitemap) tot Niels akkoord is voor de voorpagina; graphic 1 rekent alle stappen, datums en aantallen uit de data, graphic 2 leest de stemming uit `web/content/verhaal-stemming.json` (controle: `db/controles/verhaal_stemming.sql`). Op basis van de vragen aan Niels (24 en 25 oktober 2026). Werkende schets met echte cijfers: `docs/ontwerp/scroll/schets.html` (open via een lokale webserver, bijvoorbeeld `python3 -m http.server` in die map).
 
+## Feedback Niels, 25 oktober 2026 (verwerkt)
+
+- Elke fractie een eigen kleur, uit een eigen palet van tien tinten (geen partijkleuren, besluit 22 oktober 2026). Fracties die tegelijk in de Kamer zitten krijgen nooit dezelfde tint; fracties onder de 5 zetels delen een neutrale tint. PRO houdt de tint van GroenLinks-PvdA. Het kabinet krijgt een gouden rand, de oppositie wordt gedimd.
+- Tekstkaarten als tijdlijn: op brede schermen links langs een verticale lijn, met de datum groot bij een punt; de zaal staat rechts stil. Op smalle schermen kaarten onder de zaal.
+- Graphic 1 is het verhaal "Hoe zijn we hier gekomen?" op `/verhaal`. Graphic 2 krijgt een andere plek: voorlopig `/verhaal/stemming`, met minder scrollafstand per stap (60vh).
+
 ## Uitgangspunten (besluiten Niels)
 
 - Op de voorpagina, als het overkoepelende verhaal. Verhaalpagina's kunnen later.

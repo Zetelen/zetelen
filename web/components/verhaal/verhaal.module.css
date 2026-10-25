@@ -23,7 +23,7 @@
   pointer-events: none;
 }
 .kaart {
-  min-height: 100vh;
+  min-height: var(--stap, 100vh);
   display: flex;
   align-items: flex-end;
   padding-bottom: 12vh;
@@ -50,22 +50,92 @@
   font-size: var(--tekst-data);
   color: var(--koper);
 }
+
+/* Tijdlijn: kaarten links langs een verticale lijn, tekening rechts */
+.verhaal[data-tijdlijn="true"] {
+  display: grid;
+  grid-template-columns: minmax(240px, 320px) minmax(0, 1fr);
+  column-gap: var(--r-7);
+}
+.verhaal[data-tijdlijn="true"] .figuur {
+  grid-column: 2;
+  grid-row: 1;
+}
+.verhaal[data-tijdlijn="true"] .kaarten {
+  grid-column: 1;
+  grid-row: 1;
+  margin: 0;
+  padding: 40vh 0 40vh;
+  pointer-events: auto;
+}
+.verhaal[data-tijdlijn="true"] .kaarten::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 40vh;
+  bottom: 40vh;
+  width: 2px;
+  background: var(--lijn);
+}
+.verhaal[data-tijdlijn="true"] .kaart {
+  position: relative;
+  min-height: var(--stap, 100vh);
+  align-items: flex-start;
+  padding: 0 0 0 var(--r-6);
+}
+.verhaal[data-tijdlijn="true"] .kaart::before {
+  content: "";
+  position: absolute;
+  left: 1px;
+  top: 10px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--nacht-950);
+  border: 2px solid var(--lijn-licht);
+  transition: background 400ms, border-color 400ms;
+}
+.verhaal[data-tijdlijn="true"] .kaart[data-actief="true"]::before {
+  background: var(--koper);
+  border-color: var(--koper);
+}
+.verhaal[data-tijdlijn="true"] .kaart > div {
+  padding: 0;
+  background: none;
+  border: 0;
+  max-width: none;
+}
+.verhaal[data-tijdlijn="true"] .datum {
+  font-family: var(--serif);
+  font-size: 28px;
+  line-height: 1.15;
+  color: var(--tekst-zacht);
+  margin-bottom: var(--r-2);
+  transition: color 400ms;
+}
+.verhaal[data-tijdlijn="true"] .kaart[data-actief="true"] .datum {
+  color: var(--koper);
+}
+
 .stip {
   fill: var(--nacht-700);
-  stroke: var(--lijn-licht);
+  stroke: var(--nacht-950);
   stroke-width: 1.5;
-  transition: transform var(--duur-verhaal, 900ms) cubic-bezier(0.6, 0, 0.2, 1), fill 500ms, opacity 500ms;
+  transition: transform var(--duur-verhaal, 900ms) cubic-bezier(0.6, 0, 0.2, 1), fill 500ms, opacity 500ms, stroke 500ms;
 }
-.stip[data-kleur="koper"] {
-  fill: var(--koper);
-  stroke: var(--koper);
-}
-.stip[data-kleur="goud"] {
-  fill: var(--goud);
+.stip[data-kleur="kabinet"] {
   stroke: var(--goud);
+  stroke-width: 3.5;
+}
+.stip[data-kleur="nadruk"] {
+  stroke: var(--tekst);
+  stroke-width: 3.5;
+}
+.stip[data-kleur="uit"] {
+  opacity: 0.35;
 }
 .stip[data-kleur="zacht"] {
-  opacity: 0.25;
+  opacity: 0.15;
 }
 .stip[data-weg="ja"] {
   opacity: 0;
@@ -90,6 +160,34 @@
   font-size: 14px;
   fill: var(--tekst-zacht);
   text-anchor: middle;
+}
+@media (max-width: 900px) {
+  /* Smal: de tijdlijn valt terug op kaarten over de tekening heen */
+  .verhaal[data-tijdlijn="true"] {
+    display: block;
+  }
+  .verhaal[data-tijdlijn="true"] .kaarten {
+    margin-top: -100vh;
+    padding: 0;
+    pointer-events: none;
+  }
+  .verhaal[data-tijdlijn="true"] .kaarten::before,
+  .verhaal[data-tijdlijn="true"] .kaart::before {
+    display: none;
+  }
+  .verhaal[data-tijdlijn="true"] .kaart {
+    align-items: flex-end;
+    padding: 0 0 6vh;
+  }
+  .verhaal[data-tijdlijn="true"] .kaart > div {
+    pointer-events: auto;
+    padding: var(--r-4);
+    background: color-mix(in srgb, var(--nacht-800) 92%, transparent);
+    border: 1px solid var(--lijn);
+  }
+  .verhaal[data-tijdlijn="true"] .datum {
+    font-size: 22px;
+  }
 }
 @media (max-width: 640px) {
   .figuur {
