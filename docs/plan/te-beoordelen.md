@@ -130,6 +130,8 @@ Ook vergeleken: de aantallen per jaar met de telling in de API. In 2010 tellen w
 **Correctie op wat ik eerder schreef**
 Het "onbekende terrein" bij 23 van de 59 beslissende stemmingen van JA21 kwam uit mijn eigen analyse-script, dat rijen kwijtraakte bij het ophalen in pagina's. Op de site ontbrak alleen één stemming, en die staat er nu in.
 
+**Incident, opgelost:** zes CI-runs waren rood, van commit `41b886d` tot en met `6ec9938`. Oorzaak: Oppositiewerk gaf een fout als de database niet bereikbaar was, en in CI bouwt de site zonder database. De live site op Vercel had er geen last van. Opgelost in `849ee70`: zonder ingestelde database toont de pagina een lege staat, mét database een fout, zodat de laatste goede versie blijft staan. CI is weer groen.
+
 **Bekende beperkingen op de telefoon (nog niet opgelost)**
 - Lezingen (proef): de grafieken schalen mee, maar de letters worden dan klein. Komen de lezingen vast op de site, dan maak ik er een smalle versie van.
 - Oppositiewerk: werkt, maar de stippen zijn op een telefoon klein. Hoofdstuk 4 en 5 zijn op een smal scherm minder goed te lezen dan op desktop.
