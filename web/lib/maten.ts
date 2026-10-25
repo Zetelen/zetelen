@@ -13,7 +13,7 @@ export const MATEN: Maat[] = [
       "het aantal gezamenlijke stemmingen met dezelfde stem, gedeeld door het aantal gezamenlijke stemmingen, maal 100. Bij minder dan 25 gezamenlijke stemmingen geen percentage maar \"te weinig data\".",
     keuzes: [
       "Per kabinet en per Kamerperiode. Een kabinet loopt tot het volgende is beëdigd: de demissionaire tijd telt mee bij het kabinet waar die uit voortkomt.",
-      "Twee varianten: alle stemmingen, en alleen de stemmingen waarover de Kamer verdeeld was (minstens één fractie voor en één tegen). Veel stemmingen zijn unaniem; de tweede variant laat die weg.",
+      "Twee varianten: alle stemmingen, en alleen de stemmingen waarover de Kamer verdeeld was (minstens één fractie voor en één tegen). Per kabinet is 7 tot 17 procent van de stemmingen unaniem; de tweede variant laat die weg.",
       "Een stem die de fractie zelf als vergissing heeft gemeld, telt niet mee: de bron zegt niet wat de fractie wel bedoelde.",
       "Bij een hoofdelijke stemming en een gelijke stand binnen de fractie is er geen fractiestem.",
       "Hamerstukken en besluiten zonder stemming tellen niet mee.",

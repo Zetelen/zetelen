@@ -36,7 +36,7 @@ export default async function VerkennerPagina({ searchParams }: Props) {
     <Inhoud>
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
         <Label>Verkenner</Label>
-        <SectieKop>Elke fractie tegenover elke andere</SectieKop>
+        <SectieKop>Met wie stemt een fractie het vaakst hetzelfde?</SectieKop>
         <div className={o.alleenBreed}>
           <PeriodeKeuze perioden={lijst} soort={soort} periode={periode?.naam ?? null} variant={variant} />
         </div>
@@ -51,17 +51,16 @@ export default async function VerkennerPagina({ searchParams }: Props) {
 
       <Inklapbaar titel="Zo lees je dit" className={s.leeswijzer}>
           <Tekst>
-            Kies een fractie in de lijst naast de zaal. Die licht op in koper; de andere fracties kleuren naar het aandeel stemmingen waarop zij
-            dezelfde kant kozen. Licht is een hoge cohesie, donker een lage. Gearceerd betekent te weinig gezamenlijke
-            stemmingen (minder dan 25) om iets te zeggen.
+            Kies een fractie in de lijst en kijk wie er meekleurt. Lichte stoelen stemden vaak hetzelfde, donkere zelden.
+            Gestreept: te weinig stemmingen samen, dus geen oordeel.
           </Tekst>
           <Tekst>
-            Veel stemmingen zijn unaniem; die maken iedereen een beetje eensgezind. Met &quot;alleen verdeelde
-            stemmingen&quot; tel je alleen de stemmingen waarover de Kamer verdeeld was, en zie je de verschillen scherper.
+            Een klein deel van de stemmingen is unaniem: iedereen voor of iedereen tegen. Wil je die niet meetellen? Kies dan
+            &quot;alleen verdeelde stemmingen&quot;.
           </Tekst>
           <Tekst>
-            Zaal, boog en tabel tonen dezelfde cijfers; de tabel is het meest precies.{" "}
-            <Link href="/methodiek#cohesie">Hoe is dit berekend?</Link>
+            Zaal, boog of tabel: dezelfde cijfers, drie manieren van kijken. De tabel is het preciest.{" "}
+            <Link href="/methodiek#cohesie">Benieuwd hoe we tellen?</Link>
           </Tekst>
         </Inklapbaar>
       <div className={s.indeling}>
@@ -70,8 +69,8 @@ export default async function VerkennerPagina({ searchParams }: Props) {
             <LegeStaat label="Niet bereikbaar" titel="De cijfers konden niet worden geladen"
               uitleg="De gegevens zijn nu waarschijnlijk niet bereikbaar. Probeer het over een paar minuten opnieuw." />
           ) : !periode || !fracties?.length || !kaart ? (
-            <LegeStaat label="Geen stemmingen" titel={`Geen stemmingen in ${soortTekst}`}
-              uitleg={`Voor de gekozen periode zijn er geen stemmingen om te vergelijken. Kies een ander ${soort === "kabinet" ? "kabinet" : "Kamerperiode"}.`}
+            <LegeStaat label="Geen stemmingen" titel="Hier is niet gezeteld"
+              uitleg={`In ${soortTekst} zijn geen stemmingen om te vergelijken. Kies een ander ${soort === "kabinet" ? "kabinet" : "Kamerperiode"}.`}
               terug={{ href: "/verkenner", tekst: "Naar het nieuwste kabinet" }} />
           ) : (
             <Suspense>

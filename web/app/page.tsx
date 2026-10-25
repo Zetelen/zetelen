@@ -15,8 +15,8 @@ import s from "./voorpagina.module.css";
 const TOOLS = [
   { href: "/verkenner", titel: "Verkenner", tekst: "Kies een fractie en zie hoe vaak elke andere fractie met haar meestemde, per kabinet of Kamerperiode." },
   { href: "/onderwerpen", titel: "Onderwerpen", tekst: "Waar zijn fracties het over eens? Cohesie per beleidsterrein, voor elk paar fracties.", concept: true },
-  { href: "/fracties", titel: "Fracties", tekst: "Alle fracties sinds 2010: zetels, kabinet of oppositie, en wie er overstapte." },
   { href: "/coalitie", titel: "Coalitiebouwer", tekst: "Stel zelf een groep fracties samen en zie bij wie die een meerderheid haalde.", concept: true },
+  { href: "/fracties", titel: "Fracties", tekst: "Alle fracties sinds 2010: zetels, kabinet of oppositie, en wie er overstapte." },
   { href: "/methodiek", titel: "Methodiek", tekst: "Hoe de cijfers tot stand komen, wat ze wel en niet zeggen, en wat er veranderde." },
 ];
 
@@ -30,11 +30,11 @@ export default async function Voorpagina() {
   return (
     <Inhoud>
       <section className={s.opening}>
-        <Label>Zetelen</Label>
-        <HeroKop>Wat de Tweede Kamer stemt, en met wie</HeroKop>
+        <Label>zetelen (ww.) · stemmen, onderhandelen en meetellen in de Tweede Kamer</Label>
+        <HeroKop>Wie stemt met wie in de Kamer?</HeroKop>
         <Tekst>
-          Zetelen volgt elke stemming in de Tweede Kamer sinds 2010. Scroll door het verhaal van de afgelopen jaren, of ga
-          direct naar wat je zoekt.
+          In de Kamer wordt veel gepraat. Uiteindelijk telt wie zijn hand opsteekt. Zetelen telt mee, bij elke stemming sinds
+          2010. Scroll door vier jaar Kamer, of ga meteen zelf op zoek.
         </Tekst>
         <nav className={s.snel} aria-label="Direct naar">
           {TOOLS.map((t) => (
@@ -43,7 +43,7 @@ export default async function Voorpagina() {
               {t.concept && <span className={s.concept}>concept</span>}
             </Link>
           ))}
-          <a href="#verder" className={s.overslaan}>Sla het verhaal over</a>
+          <a href="#verder" className={s.overslaan}>Meteen zelf kijken</a>
         </nav>
       </section>
 
@@ -56,7 +56,7 @@ export default async function Voorpagina() {
       {partners && paar && u && kabinet && (
         <section className={s.hoofdstuk} style={{ maxWidth: 960 }}>
           <Label>3 · Waar zijn ze het over eens?</Label>
-          <SectieKop>Samen in het kabinet, niet overal eens</SectieKop>
+          <SectieKop>Samen in het kabinet. Overal eens?</SectieKop>
           <Tekst>
             {partners.a.afkorting} en {partners.b.afkorting} zijn de grootste partijen van kabinet-{kabinet.naam}
             {partners.totaal != null ? ` en stemmen in ${procent(partners.totaal)} van de stemmingen hetzelfde` : ""}. Per onderwerp
@@ -72,7 +72,7 @@ export default async function Voorpagina() {
 
       <section className={s.hoofdstuk}>
         <Label>4 · Kun jij een meerderheid vinden?</Label>
-        <SectieKop>Zoek mee naar 76 zetels</SectieKop>
+        <SectieKop>Kun jij er 76 vinden?</SectieKop>
         <Tekst>
           {kabinet && kabinet.zetels < 76
             ? `Kabinet-${kabinet.naam} heeft ${kabinet.zetels} zetels en heeft er 76 nodig voor een meerderheid. `
@@ -84,7 +84,7 @@ export default async function Voorpagina() {
       </section>
 
       <section id="verder" className={s.hoofdstuk} style={{ maxWidth: "none" }}>
-        <Label>Verder op Zetelen</Label>
+        <Label>Maar hoe werd er nou echt gezeteld? Kijk zelf</Label>
         <div className={s.tegels}>
           {TOOLS.map((t) => (
             <Link key={t.href} href={t.href} className={s.tegel}>

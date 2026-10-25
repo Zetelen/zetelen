@@ -110,7 +110,7 @@ export function zaalVerhaal(d: VerhaalData): Stap[] {
       tint: (f) => (f === wie ? "var(--koper)" : cohesie(wie, f) != null ? schaalkleur(cohesie(wie, f)!) : KLEIN),
       waarde: (f) => (f === wie ? undefined : cohesie(wie, f) != null ? procent(cohesie(wie, f)) : undefined) });
   };
-  cohesieStap(kabinetsfractie, "Hoe stemt elke partij nu? Neem de grootste kabinetspartij:", "2 · Hoe stemt elke partij nu?");
+  cohesieStap(kabinetsfractie, "Neem de grootste kabinetspartij:", "2 · Wie stemt er nu met wie?");
   cohesieStap(oppositie, "En de grootste oppositiepartij:", undefined, { href: "/verkenner", tekst: "Kies zelf een fractie in de verkenner" });
 
   const zalen: ZaalStip[][] = ruw.map((r) => zaal(r.zetels));

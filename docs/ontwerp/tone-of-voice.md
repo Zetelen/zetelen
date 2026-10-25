@@ -39,6 +39,23 @@ Zetelen is de nieuwsgierige buurman die alles over de Kamer heeft bijgehouden: h
 - Woorden die een oordeel inkleuren: "flip-flop", "dwarsligger", "trouw", "verraad".
 - Vakjargon zonder uitleg: eerst "stemden hetzelfde", pas daarna in de methodiek "cohesie".
 
+## Zetelen als werkwoord
+
+Idee van Niels (25 oktober 2026): de naam is ook een werkwoord. **zetelen (ww.): stemmen, onderhandelen en meetellen in de Tweede Kamer.** Het is de vaste droge knipoog van het merk.
+
+Voorbeelden:
+- "Maar hoe werd er nou echt gezeteld?" (overgang naar de tools)
+- "Hier is niet gezeteld." (lege staat: geen stemmingen in een periode)
+- "Uitstekend gezeteld: 78 zetels." (coalitiebouwer, als de bezoeker een meerderheid samenstelt)
+- "Dat is een knap staaltje zetelwerk." (coalitiebouwer, krappe meerderheid van precies 76)
+- "Er wordt nog gezeteld." (laden)
+
+Regels:
+- **Het onderwerp is de Kamer als geheel of de bezoeker, nooit één fractie of één Kamerlid.** "Uitstekend gezeteld" tegen de bezoeker is een grap; over een partij is het een oordeel.
+- Telt mee als de knipoog van de pagina (hooguit één).
+- Niet in lezingen, deelplaatjes of foutmeldingen over data.
+- Vervoegingen: ik zetel, er wordt gezeteld, hij heeft gezeteld; zelfstandig: het zetelwerk.
+
 ## Woordenlijst
 
 | We zeggen | We zeggen niet | Waarom |
@@ -58,7 +75,7 @@ Zetelen is de nieuwsgierige buurman die alles over de Kamer heeft bijgehouden: h
 
 ## Proef: voorpagina en verkenner
 
-Ter beoordeling. Nog niet op de site.
+Toegepast op de site op 25 oktober 2026 (akkoord Niels), met "zetelen" op drie plekken: het label boven de kop ("zetelen (ww.)"), de overgang naar de tools ("Maar hoe werd er nou echt gezeteld? Kijk zelf") en de lege staat van de verkenner ("Hier is niet gezeteld"). Hoofdstuk 2 heet nu "Wie stemt er nu met wie?". Ook de zin over unanieme stemmingen in de methodiek is gecorrigeerd.
 
 | Plek | Nu | Voorstel |
 |---|---|---|
