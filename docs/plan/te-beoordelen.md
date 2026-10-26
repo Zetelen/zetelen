@@ -14,6 +14,7 @@ Bijgewerkt op 26 oktober 2026, 's avonds. Hier staat alleen wat nog open is. **V
 | ☐ K9 | Nieuw: Hoe lang duurt een wet?, Tegen het advies in (B18), en een eigen beeld per stemming op Uitgelicht | bekijken | nee | hieronder |
 | ☐ K10 | Stemgenoten (concept): 25 stellingen nakijken, 8 gemarkeerd met "nakijken" | controleren | ja, voor Stemgenoten | [stemgenoten-controle.md](stemgenoten-controle.md) |
 | ☐ S4 | Stemgenoten: twee meelezers met een andere politieke kleur vragen, en de naam controleren in het merkenregister (boip.int) | uitvoeren | ja, voor Stemgenoten | hieronder |
+| ☐ B20 | Prestaties: koplettertype lichter maken of zo laten (advies: zo laten) | besluit | nee | hieronder |
 | ☐ S5 | Claude API-sleutel met maandlimiet (voor de pipeline, na de feedbackrondes) | uitvoeren | nee | [morgen.md](morgen.md) |
 | ☐ L1 | Bij de livegang: sitemap indienen en PageSpeed draaien | uitvoeren | nee, na de livegang | hieronder |
 
@@ -54,6 +55,15 @@ Vraag: kloppen de omschrijvingen, en is de spreiding over partijen goed zo?
 - **Eigen beeld per stemming:** weegschaal (gehandicaptenzorg, live-weddenschappen), hoefijzer (Mercosur), van dichtbij (PvdA bij ritueel slachten). Zelfde keuze als bij de video's.
 
 ## B. Besluiten
+
+### ☐ B20. Prestaties: het koplettertype lichter maken?
+
+Na de nachtelijke ronde: mobiel 92 op de voorpagina en 91 op Oppositiewerk (was 87). De grootste resterende vertraging is het koplettertype Newsreader: met de as voor optische grootte is het bestand 130 kB, en de koppen wachten erop.
+
+- **A. Zo laten.** 92 is goed; de koppen houden hun huidige vorm.
+- **B. Zonder de optische-grootte-as.** Een kleiner bestand en een snellere eerste weergave van de koppen, maar grote koppen worden iets minder verfijnd (de letters zijn dan dezelfde snede als bij kleine tekst).
+
+**Advies: A**, tenzij je merkt dat de site op je telefoon traag aanvoelt. Het verschil zit vooral in de gesimuleerde meting op een langzame verbinding.
 
 ## S. Stappen voor jou
 

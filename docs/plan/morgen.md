@@ -48,6 +48,7 @@ gh secret set ANTHROPIC_API_KEY --repo Zetelen/zetelen
 ## Wat ik ondertussen doe (geen actie van jou)
 
 - B18 is gebouwd: https://zetelen.nl/uitgelicht/tegen-het-advies-in (bekijken bij K9).
-- Gedaan: toegankelijkheidscontrole (Lighthouse, mobiel): 100 op de voorpagina, Oppositiewerk, Kamerleden en Stemgenoten; op Onderwerpen en Hoe lang duurt een wet? was het contrast van niet-actieve tekstkaarten te laag, dat is verhoogd. Prestaties rond 87 op mobiel. Scroll graphics op de telefoon gecontroleerd op elke pagina.
+- Gedaan: de scroll graphics op de telefoon zijn groter (eigen uitsnede per stap, voor en tegen naast elkaar, leesbare letters); bekijk ze bij K1 en K7 op je telefoon.
+- Gedaan: toegankelijkheidscontrole (Lighthouse, mobiel): 100 op de voorpagina, Oppositiewerk, Kamerleden en Stemgenoten; op Onderwerpen en Hoe lang duurt een wet? was het contrast van niet-actieve tekstkaarten te laag, dat is verhoogd. Prestaties: van 87 naar 92 (voorpagina) en 91 (Oppositiewerk) op mobiel, door een ongebruikt cursief lettertype weg te laten. Een besluit over verder (B20) staat in de lijst. Scroll graphics op de telefoon gecontroleerd op elke pagina.
 - De methodiekpagina is bijgewerkt (initiatiefwetten, doorlooptijd, ontraden); Stemgenoten komt erbij als het live gaat.
 - Na jouw antwoorden: C4 verwerken, labels concept eraf waar je K-punten goedkeurt.
