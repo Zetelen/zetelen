@@ -1,0 +1,52 @@
+/* Grafiek brede steun per kabinet (voorpagina) */
+.figuur {
+  margin: 0;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-2);
+}
+.figuur svg {
+  width: 100%;
+  height: auto;
+}
+.lijn {
+  stroke: var(--lijn);
+}
+.as,
+.waarde {
+  font-family: var(--mono);
+  font-size: 13px;
+  fill: var(--tekst-zacht);
+}
+.waarde {
+  fill: var(--tekst);
+}
+.kabinet {
+  font-family: var(--sans);
+  font-size: 14px;
+  fill: var(--tekst);
+}
+.motie {
+  fill: var(--koper);
+  background: var(--koper);
+}
+.amendement {
+  fill: #7fb7c9;
+  background: #7fb7c9;
+}
+.legenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--r-2) var(--r-5);
+  font-size: 14px;
+  color: var(--tekst-zacht);
+}
+.legenda i {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  margin-right: 6px;
+  vertical-align: -1px;
+}

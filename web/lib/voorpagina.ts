@@ -164,3 +164,19 @@ export function samenwerking(rijen: PeriodeRij[], kabinet: string, eerste: strin
   if (!nu.length || oppositieNu == null || oppositieEerst == null) return null;
   return { moties: som(nu, "ingediend"), aangenomen: som(nu, "aangenomen"), breed: som(nu, "brede_steun"), oppositieNu, oppositieEerst, eerste };
 }
+
+// Brede steun per kabinet (feedback Niels K3, 26 oktober 2026): welk deel van de ingediende moties en amendementen
+// werd aangenomen met stemmen voor van ten minste één kabinets- en één oppositiefractie (die geen indiener is).
+// Per kabinet, niet per jaar: zo valt een wissel van kabinet niet midden in een staaf.
+export const KABINETTEN_SINDS_2010 = ["Rutte I", "Rutte II", "Rutte III", "Rutte IV", "Schoof", "Jetten"];
+export type BredeSteun = { kabinet: string; moties: number | null; amendementen: number | null };
+
+export function bredeSteunPerKabinet(rijen: PeriodeRij[]): BredeSteun[] {
+  const aandeel = (k: string, soort: string) => {
+    const rs = rijen.filter((r) => r.periode === k && r.soort === soort);
+    const ingediend = rs.reduce((t, r) => t + r.ingediend, 0);
+    return ingediend ? (100 * rs.reduce((t, r) => t + r.brede_steun, 0)) / ingediend : null;
+  };
+  return KABINETTEN_SINDS_2010.map((k) => ({ kabinet: k, moties: aandeel(k, "Motie"), amendementen: aandeel(k, "Amendement") }))
+    .filter((b) => b.moties != null || b.amendementen != null);
+}

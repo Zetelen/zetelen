@@ -15,7 +15,8 @@ import { ScrollVerhaal } from "@/components/verhaal/ScrollVerhaal";
 import { procent } from "@/lib/cohesie";
 import { cohesiePerTerrein, paarPerTerrein, uitersten } from "@/lib/onderwerpen";
 import type { Stap } from "@/lib/verhaal";
-import { kabinetNu, kabinetspartners, laadVerhaal, samenwerking, zaalVerhaal } from "@/lib/voorpagina";
+import { bredeSteunPerKabinet, kabinetNu, kabinetspartners, laadVerhaal, samenwerking, zaalVerhaal } from "@/lib/voorpagina";
+import { BredeSteun } from "@/components/BredeSteun";
 import { jaarWerk, periodeWerk } from "@/lib/zetelwerk";
 import s from "./voorpagina.module.css";
 
@@ -85,6 +86,17 @@ export default async function Voorpagina() {
       </section>
 
       <section className={s.opening}>
+        {/* Eén grafiek die de toon zet: samenwerken over de grens, per kabinet (feedback Niels K3, 26 oktober 2026) */}
+        {perPeriode && perPeriode.length > 0 && (
+          <>
+            <Label>Aangenomen met stemmen van kabinet én oppositie</Label>
+            <BredeSteun rijen={bredeSteunPerKabinet(perPeriode)} />
+            <Data>
+              Deel van alle ingediende moties en amendementen per kabinet dat werd aangenomen met stemmen voor van ten minste één
+              fractie uit het kabinet en één uit de oppositie, naast de indieners. Gedoogsteun telt als kabinet.
+            </Data>
+          </>
+        )}
         {/* De twee lezingen onder elkaar, elk met een vette openingszin (tekst akkoord Niels, 26 oktober 2026) */}
         <Tekst>Je kunt dat op twee manieren lezen.</Tekst>
         <Tekst>
