@@ -113,7 +113,7 @@ Besluit Niels, 25 oktober 2026 (advies van Claude gevolgd): standaard alleen ver
 
 ## Zetelwerk en Oppositiewerk (nacht 25 op 26 oktober 2026)
 
-Gebouwd op verzoek van Niels, die sliep: analyse zetelwerk (migraties 018 tot en met 020), de pagina's Kamerleden, Oppositiewerk en Lezingen (proef), en hoofdstuk 5 op de voorpagina. Alles met het label concept. Wat Niels moet beoordelen, staat in `docs/plan/te-beoordelen.md`.
+Gebouwd op verzoek van Niels, die sliep: analyse zetelwerk (migraties 018 tot en met 020), de pagina's Kamerleden, Oppositiewerk en Lezingen (proef), en hoofdstuk 5 op de voorpagina. Alles met het label concept. Wat Niels moet beoordelen, staat in `docs/plan/te-beoordelen.md`; wat afgehandeld is in `docs/plan/afgehandeld.md`.
 
 ## Gebruiksvoorwaarden open data
 

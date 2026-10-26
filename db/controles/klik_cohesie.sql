@@ -1,4 +1,4 @@
--- Vaste steekproef voor de nacontrole van cohesie (E2-S2), voor de kliktabel in docs/plan/te-beoordelen.md.
+-- Vaste steekproef voor de nacontrole van cohesie (E2-S2), voor de kliktabel in docs/plan/controles-stappenplan.md.
 -- Paar VVD en CDA onder Schoof, zoals steekproef_cohesie.sql, maar vast (volgorde op md5 van het id).
 -- Eerst 10 besluiten met beide stemmen, daarna de berekende cohesie. Fracties en zaaknummers, geen namen.
 with paar as (

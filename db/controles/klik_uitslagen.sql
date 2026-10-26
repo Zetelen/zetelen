@@ -1,4 +1,4 @@
--- Vaste steekproef van 10 besluiten voor de kliktabel in docs/plan/te-beoordelen.md (E7-S5).
+-- Vaste steekproef van 10 besluiten voor de kliktabel in docs/plan/controles-stappenplan.md (E7-S5).
 -- Vast in plaats van willekeurig (volgorde op md5 van het id), zodat iedereen dezelfde 10 krijgt.
 -- Alleen besluiten met een stemming per fractie en een zaak. Fracties en zaaknummers, geen namen.
 with steekproef as (

@@ -1,4 +1,4 @@
--- Kandidaten voor de opening van Onderwerpen (B16 in docs/plan/te-beoordelen.md): hoofdelijke stemmingen sinds
+-- Kandidaten voor de opening van Onderwerpen (B16 in docs/plan/afgehandeld.md): hoofdelijke stemmingen sinds
 -- 2016 waarin fracties verdeeld stemden en de uitslag krap was. Alleen datum, zaaknummer, soort en aantallen,
 -- geen namen. Draait via de workflow Controlequery.
 with per_fractie as (
