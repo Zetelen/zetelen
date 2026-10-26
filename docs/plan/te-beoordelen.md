@@ -11,7 +11,6 @@ Bijgewerkt op 26 oktober 2026, eind van de middag. Hier staat alleen wat nog ope
 | ☐ C1 tot en met C6 | Controles: uitslagen, cohesie, zetelwerk, afwijkende uitslagen (besluit), handmatige tabellen, bewaking | controleren en één besluit | ja | [controles-stappenplan.md](controles-stappenplan.md) |
 | ☐ K1, K2, K3, K5 | Opnieuw bekijken na de aanpassingen: Onderwerpen, Oppositiewerk, voorpagina, Kamerleden | bekijken | ja, voor het label concept | hieronder |
 | ☐ K7 | Uitgelicht: omschrijvingen en spreiding | bekijken | nee | hieronder |
-| ☐ K8 | Video's in de nieuwe stijl | bekijken | nee | hieronder |
 | ☐ B17 | Pipeline voor nieuwe casussen: vier vragen | besluit | nee | hieronder |
 | ☐ L1 | Bij de livegang: sitemap indienen en PageSpeed draaien | uitvoeren | nee, na de livegang | hieronder |
 
@@ -44,14 +43,6 @@ https://zetelen.nl/uitgelicht. Alle uitslagen zijn nagekeken tegen de besluittek
 - **Het behandelvoorbehoud** (2025Z05204) is formeel een brief van een commissie; de bron noemt BBB als indiener, en zo staat het er.
 
 Vraag: kloppen de omschrijvingen, en is de spreiding over partijen goed zo?
-
-### ☐ K8. Explainervideo's
-
-Alle formats in de nieuwe stijl: titel groot in beeld, geluid, lopende tekst die van links inschuift. Fracties die naar een Kamerlid heten, staan er als "Afsplitsing" in. Bekijk ze in `video/out/` (niet in git, te groot) of in Remotion Studio (`cd video && npm run studio`). Opzet: [video-pipeline.md](video-pipeline.md).
-- **Het vaste format** voor elke stemming (7 stuks).
-- **Varianten:** Weegschaal (gehandicaptenzorg, live-weddenschappen), Hoefijzer (Mercosur), Gelijke stand (studievoorschot), Eén fractie (ritueel slachten, motie over het asielplan) en de Tijdlijn.
-
-Goedgekeurd: Tijdlijn en studievoorschot. Vraag: zijn de andere goed, of wat moet anders?
 
 ## B. Besluiten
 
