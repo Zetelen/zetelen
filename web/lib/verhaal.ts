@@ -137,10 +137,15 @@ export function stemZaal(stemming: Stemming): StemStip[] {
 
 // Blokken per stem; gegroepeerd: per fractie een eigen rij met naam
 export function blokken(zaalStippen: StemStip[], gegroepeerd: boolean, smal: boolean): { stippen: Array<StemStip>; labels: Tekstlabel[]; kaders: Kader[] } {
+  // Smal: voor en tegen naast elkaar, acht stippen per rij (feedback Niels, 26 oktober 2026: op de telefoon te klein)
+  const stap = smal ? 31 : 23, kolommen = smal ? 8 : 18;
+  const telAantal = (s: string) => zaalStippen.filter((z) => z.stem === s).length;
+  const rijenVan = (s: string) => Math.ceil(telAantal(s) / kolommen) + (gegroepeerd ? new Set(zaalStippen.filter((z) => z.stem === s).map((z) => z.fractie)).size : 0);
+  const kortste = rijenVan("Voor") <= rijenVan("Tegen") ? "Voor" : "Tegen";
   const blok = smal
-    ? { Voor: { x: 200, y: 20 }, Tegen: { x: 200, y: 330 }, "Niet deelgenomen": { x: 200, y: 900 } }
+    ? { Voor: { x: 120, y: 20 }, Tegen: { x: 120 + kolommen * stap + 200, y: 20 },
+        "Niet deelgenomen": { x: kortste === "Voor" ? 120 : 120 + kolommen * stap + 200, y: 20 + rijenVan(kortste) * stap + 70 } }
     : { Voor: { x: 40, y: 0 }, Tegen: { x: 560, y: 0 }, "Niet deelgenomen": { x: 300, y: 420 } };
-  const stap = smal ? 31 : 23, kolommen = smal ? 27 : 18;
   const stippen: StemStip[] = [], labels: Tekstlabel[] = [], kaders: Kader[] = [];
   const marge = 5; // ruimte tussen stip en kader
   for (const s of STEMSOORTEN) {

@@ -15,9 +15,11 @@ export const revalidate = 3600;
 
 // next/font haalt de lettertypes bij het bouwen op en levert ze zelf uit:
 // bezoekers maken geen verbinding met Google
+// Alleen rechtop: de cursieve variant werd nergens gebruikt en kostte op elke pagina bijna 140 kB vooraf laden
+// (prestatie-audit 26 oktober 2026)
 const newsreader = Newsreader({
   subsets: ["latin"],
-  style: ["normal", "italic"],
+  style: ["normal"],
   axes: ["opsz"],
   variable: "--font-newsreader",
   display: "swap",

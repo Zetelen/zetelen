@@ -18,6 +18,27 @@ type Props = {
   breed?: boolean; // tekening over de volle breedte, kaarten eronder (feedback Niels K2, 26 oktober 2026)
 };
 
+// De omvang van alles wat in een van de stappen staat: stippen, labels (geschat op hun lengte), kaders en paden niet
+// (die liggen binnen de stippen of zijn assen); met wat ruimte eromheen
+type Box = { x: number; y: number; b: number; h: number };
+function omvang(stappen: Stap[]): Box {
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  const neem = (a: number, b: number, c: number, d: number) => { x0 = Math.min(x0, a); y0 = Math.min(y0, b); x1 = Math.max(x1, c); y1 = Math.max(y1, d); };
+  for (const st of stappen) {
+    for (const p of st.stippen) { const r = p.r ?? 10.5; neem(p.x - r, p.y - r, p.x + r, p.y + r); }
+    for (const l of st.labels) {
+      const b = (l.tekst.length + (l.waarde ? l.waarde.length + 1 : 0)) * 11;
+      const a = l.anchor === "end" ? l.x - b : l.anchor === "middle" ? l.x - b / 2 : l.x;
+      neem(a, l.y - 20, a + b, l.y + 6);
+    }
+    for (const k of st.kaders ?? []) neem(k.x, k.y, k.x + k.b, k.y + k.h);
+    if (st.groot) neem(MIDDEN.x - 150, MIDDEN.y - 90, MIDDEN.x + 150, MIDDEN.y + 10);
+  }
+  if (!Number.isFinite(x0)) return { x: -60, y: -50, b: 1120, h: 555 };
+  const rand = 16;
+  return { x: Math.round(x0 - rand), y: Math.round(y0 - rand), b: Math.round(x1 - x0 + 2 * rand), h: Math.round(y1 - y0 + 2 * rand) };
+}
+
 // Sleutel naar de inhoud; komt dezelfde inhoud vaker voor in een stap, dan telt het hoeveelste exemplaar mee
 function sleutel(basis: string, i: number, alle: string[]): string {
   return `${basis}#${alle.slice(0, i).filter((x) => x === basis).length}`;
@@ -83,6 +104,41 @@ export function ScrollVerhaal({ verhaal, label, hoogteSmal = 555, breedteSmal, s
   const alle = [...new Set(stappen.flatMap((st) => st.stippen.map((p) => p.key)))];
   const hier = new Map(stap.stippen.map((p) => [p.key, p]));
   const hoogte = smal ? hoogteSmal : 555;
+  // Telefoon: de tekening sluit aan op wat er echt in staat (over alle stappen), zodat stippen en letters groter
+  // worden; de letters krijgen daarbij een minimale maat op het scherm (feedback Niels, 26 oktober 2026: "op de
+  // telefoon zijn de visuals heel klein"). Een eigen telefoontekening (breedteSmal) houdt haar eigen maten.
+  const [schermBreedte, setSchermBreedte] = useState(0);
+  useEffect(() => {
+    const meet = () => setSchermBreedte(tekening.current?.getBoundingClientRect().width ?? 0);
+    meet();
+    addEventListener("resize", meet);
+    return () => removeEventListener("resize", meet);
+  }, []);
+  // Per stap een eigen uitsnede, die in 600 ms meebeweegt naar de volgende (anders maakt de hoogste stap alles klein)
+  const doel = smal && !breedteSmal ? omvang([stap]) : null;
+  const [passend, setPassend] = useState<Box | null>(null);
+  const huidig = useRef<Box | null>(null);
+  useEffect(() => {
+    if (!doel) { huidig.current = null; setPassend(null); return; }
+    const van = huidig.current ?? doel;
+    const start = performance.now();
+    let frame = 0;
+    const tik = (nu: number) => {
+      const t = Math.min(1, (nu - start) / 600), e = t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2;
+      const b = { x: van.x + (doel.x - van.x) * e, y: van.y + (doel.y - van.y) * e, b: van.b + (doel.b - van.b) * e, h: van.h + (doel.h - van.h) * e };
+      huidig.current = b;
+      setPassend(b);
+      if (t < 1) frame = requestAnimationFrame(tik);
+    };
+    frame = requestAnimationFrame(tik);
+    return () => cancelAnimationFrame(frame);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [doel?.x, doel?.y, doel?.b, doel?.h]);
+  const viewBox = passend ? `${passend.x.toFixed(1)} ${passend.y.toFixed(1)} ${passend.b.toFixed(1)} ${passend.h.toFixed(1)}`
+    : smal && breedteSmal ? `-40 -50 ${breedteSmal} ${hoogte}` : `-60 -50 1120 ${hoogte}`;
+  const eenheid = (passend ? passend.b : smal && breedteSmal ? breedteSmal : 1120) / Math.max(schermBreedte || 1120, 1);
+  // Lettermaat in eenheden van de tekening, zo dat een label op het scherm minstens 11 pixels is (en nooit kleiner dan nu)
+  const letter = smal ? Math.max(15, Math.min(30, 11 * eenheid)) : 15;
   // Breed: de titel van het lopende hoofdstuk staat boven de tekening, niet eronder (feedback Niels K2, 26 oktober 2026)
   const kop = breed ? stappen.slice(0, actief + 1).map((st) => st.hoofdstuk).filter(Boolean).pop() : undefined;
 
@@ -90,7 +146,7 @@ export function ScrollVerhaal({ verhaal, label, hoogteSmal = 555, breedteSmal, s
     <div className={s.verhaal} data-tijdlijn={tijdlijn && !breed} data-breed={breed} style={{ "--stap": stapHoogte } as CSSProperties}>
       <div className={s.figuur}>
         {kop && <div className={s.figuurKop} aria-hidden="true">{kop}</div>}
-        <svg ref={tekening} viewBox={smal && breedteSmal ? `-40 -50 ${breedteSmal} ${hoogte}` : `-60 -50 1120 ${hoogte}`} className={s.svg} role="img" aria-label={`${label}: ${stap.datum}. ${stap.tekst}`}>
+        <svg ref={tekening} viewBox={viewBox} style={{ "--letter": `${letter}px` } as CSSProperties} className={s.svg} role="img" aria-label={`${label}: ${stap.datum}. ${stap.tekst}`}>
           {/* Sleutels naar de inhoud, niet naar de stap: een as of lijn die in de volgende stap terugkomt blijft staan
               en flitst niet opnieuw in (feedback Niels K2, 26 oktober 2026) */}
           <g aria-hidden="true">

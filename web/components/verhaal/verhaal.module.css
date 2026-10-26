@@ -199,7 +199,7 @@
 }
 .label {
   font-family: var(--sans);
-  font-size: 15px;
+  font-size: var(--letter, 15px);
   fill: var(--tekst-zacht);
 }
 /* Label met een donkere rand als achtergrond: leesbaar boven lijnen en stippen */
@@ -211,7 +211,7 @@
   font-weight: 600;
 }
 .label[data-zacht="ja"] {
-  font-size: 13px;
+  font-size: calc(var(--letter, 15px) * 0.87);
   opacity: 0.75;
 }
 .waarde {
@@ -261,7 +261,11 @@
 @media (max-width: 640px) {
   .figuur {
     align-items: flex-start;
-    padding-top: 10vh;
+    padding-top: 8vh;
+  }
+  /* Ruimte onder de tekening voor de tekstkaart, ook als de tekening op de telefoon groter is */
+  .svg {
+    max-height: 56vh;
   }
   .kaart {
     padding-bottom: 6vh;
@@ -338,7 +342,7 @@
 }
 /* Groot label: de legenda onder de x-as (feedback Niels K2) */
 .label[data-groot="ja"] {
-  font-size: 19px;
+  font-size: calc(var(--letter, 15px) * 1.27);
 }
 /* Breed: titel van het lopende hoofdstuk boven de tekening, met een lijn erboven als scheiding */
 .figuurKop {

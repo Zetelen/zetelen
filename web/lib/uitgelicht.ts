@@ -135,7 +135,9 @@ export function uitslagZin(b: Besluit, wat: string): string {
 // de inhoud: bij veel kleine fracties wordt een blok hoog. Breed: voor links, tegen rechts, niet deelgenomen onder
 // het kortste blok. Smal: alles onder elkaar. Geeft ook de onderkant, voor de hoogte van de tekening op een telefoon.
 export function indeling(zs: StemStip[], gegroepeerd: boolean, smal: boolean): { stippen: StemStip[]; labels: Tekstlabel[]; kaders: Kader[]; onder: number } {
-  const stap = smal ? 31 : 23, kolommen = smal ? 27 : 18, gat = 0.45, marge = 5;
+  // Smal: voor en tegen naast elkaar, acht stippen per rij, zodat het blok bijna vierkant is en op een telefoon groot
+  // genoeg wordt (feedback Niels, 26 oktober 2026: "op de telefoon zijn de visuals heel klein")
+  const stap = smal ? 31 : 23, kolommen = smal ? 8 : 18, gat = 0.45, marge = 5;
   const orde = new Map([...new Set(zs.map((z) => z.fractie))].map((f, i) => [f, i]));
   // Een blok op (0, 0): plekken, fractielabels en de hoogte
   const blok = (s: string) => {
@@ -154,9 +156,10 @@ export function indeling(zs: StemStip[], gegroepeerd: boolean, smal: boolean): {
   const [voor, tegen, niet] = STEMSOORTEN.map(blok);
   const plaats: Record<string, { x: number; y: number }> = {};
   if (smal) {
-    plaats.Voor = { x: 200, y: 20 };
-    plaats.Tegen = { x: 200, y: 20 + voor.hoogte + 70 };
-    plaats["Niet deelgenomen"] = { x: 200, y: plaats.Tegen.y + tegen.hoogte + 70 };
+    plaats.Voor = { x: 120, y: 20 };
+    plaats.Tegen = { x: 120 + kolommen * stap + 200, y: 20 };
+    const kort = voor.hoogte <= tegen.hoogte ? voor : tegen;
+    plaats["Niet deelgenomen"] = { x: plaats[kort.s].x, y: 20 + kort.hoogte + 70 };
   } else {
     plaats.Voor = { x: 40, y: 0 };
     plaats.Tegen = { x: 560, y: 0 };
