@@ -1,6 +1,6 @@
 # Component: cohesie-pagina
 
-Status: gebouwd en getest (24 oktober 2026), online op https://zetelen.vercel.app/verkenner. Wacht op beoordeling door Niels
+Status: gebouwd en getest (24 oktober 2026), online op https://zetelen.vercel.app/verkenner. Op 25 oktober bijgewerkt op verzoek van Niels: bullet chart als bedieningspaneel, labels in de zaal, "Zo lees je dit" inklapbaar op de telefoon. Wacht op beoordeling door Niels
 Eerst lezen: `_conventies.md`, `_overzicht.md`, `../05-techniek.md`, `ontwerpsysteem.md`, `cohesie-analyse.md`
 
 ## Doel

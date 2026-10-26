@@ -1,6 +1,6 @@
 # Component: site-shell
 
-Status: gebouwd en getest (24 oktober 2026), online op https://zetelen.vercel.app (niet geindexeerd tot de livegang). Open: de eerste conclusie op de voorpagina (na `cohesie-pagina` en akkoord Niels)
+Status: gebouwd en getest (24 oktober 2026), online op https://zetelen.vercel.app (niet geindexeerd tot de livegang). Sinds 25 en 26 oktober 2026 is de voorpagina een scrollverhaal in vijf hoofdstukken met tegels naar de tools; menu in de volgorde van het verhaal, ook op de telefoon. Open: beoordeling van het verhaal door Niels
 Eerst lezen: `_conventies.md`, `_overzicht.md`, `../05-techniek.md`, `ontwerpsysteem.md`
 
 ## Doel

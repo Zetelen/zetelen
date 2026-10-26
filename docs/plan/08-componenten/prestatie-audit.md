@@ -1,6 +1,6 @@
 # Component: prestatie-audit
 
-Status: eerste meting gedaan (24 oktober 2026); opnieuw meten voor de livegang
+Status: tweede meting gedaan (26 oktober 2026): prestaties 90 tot 91 op Oppositiewerk, Kamerleden en de voorpagina; toegankelijkheid 96 opgelost (contrast van de gedimde tekstkaarten). Opnieuw meten voor de livegang
 Eerst lezen: `_conventies.md`, `_overzicht.md`
 
 ## Doel

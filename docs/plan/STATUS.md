@@ -1,10 +1,10 @@
 # STATUS
 
-Laatst bijgewerkt: 23 oktober 2026
+Laatst bijgewerkt: 26 oktober 2026
 
 ## Huidige fase
 
-Fase 4: koppelen en bouwen (stap 9). Backend van R1, `ontwerpsysteem`, `site-shell` en `cohesie-pagina` gebouwd en getest. De verkenner staat online op https://zetelen.vercel.app/verkenner, niet geindexeerd tot de livegang. Repo in de organisatie Zetelen (`Zetelen/zetelen`).
+Fase 4: koppelen en bouwen (stap 9). Backend van R1 en de meeste frontend gebouwd en online op https://zetelen.vercel.app, niet geindexeerd tot de livegang: voorpagina als verhaal, verkenner, onderwerpen, coalitiebouwer, oppositiewerk, fracties, Kamerleden en methodiek; een deel met het label concept. Bouwstop sinds 26 oktober 2026: geen nieuwe onderdelen tot Niels `te-beoordelen.md` heeft doorgenomen. Nog niet gebouwd: `analytics` en de vaste keuze van de lezingen. Repo in de organisatie Zetelen (`Zetelen/zetelen`).
 
 ## Afgerond
 
@@ -28,7 +28,14 @@ Fase 4: koppelen en bouwen (stap 9). Backend van R1, `ontwerpsysteem`, `site-she
 - Component `ontwerpsysteem` (24 oktober 2026): Next.js 16 in `web/`, tokens, basiscomponenten, voorbeeldpagina `/ontwerpsysteem`. Getest: 24 contrasttests, bekeken op telefoon en groot scherm, goedgekeurd door Niels
 - Component `site-shell` (24 oktober 2026): navigatie, voet, voorpagina, Over, lege staat en foutstaat, sitemap, robots, deelafbeelding, buildcontrole. Online op Vercel. Getest: 28 tests en online gecontroleerd
 - Component `cohesie-pagina` (24 oktober 2026): verkenner met zaal, boog en tabel, periodekeuze en variant in de URL, fractiepagina's en overzicht. Gebouwd terwijl Niels afwezig was; keuzes staan in `cohesie-pagina.md` ter beoordeling. Getest: 40 frontend- en 72 backendtests, vergeleken met de database, bekeken op telefoon en groot scherm
-- Deels `methodiek-betrouwbaarheid` (24 oktober 2026): methodiek, wijzigingslog, bron per grafiek, privacy als concept; gebruiksvoorwaarden van de open data gevonden (CC0)
+- Deels `methodiek-betrouwbaarheid` (24 oktober 2026): methodiek, wijzigingslog, bron per grafiek, privacy als concept; gebruiksvoorwaarden van de open data gevonden (CC0). Later aangevuld met de maten onderwerpen, coalitie en zetelwerk
+- Component `deelplaatjes` (24 oktober 2026): deelafbeelding per pagina en per fractie; later ook voor de coalitiebouwer en Oppositiewerk
+- Component `prestatie-audit`, twee metingen (24 en 26 oktober 2026): prestaties 90 tot 91, toegankelijkheid opgelost; opnieuw meten voor de livegang
+- Componenten `coalitie-analyse` en `coalitie-pagina` (25 oktober 2026): definitie goedgekeurd, coalitiebouwer in het menu met het label concept (migratie 017)
+- Component `onderwerpen` (25 en 26 oktober 2026): beleidsterrein via het dossier, trefwoorden, verdieping per dossier; live als concept (migraties 014 tot en met 016 en 020)
+- Voorpagina als verhaal (25 en 26 oktober 2026): vijf hoofdstukken met scrollbeelden en tegels naar de tools; teksten in de nieuwe toon (`docs/ontwerp/tone-of-voice.md`)
+- Component `zetelwerk` (nacht van 25 op 26 oktober 2026): analyse moties en amendementen (migraties 018 tot en met 020), pagina's Oppositiewerk en Kamerleden, blok op de fractiepagina's; live als concept. Steekproef 19 van 19 klopt
+- Lezingen, proef (26 oktober 2026): proefpagina met vier lezingen op echte data, niet in het menu
 
 ## Openstaand
 
@@ -45,9 +52,9 @@ Fase 4: koppelen en bouwen (stap 9). Backend van R1, `ontwerpsysteem`, `site-she
 - Bewaking: de mail bij een uitblijvend signaal testen (healthchecks-periode tijdelijk op 1 minuut, zie `docs/onderhoud.md`). De fout-mails van GitHub en healthchecks zijn getest (23 oktober 2026)
 - Geplande workflows: opgelost. Ververs draaide op 24 oktober om 08:54 UTC volgens planning (gepland 04:17) en Planningstest om 12:03 UTC; GitHub start geplande runs in een nieuwe repo pas na een tijd, en een vertraging van uren is mogelijk. Planningstest is verwijderd. De stap die Ververs actief houdt, blijft
 - Handmatige tabellen van `core-model` nakijken (Niels): kabinetten (Wikidata), Kamerperiodes (verkiezingsdata nog te controleren bij de Kiesraad) en de partijkoppeling (vier twijfelgevallen: GroenLinks-PvdA, PRO, DPK, Groep Markuszower)
-- Handmatige nacontrole van cohesie op 10 stemmingen (E2-S2, Niels): `db/controles/steekproef_cohesie.sql` in VS Code
-- Agendapunt en Besluit hebben 5 en 4 rijen meer dan de API. Niet verklaard door een datum van voor 2010 (controle van `datakwaliteit`); oorzaak onbekend
-- Datakwaliteit: de 8 besluiten in `beheer.afwijkende_uitslag` bekijken (Niels, met de besluittekst). Al vastgesteld: bij 20 januari 2026 meldt de bron zelf dat de conclusie "aangenomen" fout was; de zetels in de database kloppen. De steekproef van 10 besluiten tegen tweedekamer.nl uitvoeren (`docs/steekproeven/R1-uitslagen.md`)
+- Handmatige nacontrole van cohesie op 10 stemmingen (E2-S2, Niels): kliktabel klaar bovenaan `te-beoordelen.md` (26 oktober 2026)
+- Agendapunt en Besluit hebben 5 en 4 rijen meer dan de API: verklaard op 26 oktober 2026. De bron verwijderde ze en maakte daarbij de koppeling naar de activiteit leeg; de verversing filtert op datum via die koppeling en ziet de verwijdering dus niet. Geen effect op de analyses (toekomstige agendapunten zonder stemmingen; Stemming telt gelijk aan de API). Voorstel voor de aanpassing van de verversing ligt bij Niels, zie `te-beoordelen.md`
+- Datakwaliteit: de 8 besluiten in `beheer.afwijkende_uitslag` bekijken (Niels, met de besluittekst). Al vastgesteld: bij 20 januari 2026 meldt de bron zelf dat de conclusie "aangenomen" fout was; de zetels in de database kloppen. De steekproef van 10 besluiten tegen tweedekamer.nl: kliktabel klaar bovenaan `te-beoordelen.md` (26 oktober 2026); daarna de uitkomst in `docs/steekproeven/R1-uitslagen.md`
 
 ## Uitkomst API-check (rapport)
 
@@ -123,8 +130,8 @@ Op data.overheid.nl staat de dataset met licentie CC0 1.0 (22 oktober 2026). De 
 
 ## Vragen aan Niels
 
-Geen openstaand.
+Alles wat op Niels wacht, staat in `te-beoordelen.md` (op `main`), met bovenaan de controles en de lijst van wat de livegang tegenhoudt. Daarin ook de twee open besluiten van het plan: blijven rankings van individuele Kamerleden in scope, en het beleid bij een verwijderverzoek.
 
 ## Eerstvolgende actie
 
-Niels beoordeelt `cohesie-pagina` en de coalitiebouwer (concept op https://zetelen.vercel.app/coalitie), en beslist over de vier vragen bij de definitie in `coalitie-analyse.md`. Daarna de coalitiebouwer afronden en in het menu zetten, dan `lezingen`. Open voor Niels: de nacontrole van cohesie, de steekproef van uitslagen, de handmatige tabellen nakijken en de test met het uitblijvende signaal.
+Niels neemt `te-beoordelen.md` door: eerst de lijst voor de livegang en de twee kliktabellen bovenaan, dan de site. Tot dan bouwt Claude geen nieuwe onderdelen. Daarna, in deze volgorde: de keuze van de lezingen verwerken, `analytics`, de open punten van `methodiek-betrouwbaarheid`, en de livegang (zie de lijst).

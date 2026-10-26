@@ -1,6 +1,6 @@
 # Component: coalitie-analyse
 
-Status: in bouw (24 oktober 2026). Gebouwd volgens het voorstel voor de definitie hieronder; de definitie is nog niet goedgekeurd door Niels
+Status: gebouwd en live als concept (25 oktober 2026). Definitie goedgekeurd door Niels op 25 oktober 2026: standaard alleen verdeelde stemmingen met een schakelaar, zetels bij hoofdelijk de leden die stemden, rangorde beslissend en dan meegestemd, drempel 25. Migratie 017 (besluiten in de stemmatrix). Open: de lezingen (E2-S10) en de nacontrole van een steekproef
 Eerst lezen: `_conventies.md`, `_overzicht.md`, `../05-techniek.md`, `../definitie-cohesie.md`, `cohesie-analyse.md`
 
 ## Doel
@@ -23,7 +23,7 @@ Biedt: per periode de gegevens waarmee de site voor elke combinatie van fracties
 
 **E2-S7 Definitie** en **E2-S8 Berekening**: zie `../06-epics.md`.
 
-## Voorstel voor de definitie (Claude, nog niet goedgekeurd)
+## Definitie (voorstel Claude, goedgekeurd door Niels op 25 oktober 2026)
 
 Voor een groep G en een periode P:
 - Eensgezinde stemming: een besluit in P waarop elke fractie in G voor of tegen stemde, allemaal hetzelfde
@@ -56,7 +56,7 @@ Gekozen optie: 1, rekenen in de browser.
 
 Getest: 4 scenario's met bekende uitkomst in Vitest (76 zetels is altijd een meerderheid, beslissend, alleen eensgezinde stemmingen, zetels van het moment); de stemmatrix in pytest; op Supabase 14 perioden opgebouwd. Voorbeeld onder Jetten: D66, CDA en VVD (66 zetels) stemden 3.393 keer eensgezind en hadden 3.322 keer een meerderheid; JA21 was 44 keer beslissend.
 
-Vragen aan Niels over de definitie (te beslissen voor E2-S7):
+Vragen aan Niels over de definitie, beantwoord op 25 oktober 2026 (advies Claude gevolgd: alleen verdeelde stemmingen met een schakelaar, de andere drie zoals hieronder):
 1. Alle stemmingen of alleen verdeelde? Nu alle; daardoor wint een groep in bijna elke eensgezinde stemming (98% in het voorbeeld), omdat veel stemmingen unaniem zijn. Voorstel Claude: alleen verdeelde stemmingen, of beide met een schakelaar zoals bij cohesie
 2. Zetels bij hoofdelijke stemmingen: nu het aantal leden dat echt stemde (afwezigen tellen niet). Bij handopsteken de fractiegrootte
 3. Rangorde van de partners: nu op het aantal keer beslissend, daarna meegestemd

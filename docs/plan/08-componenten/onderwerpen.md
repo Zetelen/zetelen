@@ -1,6 +1,6 @@
 # Component: onderwerpen
 
-Status: in bouw (goedgekeurd door Niels op 25 oktober 2026). Lees eerst `_conventies.md`.
+Status: gebouwd en live als concept (26 oktober 2026), op https://zetelen.vercel.app/onderwerpen. Goedgekeurd door Niels op 25 oktober 2026. Migraties 014, 015, 016 en 020. Open: Niels kijkt de koppeltabel van commissie naar beleidsterrein en de trefwoorden na. Lees eerst `_conventies.md`.
 
 ## Doel
 

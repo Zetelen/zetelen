@@ -1,6 +1,6 @@
 # Component: coalitie-pagina
 
-Status: in bouw (24 oktober 2026). Concept op https://zetelen.vercel.app/coalitie, niet in het menu en niet in de sitemap tot Niels de definitie heeft goedgekeurd
+Status: gebouwd en live als concept (25 oktober 2026), op https://zetelen.vercel.app/coalitie, in het menu en de sitemap. Bediening als de verkenner, verdieping per partner, telefoonbalk, deelplaatje `/coalitie/plaatje`. Label concept tot de lezingen (E2-S10) en de nacontrole er zijn
 Eerst lezen: `_conventies.md`, `_overzicht.md`, `ontwerpsysteem.md`, `cohesie-pagina.md`, `coalitie-analyse.md`
 
 ## Doel

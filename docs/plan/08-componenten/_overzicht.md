@@ -24,11 +24,28 @@ Opgesteld: 22 oktober 2026. Bron: `../06-epics.md`. Gedeelde regels: `_conventie
 | 16 | `prestatie-audit` | Frontend | E3-S8 | 2 tot 4 |
 | 17 | `coalitie-analyse` | Backend | E2-S7, E2-S8 | 8 tot 14 |
 | 18 | `coalitie-pagina` | Frontend | E2-S9 | 6 tot 12 |
-| 19 | `onderwerpen` | Backend | nog te maken | 8 tot 14 |
+| 19 | `onderwerpen` | Backend en frontend | nog te maken | 8 tot 14 |
+| 20 | `zetelwerk` | Backend en frontend | geen eigen story; deels E6 (R3) vervroegd | ongeveer 2 (nakijken) |
 
 Alle 35 stories van R1 uit `../06-epics.md` zijn aan een component gekoppeld. Componenten 17 en 18 en de stories E2-S7 tot en met E2-S10 zijn op 24 oktober 2026 toegevoegd (besluit Niels: coalitiebouwer in R1); E2-S10 hoort bij `lezingen`.
 
 De schatting is de tijd van Niels (kiezen, schrijven, beoordelen, testen), niet de rekentijd van Claude Code. Het zijn grove schattingen zonder meting; bijstellen na het eerste component. Totaal R1: 97 tot 178 uur (was 83 tot 152 voor de coalitiebouwer). Bij 6 tot 10 uur per week is dat ruwweg 10 tot 30 weken, met een midden rond 18 weken. R2 tot en met R4 zitten daar niet in.
+
+## Stand op 26 oktober 2026
+
+| Component | Stand |
+|---|---|
+| `repo-ci`, `api-check`, `ingest` | klaar |
+| `bewaking`, `core-model`, `rechten`, `cohesie-analyse`, `datakwaliteit` | gebouwd en getest; open punten voor Niels in het componentbestand |
+| `ontwerpsysteem`, `site-shell`, `cohesie-pagina`, `deelplaatjes` | gebouwd en getest, online (niet geindexeerd) |
+| `coalitie-analyse`, `coalitie-pagina` | gebouwd, live als concept |
+| `onderwerpen`, `zetelwerk` | gebouwd, live als concept |
+| `lezingen` | in bouw: proefpagina, wacht op de keuze van Niels |
+| `methodiek-betrouwbaarheid` | in bouw: reactietermijn, privacytekst en analytics open |
+| `prestatie-audit` | twee metingen; opnieuw voor de livegang |
+| `analytics` | niet gestart |
+
+De werkelijke bouwvolgorde week af van de lijst hieronder: `onderwerpen`, `zetelwerk` en het verhaal op de voorpagina kwamen voor `lezingen` en `analytics`, op verzoek van Niels. Wat de livegang nog tegenhoudt, staat bovenaan in `../te-beoordelen.md`.
 
 ## Afhankelijkheden
 
@@ -125,4 +142,4 @@ Uitwerken pas na de API-check en na R1: de API-check kan scope en velden wijzige
 - Geen beleid voor een verzoek van een Kamerlid om gegevens te verwijderen
 - Een Eerste Kamer-uitbreiding is niet onderzocht (zie `../STATUS.md`)
 
-**Totaalbeeld.** R1 is groot: 16 componenten en een grove schatting van 83 tot 152 uur van Niels. De eerste live-gang ligt daarmee niet binnen drie maanden. Wil Niels sneller live, dan is de eerste optie het verplaatsen van `deelplaatjes`, `prestatie-audit` en het wijzigingslog naar een release direct na de live-gang. Hij heeft ervoor gekozen om R1 niet kleiner te maken; dit staat hier zodat het bewust blijft.
+**Totaalbeeld.** R1 is groot: 16 componenten (nu 20, met de coalitiebouwer, onderwerpen en zetelwerk) en een grove schatting van 83 tot 152 uur van Niels. De eerste live-gang ligt daarmee niet binnen drie maanden. Wil Niels sneller live, dan is de eerste optie het verplaatsen van `deelplaatjes`, `prestatie-audit` en het wijzigingslog naar een release direct na de live-gang. Hij heeft ervoor gekozen om R1 niet kleiner te maken; dit staat hier zodat het bewust blijft.

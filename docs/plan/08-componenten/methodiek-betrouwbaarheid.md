@@ -1,6 +1,6 @@
 # Component: methodiek-betrouwbaarheid
 
-Status: in bouw (24 oktober 2026). Gebouwd: methodiekpagina, bron en verversing bij elke grafiek, wijzigingslog, privacyverklaring als concept. Open: reactietermijn (E7-S2), privacytekst beoordelen, keuze analytics
+Status: in bouw (26 oktober 2026). Gebouwd: methodiekpagina met de maten cohesie, onderwerpen, coalitie en zetelwerk, bron en verversing bij elke grafiek, wijzigingslog, privacyverklaring als concept, gebruiksvoorwaarden gevonden (CC0). Open: reactietermijn (E7-S2), privacytekst beoordelen, keuze analytics
 Eerst lezen: `_conventies.md`, `_overzicht.md`, `../05-techniek.md`, `site-shell.md`
 
 ## Doel

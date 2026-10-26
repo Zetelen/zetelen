@@ -1,6 +1,6 @@
 # Component: deelplaatjes
 
-Status: gebouwd en getest (24 oktober 2026)
+Status: gebouwd en getest (24 oktober 2026). Later erbij: deelplaatje van de coalitiebouwer (`/coalitie/plaatje`, 25 oktober) en van Oppositiewerk (26 oktober). Kamerleden gebruikt het algemene plaatje
 Eerst lezen: `_conventies.md`, `_overzicht.md`, `ontwerpsysteem.md`, `cohesie-pagina.md`
 
 ## Doel
