@@ -130,10 +130,17 @@ export default async function Kamerleden({ searchParams }: Props) {
                     oppositie apart, want wie regeert, krijgt makkelijker een meerderheid. Alleen Kamerleden met minstens {MINIMUM}{" "}
                     {meervoud}.</>}
             </Tekst>
-            <Lezingen
-              links={{ titel: "Wie veel binnenhaalt, weet steun te vinden", tekst: "Een hoog aandeel zegt dat een Kamerlid voorstellen schrijft waar een meerderheid achter kan staan." }}
-              rechts={{ titel: "Of vraagt weinig", tekst: "Een motie die om een brief of een onderzoek vraagt, haalt het makkelijk. Wie grote dingen vraagt, verliest vaker." }}
-            />
+            {stuk === "Wetsvoorstel" ? (
+              <Lezingen
+                links={{ titel: "Wie een wet erdoor krijgt, weet steun te vinden", tekst: "Een eigen wet aangenomen krijgen kost jaren werk en een meerderheid die je zelf moet zoeken." }}
+                rechts={{ titel: "Of: alleen wat kansrijk is, komt in stemming", tekst: "Een initiatiefwet zonder meerderheid wordt soms ingetrokken voordat erover gestemd wordt. Die telt hier niet mee, dus bijna alles wat hier staat, is aangenomen." }}
+              />
+            ) : (
+              <Lezingen
+                links={{ titel: "Wie veel binnenhaalt, weet steun te vinden", tekst: "Een hoog aandeel zegt dat een Kamerlid voorstellen schrijft waar een meerderheid achter kan staan." }}
+                rechts={{ titel: "Of vraagt weinig", tekst: "Een motie die om een brief of een onderzoek vraagt, haalt het makkelijk. Wie grote dingen vraagt, verliest vaker." }}
+              />
+            )}
             <nav className={s.pillen} aria-label="Rol">
               <Link href={`${keuzeLink({ rol: "" })}#ranglijst`} aria-current={rangRol === "oppositie" ? "true" : undefined} scroll={false}>Oppositie</Link>
               <Link href={`${keuzeLink({ rol: "kabinet" })}#ranglijst`} aria-current={rangRol === "kabinet" ? "true" : undefined} scroll={false}>Kabinet</Link>
