@@ -51,8 +51,8 @@ export default async function Oppositie() {
         <Label>Oppositiewerk · concept</Label>
         <SectieKop niveau={1}>Wat kun je als je niet regeert?</SectieKop>
         <Tekst>
-          Wie in de oppositie zit, mist de ministers en het regeerakkoord. Wat overblijft: stemmen, en zelf moties en amendementen
-          indienen. Scroll door zestien jaar oppositiewerk, en kijk daarna zelf wie wat indiende.
+          Wat doe je als oppositie? Alleen maar tegen stemmen? Juist niet. Scroll door zestien jaar oppositiewerk, en kijk daarna
+          zelf wie wat indiende.
         </Tekst>
       </section>
 

@@ -6,7 +6,8 @@ import { type Kleur, KORT, PALET, type Pad, type Stap, type Stip, type Tekstlabe
 import { KAMERLEDEN } from "./site";
 import { type FractieWerk, type JaarWerk, type PeriodeWerk, type Stuk, type Verbinding, MINIMUM } from "./zetelwerk";
 
-export const ROL_TINT: Record<string, string> = { oppositie: "#7fb7c9", kabinet: "#d2bb5a", gemengd: "#b9bfcc", onbekend: "#6d7590" };
+// Gemengd is paars, zodat het duidelijk verschilt van het lichtblauw van de oppositie (feedback Niels K2, 26 oktober 2026)
+export const ROL_TINT: Record<string, string> = { oppositie: "#7fb7c9", kabinet: "#d2bb5a", gemengd: "#a08fe0", onbekend: "#6d7590" };
 const ROLLEN = ["kabinet", "gemengd", "oppositie", "onbekend"] as const;
 const naam = (f: string) => KORT[f] ?? f;
 const pct = (a: number, b: number) => (b ? Math.round((100 * a) / b) : 0);
@@ -39,12 +40,12 @@ function segmenten(rijen: Array<{ indiener_rol: string; ingediend: number; aange
   return uit;
 }
 
-// Legenda groot en direct onder de x-as (feedback Niels K2, 26 oktober 2026)
+// Legenda groot, direct onder de x-as en in het midden van de grafiek (feedback Niels K2, 26 oktober 2026)
 const LEGENDA_Y = 500;
 const legenda = (y: number = LEGENDA_Y): Tekstlabel[] => [
-  { x: 0, y, tekst: "● kabinet", tint: ROL_TINT.kabinet, groot: true },
-  { x: 150, y, tekst: "● oppositie", tint: ROL_TINT.oppositie, groot: true },
-  { x: 320, y, tekst: "● indieners uit allebei", tint: ROL_TINT.gemengd, groot: true },
+  { x: 220, y, tekst: "● kabinet", tint: ROL_TINT.kabinet, groot: true },
+  { x: 370, y, tekst: "● oppositie", tint: ROL_TINT.oppositie, groot: true },
+  { x: 540, y, tekst: "● indieners uit allebei", tint: ROL_TINT.gemengd, groot: true },
 ];
 
 // Hoofdstuk 1: steeds meer moties, per jaar (een stip is 50 moties)
@@ -208,10 +209,10 @@ export function hoofdstukSpreiding(rijen: Array<FractieWerk & { periode: string 
   // Kwadrantnamen in de hoeken, kleiner en gedimd; bovenaan boven het vlak, onderaan net onder de as.
   // Ze tellen als obstakel, zodat de fractielabels eromheen gaan.
   const kwadranten: Tekstlabel[] = [
-    { x: X0 + 6, y: Y1 - 14, tekst: "weinig tegen, veel eigen succes", tint: "#a9b4cc", zacht: true },
-    { x: X1, y: Y1 - 14, tekst: "veel tegen, veel eigen succes", anchor: "end", tint: "#a9b4cc", zacht: true },
-    { x: X0 + 6, y: Y0 + 19, tekst: "weinig tegen, weinig eigen succes", tint: "#a9b4cc", zacht: true },
-    { x: X1, y: Y0 + 19, tekst: "veel tegen, weinig eigen succes", anchor: "end", tint: "#a9b4cc", zacht: true },
+    { x: X0 + 6, y: Y1 - 14, tekst: "stemt weinig tegen, veel eigen moties aangenomen", tint: "#a9b4cc", zacht: true },
+    { x: X1, y: Y1 - 14, tekst: "stemt veel tegen, veel eigen moties aangenomen", anchor: "end", tint: "#a9b4cc", zacht: true },
+    { x: X0 + 6, y: Y0 + 19, tekst: "stemt weinig tegen, weinig eigen moties aangenomen", tint: "#a9b4cc", zacht: true },
+    { x: X1, y: Y0 + 19, tekst: "stemt veel tegen, weinig eigen moties aangenomen", anchor: "end", tint: "#a9b4cc", zacht: true },
   ];
   const obstakels = kwadranten.map((l) => {
     const b = l.tekst.length * 7;

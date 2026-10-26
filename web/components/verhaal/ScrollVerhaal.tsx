@@ -60,10 +60,13 @@ export function ScrollVerhaal({ verhaal, label, hoogteSmal = 555, stapHoogte = "
   const alle = [...new Set(stappen.flatMap((st) => st.stippen.map((p) => p.key)))];
   const hier = new Map(stap.stippen.map((p) => [p.key, p]));
   const hoogte = smal ? hoogteSmal : 555;
+  // Breed: de titel van het lopende hoofdstuk staat boven de tekening, niet eronder (feedback Niels K2, 26 oktober 2026)
+  const kop = breed ? stappen.slice(0, actief + 1).map((st) => st.hoofdstuk).filter(Boolean).pop() : undefined;
 
   return (
     <div className={s.verhaal} data-tijdlijn={tijdlijn && !breed} data-breed={breed} style={{ "--stap": stapHoogte } as CSSProperties}>
       <div className={s.figuur}>
+        {kop && <div className={s.figuurKop} aria-hidden="true">{kop}</div>}
         <svg viewBox={`-60 -50 1120 ${hoogte}`} className={s.svg} role="img" aria-label={`${label}: ${stap.datum}. ${stap.tekst}`}>
           <g aria-hidden="true">
             {stap.paden?.map((p, i) => (
@@ -99,7 +102,6 @@ export function ScrollVerhaal({ verhaal, label, hoogteSmal = 555, stapHoogte = "
         {/* Breed: de tekst van de actieve stap vast onder de tekening, zodat niets over de grafiek schuift */}
         {breed && (
           <div className={s.bijschrift} aria-hidden="true">
-            {stap.hoofdstuk && <span className={s.hoofdstuk}>{stap.hoofdstuk}</span>}
             <span className={s.datum}>{stap.datum}</span>
             {stap.tekst}
             {stap.link && <Link href={stap.link.href} className={s.verder} tabIndex={-1}>{stap.link.tekst} →</Link>}

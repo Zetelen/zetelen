@@ -102,10 +102,12 @@ export function sleutels(stappen: ZaalStip[][]): string[][] {
 }
 
 // Labels buiten het hoefijzer, voor fracties vanaf 5 zetels
-export function zaalLabels(stippen: ZaalStip[], tint?: Map<string, string>): Tekstlabel[] {
+// Labels bij fracties met minstens 5 zetels, plus de fracties in ook: die noemt de tekst, dus die moet je zien
+// (feedback Niels K3, 26 oktober 2026: Volt werd genoemd maar stond er niet bij)
+export function zaalLabels(stippen: ZaalStip[], tint?: Map<string, string>, ook: string[] = []): Tekstlabel[] {
   const per = new Map<string, ZaalStip[]>();
   for (const z of stippen) per.set(z.fractie, [...(per.get(z.fractie) ?? []), z]);
-  return [...per].filter(([, zs]) => zs.length >= 5).map(([f, zs]) => {
+  return [...per].filter(([f, zs]) => zs.length >= 5 || ook.includes(f)).map(([f, zs]) => {
     const h = zs.reduce((t, z) => t + z.hoek, 0) / zs.length;
     const p = punt(475, h);
     return { x: Math.round(p.x), y: Math.round(p.y), tekst: KORT[f] ?? f, waarde: String(zs.length), tint: tint?.get(f), fractie: f,

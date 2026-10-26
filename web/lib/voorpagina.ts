@@ -49,6 +49,7 @@ export function zaalVerhaal(d: VerhaalData): Stap[] {
     hoofdstuk?: string; link?: { href: string; tekst: string };
     tint?: (f: string) => string | undefined; // anders de eigen tint van de fractie
     waarde?: (f: string) => string | undefined; // anders het aantal zetels
+    genoemd?: string[]; // fracties die de tekst noemt: altijd een label en een rand, ook als ze klein zijn
   };
   const ruw: Ruw[] = [];
   // Kabinetsfracties met een gouden rand, de oppositie gedimd
@@ -106,7 +107,8 @@ export function zaalVerhaal(d: VerhaalData): Stap[] {
     const hoog = anderen[0], laag = anderen[anderen.length - 1];
     ruw.push({ datum: naam(wie), hoofdstuk, link,
       tekst: `${intro} ${naam(wie)} stemt het vaakst hetzelfde als ${naam(hoog)} (${procent(cohesie(wie, hoog))}) en het minst vaak als ${naam(laag)} (${procent(cohesie(wie, laag))}).`,
-      zetels: nu, kleur: (f) => (f === wie ? "nadruk" : null), groot: naam(wie), klein: "lichter is vaker hetzelfde",
+      zetels: nu, kleur: (f) => (f === wie || f === hoog || f === laag ? "nadruk" : null), groot: naam(wie), klein: "lichter is vaker hetzelfde",
+      genoemd: [hoog, laag],
       tint: (f) => (f === wie ? "var(--koper)" : cohesie(wie, f) != null ? schaalkleur(cohesie(wie, f)!) : KLEIN),
       waarde: (f) => (f === wie ? undefined : cohesie(wie, f) != null ? procent(cohesie(wie, f)) : undefined) });
   };
@@ -118,7 +120,7 @@ export function zaalVerhaal(d: VerhaalData): Stap[] {
   const tint = tinten(ruw.map((r) => r.zetels));
   return ruw.map((r, i) => ({
     datum: r.datum, tekst: r.tekst, groot: r.groot, klein: r.klein, hoofdstuk: r.hoofdstuk, link: r.link,
-    labels: zaalLabels(zalen[i], r.tint ? undefined : tint).map((l) => (r.waarde ? { ...l, waarde: r.waarde(l.fractie ?? "") } : l)),
+    labels: zaalLabels(zalen[i], r.tint ? undefined : tint, r.genoemd).map((l) => (r.waarde ? { ...l, waarde: r.waarde(l.fractie ?? "") } : l)),
     stippen: zalen[i].map((z, j) => ({ key: keys[i][j], x: rond(z.x), y: rond(z.y), kleur: r.kleur(z.fractie),
       tint: r.tint?.(z.fractie) ?? tint.get(z.fractie)! })),
   }));

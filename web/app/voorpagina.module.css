@@ -179,3 +179,15 @@
     border-right: 0;
   }
 }
+
+/* Eén regel met de andere onderdelen onder de drie vragen */
+.verder {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--r-2) var(--r-4);
+  align-items: baseline;
+  font-size: 16px;
+}
+.verder span {
+  color: var(--tekst-zacht);
+}

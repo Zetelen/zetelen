@@ -314,3 +314,14 @@
 .label[data-groot="ja"] {
   font-size: 19px;
 }
+/* Breed: titel van het lopende hoofdstuk boven de tekening, met een lijn erboven als scheiding */
+.figuurKop {
+  width: 100%;
+  max-width: 1120px;
+  padding-top: var(--r-3);
+  border-top: 1px solid var(--lijn-licht);
+  font-family: var(--serif);
+  font-size: 30px;
+  line-height: 1.2;
+  color: var(--tekst);
+}

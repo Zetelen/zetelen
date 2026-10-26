@@ -153,6 +153,7 @@
   transform: translateZ(0);
 }
 /* Uitleglabel als vraag in gewone letters (besluit Niels B9c, 26 oktober 2026) */
+/* De kop van een inklapbaar blok is een duidelijke knop met een pijltje (feedback Niels K1, 26 oktober 2026) */
 .inklapbaar > summary {
   cursor: pointer;
   list-style: none;
@@ -160,19 +161,33 @@
   font-weight: 600;
   color: var(--koper);
   min-height: var(--doel-min);
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: var(--r-2);
+  padding: 0 var(--r-4);
+  border: 1px solid var(--lijn-licht);
+  border-radius: var(--hoek-pil);
+}
+.inklapbaar > summary:hover {
+  background: var(--nacht-700);
 }
 .inklapbaar > summary::-webkit-details-marker {
   display: none;
 }
 .inklapbaar > summary::after {
-  content: "+";
-  font-family: var(--mono);
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 0.15s;
 }
 .inklapbaar[open] > summary::after {
-  content: "−";
+  transform: translateY(2px) rotate(-135deg);
+}
+.inklapbaar[open] > summary {
+  margin-bottom: var(--r-3);
 }
 
 /* Hoofdstukkop: lijn over de volle breedte, nummer en titel groot */

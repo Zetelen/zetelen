@@ -8,7 +8,7 @@ import { KAMERLEDEN, SITE } from "@/lib/site";
 import Link from "next/link";
 import { Inhoud, knopKlasse } from "@/components/Kader";
 import { Bronregel } from "@/components/cohesie/Bronregel";
-import { HoofdstukKop, Lezingen } from "@/components/Onderdelen";
+import { HoofdstukKop } from "@/components/Onderdelen";
 import { Data, HeroKop, Label, Tekst } from "@/components/Typografie";
 import { TerreinBalken } from "@/components/onderwerpen/TerreinBalken";
 import { ScrollVerhaal } from "@/components/verhaal/ScrollVerhaal";
@@ -26,15 +26,20 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-const TOOLS = [
-  { href: "/verkenner", titel: "Verkenner", tekst: "Kies een fractie en zie hoe vaak elke andere fractie met haar meestemde, per kabinet of Kamerperiode." },
-  { href: "/onderwerpen", titel: "Onderwerpen", tekst: "Waar zijn fracties het over eens? Per beleidsterrein, voor elk paar fracties, tot op de motie.", concept: true },
-  { href: "/coalitie", titel: "Coalitiebouwer", tekst: "Stel zelf een groep fracties samen en zie bij wie die een meerderheid haalde.", concept: true },
-  { href: "/oppositie", titel: "Oppositiewerk", tekst: "Wat kun je als je niet regeert? Zestien jaar moties en amendementen.", concept: true },
-  { href: "/uitgelicht", titel: "Uitgelicht", tekst: "Zeven stemmingen van dichtbij: wie stemde wat, en wat viel op?", concept: true },
-  { href: "/fracties", titel: "Fracties", tekst: "Alle fracties sinds 2010: zetels, kabinet of oppositie, en wie er overstapte." },
-  ...(KAMERLEDEN ? [{ href: "/kamerleden", titel: "Kamerleden", tekst: "Wie diende wat in, en wat haalde het? Per fractie en per Kamerlid.", concept: true }] : []),
-  { href: "/methodiek", titel: "Methodiek", tekst: "Hoe de cijfers tot stand komen, wat ze wel en niet zeggen, en wat er veranderde." },
+// Onderaan drie vragen als uitnodiging, en de rest op één regel; de tegels herhaalden het menu (feedback Niels K3,
+// 26 oktober 2026)
+const VRAGEN = [
+  { href: "/verkenner", vraag: "Wie stemt met wie?", tekst: "Kies een fractie en zie hoe vaak elke andere fractie met haar meestemde, per kabinet of Kamerperiode." },
+  { href: "/onderwerpen", vraag: "Waar zijn ze het over eens?", tekst: "Per beleidsterrein, voor elk paar fracties, tot op de motie." },
+  { href: "/coalitie", vraag: "Kun jij er 76 vinden?", tekst: "Stel zelf een groep fracties samen en zie bij wie die een meerderheid haalde." },
+];
+const VERDER = [
+  { href: "/oppositie", titel: "Oppositiewerk" },
+  { href: "/uitgelicht", titel: "Uitgelicht" },
+  { href: "/fracties", titel: "Fracties" },
+  ...(KAMERLEDEN ? [{ href: "/kamerleden", titel: "Kamerleden" }] : []),
+  { href: "/methodiek", titel: "Methodiek" },
+  { href: "/over", titel: "Over Zetelen" },
 ];
 
 export default async function Voorpagina() {
@@ -80,10 +85,15 @@ export default async function Voorpagina() {
       </section>
 
       <section className={s.opening}>
-        <Lezingen
-          links={{ titel: "Er wordt meer samengewerkt dan het lijkt", tekst: "Achter de ruzie in het debat stemmen kabinet en oppositie vaak samen, en dat is sinds 2010 flink toegenomen." }}
-          rechts={{ titel: "Breed is niet diep", tekst: "Over een verzoek om een onderzoek of een brief is de Kamer het snel eens. Waar het om geld en koers gaat, bij de begroting en de grote wetten, staan kabinet en oppositie nog steeds vaak tegenover elkaar." }}
-        />
+        {/* De twee lezingen onder elkaar, zonder tweede kop (feedback Niels K3, 26 oktober 2026) */}
+        <Tekst>
+          <strong>Er wordt meer samengewerkt dan het lijkt.</strong> Achter de ruzie in het debat stemmen kabinet en oppositie
+          vaak samen, en dat is sinds 2010 flink toegenomen.
+        </Tekst>
+        <Tekst>
+          Of: over een verzoek om een onderzoek of een brief is de Kamer het snel eens. Waar het om geld en koers gaat, bij de
+          begroting en de grote wetten, staan kabinet en oppositie nog steeds vaak tegenover elkaar.
+        </Tekst>
         <Tekst>
           Op sommige onderwerpen, zoals asiel, gaan fracties juist verder uit elkaar dan gemiddeld. Zoek zelf waar ze elkaar vinden,
           en waar niet. <a href="#verder">Alle onderdelen</a>
@@ -158,16 +168,17 @@ export default async function Voorpagina() {
       <section id="verder" className={s.hoofdstuk} style={{ maxWidth: "none", scrollMarginTop: 80 }}>
         <HoofdstukKop titel="Maar hoe werd er nou echt gezeteld? Kijk zelf" />
         <div className={s.tegels}>
-          {TOOLS.map((t) => (
+          {VRAGEN.map((t) => (
             <Link key={t.href} href={t.href} className={s.tegel}>
-              <strong>{t.titel}{t.concept && <> <span className={s.concept}>concept</span></>}</strong>
+              <strong>{t.vraag}</strong>
               <span>{t.tekst}</span>
             </Link>
           ))}
         </div>
-        <Tekst>
-          Wie maakt dit, met welke data, en hoe meld je een fout? <Link href="/over">Over Zetelen</Link>
-        </Tekst>
+        <nav className={s.verder} aria-label="Verder op Zetelen">
+          <span>Verder:</span>
+          {VERDER.map((t) => <Link key={t.href} href={t.href}>{t.titel}</Link>)}
+        </nav>
       </section>
 
       <Bronregel toelichting="Zetels bij het begin van elk kabinet en elke Kamerperiode, gemeten 30 dagen na de start. Kleuren van fracties zijn een eigen palet, geen partijkleuren." />

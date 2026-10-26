@@ -66,6 +66,14 @@ export default async function Onderwerpen({ searchParams }: Props) {
       href={(extra) => `/onderwerpen${query({ ...paarQuery, terrein, ...extra })}`} sluitHref={`/onderwerpen${query({ ...paarQuery, terrein })}`} />
   ) : null;
 
+  const filters = (
+    <div className={s.alleenBreed}>
+      <Suspense>
+        <PeriodeKeuze perioden={lijst} soort={soort} periode={periode?.naam ?? null} variant={variant} pad="/onderwerpen" deel="filters" />
+      </Suspense>
+    </div>
+  );
+
   return (
     <Inhoud>
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", maxWidth: 860 }}>
@@ -96,14 +104,16 @@ export default async function Onderwerpen({ searchParams }: Props) {
         <Label>Nu jij</Label>
         <SectieKop>Kies een fractie. Waar vindt ze de anderen?</SectieKop>
         <Tekst>
-          Elk percentage hieronder is opgeteld uit duizenden stemmingen zoals deze. Tik op een fractie en zie per beleidsterrein
-          hoe vaak de andere fracties dezelfde kant kozen. Tik er een tweede bij om het paar te vergelijken, en dan op een terrein:
-          de dossiers en stemmingen erachter klappen eronder uit.
+          Elk percentage hieronder is opgeteld uit duizenden stemmingen zoals deze. Kies een fractie en zie per beleidsterrein
+          hoe vaak de andere fracties dezelfde kant kozen. Kies er een tweede bij om het paar te vergelijken, en klik dan op een
+          terrein: de dossiers en stemmingen erachter klappen eronder uit.
         </Tekst>
-        <div className={s.alleenBreed} style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
+        {/* Fractie, vergelijking en kabinet op één regel; periodesoort en stemmingen als knoppen boven de grafiek
+            (feedback Niels K1, 26 oktober 2026) */}
+        <div className={`${s.alleenBreed} ${s.keuzeRegel}`}>
           <Suspense>
-            <PeriodeKeuze perioden={lijst} soort={soort} periode={periode?.naam ?? null} variant={variant} pad="/onderwerpen" />
             {gekozen && <FractieKeuze fracties={zaal.map((f) => ({ afkorting: f.afkorting, zetels: f.zetels }))} fractie={gekozen.afkorting} met={met?.afkorting ?? null} />}
+            <PeriodeKeuze perioden={lijst} soort={soort} periode={periode?.naam ?? null} variant={variant} pad="/onderwerpen" deel="periode" />
           </Suspense>
         </div>
         <Inklapbaar titel="Hoe lees je dit?">
@@ -111,7 +121,8 @@ export default async function Onderwerpen({ searchParams }: Props) {
             Elke stemming hoort bij een Kamerstukdossier, en elk dossier bij een beleidsterrein. Dat gaat via een trefwoord in de
             titel (asiel, wonen, digitaal), en anders via de vaste commissie die het dossier het vaakst behandelt. Hoort een
             stemming bij meer dossiers, dan telt ze bij elk terrein mee. Lichter betekent vaker hetzelfde gestemd. Gestreept:
-            minder dan 25 stemmingen samen, dus geen oordeel. <Link href="/methodiek#onderwerpen">Benieuwd hoe we indelen?</Link>
+            minder dan 25 stemmingen samen, dus geen oordeel. Een kabinet loopt tot het volgende is beëdigd; de demissionaire tijd
+            telt dus mee. <Link href="/methodiek#onderwerpen">Benieuwd hoe we indelen?</Link>
           </Tekst>
         </Inklapbaar>
       </section>
@@ -126,6 +137,7 @@ export default async function Onderwerpen({ searchParams }: Props) {
         <LegeStaat label="Niet bereikbaar" titel="De onderwerpen laden nu niet" uitleg="Probeer het over een paar minuten nog eens." />
       ) : met && paar ? (
         <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
+          {filters}
           <Label>{gekozen.afkorting} en {met.afkorting} · {periode.naam}</Label>
           {u && (
             <Tekst>
@@ -133,7 +145,7 @@ export default async function Onderwerpen({ searchParams }: Props) {
               {totaal != null ? ` Over alle stemmingen samen: ${procent(totaal)} (de witte lijn).` : ""}
             </Tekst>
           )}
-          <Data>Klik op een terrein: de dossiers klappen eronder uit, van meest naar minst eens.</Data>
+          <p className={s.toelichting}>Klik op een terrein: de dossiers klappen eronder uit, van meest naar minst eens.</p>
           <TerreinBalken lijst={paar} totaal={totaal} label={`Hoe vaak ${gekozen.afkorting} en ${met.afkorting} hetzelfde stemden, per beleidsterrein`}
             hrefVoor={(t) => `/onderwerpen${query({ ...paarQuery, terrein: t })}#${terreinAnker(t)}`} actief={terrein}
             sluitHref={terrein ? `/onderwerpen${query(paarQuery)}#${terreinAnker(terrein)}` : undefined}
@@ -142,6 +154,7 @@ export default async function Onderwerpen({ searchParams }: Props) {
         </section>
       ) : (
         <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
+          {filters}
           <Label>{gekozen.afkorting} en elke andere fractie, per beleidsterrein · {periode.naam}</Label>
           <div className={`${s.kaartKader} ${s.alleenBreed}`}>
             <table className={s.kaart}>
@@ -179,10 +192,11 @@ export default async function Onderwerpen({ searchParams }: Props) {
               fracties={zaal.filter((f) => f.id !== gekozen.id).map((f) => ({ id: f.id, afkorting: f.afkorting }))}
               hrefMet={(afk) => `/onderwerpen${query({ fractie: gekozen.afkorting, met: afk })}`} />
           </div>
-          <Data>
+          {/* Meer contrast dan de gewone datatekst (feedback Niels K1, 26 oktober 2026) */}
+          <p className={s.toelichting}>
             Het getal achter een terrein is het aantal stemmingen in deze periode. Kies een cel en vergelijk {gekozen.afkorting} en die fractie per
             terrein. Gestreept: minder dan 25 stemmingen samen.
-          </Data>
+          </p>
         </section>
       )}
 

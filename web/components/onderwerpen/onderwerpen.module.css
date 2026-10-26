@@ -494,3 +494,20 @@ a.balkRij[data-actief="true"] {
     padding: var(--r-4);
   }
 }
+
+/* Keuzes op één regel: fractie, vergelijk met, kabinet (feedback Niels K1, 26 oktober 2026) */
+.keuzeRegel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--r-4);
+  align-items: flex-end;
+}
+/* Toelichting bij een grafiek: gewone tekstkleur voor genoeg contrast op de donkere achtergrond */
+.toelichting {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--tekst);
+  max-width: 70ch;
+}

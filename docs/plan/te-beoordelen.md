@@ -16,7 +16,7 @@ Bijgewerkt op 26 oktober 2026, eind van de middag. Hier staat alleen wat nog ope
 
 ## Je feedback van 26 oktober (mail)
 
-Volledig in [feedback-2026-10-26.md](feedback-2026-10-26.md). Ik verwerk hem; de K-punten hieronder blijven open tot je de nieuwe versie gezien hebt. Antwoorden op B17: één video per week, wachtrij in een private repository akkoord, Bluesky automatisch na je akkoord op tekst en video; vraag 4 (kosten) beantwoord in de chat.
+Volledig in [feedback-2026-10-26.md](feedback-2026-10-26.md). **Ronde 1 is live** (kleine punten): K1 keuzemenu's op één regel en filters boven de grafiek, duidelijkere knop voor "Hoe lees je dit?", meer contrast; K2 je openingstekst, legenda in het midden, paars voor "indieners uit allebei", titel van hoofdstuk 5 boven de grafiek, duidelijkere kwadrantlabels; K3 lezingen onder elkaar zonder tweede kop, genoemde fracties (zoals Volt) altijd zichtbaar, drie vragen in plaats van de tegels. Ronde 2 (grotere ombouw) en ronde 3 (data en pipeline) volgen. Ik verwerk hem; de K-punten hieronder blijven open tot je de nieuwe versie gezien hebt. Antwoorden op B17: één video per week, wachtrij in een private repository akkoord, Bluesky automatisch na je akkoord op tekst en video; vraag 4 (kosten) beantwoord in de chat.
 
 ## C. Controles (morgen)
 
