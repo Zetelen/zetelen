@@ -38,7 +38,7 @@ export function LijnKabinetten({ kabinetten, reeksen, label }: { kabinetten: str
 }
 
 export function Halter({ rijen, a, b, label }: { rijen: Array<{ naam: string; a: number; b: number }>; a: { naam: string; tint: string }; b: { naam: string; tint: string }; label: string }) {
-  const B = 760, L = 150, R = 60, RIJ = 30, T = 46;
+  const B = 800, L = 210, R = 60, RIJ = 30, T = 46;
   const H = T + rijen.length * RIJ + 10;
   const x = (v: number) => L + (v / 100) * (B - L - R);
   return (

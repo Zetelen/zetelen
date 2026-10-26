@@ -82,3 +82,13 @@
   .partnerRij > :nth-child(3) { grid-area: baan; }
   .partnerRij > :nth-child(4) { grid-area: mee; }
 }
+
+/* Twee lezingen bij een groep zonder meerderheid (B4) */
+.lezing {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-4);
+  margin-top: var(--r-5);
+  padding-top: var(--r-5);
+  border-top: 1px solid var(--lijn-licht);
+}

@@ -20,7 +20,7 @@ In deze volgorde; ☑ is gebouwd, getest en live.
 4. ☑ Eigen feedbackformulier op /feedback, opslag in `beheer.feedback` (migratie 021), bewaartermijn 12 maanden, privacytekst (B13, B3). Jouw test: vul het formulier één keer in en kijk in Supabase (Table Editor, schema beheer, tabel feedback) of je antwoord er staat
 5. ☑ Onderwerpen (K1), voorpagina met de nieuwe opening (B14, K3), Oppositiewerk breed (K2). Graag opnieuw bekijken: K1, K2 en K3. Bekend: de spreiding is op de telefoon nog klein
 6. ☑ Kamerleden: strakkere tabel met rol als kolom, ranglijst op aandeel aangenomen per rol (vanaf 10 stukken, met twee lezingen), schakelaar tabel of spreidingsdiagram (K5, B2); fractiepagina: klik op een fractie en de onderwerpen klappen uit, tot op dossier en stemming (K5). Graag bekijken: K5
-7. ☐ Vaste lezingen en dynamische lezingen in de tools (B4)
+7. ☑ Lezingen bij de tool (B4): lezing 3 in de verkenner zodra je een kabinetsfractie kiest, lezing 1 en 2 in de coalitiebouwer bij een groep zonder meerderheid, lezing 6 bij Onderwerpen als je Asiel openklapt. De cijfers rekenen mee met je keuze. De proefpagina /lezingen verwijst nu naar de voorpagina. Ook nieuw: de hero met het Binnenhof op de voorpagina
 8. ☐ Reeks casussen "één stemming uit elkaar gehaald" (B16). Kliktabel afwijkende uitslagen (C4): ☑ klaargezet, met een besluit voor jou
 9. ☑ Stappen voor jou uitgeschreven: S1 tot en met S3 hieronder
 

@@ -6,6 +6,7 @@ import Link from "next/link";
 import type { Periodesoort, Variant } from "@/lib/cohesie";
 import { perDossier, stemmingenInTerrein, verschillen } from "@/lib/onderwerpen";
 import { Data, Label, Tekst } from "@/components/Typografie";
+import { ASIEL, AsielLezing } from "@/components/lezingen/AsielLezing";
 import { terreinAnker } from "./TerreinBalken";
 import { DossierLijst, StemLegenda, StemmingLijst } from "./Verdieping";
 
@@ -49,6 +50,7 @@ export async function TerreinUitklap({ soort, periode, variant, a, b, terrein, d
       ) : (
         <Tekst>Als ze allebei stemden, stemden ze in dit terrein steeds hetzelfde.</Tekst>
       )}
+      {terrein === ASIEL && <AsielLezing soort={soort} periode={periode} variant={variant} a={a} b={b} />}
     </>
   );
 }

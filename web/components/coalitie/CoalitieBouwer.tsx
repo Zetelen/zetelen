@@ -11,7 +11,9 @@ import { getal, procent } from "@/lib/cohesie";
 import { DREMPEL, type Partner, type Stemmatrix, bereken, zetelTabel } from "@/lib/coalitie";
 import { schaalkleur } from "@/lib/kleur";
 import { MIDDEN, punt, sector, vakken, zetels as zetelsVan } from "@/lib/zaal";
-import { Schaal } from "@/components/Onderdelen";
+import { Lezingen, Schaal } from "@/components/Onderdelen";
+import { Halter } from "@/components/lezingen/Grafieken";
+import { meestemmen } from "@/lib/lezingen";
 import { Data, Label, Tekst } from "@/components/Typografie";
 import s from "@/components/cohesie/verkenner.module.css";
 import c from "./coalitie.module.css";
@@ -55,6 +57,15 @@ export function CoalitieBouwer({ fracties, soort, periode, alleenVerdeeld }: {
   const zetelsGroep = zaal.filter((f) => groep.includes(f.id)).reduce((t, f) => t + f.zetels, 0);
   const tekort = MEERDERHEID - zetelsGroep;
   const partner = partnerId ? perPartner.get(partnerId) ?? null : null;
+  // Lezing 1 en 2 (besluit Niels B4, 26 oktober 2026): alleen bij een groep zonder meerderheid. Hoe vaak stemde de rest
+  // mee, over alle verdeelde stemmingen en over de krappe (verschil hooguit 10 zetels)?
+  const afkortingen = zaal.filter((f) => groep.includes(f.id)).map((f) => f.afkorting);
+  const mee = useMemo(
+    () => (matrix && afkortingen.length && tekort > 0 ? meestemmen(matrix, afkortingen) : null),
+    [matrix, sleutel, tekort], // eslint-disable-line react-hooks/exhaustive-deps
+  );
+  const meeRijen = mee ? mee.fracties.filter((f) => zaal.some((z) => z.afkorting === f.afkorting)).slice(0, 12) : [];
+  const meesteKrap = [...meeRijen].sort((x, y) => y.krap - x.krap).slice(0, 2).map((f) => f.afkorting);
 
   function wissel(afkorting: string) {
     const huidig = groep.map((id) => zaal.find((f) => f.id === id)!.afkorting);
@@ -124,6 +135,27 @@ export function CoalitieBouwer({ fracties, soort, periode, alleenVerdeeld }: {
                 stemmingen die beslissend was.
               </Data>
               {partner && <Beslissend partner={partner} besluiten={matrix?.besluiten ?? []} />}
+              {mee && mee.eensgezind >= DREMPEL && mee.krappe >= DREMPEL && meeRijen.length > 0 && (
+                <section className={c.lezing} aria-label="Twee lezingen">
+                  <Label>Twee lezingen · steun voor een groep zonder meerderheid</Label>
+                  <Tekst>
+                    Deze groep heeft {zetelsGroep} zetels en stemde {getal(mee.eensgezind)} keer eensgezind op een verdeelde stemming. Ze won
+                    er {procent((100 * mee.gewonnen) / mee.eensgezind)} van. Maar op de {getal(mee.krappe)} krappe stemmingen (een verschil van
+                    hooguit 10 zetels) stemde de rest anders mee.
+                  </Tekst>
+                  <Halter rijen={meeRijen.map((f) => ({ naam: f.afkorting, a: f.alle, b: f.krap }))}
+                    a={{ naam: "meegestemd, alle verdeelde stemmingen", tint: "#7fb7c9" }} b={{ naam: "meegestemd, krappe stemmingen", tint: "#e0915a" }}
+                    label="Hoe vaak andere fracties met de groep meestemden, alle tegenover krappe stemmingen" />
+                  <Lezingen
+                    links={{ titel: "Een minderheid vindt steun", tekst: `De groep wint ${procent((100 * mee.gewonnen) / mee.eensgezind)} van haar eensgezinde stemmingen. Een groot deel van de rest stemt vaak mee.` }}
+                    rechts={{ titel: "Maar niet als het spannend wordt", tekst: `Op de krappe stemmingen hangt de groep aan een paar fracties: dan stemt vooral ${meesteKrap.join(" en ")} nog mee. De steun is minder breed dan het lijkt.` }}
+                  />
+                  <Data>
+                    Let op: een stemming is krap juist doordat weinig fracties meestemmen. Dat de rest daar minder vaak meestemt, volgt dus
+                    deels uit de definitie. Wat het laat zien, is wíe er dan nog meestemt.
+                  </Data>
+                </section>
+              )}
               {partner && groep.length > 0 && (
                 <div className={s.verder}>
                   {(() => {

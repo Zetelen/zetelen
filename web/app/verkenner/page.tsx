@@ -12,6 +12,7 @@ import { cohesieIn, fractiesIn, keuzeUitUrl, perioden } from "@/lib/cohesie";
 import { ordenFracties } from "@/lib/ordening";
 import s from "@/components/cohesie/verkenner.module.css";
 import { Inklapbaar } from "@/components/Inklapbaar";
+import { SamenRegeren } from "@/components/lezingen/SamenRegeren";
 import { MobielPaneel } from "@/components/MobielPaneel";
 import o from "@/components/onderwerpen/onderwerpen.module.css";
 
@@ -82,6 +83,11 @@ export default async function VerkennerPagina({ searchParams }: Props) {
           )}
         </div>
       </div>
+      {/* Lezing 3 (B4): bij een fractie die in het kabinet zit, de lijn met elke kabinetspartner door de kabinetten */}
+      {soort === "kabinet" && periode && fractieKeuze && (
+        <SamenRegeren fractie={fractieKeuze} kabinet={periode.naam}
+          kabinetten={lijst.filter((p) => p.soort === "kabinet").sort((a, b) => a.begin.localeCompare(b.begin)).map((p) => p.naam)} />
+      )}
     </Inhoud>
   );
 }
