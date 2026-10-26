@@ -25,4 +25,4 @@ export function siteUrl(): URL {
 }
 
 // Publieke pagina's, voor de sitemap
-export const PAGINAS = ["/", "/verkenner", "/onderwerpen", "/coalitie", "/oppositie", "/fracties", ...(KAMERLEDEN ? ["/kamerleden"] : []), "/methodiek", "/wijzigingen", "/over"];
+export const PAGINAS = ["/", "/verkenner", "/onderwerpen", "/coalitie", "/oppositie", "/uitgelicht", "/fracties", ...(KAMERLEDEN ? ["/kamerleden"] : []), "/methodiek", "/wijzigingen", "/over"];

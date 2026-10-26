@@ -22,13 +22,16 @@ export const rond = (n: number) => Math.round(n * 10) / 10;
 // Vaste volgorde over alle stappen: de volgorde van de zaal op /verkenner voor de Kamerperiode 2023-2025
 // (MDS op cohesie), met fracties die toen niet bestonden naast hun voorganger of opvolger.
 // Zelfde volgorde in elke stap, zodat stippen niet onnodig van kant wisselen.
-export const VOLGORDE = ["PvdD", "BIJ1", "GL", "PvdA", "GroenLinks-PvdA", "PRO", "SP", "DENK", "Volt", "D66", "ChristenUnie", "CDA", "50PLUS",
-  "Omtzigt", "Nieuw Sociaal Contract", "Fractie Den Haan", "SGP", "VVD", "FVD", "Groep Van Haga", "JA21", "BBB", "Lid Keijzer", "PVV", "Groep Markuszower"];
+// Afsplitsingen uit 2014 tot 2017 (GrKÖ, Klein, Houwers, GrBvK, Van Vliet) staan naast de fractie waaruit ze kwamen
+// (toegevoegd 26 oktober 2026 voor /uitgelicht; daarvoor kwamen ze achteraan, rechts van de PVV).
+export const VOLGORDE = ["PvdD", "BIJ1", "GL", "PvdA", "GroenLinks-PvdA", "PRO", "SP", "GrKÖ", "DENK", "Volt", "D66", "ChristenUnie", "CDA", "50PLUS", "Klein",
+  "Omtzigt", "Nieuw Sociaal Contract", "Fractie Den Haan", "SGP", "VVD", "Houwers", "FVD", "Groep Van Haga", "JA21", "BBB", "Lid Keijzer", "GrBvK", "Van Vliet", "PVV", "Groep Markuszower"];
 // Een opvolger neemt de stippen van zijn voorganger over
 export const VOORGANGER: Record<string, string[]> = {
   "GroenLinks-PvdA": ["GL", "PvdA"], PRO: ["GroenLinks-PvdA"], "Groep Markuszower": ["PVV"], "Nieuw Sociaal Contract": ["Omtzigt"], "Lid Keijzer": ["BBB"],
 };
-export const KORT: Record<string, string> = { "GroenLinks-PvdA": "GL-PvdA", "Nieuw Sociaal Contract": "NSC", ChristenUnie: "CU", "Groep Markuszower": "Gr. Markuszower" };
+export const KORT: Record<string, string> = { "GroenLinks-PvdA": "GL-PvdA", "Nieuw Sociaal Contract": "NSC", ChristenUnie: "CU", "Groep Markuszower": "Gr. Markuszower",
+  GrKÖ: "Gr. Kuzu/Öztürk", GrBvK: "Gr. Bontes/Van Klaveren" };
 
 // Eigen palet per fractie (geen partijkleuren: besluit 22 oktober 2026). Tien tinten, elk minstens
 // 6:1 contrast op nacht-950. Fracties met minder dan 5 zetels in elke stap delen een neutrale tint.
