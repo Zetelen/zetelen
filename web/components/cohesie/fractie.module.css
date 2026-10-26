@@ -228,3 +228,28 @@
   .bulletKolom { grid-area: baan; }
   .rol { grid-area: rol; }
 }
+
+/* Uitklappen per fractie (K5): de rij is een link, de onderwerpen klappen eronder uit */
+.rijItem {
+  list-style: none;
+  scroll-margin-top: 80px;
+}
+a.rij {
+  color: var(--tekst);
+  text-decoration: none;
+}
+a.rij:hover,
+a.rij[data-open="true"] {
+  background: var(--nacht-800);
+}
+.pijl {
+  color: var(--koper);
+  font-size: 12px;
+}
+.uitklap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-3);
+  padding: var(--r-3) 0 var(--r-5) var(--r-4);
+  border-left: 3px solid var(--koper);
+}

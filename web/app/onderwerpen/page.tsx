@@ -13,7 +13,7 @@ import { FractieKeuze } from "@/components/onderwerpen/FractieKeuze";
 import { MobieleBalk } from "@/components/onderwerpen/MobieleBalk";
 import { TerreinBalken, terreinAnker } from "@/components/onderwerpen/TerreinBalken";
 import { TerreinLijst } from "@/components/onderwerpen/TerreinLijst";
-import { DossierLijst, StemLegenda, StemmingLijst } from "@/components/onderwerpen/Verdieping";
+import { TerreinUitklap } from "@/components/onderwerpen/TerreinUitklap";
 import { ScrollVerhaal } from "@/components/verhaal/ScrollVerhaal";
 import { Inklapbaar } from "@/components/Inklapbaar";
 import { dagMaandJaar } from "@/lib/verhaal";
@@ -22,7 +22,7 @@ import { HoofdstukKop } from "@/components/Onderdelen";
 import { Data, HeroKop, Label, SectieKop, Tekst } from "@/components/Typografie";
 import { cohesieIn, fractiesIn, keuzeUitUrl, perioden, procent } from "@/lib/cohesie";
 import { schaalkleur, tekstOp } from "@/lib/kleur";
-import { cohesiePerTerrein, paarPerTerrein, perDossier, stemmingenInTerrein, stemmingenPerTerrein, uitersten, verschillen } from "@/lib/onderwerpen";
+import { cohesiePerTerrein, paarPerTerrein, stemmingenPerTerrein, uitersten } from "@/lib/onderwerpen";
 import { sleutel } from "@/lib/zaal";
 import s from "@/components/onderwerpen/onderwerpen.module.css";
 
@@ -57,49 +57,14 @@ export default async function Onderwerpen({ searchParams }: Props) {
   const u = paar ? uitersten(paar) : null;
   const query = (extra: Record<string, string>) =>
     `?${new URLSearchParams({ soort, ...(periode ? { periode: periode.naam } : {}), variant, ...extra }).toString()}`;
-  // Verdieping: dossiers in een terrein, en de stemmingen van een dossier
+  // Verdieping: het terrein klapt uit met de dossiers en stemmingen (components/onderwerpen/TerreinUitklap.tsx)
   const terrein = met && paar?.some((p) => p.terrein === waarde("terrein")) ? waarde("terrein")! : null;
-  const stemmingen = terrein && periode && met ? await stemmingenInTerrein(soort, periode.naam, variant, terrein, gekozen.id, met.id) : null;
-  const dossiers = stemmingen ? perDossier(stemmingen) : null;
-  const dossier = dossiers?.find((d) => d.dossier === waarde("dossier")) ?? null;
   const paarQuery: Record<string, string> = met ? { fractie: gekozen.afkorting, met: met.afkorting } : {};
-
-  // De uitklap onder het gekozen terrein: dossiers met een gestapelde balk, per dossier de stemmingen (oneens eerst),
-  // en onderaan alle stemmingen in het terrein waarop het paar verschilde
-  const terreinHref = (extra: Record<string, string>) => `/onderwerpen${query({ ...paarQuery, ...(terrein ? { terrein } : {}), ...extra })}`;
-  const anders = stemmingen ? verschillen(stemmingen) : [];
-  const toonVerschillen = waarde("alle") === "1";
-  const uitklapTerrein = !terrein || !met ? null : !dossiers || !stemmingen ? (
-    <Tekst>De dossiers laden nu niet. Probeer het over een paar minuten nog eens.</Tekst>
-  ) : (
-    <>
-      <Label>{terrein} · per dossier, van meest naar minst eens</Label>
-      <StemLegenda a={gekozen.afkorting} b={met.afkorting} />
-      <Data>Geteld: de stemmingen waarop {gekozen.afkorting} en {met.afkorting} allebei voor of tegen stemden. Klik op een dossier voor de stemmingen.</Data>
-      <DossierLijst dossiers={dossiers} a={gekozen.afkorting} b={met.afkorting} actief={dossier?.dossier ?? null}
-        hrefVoor={(d) => `${terreinHref({ dossier: d })}#dossier-${d}`} sluitHref={`${terreinHref({})}#${terreinAnker(terrein)}`}
-        uitklap={dossier ? (
-          <StemmingLijst rijen={stemmingen.filter((r) => r.dossier === dossier.dossier).sort((x, y) => Number(!!(x.a && x.b && x.a !== x.b)) > Number(!!(y.a && y.b && y.a !== y.b)) ? -1 : Number(!!(x.a && x.b && x.a !== x.b)) < Number(!!(y.a && y.b && y.a !== y.b)) ? 1 : y.datum.localeCompare(x.datum))}
-            a={gekozen.afkorting} b={met.afkorting} titel={`${dossier.eens} van de ${dossier.samen} keer eens · verschillen eerst`} />
-        ) : null} />
-      {anders.length > 0 ? (
-        <>
-          <Data>
-            <Link href={`${terreinHref(toonVerschillen ? {} : { alle: "1" })}#verschillen`} scroll={false} aria-expanded={toonVerschillen}>
-              {toonVerschillen ? "▾" : "▸"} Alle {anders.length} {anders.length === 1 ? "stemming" : "stemmingen"} in {terrein} waarop {gekozen.afkorting} en {met.afkorting} verschilden, nieuwste eerst
-            </Link>
-          </Data>
-          {toonVerschillen && (
-            <div id="verschillen" style={{ scrollMarginTop: 80 }}>
-              <StemmingLijst rijen={anders} a={gekozen.afkorting} b={met.afkorting} titel={`${terrein} · hier verschilden ${gekozen.afkorting} en ${met.afkorting}`} />
-            </div>
-          )}
-        </>
-      ) : (
-        <Tekst>Als ze allebei stemden, stemden ze in dit terrein steeds hetzelfde.</Tekst>
-      )}
-    </>
-  );
+  const uitklapTerrein = terrein && met && periode ? (
+    <TerreinUitklap soort={soort} periode={periode.naam} variant={variant} a={gekozen} b={met} terrein={terrein}
+      dossier={waarde("dossier") ?? null} toonVerschillen={waarde("alle") === "1"}
+      href={(extra) => `/onderwerpen${query({ ...paarQuery, terrein, ...extra })}`} sluitHref={`/onderwerpen${query({ ...paarQuery, terrein })}`} />
+  ) : null;
 
   return (
     <Inhoud>

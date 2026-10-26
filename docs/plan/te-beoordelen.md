@@ -19,7 +19,7 @@ In deze volgorde; ☑ is gebouwd, getest en live.
 3. ☑ Menuknop op de telefoon (B8), Vercel Analytics in de code (B5)
 4. ☑ Eigen feedbackformulier op /feedback, opslag in `beheer.feedback` (migratie 021), bewaartermijn 12 maanden, privacytekst (B13, B3). Jouw test: vul het formulier één keer in en kijk in Supabase (Table Editor, schema beheer, tabel feedback) of je antwoord er staat
 5. ☑ Onderwerpen (K1), voorpagina met de nieuwe opening (B14, K3), Oppositiewerk breed (K2). Graag opnieuw bekijken: K1, K2 en K3. Bekend: de spreiding is op de telefoon nog klein
-6. ☐ Kamerleden: strakkere tabel, ranglijst op aandeel aangenomen per rol, spreidingsdiagram (K5, B2); fractiepagina met onderwerpen die uitklappen (K5)
+6. ☑ Kamerleden: strakkere tabel met rol als kolom, ranglijst op aandeel aangenomen per rol (vanaf 10 stukken, met twee lezingen), schakelaar tabel of spreidingsdiagram (K5, B2); fractiepagina: klik op een fractie en de onderwerpen klappen uit, tot op dossier en stemming (K5). Graag bekijken: K5
 7. ☐ Vaste lezingen en dynamische lezingen in de tools (B4)
 8. ☐ Reeks casussen "één stemming uit elkaar gehaald" (B16), kliktabel afwijkende uitslagen (C4)
 9. ☐ Stappen voor jou: zetelen.nl koppelen (B11), push protection (B12), Analytics aanzetten in Vercel (B5)

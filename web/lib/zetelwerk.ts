@@ -94,3 +94,15 @@ export function perRol(rijen: PeriodeWerk[], periode: string, soort: Stuk) {
   const rol = (r: string) => rijen.find((x) => x.periode === periode && x.soort === soort && x.indiener_rol === r) ?? { ingediend: 0, aangenomen: 0, brede_steun: 0 };
   return { kabinet: rol("kabinet"), oppositie: rol("oppositie"), gemengd: rol("gemengd") };
 }
+
+// Ranglijst over de hele Kamer (besluit Niels B2, 26 oktober 2026): op uitkomst, niet op aantal. Het aandeel eigen
+// stukken dat is aangenomen, apart voor kabinet en oppositie (anders wint wie regeert), alleen Kamerleden met
+// minstens MINIMUM ingediende stukken van deze soort. Gelijk aandeel: meer ingediend eerst, dan op naam.
+export type Plek = { persoon: string; naam: string; fractie: string | null; ingediend: number; aangenomen: number; aandeel: number };
+export function ranglijst(leden: Kamerlid[], stuk: Stuk, rol: "kabinet" | "oppositie", rolVan: (fractie: string | null) => string | undefined): Plek[] {
+  return leden
+    .map((k) => ({ k, w: stuk === "Motie" ? k.motie : k.amendement }))
+    .filter(({ k, w }) => w && w.ingediend >= MINIMUM && rolVan(k.fractie) === rol)
+    .map(({ k, w }) => ({ persoon: k.persoon, naam: k.naam, fractie: k.fractie, ingediend: w!.ingediend, aangenomen: w!.aangenomen, aandeel: (100 * w!.aangenomen) / w!.ingediend }))
+    .sort((a, b) => b.aandeel - a.aandeel || b.ingediend - a.ingediend || a.naam.localeCompare(b.naam, "nl"));
+}

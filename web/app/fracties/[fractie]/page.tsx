@@ -11,6 +11,9 @@ import { schaalkleur } from "@/lib/kleur";
 import { sleutel } from "@/lib/zaal";
 import { Bronregel } from "@/components/cohesie/Bronregel";
 import { aandeel, fractieWerk } from "@/lib/zetelwerk";
+import { TerreinBalken, terreinAnker } from "@/components/onderwerpen/TerreinBalken";
+import { TerreinUitklap } from "@/components/onderwerpen/TerreinUitklap";
+import { cohesiePerTerrein, paarPerTerrein } from "@/lib/onderwerpen";
 import s from "@/components/cohesie/fractie.module.css";
 
 type Props = {
@@ -60,6 +63,13 @@ export default async function FractiePagina({ params, searchParams }: Props) {
     ? fracties!.filter((x) => x.id !== ik.id).map((x) => ({ x, p: kaart.get(sleutel(ik.id, x.id)) }))
         .sort((a, b) => (b.p?.cohesie ?? -1) - (a.p?.cohesie ?? -1))
     : [];
+  // Uitklappen per fractie (verzoek Niels K5, 26 oktober 2026): kies een rij en zie per onderwerp hoe vaak de twee
+  // hetzelfde stemden, met daaronder de dossiers en stemmingen, zoals op /onderwerpen
+  const met = rijen.find(({ x }) => x.afkorting === w("met"))?.x ?? null;
+  const perTerrein = met && ik && periode ? await cohesiePerTerrein(soort, periode.naam, variant, ik.id) : null;
+  const paar = met && perTerrein ? paarPerTerrein(perTerrein, met.id) : null;
+  const terrein = paar?.some((p) => p.terrein === w("terrein")) ? w("terrein")! : null;
+  const metAnker = (afk: string) => `met-${slug(afk)}`;
 
   return (
     <Inhoud>
@@ -100,10 +110,13 @@ export default async function FractiePagina({ params, searchParams }: Props) {
       ) : (
         <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
           <Label>Met wie stemt {f.afkorting} het vaakst hetzelfde? · {periode.naam}</Label>
+          <Data>Klik op een fractie: per onderwerp klapt uit hoe vaak ze hetzelfde stemden, tot op de dossiers en stemmingen.</Data>
           <ol className={s.lijst}>
             {rijen.map(({ x, p }) => (
-              <li key={x.id} className={s.rij}>
-                <span className={s.naam}>{x.afkorting}</span>
+              <li key={x.id} id={metAnker(x.afkorting)} className={s.rijItem}>
+              <Link href={`${x.afkorting === met?.afkorting ? link({}) : link({ met: x.afkorting })}#${metAnker(x.afkorting)}`} scroll={false}
+                className={s.rij} data-open={x.afkorting === met?.afkorting} aria-expanded={x.afkorting === met?.afkorting}>
+                <span className={s.naam}><span className={s.pijl} aria-hidden="true">{x.afkorting === met?.afkorting ? "▾" : "▸"}</span> {x.afkorting}</span>
                 <span className={s.balkKader}>
                   {p && !p.teWeinig && p.cohesie != null ? (
                     <span className={s.balk} style={{ width: `${p.cohesie}%`, background: schaalkleur(p.cohesie) }} />
@@ -113,6 +126,20 @@ export default async function FractiePagina({ params, searchParams }: Props) {
                 </span>
                 <span className={s.waarde}>{p && !p.teWeinig ? procent(p.cohesie, 1) : "te weinig stemmingen"}</span>
                 <span className={s.aantal}>{p ? `${getal(p.gezamenlijk)} stemmingen` : ""}</span>
+              </Link>
+              {x.afkorting === met?.afkorting && paar && (
+                <div className={s.uitklap}>
+                  <Data>Per onderwerp: hoe vaak {f.afkorting} en {x.afkorting} hetzelfde stemden. Klik op een terrein voor de dossiers en stemmingen.</Data>
+                  <TerreinBalken lijst={paar} totaal={p?.cohesie ?? null} label={`Hoe vaak ${f.afkorting} en ${x.afkorting} hetzelfde stemden, per beleidsterrein`}
+                    hrefVoor={(t) => `${link({ met: x.afkorting, terrein: t })}#${terreinAnker(t)}`} actief={terrein}
+                    sluitHref={terrein ? `${link({ met: x.afkorting })}#${terreinAnker(terrein)}` : undefined}
+                    uitklap={terrein ? (
+                      <TerreinUitklap soort={soort} periode={periode.naam} variant={variant} a={ik} b={x} terrein={terrein}
+                        dossier={w("dossier") ?? null} toonVerschillen={w("alle") === "1"}
+                        href={(extra) => link({ met: x.afkorting, terrein, ...extra })} sluitHref={link({ met: x.afkorting, terrein })} />
+                    ) : null} />
+                </div>
+              )}
               </li>
             ))}
           </ol>

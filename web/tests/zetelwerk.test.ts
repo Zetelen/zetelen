@@ -1,7 +1,7 @@
 // Tests voor zetelwerk en het verhaal Oppositiewerk (lib/zetelwerk.ts, lib/oppositie.ts)
 import { describe, expect, it } from "vitest";
 import { hoofdstukJaren, hoofdstukKabinetten, hoofdstukNetwerk, hoofdstukTegenEnSamen, kolom, plaatsLabels } from "../lib/oppositie";
-import { type PersoonWerk, aandeel, kamerleden } from "../lib/zetelwerk";
+import { type Kamerlid, type PersoonWerk, aandeel, kamerleden, ranglijst } from "../lib/zetelwerk";
 
 describe("zetelwerk", () => {
   it("geeft geen percentage onder 10 ingediende stukken", () => {
@@ -77,5 +77,21 @@ describe("oppositie", () => {
     expect(stappen[1].stippen.find((s) => s.key === "f-A")?.tint).toBe("#fff");
     const tints = stappen[1].stippen.map((s) => s.tint);
     expect(new Set(tints).size).toBe(tints.length);
+  });
+});
+
+
+describe("ranglijst (B2)", () => {
+  const lid = (persoon: string, fractie: string, ingediend: number, aangenomen: number): Kamerlid => ({
+    persoon, naam: persoon, fractie, motie: { persoon, naam: persoon, fractie_afkorting: fractie, soort: "Motie", ingediend, mede: 0, aangenomen, brede_steun: 0 },
+  });
+  const leden = [lid("A", "K", 20, 18), lid("B", "O", 40, 20), lid("C", "O", 10, 6), lid("D", "O", 9, 9), lid("E", "O", 20, 12)];
+  const rolVan = (f: string | null) => (f === "K" ? "kabinet" : "oppositie");
+  it("sorteert op aandeel aangenomen, alleen de eigen rol en vanaf 10 stukken", () => {
+    expect(ranglijst(leden, "Motie", "oppositie", rolVan).map((p) => p.persoon)).toEqual(["E", "C", "B"]);
+    expect(ranglijst(leden, "Motie", "kabinet", rolVan).map((p) => p.persoon)).toEqual(["A"]);
+  });
+  it("bij gelijk aandeel eerst wie meer indiende", () => {
+    expect(ranglijst([lid("X", "O", 10, 5), lid("Y", "O", 20, 10)], "Motie", "oppositie", rolVan).map((p) => p.persoon)).toEqual(["Y", "X"]);
   });
 });

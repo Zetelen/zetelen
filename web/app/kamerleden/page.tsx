@@ -10,11 +10,13 @@ import { PeriodeKeuze } from "@/components/cohesie/PeriodeKeuze";
 import { Inklapbaar } from "@/components/Inklapbaar";
 import { Inhoud, LegeStaat } from "@/components/Kader";
 import { MobielPaneel } from "@/components/MobielPaneel";
+import { Lezingen } from "@/components/Onderdelen";
 import { Data, Label, SectieKop, Tekst } from "@/components/Typografie";
-import { FractieTabel, KamerledenTabel } from "@/components/zetelwerk/Tabellen";
+import { Spreiding } from "@/components/zetelwerk/Spreiding";
+import { FractieTabel, KamerledenTabel, RanglijstTabel } from "@/components/zetelwerk/Tabellen";
 import { getal, keuzeUitUrl, perioden } from "@/lib/cohesie";
 import { KAMERLEDEN } from "@/lib/site";
-import { STUKKEN, type Stuk, fractieWerk, kamerleden, persoonWerk, stukkenVan } from "@/lib/zetelwerk";
+import { MINIMUM, STUKKEN, type Stuk, fractieWerk, kamerleden, persoonWerk, ranglijst, stukkenVan } from "@/lib/zetelwerk";
 import o from "@/components/onderwerpen/onderwerpen.module.css";
 import s from "@/components/zetelwerk/zetelwerk.module.css";
 
@@ -47,6 +49,18 @@ export default async function Kamerleden({ searchParams }: Props) {
   const basis = { soort, ...(periode ? { periode: periode.naam } : {}) };
   const link = (extra: Record<string, string>) => `/kamerleden?${new URLSearchParams({ ...basis, stuk, ...extra }).toString()}`;
   const meervoud = stuk === "Motie" ? "moties" : "amendementen";
+  // Rol van een fractie in deze periode (kabinet of oppositie), voor de tabellen en de ranglijst
+  const rollen = new Map((fracties ?? []).map((r) => [r.afkorting, r.rol]));
+  const rolVan = (f: string | null) => (f ? rollen.get(f) : undefined);
+  // Weergave tabel of spreidingsdiagram (K5), en de ranglijst per rol (B2)
+  const spreiding = waarde("weergave") === "spreiding";
+  const rangRol: "kabinet" | "oppositie" = waarde("rol") === "kabinet" ? "kabinet" : "oppositie";
+  const plekken = ranglijst(leden, stuk, rangRol, rolVan);
+  const alleRang = waarde("rang") === "alle";
+  const hier = { ...(fractie ? { fractie } : {}), ...(q ? { q } : {}), ...(persoon ? { persoon } : {}) };
+  // Lege waarden vallen weg, zodat de URL kort blijft
+  const keuzeLink = (extra: Record<string, string>) =>
+    link(Object.fromEntries(Object.entries({ ...hier, ...(spreiding ? { weergave: "spreiding" } : {}), ...(rangRol === "kabinet" ? { rol: "kabinet" } : {}), ...(alleRang ? { rang: "alle" } : {}), ...extra }).filter(([, v]) => v)));
 
   return (
     <Inhoud>
@@ -87,10 +101,55 @@ export default async function Kamerleden({ searchParams }: Props) {
         <LegeStaat label="Niet bereikbaar" titel="De gegevens laden nu niet" uitleg="Probeer het over een paar minuten opnieuw." />
       ) : (
         <>
-          <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
+          <section id="fracties" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
             <Label>{periode.naam} · {meervoud} per fractie</Label>
             <Data>Kabinet en oppositie hebben een andere rol: vergelijk binnen de eigen kant. Kies een fractie voor haar Kamerleden.</Data>
-            <FractieTabel rijen={rijen} stuk={stuk} actief={fractie} hrefVoor={(afk) => `${link({ fractie: afk })}#leden`} />
+            <nav className={s.pillen} aria-label="Weergave">
+              <Link href={`${keuzeLink({ weergave: "" })}#fracties`} aria-current={!spreiding ? "true" : undefined} scroll={false}>Tabel</Link>
+              <Link href={`${keuzeLink({ weergave: "spreiding" })}#fracties`} aria-current={spreiding ? "true" : undefined} scroll={false}>Spreidingsdiagram</Link>
+            </nav>
+            {spreiding ? (
+              <Spreiding label={`${meervoud} per fractie: ingediend tegenover aandeel aangenomen`} xLabel={`${meervoud} ingediend`}
+                punten={rijen.filter((r) => r.ingediend >= MINIMUM).map((r) => ({ key: r.fractie, label: r.afkorting, x: r.ingediend, y: (100 * r.aangenomen) / r.ingediend, rol: r.rol, href: `${link({ fractie: r.afkorting })}#leden` }))} />
+            ) : (
+              <FractieTabel rijen={rijen} stuk={stuk} actief={fractie} hrefVoor={(afk) => `${link({ fractie: afk })}#leden`} />
+            )}
+          </section>
+
+          {/* Ranglijst over de hele Kamer, op uitkomst en per rol (besluit Niels B2, 26 oktober 2026) */}
+          <section id="ranglijst" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
+            <Label>{periode.naam} · ranglijst</Label>
+            <SectieKop>Wie krijgt het vaakst iets aangenomen?</SectieKop>
+            <Tekst>
+              Op aandeel, niet op aantal: van alle {meervoud} die een Kamerlid zelf indiende, welk deel haalde het? Kabinet en
+              oppositie apart, want wie regeert, krijgt makkelijker een meerderheid. Alleen Kamerleden met minstens {MINIMUM}{" "}
+              {meervoud}.
+            </Tekst>
+            <Lezingen
+              links={{ titel: "Wie veel binnenhaalt, weet steun te vinden", tekst: "Een hoog aandeel zegt dat een Kamerlid voorstellen schrijft waar een meerderheid achter kan staan." }}
+              rechts={{ titel: "Of vraagt weinig", tekst: "Een motie die om een brief of een onderzoek vraagt, haalt het makkelijk. Wie grote dingen vraagt, verliest vaker." }}
+            />
+            <nav className={s.pillen} aria-label="Rol">
+              <Link href={`${keuzeLink({ rol: "" })}#ranglijst`} aria-current={rangRol === "oppositie" ? "true" : undefined} scroll={false}>Oppositie</Link>
+              <Link href={`${keuzeLink({ rol: "kabinet" })}#ranglijst`} aria-current={rangRol === "kabinet" ? "true" : undefined} scroll={false}>Kabinet</Link>
+            </nav>
+            {plekken.length === 0 ? (
+              <Tekst>Geen Kamerleden met minstens {MINIMUM} {meervoud} in deze periode.</Tekst>
+            ) : spreiding ? (
+              <Spreiding label={`Kamerleden (${rangRol}): ${meervoud} ingediend tegenover aandeel aangenomen`} xLabel={`${meervoud} ingediend`}
+                punten={plekken.map((p, i) => ({ key: p.persoon, label: p.naam, x: p.ingediend, y: p.aandeel, rol: rangRol, href: `${link({ persoon: p.persoon })}#stukken`, metLabel: i < 8 }))} />
+            ) : (
+              <>
+                <RanglijstTabel plekken={alleRang ? plekken : plekken.slice(0, 15)} meervoud={meervoud} hrefVoor={(p) => `${link({ persoon: p })}#stukken`} />
+                {plekken.length > 15 && (
+                  <Data>
+                    <Link href={`${keuzeLink({ rang: alleRang ? "" : "alle" })}#ranglijst`} scroll={false}>
+                      {alleRang ? "Toon de eerste 15" : `Toon alle ${plekken.length}`}
+                    </Link>
+                  </Data>
+                )}
+              </>
+            )}
           </section>
 
           <section id="leden" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
@@ -103,7 +162,7 @@ export default async function Kamerleden({ searchParams }: Props) {
               <button type="submit">Zoek</button>
             </form>
             {(q || fractie) && (getoond.length ? (
-              <KamerledenTabel leden={getoond} actief={persoon} hrefVoor={(p) => `${link({ ...(fractie ? { fractie } : {}), ...(q ? { q } : {}), persoon: p })}#stukken`} />
+              <KamerledenTabel leden={getoond} actief={persoon} rolVan={rolVan} hrefVoor={(p) => `${link({ ...(fractie ? { fractie } : {}), ...(q ? { q } : {}), persoon: p })}#stukken`} />
             ) : (
               <Tekst>Geen Kamerleden gevonden die in deze periode iets indienden.</Tekst>
             ))}
