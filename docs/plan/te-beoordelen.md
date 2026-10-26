@@ -466,6 +466,20 @@ https://zetelen.vercel.app/uitgelicht. Alle uitslagen zijn nagekeken tegen de be
 
 Vraag: kloppen de omschrijvingen, en is de spreiding over partijen goed zo?
 
+### ☐ K8. Explainervideo's (nieuw, 26 oktober)
+
+Vijftien video's, 9:16, tekst in beeld, geen namen van Kamerleden. Bekijk ze in `video/out/` (niet in git, te groot) of in Remotion Studio (`cd video && npm run studio`). Opzet en gebruik: [video-pipeline.md](video-pipeline.md).
+- **Het vaste format** voor elke stemming (7 stuks): vraag, zaal, voor en tegen, wat valt op, uitslag.
+- **Vijf varianten met een eigen invalshoek:** Weegschaal (gehandicaptenzorg, live-weddenschappen), Hoefijzer (Mercosur, behandelvoorbehoud), Gelijke stand (studievoorschot), Eén fractie (ritueel slachten, motie over het asielplan) en de Tijdlijn van Rutte IV tot nu.
+
+Vraag: welke werken, welke niet, en wat moet anders?
+
+### ☐ B17. De pipeline voor nieuwe casussen
+
+Plan in [video-pipeline.md](video-pipeline.md): ontdekken in de data (ook samenwerking, niet alleen conflict), tractie uit nieuwsfeeds en Bluesky, een concept met de Claude API, render in GitHub Actions, een wachtrij in een private repository, en plaatsen na jouw akkoord. Vier vragen onderaan dat bestand: hoe vaak, de wachtrij, Bluesky automatisch na akkoord, en het budget.
+
+Jouw besluit:
+
 ## D. Ter informatie (geen actie nodig)
 
 ### Wat de livegang van R1 tegenhoudt

@@ -22,3 +22,6 @@ web/next-env.d.ts
 # Editor en lokale hulpmiddelen: werkruimte-instellingen kunnen verbindingsgegevens bevatten
 .vscode/
 .claude/
+
+# Video: gerenderde bestanden
+video/out/

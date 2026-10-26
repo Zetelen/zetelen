@@ -1,0 +1,182 @@
+{
+  "_bron": "Zetelen, api.kabinet, api.coalitie en api.fractie_periode (open data van de Tweede Kamer). Gemaakt met video/scripts/tijdlijn.mjs.",
+  "opgehaald": "2026-10-26",
+  "kabinetten": [
+    {
+      "kabinet": "Rutte IV",
+      "begin": "2022-01-10",
+      "einde": "2024-07-02",
+      "begin_zetels": {
+        "BIJ1": 1,
+        "D66": 24,
+        "BBB": 1,
+        "CDA": 14,
+        "PVV": 17,
+        "Groep Van Haga": 3,
+        "VVD": 34,
+        "SGP": 3,
+        "PvdA": 9,
+        "GL": 8,
+        "SP": 9,
+        "Omtzigt": 1,
+        "Volt": 3,
+        "PvdD": 6,
+        "ChristenUnie": 5,
+        "DENK": 3,
+        "FVD": 5,
+        "Fractie Den Haan": 1,
+        "JA21": 3
+      },
+      "eind_zetels": {
+        "GroenLinks-PvdA": 25,
+        "D66": 9,
+        "BBB": 7,
+        "CDA": 5,
+        "PVV": 37,
+        "VVD": 24,
+        "SGP": 3,
+        "SP": 5,
+        "Nieuw Sociaal Contract": 20,
+        "Volt": 2,
+        "PvdD": 3,
+        "ChristenUnie": 3,
+        "DENK": 3,
+        "FVD": 3,
+        "JA21": 1
+      },
+      "coalitie": [
+        {
+          "fractie": "VVD",
+          "tot": null
+        },
+        {
+          "fractie": "D66",
+          "tot": null
+        },
+        {
+          "fractie": "CDA",
+          "tot": null
+        },
+        {
+          "fractie": "ChristenUnie",
+          "tot": null
+        }
+      ]
+    },
+    {
+      "kabinet": "Schoof",
+      "begin": "2024-07-02",
+      "einde": "2026-02-23",
+      "begin_zetels": {
+        "GroenLinks-PvdA": 25,
+        "D66": 9,
+        "BBB": 7,
+        "CDA": 5,
+        "PVV": 37,
+        "VVD": 24,
+        "SGP": 3,
+        "SP": 5,
+        "Nieuw Sociaal Contract": 20,
+        "Volt": 2,
+        "PvdD": 3,
+        "ChristenUnie": 3,
+        "DENK": 3,
+        "FVD": 3,
+        "JA21": 1
+      },
+      "eind_zetels": {
+        "GroenLinks-PvdA": 20,
+        "D66": 26,
+        "BBB": 4,
+        "CDA": 18,
+        "PVV": 19,
+        "VVD": 22,
+        "SGP": 3,
+        "Groep Markuszower": 7,
+        "50PLUS": 2,
+        "SP": 3,
+        "Volt": 1,
+        "PvdD": 3,
+        "ChristenUnie": 3,
+        "DENK": 3,
+        "FVD": 7,
+        "JA21": 9
+      },
+      "coalitie": [
+        {
+          "fractie": "PVV",
+          "tot": "2025-06-03"
+        },
+        {
+          "fractie": "VVD",
+          "tot": null
+        },
+        {
+          "fractie": "Nieuw Sociaal Contract",
+          "tot": "2025-08-22"
+        },
+        {
+          "fractie": "BBB",
+          "tot": null
+        }
+      ]
+    },
+    {
+      "kabinet": "Jetten",
+      "begin": "2026-02-23",
+      "einde": null,
+      "begin_zetels": {
+        "GroenLinks-PvdA": 20,
+        "D66": 26,
+        "BBB": 3,
+        "CDA": 18,
+        "PVV": 19,
+        "Lid Keijzer": 1,
+        "VVD": 22,
+        "SGP": 3,
+        "Groep Markuszower": 7,
+        "50PLUS": 2,
+        "SP": 3,
+        "Volt": 1,
+        "PvdD": 3,
+        "ChristenUnie": 3,
+        "DENK": 3,
+        "FVD": 7,
+        "JA21": 9
+      },
+      "eind_zetels": {
+        "D66": 26,
+        "BBB": 3,
+        "CDA": 18,
+        "PVV": 19,
+        "Lid Keijzer": 1,
+        "VVD": 22,
+        "SGP": 3,
+        "Groep Markuszower": 7,
+        "50PLUS": 2,
+        "SP": 3,
+        "Volt": 1,
+        "PvdD": 3,
+        "PRO": 20,
+        "ChristenUnie": 3,
+        "DENK": 3,
+        "FVD": 7,
+        "JA21": 9
+      },
+      "coalitie": [
+        {
+          "fractie": "D66",
+          "tot": null
+        },
+        {
+          "fractie": "VVD",
+          "tot": null
+        },
+        {
+          "fractie": "CDA",
+          "tot": null
+        }
+      ]
+    }
+  ]
+}

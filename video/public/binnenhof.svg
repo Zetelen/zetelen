@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 720" preserveAspectRatio="xMaxYMid slice" role="img" aria-label="Lijntekening van het Binnenhof gezien over de Hofvijver: de Ridderzaal met twee ronde torens en een steile kap, de lage vleugels en het Torentje, gespiegeld in het water">
+<g transform="translate(980 0)" fill="none" stroke="#D08A55" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+
+<g fill="none" stroke="#E3B76A" stroke-width="1.6" opacity="0.9">
+<circle cx="300" cy="110" r="26"/>
+<path d="M312 96 a26 26 0 0 1 0 30" opacity="0.5"/>
+</g>
+
+<path d="M-980 520 V436 H-706"/>
+<path d="M-940 436 V408 L-900 384 L-860 408 V436"/>
+<path d="M-820 436 V418 H-760 V436"/>
+
+<path d="M-690 520 V306 H-600 V520 Z" fill="#0B1226"/>
+<path d="M-702 308 Q-698 256 -645 238 Q-592 256 -588 308 Z" fill="#0B1226"/>
+<path d="M-645 238 V188"/>
+<circle cx="-645" cy="183" r="5"/>
+<path d="M-690 306 H-600" opacity="0.7"/>
+<path d="M-659 360 v-24 a14 14 0 0 1 28 0 v24 z M-659 450 v-24 a14 14 0 0 1 28 0 v24 z"/>
+
+<path d="M-560 520 V362 H-193 V520 Z" fill="#0B1226"/>
+<path d="M-574 364 L-544 318 H-209 L-179 364 Z" fill="#0B1226"/>
+<path d="M-552 332 H-201 M-562 348 H-191" opacity="0.5"/>
+<path d="M-470 318 V284 H-452 V318 M-290 318 V282 H-272 V318" fill="#0B1226"/>
+<path d="M-534 415 v-30 a9 9 0 0 1 18 0 v30 z M-488 415 v-30 a9 9 0 0 1 18 0 v30 z M-442 415 v-30 a9 9 0 0 1 18 0 v30 z M-396 415 v-30 a9 9 0 0 1 18 0 v30 z M-350 415 v-30 a9 9 0 0 1 18 0 v30 z M-304 415 v-30 a9 9 0 0 1 18 0 v30 z M-258 415 v-30 a9 9 0 0 1 18 0 v30 z"/>
+<path d="M-534 470 v-30 a9 9 0 0 1 18 0 v30 z M-488 470 v-30 a9 9 0 0 1 18 0 v30 z M-442 470 v-30 a9 9 0 0 1 18 0 v30 z M-396 470 v-30 a9 9 0 0 1 18 0 v30 z M-350 470 v-30 a9 9 0 0 1 18 0 v30 z M-304 470 v-30 a9 9 0 0 1 18 0 v30 z M-258 470 v-30 a9 9 0 0 1 18 0 v30 z"/>
+
+<path d="M193 520 V362 H560 V520 Z" fill="#0B1226"/>
+<path d="M179 364 L209 318 H544 L574 364 Z" fill="#0B1226"/>
+<path d="M201 332 H552 M191 348 H562" opacity="0.5"/>
+<path d="M300 318 V284 H318 V318 M470 322 V288 H488 V322" fill="#0B1226"/>
+<path d="M214 415 v-30 a9 9 0 0 1 18 0 v30 z M260 415 v-30 a9 9 0 0 1 18 0 v30 z M306 415 v-30 a9 9 0 0 1 18 0 v30 z M352 415 v-30 a9 9 0 0 1 18 0 v30 z M398 415 v-30 a9 9 0 0 1 18 0 v30 z M444 415 v-30 a9 9 0 0 1 18 0 v30 z M490 415 v-30 a9 9 0 0 1 18 0 v30 z"/>
+<path d="M214 470 v-30 a9 9 0 0 1 18 0 v30 z M260 470 v-30 a9 9 0 0 1 18 0 v30 z M306 470 v-30 a9 9 0 0 1 18 0 v30 z M352 470 v-30 a9 9 0 0 1 18 0 v30 z M398 470 v-30 a9 9 0 0 1 18 0 v30 z M444 470 v-30 a9 9 0 0 1 18 0 v30 z M490 470 v-30 a9 9 0 0 1 18 0 v30 z"/>
+
+<path d="M-14 142 L0 36 L14 142"/>
+<circle cx="0" cy="31" r="4"/>
+<path d="M0 27 V8 M0 8 H14 L10 13 L14 18 H0"/>
+
+<path d="M-150 520 V300 H150 V520" fill="#0B1226"/>
+<path d="M-158 302 L0 118 L158 302 Z" fill="#0B1226"/>
+<path d="M-115 252 H115 M-84 216 H84 M-136 276 H136" opacity="0.6"/>
+<path d="M-128 300 L0 150 L128 300" opacity="0.5"/>
+<path d="M-30 400 V346 Q-30 312 0 288 Q30 312 30 346 V400 Z"/>
+<path d="M0 288 V400 M-30 346 H30" opacity="0.7"/>
+<path d="M-102 440 V392 Q-102 372 -88 358 Q-74 372 -74 392 V440 Z M74 440 V392 Q74 372 88 358 Q102 372 102 392 V440 Z"/>
+<path d="M-28 520 V478 Q-28 446 0 440 Q28 446 28 478 V520"/>
+<path d="M-176 520 H176"/>
+
+<path d="M-193 520 V270 H-137 V520 Z" fill="#0B1226"/>
+<path d="M-203 272 L-165 138 L-127 272 Z" fill="#0B1226"/>
+<path d="M-165 138 V112"/>
+<circle cx="-165" cy="108" r="4"/>
+<path d="M-193 300 H-137 M-165 330 v22 M-165 392 v22 M-165 452 v22" opacity="0.8"/>
+<path d="M137 520 V270 H193 V520 Z" fill="#0B1226"/>
+<path d="M127 272 L165 138 L203 272 Z" fill="#0B1226"/>
+<path d="M165 138 V112"/>
+<circle cx="165" cy="108" r="4"/>
+<path d="M137 300 H193 M165 330 v22 M165 392 v22 M165 452 v22" opacity="0.8"/>
+
+<path d="M262 520 V472"/>
+<circle cx="262" cy="440" r="38" fill="#0B1226"/>
+<circle cx="292" cy="460" r="27" fill="#0B1226"/>
+<path d="M352 520 V462"/>
+<circle cx="352" cy="426" r="44" fill="#0B1226"/>
+<circle cx="322" cy="454" r="28" fill="#0B1226"/>
+<path d="M440 520 V482"/>
+<circle cx="440" cy="452" r="34" fill="#0B1226"/>
+<path d="M-330 520 V470"/>
+<circle cx="-330" cy="440" r="40" fill="#0B1226"/>
+<circle cx="-300" cy="462" r="26" fill="#0B1226"/>
+<path d="M-740 520 V476"/>
+<circle cx="-740" cy="446" r="36" fill="#0B1226"/>
+
+<path d="M-980 520 H460" stroke-width="2.4"/>
+<path d="M-900 532 H440" opacity="0.45"/>
+
+<g stroke-width="1.6" opacity="0.4">
+<path d="M-200 552 H200"/>
+<path d="M-520 570 H-240 M240 570 H520"/>
+<path d="M-120 592 H120"/>
+<path d="M-440 612 H-260 M260 612 H440"/>
+<path d="M-60 636 H60"/>
+<path d="M-160 660 H-80 M80 660 H160" opacity="0.7"/>
+</g>
+<g stroke-width="1.6" stroke-dasharray="6 9" opacity="0.4">
+<path d="M0 538 V600"/>
+<path d="M-165 538 V586"/>
+<path d="M165 538 V586"/>
+</g>
+</g>
+</svg>
