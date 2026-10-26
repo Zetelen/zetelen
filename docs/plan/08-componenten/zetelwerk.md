@@ -34,6 +34,10 @@ Bron: per zaak de `ZaakActor` met `Relatie` = 'Indiener' of 'Medeindiener' (Kame
 - Opgebouwd in een eigen functie `analyses.herbouw_zetelwerk()`, die meedraait in Ververs. Na de bouw zijn Migreer en Ververs nodig.
 - **Namen van Kamerleden:** alleen naam en fractie, uit `core.persoon`. Dat mag volgens de afspraken op de site, maar nooit in logs.
 
+## Initiatiefwetten (migratie 022, 26 oktober 2026)
+
+Op verzoek van Niels (K5) telt zetelwerk naast moties en amendementen ook initiatiefwetten: zaken met `Zaak.Soort = 'Initiatiefwetgeving'` en minstens één indiener met een fractie, als soort `Wetsvoorstel` (interfacewijziging: `analyses.zaak_uitslag.soort` en `Stuk` in `web/lib/zetelwerk.ts` kennen nu drie waarden). Uitslag: de laatste stemming over de zaak, de eindstemming in de Tweede Kamer (stemmingen over amendementen hangen aan het amendement zelf; nagekeken bij 2023Z15369 en 2012Z22373). Regeringswetten (`Wetgeving`) tellen niet mee. Op /kamerleden een derde knop; de ranglijst ordent initiatiefwetten op het aantal aangenomen wetten, zonder percentage en zonder minimum van 10.
+
 ## Pagina "Oppositiewerk" (/oppositie), een scrollverhaal
 
 Een verhaal over 16 jaar oppositie, met dezelfde scrolltechniek als de voorpagina: een vaste tekening links of rechts, met een tijdlijn van kaarten. Werktitel van de kop, in de toon van de stijlgids: **"Wat kun je als je niet regeert?"**

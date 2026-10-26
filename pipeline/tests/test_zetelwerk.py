@@ -96,3 +96,18 @@ def test_brede_steun_en_tellingen(conn):
     # Tegenstemmen: de SP stemde nooit tegen, de PVV een van de twee keer
     tegen = dict(conn.execute("select afkorting, tegen_aandeel from analyses.zetelwerk_fractie where periodesoort = 'kabinet' and soort = 'Motie'").fetchall())
     assert float(tegen["SP"]) == 0.0 and float(tegen["PVV"]) == 50.0
+
+
+def test_initiatiefwet_telt_mee_als_wetsvoorstel(conn):
+    # Migratie 022: een initiatiefwet van een Kamerlid telt als Wetsvoorstel; een regeringswet (Wetgeving) niet,
+    # en een indiener zonder fractie (een minister) ook niet
+    d66, vvd, sp = (fractie(conn, a) for a in ["D66", "VVD", "SP"])
+    a, m = persoon(conn, "Lid A"), persoon(conn, "Minister")
+    w1 = stuk(conn, "Initiatiefwetgeving", "2026-05-01", {sp: ("Voor", 5), d66: ("Voor", 75), vvd: ("Tegen", 30)}, [(a, sp, "Indiener")], "W1")
+    stuk(conn, "Wetgeving", "2026-05-02", {d66: ("Voor", 75), vvd: ("Voor", 30)}, [(m, None, "Indiener")], "W2")
+    stuk(conn, "Initiatiefwetgeving", "2026-05-03", {d66: ("Voor", 75)}, [(m, None, "Indiener")], "W3")
+    conn.execute("select * from analyses.herbouw_zetelwerk()")
+    rijen = conn.execute("select zaak_id::text, soort, aangenomen, indiener_rol from analyses.zaak_uitslag").fetchall()
+    assert rijen == [(w1, "Wetsvoorstel", True, "oppositie")]
+    assert conn.execute("select count(*) from analyses.indiening where zaak_id = %s", (w1,)).fetchone()[0] == 1
+    assert conn.execute("select ingediend, aangenomen from analyses.zetelwerk_fractie where afkorting = 'SP' and soort = 'Wetsvoorstel' and periodesoort = 'kabinet'").fetchone() == (1, 1)

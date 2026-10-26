@@ -3,13 +3,19 @@
 import { leesApi } from "./api";
 import type { Periodesoort } from "./cohesie";
 
-export type Stuk = "Motie" | "Amendement";
+// Wetsvoorstel: initiatiefwetten van Kamerleden (migratie 022, feedback Niels K5, 26 oktober 2026)
+export type Stuk = "Motie" | "Amendement" | "Wetsvoorstel";
 export const STUKKEN: Array<{ waarde: Stuk; tekst: string; meervoud: string }> = [
   { waarde: "Motie", tekst: "Moties", meervoud: "moties" },
   { waarde: "Amendement", tekst: "Amendementen", meervoud: "amendementen" },
+  { waarde: "Wetsvoorstel", tekst: "Initiatiefwetten", meervoud: "initiatiefwetten" },
 ];
+export const meervoudVan = (stuk: Stuk) => STUKKEN.find((x) => x.waarde === stuk)!.meervoud;
 // Onder dit aantal ingediende stukken tonen we geen percentage (definitie 8)
 export const MINIMUM = 10;
+// Initiatiefwetten zijn er weinig per Kamerlid: daar telt elke wet mee, maar ordenen we op het aantal aangenomen
+// wetten in plaats van op een percentage (bij één of twee wetten zegt een percentage niets)
+export const minimumVoor = (stuk: Stuk) => (stuk === "Wetsvoorstel" ? 1 : MINIMUM);
 
 export type FractieWerk = {
   fractie: string; afkorting: string; soort: Stuk; rol: "kabinet" | "oppositie"; ingediend: number; mede: number;
@@ -77,12 +83,12 @@ export function aandeel(aangenomen: number, ingediend: number): number | null {
 }
 
 // Per Kamerlid de moties en amendementen in een rij, gesorteerd op ingediend (moties, dan amendementen)
-export type Kamerlid = { persoon: string; naam: string; fractie: string | null; motie?: PersoonWerk; amendement?: PersoonWerk };
+export type Kamerlid = { persoon: string; naam: string; fractie: string | null; motie?: PersoonWerk; amendement?: PersoonWerk; wetsvoorstel?: PersoonWerk };
 export function kamerleden(rijen: PersoonWerk[]): Kamerlid[] {
   const per = new Map<string, Kamerlid>();
   for (const r of rijen) {
     const k = per.get(r.persoon) ?? { persoon: r.persoon, naam: r.naam, fractie: r.fractie_afkorting };
-    if (r.soort === "Motie") k.motie = r; else k.amendement = r;
+    if (r.soort === "Motie") k.motie = r; else if (r.soort === "Amendement") k.amendement = r; else k.wetsvoorstel = r;
     per.set(r.persoon, k);
   }
   const telt = (k: Kamerlid) => (k.motie?.ingediend ?? 0) + (k.amendement?.ingediend ?? 0) / 1000;
@@ -101,8 +107,8 @@ export function perRol(rijen: PeriodeWerk[], periode: string, soort: Stuk) {
 export type Plek = { persoon: string; naam: string; fractie: string | null; ingediend: number; aangenomen: number; aandeel: number };
 export function ranglijst(leden: Kamerlid[], stuk: Stuk, rol: "kabinet" | "oppositie", rolVan: (fractie: string | null) => string | undefined): Plek[] {
   return leden
-    .map((k) => ({ k, w: stuk === "Motie" ? k.motie : k.amendement }))
-    .filter(({ k, w }) => w && w.ingediend >= MINIMUM && rolVan(k.fractie) === rol)
+    .map((k) => ({ k, w: stuk === "Motie" ? k.motie : stuk === "Amendement" ? k.amendement : k.wetsvoorstel }))
+    .filter(({ k, w }) => w && w.ingediend >= minimumVoor(stuk) && rolVan(k.fractie) === rol)
     .map(({ k, w }) => ({ persoon: k.persoon, naam: k.naam, fractie: k.fractie, ingediend: w!.ingediend, aangenomen: w!.aangenomen, aandeel: (100 * w!.aangenomen) / w!.ingediend }))
-    .sort((a, b) => b.aandeel - a.aandeel || b.ingediend - a.ingediend || a.naam.localeCompare(b.naam, "nl"));
+    .sort((a, b) => (stuk === "Wetsvoorstel" ? b.aangenomen - a.aangenomen : b.aandeel - a.aandeel) || b.ingediend - a.ingediend || a.naam.localeCompare(b.naam, "nl"));
 }

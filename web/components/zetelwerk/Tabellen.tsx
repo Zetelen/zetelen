@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { getal } from "@/lib/cohesie";
 import { schaalkleur } from "@/lib/kleur";
-import { type FractieWerk, type Kamerlid, type Plek, type Stuk, aandeel } from "@/lib/zetelwerk";
+import { type FractieWerk, type Kamerlid, type Plek, type Stuk, aandeel, meervoudVan } from "@/lib/zetelwerk";
 import s from "./zetelwerk.module.css";
 
 function Aangenomen({ aangenomen, ingediend }: { aangenomen: number; ingediend: number }) {
@@ -22,7 +22,7 @@ export function FractieTabel({ rijen, hrefVoor, actief, stuk }: { rijen: Fractie
   return (
     <div className={s.tabelKader}>
       <table className={s.tabel}>
-        <caption className="verborgen">{stuk === "Motie" ? "Moties" : "Amendementen"} per fractie: ingediend, aangenomen, brede steun en mede ingediend</caption>
+        <caption className="verborgen">{meervoudVan(stuk)} per fractie: ingediend, aangenomen, brede steun en mede ingediend</caption>
         <thead>
           <tr><th scope="col">Fractie</th><th scope="col" className={s.rolKolom}>Rol</th><th scope="col">Ingediend</th><th scope="col">Aangenomen</th><th scope="col">Brede steun</th><th scope="col">Mede ingediend</th></tr>
         </thead>
@@ -47,11 +47,11 @@ export function KamerledenTabel({ leden, hrefVoor, actief, rolVan }: { leden: Ka
   return (
     <div className={s.tabelKader}>
       <table className={s.tabel}>
-        <caption className="verborgen">Kamerleden: moties en amendementen ingediend en aangenomen</caption>
+        <caption className="verborgen">Kamerleden: moties, amendementen en initiatiefwetten ingediend en aangenomen</caption>
         <thead>
           <tr>
             <th scope="col">Kamerlid</th><th scope="col" className={s.rolKolom}>Fractie</th><th scope="col">Moties</th><th scope="col">Aangenomen</th><th scope="col">Brede steun</th>
-            <th scope="col">Amendementen</th><th scope="col">Aangenomen</th><th scope="col">Mede</th>
+            <th scope="col">Amendementen</th><th scope="col">Aangenomen</th><th scope="col">Initiatiefwetten</th><th scope="col">Mede</th>
           </tr>
         </thead>
         <tbody>
@@ -68,7 +68,8 @@ export function KamerledenTabel({ leden, hrefVoor, actief, rolVan }: { leden: Ka
               <td data-label="Amendementen aangenomen">
                 <Aangenomen aangenomen={k.amendement?.aangenomen ?? 0} ingediend={k.amendement?.ingediend ?? 0} />
               </td>
-              <td data-label="Mede ingediend">{getal((k.motie?.mede ?? 0) + (k.amendement?.mede ?? 0))}</td>
+              <td data-label="Initiatiefwetten">{k.wetsvoorstel ? `${getal(k.wetsvoorstel.aangenomen)} van ${getal(k.wetsvoorstel.ingediend)}` : "0"}</td>
+              <td data-label="Mede ingediend">{getal((k.motie?.mede ?? 0) + (k.amendement?.mede ?? 0) + (k.wetsvoorstel?.mede ?? 0))}</td>
             </tr>
           ))}
         </tbody>

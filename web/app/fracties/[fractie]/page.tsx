@@ -10,7 +10,7 @@ import { alleFracties, cohesieIn, fractiesIn, getal, perioden, procent, slug, ty
 import { schaalkleur } from "@/lib/kleur";
 import { sleutel } from "@/lib/zaal";
 import { Bronregel } from "@/components/cohesie/Bronregel";
-import { aandeel, fractieWerk } from "@/lib/zetelwerk";
+import { meervoudVan, aandeel, fractieWerk } from "@/lib/zetelwerk";
 import { TerreinBalken, terreinAnker } from "@/components/onderwerpen/TerreinBalken";
 import { TerreinUitklap } from "@/components/onderwerpen/TerreinUitklap";
 import { cohesiePerTerrein, paarPerTerrein } from "@/lib/onderwerpen";
@@ -151,7 +151,7 @@ export default async function FractiePagina({ params, searchParams }: Props) {
               <Tekst>
                 {eigenWerk.map((r) => {
                   const p = aandeel(r.aangenomen, r.ingediend);
-                  const soortTekst = r.soort === "Motie" ? "moties" : "amendementen";
+                  const soortTekst = meervoudVan(r.soort);
                   return `${getal(r.ingediend)} ${soortTekst} ingediend, waarvan ${getal(r.aangenomen)} aangenomen${p != null ? ` (${p}%)` : ""} en ${getal(r.brede_steun)} met brede steun.`;
                 }).join(" ")}{" "}
                 {eigenWerk[0].tegen_aandeel != null ? `Op ${procent(eigenWerk[0].tegen_aandeel)} van alle stemmingen stemde ${f.afkorting} tegen.` : ""}

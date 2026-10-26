@@ -16,13 +16,13 @@ import { Spreiding } from "@/components/zetelwerk/Spreiding";
 import { FractieTabel, KamerledenTabel, RanglijstTabel } from "@/components/zetelwerk/Tabellen";
 import { getal, keuzeUitUrl, perioden } from "@/lib/cohesie";
 import { KAMERLEDEN } from "@/lib/site";
-import { MINIMUM, STUKKEN, type Stuk, fractieWerk, kamerleden, persoonWerk, ranglijst, stukkenVan } from "@/lib/zetelwerk";
+import { MINIMUM, STUKKEN, type Stuk, fractieWerk, kamerleden, meervoudVan, minimumVoor, persoonWerk, ranglijst, stukkenVan } from "@/lib/zetelwerk";
 import o from "@/components/onderwerpen/onderwerpen.module.css";
 import s from "@/components/zetelwerk/zetelwerk.module.css";
 
 export const metadata: Metadata = {
   title: "Kamerleden",
-  description: "Wat dienen Kamerleden zelf in, en wat haalt het? Moties en amendementen per fractie en per Kamerlid.",
+  description: "Wat dienen Kamerleden zelf in, en wat haalt het? Moties, amendementen en initiatiefwetten per fractie en per Kamerlid.",
   alternates: { canonical: "/kamerleden" },
 };
 
@@ -35,7 +35,7 @@ export default async function Kamerleden({ searchParams }: Props) {
   const waarde = (k: string) => (Array.isArray(zoek[k]) ? zoek[k]?.[0] : zoek[k]) as string | undefined;
   const lijst = await perioden();
   const { soort, periode } = keuzeUitUrl(zoek, lijst);
-  const stuk: Stuk = waarde("stuk") === "Amendement" ? "Amendement" : "Motie";
+  const stuk: Stuk = STUKKEN.find((x) => x.waarde === waarde("stuk"))?.waarde ?? "Motie";
   const q = (waarde("q") ?? "").trim();
   const persoon = UUID.test(waarde("persoon") ?? "") ? waarde("persoon")! : null;
   const [fracties, personen, stukken] = periode
@@ -48,7 +48,8 @@ export default async function Kamerleden({ searchParams }: Props) {
   const gekozen = persoon ? leden.find((k) => k.persoon === persoon) ?? null : null;
   const basis = { soort, ...(periode ? { periode: periode.naam } : {}) };
   const link = (extra: Record<string, string>) => `/kamerleden?${new URLSearchParams({ ...basis, stuk, ...extra }).toString()}`;
-  const meervoud = stuk === "Motie" ? "moties" : "amendementen";
+  const meervoud = meervoudVan(stuk);
+  const minimum = minimumVoor(stuk);
   // Rol van een fractie in deze periode (kabinet of oppositie), voor de tabellen en de ranglijst
   const rollen = new Map((fracties ?? []).map((r) => [r.afkorting, r.rol]));
   const rolVan = (f: string | null) => (f ? rollen.get(f) : undefined);
@@ -121,9 +122,13 @@ export default async function Kamerleden({ searchParams }: Props) {
             <Label>{periode.naam} · ranglijst</Label>
             <SectieKop>Wie krijgt het vaakst iets aangenomen?</SectieKop>
             <Tekst>
-              Op aandeel, niet op aantal: van alle {meervoud} die een Kamerlid zelf indiende, welk deel haalde het? Kabinet en
-              oppositie apart, want wie regeert, krijgt makkelijker een meerderheid. Alleen Kamerleden met minstens {MINIMUM}{" "}
-              {meervoud}.
+              {stuk === "Wetsvoorstel"
+                ? <>Een initiatiefwet is een wetsvoorstel dat Kamerleden zelf schrijven. Dat zijn er weinig per Kamerlid, dus hier geen
+                    percentage: de volgorde is het aantal aangenomen wetten. Kabinet en oppositie apart. Telt mee: de eindstemming in de
+                    Tweede Kamer, niet de Eerste Kamer.</>
+                : <>Op aandeel, niet op aantal: van alle {meervoud} die een Kamerlid zelf indiende, welk deel haalde het? Kabinet en
+                    oppositie apart, want wie regeert, krijgt makkelijker een meerderheid. Alleen Kamerleden met minstens {MINIMUM}{" "}
+                    {meervoud}.</>}
             </Tekst>
             <Lezingen
               links={{ titel: "Wie veel binnenhaalt, weet steun te vinden", tekst: "Een hoog aandeel zegt dat een Kamerlid voorstellen schrijft waar een meerderheid achter kan staan." }}
@@ -134,8 +139,8 @@ export default async function Kamerleden({ searchParams }: Props) {
               <Link href={`${keuzeLink({ rol: "kabinet" })}#ranglijst`} aria-current={rangRol === "kabinet" ? "true" : undefined} scroll={false}>Kabinet</Link>
             </nav>
             {plekken.length === 0 ? (
-              <Tekst>Geen Kamerleden met minstens {MINIMUM} {meervoud} in deze periode.</Tekst>
-            ) : spreiding ? (
+              <Tekst>Geen Kamerleden met minstens {minimum} {meervoud} in deze periode.</Tekst>
+            ) : spreiding && stuk !== "Wetsvoorstel" ? (
               <Spreiding label={`Kamerleden (${rangRol}): ${meervoud} ingediend tegenover aandeel aangenomen`} xLabel={`${meervoud} ingediend`}
                 punten={plekken.map((p, i) => ({ key: p.persoon, label: p.naam, x: p.ingediend, y: p.aandeel, rol: rangRol, href: `${link({ persoon: p.persoon })}#stukken`, metLabel: i < 8 }))} />
             ) : (
@@ -194,7 +199,7 @@ export default async function Kamerleden({ searchParams }: Props) {
           )}
         </>
       )}
-      <Bronregel toelichting="Indieners uit de open data van de Tweede Kamer; uitslag geteld uit de stemmen. Moties en amendementen apart." />
+      <Bronregel toelichting="Indieners uit de open data van de Tweede Kamer; uitslag geteld uit de stemmen. Moties, amendementen en initiatiefwetten apart; bij een initiatiefwet telt de eindstemming in de Tweede Kamer." />
     </Inhoud>
   );
 }

@@ -93,6 +93,13 @@ describe("ranglijst (B2)", () => {
     expect(ranglijst(leden, "Motie", "oppositie", rolVan).map((p) => p.persoon)).toEqual(["E", "C", "B"]);
     expect(ranglijst(leden, "Motie", "kabinet", rolVan).map((p) => p.persoon)).toEqual(["A"]);
   });
+  it("initiatiefwetten: elke wet telt, volgorde op het aantal aangenomen wetten (migratie 022)", () => {
+    const wet = (persoon: string, ingediend: number, aangenomen: number) =>
+      kamerleden([{ persoon, naam: persoon, fractie_afkorting: "O", soort: "Wetsvoorstel", ingediend, mede: 0, aangenomen, brede_steun: 0 }])[0];
+    const uit = ranglijst([wet("P", 1, 1), wet("Q", 3, 2), wet("R", 2, 0)], "Wetsvoorstel", "oppositie", rolVan);
+    expect(uit.map((p) => p.persoon)).toEqual(["Q", "P", "R"]);
+    expect(wet("P", 1, 1).wetsvoorstel?.ingediend).toBe(1);
+  });
   it("bij gelijk aandeel eerst wie meer indiende", () => {
     expect(ranglijst([lid("X", "O", 10, 5), lid("Y", "O", 20, 10)], "Motie", "oppositie", rolVan).map((p) => p.persoon)).toEqual(["Y", "X"]);
   });
