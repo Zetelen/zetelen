@@ -340,7 +340,8 @@ Als beheerder wil ik weten of er bruikbare data van de Eerste Kamer is, zodat ik
 
 **E8-S5 Zelf meestemmen** (na R1, idee Niels, 26 oktober 2026)
 Als bezoeker wil ik zelf op echte moties stemmen en zien welke fracties het vaakst net zo stemden.
-- Twee manieren om moties te krijgen: een willekeurige trekking uit de verdeelde stemmingen, verspreid over de beleidsterreinen, met een knop voor andere moties; of de bezoeker kiest de terreinen die hem interesseren
+- Kern: wetsvoorstellen en amendementen, waar echt iets verandert (voorkeur Niels, 26 oktober 2026). Moties nog open, bijvoorbeeld als schakelaar "ook moties". Eerst tellen hoeveel verdeelde stemmingen er per soort zijn; over een wetsvoorstel stemmen fracties vaak volgens het regeerakkoord
+- Twee manieren om stemmingen te krijgen: een willekeurige trekking uit de verdeelde stemmingen, verspreid over de beleidsterreinen, met een knop voor andere; of de bezoeker kiest de terreinen die hem interesseren
 - De trekking is uitgelegd op de methodiekpagina en herhaalbaar (dezelfde link geeft dezelfde moties)
 - Per motie een korte, neutrale samenvatting, door Niels nagekeken, met een link naar de motie op tweedekamer.nl
 - De uitkomst per fractie als telling ("8 van de 12 keer hetzelfde"), per kabinet; twee lezingen erbij, zoals overal
