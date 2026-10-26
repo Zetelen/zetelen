@@ -119,6 +119,17 @@ export function Grafiekkader({
 }
 
 // Twee lezingen naast elkaar, op een telefoon onder elkaar
+// Hoofdstukkop over de volle breedte: een duidelijke scheiding tussen de hoofdstukken van een verhaal
+// (feedback Niels K2 en K3, 26 oktober 2026)
+export function HoofdstukKop({ nummer, titel, id }: { nummer?: string; titel: string; id?: string }) {
+  return (
+    <div className={s.hoofdstukKop} id={id}>
+      {nummer && <span className={s.hoofdstukNummer}>{nummer}</span>}
+      <h2>{titel}</h2>
+    </div>
+  );
+}
+
 export function Lezingen({ links, rechts }: { links: { titel: string; tekst: ReactNode }; rechts: { titel: string; tekst: ReactNode } }) {
   return (
     <div className={s.lezingen}>

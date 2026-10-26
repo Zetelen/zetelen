@@ -35,9 +35,9 @@ describe("perDossier", () => {
     besluit: Math.random().toString(), dossier, datum: "2026-01-01", zaakNummer: null, zaakSoort: null, onderwerp: null, uitslag: null,
     dossierNummer: 1, dossierToevoeging: null, dossierTitel: dossier, andereDossiers: [], a, b,
   });
-  it("telt samen en eens per dossier en zet het minst eens bovenaan", () => {
+  it("telt samen en eens per dossier en zet het meest eens bovenaan", () => {
     const uit = perDossier([r("X", "Voor", "Voor"), r("X", "Voor", "Tegen"), r("Y", "Tegen", "Voor"), r("Y", null, "Voor"), r("Z", null, null)]);
-    expect(uit.map((d) => [d.titel, d.eens, d.samen, d.stemmingen])).toEqual([["Y", 0, 1, 2], ["X", 1, 2, 2]]);
+    expect(uit.map((d) => [d.titel, d.eens, d.samen, d.stemmingen])).toEqual([["X", 1, 2, 2], ["Y", 0, 1, 2]]);
   });
   it("splitst eens in allebei voor en allebei tegen", () => {
     const uit = perDossier([r("X", "Voor", "Voor"), r("X", "Tegen", "Tegen"), r("X", "Tegen", "Tegen"), r("X", "Voor", "Tegen")]);

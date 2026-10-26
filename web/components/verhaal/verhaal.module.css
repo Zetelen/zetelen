@@ -52,14 +52,16 @@
   color: var(--koper);
 }
 
+/* Hoofdstuknaam in een kaart: groot, zodat een nieuw hoofdstuk opvalt (feedback Niels K3, 26 oktober 2026) */
 .hoofdstuk {
   display: block;
   margin-bottom: var(--r-3);
-  font-size: var(--tekst-label);
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--koper);
+  padding-bottom: var(--r-2);
+  border-bottom: 1px solid var(--lijn-licht);
+  font-family: var(--serif);
+  font-size: 26px;
+  line-height: 1.2;
+  color: var(--tekst);
 }
 .verder {
   display: inline-block;
@@ -89,15 +91,16 @@
   grid-column: 1;
   grid-row: 1;
   margin: 0;
-  padding: 18vh 0 40vh;
+  /* Weinig lege ruimte voor en na: geen zwart gat tussen twee verhalen (feedback Niels K2 en K3) */
+  padding: 8vh 0 12vh;
   pointer-events: auto;
 }
 .verhaal[data-tijdlijn="true"] .kaarten::before {
   content: "";
   position: absolute;
   left: 7px;
-  top: 18vh;
-  bottom: 40vh;
+  top: 8vh;
+  bottom: 12vh;
   width: 2px;
   background: var(--lijn);
 }
@@ -276,4 +279,38 @@
   .kader {
     animation: none;
   }
+}
+
+/* Breed: tekening over de volle breedte bovenin, de tekst van de actieve stap vast eronder. De kaarten in de
+   lijst blijven als onzichtbare afstandhouders (en voor schermlezers), zodat scrollen de stap kiest. */
+.verhaal[data-breed="true"] .figuur {
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: var(--r-3);
+  padding-top: 2vh;
+}
+.verhaal[data-breed="true"] .svg {
+  width: 100%;
+  max-height: 64vh;
+}
+.bijschrift {
+  max-width: 820px;
+  width: 100%;
+  font-size: 16px;
+  line-height: 1.55;
+}
+.verhaal[data-breed="true"] .kaart > div {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.verhaal[data-breed="true"] .kaart {
+  position: relative;
+}
+/* Groot label: de legenda onder de x-as (feedback Niels K2) */
+.label[data-groot="ja"] {
+  font-size: 19px;
 }

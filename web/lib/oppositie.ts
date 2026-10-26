@@ -39,10 +39,12 @@ function segmenten(rijen: Array<{ indiener_rol: string; ingediend: number; aange
   return uit;
 }
 
-const legenda = (y: number): Tekstlabel[] => [
-  { x: 0, y, tekst: "● kabinet", tint: ROL_TINT.kabinet },
-  { x: 130, y, tekst: "● oppositie", tint: ROL_TINT.oppositie },
-  { x: 280, y, tekst: "● indieners uit allebei", tint: ROL_TINT.gemengd },
+// Legenda groot en direct onder de x-as (feedback Niels K2, 26 oktober 2026)
+const LEGENDA_Y = 500;
+const legenda = (y: number = LEGENDA_Y): Tekstlabel[] => [
+  { x: 0, y, tekst: "● kabinet", tint: ROL_TINT.kabinet, groot: true },
+  { x: 150, y, tekst: "● oppositie", tint: ROL_TINT.oppositie, groot: true },
+  { x: 320, y, tekst: "● indieners uit allebei", tint: ROL_TINT.gemengd, groot: true },
 ];
 
 // Hoofdstuk 1: steeds meer moties, per jaar (een stip is 50 moties)
@@ -71,19 +73,19 @@ export function hoofdstukJaren(rijen: JaarWerk[], ditJaar: number): Stap[] {
     {
       datum: "wie dient in?",
       tekst: `Het overgrote deel komt van de oppositie: in ${laatsteVol} ${pct(opp(laatsteVol).ingediend, totaal(laatsteVol))}% van alle moties. Kabinetspartijen hebben hun wensen al in het regeerakkoord staan.`,
-      stippen: bouw("rol"), labels: [...labels, ...legenda(-20)],
+      stippen: bouw("rol"), labels: [...labels, ...legenda()],
     },
     {
       datum: "en wat haalt het?",
       tekst: `De heldere stippen zijn aangenomen. Van alle moties van de oppositie sinds ${eerste} haalde ${pct(oppAlles.aangenomen, oppAlles.ingediend)}% het, van die van kabinetspartijen ${pct(kabAlles.aangenomen, kabAlles.ingediend)}%. In ${jaren.slice(0, 3).join(", ").replace(/, ([^,]*)$/, " en $1")} haalde ${pct(begin.aangenomen, begin.ingediend)}% van de oppositiemoties het, in de laatste drie volle jaren ${pct(eind.aangenomen, eind.ingediend)}%.`,
-      stippen: bouw("aangenomen"), labels: [...labels, ...legenda(-20)],
+      stippen: bouw("aangenomen"), labels: [...labels, ...legenda()],
     },
     {
       datum: "twee lezingen",
       tekst: pct(eind.aangenomen, eind.ingediend) > pct(begin.aangenomen, begin.ingediend)
         ? `Twee lezingen. Meer invloed: de oppositie krijgt vaker iets binnen dan in ${eerste}, en in aantallen meer dan ooit. Of inflatie: moties vragen vaak weinig, een kabinet stemt makkelijk in met een onderzoek of een brief, en een aangenomen motie is nog geen uitgevoerd besluit.`
         : `Twee lezingen. Meer moties, meer kansen: in aantallen krijgt de oppositie meer binnen dan in ${eerste}. Of inflatie: naar verhouding haalt minder het, en een aangenomen motie is nog geen uitgevoerd besluit.`,
-      stippen: bouw("aangenomen"), labels: [...labels, ...legenda(-20)],
+      stippen: bouw("aangenomen"), labels: [...labels, ...legenda()],
     },
   ];
 }
@@ -107,12 +109,12 @@ export function hoofdstukKabinetten(rijen: PeriodeWerk[], kabinetten: string[], 
       {
         hoofdstuk: "6 · Aan de wet zelf zitten", datum: "amendementen",
         tekst: `Een amendement verandert een wet direct. Het zijn er veel minder dan moties: elke stip is ${PER} amendementen. Ook hier dient vooral de oppositie in.`,
-        stippen: bouw("rol"), labels: [...labels, ...legenda(-20)],
+        stippen: bouw("rol"), labels: [...labels, ...legenda()],
       },
       {
         datum: "wat haalt het?",
         tekst: `Aangenomen amendementen van de oppositie, per kabinet: ${lijst}. Het hoogste aandeel: onder kabinet-${hoogste}.`,
-        stippen: bouw("aangenomen"), labels: [...labels, ...legenda(-20)],
+        stippen: bouw("aangenomen"), labels: [...labels, ...legenda()],
         link: KAMERLEDEN ? { href: "/kamerleden?stuk=Amendement", tekst: "Wie dienden de amendementen in?" } : undefined,
       },
     ];
@@ -121,12 +123,12 @@ export function hoofdstukKabinetten(rijen: PeriodeWerk[], kabinetten: string[], 
     {
       hoofdstuk: "2 · Per kabinet", datum: "wie dient in?",
       tekst: `Dezelfde moties, nu per kabinet. Elke stip is ${PER} ${woord}. Onder elk kabinet komt ${Math.min(...kabinetten.map((k) => pct(rol(k, "oppositie").ingediend, per(k).reduce((t, r) => t + r.ingediend, 0))))} tot ${Math.max(...kabinetten.map((k) => pct(rol(k, "oppositie").ingediend, per(k).reduce((t, r) => t + r.ingediend, 0))))}% van de moties van de oppositie.`,
-      stippen: bouw("rol"), labels: [...labels, ...legenda(-20)],
+      stippen: bouw("rol"), labels: [...labels, ...legenda()],
     },
     {
       hoofdstuk: "3 · Hoe vaak lukt het?", datum: "aangenomen",
       tekst: `Aangenomen moties van de oppositie, per kabinet: ${lijst}.`,
-      stippen: bouw("aangenomen"), labels: [...labels, ...legenda(-20)],
+      stippen: bouw("aangenomen"), labels: [...labels, ...legenda()],
     },
     {
       datum: "twee lezingen",
@@ -134,7 +136,7 @@ export function hoofdstukKabinetten(rijen: PeriodeWerk[], kabinetten: string[], 
       tekst: Math.abs(gem(minderheid) - gem(meerderheid)) < 5
         ? `Maakt het uit of het kabinet een meerderheid heeft? Nauwelijks: onder ${minderheid.map((k) => `kabinet-${k}`).join(" en ")} haalde gemiddeld ${gem(minderheid)}% van de oppositiemoties het, onder de meerderheidskabinetten ${gem(meerderheid)}%. Wat wel verschuift, is de tijd: van ${succes(kabinetten[0])}% onder kabinet-${kabinetten[0]} naar ${succes(kabinetten[kabinetten.length - 1])}% onder kabinet-${kabinetten[kabinetten.length - 1]}. Twee lezingen: de oppositie wint terrein, of haar moties vragen minder.`
         : `Onder ${minderheid.map((k) => `kabinet-${k}`).join(" en ")}, zonder eigen meerderheid of met gedoogsteun, haalde gemiddeld ${gem(minderheid)}% van de oppositiemoties het, onder de meerderheidskabinetten ${gem(meerderheid)}%. Meer invloed voor de oppositie als het kabinet steun nodig heeft? Of moties die het kabinet toch al wilde? Allebei te verdedigen.`,
-      stippen: bouw("aangenomen"), labels: [...labels, ...legenda(-20)],
+      stippen: bouw("aangenomen"), labels: [...labels, ...legenda()],
     },
   ];
 }

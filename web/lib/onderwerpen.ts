@@ -92,7 +92,7 @@ export type DossierTelling = {
 
 // Per dossier: op hoeveel stemmingen beide fracties stemden (samen), hoe vaak hetzelfde (eens) en daarvan hoe
 // vaak allebei voor en allebei tegen; samen min eens is het aantal keer verschillend.
-// Gesorteerd op het minst eens (laagste aandeel), dan op het aantal stemmingen samen.
+// Gesorteerd op het meest eens (hoogste aandeel; verzoek Niels K1, 26 oktober 2026), dan op het aantal stemmingen samen.
 export function perDossier(rijen: StemmingRij[]): DossierTelling[] {
   const per = new Map<string, DossierTelling>();
   for (const r of rijen) {
@@ -110,8 +110,8 @@ export function perDossier(rijen: StemmingRij[]): DossierTelling[] {
     }
     per.set(r.dossier, d);
   }
-  const aandeel = (d: DossierTelling) => (d.samen ? d.eens / d.samen : 2);
-  return [...per.values()].filter((d) => d.samen > 0).sort((x, y) => aandeel(x) - aandeel(y) || y.samen - x.samen || x.titel.localeCompare(y.titel));
+  const aandeel = (d: DossierTelling) => (d.samen ? d.eens / d.samen : -1);
+  return [...per.values()].filter((d) => d.samen > 0).sort((x, y) => aandeel(y) - aandeel(x) || y.samen - x.samen || x.titel.localeCompare(y.titel));
 }
 
 // Zoeken op tweedekamer.nl op het zaaknummer (een directe link per motie werkt niet met alleen het nummer)

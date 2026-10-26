@@ -7,7 +7,9 @@ import Link from "next/link";
 import { Bronregel } from "@/components/cohesie/Bronregel";
 import { Inhoud, LegeStaat, knopKlasse } from "@/components/Kader";
 import { Label, SectieKop, Tekst } from "@/components/Typografie";
+import { HoofdstukKop } from "@/components/Onderdelen";
 import { ScrollVerhaal } from "@/components/verhaal/ScrollVerhaal";
+import type { Stap } from "@/lib/verhaal";
 import { hoofdstukJaren, hoofdstukKabinetten, hoofdstukNetwerk, hoofdstukSpreiding, hoofdstukTegenEnSamen } from "@/lib/oppositie";
 import { fractieWerk, jaarWerk, netwerk, periodeWerk } from "@/lib/zetelwerk";
 
@@ -19,6 +21,9 @@ export const metadata: Metadata = {
 
 // Kabinetten in het verhaal: vanaf Rutte I (Balkenende IV telt pas vanaf 2010 en is te kort)
 const KABINETTEN = ["Rutte I", "Rutte II", "Rutte III", "Rutte IV", "Schoof", "Jetten"];
+
+// De kop staat boven het verhaal; de eerste kaart herhaalt hem niet
+const zonderKop = (stappen: Stap[]): Stap[] => stappen.map((s, i) => (i === 0 ? { ...s, hoofdstuk: undefined } : s));
 
 export default async function Oppositie() {
   const [jaren, perioden, fracties] = await Promise.all([jaarWerk(), periodeWerk("kabinet"), fractieWerk("kabinet")]);
@@ -51,11 +56,17 @@ export default async function Oppositie() {
         </Tekst>
       </section>
 
-      <ScrollVerhaal verhaal={{ breed: hoofdstukJaren(jaren, ditJaar) }} label="Moties per jaar" tijdlijn stapHoogte="80vh" />
-      <ScrollVerhaal verhaal={{ breed: hoofdstukKabinetten(perioden, KABINETTEN, "Motie", minderheid) }} label="Moties per kabinet" tijdlijn stapHoogte="80vh" />
-      <ScrollVerhaal verhaal={{ breed: hoofdstukTegenEnSamen(hoofdstukSpreiding(fracties, KABINETTEN), hoofdstukNetwerk(netwerken.map((n) => ({ ...n, rollen: rollen(n.kabinet) })))) }}
-        label="Tegenstemmen en aangenomen moties per fractie, daarna samen ingediend" tijdlijn stapHoogte="80vh" />
-      <ScrollVerhaal verhaal={{ breed: hoofdstukKabinetten(perioden, KABINETTEN, "Amendement", minderheid) }} label="Amendementen per kabinet" tijdlijn stapHoogte="80vh" />
+      {/* Elk hoofdstuk opent met een kop over de volle breedte (feedback Niels K2, 26 oktober 2026); hoofdstuk 4 en 5
+          breed, met de kaart onder de tekening */}
+      <HoofdstukKop nummer="1" titel="Steeds meer moties" />
+      <ScrollVerhaal verhaal={{ breed: zonderKop(hoofdstukJaren(jaren, ditJaar)) }} label="Moties per jaar" tijdlijn stapHoogte="60vh" />
+      <HoofdstukKop nummer="2" titel="Per kabinet" />
+      <ScrollVerhaal verhaal={{ breed: zonderKop(hoofdstukKabinetten(perioden, KABINETTEN, "Motie", minderheid)) }} label="Moties per kabinet" tijdlijn stapHoogte="60vh" />
+      <HoofdstukKop nummer="4" titel="Tegenstemmen en zelf scoren" />
+      <ScrollVerhaal verhaal={{ breed: zonderKop(hoofdstukTegenEnSamen(hoofdstukSpreiding(fracties, KABINETTEN), hoofdstukNetwerk(netwerken.map((n) => ({ ...n, rollen: rollen(n.kabinet) }))))) }}
+        label="Tegenstemmen en aangenomen moties per fractie, daarna samen ingediend" breed stapHoogte="60vh" />
+      <HoofdstukKop nummer="6" titel="Aan de wet zelf zitten" />
+      <ScrollVerhaal verhaal={{ breed: zonderKop(hoofdstukKabinetten(perioden, KABINETTEN, "Amendement", minderheid)) }} label="Amendementen per kabinet" tijdlijn stapHoogte="60vh" />
 
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", maxWidth: 860 }}>
         <Label>Nu jij</Label>

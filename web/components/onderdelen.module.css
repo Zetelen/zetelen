@@ -174,3 +174,26 @@
 .inklapbaar[open] > summary::after {
   content: "−";
 }
+
+/* Hoofdstukkop: lijn over de volle breedte, nummer en titel groot */
+.hoofdstukKop {
+  display: flex;
+  align-items: baseline;
+  gap: var(--r-4);
+  padding-top: var(--r-5);
+  border-top: 1px solid var(--lijn-licht);
+  scroll-margin-top: 80px;
+}
+.hoofdstukKop h2 {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: var(--kop-sectie);
+  line-height: 1.1;
+  color: var(--tekst);
+}
+.hoofdstukNummer {
+  font-family: var(--mono);
+  font-size: 20px;
+  color: var(--koper);
+}

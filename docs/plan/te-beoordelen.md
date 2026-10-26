@@ -14,11 +14,11 @@ Volgorde: B1 tot en met B3 en C1 en C2 houden de livegang het meest op. Nieuw si
 
 In deze volgorde; ☑ is gebouwd, getest en live.
 
-1. ☐ Kleine tekstpunten: 404 (B10), "Hoe lees je dit?" (B9c), /over (B15 en knipoog 3), reactietermijn (B6)
-2. ☐ Kamerleden achter een conceptvlag (B1), labels concept per pagina (B7)
-3. ☐ Menuknop op de telefoon (B8), Vercel Analytics in de code (B5)
-4. ☐ Eigen feedbackformulier met opslag in de database en de vragenlijst (B13, B3)
-5. ☐ Onderwerpen (K1), voorpagina met de nieuwe opening (B14, K3), Oppositiewerk breed (K2)
+1. ☑ Kleine tekstpunten: 404 (B10), "Hoe lees je dit?" (B9c), /over (B15 en knipoog 3), reactietermijn (B6)
+2. ☑ Kamerleden achter een conceptvlag (B1; `KAMERLEDEN` in `web/lib/site.ts`, nu aan). Labels concept per pagina (B7): Privacy kan eraf zodra je de nieuwe tekst ziet; de rest volgt per pagina
+3. ☑ Menuknop op de telefoon (B8), Vercel Analytics in de code (B5)
+4. ☑ Eigen feedbackformulier op /feedback, opslag in `beheer.feedback` (migratie 021), bewaartermijn 12 maanden, privacytekst (B13, B3). Jouw test: vul het formulier één keer in en kijk in Supabase (Table Editor, schema beheer, tabel feedback) of je antwoord er staat
+5. ☑ Onderwerpen (K1), voorpagina met de nieuwe opening (B14, K3), Oppositiewerk breed (K2). Graag opnieuw bekijken: K1, K2 en K3. Bekend: de spreiding is op de telefoon nog klein
 6. ☐ Kamerleden: strakkere tabel, ranglijst op aandeel aangenomen per rol, spreidingsdiagram (K5, B2); fractiepagina met onderwerpen die uitklappen (K5)
 7. ☐ Vaste lezingen en dynamische lezingen in de tools (B4)
 8. ☐ Reeks casussen "één stemming uit elkaar gehaald" (B16), kliktabel afwijkende uitslagen (C4)

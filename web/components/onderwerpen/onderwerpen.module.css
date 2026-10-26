@@ -440,3 +440,57 @@ a.balkRij[data-actief="true"] {
 .balkRij[data-klein="true"] {
   opacity: 0.6;
 }
+
+/* Nu jij: een duidelijke uitnodiging met de keuzes erin (feedback Niels K1) */
+.nuJij {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-4);
+  padding: var(--r-6);
+  border: 1px solid var(--lijn);
+  border-left: 4px solid var(--koper);
+  border-radius: var(--hoek-paneel);
+  background: var(--nacht-900);
+  scroll-margin-top: 80px;
+}
+.fractieKeuze {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-4);
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--r-2);
+  margin-top: var(--r-2);
+}
+.chip {
+  min-height: 40px;
+  padding: 0 var(--r-3);
+  border: 1px solid var(--lijn-licht);
+  border-radius: var(--hoek-pil);
+  background: transparent;
+  color: var(--tekst);
+  font: inherit;
+  font-size: 15px;
+  cursor: pointer;
+}
+.chip:hover {
+  background: var(--nacht-700);
+}
+.chip[aria-pressed="true"] {
+  border-color: var(--koper);
+  background: var(--koper);
+  color: var(--nacht-950);
+  font-weight: 600;
+}
+.zetels {
+  font-family: var(--mono);
+  font-size: 12px;
+  opacity: 0.75;
+}
+@media (max-width: 640px) {
+  .nuJij {
+    padding: var(--r-4);
+  }
+}

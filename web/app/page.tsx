@@ -1,17 +1,21 @@
 // Voorpagina (E3-S1), herzien op 25 oktober 2026: het verhaal van de site in hoofdstukken, die elk eindigen
 // bij de plek op de site waar je verder kunt kijken (besluit Niels). Hoofdstuk 3 (onderwerpen) laat de twee
 // grootste kabinetspartijen per beleidsterrein zien (component onderwerpen).
+// Sinds 26 oktober 2026 (B14 en K3): de opening vraagt waar fracties elkaar vinden, met twee lezingen en een
+// uitnodiging; dan "Maar eerst: hoe zijn we hier gekomen?". Hoofdstukken met een kop over de volle breedte.
 import { KAMERLEDEN } from "@/lib/site";
 import Link from "next/link";
 import { Inhoud, knopKlasse } from "@/components/Kader";
 import { Bronregel } from "@/components/cohesie/Bronregel";
-import { Data, HeroKop, Label, SectieKop, Tekst } from "@/components/Typografie";
+import { HoofdstukKop, Lezingen } from "@/components/Onderdelen";
+import { Data, HeroKop, Label, Tekst } from "@/components/Typografie";
 import { TerreinBalken } from "@/components/onderwerpen/TerreinBalken";
 import { ScrollVerhaal } from "@/components/verhaal/ScrollVerhaal";
 import { procent } from "@/lib/cohesie";
 import { cohesiePerTerrein, paarPerTerrein, uitersten } from "@/lib/onderwerpen";
-import { kabinetNu, kabinetspartners, laadVerhaal, zaalVerhaal } from "@/lib/voorpagina";
-import { jaarWerk } from "@/lib/zetelwerk";
+import type { Stap } from "@/lib/verhaal";
+import { kabinetNu, kabinetspartners, laadVerhaal, samenwerking, zaalVerhaal } from "@/lib/voorpagina";
+import { jaarWerk, periodeWerk } from "@/lib/zetelwerk";
 import s from "./voorpagina.module.css";
 
 const TOOLS = [
@@ -32,36 +36,50 @@ export default async function Voorpagina() {
   const paar = partners && perTerrein ? paarPerTerrein(perTerrein, partners.b.id) : null;
   const u = paar ? uitersten(paar) : null;
   const jaren = await jaarWerk();
+  const perPeriode = await periodeWerk("kabinet");
+  const samen = kabinet && perPeriode ? samenwerking(perPeriode, kabinet.naam, "Rutte I") : null;
+  const getal = (n: number) => n.toLocaleString("nl-NL");
+  // De kop "Maar eerst: hoe zijn we hier gekomen?" staat boven het verhaal; de eerste kaart herhaalt hem niet
+  const zonderKop = (stappen: Stap[]): Stap[] => stappen.map((st, i) => (i === 0 ? { ...st, hoofdstuk: undefined } : st));
   return (
     <Inhoud>
       <section className={s.opening}>
         <Label>zetelen (ww.) · stemmen, onderhandelen en meetellen in de Tweede Kamer</Label>
-        <HeroKop>Wie stemt met wie in de Kamer?</HeroKop>
+        <HeroKop>Waar vinden ze elkaar?</HeroKop>
         <Tekst>
-          In de Kamer wordt veel gepraat. Uiteindelijk telt wie zijn hand opsteekt. Zetelen telt mee, bij elke stemming sinds
-          2010. Scroll door vier jaar Kamer, of ga meteen zelf op zoek.
+          <strong>Ruzie, ophef, de waan van de dag.</strong> Wie het nieuws volgt, ziet een verdeelde Kamer en een politiek die op
+          slot zit. Maar wat zie je als je de stemmingen telt?
         </Tekst>
-        <nav className={s.snel} aria-label="Direct naar">
-          {TOOLS.map((t) => (
-            <Link key={t.href} href={t.href}>
-              {t.titel}
-              {t.concept && <span className={s.concept}>concept</span>}
-            </Link>
-          ))}
-          <a href="#verder" className={s.overslaan}>Meteen zelf kijken</a>
+        {samen && kabinet && (
+          <Tekst>
+            Onder kabinet-{kabinet.naam} nam de Kamer {getal(samen.aangenomen)} van de {getal(samen.moties)} moties aan. Bij{" "}
+            {getal(samen.breed)} daarvan stemde ten minste één fractie uit het kabinet én één uit de oppositie voor. De oppositie
+            kreeg {samen.oppositieNu}% van haar moties erdoor. Onder {samen.eerste} was dat {samen.oppositieEerst}%.
+          </Tekst>
+        )}
+        <Lezingen
+          links={{ titel: "Er wordt meer samengewerkt dan het lijkt", tekst: "Achter de ruzie in het debat stemmen kabinet en oppositie vaak samen, en dat is sinds 2010 flink toegenomen." }}
+          rechts={{ titel: "Breed is niet diep", tekst: "Over een verzoek om een onderzoek of een brief is de Kamer het snel eens. Waar het om geld en koers gaat, bij de begroting en de grote wetten, staan kabinet en oppositie nog steeds vaak tegenover elkaar." }}
+        />
+        <Tekst>Op sommige onderwerpen, zoals asiel, gaan fracties juist verder uit elkaar dan gemiddeld. Zoek zelf waar ze elkaar vinden, en waar niet.</Tekst>
+        <nav className={s.cta} aria-label="Zoek zelf">
+          <Link href="/verkenner" className={knopKlasse}>Wie stemt met wie?</Link>
+          <Link href="/onderwerpen" className={knopKlasse}>Waar zijn ze het over eens?</Link>
+          <Link href="/coalitie" className={knopKlasse}>Kun jij er 76 vinden?</Link>
+          <a href="#verder" className={s.overslaan}>Alle onderdelen</a>
         </nav>
       </section>
 
+      <HoofdstukKop titel="Maar eerst: hoe zijn we hier gekomen?" id="verhaal" />
       {d ? (
-        <ScrollVerhaal verhaal={{ breed: zaalVerhaal(d) }} label="De zaal van de Tweede Kamer" tijdlijn />
+        <ScrollVerhaal verhaal={{ breed: zonderKop(zaalVerhaal(d)) }} label="De zaal van de Tweede Kamer" tijdlijn stapHoogte="70vh" />
       ) : (
         <Tekst>Het verhaal kon niet worden geladen. Probeer het over een paar minuten opnieuw, of ga direct naar de verkenner.</Tekst>
       )}
 
       {partners && paar && u && kabinet && (
-        <section className={s.hoofdstuk} style={{ maxWidth: 960 }}>
-          <Label>3 · Waar zijn ze het over eens?</Label>
-          <SectieKop>Samen in het kabinet. Overal eens?</SectieKop>
+        <section className={s.hoofdstuk} style={{ maxWidth: "none" }}>
+          <HoofdstukKop nummer="3" titel="Samen in het kabinet. Overal eens?" />
           <Tekst>
             {partners.a.afkorting} en {partners.b.afkorting} zijn de grootste partijen van kabinet-{kabinet.naam}
             {partners.totaal != null ? ` en stemmen in ${procent(partners.totaal)} van de stemmingen hetzelfde` : ""}. Per onderwerp
@@ -76,8 +94,7 @@ export default async function Voorpagina() {
       )}
 
       <section className={s.hoofdstuk}>
-        <Label>4 · Kun jij een meerderheid vinden?</Label>
-        <SectieKop>Kun jij er 76 vinden?</SectieKop>
+        <HoofdstukKop nummer="4" titel="Kun jij er 76 vinden?" />
         <Tekst>
           {kabinet && kabinet.zetels < 76
             ? `Kabinet-${kabinet.naam} heeft ${kabinet.zetels} zetels en heeft er 76 nodig voor een meerderheid. `
@@ -99,8 +116,7 @@ export default async function Voorpagina() {
         const eerste = perJaar[0], laatste = perJaar.filter((x) => x.jaar < new Date().getFullYear()).pop() ?? perJaar[perJaar.length - 1];
         return (
           <section className={s.hoofdstuk}>
-            <Label>5 · En de oppositie?</Label>
-            <SectieKop>Wat kun je als je niet regeert?</SectieKop>
+            <HoofdstukKop nummer="5" titel="En de oppositie? Wat kun je als je niet regeert?" />
             <Tekst>
               Moties indienen, vooral. In {eerste.jaar} stemde de Kamer over {eerste.totaal.toLocaleString("nl-NL")} moties, in {laatste.jaar} over{" "}
               {laatste.totaal.toLocaleString("nl-NL")}. Het grootste deel komt van de oppositie. Maar hoeveel haalt het, en verandert dat
@@ -119,8 +135,8 @@ export default async function Voorpagina() {
         );
       })()}
 
-      <section id="verder" className={s.hoofdstuk} style={{ maxWidth: "none" }}>
-        <Label>Maar hoe werd er nou echt gezeteld? Kijk zelf</Label>
+      <section id="verder" className={s.hoofdstuk} style={{ maxWidth: "none", scrollMarginTop: 80 }}>
+        <HoofdstukKop titel="Maar hoe werd er nou echt gezeteld? Kijk zelf" />
         <div className={s.tegels}>
           {TOOLS.map((t) => (
             <Link key={t.href} href={t.href} className={s.tegel}>

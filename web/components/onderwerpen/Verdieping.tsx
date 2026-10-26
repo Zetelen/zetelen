@@ -1,5 +1,5 @@
 // Verdieping (component onderwerpen): de dossiers van een terrein voor een paar fracties, gesorteerd op het
-// minst eens, met per dossier een gestapelde balk (allebei voor, verschillend, allebei tegen). Een dossier
+// meest eens, met per dossier een gestapelde balk (allebei voor, verschillend, allebei tegen). Een dossier
 // klapt uit naar zijn stemmingen. Tellingen, geen percentages: per dossier haalt een paar de drempel van 25
 // stemmingen bijna nooit.
 import Link from "next/link";
@@ -38,7 +38,7 @@ export function DossierLijst({ dossiers, a, b, hrefVoor, actief, sluitHref, uitk
 }) {
   if (!dossiers.length) return <Tekst>Hier stemden {a} en {b} nooit allebei.</Tekst>;
   return (
-    <ol className={s.dossiers} aria-label={`Dossiers, van minst naar meest eens tussen ${a} en ${b}`}>
+    <ol className={s.dossiers} aria-label={`Dossiers, van meest naar minst eens tussen ${a} en ${b}`}>
       {dossiers.map((d) => {
         const open = actief === d.dossier;
         const anders = d.samen - d.eens;

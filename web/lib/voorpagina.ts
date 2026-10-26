@@ -142,3 +142,23 @@ export function kabinetspartners(d: VerhaalData): { a: { id: string; afkorting: 
   if (!a || !b) return null;
   return { a: { id: a.id, afkorting: a.afkorting }, b: { id: b.id, afkorting: b.afkorting }, totaal: d.cohesie.get(sleutel(a.id, b.id))?.cohesie ?? null };
 }
+
+// Opening van de voorpagina (besluit Niels B14, 26 oktober 2026): waar vinden ze elkaar? Per kabinet de moties
+// waarover gestemd is, hoeveel er aangenomen zijn, hoeveel met brede steun (stemmen voor uit kabinet én oppositie),
+// en welk deel van de oppositiemoties het haalde. Rekent elke dag opnieuw, want het huidige kabinet loopt nog.
+export type Samenwerking = { moties: number; aangenomen: number; breed: number; oppositieNu: number; oppositieEerst: number; eerste: string };
+type PeriodeRij = { periode: string; soort: string; indiener_rol: string; ingediend: number; aangenomen: number; brede_steun: number };
+
+export function samenwerking(rijen: PeriodeRij[], kabinet: string, eerste: string): Samenwerking | null {
+  const moties = (k: string) => rijen.filter((r) => r.periode === k && r.soort === "Motie");
+  const som = (rs: PeriodeRij[], v: "ingediend" | "aangenomen" | "brede_steun") => rs.reduce((t, r) => t + r[v], 0);
+  const aandeel = (k: string) => {
+    const o = moties(k).filter((r) => r.indiener_rol === "oppositie");
+    const n = som(o, "ingediend");
+    return n ? Math.round((100 * som(o, "aangenomen")) / n) : null;
+  };
+  const nu = moties(kabinet);
+  const oppositieNu = aandeel(kabinet), oppositieEerst = aandeel(eerste);
+  if (!nu.length || oppositieNu == null || oppositieEerst == null) return null;
+  return { moties: som(nu, "ingediend"), aangenomen: som(nu, "aangenomen"), breed: som(nu, "brede_steun"), oppositieNu, oppositieEerst, eerste };
+}
