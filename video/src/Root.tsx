@@ -8,7 +8,7 @@ import { DUUR_GELIJK, GelijkeStand } from "./videos/GelijkeStand";
 import { DUUR_HOEFIJZER, Hoefijzer } from "./videos/Hoefijzer";
 import { DUUR_STEMMING, Stemming } from "./videos/Stemming";
 import { DUUR_TIJDLIJN, Tijdlijn } from "./videos/Tijdlijn";
-import { DUUR_WEEGSCHAAL, Weegschaal } from "./videos/Weegschaal";
+import { Weegschaal, duurWeegschaal } from "./videos/Weegschaal";
 
 // Welke variant bij welke casus past
 export const VARIANTEN: Array<{ id: string; slug: string; soort: "Weegschaal" | "Hoefijzer" | "GelijkeStand" | "EenFractie" }> = [
@@ -21,7 +21,10 @@ export const VARIANTEN: Array<{ id: string; slug: string; soort: "Weegschaal" | 
   { id: "EenFractie-motie-eerdmans", slug: "motie-eerdmans", soort: "EenFractie" },
 ];
 
-const DUUR = { Weegschaal: DUUR_WEEGSCHAAL, Hoefijzer: DUUR_HOEFIJZER, GelijkeStand: DUUR_GELIJK, EenFractie: DUUR_EEN_FRACTIE };
+// Duur per casus: bij de weegschaal hangt die af van het aantal fracties
+const DUUR: Record<string, (slug: string) => number> = {
+  Weegschaal: duurWeegschaal, Hoefijzer: () => DUUR_HOEFIJZER, GelijkeStand: () => DUUR_GELIJK, EenFractie: () => DUUR_EEN_FRACTIE,
+};
 const COMPONENT = { Weegschaal, Hoefijzer, GelijkeStand, EenFractie };
 
 export function Root() {
@@ -29,7 +32,7 @@ export function Root() {
     <>
       {VARIANTEN.map((v) => (
         <Composition key={v.id} id={v.id} component={COMPONENT[v.soort]} defaultProps={{ slug: v.slug }}
-          durationInFrames={DUUR[v.soort]} fps={FPS} width={BREED} height={HOOG} />
+          durationInFrames={DUUR[v.soort](v.slug)} fps={FPS} width={BREED} height={HOOG} />
       ))}
       {CASUS_LIJST.map((c) => (
         <Composition key={c.slug} id={`Stemming-${c.slug}`} component={Stemming} defaultProps={{ slug: c.slug }}

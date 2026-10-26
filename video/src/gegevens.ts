@@ -35,7 +35,10 @@ export const casus = (slug: string): VideoCasus => {
   return c;
 };
 
-export const naam = (f: string) => KORT[f] ?? f;
+// Fracties die naar een Kamerlid heten. In de video's geen namen van personen (besluit Niels, 26 oktober 2026),
+// dus die heten hier "Afsplitsing"; op de site staat de echte naam.
+export const PERSOONSFRACTIE = new Set(["Groep Markuszower", "GrKÖ", "GrBvK", "Houwers", "Klein", "Lid Keijzer", "Van Vliet"]);
+export const naam = (f: string) => (PERSOONSFRACTIE.has(f) ? "Afsplitsing" : KORT[f] ?? f);
 export const lijstTekst = (l: string[]) => (l.length < 2 ? l.join("") : `${l.slice(0, -1).join(", ")} en ${l[l.length - 1]}`);
 
 export function datumTekst(iso: string): string {

@@ -2,7 +2,8 @@
 // anticlimax van weer gelijk). Eerst 72-72 en het stempel "gestaakt". Een week later stemt de Kamer opnieuw: elke
 // verandering per fractie schuift binnen als kaart, het scorebord verspringt en een wijzer kantelt. De volgorde van
 // de veranderingen is zo gekozen dat de leiding zo vaak mogelijk wisselt. Het slot: weer gelijk, niet aangenomen.
-import { AbsoluteFill, Sequence, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { MetTitel, TITEL } from "../titel";
 import { casus, datumTekst, naam, perFractie, totalen, uitslagWoord } from "../gegevens";
 import { Banner, Flits, Geluid, Sprong, Stempel, Woorden, ZWAAR } from "../flits";
 import { Achtergrond, Eind, Merk, zacht } from "../onderdelen";
@@ -51,8 +52,8 @@ const veranderingTekst = (x: Mutatie) => {
   return delen;
 };
 
-// Tempo (feedback Niels 26 oktober: iets minder snel); TITEL is de opening met de motie groot in beeld
-const TITEL = 120, HAAK = 110, UITLEG = 160, WEEK = 90, PER = 108, SLOT = 220, EIND = 150;
+// Tempo (feedback Niels 26 oktober: iets minder snel); de opening met de motie groot in beeld zit in ../titel.tsx
+const HAAK = 110, UITLEG = 160, WEEK = 90, PER = 108, SLOT = 220, EIND = 150;
 
 export function duurGelijk(slug = "studievoorschot"): number {
   const c = casus(slug);
@@ -60,33 +61,8 @@ export function duurGelijk(slug = "studievoorschot"): number {
 }
 export const DUUR_GELIJK = duurGelijk();
 
-// Opening: de motie groot in beeld, met de vraag
-function Titel({ slug }: { slug: string }) {
-  const frame = useCurrentFrame();
-  const c = casus(slug);
-  return (
-    <AbsoluteFill style={{ opacity: interpolate(frame, [TITEL - 10, TITEL], [1, 0], zacht) }}>
-      <Achtergrond binnenhof={0.35} />
-      <Merk />
-      <div style={{ position: "absolute", top: 560, left: VEILIG.zij, right: VEILIG.zij, display: "flex", flexDirection: "column", gap: 34 }}>
-        <div><Banner bij={4}>{c.soort} · {datumTekst(c.besluiten[0].datum)}</Banner></div>
-        <Woorden tekst={c.titel} bij={12} grootte={Math.min(150, Math.floor(1700 / Math.max(...c.titel.split(" ").map((w) => w.length))))} />
-        <Woorden tekst={c.vraag} bij={44} grootte={58} kleur={K.koper} />
-      </div>
-      <Geluid bij={12} naam="dreun" volume={0.7} />
-      <Geluid bij={44} naam="tik" volume={0.7} />
-      <Geluid bij={TITEL - 10} naam="swoosh" volume={0.6} />
-    </AbsoluteFill>
-  );
-}
-
 export function GelijkeStand({ slug }: { slug: string }) {
-  return (
-    <AbsoluteFill style={{ backgroundColor: K.nacht950 }}>
-      <Sequence durationInFrames={TITEL}><Titel slug={slug} /></Sequence>
-      <Sequence from={TITEL}><Verloop slug={slug} /></Sequence>
-    </AbsoluteFill>
-  );
+  return <MetTitel slug={slug}><Verloop slug={slug} /></MetTitel>;
 }
 
 function Verloop({ slug }: { slug: string }) {

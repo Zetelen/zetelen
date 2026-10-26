@@ -6,7 +6,7 @@
 import { AbsoluteFill, interpolate, random, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { KLEIN, VOORGANGER, type ZaalStip, sleutels, tinten, zaal } from "../../../web/lib/verhaal";
 import tijdlijn from "../gegevens/tijdlijn.json";
-import { lijstTekst, naam } from "../gegevens";
+import { PERSOONSFRACTIE, lijstTekst, naam } from "../gegevens";
 import { Camera, Flits, Geluid, type Shot, Sprong, Stempel, Woorden, ZWAAR } from "../flits";
 import { Achtergrond, Eind, Merk, zacht } from "../onderdelen";
 import { K, LETTER, VEILIG } from "../stijl";
@@ -28,7 +28,7 @@ function veranderingen(vorig: Record<string, number>, nu: Record<string, number>
     const v = (VOORGANGER[f] ?? []).find((p) => p in vorig);
     if (!v) return `${naam(f)} is nieuw.`;
     // Een nieuwe naam (de voorganger is weg) zie je verder niet in beeld: niet noemen (feedback Niels)
-    return v in nu ? `${naam(f)} splitste af van ${naam(v)}.` : "";
+    return v in nu ? (PERSOONSFRACTIE.has(f) ? `Een groep splitste af van ${naam(v)}.` : `${naam(f)} splitste af van ${naam(v)}.`) : "";
   }).filter(Boolean);
 }
 
