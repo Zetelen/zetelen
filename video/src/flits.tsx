@@ -32,6 +32,16 @@ export function Woorden({ tekst, bij, tot = Infinity, grootte = 96, kleur = K.te
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const uit = Number.isFinite(tot) ? interpolate(frame, [tot - 6, tot], [1, 0], zacht) : 1;
+  // Lopende tekst schuift als geheel van links in; woord voor woord leest vervelend (feedback Niels 26 oktober)
+  if (!zwaar) {
+    const s = spring({ frame: frame - bij, fps, config: { damping: 20, stiffness: 120 } });
+    return (
+      <div style={{ fontFamily: LETTER.sans, fontWeight: 400, fontSize: grootte, lineHeight: 1.3, color: kleur,
+        opacity: Math.min(1, s * 1.3) * uit, transform: `translateX(${(1 - s) * -80}px)`, ...style }}>
+        {tekst}
+      </div>
+    );
+  }
   return (
     <div style={{ display: "flex", flexWrap: "wrap", gap: `0 ${grootte * 0.26}px`, fontFamily: zwaar ? ZWAAR : LETTER.sans, fontWeight: zwaar ? 800 : 400,
       fontSize: grootte, lineHeight: 1.02, letterSpacing: zwaar ? "-0.02em" : 0, color: kleur, opacity: uit, ...style }}>
