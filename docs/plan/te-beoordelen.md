@@ -1,6 +1,6 @@
 # Jouw lijst: wat nog op je wacht
 
-Bijgewerkt op 26 oktober 2026, eind van de middag. Hier staat alleen wat nog open is. Wat beantwoord of gedaan is, met je antwoorden en wat ik ermee deed, staat in [afgehandeld.md](afgehandeld.md).
+Bijgewerkt op 26 oktober 2026, 's avonds. Hier staat alleen wat nog open is. **Voor dinsdag 27 oktober staat een dagplan klaar: [morgen.md](morgen.md).** Wat beantwoord of gedaan is, met je antwoorden en wat ik ermee deed, staat in [afgehandeld.md](afgehandeld.md).
 
 **Zo antwoord je:** in de chat, met de code. Bijvoorbeeld "C1: klopt", "C4: A" of "K7: omschrijving ritueel slachten aanpassen". Ik verwerk het, en het punt verhuist naar afgehandeld.md.
 
@@ -14,12 +14,12 @@ Bijgewerkt op 26 oktober 2026, eind van de middag. Hier staat alleen wat nog ope
 | ☐ K9 | Nieuw: Hoe lang duurt een wet? en een eigen beeld per stemming op Uitgelicht | bekijken | nee | hieronder |
 | ☐ K10 | Stemgenoten (concept): 25 stellingen nakijken, 8 gemarkeerd met "nakijken" | controleren | ja, voor Stemgenoten | [stemgenoten-controle.md](stemgenoten-controle.md) |
 | ☐ S4 | Stemgenoten: twee meelezers met een andere politieke kleur vragen, en de naam controleren in het merkenregister (boip.int) | uitvoeren | ja, voor Stemgenoten | hieronder |
-| ☐ B17 | Pipeline voor nieuwe casussen: één vraag over (budget), en wacht tot na de feedbackrondes | besluit | nee | hieronder |
+| ☐ S5 | Claude API-sleutel met maandlimiet (voor de pipeline, na de feedbackrondes) | uitvoeren | nee | [morgen.md](morgen.md) |
 | ☐ L1 | Bij de livegang: sitemap indienen en PageSpeed draaien | uitvoeren | nee, na de livegang | hieronder |
 
 ## Je feedback van 26 oktober (mail)
 
-Volledig in [feedback-2026-10-26.md](feedback-2026-10-26.md). **Ronde 1 is live** (kleine punten): K1 keuzemenu's op één regel en filters boven de grafiek, duidelijkere knop voor "Hoe lees je dit?", meer contrast; K2 je openingstekst, legenda in het midden, paars voor "indieners uit allebei", titel van hoofdstuk 5 boven de grafiek, duidelijkere kwadrantlabels; K3 lezingen onder elkaar zonder tweede kop, genoemde fracties (zoals Volt) altijd zichtbaar, drie vragen in plaats van de tegels. **Ronde 2 is live:** Onderwerpen tabel klapt per terrein uit tot dossiers, spreidingsdiagram voor een paar (terreinen, na een klik de dossiers); Uitgelicht met een kiezer bovenaan en /uitgelicht opent de nieuwste; voorpagina met de grafiek brede steun per kabinet; Oppositiewerk met hogere grafieken, twee genummerde interpretaties, vaste assen, volle en holle stippen en meeschuivende tekst in hoofdstuk 4 en 5; scroll graphics op de telefoon met een schermhoogte per stap. Nog open: wat je bedoelt met "verticaal staafdiagram" bij Per kabinet, en hoofdstuk 4 is op de telefoon nog klein. Ronde 3 (initiatiefwetten, andere visualisaties per casus, pipeline) volgt. Ik verwerk hem; de K-punten hieronder blijven open tot je de nieuwe versie gezien hebt. Antwoorden op B17: één video per week, wachtrij in een private repository akkoord, Bluesky automatisch na je akkoord op tekst en video; vraag 4 (kosten) beantwoord in de chat.
+Volledig in [feedback-2026-10-26.md](feedback-2026-10-26.md). Alles uit ronde 1, 2 en 3 is verwerkt en live, behalve de pipeline (wacht op je feedbackrondes). De K-punten hieronder blijven open tot je de nieuwe versie hebt gezien.
 
 ## C. Controles (morgen)
 
@@ -53,14 +53,6 @@ Vraag: kloppen de omschrijvingen, en is de spreiding over partijen goed zo?
 - **Eigen beeld per stemming:** weegschaal (gehandicaptenzorg, live-weddenschappen), hoefijzer (Mercosur), van dichtbij (PvdA bij ritueel slachten). Zelfde keuze als bij de video's.
 
 ## B. Besluiten
-
-### ☐ B17. De pipeline voor nieuwe casussen
-
-Plan in [video-pipeline.md](video-pipeline.md): ontdekken in de data (ook samenwerking, niet alleen conflict), tractie uit nieuwsfeeds en Bluesky, een concept met de Claude API, render in GitHub Actions, een wachtrij in een private repository, en plaatsen na jouw akkoord. Vier vragen onderaan dat bestand:
-1. Hoe vaak: hooguit één video per dag, of een vaste reeks per week?
-2. Akkoord met de wachtrij in een private repository?
-3. Bluesky automatisch plaatsen na je akkoord, of ook daar met de hand?
-4. Budget voor de Claude API (voorstel: hooguit 10 euro per maand)?
 
 ## S. Stappen voor jou
 

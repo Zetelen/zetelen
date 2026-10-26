@@ -4,6 +4,7 @@ Alles uit [te-beoordelen.md](te-beoordelen.md) dat beantwoord of gedaan is, met 
 
 ## Recent
 
+- **26 oktober, B17 pipeline**: één video per week, wachtrij in een private repository, Bluesky automatisch na je akkoord; budget: maandlimiet 5 euro (S5). De pipeline wacht tot na de feedbackrondes.
 - **26 oktober, B19 stemhulp**: Niels: alleen wetten en amendementen; alleen de huidige Kamerperiode; stellingen als concept door Claude uit de gegevens, met controle door Niels; meelezers levert Niels later aan; naam **Stemgenoten**. Gebouwd als concept op /stemgenoten (`pipeline/stemgenoten_selectie.py`, controle in [stemgenoten-controle.md](stemgenoten-controle.md)).
 - **26 oktober, B18 "En toen?"**: akkoord Niels met het advies: eerst alleen de moties die het kabinet ontraadde en die toch werden aangenomen (optie B). Onderzoek: [onderzoek-motie-opvolging.md](onderzoek-motie-opvolging.md).
 - **26 oktober, K8 video's goedgekeurd** door Niels: "De laatste versies zijn goed." Alle formats staan in de nieuwe stijl. Opnemen in de pipeline volgt bij B17.
