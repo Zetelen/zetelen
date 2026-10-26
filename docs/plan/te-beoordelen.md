@@ -2,6 +2,98 @@
 
 Bijgehouden door Claude in de nacht van 25 op 26 oktober 2026. Per punt: wat het is, waar je het ziet en wat ik van je nodig heb. Bovenaan staat wat het meest telt. Vink af wat je gedaan hebt.
 
+Bijgewerkt op 26 oktober 2026 (overdag): bovenaan de lijst voor de livegang, twee kliktabellen voor de controles en de verklaring van de extra rijen. Sindsdien geen nieuwe onderdelen gebouwd.
+
+## 1. Wat de livegang van R1 tegenhoudt
+
+Livegang betekent: `LIVE = true` (indexeren, sitemap), het label concept eraf waar dat mag, en de site delen. Per punt: klaar of niet, of er een besluit van jou nodig is, en of het R1 is of later kan.
+
+| # | Punt | Klaar? | Besluit Niels? | R1 of later |
+|---|---|---|---|---|
+| 1 | Dit document doornemen: site, teksten, definities | nee | ja | R1 |
+| 2 | Lezingen kiezen (E4), daarna de dynamische lezingen in de tools bouwen | nee, proefpagina staat | ja | R1 |
+| 3 | Coalitiebouwer: lezingen (E2-S10) en nacontrole, dan het label concept eraf | nee | ja (na punt 2) | R1 |
+| 4 | Controles: nacontrole cohesie en steekproef uitslagen (kliktabellen hieronder) | voorbereid, jouw klik ontbreekt | nee, alleen controleren | R1 |
+| 5 | De 8 afwijkende uitslagen bekijken (`beheer.afwijkende_uitslag`) | nee | ja, per geval | R1 |
+| 6 | Handmatige tabellen nakijken: kabinetten en coalities (011), Kamerperiodes, partijkoppeling, koppeltabel beleidsterreinen (014), trefwoorden (015) | nee | ja | R1, want ze sturen de getoonde cijfers |
+| 7 | `analytics` (E3-S6): dienst kiezen, zonder cookies | niet gestart | ja, welke dienst | R1 volgens het plan; kan later als je zonder bezoekcijfers live wilt |
+| 8 | Methodiek: reactietermijn op een foutmelding (E7-S2) en privacytekst beoordelen | nee | ja | R1 |
+| 9 | Gebruiksvoorwaarden open data | klaar (CC0, vermeld op /methodiek) | nee | R1, gedaan |
+| 10 | Bewaking: test met het uitblijvende signaal van healthchecks | nee | nee, alleen uitvoeren | R1 |
+| 11 | Kamerleden met namen (zie hieronder) | live als concept, buiten het plan | ja | R3 in het plan |
+| 12 | Open besluit uit het plan: blijven rankings van individuele Kamerleden in scope? | nee | ja | hoort bij R3, maar raakt punt 11 |
+| 13 | Open besluit uit het plan: beleid bij een verwijderverzoek van een Kamerlid | nee | ja | R1 zodra er namen live staan |
+| 14 | Naam Zetelen controleren en domein registreren | nee | ja | kan later: live op zetelen.vercel.app kan ook |
+| 15 | Feedbackronde: link naar de vragenlijst, dienst en bewaartermijn in de privacytekst | nee | ja | voor de feedbackronde, niet voor de livegang |
+| 16 | Oppositiewerk en lezingen op de telefoon (kleine stippen en letters) | nee | nee | R1 als die pagina's live gaan |
+| 17 | Aanpassing verversing voor verwijderingen (zie punt 3 hieronder) | nee | ja, akkoord op de aanpassing | R1 aanbevolen, maar blokkeert niet |
+| 18 | Prestatie-audit opnieuw meten na `LIVE = true` | nee | nee | R1, als laatste stap |
+| 19 | Push protection van GitHub secret scanning aanzetten | nee | ja, jouw instelling | kan later, is goedkoop |
+
+**Kamerleden met namen.** In het plan is dit R3 (`kamerleden-analyse` en `kamerleden-pagina`, E6). Ik heb de pagina in de nacht gebouwd als onderdeel van zetelwerk. Hij staat nu niet in het menu, maar wel in de sitemap (`PAGINAS` in `web/lib/site.ts`) en is bereikbaar via Oppositiewerk, de fractiepagina's en de tegels. Twee besluiten uit het plan staan nog open: rankings van individuele Kamerleden (punt 12) en het beleid bij een verwijderverzoek (punt 13).
+
+**Mijn advies:** zet Kamerleden bij de livegang achter een conceptvlag, niet alleen uit het menu. Uit het menu is niet genoeg: via de links en de sitemap blijft de pagina vindbaar en wordt hij geindexeerd. Met een vlag (zoals `LIVE`) is de pagina in productie weg, met de links ernaartoe, en kun je hem aanzetten zodra punt 12 en 13 besloten zijn. Reden: namen met tellingen per Kamerlid lezen als een ranglijst, ook zonder ranglijst, en een Kamerlid dat bezwaar maakt, moet een antwoord krijgen dat al vastligt. Het verhaal van R1 werkt zonder deze pagina; Oppositiewerk blijft op fractieniveau.
+
+## 2. Controles om aan te klikken
+
+Beide steekproeven zijn vast, niet willekeurig, zodat jij dezelfde rijen ziet als ik: `db/controles/klik_uitslagen.sql` en `db/controles/klik_cohesie.sql`, gedraaid via Controlequery op 26 oktober 2026. Ik heb elke rij al naast de bron gelegd (de API van de Tweede Kamer, de stemmen per fractie). Jouw deel: klik op het zaaknummer, kijk op tweedekamer.nl en vul de laatste kolom in.
+
+Eenmansfracties staan er zonder naam in: hun fractienaam is de naam van een persoon.
+
+### Steekproef uitslagen (E7-S5, 10 besluiten)
+
+Alle tien kloppen met de bron: dezelfde uitslag, dezelfde zetels en dezelfde fracties aan elke kant. De kolom "Kleinste kant" noemt de fracties aan de kant met de minste zetels; dat is het snelst te controleren.
+
+| # | Datum | Zaak | Wij | Bron (besluittekst, zetels) | Kleinste kant (wij, gelijk aan de bron) | Niels: klopt |
+|---|---|---|---|---|---|---|
+| 1 | 26-01-2010 | [2010Z00939](https://www.tweedekamer.nl/zoeken?qry=2010Z00939) motie | aangenomen, 85 tegen 65 | Aangenomen, 85 tegen 65 | tegen: GL, PVV, SGP, SP, VVD en 1 eenmansfractie | |
+| 2 | 11-06-2013 | [2013Z11750](https://www.tweedekamer.nl/zoeken?qry=2013Z11750) motie | verworpen, 27 tegen 123 | Verworpen, 27 tegen 123 | voor: 50PLUS, ChristenUnie, PvdD, SGP, SP | |
+| 3 | 20-02-2014 | [2014Z03255](https://www.tweedekamer.nl/zoeken?qry=2014Z03255) motie | verworpen, 37 tegen 113 | Verworpen, 37 tegen 113 | voor: 50PLUS, GL, PvdD, PVV, SP | |
+| 4 | 25-11-2014 | [2014Z21517](https://www.tweedekamer.nl/zoeken?qry=2014Z21517) motie | aangenomen, 119 tegen 31 | Aangenomen, 119 tegen 31 | tegen: GrBvK, PvdD, PVV, SP | |
+| 5 | 13-12-2016 | [2016Z23468](https://www.tweedekamer.nl/zoeken?qry=2016Z23468) motie | verworpen, 36 tegen 113 | Verworpen, 36 tegen 113 (1 fractie niet deelgenomen) | voor: 50PLUS, GL, GrKÖ, PvdD, PVV, SP | |
+| 6 | 19-06-2018 | [2018Z11433](https://www.tweedekamer.nl/zoeken?qry=2018Z11433) motie | verworpen, 71 tegen 79 | Verworpen, 71 tegen 79 | tegen: CDA, ChristenUnie, D66, SGP, VVD | |
+| 7 | 22-09-2020 | [2020Z15847](https://www.tweedekamer.nl/zoeken?qry=2020Z15847) motie | aangenomen, 98 tegen 52 | Aangenomen, 98 tegen 52 | tegen: ChristenUnie, D66, GL, PvdA, PvdD en 1 eenmansfractie | |
+| 8 | 08-12-2020 | [2020Z18763](https://www.tweedekamer.nl/zoeken?qry=2020Z18763) amendement | verworpen, 51 tegen 98 | Verworpen, 51 tegen 98 | tegen: CDA, ChristenUnie, D66, PVV, SGP, VVD | |
+| 9 | 08-10-2024 | [2024Z13894](https://www.tweedekamer.nl/zoeken?qry=2024Z13894) motie | verworpen, 26 tegen 124 | Verworpen, 26 tegen 124 | voor: CDA, ChristenUnie, D66, FVD, JA21, SGP, Volt | |
+| 10 | 19-05-2026 | [2026Z09643](https://www.tweedekamer.nl/zoeken?qry=2026Z09643) motie | aangenomen, 102 tegen 48 | Aangenomen, 102 tegen 48 | tegen: BBB, FVD, Groep Markuszower, JA21, VVD | |
+
+Na jouw controle zet ik de uitkomst in `docs/steekproeven/R1-uitslagen.md`.
+
+### Nacontrole cohesie (E2-S2): VVD en CDA onder Schoof
+
+Alle tien stemmen kloppen met de bron. In deze tien stemden VVD en CDA 6 keer hetzelfde.
+
+| # | Datum | Zaak | VVD (wij) | CDA (wij) | Bron VVD en CDA | Hetzelfde? | Niels: klopt |
+|---|---|---|---|---|---|---|---|
+| 1 | 08-10-2024 | [2024Z13894](https://www.tweedekamer.nl/zoeken?qry=2024Z13894) motie | tegen | voor | tegen, voor | nee | |
+| 2 | 15-10-2024 | [2024Z15637](https://www.tweedekamer.nl/zoeken?qry=2024Z15637) motie | tegen | voor | tegen, voor | nee | |
+| 3 | 19-11-2024 | [2024Z18629](https://www.tweedekamer.nl/zoeken?qry=2024Z18629) motie | tegen | voor | tegen, voor | nee | |
+| 4 | 11-03-2025 | [2024Z15575](https://www.tweedekamer.nl/zoeken?qry=2024Z15575) motie | tegen | tegen | tegen, tegen | ja | |
+| 5 | 01-04-2025 | [2025Z05727](https://www.tweedekamer.nl/zoeken?qry=2025Z05727) motie | tegen | tegen | tegen, tegen | ja | |
+| 6 | 27-05-2025 | [2025Z10578](https://www.tweedekamer.nl/zoeken?qry=2025Z10578) motie | voor | voor | voor, voor | ja | |
+| 7 | 03-06-2025 | [2025Z10883](https://www.tweedekamer.nl/zoeken?qry=2025Z10883) motie | tegen | tegen | tegen, tegen | ja | |
+| 8 | 03-07-2025 | [2025Z14214](https://www.tweedekamer.nl/zoeken?qry=2025Z14214) motie | tegen | voor | tegen, voor | nee | |
+| 9 | 02-10-2025 | [2025Z18582](https://www.tweedekamer.nl/zoeken?qry=2025Z18582) motie | voor | voor | voor, voor | ja | |
+| 10 | 16-12-2025 | [2025Z21729](https://www.tweedekamer.nl/zoeken?qry=2025Z21729) motie | voor | voor | voor, voor | ja | |
+
+De berekende cohesie voor dit paar onder Schoof: 79,7% over alle stemmingen (5.578 van 6.998) en 77,7% over de verdeelde (4.951 van 6.371). Dat de steekproef 6 van de 10 geeft, is geen tegenspraak: bij tien stemmingen en 80% is 6 of minder ongeveer 1 op 8. De controle gaat over de stemmen per rij, niet over het percentage. Geen van de tien is een hoofdelijke stemming, dus de afleiding uit de leden zit niet in deze steekproef.
+
+## 3. Extra rijen bij Agendapunt en Besluit: verklaard
+
+**Oorzaak.** De 5 agendapunten en 4 besluiten zijn op 23 oktober 2026 in de bron verwijderd, een paar uur na onze eerste laad. Bij die verwijdering zette de bron `Verwijderd` op waar en maakte hij de koppeling naar de activiteit leeg (`Activiteit_Id` is nu leeg). De verversing vraagt wijzigingen op met het datumfilter via die koppeling (`Activiteit/Datum`) plus `ApiGewijzigdOp`. Een record zonder activiteit valt buiten dat filter, dus de verwijdering komt nooit binnen en bij ons staat het record nog als niet verwijderd.
+
+**Hoe gevonden.** Per jaar en daarna per dag geteld, bij ons en in de API met hetzelfde filter. Het verschil zit alleen op vier dagen: 27 en 29 oktober, 2 november en 9 december 2026. De ids van die dagen naast elkaar gelegd, en de 5 losse agendapunten in de API opgevraagd. Alle vijf: verwijderd, zonder activiteit, gewijzigd op 23 oktober.
+
+**Uitgesloten:** een datum van voor 2010; een activiteit die niet geladen of verwijderd is; verwijderde records die wij wel en de API niet meetelt (13.476 verwijderde agendapunten en 9.979 verwijderde besluiten, bij ons en in de API gelijk).
+
+**Effect op de site: geen.** Het gaat om agendapunten van vergaderingen die nog moeten komen, zonder stemmingen. Een besluit telt bij ons alleen mee als er gestemd is. Stemming telt precies gelijk aan de API: 978.678.
+
+**Risico.** Hetzelfde kan gebeuren met een besluit of stemming waarover al gestemd is. Dan blijft een verwijderde stemming bij ons meetellen. Dat is nu niet gebeurd, maar de verversing zou het niet merken.
+
+**Voorstel, niet uitgevoerd:** in `pipeline/ververs.py` de wijzigingen voor Agendapunt, Besluit en Stemming (en de andere entiteiten met een datumfilter via een koppeling) opvragen op `ApiGewijzigdOp` alleen, zonder datumfilter. Wijzigingen per dag zijn klein, dus dat kost weinig. Records van voor 2010 die zo binnenkomen, vallen in `core` toch buiten het datumfilter. Na de aanpassing is een Ververs nodig die terugkijkt tot 23 oktober; Migreer is niet nodig. Ik heb niets in de database hersteld.
+
+**Let op, log met namen.** De Controlequery-run van de uitslagensteekproef (https://github.com/Zetelen/zetelen/actions/runs/40265489488) toont de afkortingen van fracties zoals de database ze heeft. Bij eenmansfracties is dat een achternaam. De log is publiek. Wil je dat ik die run verwijder? Ook de tabel "Steekproef zetelwerk" verderop noemt de indieners bij naam. Dat zijn Kamerleden, maar dit document is een rapport in een publieke repo. Zal ik die kolom vervangen door alleen de fractie?
+
 ## Eerst kijken (op de site)
 
 - [ ] **Voorpagina als geheel**, https://zetelen.vercel.app. Loopt het verhaal van begin tot eind?
