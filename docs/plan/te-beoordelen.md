@@ -8,7 +8,7 @@ Bijgewerkt op 26 oktober 2026. Alles wat op jou wacht, in drie soorten:
 
 **Zo antwoord je:** in de chat, met de code. Bijvoorbeeld "B1: A", "B4: A, maar zonder lezing 6", "C1: klopt" of "K2: labels nog te klein". Ik zet je antwoord erbij en vink het af (☐ wordt ☑). Onderaan, in D, staat wat ter informatie is: daar hoef je niets mee.
 
-Volgorde: B1 tot en met B3 en C1 en C2 houden de livegang het meest op. De rest kan in elke volgorde.
+Volgorde: B1 tot en met B3 en C1 en C2 houden de livegang het meest op. Nieuw sinds de vorige versie: B14 tot en met B16. De rest kan in elke volgorde.
 
 ## B. Besluiten
 
@@ -165,6 +165,64 @@ Jouw besluit:
 
 - de link naar je vragenlijst (voor de feedbackknop, `FEEDBACK_URL`);
 - de naam van de dienst en de bewaartermijn (voor de privacytekst).
+
+### ☐ B14. De opening van de voorpagina (tekstvoorstel)
+
+Jouw richting: eerst het beeld van een verdeelde Kamer, dan de vraag waar ze elkaar wel vinden, een uitnodiging om zelf te zoeken, en dan "Maar eerst: hoe zijn we hier gekomen?". Als vraag, niet als stelling, met twee lezingen. Cijfers nagekeken op 26 oktober 2026 (`api.zetelwerk_periode`). Op de site rekent de pagina ze elke dag opnieuw uit, want Jetten loopt nog.
+
+> **Ruzie, ophef, de waan van de dag.** Wie het nieuws volgt, ziet een verdeelde Kamer en een politiek die op slot zit. Maar wat zie je als je de stemmingen telt?
+>
+> Onder kabinet-Jetten nam de Kamer 2.017 van de 3.471 moties aan. Bij 1.785 daarvan stemde ten minste één fractie uit het kabinet én één uit de oppositie voor. De oppositie kreeg de helft van haar moties erdoor. Onder Rutte I en II was dat 31%.
+>
+> Twee lezingen. *Er wordt meer samengewerkt dan het lijkt.* Of: *een motie kost niets: een kabinet stemt makkelijk in met een verzoek, en de echte strijd zit in de wetten.* En op sommige thema's, zoals asiel, staan de flanken lijnrecht tegenover elkaar.
+>
+> **Zoek zelf waar ze elkaar vinden, en waar niet.** [Wie stemt met wie?] [Waar zijn ze het over eens?] [Kun jij er 76 vinden?]
+>
+> **Maar eerst: hoe zijn we hier gekomen?**
+
+- **A. Zo.**
+- **B. Zo, met aanpassingen** (noem ze).
+- **C. Anders** (zeg hoe).
+
+Jouw besluit:
+
+### ☐ B15. Tekst voor /over: wie maakt dit (tekstvoorstel)
+
+> **Wie maakt dit?** Zetelen is een hobbyproject van [jouw naam], data-analist. Ik ben lid van Volt. Juist daarom zijn de regels streng:
+> - alle cijfers komen uit de open data van de Tweede Kamer;
+> - voor elke fractie gelden dezelfde rekenregels; ze staan op de methodiekpagina, en de code is openbaar;
+> - bij elk cijfer staan twee lezingen, en jij kiest;
+> - fouten herstel ik, en ze komen op /wijzigingen.
+>
+> Zie je toch een scheve formulering of een fout? Meld het, dan kijk ik ernaar.
+
+Let op: dit botst met knipoog 3 uit B10 ("Er zit geen organisatie of partij achter, alleen nieuwsgierigheid"). Voorstel: die zin wordt "Er zit geen organisatie of partij achter dit project.", zonder knipoog.
+
+- **A. Zo**, en knipoog 3 aangepast.
+- **B. Zo, met aanpassingen** (noem ze).
+- **C. Lidmaatschap toch niet noemen.**
+
+Jouw besluit:
+
+### ☐ B16. De casus die Onderwerpen opent
+
+Nu: de stemming over het asielplan (motie-Eerdmans, 10 juni 2025), waarin de PVV tegen het uitvoeren van het eigen plan stemt. Dat klopt, maar het is een steek naar één kant. De graphic vraagt een hoofdelijke stemming. Ik zocht die sinds 2016 waarin fracties onderling verdeeld stemden (`db/controles/casussen_hoofdelijk.sql`). Dat zijn vooral medisch-ethische wetten:
+
+| Datum | Zaak | Uitslag | Fracties die verdeeld stemden |
+|---|---|---|---|
+| 13-09-2016 | [Donorwet (actieve donorregistratie)](https://www.tweedekamer.nl/zoeken?qry=2012Z22373) | 75 voor, 74 tegen | 2 |
+| 10-02-2022 | [Afschaffen verplichte bedenktermijn abortus](https://www.tweedekamer.nl/zoeken?qry=2021Z03572) | 101 voor, 38 tegen | 3 |
+| 16-12-2025 | [Embryowet (verbod op embryo's kweken voor onderzoek)](https://www.tweedekamer.nl/zoeken?qry=2023Z15369) | 90 voor, 59 tegen | 2 |
+
+Kanttekening: alle drie zijn initiatiefwetten met D66 als (mede)indiener. Een andere angel dan bij de PVV, maar wel een angel.
+
+- **A. De Donorwet:** één stem verschil, fracties gaan dwars door elkaar heen. Het past bij "waar vinden ze elkaar", en de stemming is bij velen bekend. Nadeel: 2016.
+- **B. Wisselend:** bij elk bezoek een andere van een vaste set (de drie hierboven en de motie-Eerdmans), met de set op de methodiekpagina.
+- **C. Zo laten.**
+
+**Advies: A.** De stemming laat het beste zien wat de graphic wil laten zien: dat een fractie niet altijd één blok is. En ze heeft geen verliezer die je kunt aanwijzen.
+
+Jouw besluit:
 
 ## C. Controleren
 
