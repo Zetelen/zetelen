@@ -21,7 +21,7 @@ In deze volgorde; ☑ is gebouwd, getest en live.
 5. ☑ Onderwerpen (K1), voorpagina met de nieuwe opening (B14, K3), Oppositiewerk breed (K2). Graag opnieuw bekijken: K1, K2 en K3. Bekend: de spreiding is op de telefoon nog klein
 6. ☑ Kamerleden: strakkere tabel met rol als kolom, ranglijst op aandeel aangenomen per rol (vanaf 10 stukken, met twee lezingen), schakelaar tabel of spreidingsdiagram (K5, B2); fractiepagina: klik op een fractie en de onderwerpen klappen uit, tot op dossier en stemming (K5). Graag bekijken: K5
 7. ☐ Vaste lezingen en dynamische lezingen in de tools (B4)
-8. ☐ Reeks casussen "één stemming uit elkaar gehaald" (B16), kliktabel afwijkende uitslagen (C4)
+8. ☐ Reeks casussen "één stemming uit elkaar gehaald" (B16). Kliktabel afwijkende uitslagen (C4): ☑ klaargezet, met een besluit voor jou
 9. ☐ Stappen voor jou: zetelen.nl koppelen (B11), push protection (B12), Analytics aanzetten in Vercel (B5)
 
 ## B. Besluiten
@@ -322,9 +322,31 @@ Ik vergeleek 19 stukken met de bron: uitslag, indiener en fractie kloppen 19 van
 
 Ook vergeleken: de aantallen per jaar met de telling in de API. In 2010 tellen wij 1.359 moties waarover gestemd is, de API 1.362. In de andere jaren is het verschil net zo klein: een paar stukken waarvan de stemming in de bron ontbreekt of verwijderd is.
 
-### ☐ C4. De 8 afwijkende uitslagen (Niels: klaarzetten; staat op de werklijst van Claude)
+### ☐ C4. De 8 afwijkende uitslagen (klaargezet op 26 oktober)
 
-Bij 8 van de 60.133 besluiten past de uitslag in de bron niet bij de stemmen. Bij 20 januari 2026 meldt de bron zelf dat "aangenomen" fout was. Jij: per geval zeggen of wij het goed tonen (wij volgen de stemmen). Wil je ze als kliktabel, zoals C1? Zeg "C4 klaarzetten".
+Bij 8 besluiten past de uitslag van de Kamer niet bij de stemmen in de bron. Ik heb ze per stuk uitgezocht (`db/controles/klik_afwijkend.sql`, plus de besluittekst en de opmerking in de API). Ze vallen in drie soorten:
+
+| # | Datum | Zaak | Stemmen in de bron | Uitslag van de Kamer | Verklaring | Klopt? (jij) |
+|---|---|---|---|---|---|---|
+| 1 | 20-05-2014 | [2014Z08729](https://www.tweedekamer.nl/zoeken?qry=2014Z08729) motie | 74 voor, 76 tegen | aangenomen | **Telfout.** De voorzitter meldt later dat de telling niet klopte, maar dat de uitslag volgens het Reglement van Orde niet meer kan worden gewijzigd. | ☐ |
+| 2 | 05-07-2022 | [2021Z02980](https://www.tweedekamer.nl/zoeken?qry=2021Z02980) grondwetswijziging (correctief referendum) | 87 voor, 55 tegen | verworpen | **Tweederdemeerderheid nodig** (tweede lezing). 87 van 142 is minder dan twee derde: terecht verworpen. | ☐ |
+| 3 | 05-07-2022 | idem, tweede besluit | 85 voor, 55 tegen | verworpen | Idem. | ☐ |
+| 4 | 07-12-2022 | [2022Z24291](https://www.tweedekamer.nl/zoeken?qry=2022Z24291) motie | 78 voor, 72 tegen | verworpen | **Stem achteraf gecorrigeerd.** Volgens de opmerking was de SP ook voor, maar was ze niet meegeteld. De bron telt de SP nu mee, de uitslag bleef staan. | ☐ |
+| 5 | 24-05-2023 | [2023Z09118](https://www.tweedekamer.nl/zoeken?qry=2023Z09118) motie | 74 voor, 72 tegen | verworpen | Waarschijnlijk hetzelfde: stemmen een dag later gewijzigd, geen opmerking. Aanname. | ☐ |
+| 6 | 19-10-2023 | [2023Z17815](https://www.tweedekamer.nl/zoeken?qry=2023Z17815) motie | 74 voor, 70 tegen | verworpen | Idem, aanname. | ☐ |
+| 7 | 20-01-2026 | [2026Z00559](https://www.tweedekamer.nl/zoeken?qry=2026Z00559) motie | 71 voor, 79 tegen | aangenomen | **Telfout.** Volgens de bron was de conclusie "aangenomen" abusievelijk; dit is aan de Kamer meegedeeld. | ☐ |
+| 8 | 29-09-2026 | [2026Z20415](https://www.tweedekamer.nl/zoeken?qry=2026Z20415) motie | 75 voor, 72 tegen | verworpen | Idem als 5, aanname. | ☐ |
+
+**Wat het raakt.** Cohesie en de coalitiebouwer gebruiken de stemmen, niet de uitslag: daar verandert niets. Zetelwerk telt aangenomen uit de stemmen (definitie 3). Bij de 6 moties (1, 4 tot en met 8) wijkt zetelwerk daardoor af van wat de Kamer formeel besloot. De twee grondwetsbesluiten tellen niet mee in zetelwerk.
+
+**Jouw besluit:** hoe tellen we "aangenomen" bij zetelwerk als de stemmen en de uitslag verschillen?
+
+- **A. De uitslag van de Kamer volgen.** Die is formeel besloten en kan niet meer veranderen. De 8 krijgen een vermelding op de methodiekpagina.
+- **B. De stemmen volgen, zoals nu.** Die laten zien wat de fracties echt stemden.
+
+**Advies: A.** "Aangenomen" betekent: de Kamer heeft het aangenomen. Een correctie achteraf of een telfout verandert dat niet, en het verschil is 6 van de 57.401 stukken. Bij grondwetswijzigingen geldt bovendien een andere drempel, en dat moet sowieso goed.
+
+Jouw besluit:
 
 ### ☐ C5. Handmatige tabellen nakijken (Niels: doe ik morgen)
 

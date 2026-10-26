@@ -27,7 +27,9 @@ export function stemVerhaal(smal: boolean): Stap[] {
       stippen: maak(groep, kleurVoor), labels: groep.labels, kaders },
     { datum: "de PVV", tekst: `En de PVV: ${st.Tegen.PVV} van haar ${pvv} leden stemmen tegen het uitvoeren van het eigen plan. De andere ${pvv - st.Tegen.PVV} doen niet mee.`,
       stippen: maak(groep, (p) => (p.fractie === "PVV" ? "nadruk" : "zacht")), labels: groep.labels, kaders },
-    { datum: "één stem", tekst: "Eén VVD-Kamerlid stemt anders dan de rest van de fractie. Bij een hoofdelijke stemming zie je dat. Bij handopsteken telt de fractie als één stem.",
+    // De tegenstem van dit Kamerlid staat in de bron als vergissing (Vergissing = true, gevonden 26 oktober 2026):
+    // de stem telt mee in de uitslag, maar het Kamerlid wilde voor stemmen
+    { datum: "één stem", tekst: "Eén VVD-Kamerlid stemt tegen, de rest van de fractie voor. Achteraf laat dit Kamerlid vastleggen dat het een vergissing was. De stem telt toch mee: een uitslag ligt vast. Bij een hoofdelijke stemming zie je zulke details, bij handopsteken telt de fractie als één stem.",
       stippen: maak(groep, (p) => (p.fractie === "VVD" && p.stem === "Tegen" ? "nadruk" : p.fractie === "VVD" ? null : "zacht")), labels: groep.labels, kaders },
   ];
 }
