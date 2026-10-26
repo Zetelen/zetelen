@@ -1,6 +1,7 @@
 // Haalt de gegevens voor de tijdlijn-video op uit de publieke API van Zetelen (schema api) en schrijft
 // src/gegevens/tijdlijn.json: per kabinet sinds Rutte IV de zetels per fractie bij de start (30 dagen na het begin,
-// migratie 013) en aan het eind, en wie er in het kabinet zat, met de datum van uittreden. Geen namen van personen.
+// migratie 013) en aan het eind, wie er in het kabinet zat met de datum van uittreden, en de verkiezingen met de zetels
+// bij de start van de nieuwe Kamer. Geen namen van personen.
 // Gebruik: node scripts/tijdlijn.mjs  (leest SUPABASE_URL en SUPABASE_PUBLISHABLE_KEY uit ../web/.env.local)
 import { readFileSync, writeFileSync } from "node:fs";
 
@@ -27,8 +28,16 @@ for (const k of KABINETTEN) {
     coalitie: coalitie.filter((c) => c.kabinet === k && c.rol === "kabinet").map((c) => ({ fractie: c.afkorting, tot: c.tot })),
   });
 }
+// Verkiezingen sinds de start van Rutte IV, met de zetels bij de start van de nieuwe Kamerperiode
+const periodes = (await lees("kamerperiode?select=naam,begin,verkiezingsdatum")).filter((k) => k.verkiezingsdatum > uit[0].begin);
+const verkiezingen = [];
+for (const k of periodes) {
+  const f = await lees(`fractie_periode?select=afkorting,zetels_begin,bij_begin&periodesoort=eq.kamerperiode&periode=eq.${encodeURIComponent(k.naam)}`);
+  verkiezingen.push({ kamerperiode: k.naam, verkiezingsdatum: k.verkiezingsdatum, begin: k.begin,
+    zetels: Object.fromEntries(f.filter((r) => r.bij_begin && (r.zetels_begin ?? 0) > 0).map((r) => [r.afkorting, r.zetels_begin])) });
+}
 writeFileSync(new URL("../src/gegevens/tijdlijn.json", import.meta.url), JSON.stringify({
   _bron: "Zetelen, api.kabinet, api.coalitie en api.fractie_periode (open data van de Tweede Kamer). Gemaakt met video/scripts/tijdlijn.mjs.",
-  opgehaald: new Date().toISOString().slice(0, 10), kabinetten: uit,
+  opgehaald: new Date().toISOString().slice(0, 10), kabinetten: uit, verkiezingen,
 }, null, 2) + "\n");
-console.log(`Tijdlijn: ${uit.length} kabinetten, ${uit.map((k) => Object.keys(k.begin_zetels).length).join("/")} fracties bij de start`);
+console.log(`Tijdlijn: ${uit.length} kabinetten, ${verkiezingen.length} verkiezingen`);
