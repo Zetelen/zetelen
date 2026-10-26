@@ -1,6 +1,6 @@
 # Jouw lijst: te beoordelen door Niels
 
-Bijgewerkt op 26 oktober 2026. Alles wat op jou wacht, in drie soorten:
+Bijgewerkt op 26 oktober 2026, met je antwoorden van die middag erin (☑ = beantwoord). Alles wat op jou wacht, in drie soorten:
 
 - **B. Besluiten.** Jij kiest. Per besluit staan de opties en mijn advies.
 - **C. Controleren.** Jij klikt naar de bron en zegt of het klopt.
@@ -10,9 +10,23 @@ Bijgewerkt op 26 oktober 2026. Alles wat op jou wacht, in drie soorten:
 
 Volgorde: B1 tot en met B3 en C1 en C2 houden de livegang het meest op. Nieuw sinds de vorige versie: B14 tot en met B16. De rest kan in elke volgorde.
 
+## Werklijst van Claude (uit je antwoorden van 26 oktober)
+
+In deze volgorde; ☑ is gebouwd, getest en live.
+
+1. ☐ Kleine tekstpunten: 404 (B10), "Hoe lees je dit?" (B9c), /over (B15 en knipoog 3), reactietermijn (B6)
+2. ☐ Kamerleden achter een conceptvlag (B1), labels concept per pagina (B7)
+3. ☐ Menuknop op de telefoon (B8), Vercel Analytics in de code (B5)
+4. ☐ Eigen feedbackformulier met opslag in de database en de vragenlijst (B13, B3)
+5. ☐ Onderwerpen (K1), voorpagina met de nieuwe opening (B14, K3), Oppositiewerk breed (K2)
+6. ☐ Kamerleden: strakkere tabel, ranglijst op aandeel aangenomen per rol, spreidingsdiagram (K5, B2); fractiepagina met onderwerpen die uitklappen (K5)
+7. ☐ Vaste lezingen en dynamische lezingen in de tools (B4)
+8. ☐ Reeks casussen "één stemming uit elkaar gehaald" (B16), kliktabel afwijkende uitslagen (C4)
+9. ☐ Stappen voor jou: zetelen.nl koppelen (B11), push protection (B12), Analytics aanzetten in Vercel (B5)
+
 ## B. Besluiten
 
-### ☐ B1. Kamerleden met namen bij de livegang
+### ☑ B1. Kamerleden met namen bij de livegang
 
 In het plan hoort de pagina Kamerleden bij R3. Ik heb hem in de nacht gebouwd, als concept. Hij staat niet in het menu, maar wel in de sitemap, en is bereikbaar via Oppositiewerk, de fractiepagina's en de tegels.
 
@@ -22,9 +36,9 @@ In het plan hoort de pagina Kamerleden bij R3. Ik heb hem in de nacht gebouwd, a
 
 **Advies: A.** Namen met tellingen per Kamerlid lezen als een ranglijst, ook zonder ranglijst. En een Kamerlid dat bezwaar maakt, moet een antwoord krijgen dat al vastligt (B3). Het verhaal van R1 werkt zonder deze pagina.
 
-Jouw besluit:
+Jouw besluit: A (26 oktober 2026).
 
-### ☐ B2. Ranglijsten van individuele Kamerleden
+### ☑ B2. Ranglijsten van individuele Kamerleden
 
 Open besluit uit het plan. Nu: zoeken op naam en sorteren binnen een fractie, geen ranglijst over de hele Kamer.
 
@@ -34,9 +48,9 @@ Open besluit uit het plan. Nu: zoeken op naam en sorteren binnen een fractie, ge
 
 **Advies: A.** Een Kamerbrede ranglijst maakt van tellingen een oordeel ("wie is de beste"), en dat botst met onpartijdig. Binnen een fractie vergelijk je gelijken.
 
-Jouw besluit:
+Jouw besluit: B, maar objectief: sorteren op uitkomst, niet op aantal. Uitgewerkt (26 oktober): aandeel eigen moties aangenomen, apart voor kabinet en oppositie, alleen Kamerleden met minstens 10 ingediend.
 
-### ☐ B3. Wat doen we als een Kamerlid vraagt om gegevens te verwijderen?
+### ☑ B3. Wat doen we als een Kamerlid vraagt om gegevens te verwijderen?
 
 Open besluit uit het plan. Nodig zodra er namen live staan (B1).
 
@@ -46,9 +60,9 @@ Open besluit uit het plan. Nodig zodra er namen live staan (B1).
 
 **Advies: A**, met een kanttekening: ik ben geen jurist. Laat dit toetsen voordat de namen live gaan.
 
-Jouw besluit:
+Jouw besluit: A (26 oktober 2026). Melden kan via het eigen feedbackformulier (B13).
 
-### ☐ B4. Welke lezingen komen vast in het verhaal?
+### ☑ B4. Welke lezingen komen vast in het verhaal?
 
 Kijk op https://zetelen.vercel.app/lezingen (niet in het menu). Achtergrond: [lezingen-kandidaten.md](lezingen-kandidaten.md).
 
@@ -58,9 +72,9 @@ Kijk op https://zetelen.vercel.app/lezingen (niet in het menu). Achtergrond: [le
 
 **Advies: A.** Na je keuze bouw ik de dynamische lezingen in de tools. Daarna kan het label concept van de coalitiebouwer eraf (die wacht op E2-S10).
 
-Jouw besluit:
+Jouw besluit: A (26 oktober 2026).
 
-### ☐ B5. Bezoekers meten (analytics)
+### ☑ B5. Bezoekers meten (analytics)
 
 Nodig om de 500 bezoekers per maand te meten.
 
@@ -70,9 +84,9 @@ Nodig om de 500 bezoekers per maand te meten.
 
 **Advies: A.** Het eenvoudigste: geen extra dienst, geen cookiebanner. Let op: een event is geen unieke bezoeker. "500 bezoekers" wordt dan bijvoorbeeld 500 bezoeken per maand.
 
-Jouw besluit:
+Jouw besluit: A. Mocht het ooit nodig zijn, dan B.
 
-### ☐ B6. Reactietermijn op een foutmelding (E7-S2)
+### ☑ B6. Reactietermijn op een foutmelding (E7-S2)
 
 Staat straks op /methodiek: hoe snel reageren we als iemand een fout meldt?
 
@@ -82,9 +96,9 @@ Staat straks op /methodiek: hoe snel reageren we als iemand een fout meldt?
 
 **Advies: A.** Haalbaar naast je werk, en toch een belofte.
 
-Jouw besluit:
+Jouw besluit: A (26 oktober 2026).
 
-### ☐ B7. Wanneer gaat het label "concept" eraf, en waarvan?
+### ☑ B7. Wanneer gaat het label "concept" eraf, en waarvan?
 
 - **A. Per pagina, zodra de controles erbij af zijn:**
   - Verkenner, Fracties en Onderwerpen na jouw blik (K-punten);
@@ -95,9 +109,9 @@ Jouw besluit:
 
 **Advies: A.** Zo blokkeert de traagste pagina de rest niet.
 
-Jouw besluit:
+Jouw besluit: A (26 oktober 2026).
 
-### ☐ B8. Het menu
+### ☑ B8. Het menu
 
 Nu zeven onderdelen: Verkenner, Onderwerpen, Coalitie, Oppositie, Fracties, Methodiek, Over. Op de telefoon lopen ze over twee regels.
 
@@ -106,9 +120,9 @@ Nu zeven onderdelen: Verkenner, Onderwerpen, Coalitie, Oppositie, Fracties, Meth
 
 **Advies: A.** Methodiek hoort zichtbaar te zijn bij een site die op eerlijk tellen leunt.
 
-Jouw besluit:
+Jouw besluit: A. Op de telefoon een menuknop in plaats van twee regels (uitwerking Claude, op je vraag naar een dropdown).
 
-### ☐ B9. Drie woordkeuzes uit de stijlgids
+### ☑ B9. Drie woordkeuzes uit de stijlgids
 
 Uit [tone-of-voice.md](../ontwerp/tone-of-voice.md):
 
@@ -125,9 +139,9 @@ Uit [tone-of-voice.md](../ontwerp/tone-of-voice.md):
   - B: vervangen door een vraag ("Hoe lees je dit?").
   - Advies: A.
 
-Jouw besluit:
+Jouw besluit: a: A. b: A. c: B, alleen voor uitleglabels: "ZO LEES JE DIT" wordt "Hoe lees je dit?". Kleine labels boven koppen blijven.
 
-### ☐ B10. Drie knipogen in de teksten
+### ☑ B10. Drie knipogen in de teksten
 
 Per knipoog ja of nee. Overzicht van alle teksten: [alle-teksten.md](../teksten/alle-teksten.md).
 
@@ -137,9 +151,9 @@ Per knipoog ja of nee. Overzicht van alle teksten: [alle-teksten.md](../teksten/
 
 **Advies: ja op alle drie.**
 
-Jouw besluit:
+Jouw besluit: 1: niet deze; de 404 wordt "Het zetelt hier niet echt." 2: eens. 3: eens, maar zonder knipoog vanwege B15.
 
-### ☐ B11. Naam en domein
+### ☑ B11. Naam en domein
 
 Nog niet gecontroleerd: merkenregister, betekenis van het woord, zoekresultaten. Domein nog niet geregistreerd.
 
@@ -148,9 +162,9 @@ Nog niet gecontroleerd: merkenregister, betekenis van het woord, zoekresultaten.
 
 **Advies: A** als je de site breed gaat delen, want een adres wisselen na het delen kost bezoekers. **B** is goed voor de feedbackronde.
 
-Jouw besluit:
+Jouw besluit: A. zetelen.nl is geregistreerd bij TransIP; merkenregister gecontroleerd door Niels. Volgende stap: het domein aan Vercel koppelen.
 
-### ☐ B12. Push protection van GitHub aanzetten
+### ☑ B12. Push protection van GitHub aanzetten
 
 Blokkeert een geheim al voor de push. Onze scan (gitleaks) vindt het pas erna. Instelling in GitHub: Settings, Code security, Push protection.
 
@@ -159,14 +173,14 @@ Blokkeert een geheim al voor de push. Onze scan (gitleaks) vindt het pas erna. I
 
 **Advies: A.** Kost niets, en de repo is publiek.
 
-Jouw besluit:
+Jouw besluit: A. Niels zet het aan.
 
-### ☐ B13. Wat ik van je nodig heb voor de feedbackronde (geen keuze, aanleveren)
+### ☑ B13. Wat ik van je nodig heb voor de feedbackronde (geen keuze, aanleveren)
 
 - de link naar je vragenlijst (voor de feedbackknop, `FEEDBACK_URL`);
 - de naam van de dienst en de bewaartermijn (voor de privacytekst).
 
-### ☐ B14. De opening van de voorpagina (tekstvoorstel)
+### ☑ B14. De opening van de voorpagina (tekstvoorstel)
 
 Jouw richting: eerst het beeld van een verdeelde Kamer, dan de vraag waar ze elkaar wel vinden, een uitnodiging om zelf te zoeken, en dan "Maar eerst: hoe zijn we hier gekomen?". Als vraag, niet als stelling, met twee lezingen. Cijfers nagekeken op 26 oktober 2026 (`api.zetelwerk_periode`). Op de site rekent de pagina ze elke dag opnieuw uit, want Jetten loopt nog.
 
@@ -184,9 +198,13 @@ Jouw richting: eerst het beeld van een verdeelde Kamer, dan de vraag waar ze elk
 - **B. Zo, met aanpassingen** (noem ze).
 - **C. Anders** (zeg hoe).
 
-Jouw besluit:
+Nieuw voorstel voor de tweede lezing:
 
-### ☐ B15. Tekst voor /over: wie maakt dit (tekstvoorstel)
+> *Breed is niet diep.* Over een verzoek om een onderzoek of een brief is de Kamer het snel eens. Waar het om geld en koers gaat, bij de begroting en de grote wetten, staan kabinet en oppositie nog steeds vaak tegenover elkaar.
+
+Jouw besluit: B: zo, met een betere tweede lezing dan "een motie kost niets". Zie het nieuwe voorstel hieronder.
+
+### ☑ B15. Tekst voor /over: wie maakt dit (tekstvoorstel)
 
 > **Wie maakt dit?** Zetelen is een hobbyproject van [jouw naam], data-analist. Ik ben lid van Volt. Juist daarom zijn de regels streng:
 > - alle cijfers komen uit de open data van de Tweede Kamer;
@@ -202,9 +220,19 @@ Let op: dit botst met knipoog 3 uit B10 ("Er zit geen organisatie of partij acht
 - **B. Zo, met aanpassingen** (noem ze).
 - **C. Lidmaatschap toch niet noemen.**
 
-Jouw besluit:
+Jouw besluit: eigen tekst van Niels:
 
-### ☐ B16. De casus die Onderwerpen opent
+> **Wie maakt dit?** Zetelen is een hobbyproject van Niels Stol, data-analist. Ik wil de informatie zo objectief mogelijk brengen, maar ik ben wel lid van Volt. Daarom heb ik een aantal strenge regels voor mezelf opgesteld:
+> - alle cijfers komen uit de open data van de Tweede Kamer;
+> - voor elke fractie gelden dezelfde rekenregels; ze staan op de methodiekpagina, en de code is openbaar;
+> - bij elk cijfer staan twee lezingen, en jij kiest;
+> - fouten herstel ik, en ze komen op /wijzigingen.
+>
+> Zie je toch een scheve formulering of een fout? Of heb je suggesties voor nieuwe analyses of invalshoeken? Meld het, dan kijk ik ernaar.
+
+(Claude veranderde alleen "Data-Analist" in "data-analist" en maakte er één zin van.)
+
+### ☑ B16. De casus die Onderwerpen opent
 
 Nu: de stemming over het asielplan (motie-Eerdmans, 10 juni 2025), waarin de PVV tegen het uitvoeren van het eigen plan stemt. Dat klopt, maar het is een steek naar één kant. De graphic vraagt een hoofdelijke stemming. Ik zocht die sinds 2016 waarin fracties onderling verdeeld stemden (`db/controles/casussen_hoofdelijk.sql`). Dat zijn vooral medisch-ethische wetten:
 
@@ -222,9 +250,13 @@ Kanttekening: alle drie zijn initiatiefwetten met D66 als (mede)indiener. Een an
 
 **Advies: A.** De stemming laat het beste zien wat de graphic wil laten zien: dat een fractie niet altijd één blok is. En ze heeft geen verliezer die je kunt aanwijzen.
 
-Jouw besluit:
+Jouw besluit: C: de motie-Eerdmans blijft. Werk de andere voorbeelden op dezelfde manier uit, op een eigen plek op de site, en zoek er meer, ook van andere partijen. Later ook als explainervideo's.
+
+Jouw besluit: Claude stelt de vragenlijst op en kiest de dienst: een eigen formulier op de site, opslag in de eigen database, geen externe dienst.
 
 ## C. Controleren
+
+> **Stand 26 oktober:** nog open. De ingevulde antwoorden zeiden bij de meeste rijen "nog niet volledig geverifieerd". Rij 5 leek een datumfout (8 tegen 13 december 2016): de motie is op 8 december ingediend en op dinsdag 13 december in stemming gebracht, en wij tonen de stemdatum, dus dat klopt. De site van berthub (tkconv) is geen onafhankelijke bron: die leest dezelfde API. Voorstel: open drie rijen zelf op tweedekamer.nl bij de stemmingsuitslagen.
 
 ### ☐ C1. Steekproef uitslagen (E7-S5, 10 besluiten)
 
@@ -290,11 +322,11 @@ Ik vergeleek 19 stukken met de bron: uitslag, indiener en fractie kloppen 19 van
 
 Ook vergeleken: de aantallen per jaar met de telling in de API. In 2010 tellen wij 1.359 moties waarover gestemd is, de API 1.362. In de andere jaren is het verschil net zo klein: een paar stukken waarvan de stemming in de bron ontbreekt of verwijderd is.
 
-### ☐ C4. De 8 afwijkende uitslagen
+### ☐ C4. De 8 afwijkende uitslagen (Niels: klaarzetten; staat op de werklijst van Claude)
 
 Bij 8 van de 60.133 besluiten past de uitslag in de bron niet bij de stemmen. Bij 20 januari 2026 meldt de bron zelf dat "aangenomen" fout was. Jij: per geval zeggen of wij het goed tonen (wij volgen de stemmen). Wil je ze als kliktabel, zoals C1? Zeg "C4 klaarzetten".
 
-### ☐ C5. Handmatige tabellen nakijken
+### ☐ C5. Handmatige tabellen nakijken (Niels: doe ik morgen)
 
 Deze tabellen heb ik met de hand gevuld, en ze sturen de cijfers op de site:
 
@@ -305,13 +337,15 @@ Deze tabellen heb ik met de hand gevuld, en ze sturen de cijfers op de site:
 
 Jij: per tabel "klopt" of wat er anders moet.
 
-### ☐ C6. Test van de bewaking (uitvoeren)
+### ☐ C6. Test van de bewaking (uitvoeren; Niels: doe ik morgen)
 
 Testen of je een mail krijgt als de verversing een dag uitblijft. De stappen staan in [onderhoud.md](../onderhoud.md). Duurt een paar minuten, plus wachten op de mail.
 
 ## K. Bekijken op de site
 
-### ☐ K1. Onderwerpen, aangepast na je feedback
+### ☑ K1. Onderwerpen, aangepast na je feedback
+
+> **Jouw feedback (26 oktober):** Nee, nog geen geheel. De kop ("Waar zijn ze het over eens?") past niet bij een intro over hoe een stemming verloopt: andere kop, intro iets uitgebreider. Minder scrollen. Het bedieningspaneel bij "Nu jij" intuïtiever, en "Nu jij" prominenter, als uitnodiging. Dossiers sorteren op cohesie, van hoog naar laag.
 
 https://zetelen.vercel.app/onderwerpen
 
@@ -321,7 +355,9 @@ https://zetelen.vercel.app/onderwerpen
 
 Vraag: is het nu één geheel?
 
-### ☐ K2. Oppositiewerk, aangepast na je feedback
+### ☑ K2. Oppositiewerk, aangepast na je feedback
+
+> **Jouw feedback (26 oktober):** De legenda groter en direct onder de x-as. Minder scrollen. Nog steeds veel zwart en een abrupte overgang. Hoofdstuk 4 groter, over de hele pagina, als duidelijke afscheiding (uitgewerkt: brede grafiek met de kaarten eroverheen, grote hoofdstuktitels als scheiding, de brug naar 5 blijft).
 
 https://zetelen.vercel.app/oppositie
 
@@ -331,7 +367,9 @@ https://zetelen.vercel.app/oppositie
 
 Vraag: leesbaar, en loopt de overgang?
 
-### ☐ K3. De voorpagina als geheel
+### ☑ K3. De voorpagina als geheel
+
+> **Jouw feedback (26 oktober):** De graphic vraagt nog iets te veel scrollen, en er is te veel ruimte tussen de graphic en de volgende kop. Verder een goed geheel. De onderdelen scheiden met een soort paginascheiding, of de hoofdstuknamen prominenter.
 
 https://zetelen.vercel.app
 
@@ -339,21 +377,27 @@ Vijf hoofdstukken, dan de tegels: 1 hoe zijn we hier gekomen, 2 wie stemt er nu 
 
 Vraag: klopt de volgorde, en mist er een overgang?
 
-### ☐ K4. Oppositiewerk als geheel
+### ☑ K4. Oppositiewerk als geheel
+
+> **Jouw feedback (26 oktober):** Zie K2.
 
 Vragen:
 - werken de beelden?
 - zijn de lezingenparen eerlijk en onpartijdig?
 - is "een stip is 50 moties" duidelijk?
 
-### ☐ K5. Kamerleden en het blok zetelwerk
+### ☑ K5. Kamerleden en het blok zetelwerk
+
+> **Jouw feedback (26 oktober):** Kamerleden: de pil met kabinet of oppositie goed uitlijnen of als kolom; de hele tabel strakker. Ook als spreidingsdiagram, met een schakelaar tussen de weergaven. Fractiepagina: mooi; graag ook onderwerpen die uitklappen.
 
 - Kamerleden: https://zetelen.vercel.app/kamerleden. Per fractie, dan per Kamerlid, dan de stukken. Of hij live gaat, is B1.
 - Het blok zetelwerk op een fractiepagina, bijvoorbeeld https://zetelen.vercel.app/fracties/d66.
 
 Vraag: klopt het beeld?
 
-### ☐ K6. Teksten
+### ☑ K6. Teksten
+
+> **Jouw feedback (26 oktober):** Akkoord.
 
 - De nieuwe teksten van de nacht (Oppositiewerk, Kamerleden, zetelwerk). Ze zijn in de toon van de stijlgids geschreven, maar jij hebt ze nog niet gezien.
 - De privacytekst: https://zetelen.vercel.app/privacy (concept).
