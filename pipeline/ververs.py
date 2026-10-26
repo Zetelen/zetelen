@@ -4,7 +4,12 @@
 Haalt per entiteit alleen de records op waarvan ApiGewijzigdOp na de vorige
 verversing ligt (met een uur marge), binnen hetzelfde datumfilter als de eerste
 laad, en schrijft ze met dezelfde upsert weg. Verwijderingen komen zo ook mee:
-de API zet dan de vlag Verwijderd en werkt ApiGewijzigdOp bij.
+de API zet dan de vlag Verwijderd en werkt ApiGewijzigdOp bij. Verwijderde records
+komen ook buiten het datumfilter mee, omdat de bron bij een verwijdering soms de
+koppeling leegmaakt waar het datumfilter op leunt.
+
+Met TERUG_TOT (een datum, bijvoorbeeld 2026-10-23) kijkt een run eenmalig verder
+terug dan de vorige verversing; de upsert maakt dubbel ophalen onschadelijk.
 
 Entiteiten waarvan de eerste laad nog niet klaar is, worden overgeslagen.
 De log bevat alleen aantallen en duur.
@@ -47,8 +52,9 @@ def odata_tijd(t):
     return t.astimezone(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def ververs_entiteit(conn, entiteit, cols, haal=http_json, base=BASE, pauze=PAUZE):
-    """Geeft het aantal opgehaalde records terug, of None als de eerste laad nog niet klaar is."""
+def ververs_entiteit(conn, entiteit, cols, haal=http_json, base=BASE, pauze=PAUZE, terug_tot=None):
+    """Geeft het aantal opgehaalde records terug, of None als de eerste laad nog niet klaar is.
+    terug_tot (datetime) haalt eenmalig ook de wijzigingen vanaf dat moment op."""
     rij = conn.execute(
         "select laatste_api_gewijzigd_op, eerste_laad_klaar_op from raw.laadstatus where entiteit = %s",
         (entiteit,),
@@ -57,8 +63,11 @@ def ververs_entiteit(conn, entiteit, cols, haal=http_json, base=BASE, pauze=PAUZ
         print(f"{entiteit}: eerste laad nog niet klaar, overgeslagen")
         return None
     run_start = conn.execute("select now()").fetchone()[0]
-    sinds = odata_tijd(rij[0] - MARGE)
-    eerste = basis_url(entiteit, cols, base, extra_filter=f"ApiGewijzigdOp ge {sinds}")
+    vanaf = rij[0] - MARGE
+    if terug_tot is not None and terug_tot < vanaf:
+        vanaf = terug_tot
+    sinds = odata_tijd(vanaf)
+    eerste = basis_url(entiteit, cols, base, extra_filter=f"ApiGewijzigdOp ge {sinds}", ook_verwijderd=True)
     url = eerste
     rijen = 0
     while True:
@@ -154,14 +163,14 @@ def controleer_datakwaliteit(conn):
         raise DatakwaliteitFout("; ".join(fouten))
 
 
-def ververs_alles(conn, meta, haal=http_json, base=BASE, pauze=PAUZE):
+def ververs_alles(conn, meta, haal=http_json, base=BASE, pauze=PAUZE, terug_tot=None):
     """Ververst alle entiteiten en logt de run in beheer.verversing. Geeft het totaal terug."""
     run_id = start_log(conn)
     try:
         totaal = 0
         for entiteit in VOLGORDE:
             totaal += ververs_entiteit(conn, entiteit, kolommen(meta, entiteit),
-                                       haal=haal, base=base, pauze=pauze) or 0
+                                       haal=haal, base=base, pauze=pauze, terug_tot=terug_tot) or 0
         # Dossiers en beleidsterreinen (component onderwerpen). Telt niet mee in het totaal van gewijzigde
         # records: de dossiers worden elke run volledig opgehaald
         ververs_dossiers(conn, meta, haal=haal, base=base, pauze=pauze)
@@ -188,11 +197,15 @@ def main():
         ping("/fail")
         sys.exit("DATABASE_URL ontbreekt.")
     meta = lees_metadata(Path(METADATA).read_bytes())
+    terug = (os.environ.get("TERUG_TOT") or "").strip()
+    terug_tot = dt.datetime.fromisoformat(terug).replace(tzinfo=dt.timezone.utc) if terug else None
+    if terug_tot:
+        print(f"Eenmalig terugkijken tot {terug}")
     start = time.monotonic()
     ping("/start")
     try:
         with psycopg.connect(url, autocommit=True, connect_timeout=30) as conn:
-            totaal = ververs_alles(conn, meta)
+            totaal = ververs_alles(conn, meta, terug_tot=terug_tot)
             grootte = database_grootte(conn)
     except Exception as e:
         ping("/fail")

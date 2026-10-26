@@ -91,16 +91,21 @@ def getal(n):
     return f"{n:,}".replace(",", ".")
 
 
-def filtertekst(entiteit):
+def filtertekst(entiteit, ook_verwijderd=False):
+    """Datumfilter van een entiteit. Met ook_verwijderd komen verwijderde records ook buiten het filter mee:
+    bij een verwijdering maakt de bron soms de koppeling leeg (bijvoorbeeld Activiteit_Id), en dan valt het
+    record buiten het datumpad en zou de verwijdering nooit binnenkomen (gevonden 26 oktober 2026)."""
     pad = FILTERPAD[entiteit]
-    return f"{pad} ge {VANAF}" if pad else None
+    if not pad:
+        return None
+    return f"({pad} ge {VANAF} or Verwijderd eq true)" if ook_verwijderd else f"{pad} ge {VANAF}"
 
 
-def basis_url(entiteit, cols, base=BASE, extra_filter=None):
+def basis_url(entiteit, cols, base=BASE, extra_filter=None, ook_verwijderd=False):
     """URL van de eerste pagina. Geen $top: alleen zonder $top geeft de API een volgende-link.
     extra_filter wordt met 'and' aan het datumfilter toegevoegd (gebruikt door de verversing)."""
     params = {"$select": ",".join(c for c, _ in cols)}
-    flt = " and ".join(f for f in (filtertekst(entiteit), extra_filter) if f)
+    flt = " and ".join(f for f in (filtertekst(entiteit, ook_verwijderd), extra_filter) if f)
     if flt:
         params["$filter"] = flt
     if entiteit == "Besluit":

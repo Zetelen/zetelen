@@ -31,6 +31,20 @@ def test_filter_combineert_datum_en_wijziging():
                    "and ApiGewijzigdOp ge 2026-10-22T00:00:00Z")
 
 
+def test_verwijderd_komt_ook_buiten_het_datumfilter_mee():
+    url = laad.basis_url("Agendapunt", raw_schema.kolommen(META, "Agendapunt"), BASE,
+                         extra_filter="ApiGewijzigdOp ge 2026-10-22T00:00:00Z", ook_verwijderd=True)
+    flt = dict(urllib.parse.parse_qsl(urllib.parse.urlsplit(url).query))["$filter"]
+    assert flt == ("(Activiteit/Datum ge 2010-01-01T00:00:00Z or Verwijderd eq true) "
+                   "and ApiGewijzigdOp ge 2026-10-22T00:00:00Z")
+
+
+def test_entiteit_zonder_datumfilter_blijft_zonder():
+    url = laad.basis_url("Fractie", COLS, BASE, extra_filter="ApiGewijzigdOp ge 2026-10-22T00:00:00Z", ook_verwijderd=True)
+    flt = dict(urllib.parse.parse_qsl(urllib.parse.urlsplit(url).query))["$filter"]
+    assert flt == "ApiGewijzigdOp ge 2026-10-22T00:00:00Z"
+
+
 URL = os.environ.get("TEST_DATABASE_URL")
 db = pytest.mark.skipif(not URL, reason="TEST_DATABASE_URL niet gezet")
 
@@ -68,6 +82,15 @@ def test_wijziging_en_verwijdering_komen_mee(conn):
     assert conn.execute('select "Verwijderd" from raw.fractie where "Id" = %s', (rec[1]["Id"],)).fetchone()[0] is True
     na = conn.execute("select laatste_api_gewijzigd_op from raw.laadstatus").fetchone()[0]
     assert na > voor
+
+
+@db
+def test_terug_tot_kijkt_eenmalig_verder_terug(conn):
+    laad.laad_entiteit(conn, "Fractie", COLS, haal=NepApi(fracties(3)), base=BASE, pauze=0)
+    api = NepApi([])
+    ververs.ververs_entiteit(conn, "Fractie", COLS, haal=api, base=BASE, pauze=0,
+                             terug_tot=dt.datetime(2026, 10, 23, tzinfo=dt.timezone.utc))
+    assert "ApiGewijzigdOp ge 2026-10-23T00:00:00Z" in urllib.parse.unquote(api.urls[0])
 
 
 # Bewaking: signalen naar healthchecks en het logboek beheer.verversing

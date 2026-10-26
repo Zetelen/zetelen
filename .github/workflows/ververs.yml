@@ -15,6 +15,10 @@ on:
         description: "Test de foutmelding: deze run gebruikt een ongeldige databaseverbinding"
         type: boolean
         default: false
+      terug_tot:
+        description: "Eenmalig verder terugkijken dan de vorige verversing, vanaf deze datum (JJJJ-MM-DD); leeg is normaal"
+        type: string
+        default: ""
 
 permissions:
   contents: read
@@ -47,6 +51,7 @@ jobs:
           # Bij test_fout een verbinding die altijd geweigerd wordt; het echte geheim blijft onaangeroerd
           DATABASE_URL: ${{ inputs.test_fout && 'postgresql://test-fout@127.0.0.1:1/test' || secrets.DATABASE_URL }}
           HEALTHCHECK_URL: ${{ secrets.HEALTHCHECK_URL }}
+          TERUG_TOT: ${{ inputs.terug_tot }}
         run: python pipeline/ververs.py
 
       - name: Workflow actief houden (60-dagenregel)
