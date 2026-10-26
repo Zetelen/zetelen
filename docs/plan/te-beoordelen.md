@@ -92,7 +92,7 @@ De berekende cohesie voor dit paar onder Schoof: 79,7% over alle stemmingen (5.5
 
 **Voorstel, niet uitgevoerd:** in `pipeline/ververs.py` de wijzigingen voor Agendapunt, Besluit en Stemming (en de andere entiteiten met een datumfilter via een koppeling) opvragen op `ApiGewijzigdOp` alleen, zonder datumfilter. Wijzigingen per dag zijn klein, dus dat kost weinig. Records van voor 2010 die zo binnenkomen, vallen in `core` toch buiten het datumfilter. Na de aanpassing is een Ververs nodig die terugkijkt tot 23 oktober; Migreer is niet nodig. Ik heb niets in de database hersteld.
 
-**Namen uit dit document gehaald (26 oktober 2026, op verzoek van Niels).** In de steekproef zetelwerk staat nu de fractie van de indiener in plaats van de naam, en het onderwerp zonder de namen van de indieners. De publieke log van de Controlequery-run met fractienamen van eenmansfracties (run 40265489488) wordt verwijderd door Niels. De andere runs van vandaag geven alleen aantallen en ids.
+**Namen uit dit document gehaald (26 oktober 2026, op verzoek van Niels).** In de steekproef zetelwerk staat nu de fractie van de indiener in plaats van de naam, en het onderwerp zonder de namen van de indieners. De publieke log van de Controlequery-run met fractienamen van eenmansfracties (run 40265489488) is door Niels verwijderd; de git-historie blijft zoals hij is (besluit Niels). De andere runs van vandaag geven alleen aantallen en ids.
 
 ## Eerst kijken (op de site)
 
