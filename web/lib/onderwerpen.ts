@@ -59,31 +59,67 @@ export type StemmingRij = {
   andereDossiers: string[]; a: string | null; b: string | null;
 };
 
-export async function stemmingenInTerrein(
-  soort: Periodesoort, periode: string, variant: Variant, terrein: string, a: string, b: string,
-): Promise<StemmingRij[] | null> {
-  type Ruw = {
-    besluit: string; dossier: string; datum: string; zaak_nummer: string | null; zaak_soort: string | null; onderwerp: string | null;
-    uitslag: string | null; dossier_nummer: number | null; dossier_toevoeging: string | null; dossier_titel: string | null;
-    andere_dossiers: string[]; stemmen: Record<string, string>;
-  };
-  const uit: StemmingRij[] = [];
+type RuwStemming = {
+  besluit: string; dossier: string; datum: string; zaak_nummer: string | null; zaak_soort: string | null; onderwerp: string | null;
+  uitslag: string | null; dossier_nummer: number | null; dossier_toevoeging: string | null; dossier_titel: string | null;
+  andere_dossiers: string[]; stemmen: Record<string, string>;
+};
+
+// Alle stemmingen van een terrein in een periode, met de stem van elke fractie (sleutel: fractie-id)
+async function ruweStemmingen(soort: Periodesoort, periode: string, variant: Variant, terrein: string): Promise<RuwStemming[] | null> {
+  const uit: RuwStemming[] = [];
   for (let vanaf = 0; ; vanaf += 1000) {
-    const rijen = await leesApi<Ruw[]>(
+    const rijen = await leesApi<RuwStemming[]>(
       `stemming_dossier?select=besluit,dossier,datum,zaak_nummer,zaak_soort,onderwerp,uitslag,dossier_nummer,dossier_toevoeging,dossier_titel,andere_dossiers,stemmen` +
         `&beleidsterrein=eq.${encodeURIComponent(terrein)}&${soort}=eq.${encodeURIComponent(periode)}` +
         (variant === "verdeeld" ? "&verdeeld=is.true" : "") + `&order=datum.desc,besluit,dossier&limit=1000&offset=${vanaf}`,
     );
     if (!rijen) return null;
-    for (const r of rijen) {
-      uit.push({
-        besluit: r.besluit, dossier: r.dossier, datum: r.datum, zaakNummer: r.zaak_nummer, zaakSoort: r.zaak_soort, onderwerp: r.onderwerp,
-        uitslag: r.uitslag, dossierNummer: r.dossier_nummer, dossierToevoeging: r.dossier_toevoeging, dossierTitel: r.dossier_titel,
-        andereDossiers: r.andere_dossiers ?? [], a: r.stemmen[a] ?? null, b: r.stemmen[b] ?? null,
-      });
-    }
+    uit.push(...rijen);
     if (rijen.length < 1000) return uit;
   }
+}
+
+export async function stemmingenInTerrein(
+  soort: Periodesoort, periode: string, variant: Variant, terrein: string, a: string, b: string,
+): Promise<StemmingRij[] | null> {
+  const rijen = await ruweStemmingen(soort, periode, variant, terrein);
+  return rijen?.map((r) => ({
+    besluit: r.besluit, dossier: r.dossier, datum: r.datum, zaakNummer: r.zaak_nummer, zaakSoort: r.zaak_soort, onderwerp: r.onderwerp,
+    uitslag: r.uitslag, dossierNummer: r.dossier_nummer, dossierToevoeging: r.dossier_toevoeging, dossierTitel: r.dossier_titel,
+    andereDossiers: r.andere_dossiers ?? [], a: r.stemmen[a] ?? null, b: r.stemmen[b] ?? null,
+  })) ?? null;
+}
+
+// Per dossier de cohesie van een fractie met elke andere fractie, voor de uitklapbare tabel (feedback Niels K1,
+// 26 oktober 2026: van terrein naar dossier, zoals een matrix in Power BI). Zelfde telling als de cohesie: alleen
+// stemmingen waarop beide fracties voor of tegen stemden. Dossiers met de meeste stemmingen eerst.
+export type DossierRij = { dossier: string; titel: string; stemmingen: number; per: Map<string, { samen: number; eens: number }> };
+
+export function dossierMatrix(rijen: Array<{ dossier: string; dossier_titel: string | null; stemmen: Record<string, string> }>, fractie: string): DossierRij[] {
+  const per = new Map<string, DossierRij>();
+  const telt = (v: string | undefined) => v === "Voor" || v === "Tegen";
+  for (const r of rijen) {
+    const d = per.get(r.dossier) ?? { dossier: r.dossier, titel: r.dossier_titel ?? "Onbekend dossier", stemmingen: 0, per: new Map() };
+    d.stemmingen++;
+    const eigen = r.stemmen[fractie];
+    if (telt(eigen)) {
+      for (const [f, v] of Object.entries(r.stemmen)) {
+        if (f === fractie || !telt(v)) continue;
+        const t = d.per.get(f) ?? { samen: 0, eens: 0 };
+        t.samen++;
+        if (v === eigen) t.eens++;
+        d.per.set(f, t);
+      }
+    }
+    per.set(r.dossier, d);
+  }
+  return [...per.values()].sort((x, y) => y.stemmingen - x.stemmingen || x.titel.localeCompare(y.titel));
+}
+
+export async function dossiersVoorMatrix(soort: Periodesoort, periode: string, variant: Variant, terrein: string, fractie: string): Promise<DossierRij[] | null> {
+  const rijen = await ruweStemmingen(soort, periode, variant, terrein);
+  return rijen ? dossierMatrix(rijen, fractie) : null;
 }
 
 export type DossierTelling = {

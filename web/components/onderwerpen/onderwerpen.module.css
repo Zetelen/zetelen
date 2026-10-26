@@ -511,3 +511,89 @@ a.balkRij[data-actief="true"] {
   color: var(--tekst);
   max-width: 70ch;
 }
+
+/* Uitklapbare tabel: terrein naar dossier (feedback Niels K1, 26 oktober 2026) */
+.rijKnop {
+  color: inherit;
+  text-decoration: none;
+  display: inline-flex;
+  gap: 6px;
+  align-items: baseline;
+}
+.rijKnop:hover {
+  color: var(--koper);
+}
+.rijOpen th {
+  color: var(--koper);
+}
+.matrixDossier th {
+  padding-left: 22px;
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--tekst-zacht);
+  max-width: 260px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.matrixDossier td {
+  font-size: 12px;
+}
+
+/* Spreidingsdiagram voor een paar (verzoek Niels, 26 oktober 2026) */
+.spreiding {
+  margin: 0;
+  max-width: 1000px;
+}
+.spreiding svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.spreidingLijn {
+  stroke: var(--lijn);
+  stroke-width: 1;
+}
+.spreidingAs {
+  font-family: var(--mono);
+  font-size: 13px;
+  fill: var(--tekst-zacht);
+}
+.spreidingLabel {
+  font-family: var(--sans);
+  font-size: 14px;
+  fill: var(--tekst);
+  paint-order: stroke;
+  stroke: var(--nacht-950);
+  stroke-width: 4px;
+}
+.spreidingPunt {
+  cursor: pointer;
+}
+.spreidingPunt circle {
+  stroke-width: 2.5;
+  transition: r 150ms;
+}
+.spreidingPunt:hover circle,
+.spreidingPunt[data-actief] circle {
+  stroke: var(--koper);
+  stroke-width: 3.5;
+}
+.spreidingPunt:hover .spreidingLabel {
+  fill: var(--koper);
+}
+.weergaveKnop {
+  min-height: var(--doel-min);
+  padding: 0 var(--r-4);
+  border-radius: var(--hoek-pil);
+  border: 1px solid var(--lijn);
+  color: var(--tekst);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  font-size: 15px;
+}
+.weergaveKnop[aria-current] {
+  background: var(--nacht-700);
+  border-color: var(--koper);
+}

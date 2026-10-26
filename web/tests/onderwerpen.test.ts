@@ -1,6 +1,6 @@
 // Tests voor de cohesie per beleidsterrein (lib/onderwerpen.ts)
 import { describe, expect, it } from "vitest";
-import { type StemmingRij, paarPerTerrein, perDossier, uitersten, verschillen } from "../lib/onderwerpen";
+import { dossierMatrix, type StemmingRij, paarPerTerrein, perDossier, uitersten, verschillen } from "../lib/onderwerpen";
 import type { Paar } from "../lib/zaal";
 
 const p = (cohesie: number | null, teWeinig = false): Paar => ({ cohesie, gezamenlijk: teWeinig ? 10 : 100, teWeinig });
@@ -53,5 +53,23 @@ describe("verschillen", () => {
   it("geeft elke stemming waarop ze verschilden een keer, nieuwste eerst", () => {
     const uit = verschillen([r("1", "2026-01-01", "Voor", "Tegen"), r("1", "2026-01-01", "Voor", "Tegen", "Y"), r("2", "2026-02-01", "Tegen", "Voor"), r("3", "2026-03-01", "Voor", "Voor"), r("4", "2026-04-01", null, "Voor")]);
     expect(uit.map((x) => x.besluit)).toEqual(["2", "1"]);
+  });
+});
+
+// Uitklapbare tabel (feedback Niels K1, 26 oktober 2026): cohesie per dossier met elke andere fractie
+describe("dossierMatrix", () => {
+  const rij = (dossier: string, stemmen: Record<string, string>) => ({ dossier, dossier_titel: `Dossier ${dossier}`, stemmen });
+  it("telt alleen stemmingen waarop beide voor of tegen stemden, en zet het grootste dossier eerst", () => {
+    const uit = dossierMatrix([
+      rij("1", { a: "Voor", b: "Voor", c: "Tegen" }),
+      rij("1", { a: "Tegen", b: "Voor", c: "Niet deelgenomen" }),
+      rij("2", { a: "Niet deelgenomen", b: "Voor" }),
+      rij("1", { a: "Voor", b: "Voor" }),
+    ], "a");
+    expect(uit.map((d) => d.dossier)).toEqual(["1", "2"]);
+    expect(uit[0].stemmingen).toBe(3);
+    expect(uit[0].per.get("b")).toEqual({ samen: 3, eens: 2 });
+    expect(uit[0].per.get("c")).toEqual({ samen: 1, eens: 0 });
+    expect(uit[1].per.size).toBe(0);
   });
 });

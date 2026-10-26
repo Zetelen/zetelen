@@ -5,7 +5,7 @@
 // (sinds 26 oktober 2026 in de lijst zelf, verzoek Niels). Bovenaan graphic 2 als opening. Keuzes staan in de URL.
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Suspense } from "react";
+import { Fragment, Suspense } from "react";
 import { Bronregel } from "@/components/cohesie/Bronregel";
 import { PeriodeKeuze } from "@/components/cohesie/PeriodeKeuze";
 import { Inhoud, LegeStaat } from "@/components/Kader";
@@ -22,9 +22,11 @@ import { HoofdstukKop } from "@/components/Onderdelen";
 import { Data, HeroKop, Label, SectieKop, Tekst } from "@/components/Typografie";
 import { cohesieIn, fractiesIn, keuzeUitUrl, perioden, procent } from "@/lib/cohesie";
 import { schaalkleur, tekstOp } from "@/lib/kleur";
-import { cohesiePerTerrein, paarPerTerrein, stemmingenPerTerrein, uitersten } from "@/lib/onderwerpen";
+import { MINIMUM_UITERSTEN, cohesiePerTerrein, dossiersVoorMatrix, paarPerTerrein, perDossier, stemmingenInTerrein, stemmingenPerTerrein, uitersten } from "@/lib/onderwerpen";
+import { type Punt, Spreiding } from "@/components/onderwerpen/Spreiding";
 import { sleutel } from "@/lib/zaal";
 import s from "@/components/onderwerpen/onderwerpen.module.css";
+import v from "@/components/cohesie/verkenner.module.css";
 
 export const metadata: Metadata = {
   title: "Onderwerpen",
@@ -60,10 +62,33 @@ export default async function Onderwerpen({ searchParams }: Props) {
   // Verdieping: het terrein klapt uit met de dossiers en stemmingen (components/onderwerpen/TerreinUitklap.tsx)
   const terrein = met && paar?.some((p) => p.terrein === waarde("terrein")) ? waarde("terrein")! : null;
   const paarQuery: Record<string, string> = met ? { fractie: gekozen.afkorting, met: met.afkorting } : {};
+  // Tabel zonder tweede fractie: een terrein klapt uit tot dossiers, in de tabel zelf (zoals een matrix in Power BI)
+  const openTerrein = !met && terreinen.includes(waarde("open") ?? "") ? waarde("open")! : null;
+  const dossierRijen = openTerrein && periode && gekozen ? await dossiersVoorMatrix(soort, periode.naam, variant, openTerrein, gekozen.id) : null;
+  const MAX_DOSSIERS = 20;
+  // Paar: balken of spreidingsdiagram (verzoek Niels, 26 oktober 2026). In de spreiding worden na een klik op een
+  // terrein de dossiers de punten.
+  const spreiding = met ? waarde("weergave") === "spreiding" : false;
+  const weergaveQuery: Record<string, string> = spreiding ? { ...paarQuery, weergave: "spreiding" } : paarQuery;
+  let punten: Punt[] = [];
+  if (spreiding && paar && met && periode) {
+    if (terrein) {
+      const rijen = await stemmingenInTerrein(soort, periode.naam, variant, terrein, gekozen.id, met.id);
+      punten = perDossier(rijen ?? []).map((d) => ({
+        sleutel: d.dossier, label: d.titel, samen: d.samen, cohesie: (100 * d.eens) / d.samen, klein: d.samen < 5,
+        actief: d.dossier === waarde("dossier"), href: `/onderwerpen${query({ ...weergaveQuery, terrein, dossier: d.dossier })}#dossier-${d.dossier}`,
+      }));
+    } else {
+      punten = paar.filter((p) => p.cohesie != null).map((p) => ({
+        sleutel: p.terrein, label: p.terrein, samen: p.gezamenlijk, cohesie: p.cohesie!, klein: p.teWeinig || p.gezamenlijk < MINIMUM_UITERSTEN,
+        href: `/onderwerpen${query({ ...weergaveQuery, terrein: p.terrein })}#vergelijking`,
+      }));
+    }
+  }
   const uitklapTerrein = terrein && met && periode ? (
     <TerreinUitklap soort={soort} periode={periode.naam} variant={variant} a={gekozen} b={met} terrein={terrein}
       dossier={waarde("dossier") ?? null} toonVerschillen={waarde("alle") === "1"}
-      href={(extra) => `/onderwerpen${query({ ...paarQuery, terrein, ...extra })}`} sluitHref={`/onderwerpen${query({ ...paarQuery, terrein })}`} />
+      href={(extra) => `/onderwerpen${query({ ...weergaveQuery, terrein, ...extra })}`} sluitHref={`/onderwerpen${query({ ...weergaveQuery, terrein })}`} />
   ) : null;
 
   const filters = (
@@ -136,7 +161,7 @@ export default async function Onderwerpen({ searchParams }: Props) {
       {!periode || !gekozen || !perTerrein ? (
         <LegeStaat label="Niet bereikbaar" titel="De onderwerpen laden nu niet" uitleg="Probeer het over een paar minuten nog eens." />
       ) : met && paar ? (
-        <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
+        <section id="vergelijking" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
           {filters}
           <Label>{gekozen.afkorting} en {met.afkorting} · {periode.naam}</Label>
           {u && (
@@ -145,11 +170,30 @@ export default async function Onderwerpen({ searchParams }: Props) {
               {totaal != null ? ` Over alle stemmingen samen: ${procent(totaal)} (de witte lijn).` : ""}
             </Tekst>
           )}
+          <div className={v.segment} role="group" aria-label="Weergave">
+            <Link href={`/onderwerpen${query({ ...paarQuery, ...(terrein ? { terrein } : {}) })}#vergelijking`} scroll={false} aria-current={!spreiding || undefined} className={s.weergaveKnop}>Balken</Link>
+            <Link href={`/onderwerpen${query({ ...paarQuery, weergave: "spreiding", ...(terrein ? { terrein } : {}) })}#vergelijking`} scroll={false} aria-current={spreiding || undefined} className={s.weergaveKnop}>Spreiding</Link>
+          </div>
+          {spreiding ? (
+            <>
+              <p className={s.toelichting}>
+                {terrein
+                  ? <>Elk punt is een dossier in {terrein}. Naar rechts: meer stemmingen waarop {gekozen.afkorting} en {met.afkorting} allebei stemden; naar boven: vaker hetzelfde. Hol: minder dan 5 stemmingen samen. Klik op een dossier voor de stemmingen. <Link href={`/onderwerpen${query(weergaveQuery)}#vergelijking`} scroll={false}>← Alle terreinen</Link></>
+                  : <>Elk punt is een beleidsterrein. Naar rechts: meer stemmingen waarop {gekozen.afkorting} en {met.afkorting} allebei stemden; naar boven: vaker hetzelfde. Hol: minder dan {MINIMUM_UITERSTEN} stemmingen samen. Klik op een terrein voor de dossiers.</>}
+              </p>
+              <Spreiding punten={punten} eenheid="stemmingen" labelVanaf={terrein ? Math.max(5, [...punten].sort((x, y) => y.samen - x.samen)[11]?.samen ?? 0) : 0}
+                beschrijving={terrein ? `Dossiers in ${terrein}: aantal stemmingen samen en hoe vaak ${gekozen.afkorting} en ${met.afkorting} hetzelfde stemden` : `Beleidsterreinen: aantal stemmingen samen en hoe vaak ${gekozen.afkorting} en ${met.afkorting} hetzelfde stemden`} />
+              {terrein && uitklapTerrein}
+            </>
+          ) : (
+          <>
           <p className={s.toelichting}>Klik op een terrein: de dossiers klappen eronder uit, van meest naar minst eens.</p>
           <TerreinBalken lijst={paar} totaal={totaal} label={`Hoe vaak ${gekozen.afkorting} en ${met.afkorting} hetzelfde stemden, per beleidsterrein`}
             hrefVoor={(t) => `/onderwerpen${query({ ...paarQuery, terrein: t })}#${terreinAnker(t)}`} actief={terrein}
             sluitHref={terrein ? `/onderwerpen${query(paarQuery)}#${terreinAnker(terrein)}` : undefined}
             uitklap={terrein ? uitklapTerrein : null} />
+          </>
+          )}
           <Data><Link href={`/onderwerpen${query({ fractie: gekozen.afkorting })}`}>Terug naar alle fracties</Link></Data>
         </section>
       ) : (
@@ -167,15 +211,21 @@ export default async function Onderwerpen({ searchParams }: Props) {
               </thead>
               <tbody>
                 {terreinen.map((t) => (
-                  <tr key={t}>
-                    <th scope="row">{t} <span className={s.aantal}>{aantallen.get(t)}</span></th>
+                  <Fragment key={t}>
+                  <tr id={`rij-${terreinAnker(t)}`} className={t === openTerrein ? s.rijOpen : undefined}>
+                    <th scope="row">
+                      <Link href={`/onderwerpen${query({ fractie: gekozen.afkorting, ...(t === openTerrein ? {} : { open: t }) })}#rij-${terreinAnker(t)}`}
+                        scroll={false} className={s.rijKnop} aria-expanded={t === openTerrein}>
+                        <span aria-hidden="true">{t === openTerrein ? "▾" : "▸"}</span> {t} <span className={s.aantal}>{aantallen.get(t)}</span>
+                      </Link>
+                    </th>
                     {zaal.filter((f) => f.id !== gekozen.id).map((f) => {
                       const p = perTerrein.get(t)?.get(f.id);
                       const geldig = p && !p.teWeinig && p.cohesie != null;
                       const kleur = geldig ? schaalkleur(p.cohesie!) : null;
                       return (
                         <td key={f.id} className={kleur ? s.cel : `${s.cel} ${s.celTeWeinig}`} style={kleur ? { background: kleur, color: tekstOp(kleur) } : undefined}>
-                          <Link href={`/onderwerpen${query({ fractie: gekozen.afkorting, met: f.afkorting })}`}
+                          <Link href={`/onderwerpen${query({ fractie: gekozen.afkorting, met: f.afkorting })}#vergelijking`}
                             title={`${gekozen.afkorting} en ${f.afkorting}, ${t}: ${geldig ? procent(p.cohesie, 1) : "te weinig stemmingen"}`}>
                             {geldig ? procent(p.cohesie) : <span className="verborgen">te weinig stemmingen</span>}
                           </Link>
@@ -183,6 +233,27 @@ export default async function Onderwerpen({ searchParams }: Props) {
                       );
                     })}
                   </tr>
+                  {t === openTerrein && (dossierRijen ?? []).slice(0, MAX_DOSSIERS).map((d) => (
+                    <tr key={d.dossier} className={s.matrixDossier}>
+                      <th scope="row" title={d.titel}>{d.titel} <span className={s.aantal}>{d.stemmingen}</span></th>
+                      {zaal.filter((f) => f.id !== gekozen.id).map((f) => {
+                        const p = d.per.get(f.id);
+                        // Minder dan 5 stemmingen samen: geen percentage, dat zegt dan te weinig
+                        const c = p && p.samen >= 5 ? (100 * p.eens) / p.samen : null;
+                        const kleur = c != null ? schaalkleur(c) : null;
+                        return (
+                          <td key={f.id} className={kleur ? s.cel : `${s.cel} ${s.celTeWeinig}`} style={kleur ? { background: kleur, color: tekstOp(kleur) } : undefined}
+                            title={`${gekozen.afkorting} en ${f.afkorting}, ${d.titel}: ${c != null ? `${p!.eens} van ${p!.samen} keer hetzelfde` : "te weinig stemmingen"}`}>
+                            {c != null ? procent(c) : <span className="verborgen">te weinig stemmingen</span>}
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  ))}
+                  {t === openTerrein && dossierRijen && dossierRijen.length > MAX_DOSSIERS && (
+                    <tr className={s.matrixDossier}><th scope="row" colSpan={zaal.length}>en {dossierRijen.length - MAX_DOSSIERS} kleinere dossiers. Kies een fractie om mee te vergelijken voor de hele lijst.</th></tr>
+                  )}
+                  </Fragment>
                 ))}
               </tbody>
             </table>
@@ -194,8 +265,9 @@ export default async function Onderwerpen({ searchParams }: Props) {
           </div>
           {/* Meer contrast dan de gewone datatekst (feedback Niels K1, 26 oktober 2026) */}
           <p className={s.toelichting}>
-            Het getal achter een terrein is het aantal stemmingen in deze periode. Kies een cel en vergelijk {gekozen.afkorting} en die fractie per
-            terrein. Gestreept: minder dan 25 stemmingen samen.
+            Klik op een terrein: de dossiers klappen eronder uit, met de grootste dossiers eerst. Het getal erachter is het aantal
+            stemmingen in deze periode. Kies een cel en vergelijk {gekozen.afkorting} en die fractie per terrein. Gestreept: te weinig
+            stemmingen samen (een terrein onder de 25, een dossier onder de 5).
           </p>
         </section>
       )}
