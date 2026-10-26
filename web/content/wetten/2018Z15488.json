@@ -1,0 +1,35 @@
+{
+ "nummer": "2018Z15488",
+ "soort": "Wetgeving",
+ "ingediend": "2018-09-05",
+ "indiener": [
+  "staatssecretaris van Sociale Zaken en Werkgelegenheid"
+ ],
+ "uitslag": "aangenomen",
+ "haltes": [
+  {
+   "halte": "ingediend",
+   "datum": "2018-09-05"
+  },
+  {
+   "halte": "advies",
+   "datum": "2018-09-05"
+  },
+  {
+   "halte": "vragen",
+   "datum": "2018-10-17"
+  },
+  {
+   "halte": "antwoord",
+   "datum": "2018-11-22"
+  },
+  {
+   "halte": "aangepast",
+   "datum": "2019-02-19"
+  },
+  {
+   "halte": "gestemd",
+   "datum": "2019-03-05"
+  }
+ ]
+}

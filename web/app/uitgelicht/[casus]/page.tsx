@@ -42,7 +42,8 @@ export default async function CasusPagina({ params }: Props) {
       {/* Article met maker; zonder publicatiedatum, want die houden we per casus niet bij */}
       <JsonLd data={{ "@context": "https://schema.org", "@type": "Article", headline: u.titel, description: u.vraag, author: MAKER, inLanguage: "nl", url: `${DOMEIN}/uitgelicht/${u.slug}` }} />
       <section className={s.blok}>
-        <CasusKiezer casussen={UITGELICHT.map((c) => ({ slug: c.slug, titel: c.titel, jaar: c.datums[0].slice(0, 4) }))} gekozen={u.slug} />
+        <CasusKiezer casussen={[...UITGELICHT.map((c) => ({ slug: c.slug, titel: c.titel, jaar: c.datums[0].slice(0, 4) })),
+          { slug: "hoe-lang-duurt-een-wet", titel: "Hoe lang duurt een wet?", jaar: "2010 tot nu" }]} gekozen={u.slug} />
         <Label>Uitgelicht · {datums}</Label>
         <HeroKop>{u.vraag}</HeroKop>
         <Tekst>

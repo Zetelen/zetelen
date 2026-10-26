@@ -1,0 +1,31 @@
+{
+ "nummer": "2020Z17945",
+ "soort": "Wetgeving",
+ "ingediend": "2020-10-02",
+ "indiener": [
+  "minister van Binnenlandse Zaken en Koninkrijksrelaties"
+ ],
+ "uitslag": "aangenomen",
+ "haltes": [
+  {
+   "halte": "advies",
+   "datum": "2020-10-02"
+  },
+  {
+   "halte": "ingediend",
+   "datum": "2020-10-02"
+  },
+  {
+   "halte": "vragen",
+   "datum": "2020-10-09"
+  },
+  {
+   "halte": "antwoord",
+   "datum": "2020-10-12"
+  },
+  {
+   "halte": "gestemd",
+   "datum": "2020-10-15"
+  }
+ ]
+}

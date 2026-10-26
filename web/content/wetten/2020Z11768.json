@@ -1,0 +1,39 @@
+{
+ "nummer": "2020Z11768",
+ "soort": "Wetgeving",
+ "ingediend": "2020-06-22",
+ "indiener": [
+  "staatssecretaris van Justitie en Veiligheid"
+ ],
+ "uitslag": "aangenomen",
+ "haltes": [
+  {
+   "halte": "ingediend",
+   "datum": "2020-06-20"
+  },
+  {
+   "halte": "advies",
+   "datum": "2020-06-20"
+  },
+  {
+   "halte": "vragen",
+   "datum": "2020-09-16"
+  },
+  {
+   "halte": "antwoord",
+   "datum": "2021-02-02"
+  },
+  {
+   "halte": "aangepast",
+   "datum": "2025-09-01"
+  },
+  {
+   "halte": "aangepast",
+   "datum": "2026-05-08"
+  },
+  {
+   "halte": "gestemd",
+   "datum": "2026-06-04"
+  }
+ ]
+}
