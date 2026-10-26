@@ -12,7 +12,7 @@ Bijgewerkt op 26 oktober 2026, eind van de middag. Hier staat alleen wat nog ope
 | ☐ K1, K2, K3, K5 | Opnieuw bekijken na de aanpassingen: Onderwerpen, Oppositiewerk, voorpagina, Kamerleden | bekijken | ja, voor het label concept | hieronder |
 | ☐ K7 | Uitgelicht: omschrijvingen en spreiding | bekijken | nee | hieronder |
 | ☐ K9 | Nieuw: Hoe lang duurt een wet? en een eigen beeld per stemming op Uitgelicht | bekijken | nee | hieronder |
-| ☐ B18 | Richting "En toen? Wat gebeurt er met een aangenomen motie?": wel of niet, en hoe | besluit | nee | hieronder |
+| ☐ B19 | Stemhulp op basis van echte stemmingen: vijf vragen (zie [stemwijzer-onderzoek.md](stemwijzer-onderzoek.md)) | besluit | nee | in dat bestand |
 | ☐ B17 | Pipeline voor nieuwe casussen: één vraag over (budget), en wacht tot na de feedbackrondes | besluit | nee | hieronder |
 | ☐ L1 | Bij de livegang: sitemap indienen en PageSpeed draaien | uitvoeren | nee, na de livegang | hieronder |
 
@@ -52,16 +52,6 @@ Vraag: kloppen de omschrijvingen, en is de spreiding over partijen goed zo?
 - **Eigen beeld per stemming:** weegschaal (gehandicaptenzorg, live-weddenschappen), hoefijzer (Mercosur), van dichtbij (PvdA bij ritueel slachten). Zelfde keuze als bij de video's.
 
 ## B. Besluiten
-
-### ☐ B18. "En toen?" Wat gebeurt er met een aangenomen motie?
-
-Onderzoek in [onderzoek-motie-opvolging.md](onderzoek-motie-opvolging.md). Kort: de bron zegt nergens of een motie is uitgevoerd. Wel te tellen: of er daarna een brief van de regering over de motie kwam (betrouwbaar vanaf 2017-2018), het oordeel van het kabinet vóór de stemming (1.890 moties werden aangenomen terwijl het kabinet ze ontraadde), en toezeggingen van bewindspersonen met hun status (pas vanaf september 2022).
-
-- **A.** Bouwen als "Kwam er een brief?", per kabinet vanaf Rutte III, met de beperking er duidelijk bij, plus de ontraden-maar-aangenomen moties.
-- **B.** Alleen de ontraden-maar-aangenomen moties (het sterkste verhaal, en de gegevens zijn volledig).
-- **C.** Niet bouwen.
-
-**Advies: B eerst**, A later als er tijd is. Een brief is geen uitvoering, en dat verschil is lastig uit te leggen.
 
 ### ☐ B17. De pipeline voor nieuwe casussen
 

@@ -4,6 +4,7 @@ Alles uit [te-beoordelen.md](te-beoordelen.md) dat beantwoord of gedaan is, met 
 
 ## Recent
 
+- **26 oktober, B18 "En toen?"**: akkoord Niels met het advies: eerst alleen de moties die het kabinet ontraadde en die toch werden aangenomen (optie B). Onderzoek: [onderzoek-motie-opvolging.md](onderzoek-motie-opvolging.md).
 - **26 oktober, K8 video's goedgekeurd** door Niels: "De laatste versies zijn goed." Alle formats staan in de nieuwe stijl. Opnemen in de pipeline volgt bij B17.
 - **26 oktober, T1 feedbackformulier getest door Niels**: formulier ingevuld, het antwoord staat in Supabase.
 - **26 oktober, SEO-audit verwerkt** (`3ea05fb`): sitemap, canonicals, vast domein, H1, structured data, titels, permanente omleidingen. Zie [seo-audit.md](seo-audit.md). Licentie: bewust nog niet gekozen (geen noodzaak).
