@@ -77,8 +77,9 @@
 /* Tijdlijn: kaarten links langs een verticale lijn, tekening rechts */
 .verhaal[data-tijdlijn="true"] {
   display: grid;
-  grid-template-columns: minmax(240px, 320px) minmax(0, 1fr);
-  column-gap: var(--r-7);
+  /* Smallere tekstkolom en minder tussenruimte: de tekening krijgt meer breedte (feedback Niels K2, 26 oktober 2026) */
+  grid-template-columns: minmax(220px, 290px) minmax(0, 1fr);
+  column-gap: var(--r-5);
 }
 .verhaal[data-tijdlijn="true"] .figuur {
   grid-column: 2;
@@ -149,6 +150,9 @@
   stroke: var(--nacht-950);
   stroke-width: 1.5;
   transition: transform var(--duur-verhaal, 900ms) cubic-bezier(0.6, 0, 0.2, 1), fill 500ms, opacity 500ms, stroke 500ms;
+}
+.stip[data-kleur="hol"] {
+  stroke-width: 3;
 }
 .stip[data-kleur="kabinet"] {
   stroke: var(--goud);
@@ -272,8 +276,9 @@
 /* Telefoon en tablet: kaarten over de tekening. Een volle schermhoogte per stap, zodat er steeds maar één kaart in
    beeld is; een kaart vervaagt zodra hij over de tekening schuift (--zicht, gezet in ScrollVerhaal.tsx). */
 @media (max-width: 900px) {
-  .verhaal:not([data-breed="true"]) .kaart,
-  .verhaal[data-tijdlijn="true"]:not([data-breed="true"]) .kaart {
+  .verhaal .kaart,
+  .verhaal[data-tijdlijn="true"] .kaart,
+  .verhaal[data-breed="true"] .kaart {
     min-height: max(var(--stap, 100vh), 100svh);
   }
   .verhaal:not([data-breed="true"]) .kaart > div {
@@ -314,13 +319,18 @@
   font-size: 16px;
   line-height: 1.55;
 }
+/* Breed: de kaarten schuiven onder de tekening door en vervagen zodra ze erover gaan (--zicht) */
+.verhaal[data-breed="true"] .kaart {
+  justify-content: center;
+}
 .verhaal[data-breed="true"] .kaart > div {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
+  max-width: 820px;
+  width: 100%;
+  opacity: calc(0.6 * var(--zicht, 1));
+  transition: opacity 120ms;
+}
+.verhaal[data-breed="true"] .kaart[data-actief="true"] > div {
+  opacity: var(--zicht, 1);
 }
 .verhaal[data-breed="true"] .kaart {
   position: relative;
@@ -339,4 +349,24 @@
   font-size: 30px;
   line-height: 1.2;
   color: var(--tekst);
+}
+
+/* Een van twee interpretaties: duidelijk een eigen blok, met nummer (feedback Niels K2, 26 oktober 2026) */
+.lezingKop {
+  display: block;
+  margin-bottom: var(--r-2);
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--koper);
+}
+.kaart > div[data-lezing],
+.bijschrift[data-lezing] {
+  border-left: 4px solid var(--koper) !important;
+  padding-left: var(--r-4) !important;
+  font-family: var(--serif);
+  font-size: 22px;
+  line-height: 1.4;
 }

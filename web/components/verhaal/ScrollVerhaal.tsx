@@ -17,6 +17,11 @@ type Props = {
   breed?: boolean; // tekening over de volle breedte, kaarten eronder (feedback Niels K2, 26 oktober 2026)
 };
 
+// Sleutel naar de inhoud; komt dezelfde inhoud vaker voor in een stap, dan telt het hoeveelste exemplaar mee
+function sleutel(basis: string, i: number, alle: string[]): string {
+  return `${basis}#${alle.slice(0, i).filter((x) => x === basis).length}`;
+}
+
 export function ScrollVerhaal({ verhaal, label, hoogteSmal = 555, stapHoogte = "100vh", tijdlijn = false, breed = false }: Props) {
   const [smal, setSmal] = useState(false);
   const [actief, setActief] = useState(0);
@@ -41,7 +46,9 @@ export function ScrollVerhaal({ verhaal, label, hoogteSmal = 555, stapHoogte = "
     const kies = () => {
       wacht = false;
       const kaarten = lijst.current?.querySelectorAll<HTMLElement>("[data-stap] > div") ?? [];
-      const over = innerWidth <= 900 && !breed;
+      // Breed (tekening over de volle breedte) werkt op elk scherm zo: de tekst schuift onder de tekening door
+      // (feedback Niels K2, 26 oktober 2026: met vaste tekst leek de pagina op te houden)
+      const over = breed || innerWidth <= 900;
       let beste = 0, afstand = Infinity;
       if (over) {
         const onder = tekening.current?.getBoundingClientRect().bottom ?? innerHeight * 0.5;
@@ -83,9 +90,11 @@ export function ScrollVerhaal({ verhaal, label, hoogteSmal = 555, stapHoogte = "
       <div className={s.figuur}>
         {kop && <div className={s.figuurKop} aria-hidden="true">{kop}</div>}
         <svg ref={tekening} viewBox={`-60 -50 1120 ${hoogte}`} className={s.svg} role="img" aria-label={`${label}: ${stap.datum}. ${stap.tekst}`}>
+          {/* Sleutels naar de inhoud, niet naar de stap: een as of lijn die in de volgende stap terugkomt blijft staan
+              en flitst niet opnieuw in (feedback Niels K2, 26 oktober 2026) */}
           <g aria-hidden="true">
             {stap.paden?.map((p, i) => (
-              <path key={`${actief}-p${i}`} d={p.d} className={s.pad} data-zacht={p.zacht ? "ja" : undefined}
+              <path key={sleutel(`p${p.d}${p.tint}${p.streep}`, i, stap.paden!.map((q) => `p${q.d}${q.tint}${q.streep}`))} d={p.d} className={s.pad} data-zacht={p.zacht ? "ja" : undefined}
                 style={{ stroke: p.tint, strokeWidth: p.breedte, strokeDasharray: p.streep ? "4 6" : undefined }} />
             ))}
           </g>
@@ -93,15 +102,16 @@ export function ScrollVerhaal({ verhaal, label, hoogteSmal = 555, stapHoogte = "
             const p = hier.get(k);
             return (
               <circle key={k} r={p?.r ?? 10.5} className={s.stip} data-kleur={p?.kleur ?? ""} data-weg={p ? "nee" : "ja"}
-                style={{ fill: p?.tint, transform: p ? `translate(${p.x}px, ${p.y}px)` : `translate(${MIDDEN.x}px, ${MIDDEN.y}px)` }} />
+                style={{ fill: p?.kleur === "hol" ? "var(--nacht-950)" : p?.tint, stroke: p?.kleur === "hol" ? p.tint : undefined,
+                  transform: p ? `translate(${p.x}px, ${p.y}px)` : `translate(${MIDDEN.x}px, ${MIDDEN.y}px)` }} />
             );
           })}
           <g aria-hidden="true">
             {stap.kaders?.map((k, i) => (
-              <rect key={`${actief}-k${i}`} x={k.x} y={k.y} width={k.b} height={k.h} rx={8} className={s.kader} style={k.tint ? { stroke: k.tint } : undefined} />
+              <rect key={sleutel(`k${k.x},${k.y},${k.b},${k.h}`, i, stap.kaders!.map((q) => `k${q.x},${q.y},${q.b},${q.h}`))} x={k.x} y={k.y} width={k.b} height={k.h} rx={8} className={s.kader} style={k.tint ? { stroke: k.tint } : undefined} />
             ))}
             {stap.labels.map((l, i) => (
-              <text key={`${actief}-${i}`} x={l.x} y={l.y} textAnchor={l.anchor} className={s.label} data-halo={l.halo ? "ja" : undefined}
+              <text key={sleutel(`l${l.tekst}${l.x},${l.y}`, i, stap.labels.map((q) => `l${q.tekst}${q.x},${q.y}`))} x={l.x} y={l.y} textAnchor={l.anchor} className={s.label} data-halo={l.halo ? "ja" : undefined}
                 data-zacht={l.zacht ? "ja" : undefined} data-groot={l.groot ? "ja" : undefined} style={l.tint ? { fill: l.tint } : undefined}>
                 {l.tekst}{l.waarde ? <tspan className={s.waarde}> {l.waarde}</tspan> : null}
               </text>
@@ -114,21 +124,13 @@ export function ScrollVerhaal({ verhaal, label, hoogteSmal = 555, stapHoogte = "
             )}
           </g>
         </svg>
-        {/* Breed: de tekst van de actieve stap vast onder de tekening, zodat niets over de grafiek schuift */}
-        {breed && (
-          <div className={s.bijschrift} aria-hidden="true">
-            <span className={s.datum}>{stap.datum}</span>
-            {stap.tekst}
-            {stap.link && <Link href={stap.link.href} className={s.verder} tabIndex={-1}>{stap.link.tekst} →</Link>}
-          </div>
-        )}
       </div>
       <ol className={s.kaarten} ref={lijst}>
         {verhaal.breed.map((st, i) => (
           <li key={i} data-stap={i} className={s.kaart} data-actief={i === actief}>
-            <div>
+            <div data-lezing={st.lezing}>
               {st.hoofdstuk && <span className={s.hoofdstuk}>{st.hoofdstuk}</span>}
-              <span className={s.datum}>{st.datum}</span>
+              {st.lezing ? <span className={s.lezingKop}>{st.datum} · {st.lezing} van 2</span> : <span className={s.datum}>{st.datum}</span>}
               {st.tekst}
               {st.link && <Link href={st.link.href} className={s.verder}>{st.link.tekst} →</Link>}
             </div>
