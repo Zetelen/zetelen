@@ -4,6 +4,17 @@ Bijgehouden door Claude in de nacht van 25 op 26 oktober 2026. Per punt: wat het
 
 Bijgewerkt op 26 oktober 2026 (overdag): bovenaan de lijst voor de livegang, twee kliktabellen voor de controles en de verklaring van de extra rijen. Sindsdien geen nieuwe onderdelen gebouwd.
 
+## 0. Aangepast na je feedback (26 oktober 2026)
+
+Nog te bekijken op de site, na de deploy:
+- [ ] **Onderwerpen, één geheel.** Klik op een terrein: de dossiers klappen eronder uit, elk met een balk allebei voor, verschillend en allebei tegen. Klik op een dossier: de stemmingen klappen eronder uit, verschillen eerst. Onderaan in het terrein: alle stemmingen waarop het paar verschilde, ook uitklapbaar. Het losse blok eronder is weg. Een pijltje (▸ ▾) laat zien wat klikbaar is.
+- [ ] **De stemming over het asielplan opent nu de pagina Onderwerpen**, met de neutrale kop "Eén stemming uit elkaar gehaald", en gaat over in "Nu jij: elk percentage is zo opgeteld" met de keuzes.
+- [ ] **Spreiding op Oppositiewerk:** labels met een donkere rand, ze schuiven uit elkaar en krijgen een lijntje als het moet. Kwadrantnamen kleiner, in de hoeken buiten het vlak.
+- [ ] **Geen gat meer voor hoofdstuk 5:** hoofdstuk 4 en 5 zijn één beeld. De fractiestippen schuiven van de spreiding naar de cirkel ("van tegen naar samen"), daarna verschijnen de lijnen.
+- Klein: "1 stemmingen samen" is nu "1 stemming samen".
+
+Open, niet opgelost: het palet heeft 10 tinten en onder Schoof en Jetten zitten meer fracties. Daardoor delen twee fracties een tint, nu VVD en Volt. De labels maken het verschil. Oplossen kan met een groter palet; zeg het als je dat wilt.
+
 ## 1. Wat de livegang van R1 tegenhoudt
 
 Livegang betekent: `LIVE = true` (indexeren, sitemap), het label concept eraf waar dat mag, en de site delen. Per punt: klaar of niet, of er een besluit van jou nodig is, en of het R1 is of later kan.
@@ -26,7 +37,7 @@ Livegang betekent: `LIVE = true` (indexeren, sitemap), het label concept eraf wa
 | 14 | Naam Zetelen controleren en domein registreren | nee | ja | kan later: live op zetelen.vercel.app kan ook |
 | 15 | Feedbackronde: link naar de vragenlijst, dienst en bewaartermijn in de privacytekst | nee | ja | voor de feedbackronde, niet voor de livegang |
 | 16 | Oppositiewerk en lezingen op de telefoon (kleine stippen en letters) | nee | nee | R1 als die pagina's live gaan |
-| 17 | Aanpassing verversing voor verwijderingen (zie punt 3 hieronder) | nee | ja, akkoord op de aanpassing | R1 aanbevolen, maar blokkeert niet |
+| 17 | Aanpassing verversing voor verwijderingen (zie punt 3 hieronder) | ja, 26 oktober | gegeven | R1, gedaan |
 | 18 | Prestatie-audit opnieuw meten na `LIVE = true` | nee | nee | R1, als laatste stap |
 | 19 | Push protection van GitHub secret scanning aanzetten | nee | ja, jouw instelling | kan later, is goedkoop |
 
@@ -78,7 +89,7 @@ Alle tien stemmen kloppen met de bron. In deze tien stemden VVD en CDA 6 keer he
 
 De berekende cohesie voor dit paar onder Schoof: 79,7% over alle stemmingen (5.578 van 6.998) en 77,7% over de verdeelde (4.951 van 6.371). Dat de steekproef 6 van de 10 geeft, is geen tegenspraak: bij tien stemmingen en 80% is 6 of minder ongeveer 1 op 8. De controle gaat over de stemmen per rij, niet over het percentage. Geen van de tien is een hoofdelijke stemming, dus de afleiding uit de leden zit niet in deze steekproef.
 
-## 3. Extra rijen bij Agendapunt en Besluit: verklaard
+## 3. Extra rijen bij Agendapunt en Besluit: verklaard en opgelost
 
 **Oorzaak.** De 5 agendapunten en 4 besluiten zijn op 23 oktober 2026 in de bron verwijderd, een paar uur na onze eerste laad. Bij die verwijdering zette de bron `Verwijderd` op waar en maakte hij de koppeling naar de activiteit leeg (`Activiteit_Id` is nu leeg). De verversing vraagt wijzigingen op met het datumfilter via die koppeling (`Activiteit/Datum`) plus `ApiGewijzigdOp`. Een record zonder activiteit valt buiten dat filter, dus de verwijdering komt nooit binnen en bij ons staat het record nog als niet verwijderd.
 
@@ -90,7 +101,7 @@ De berekende cohesie voor dit paar onder Schoof: 79,7% over alle stemmingen (5.5
 
 **Risico.** Hetzelfde kan gebeuren met een besluit of stemming waarover al gestemd is. Dan blijft een verwijderde stemming bij ons meetellen. Dat is nu niet gebeurd, maar de verversing zou het niet merken.
 
-**Voorstel, niet uitgevoerd:** in `pipeline/ververs.py` de wijzigingen voor Agendapunt, Besluit en Stemming (en de andere entiteiten met een datumfilter via een koppeling) opvragen op `ApiGewijzigdOp` alleen, zonder datumfilter. Wijzigingen per dag zijn klein, dus dat kost weinig. Records van voor 2010 die zo binnenkomen, vallen in `core` toch buiten het datumfilter. Na de aanpassing is een Ververs nodig die terugkijkt tot 23 oktober; Migreer is niet nodig. Ik heb niets in de database hersteld.
+**Opgelost (26 oktober 2026, akkoord Niels):** de verversing haalt verwijderde records nu ook buiten het datumfilter op: `(datumpad ge 2010 or Verwijderd eq true) and ApiGewijzigdOp ge ...`. Een Ververs met de nieuwe invoer `terug_tot=2026-10-23` haalde de gemiste verwijderingen binnen: nu 13.488 verwijderde agendapunten en 10.012 verwijderde besluiten, precies de API-telling met datumfilter plus de verwijderingen sinds 23 oktober waarbij de koppeling leeg is (12 en 33). De analyses veranderden niet (60.133 besluiten). Let op: de telling van de eerste laad (`controleer_aantal`) komt daardoor niet meer precies uit; het verschil zijn deze verwijderde records. Het oorspronkelijke voorstel: in `pipeline/ververs.py` de wijzigingen voor Agendapunt, Besluit en Stemming (en de andere entiteiten met een datumfilter via een koppeling) opvragen op `ApiGewijzigdOp` alleen, zonder datumfilter. Wijzigingen per dag zijn klein, dus dat kost weinig. Records van voor 2010 die zo binnenkomen, vallen in `core` toch buiten het datumfilter. Na de aanpassing is een Ververs nodig die terugkijkt tot 23 oktober; Migreer is niet nodig. Ik heb niets in de database hersteld.
 
 **Namen uit dit document gehaald (26 oktober 2026, op verzoek van Niels).** In de steekproef zetelwerk staat nu de fractie van de indiener in plaats van de naam, en het onderwerp zonder de namen van de indieners. De publieke log van de Controlequery-run met fractienamen van eenmansfracties (run 40265489488) is door Niels verwijderd; de git-historie blijft zoals hij is (besluit Niels). De andere runs van vandaag geven alleen aantallen en ids.
 

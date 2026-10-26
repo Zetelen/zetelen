@@ -194,6 +194,18 @@
   font-size: 15px;
   fill: var(--tekst-zacht);
 }
+/* Label met een donkere rand als achtergrond: leesbaar boven lijnen en stippen */
+.label[data-halo="ja"] {
+  paint-order: stroke;
+  stroke: var(--nacht-950);
+  stroke-width: 6px;
+  stroke-linejoin: round;
+  font-weight: 600;
+}
+.label[data-zacht="ja"] {
+  font-size: 13px;
+  opacity: 0.75;
+}
 .waarde {
   font-family: var(--mono);
   fill: var(--tekst);

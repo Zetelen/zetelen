@@ -82,7 +82,8 @@ export function ScrollVerhaal({ verhaal, label, hoogteSmal = 555, stapHoogte = "
               <rect key={`${actief}-k${i}`} x={k.x} y={k.y} width={k.b} height={k.h} rx={8} className={s.kader} style={k.tint ? { stroke: k.tint } : undefined} />
             ))}
             {stap.labels.map((l, i) => (
-              <text key={`${actief}-${i}`} x={l.x} y={l.y} textAnchor={l.anchor} className={s.label} style={l.tint ? { fill: l.tint } : undefined}>
+              <text key={`${actief}-${i}`} x={l.x} y={l.y} textAnchor={l.anchor} className={s.label} data-halo={l.halo ? "ja" : undefined}
+                data-zacht={l.zacht ? "ja" : undefined} style={l.tint ? { fill: l.tint } : undefined}>
                 {l.tekst}{l.waarde ? <tspan className={s.waarde}> {l.waarde}</tspan> : null}
               </text>
             ))}

@@ -7,7 +7,7 @@ import { Bronregel } from "@/components/cohesie/Bronregel";
 import { Inhoud, LegeStaat, knopKlasse } from "@/components/Kader";
 import { Label, SectieKop, Tekst } from "@/components/Typografie";
 import { ScrollVerhaal } from "@/components/verhaal/ScrollVerhaal";
-import { hoofdstukJaren, hoofdstukKabinetten, hoofdstukNetwerk, hoofdstukSpreiding } from "@/lib/oppositie";
+import { hoofdstukJaren, hoofdstukKabinetten, hoofdstukNetwerk, hoofdstukSpreiding, hoofdstukTegenEnSamen } from "@/lib/oppositie";
 import { fractieWerk, jaarWerk, netwerk, periodeWerk } from "@/lib/zetelwerk";
 
 export const metadata: Metadata = {
@@ -52,8 +52,8 @@ export default async function Oppositie() {
 
       <ScrollVerhaal verhaal={{ breed: hoofdstukJaren(jaren, ditJaar) }} label="Moties per jaar" tijdlijn stapHoogte="80vh" />
       <ScrollVerhaal verhaal={{ breed: hoofdstukKabinetten(perioden, KABINETTEN, "Motie", minderheid) }} label="Moties per kabinet" tijdlijn stapHoogte="80vh" />
-      <ScrollVerhaal verhaal={{ breed: hoofdstukSpreiding(fracties, KABINETTEN) }} label="Tegenstemmen en aangenomen moties per fractie" tijdlijn stapHoogte="80vh" />
-      <ScrollVerhaal verhaal={{ breed: hoofdstukNetwerk(netwerken.map((n) => ({ ...n, rollen: rollen(n.kabinet) }))) }} label="Samen ingediend" tijdlijn stapHoogte="80vh" />
+      <ScrollVerhaal verhaal={{ breed: hoofdstukTegenEnSamen(hoofdstukSpreiding(fracties, KABINETTEN), hoofdstukNetwerk(netwerken.map((n) => ({ ...n, rollen: rollen(n.kabinet) })))) }}
+        label="Tegenstemmen en aangenomen moties per fractie, daarna samen ingediend" tijdlijn stapHoogte="80vh" />
       <ScrollVerhaal verhaal={{ breed: hoofdstukKabinetten(perioden, KABINETTEN, "Amendement", minderheid) }} label="Amendementen per kabinet" tijdlijn stapHoogte="80vh" />
 
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", maxWidth: 860 }}>

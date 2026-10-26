@@ -7,7 +7,8 @@ export type Kleur = "kabinet" | "nadruk" | "uit" | "zacht" | null;
 export type Stip = { key: string; x: number; y: number; kleur: Kleur; tint: string; r?: number }; // r: straal, standaard 10,5
 // Pad: een lijn achter de stippen (assen, sporen in een spreidingsdiagram, verbindingen in een netwerk)
 export type Pad = { d: string; tint?: string; breedte?: number; streep?: boolean; zacht?: boolean };
-export type Tekstlabel = { x: number; y: number; tekst: string; waarde?: string; anchor?: "start" | "middle" | "end"; tint?: string; fractie?: string };
+// halo: een donkere rand om de letters, zodat het label leesbaar blijft boven lijnen en stippen
+export type Tekstlabel = { x: number; y: number; tekst: string; waarde?: string; anchor?: "start" | "middle" | "end"; tint?: string; fractie?: string; halo?: boolean; zacht?: boolean };
 // Kader: een lijn om de stippen van een fractie (alleen in de gegroepeerde blokken)
 export type Kader = { x: number; y: number; b: number; h: number; fractie: string; tint?: string };
 export type Stap = {

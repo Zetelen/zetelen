@@ -1,6 +1,6 @@
 // Tests voor zetelwerk en het verhaal Oppositiewerk (lib/zetelwerk.ts, lib/oppositie.ts)
 import { describe, expect, it } from "vitest";
-import { hoofdstukJaren, hoofdstukKabinetten, hoofdstukNetwerk, kolom } from "../lib/oppositie";
+import { hoofdstukJaren, hoofdstukKabinetten, hoofdstukNetwerk, hoofdstukTegenEnSamen, kolom, plaatsLabels } from "../lib/oppositie";
 import { type PersoonWerk, aandeel, kamerleden } from "../lib/zetelwerk";
 
 describe("zetelwerk", () => {
@@ -49,5 +49,33 @@ describe("oppositie", () => {
     const [stap] = hoofdstukNetwerk([{ kabinet: "K", verbindingen: [{ fractie_a: "A", fractie_b: "B", stukken: 4 }, { fractie_a: "B", fractie_b: "C", stukken: 2 }], rollen: new Map([["A", "kabinet"], ["B", "oppositie"], ["C", "oppositie"]]) }]);
     expect(stap.paden?.map((p) => p.tint)).toEqual(["#e0915a", "#566aa6"]);
     expect(stap.tekst).toContain("4 keer over de grens, het vaakst A met B");
+  });
+  it("zet labels van stippen die dicht bij elkaar liggen niet over elkaar, met een lijntje als het moet", () => {
+    const stippen = ["DENK", "SP", "PvdD", "50PLUS", "GL"].map((tekst, i) => ({ x: 300 + i * 4, y: 300 + i * 3, r: 10, tekst }));
+    const { labels, lijnen } = plaatsLabels(stippen);
+    const doos = (l: (typeof labels)[number]) => {
+      const b = l.tekst.length * 8.5 + 6;
+      const x0 = l.anchor === "start" ? l.x - 3 : l.anchor === "end" ? l.x - b + 3 : l.x - b / 2;
+      return { x0, y0: l.y - 14, x1: x0 + b, y1: l.y + 4 };
+    };
+    for (let i = 0; i < labels.length; i++) for (let j = i + 1; j < labels.length; j++) {
+      const a = doos(labels[i]), b = doos(labels[j]);
+      expect(a.x0 < b.x1 && b.x0 < a.x1 && a.y0 < b.y1 && b.y0 < a.y1).toBe(false);
+    }
+    expect(labels.every((l) => l.halo)).toBe(true);
+    expect(lijnen.length).toBeGreaterThan(0);
+  });
+  it("laat de stippen van de spreiding doorschuiven naar het netwerk, met een brug zonder lijnen", () => {
+    const spreiding = [{ datum: "a", tekst: "", stippen: [{ key: "f-A", x: 1, y: 1, kleur: null, tint: "#fff" }], labels: [] }];
+    const netwerk = hoofdstukNetwerk([{ kabinet: "K", verbindingen: [{ fractie_a: "A", fractie_b: "B", stukken: 4 }], rollen: new Map([["A", "kabinet"], ["B", "oppositie"]]) }]);
+    const stappen = hoofdstukTegenEnSamen(spreiding, netwerk);
+    expect(stappen).toHaveLength(3);
+    expect(stappen[1].paden).toEqual([]);
+    expect(stappen[1].hoofdstuk).toContain("5");
+    expect(stappen[2].hoofdstuk).toBeUndefined();
+    expect(stappen[1].stippen.map((s) => s.key)).toContain("f-A");
+    expect(stappen[1].stippen.find((s) => s.key === "f-A")?.tint).toBe("#fff");
+    const tints = stappen[1].stippen.map((s) => s.tint);
+    expect(new Set(tints).size).toBe(tints.length);
   });
 });

@@ -1,7 +1,8 @@
 // Onderwerpen (concept, component onderwerpen, hoofdstuk 3 van het verhaal): waar zijn fracties het over eens?
 // Cohesie per beleidsterrein. Zonder tweede fractie een kaart van terrein tegen fractie (op een telefoon een lijst
 // per terrein); met een tweede fractie een balk per terrein, met de cohesie over alle stemmingen als referentie.
-// Verdieping: tik op een terrein voor de dossiers, op een dossier voor de stemmingen. Keuzes staan in de URL.
+// Verdieping: tik op een terrein en de dossiers klappen eronder uit, tik op een dossier voor de stemmingen
+// (sinds 26 oktober 2026 in de lijst zelf, verzoek Niels). Bovenaan graphic 2 als opening. Keuzes staan in de URL.
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -10,9 +11,9 @@ import { PeriodeKeuze } from "@/components/cohesie/PeriodeKeuze";
 import { Inhoud, LegeStaat } from "@/components/Kader";
 import { FractieKeuze } from "@/components/onderwerpen/FractieKeuze";
 import { MobieleBalk } from "@/components/onderwerpen/MobieleBalk";
-import { TerreinBalken } from "@/components/onderwerpen/TerreinBalken";
+import { TerreinBalken, terreinAnker } from "@/components/onderwerpen/TerreinBalken";
 import { TerreinLijst } from "@/components/onderwerpen/TerreinLijst";
-import { DossierLijst, StemmingLijst } from "@/components/onderwerpen/Verdieping";
+import { DossierLijst, StemLegenda, StemmingLijst } from "@/components/onderwerpen/Verdieping";
 import { ScrollVerhaal } from "@/components/verhaal/ScrollVerhaal";
 import { Inklapbaar } from "@/components/Inklapbaar";
 import { dagMaandJaar } from "@/lib/verhaal";
@@ -62,14 +63,68 @@ export default async function Onderwerpen({ searchParams }: Props) {
   const dossier = dossiers?.find((d) => d.dossier === waarde("dossier")) ?? null;
   const paarQuery: Record<string, string> = met ? { fractie: gekozen.afkorting, met: met.afkorting } : {};
 
+  // De uitklap onder het gekozen terrein: dossiers met een gestapelde balk, per dossier de stemmingen (oneens eerst),
+  // en onderaan alle stemmingen in het terrein waarop het paar verschilde
+  const terreinHref = (extra: Record<string, string>) => `/onderwerpen${query({ ...paarQuery, ...(terrein ? { terrein } : {}), ...extra })}`;
+  const anders = stemmingen ? verschillen(stemmingen) : [];
+  const toonVerschillen = waarde("alle") === "1";
+  const uitklapTerrein = !terrein || !met ? null : !dossiers || !stemmingen ? (
+    <Tekst>De dossiers laden nu niet. Probeer het over een paar minuten nog eens.</Tekst>
+  ) : (
+    <>
+      <Label>{terrein} · per dossier, van minst naar meest eens</Label>
+      <StemLegenda a={gekozen.afkorting} b={met.afkorting} />
+      <Data>Geteld: de stemmingen waarop {gekozen.afkorting} en {met.afkorting} allebei voor of tegen stemden. Klik op een dossier voor de stemmingen.</Data>
+      <DossierLijst dossiers={dossiers} a={gekozen.afkorting} b={met.afkorting} actief={dossier?.dossier ?? null}
+        hrefVoor={(d) => `${terreinHref({ dossier: d })}#dossier-${d}`} sluitHref={`${terreinHref({})}#${terreinAnker(terrein)}`}
+        uitklap={dossier ? (
+          <StemmingLijst rijen={stemmingen.filter((r) => r.dossier === dossier.dossier).sort((x, y) => Number(!!(x.a && x.b && x.a !== x.b)) > Number(!!(y.a && y.b && y.a !== y.b)) ? -1 : Number(!!(x.a && x.b && x.a !== x.b)) < Number(!!(y.a && y.b && y.a !== y.b)) ? 1 : y.datum.localeCompare(x.datum))}
+            a={gekozen.afkorting} b={met.afkorting} titel={`${dossier.eens} van de ${dossier.samen} keer eens · verschillen eerst`} />
+        ) : null} />
+      {anders.length > 0 ? (
+        <>
+          <Data>
+            <Link href={`${terreinHref(toonVerschillen ? {} : { alle: "1" })}#verschillen`} scroll={false} aria-expanded={toonVerschillen}>
+              {toonVerschillen ? "▾" : "▸"} Alle {anders.length} {anders.length === 1 ? "stemming" : "stemmingen"} in {terrein} waarop {gekozen.afkorting} en {met.afkorting} verschilden, nieuwste eerst
+            </Link>
+          </Data>
+          {toonVerschillen && (
+            <div id="verschillen" style={{ scrollMarginTop: 80 }}>
+              <StemmingLijst rijen={anders} a={gekozen.afkorting} b={met.afkorting} titel={`${terrein} · hier verschilden ${gekozen.afkorting} en ${met.afkorting}`} />
+            </div>
+          )}
+        </>
+      ) : (
+        <Tekst>Als ze allebei stemden, stemden ze in dit terrein steeds hetzelfde.</Tekst>
+      )}
+    </>
+  );
+
   return (
     <Inhoud>
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", maxWidth: 860 }}>
         <Label>Onderwerpen · concept</Label>
         <SectieKop>Waar zijn ze het over eens?</SectieKop>
         <Tekst>
-          Kies een fractie en zie per beleidsterrein hoe vaak andere fracties dezelfde kant kozen. Kies er een tweede bij en
-          vergelijk het paar per onderwerp. Kies daarna een terrein, en je ziet de dossiers en stemmingen erachter.
+          Achter elk cijfer op deze pagina zitten stemmingen. Eerst één, uit elkaar gehaald. Daarna kies je zelf.
+        </Tekst>
+      </section>
+
+      {/* Graphic 2 als opening: één stemming uit elkaar gehaald (verzoek Niels, 26 oktober 2026) */}
+      <section id="een-stemming" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
+        <Label>Achter het cijfer</Label>
+        <SectieKop>Eén stemming uit elkaar gehaald</SectieKop>
+        <ScrollVerhaal verhaal={{ breed: stemVerhaal(false), smal: stemVerhaal(true) }} label="De stemming over de motie-Eerdmans" hoogteSmal={1080} stapHoogte="60vh" tijdlijn />
+        <Data>Stemming over zaak {stemming.zaak}, hoofdelijk, {dagMaandJaar(stemming.datum)}. Kleuren zijn een eigen palet, geen partijkleuren.</Data>
+      </section>
+
+      <section id="zelf" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", maxWidth: 860, scrollMarginTop: 80 }}>
+        <Label>Nu jij</Label>
+        <SectieKop>Elk percentage is zo opgeteld</SectieKop>
+        <Tekst>
+          Uit duizenden stemmingen zoals deze. Kies een fractie en zie per beleidsterrein hoe vaak andere fracties dezelfde kant
+          kozen. Kies er een tweede bij en vergelijk het paar per onderwerp. Klik dan op een terrein: de dossiers en stemmingen
+          erachter klappen eronder uit.
         </Tekst>
         <Inklapbaar titel="Zo lees je dit">
           <Tekst>
@@ -104,51 +159,12 @@ export default async function Onderwerpen({ searchParams }: Props) {
               {totaal != null ? ` Over alle stemmingen samen: ${procent(totaal)} (de witte lijn).` : ""}
             </Tekst>
           )}
-          <Data>Tik op een terrein en zie waar {gekozen.afkorting} en {met.afkorting} verschillend stemden.</Data>
+          <Data>Klik op een terrein: de dossiers klappen eronder uit, van minst naar meest eens.</Data>
           <TerreinBalken lijst={paar} totaal={totaal} label={`Hoe vaak ${gekozen.afkorting} en ${met.afkorting} hetzelfde stemden, per beleidsterrein`}
-            hrefVoor={(t) => `/onderwerpen${query({ ...paarQuery, terrein: t })}#verdieping`} actief={terrein} />
+            hrefVoor={(t) => `/onderwerpen${query({ ...paarQuery, terrein: t })}#${terreinAnker(t)}`} actief={terrein}
+            sluitHref={terrein ? `/onderwerpen${query(paarQuery)}#${terreinAnker(terrein)}` : undefined}
+            uitklap={terrein ? uitklapTerrein : null} />
           <Data><Link href={`/onderwerpen${query({ fractie: gekozen.afkorting })}`}>Terug naar alle fracties</Link></Data>
-          {terrein && (
-            <section id="verdieping" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
-              {!dossiers || !stemmingen ? (
-                <Tekst>De dossiers laden nu niet. Probeer het over een paar minuten nog eens.</Tekst>
-              ) : (
-                <>
-                  {!dossier && (() => {
-                    // Direct de stemmingen waarop het paar verschilde (verzoek Niels, 25 oktober 2026): daar zit het verhaal
-                    const anders = verschillen(stemmingen);
-                    const toonAlle = waarde("alle") === "1";
-                    return (
-                      <>
-                        <Label>{terrein} · hier verschilden {gekozen.afkorting} en {met.afkorting}</Label>
-                        {anders.length ? (
-                          <>
-                            <StemmingLijst rijen={toonAlle ? anders : anders.slice(0, 15)} a={gekozen.afkorting} b={met.afkorting}
-                              titel={`${anders.length} stemmingen waarop ze allebei stemden en verschilden${!toonAlle && anders.length > 15 ? " · de 15 nieuwste" : ""}`} />
-                            {!toonAlle && anders.length > 15 && (
-                              <Data><Link href={`/onderwerpen${query({ ...paarQuery, terrein, alle: "1" })}#verdieping`} scroll={false}>Toon alle {anders.length}</Link></Data>
-                            )}
-                          </>
-                        ) : (
-                          <Tekst>Als ze allebei stemden, stemden ze in dit terrein steeds hetzelfde.</Tekst>
-                        )}
-                      </>
-                    );
-                  })()}
-                  <Label>{terrein} · per dossier, van minst naar meest eens</Label>
-                  <Data>Geteld: de stemmingen waarop {gekozen.afkorting} en {met.afkorting} allebei voor of tegen stemden. Per dossier zijn dat er te weinig voor een percentage, dus staat er een telling.</Data>
-                  <DossierLijst dossiers={dossiers} a={gekozen.afkorting} b={met.afkorting} actief={dossier?.dossier ?? null}
-                    hrefVoor={(d) => `/onderwerpen${query({ ...paarQuery, terrein, dossier: d })}#stemmingen`} />
-                </>
-              )}
-              {dossier && stemmingen && (
-                <div id="stemmingen" style={{ scrollMarginTop: 80 }}>
-                  <StemmingLijst rijen={stemmingen.filter((r) => r.dossier === dossier.dossier)} a={gekozen.afkorting} b={met.afkorting}
-                    titel={`${dossier.titel} · ${dossier.eens} van de ${dossier.samen} keer eens`} />
-                </div>
-              )}
-            </section>
-          )}
         </section>
       ) : (
         <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
@@ -195,18 +211,6 @@ export default async function Onderwerpen({ searchParams }: Props) {
           </Data>
         </section>
       )}
-
-      {/* Graphic 2: een stemming uit elkaar gehaald, als voorbeeld van wat er achter een cijfer zit */}
-      <section id="een-stemming" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
-        <Label>Achter het cijfer · één stemming uit elkaar gehaald</Label>
-        <SectieKop>Het asielplan van Wilders</SectieKop>
-        <Tekst>
-          Elk percentage hierboven is opgeteld uit stemmingen zoals deze. Een hoofdelijke stemming laat zien wat bij
-          handopsteken verborgen blijft: hoe elk Kamerlid stemde.
-        </Tekst>
-        <ScrollVerhaal verhaal={{ breed: stemVerhaal(false), smal: stemVerhaal(true) }} label="De stemming over de motie-Eerdmans" hoogteSmal={1080} stapHoogte="60vh" tijdlijn />
-        <Data>Stemming over zaak {stemming.zaak}, hoofdelijk, {dagMaandJaar(stemming.datum)}. Kleuren zijn een eigen palet, geen partijkleuren.</Data>
-      </section>
 
       <Bronregel toelichting={`Beleidsterrein via het Kamerstukdossier: een trefwoord in de titel, anders de vaste commissie die het dossier het vaakst behandelt. Een stemming bij meer dossiers telt bij elk terrein mee. ${variant === "alle" ? "Alle stemmingen" : "Alleen verdeelde stemmingen"}.`} />
     </Inhoud>

@@ -86,19 +86,28 @@ export async function stemmingenInTerrein(
   }
 }
 
-export type DossierTelling = { dossier: string; titel: string; nummer: string; samen: number; eens: number; stemmingen: number };
+export type DossierTelling = {
+  dossier: string; titel: string; nummer: string; samen: number; eens: number; stemmingen: number; beideVoor: number; beideTegen: number;
+};
 
-// Per dossier: op hoeveel stemmingen beide fracties stemden (samen) en hoe vaak hetzelfde (eens).
+// Per dossier: op hoeveel stemmingen beide fracties stemden (samen), hoe vaak hetzelfde (eens) en daarvan hoe
+// vaak allebei voor en allebei tegen; samen min eens is het aantal keer verschillend.
 // Gesorteerd op het minst eens (laagste aandeel), dan op het aantal stemmingen samen.
 export function perDossier(rijen: StemmingRij[]): DossierTelling[] {
   const per = new Map<string, DossierTelling>();
   for (const r of rijen) {
     const d = per.get(r.dossier) ?? {
       dossier: r.dossier, titel: r.dossierTitel ?? "Onbekend dossier",
-      nummer: `${r.dossierNummer ?? ""}${r.dossierToevoeging ? ` ${r.dossierToevoeging}` : ""}`, samen: 0, eens: 0, stemmingen: 0,
+      nummer: `${r.dossierNummer ?? ""}${r.dossierToevoeging ? ` ${r.dossierToevoeging}` : ""}`, samen: 0, eens: 0, stemmingen: 0, beideVoor: 0, beideTegen: 0,
     };
     d.stemmingen++;
-    if (r.a && r.b) { d.samen++; if (r.a === r.b) d.eens++; }
+    if (r.a && r.b) {
+      d.samen++;
+      if (r.a === r.b) {
+        d.eens++;
+        if (r.a === "Voor") d.beideVoor++; else d.beideTegen++;
+      }
+    }
     per.set(r.dossier, d);
   }
   const aandeel = (d: DossierTelling) => (d.samen ? d.eens / d.samen : 2);

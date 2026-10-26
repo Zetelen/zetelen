@@ -39,6 +39,10 @@ describe("perDossier", () => {
     const uit = perDossier([r("X", "Voor", "Voor"), r("X", "Voor", "Tegen"), r("Y", "Tegen", "Voor"), r("Y", null, "Voor"), r("Z", null, null)]);
     expect(uit.map((d) => [d.titel, d.eens, d.samen, d.stemmingen])).toEqual([["Y", 0, 1, 2], ["X", 1, 2, 2]]);
   });
+  it("splitst eens in allebei voor en allebei tegen", () => {
+    const uit = perDossier([r("X", "Voor", "Voor"), r("X", "Tegen", "Tegen"), r("X", "Tegen", "Tegen"), r("X", "Voor", "Tegen")]);
+    expect([uit[0].beideVoor, uit[0].beideTegen, uit[0].samen - uit[0].eens]).toEqual([1, 2, 1]);
+  });
 });
 
 describe("verschillen", () => {

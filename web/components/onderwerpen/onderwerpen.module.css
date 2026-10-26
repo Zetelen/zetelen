@@ -8,7 +8,7 @@
 }
 .balkRij {
   display: grid;
-  grid-template-columns: minmax(150px, 220px) minmax(0, 1fr) 52px;
+  grid-template-columns: minmax(150px, 220px) minmax(0, 1fr) 76px;
   gap: var(--r-3);
   align-items: center;
   min-height: 40px;
@@ -51,6 +51,7 @@
   font-size: 13px;
   text-align: right;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 .keuze {
   display: flex;
@@ -122,7 +123,7 @@
 }
 @media (max-width: 640px) {
   .balkRij {
-    grid-template-columns: minmax(0, 1fr) 48px;
+    grid-template-columns: minmax(0, 1fr) 76px;
     grid-template-areas: "terrein waarde" "baan baan";
     row-gap: 6px;
     padding: 6px 0;
@@ -143,6 +144,7 @@ a.balkRij[data-actief="true"] {
 }
 a.balkRij[data-actief="true"] {
   box-shadow: inset 3px 0 0 var(--koper);
+  padding-left: var(--r-3);
 }
 
 /* Verdieping: dossiers en stemmingen */
@@ -155,7 +157,7 @@ a.balkRij[data-actief="true"] {
 }
 .dossierRij {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 150px 160px;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 280px);
   gap: var(--r-3);
   align-items: center;
   min-height: 48px;
@@ -180,21 +182,75 @@ a.balkRij[data-actief="true"] {
   font-family: var(--mono);
   font-size: 13px;
 }
-.stipjes {
+.dossierMaat {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Uitklappen onder een terrein en onder een dossier (verzoek Niels, 26 oktober 2026) */
+.terreinItem {
+  scroll-margin-top: 80px;
+}
+.pijl {
+  display: inline-block;
+  width: 1.2em;
+  margin-left: 6px;
+  color: var(--koper);
+  text-align: center;
+}
+.uitklap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-4);
+  padding: var(--r-4) 0 var(--r-5) var(--r-4);
+  border-left: 3px solid var(--koper);
+  border-bottom: 1px solid var(--lijn);
+  background: color-mix(in srgb, var(--nacht-900) 60%, transparent);
+}
+.uitklapDossier {
+  padding: var(--r-3) 0 var(--r-4) var(--r-4);
+  border-left: 1px solid var(--lijn-licht);
+  margin-left: var(--r-2);
+}
+
+/* Gestapelde balk per dossier: allebei voor, verschillend, allebei tegen */
+.stemBalk {
+  display: flex;
+  height: 10px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: var(--nacht-900);
+}
+.stemBalk > span {
+  display: block;
+  height: 100%;
+}
+.stemBalk > span + span {
+  border-left: 1px solid var(--nacht-950);
+}
+.vakVoor { background: var(--schaal-67); }
+.vakAnders { background: var(--koper); }
+.vakTegen { background: var(--schaal-33); }
+.legenda {
   display: flex;
   flex-wrap: wrap;
-  gap: 3px;
+  gap: var(--r-2) var(--r-4);
+  margin: 0;
+  font-family: var(--mono);
+  font-size: var(--tekst-data);
+  color: var(--tekst-zacht);
 }
-.stipjes span {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--nacht-700);
-  border: 1px solid var(--lijn-licht);
+.legenda span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
-.stipjes span[data-eens="true"] {
-  background: var(--schaal-100);
-  border-color: var(--schaal-100);
+.legenda i {
+  display: inline-block;
+  width: 12px;
+  height: 10px;
+  border-radius: 2px;
 }
 .stemmingen {
   display: flex;
@@ -362,10 +418,15 @@ a.balkRij[data-actief="true"] {
     font-weight: 600;
   }
   .dossierRij {
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--r-2);
   }
-  .stipjes {
-    display: none;
+  .uitklap {
+    padding-left: var(--r-3);
+  }
+  .uitklapDossier {
+    padding-left: var(--r-2);
+    margin-left: 0;
   }
 }
 @keyframes omhoog {
