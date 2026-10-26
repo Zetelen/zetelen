@@ -10,6 +10,22 @@ Bijgewerkt op 26 oktober 2026, met je antwoorden van die middag erin (☑ = bean
 
 Volgorde: B1 tot en met B3 en C1 en C2 houden de livegang het meest op. Nieuw sinds de vorige versie: B14 tot en met B16. De rest kan in elke volgorde.
 
+## Nog open voor jou (stand 26 oktober, eind van de middag)
+
+| Wat | Waar | Soort |
+|---|---|---|
+| Drie rijen van de steekproef uitslagen zelf openen op tweedekamer.nl | C1 | controleren |
+| Nacontrole cohesie | C2 | controleren |
+| Vijf stukken uit de steekproef zetelwerk | C3 | controleren |
+| Hoe zetelwerk "aangenomen" telt bij de 8 afwijkingen | C4 | besluit |
+| Handmatige tabellen (kabinetten, beleidsterreinen, trefwoorden) | C5 | controleren |
+| Test van de bewaking | C6 | uitvoeren |
+| Opnieuw bekijken na de aanpassingen: Onderwerpen, Oppositiewerk, voorpagina, Kamerleden | K1, K2, K3, K5 | bekijken |
+| Uitgelicht: omschrijvingen en spreiding | K7 | bekijken |
+| Video's: tijdlijn en studievoorschot zijn goed; de andere vijf volgen in de nieuwe stijl | K8 | bekijken |
+| Pipeline voor nieuwe casussen: vier vragen | B17 | besluit |
+| Feedbackformulier één keer invullen als test | werklijst 4 | testen |
+
 ## Werklijst van Claude (uit je antwoorden van 26 oktober)
 
 In deze volgorde; ☑ is gebouwd, getest en live.
@@ -22,11 +38,13 @@ In deze volgorde; ☑ is gebouwd, getest en live.
 6. ☑ Kamerleden: strakkere tabel met rol als kolom, ranglijst op aandeel aangenomen per rol (vanaf 10 stukken, met twee lezingen), schakelaar tabel of spreidingsdiagram (K5, B2); fractiepagina: klik op een fractie en de onderwerpen klappen uit, tot op dossier en stemming (K5). Graag bekijken: K5
 7. ☑ Lezingen bij de tool (B4): lezing 3 in de verkenner zodra je een kabinetsfractie kiest, lezing 1 en 2 in de coalitiebouwer bij een groep zonder meerderheid, lezing 6 bij Onderwerpen als je Asiel openklapt. De cijfers rekenen mee met je keuze. De proefpagina /lezingen verwijst nu naar de voorpagina. Ook nieuw: de hero met het Binnenhof op de voorpagina
 8. ☑ Reeks "Uitgelicht" op /uitgelicht (B16): zes hoofdelijke stemmingen en de motie-Eerdmans, elk met een eigen pagina; script `pipeline/stemming_casus.py` maakt de gegevens per zaaknummer. Graag bekijken: K7. Kliktabel afwijkende uitslagen (C4): ☑ klaargezet, met een besluit voor jou
-9. ☑ Stappen voor jou uitgeschreven: S1 tot en met S3 hieronder
+9. ☑ Stappen voor jou uitgeschreven: S1 tot en met S3 hieronder, en door jou gedaan (26 oktober)
 
 ## Stappen voor jou (uit B5, B11 en B12)
 
-### ☐ S1. Bezoekersstatistieken aanzetten in Vercel (B5)
+### ☑ S1. Bezoekersstatistieken aanzetten in Vercel (B5)
+
+> **Gedaan door Niels (26 oktober):** aangezet, en de eerste bezoeken zijn zichtbaar in Vercel.
 
 De code staat er al, maar Vercel telt pas als jij het aanzet.
 1. Ga naar vercel.com, open het project zetelen en klik bovenaan op **Analytics**.
@@ -35,7 +53,9 @@ De code staat er al, maar Vercel telt pas als jij het aanzet.
 
 Gaat het mis? Zie je na een uur nog niets, laat het me weten. Dan kijk ik of de site de juiste versie draait.
 
-### ☐ S2. zetelen.nl aan de site koppelen (B11)
+### ☑ S2. zetelen.nl aan de site koppelen (B11)
+
+> **Gedaan door Niels (26 oktober), nagekeken door Claude:** https://zetelen.nl werkt, www.zetelen.nl verwijst door, en de sitemap en de deelafbeelding gebruiken het nieuwe adres.
 
 1. **Vercel:** project zetelen, **Settings**, **Domains**. Voeg `zetelen.nl` toe en daarna `www.zetelen.nl`. Kies bij www dat het doorverwijst naar zetelen.nl.
 2. Vercel toont nu per domein welke DNS-records nodig zijn: meestal een **A-record** voor zetelen.nl en een **CNAME** voor www. Laat dat scherm openstaan.
@@ -45,7 +65,9 @@ Gaat het mis? Zie je na een uur nog niets, laat het me weten. Dan kijk ik of de 
 
 Gaat het mis? Blijft Vercel "Invalid Configuration" zeggen, controleer dan of er nog een oud A-record in TransIP staat. Er mag er maar één zijn. De site op zetelen.vercel.app blijft intussen gewoon werken.
 
-### ☐ S3. Push protection aanzetten op GitHub (B12)
+### ☑ S3. Push protection aanzetten op GitHub (B12)
+
+> **Gedaan door Niels (26 oktober), nagekeken door Claude:** secret scanning en push protection staan aan.
 
 1. Ga naar github.com/Zetelen/zetelen, **Settings**.
 2. In het menu links: **Advanced Security** (bij sommige accounts heet het **Code security**).
@@ -467,6 +489,8 @@ https://zetelen.vercel.app/uitgelicht. Alle uitslagen zijn nagekeken tegen de be
 Vraag: kloppen de omschrijvingen, en is de spreiding over partijen goed zo?
 
 ### ☐ K8. Explainervideo's (nieuw, 26 oktober)
+
+> **Stand (26 oktober, middag):** de tijdlijn en het studievoorschot zijn na twee rondes goedgekeurd ("Tijdlijn is top", "2e filmpje is nu goed"): flitsende stijl, geluid, een vaste tijdas, en de motie met de echte inhoud. De andere vijf (weegschaal, hoefijzer, ritueel slachten, Mercosur, de motie over het asielplan) zet Claude nu om naar dezelfde stijl.
 
 Vijftien video's, 9:16, tekst in beeld, geen namen van Kamerleden. Bekijk ze in `video/out/` (niet in git, te groot) of in Remotion Studio (`cd video && npm run studio`). Opzet en gebruik: [video-pipeline.md](video-pipeline.md).
 - **Het vaste format** voor elke stemming (7 stuks): vraag, zaal, voor en tegen, wat valt op, uitslag.
