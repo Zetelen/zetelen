@@ -49,6 +49,7 @@ def url(entiteit: str, **params: str) -> str:
 
 
 def alle(eerste: str, haler=haal) -> list:
+    """Alle records over meer pagina's. Geen $top meegeven: met $top geeft de API geen link naar de volgende pagina."""
     rijen, volgende = [], eerste
     while volgende:
         d = haler(volgende)
@@ -90,7 +91,7 @@ def doorlooptijd(van: int, tot: int, haler=haal) -> list:
         filt = (f"(Soort eq 'Wetgeving' or Soort eq 'Initiatiefwetgeving') and Verwijderd eq false "
                 f"and GestartOp ge {jaar}-01-01 and GestartOp lt {jaar + 1}-01-01")
         expand = f"Besluit($filter=Verwijderd eq false and (StemmingsSoort ne null or BesluitSoort eq '{HAMER}');$select=BesluitSoort;$expand=Agendapunt($select=Id;$expand=Activiteit($select=Datum)))"
-        zaken = alle(url("Zaak", filter=filt, select="Nummer,Soort,GestartOp", expand=expand, top="250"), haler)
+        zaken = alle(url("Zaak", filter=filt, select="Nummer,Soort,GestartOp", expand=expand), haler)
         for z in zaken:
             if not z.get("GestartOp"):
                 continue

@@ -21,7 +21,7 @@ Alles wat op jou wacht, in een volgorde die werkt, met de tijd erbij. Samen onge
 |---|---|---|---|---|
 | ☐ | K10 | De 25 stellingen van Stemgenoten nakijken; begin bij de 8 met "nakijken" | 45 min | [stemgenoten-controle.md](stemgenoten-controle.md), en probeer zelf https://zetelen.nl/stemgenoten |
 | ☐ | K1, K2, K3, K5 | Onderwerpen, Oppositiewerk, voorpagina en Kamerleden opnieuw bekijken; ook op je telefoon | 40 min | [te-beoordelen.md](te-beoordelen.md#-k1-k2-k3-k5-opnieuw-bekijken-na-de-aanpassingen) |
-| ☐ | K7, K9 | Uitgelicht: de omschrijvingen, de nieuwe beelden per stemming, en Hoe lang duurt een wet? | 25 min | https://zetelen.nl/uitgelicht |
+| ☐ | K7, K9 | Uitgelicht: de omschrijvingen, de nieuwe beelden per stemming, Hoe lang duurt een wet? en Tegen het advies in | 30 min | https://zetelen.nl/uitgelicht |
 
 ## Tussendoor of later (geen haast)
 
@@ -47,7 +47,7 @@ gh secret set ANTHROPIC_API_KEY --repo Zetelen/zetelen
 
 ## Wat ik ondertussen doe (geen actie van jou)
 
-- B18 "ontraden, maar toch aangenomen" bouwen (je gaf akkoord op optie B).
+- B18 is gebouwd: https://zetelen.nl/uitgelicht/tegen-het-advies-in (bekijken bij K9).
 - Een ronde over de hele site op de telefoon en een toegankelijkheidscontrole.
-- De methodiekpagina bijwerken voor de nieuwe onderdelen (initiatiefwetten, doorlooptijd, Stemgenoten).
+- De methodiekpagina is bijgewerkt (initiatiefwetten, doorlooptijd, ontraden); Stemgenoten komt erbij als het live gaat.
 - Na jouw antwoorden: C4 verwerken, labels concept eraf waar je K-punten goedkeurt.

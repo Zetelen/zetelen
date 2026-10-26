@@ -10,7 +10,7 @@ import { CasusKiezer } from "@/components/verhaal/CasusKiezer";
 import { ScrollVerhaal } from "@/components/verhaal/ScrollVerhaal";
 import { getal } from "@/lib/cohesie";
 import { SITE } from "@/lib/site";
-import { UITGELICHT } from "@/lib/uitgelichtLijst";
+import { KIEZER } from "@/lib/uitgelichtLijst";
 import type { Stap } from "@/lib/verhaal";
 import { type Reis, type ReisMetTekst, WETSVOORSTELLEN, alleStap, dagen, duurTekst, reisStap, samenStap, telling } from "@/lib/wetten";
 import snel from "@/content/wetten/2020Z17945.json";
@@ -54,11 +54,10 @@ export default function HoeLang() {
     { ...alleStap(t, 5), datum: "2 interpretaties", lezing: 1, tekst: "Zorgvuldigheid. Een wet geldt voor iedereen. Vragen stellen, antwoorden, advies vragen en aanpassen kosten tijd, en dat is de bedoeling." },
     { ...alleStap(t, 5), datum: "2 interpretaties", lezing: 2, tekst: "Traagheid. Een wet kan jaren stilliggen, en een nieuw kabinet zet het werk op pauze. Wie wacht op een regel, wacht soms heel lang." },
   ];
-  const casussen = [...UITGELICHT.map((c) => ({ slug: c.slug, titel: c.titel, jaar: c.datums[0].slice(0, 4) })), { slug: "hoe-lang-duurt-een-wet", titel: "Hoe lang duurt een wet?", jaar: "2010 tot nu" }];
   return (
     <Inhoud>
       <section className={s.blok}>
-        <CasusKiezer casussen={casussen} gekozen="hoe-lang-duurt-een-wet" />
+        <CasusKiezer casussen={KIEZER} gekozen="hoe-lang-duurt-een-wet" />
         <Label>Uitgelicht · van indiening tot besluit</Label>
         <HeroKop>Hoe lang duurt een wet?</HeroKop>
         <Tekst>

@@ -11,7 +11,7 @@ Bijgewerkt op 26 oktober 2026, 's avonds. Hier staat alleen wat nog open is. **V
 | ☐ C1 tot en met C6 | Controles: uitslagen, cohesie, zetelwerk, afwijkende uitslagen (besluit), handmatige tabellen, bewaking | controleren en één besluit | ja | [controles-stappenplan.md](controles-stappenplan.md) |
 | ☐ K1, K2, K3, K5 | Opnieuw bekijken na de aanpassingen: Onderwerpen, Oppositiewerk, voorpagina, Kamerleden | bekijken | ja, voor het label concept | hieronder |
 | ☐ K7 | Uitgelicht: omschrijvingen en spreiding | bekijken | nee | hieronder |
-| ☐ K9 | Nieuw: Hoe lang duurt een wet? en een eigen beeld per stemming op Uitgelicht | bekijken | nee | hieronder |
+| ☐ K9 | Nieuw: Hoe lang duurt een wet?, Tegen het advies in (B18), en een eigen beeld per stemming op Uitgelicht | bekijken | nee | hieronder |
 | ☐ K10 | Stemgenoten (concept): 25 stellingen nakijken, 8 gemarkeerd met "nakijken" | controleren | ja, voor Stemgenoten | [stemgenoten-controle.md](stemgenoten-controle.md) |
 | ☐ S4 | Stemgenoten: twee meelezers met een andere politieke kleur vragen, en de naam controleren in het merkenregister (boip.int) | uitvoeren | ja, voor Stemgenoten | hieronder |
 | ☐ S5 | Claude API-sleutel met maandlimiet (voor de pipeline, na de feedbackrondes) | uitvoeren | nee | [morgen.md](morgen.md) |
@@ -50,6 +50,7 @@ Vraag: kloppen de omschrijvingen, en is de spreiding over partijen goed zo?
 ### ☐ K9. Nieuw op Uitgelicht (26 oktober)
 
 - **Hoe lang duurt een wet?** https://zetelen.nl/uitgelicht/hoe-lang-duurt-een-wet: drie wetten als reis (13 dagen, 6 maanden, 6 jaar), op één tijdas, en alle 1.979 wetsvoorstellen uit 2010 tot en met 2022 naar doorlooptijd. Gegevens met `pipeline/wet_reis.py`. Na te kijken: de korte omschrijvingen van de drie wetten (met de hand), en of je deze drie voorbeelden goed vindt.
+- **Tegen het advies in** https://zetelen.nl/uitgelicht/tegen-het-advies-in: 1.918 moties die het kabinet ontraadde en die de Kamer toch aannam (12% van alle aangenomen moties sinds april 2019), per kabinet en naar indiener. Gegevens met `pipeline/ontraden.py`. Opvallend: onder kabinet-Jetten 5%, eerder 12 tot 15%.
 - **Eigen beeld per stemming:** weegschaal (gehandicaptenzorg, live-weddenschappen), hoefijzer (Mercosur), van dichtbij (PvdA bij ritueel slachten). Zelfde keuze als bij de video's.
 
 ## B. Besluiten

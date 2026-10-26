@@ -37,8 +37,9 @@
   border: 1px solid var(--lijn);
   font-size: var(--tekst-lopend);
   line-height: 1.55;
-  /* Niet-actieve kaarten gedimd, maar met genoeg contrast om te lezen (Lighthouse, 26 oktober 2026) */
-  opacity: 0.6;
+  /* Niet-actieve kaarten gedimd, maar met genoeg contrast om te lezen (Lighthouse, 26 oktober 2026; 0,6 was te
+     weinig voor de datum en de kop van een interpretatie) */
+  opacity: 0.8;
   transition: opacity 400ms;
 }
 .kaart[data-actief="true"] > div {
@@ -282,7 +283,7 @@
     min-height: max(var(--stap, 100vh), 100svh);
   }
   .verhaal:not([data-breed="true"]) .kaart > div {
-    opacity: calc(0.6 * var(--zicht, 1));
+    opacity: calc(0.8 * var(--zicht, 1));
     transition: opacity 120ms;
   }
   .verhaal:not([data-breed="true"]) .kaart[data-actief="true"] > div {
@@ -326,7 +327,7 @@
 .verhaal[data-breed="true"] .kaart > div {
   max-width: 820px;
   width: 100%;
-  opacity: calc(0.6 * var(--zicht, 1));
+  opacity: calc(0.8 * var(--zicht, 1));
   transition: opacity 120ms;
 }
 .verhaal[data-breed="true"] .kaart[data-actief="true"] > div {

@@ -23,3 +23,10 @@ export const UITGELICHT: Uitgelicht[] = [
     verhaal: () => ({ breed: stemVerhaal(false), smal: stemVerhaal(true) }), hoogteSmal: 1080,
   },
 ].sort((a, b) => a.datums[0].localeCompare(b.datums[0]));
+
+// Alle keuzes voor de kiezer bovenaan Uitgelicht: de stemmingen en de pagina's in hetzelfde format
+export const KIEZER = [
+  ...UITGELICHT.map((c) => ({ slug: c.slug, titel: c.titel, jaar: c.datums[0].slice(0, 4) })),
+  { slug: "hoe-lang-duurt-een-wet", titel: "Hoe lang duurt een wet?", jaar: "2010 tot nu" },
+  { slug: "tegen-het-advies-in", titel: "Tegen het advies in", jaar: "2019 tot nu" },
+];

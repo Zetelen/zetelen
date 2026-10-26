@@ -65,7 +65,7 @@ export const MATEN: Maat[] = [
     id: "zetelwerk",
     naam: "Zetelwerk: ingediend, aangenomen en brede steun",
     definitie:
-      "Zetelwerk is wat Kamerleden en fracties zelf op tafel leggen: moties (een verzoek aan het kabinet) en amendementen (een wijziging van een wet). We tellen wie een stuk indiende, of het werd aangenomen, en met wiens steun. Moties en amendementen tellen we altijd apart.",
+      "Zetelwerk is wat Kamerleden en fracties zelf op tafel leggen: moties (een verzoek aan het kabinet), amendementen (een wijziging van een wet) en initiatiefwetten (een wetsvoorstel dat Kamerleden zelf schrijven). We tellen wie een stuk indiende, of het werd aangenomen, en met wiens steun. De drie soorten tellen we altijd apart.",
     formule:
       "ingediend: het aantal stukken met het Kamerlid of de fractie als indiener. Aangenomen: meer zetels voor dan tegen, geteld uit de stemmen. Brede steun: aangenomen met stemmen voor van minstens een kabinets- en een oppositiefractie die zelf geen indiener of medeindiener was. Onder 10 ingediende stukken geen percentage.",
     keuzes: [
@@ -74,11 +74,49 @@ export const MATEN: Maat[] = [
       "Kabinet of oppositie op de dag van de stemming. Gedoogsteun telt als kabinet.",
       "Een stuk met meer indieners telt voor elk van hen volledig. Medeindieners tellen apart, als mede ingediend.",
       "Tegenstemmen per fractie: het aandeel van alle stemmingen in de periode waarop de fractie tegen stemde.",
+      "Initiatiefwetten: alleen wetsvoorstellen met een Kamerlid als indiener (in de bron \"Initiatiefwetgeving\"); wetten van de regering tellen niet mee. De uitslag is de eindstemming in de Tweede Kamer, niet die in de Eerste Kamer. Omdat het er per Kamerlid weinig zijn, staat de ranglijst op het aantal aangenomen wetten, zonder percentage.",
     ],
     beperkingen: [
       "Een aangenomen motie is een verzoek aan het kabinet. Of het ook gebeurt, staat niet in de data.",
       "Kabinet en oppositie hebben een andere rol. Wensen van kabinetspartijen staan vaak in het regeerakkoord, dus zij dienen minder in. Vergelijk binnen de eigen kant.",
       "Elk stuk telt even zwaar, of het nu een kleine procedurele motie is of een amendement dat een wet verandert.",
+      "Een initiatiefwet die geen meerderheid lijkt te halen, wordt soms ingetrokken voor de stemming. Die telt niet mee, dus bijna alle getelde initiatiefwetten zijn aangenomen.",
+    ],
+  },
+  {
+    id: "doorlooptijd",
+    naam: "Doorlooptijd: hoe lang duurt een wet?",
+    definitie:
+      "De doorlooptijd van een wetsvoorstel is de tijd van de indiening tot het besluit in de Tweede Kamer: een stemming, of een hamerstuk (aangenomen zonder stemming). Te zien op Uitgelicht, bij Hoe lang duurt een wet?",
+    formule:
+      "dagen tussen de datum van indiening (Zaak.GestartOp) en de vergaderdatum van het laatste besluit over het wetsvoorstel. De mediaan: de helft van de wetsvoorstellen duurde korter, de helft langer.",
+    keuzes: [
+      "Alleen wetsvoorstellen die tot en met 2022 zijn ingediend: latere hebben nog niet de tijd gehad, en meetellen zou de doorlooptijd te kort maken.",
+      "Een hamerstuk telt als besluit. Zonder hamerstukken zou het lijken alsof een derde van de wetten nog in behandeling is.",
+      "Wetsvoorstellen zonder besluit (nog in behandeling, ingetrokken of vervallen) tellen apart, niet in de doorlooptijd.",
+      "De haltes van een wet (advies van de Raad van State, vragen van de Kamer, antwoord, aanpassingen) komen uit de soorten documenten bij het wetsvoorstel. Bij een regeringswet komt het advies van de Raad van State voor de indiening; dat staat dan niet als aparte halte op de tijdas.",
+    ],
+    beperkingen: [
+      "De Eerste Kamer komt na de Tweede Kamer en telt niet mee. Een wet is pas klaar na de Eerste Kamer en de bekendmaking.",
+      "Een lange doorlooptijd zegt niet waarom: wachten op advies, een kabinetswissel of een bewuste pauze zien er in de data hetzelfde uit.",
+    ],
+  },
+  {
+    id: "ontraden",
+    naam: "Tegen het advies in: ontraden en toch aangenomen",
+    definitie:
+      "Voor een stemming zegt het kabinet wat het van een motie vindt (in de bron: Kabinetsappreciatie). Een motie die het kabinet ontraadde en die de Kamer toch aannam, telt als ontraden en toch aangenomen. Te zien op Uitgelicht, bij Tegen het advies in.",
+    formule:
+      "het aantal moties met het oordeel ontraden en als uitslag van de laatste stemming aangenomen, gedeeld door alle aangenomen moties, maal 100. Per kabinet op de datum van indiening.",
+    keuzes: [
+      "Alleen moties die vanaf 1 april 2019 zijn ingediend: daarvoor staat het oordeel van het kabinet niet in de bron.",
+      "Ontraden telt ook \"ontraden, tenzij gewijzigd\". Andere oordelen (overbodig, ontijdig, verzocht aan te houden, geen oordeel) staan apart.",
+      "De uitslag is die van de laatste stemming; moties zonder stemming (aangehouden of ingetrokken) tellen niet mee.",
+      "Kabinet of oppositie: de fractie van de indiener op de dag van indiening; gedoogsteun telt als kabinet.",
+    ],
+    beperkingen: [
+      "Of een aangenomen motie is uitgevoerd, staat niet in de open data. Wel of er later een brief over kwam, maar een brief is geen uitvoering.",
+      "Een kabinet kan een motie ontraden om de inhoud, maar ook om de timing of de kosten. Het oordeel zegt niet waarom.",
     ],
   },
 ];

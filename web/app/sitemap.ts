@@ -14,5 +14,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...fracties.map((s) => ({ url: url(`/fracties/${s}`) })),
     ...UITGELICHT.map((u) => ({ url: url(`/uitgelicht/${u.slug}`) })),
     { url: url("/uitgelicht/hoe-lang-duurt-een-wet") },
+    { url: url("/uitgelicht/tegen-het-advies-in") },
   ];
 }
