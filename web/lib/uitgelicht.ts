@@ -9,6 +9,7 @@ import studievoorschot from "../content/uitgelicht/2018Z19777.json";
 import defensie from "../content/uitgelicht/2025Z05204.json";
 import mercosur from "../content/uitgelicht/2025Z21858.json";
 import gehandicaptenzorg from "../content/uitgelicht/2026Z04746.json";
+import { dichtbij, hoefijzer, hoefijzerPast, weegschaal } from "./uitgelichtVormen";
 import { KORT, type Kader, type Kleur, type Stap, type StemStip, type Stemming, STEMSOORTEN, type Tekstlabel, dagMaandJaar, rond, stemZaal, tinten, zaalLabels } from "./verhaal";
 
 // Vorm van content/uitgelicht/<zaak>.json
@@ -270,14 +271,20 @@ export function casusStappen(c: Casus, smal: boolean): Stap[] {
     stappen.push({ datum: "verdeeld", tekst: `Bij een hoofdelijke stemming zie je per Kamerlid hoe het stemde. ${Hoofd(split.length === 1 ? "één fractie is" : `${telwoord(split.length)} fracties zijn`)} verdeeld. ${delen.join(". ")}.`,
       stippen: metKleur(groep.stippen, (p) => { const f = split.find((s) => s.fractie === p.fractie); if (!f) return "zacht"; const minder = f.voor < f.tegen ? "Voor" : "Tegen"; return p.stem === minder ? "nadruk" : null; }),
       labels: groep.labels, kaders: kaders(groep.kaders) });
+    // Van dichtbij: de grootste verdeelde fractie groot in beeld (eigen beeld, feedback Niels K7)
+    const grootste = [...split].sort((x, y) => y.voor + y.tegen - (x.voor + x.tegen))[0];
+    stappen.push(dichtbij(zs, grootste.fractie, t,
+      `${naam(grootste.fractie)} van dichtbij: elke stip is een Kamerlid. ${grootste.voor} voor, ${grootste.tegen} tegen${grootste.niet ? `, ${grootste.niet} niet mee` : ""}. Bij handopsteken had de fractie als één stem geteld.`));
   }
   // Krap: drie stemmen verschil of minder (een gelijke stand staat al bij de uitslag)
   const verschil = Math.abs(voor - tegen);
   if (verschil > 0 && verschil <= 3) {
     const meerderheid = Math.max(voor, tegen) >= 76 ? ` Met ${Math.max(voor, tegen)} stemmen is het ook een meerderheid van alle 150 zetels.` : "";
-    stappen.push({ datum: verschil === 1 ? "één stem" : `${telwoord(verschil)} stemmen`,
-      tekst: `${voor} voor en ${tegen} tegen: ${telwoord(verschil)} ${verschil === 1 ? "stem" : "stemmen"} verschil. ${niet ? doenNietMee(niet) : "Iedereen doet mee."}${meerderheid}`,
-      stippen: metKleur(los.stippen, (p) => (p.stem === "Niet deelgenomen" ? "nadruk" : null)), labels: los.labels });
+    // Hooguit twee verschil: als weegschaal (eigen beeld, feedback Niels K7; dezelfde grens als de video's)
+    const krap = { datum: verschil === 1 ? "één stem" : `${telwoord(verschil)} stemmen`,
+      tekst: `${voor} voor en ${tegen} tegen: ${telwoord(verschil)} ${verschil === 1 ? "stem" : "stemmen"} verschil. ${niet ? doenNietMee(niet) : "Iedereen doet mee."}${meerderheid}` };
+    stappen.push(verschil <= 2 ? { ...weegschaal(zs, t), ...krap }
+      : { ...krap, stippen: metKleur(los.stippen, (p) => (p.stem === "Niet deelgenomen" ? "nadruk" : null)), labels: los.labels });
   }
   // Een stem die achteraf een vergissing heette
   const fout = vergissingen(b);
@@ -295,6 +302,9 @@ export function casusStappen(c: Casus, smal: boolean): Stap[] {
   stappen.push({ datum: "terug in de zaal",
     tekst: `In deze zaal staan fracties die de laatste jaren vaak hetzelfde stemden naast elkaar. Voor in volle kleur, tegen gedimd. Loop je van links naar rechts, dan wisselt het ${w === 1 ? "één keer" : `${telwoord(w)} keer`} tussen voor en tegen.`,
     stippen: metKleur(zs, (p) => (p.stem === "Voor" ? null : p.stem === "Tegen" ? "uit" : "zacht")), labels: zaalLabels(zs, tint) });
+  // Hoefijzer: als de uiteinden van de rij hetzelfde stemmen en het midden anders (eigen beeld, feedback Niels K7)
+  // Hooguit één eigen beeld per stemming: weegschaal en van dichtbij gaan voor, en bij een herstemming geen hoefijzer
+  if (!split.length && !(verschil > 0 && verschil <= 2) && besluiten.length === 1 && hoefijzerPast(pf)) stappen.push(...hoefijzer(zs, b.stemmen, t));
   return stappen;
 }
 

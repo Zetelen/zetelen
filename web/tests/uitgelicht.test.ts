@@ -18,17 +18,27 @@ describe("gegevens", () => {
 });
 
 describe("stappen per casus", () => {
-  it("elke casus heeft vijf tot zeven stappen, op breed en smal evenveel", () => {
+  it("elke casus heeft vijf tot acht stappen, op breed en smal evenveel", () => {
+    // Acht: met een eigen beeld (weegschaal, van dichtbij of hoefijzer; feedback Niels K7)
     for (const c of CASUSSEN) {
       const n = casusStappen(c, false).length;
       expect(n, c.slug).toBeGreaterThanOrEqual(5);
-      expect(n, c.slug).toBeLessThanOrEqual(7);
+      expect(n, c.slug).toBeLessThanOrEqual(8);
       expect(casusStappen(c, true)).toHaveLength(n);
     }
   });
-  it("elke stap zet alle 150 stippen neer met unieke sleutels", () => {
+  it("elke stap zet alle 150 stippen neer met unieke sleutels; van dichtbij alleen de stippen van die fractie", () => {
     for (const c of CASUSSEN) for (const smal of [false, true]) for (const st of casusStappen(c, smal)) {
-      expect(new Set(st.stippen.map((p) => p.key)).size, c.slug).toBe(150);
+      const sleutels = st.stippen.map((p) => p.key);
+      expect(new Set(sleutels).size, c.slug).toBe(sleutels.length);
+      if (!st.datum.endsWith("van dichtbij")) expect(sleutels.length, `${c.slug}: ${st.datum}`).toBe(150);
+    }
+  });
+  it("hooguit één eigen beeld per stemming", () => {
+    for (const c of CASUSSEN) {
+      const st = casusStappen(c, false).map((s) => s.datum);
+      const eigen = [st.some((d) => d.endsWith("van dichtbij")), st.includes("buig de rij"), casusStappen(c, false).some((s) => s.paden?.some((p) => p.breedte === 6))];
+      expect(eigen.filter(Boolean).length, c.slug).toBeLessThanOrEqual(1);
     }
   });
   it("de blokken passen in de tekening: breed onder y 505, smal binnen de berekende hoogte", () => {
