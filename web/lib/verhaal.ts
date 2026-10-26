@@ -32,7 +32,13 @@ export const KORT: Record<string, string> = { "GroenLinks-PvdA": "GL-PvdA", "Nie
 
 // Eigen palet per fractie (geen partijkleuren: besluit 22 oktober 2026). Tien tinten, elk minstens
 // 6:1 contrast op nacht-950. Fracties met minder dan 5 zetels in elke stap delen een neutrale tint.
-export const PALET = ["#7fb7c9", "#e0915a", "#a08fe0", "#6fbf8e", "#e57f93", "#d2bb5a", "#5f93dc", "#d46fc0", "#c2885c", "#b9bfcc"];
+// Eigen palet, geen partijkleuren. De eerste tien zijn de oorspronkelijke; de laatste acht kwamen erbij op
+// 26 oktober 2026 (verzoek Niels), omdat onder Schoof en Jetten meer dan tien fracties tegelijk in beeld staan.
+// Achteraan, zodat fracties die al een tint hadden die houden.
+export const PALET = [
+  "#7fb7c9", "#e0915a", "#a08fe0", "#6fbf8e", "#e57f93", "#d2bb5a", "#5f93dc", "#d46fc0", "#c2885c", "#b9bfcc",
+  "#a9cf5b", "#4cc3b0", "#ee6a5f", "#f3c49b", "#e9e28c", "#8c86e8", "#f29ac0", "#93d6ec",
+];
 export const KLEIN = "#6d7590";
 // Een opvolger die de fractie voortzet (naamswijziging), houdt de tint
 export const ERFT_TINT: Record<string, string> = { PRO: "GroenLinks-PvdA" };

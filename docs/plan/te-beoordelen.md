@@ -1,95 +1,332 @@
-# Te beoordelen door Niels
+# Jouw lijst: te beoordelen door Niels
 
-Bijgehouden door Claude in de nacht van 25 op 26 oktober 2026. Per punt: wat het is, waar je het ziet en wat ik van je nodig heb. Bovenaan staat wat het meest telt. Vink af wat je gedaan hebt.
+Bijgewerkt op 26 oktober 2026. Alles wat op jou wacht, in drie soorten:
 
-Bijgewerkt op 26 oktober 2026 (overdag): bovenaan de lijst voor de livegang, twee kliktabellen voor de controles en de verklaring van de extra rijen. Sindsdien geen nieuwe onderdelen gebouwd.
+- **B. Besluiten.** Jij kiest. Per besluit staan de opties en mijn advies.
+- **C. Controleren.** Jij klikt naar de bron en zegt of het klopt.
+- **K. Bekijken.** Jij kijkt op de site en zegt of het goed is, of wat anders moet.
 
-## 0. Aangepast na je feedback (26 oktober 2026)
+**Zo antwoord je:** in de chat, met de code. Bijvoorbeeld "B1: A", "B4: A, maar zonder lezing 6", "C1: klopt" of "K2: labels nog te klein". Ik zet je antwoord erbij en vink het af (☐ wordt ☑). Onderaan, in D, staat wat ter informatie is: daar hoef je niets mee.
 
-Nog te bekijken op de site, na de deploy:
-- [ ] **Onderwerpen, één geheel.** Klik op een terrein: de dossiers klappen eronder uit, elk met een balk allebei voor, verschillend en allebei tegen. Klik op een dossier: de stemmingen klappen eronder uit, verschillen eerst. Onderaan in het terrein: alle stemmingen waarop het paar verschilde, ook uitklapbaar. Het losse blok eronder is weg. Een pijltje (▸ ▾) laat zien wat klikbaar is.
-- [ ] **De stemming over het asielplan opent nu de pagina Onderwerpen**, met de neutrale kop "Eén stemming uit elkaar gehaald", en gaat over in "Nu jij: elk percentage is zo opgeteld" met de keuzes.
-- [ ] **Spreiding op Oppositiewerk:** labels met een donkere rand, ze schuiven uit elkaar en krijgen een lijntje als het moet. Kwadrantnamen kleiner, in de hoeken buiten het vlak.
-- [ ] **Geen gat meer voor hoofdstuk 5:** hoofdstuk 4 en 5 zijn één beeld. De fractiestippen schuiven van de spreiding naar de cirkel ("van tegen naar samen"), daarna verschijnen de lijnen.
-- Klein: "1 stemmingen samen" is nu "1 stemming samen".
+Volgorde: B1 tot en met B3 en C1 en C2 houden de livegang het meest op. De rest kan in elke volgorde.
 
-Open, niet opgelost: het palet heeft 10 tinten en onder Schoof en Jetten zitten meer fracties. Daardoor delen twee fracties een tint, nu VVD en Volt. De labels maken het verschil. Oplossen kan met een groter palet; zeg het als je dat wilt.
+## B. Besluiten
 
-## 1. Wat de livegang van R1 tegenhoudt
+### ☐ B1. Kamerleden met namen bij de livegang
 
-Livegang betekent: `LIVE = true` (indexeren, sitemap), het label concept eraf waar dat mag, en de site delen. Per punt: klaar of niet, of er een besluit van jou nodig is, en of het R1 is of later kan.
+In het plan hoort de pagina Kamerleden bij R3. Ik heb hem in de nacht gebouwd, als concept. Hij staat niet in het menu, maar wel in de sitemap, en is bereikbaar via Oppositiewerk, de fractiepagina's en de tegels.
 
-| # | Punt | Klaar? | Besluit Niels? | R1 of later |
-|---|---|---|---|---|
-| 1 | Dit document doornemen: site, teksten, definities | nee | ja | R1 |
-| 2 | Lezingen kiezen (E4), daarna de dynamische lezingen in de tools bouwen | nee, proefpagina staat | ja | R1 |
-| 3 | Coalitiebouwer: lezingen (E2-S10) en nacontrole, dan het label concept eraf | nee | ja (na punt 2) | R1 |
-| 4 | Controles: nacontrole cohesie en steekproef uitslagen (kliktabellen hieronder) | voorbereid, jouw klik ontbreekt | nee, alleen controleren | R1 |
-| 5 | De 8 afwijkende uitslagen bekijken (`beheer.afwijkende_uitslag`) | nee | ja, per geval | R1 |
-| 6 | Handmatige tabellen nakijken: kabinetten en coalities (011), Kamerperiodes, partijkoppeling, koppeltabel beleidsterreinen (014), trefwoorden (015) | nee | ja | R1, want ze sturen de getoonde cijfers |
-| 7 | `analytics` (E3-S6): dienst kiezen, zonder cookies | niet gestart | ja, welke dienst | R1 volgens het plan; kan later als je zonder bezoekcijfers live wilt |
-| 8 | Methodiek: reactietermijn op een foutmelding (E7-S2) en privacytekst beoordelen | nee | ja | R1 |
-| 9 | Gebruiksvoorwaarden open data | klaar (CC0, vermeld op /methodiek) | nee | R1, gedaan |
-| 10 | Bewaking: test met het uitblijvende signaal van healthchecks | nee | nee, alleen uitvoeren | R1 |
-| 11 | Kamerleden met namen (zie hieronder) | live als concept, buiten het plan | ja | R3 in het plan |
-| 12 | Open besluit uit het plan: blijven rankings van individuele Kamerleden in scope? | nee | ja | hoort bij R3, maar raakt punt 11 |
-| 13 | Open besluit uit het plan: beleid bij een verwijderverzoek van een Kamerlid | nee | ja | R1 zodra er namen live staan |
-| 14 | Naam Zetelen controleren en domein registreren | nee | ja | kan later: live op zetelen.vercel.app kan ook |
-| 15 | Feedbackronde: link naar de vragenlijst, dienst en bewaartermijn in de privacytekst | nee | ja | voor de feedbackronde, niet voor de livegang |
-| 16 | Oppositiewerk en lezingen op de telefoon (kleine stippen en letters) | nee | nee | R1 als die pagina's live gaan |
-| 17 | Aanpassing verversing voor verwijderingen (zie punt 3 hieronder) | ja, 26 oktober | gegeven | R1, gedaan |
-| 18 | Prestatie-audit opnieuw meten na `LIVE = true` | nee | nee | R1, als laatste stap |
-| 19 | Push protection van GitHub secret scanning aanzetten | nee | ja, jouw instelling | kan later, is goedkoop |
+- **A. Achter een conceptvlag** (zoals `LIVE`): in productie weg, met alle links ernaartoe. Aan zodra B2 en B3 besloten zijn.
+- **B. Alleen uit de sitemap**: de links blijven, de pagina blijft vindbaar.
+- **C. Mee live zoals hij nu is.**
 
-**Kamerleden met namen.** In het plan is dit R3 (`kamerleden-analyse` en `kamerleden-pagina`, E6). Ik heb de pagina in de nacht gebouwd als onderdeel van zetelwerk. Hij staat nu niet in het menu, maar wel in de sitemap (`PAGINAS` in `web/lib/site.ts`) en is bereikbaar via Oppositiewerk, de fractiepagina's en de tegels. Twee besluiten uit het plan staan nog open: rankings van individuele Kamerleden (punt 12) en het beleid bij een verwijderverzoek (punt 13).
+**Advies: A.** Namen met tellingen per Kamerlid lezen als een ranglijst, ook zonder ranglijst. En een Kamerlid dat bezwaar maakt, moet een antwoord krijgen dat al vastligt (B3). Het verhaal van R1 werkt zonder deze pagina.
 
-**Mijn advies:** zet Kamerleden bij de livegang achter een conceptvlag, niet alleen uit het menu. Uit het menu is niet genoeg: via de links en de sitemap blijft de pagina vindbaar en wordt hij geindexeerd. Met een vlag (zoals `LIVE`) is de pagina in productie weg, met de links ernaartoe, en kun je hem aanzetten zodra punt 12 en 13 besloten zijn. Reden: namen met tellingen per Kamerlid lezen als een ranglijst, ook zonder ranglijst, en een Kamerlid dat bezwaar maakt, moet een antwoord krijgen dat al vastligt. Het verhaal van R1 werkt zonder deze pagina; Oppositiewerk blijft op fractieniveau.
+Jouw besluit:
 
-## 2. Controles om aan te klikken
+### ☐ B2. Ranglijsten van individuele Kamerleden
 
-Beide steekproeven zijn vast, niet willekeurig, zodat jij dezelfde rijen ziet als ik: `db/controles/klik_uitslagen.sql` en `db/controles/klik_cohesie.sql`, gedraaid via Controlequery op 26 oktober 2026. Ik heb elke rij al naast de bron gelegd (de API van de Tweede Kamer, de stemmen per fractie). Jouw deel: klik op het zaaknummer, kijk op tweedekamer.nl en vul de laatste kolom in.
+Open besluit uit het plan. Nu: zoeken op naam en sorteren binnen een fractie, geen ranglijst over de hele Kamer.
 
-Eenmansfracties en groepen met de naam van een persoon staan er zonder naam in.
+- **A. Zo laten:** geen ranglijst over de hele Kamer.
+- **B. Ook een ranglijst over de hele Kamer**, apart voor kabinet en oppositie.
+- **C. Helemaal niet sorteren op aantallen**, alleen op naam.
 
-### Steekproef uitslagen (E7-S5, 10 besluiten)
+**Advies: A.** Een Kamerbrede ranglijst maakt van tellingen een oordeel ("wie is de beste"), en dat botst met onpartijdig. Binnen een fractie vergelijk je gelijken.
 
-Alle tien kloppen met de bron: dezelfde uitslag, dezelfde zetels en dezelfde fracties aan elke kant. De kolom "Kleinste kant" noemt de fracties aan de kant met de minste zetels; dat is het snelst te controleren.
+Jouw besluit:
 
-| # | Datum | Zaak | Wij | Bron (besluittekst, zetels) | Kleinste kant (wij, gelijk aan de bron) | Niels: klopt |
+### ☐ B3. Wat doen we als een Kamerlid vraagt om gegevens te verwijderen?
+
+Open besluit uit het plan. Nodig zodra er namen live staan (B1).
+
+- **A. Gegevens blijven staan, fouten herstellen we.** Het zijn openbare stemmingen en stukken uit een openbare bron (CC0). Een fout herstellen we binnen de reactietermijn (B6) en melden we op /wijzigingen. Op /privacy komt een contactadres.
+- **B. Op verzoek alleen de naam verbergen**, de fractie blijft.
+- **C. Op verzoek alles van dat Kamerlid weghalen.**
+
+**Advies: A**, met een kanttekening: ik ben geen jurist. Laat dit toetsen voordat de namen live gaan.
+
+Jouw besluit:
+
+### ☐ B4. Welke lezingen komen vast in het verhaal?
+
+Kijk op https://zetelen.vercel.app/lezingen (niet in het menu). Achtergrond: [lezingen-kandidaten.md](lezingen-kandidaten.md).
+
+- **A. Alle vier van de proefpagina:** 3 (eens of regeerakkoord), 1 en 2 (steun voor een minderheidskabinet) en 6 (asiel).
+- **B. Een deel daarvan** (noem welke).
+- **C. Andere uit de kandidatenlijst** (noem welke).
+
+**Advies: A.** Na je keuze bouw ik de dynamische lezingen in de tools. Daarna kan het label concept van de coalitiebouwer eraf (die wacht op E2-S10).
+
+Jouw besluit:
+
+### ☐ B5. Bezoekers meten (analytics)
+
+Nodig om de 500 bezoekers per maand te meten.
+
+- **A. Vercel Web Analytics:** zonder cookies, zit bij de hosting, 50.000 events per maand in het gratis plan.
+- **B. Een andere privacyvriendelijke dienst** (betaald, aparte dienst).
+- **C. Niet meten bij de livegang**, later beslissen.
+
+**Advies: A.** Het eenvoudigste: geen extra dienst, geen cookiebanner. Let op: een event is geen unieke bezoeker. "500 bezoekers" wordt dan bijvoorbeeld 500 bezoeken per maand.
+
+Jouw besluit:
+
+### ☐ B6. Reactietermijn op een foutmelding (E7-S2)
+
+Staat straks op /methodiek: hoe snel reageren we als iemand een fout meldt?
+
+- **A. Binnen 5 werkdagen.**
+- **B. Binnen 2 werkdagen.**
+- **C. Geen termijn noemen**, alleen "zo snel als we kunnen".
+
+**Advies: A.** Haalbaar naast je werk, en toch een belofte.
+
+Jouw besluit:
+
+### ☐ B7. Wanneer gaat het label "concept" eraf, en waarvan?
+
+- **A. Per pagina, zodra de controles erbij af zijn:**
+  - Verkenner, Fracties en Onderwerpen na jouw blik (K-punten);
+  - Coalitie na B4;
+  - Oppositiewerk na de verbetering voor de telefoon;
+  - Kamerleden pas na B1 tot en met B3.
+- **B. Alles tegelijk bij de livegang.**
+
+**Advies: A.** Zo blokkeert de traagste pagina de rest niet.
+
+Jouw besluit:
+
+### ☐ B8. Het menu
+
+Nu zeven onderdelen: Verkenner, Onderwerpen, Coalitie, Oppositie, Fracties, Methodiek, Over. Op de telefoon lopen ze over twee regels.
+
+- **A. Zo laten.**
+- **B. Korter:** Methodiek en Over naar de voet van de pagina, vijf in het menu.
+
+**Advies: A.** Methodiek hoort zichtbaar te zijn bij een site die op eerlijk tellen leunt.
+
+Jouw besluit:
+
+### ☐ B9. Drie woordkeuzes uit de stijlgids
+
+Uit [tone-of-voice.md](../ontwerp/tone-of-voice.md):
+
+- **B9a. "Fractie" of "partij"?**
+  - A: "fractie" in de tools, "partij" waar het om de partij zelf gaat.
+  - B: overal "partij", behalve bij afsplitsingen.
+  - Advies: A, omdat een afsplitsing een fractie is maar geen partij.
+- **B9b. "Eén VVD-Kamerlid" bij een hoofdelijke stemming, zonder naam?**
+  - A: zo laten.
+  - B: "één lid van de VVD-fractie".
+  - Advies: A.
+- **B9c. Labels in hoofdletters ("ZO LEES JE DIT")?**
+  - A: houden als ontwerpelement.
+  - B: vervangen door een vraag ("Hoe lees je dit?").
+  - Advies: A.
+
+Jouw besluit:
+
+### ☐ B10. Drie knipogen in de teksten
+
+Per knipoog ja of nee. Overzicht van alle teksten: [alle-teksten.md](../teksten/alle-teksten.md).
+
+1. 404: "Hier is nooit gezeteld."
+2. /wijzigingen: "Er zijn nog geen correcties. We blijven natellen."
+3. /over: "Er zit geen organisatie of partij achter, alleen nieuwsgierigheid."
+
+**Advies: ja op alle drie.**
+
+Jouw besluit:
+
+### ☐ B11. Naam en domein
+
+Nog niet gecontroleerd: merkenregister, betekenis van het woord, zoekresultaten. Domein nog niet geregistreerd.
+
+- **A. Voor de livegang:** naam controleren en een domein registreren.
+- **B. Later:** eerst live op zetelen.vercel.app.
+
+**Advies: A** als je de site breed gaat delen, want een adres wisselen na het delen kost bezoekers. **B** is goed voor de feedbackronde.
+
+Jouw besluit:
+
+### ☐ B12. Push protection van GitHub aanzetten
+
+Blokkeert een geheim al voor de push. Onze scan (gitleaks) vindt het pas erna. Instelling in GitHub: Settings, Code security, Push protection.
+
+- **A. Aanzetten.**
+- **B. Niet.**
+
+**Advies: A.** Kost niets, en de repo is publiek.
+
+Jouw besluit:
+
+### ☐ B13. Wat ik van je nodig heb voor de feedbackronde (geen keuze, aanleveren)
+
+- de link naar je vragenlijst (voor de feedbackknop, `FEEDBACK_URL`);
+- de naam van de dienst en de bewaartermijn (voor de privacytekst).
+
+## C. Controleren
+
+### ☐ C1. Steekproef uitslagen (E7-S5, 10 besluiten)
+
+Ik heb elke rij al naast de bron gelegd: alle tien kloppen (dezelfde uitslag, dezelfde zetels, dezelfde fracties aan elke kant). Jij: klik op het zaaknummer, kijk op tweedekamer.nl en zet een vinkje. De kolom "Kleinste kant" noemt de fracties aan de kant met de minste zetels; dat is het snelst te controleren. Eenmansfracties en groepen met de naam van een persoon staan er zonder naam in. Vaste steekproef: `db/controles/klik_uitslagen.sql`.
+
+| # | Datum | Zaak | Wij | Bron (besluittekst, zetels) | Kleinste kant (wij, gelijk aan de bron) | Klopt? (jij) |
 |---|---|---|---|---|---|---|
-| 1 | 26-01-2010 | [2010Z00939](https://www.tweedekamer.nl/zoeken?qry=2010Z00939) motie | aangenomen, 85 tegen 65 | Aangenomen, 85 tegen 65 | tegen: GL, PVV, SGP, SP, VVD en 1 eenmansfractie | |
-| 2 | 11-06-2013 | [2013Z11750](https://www.tweedekamer.nl/zoeken?qry=2013Z11750) motie | verworpen, 27 tegen 123 | Verworpen, 27 tegen 123 | voor: 50PLUS, ChristenUnie, PvdD, SGP, SP | |
-| 3 | 20-02-2014 | [2014Z03255](https://www.tweedekamer.nl/zoeken?qry=2014Z03255) motie | verworpen, 37 tegen 113 | Verworpen, 37 tegen 113 | voor: 50PLUS, GL, PvdD, PVV, SP | |
-| 4 | 25-11-2014 | [2014Z21517](https://www.tweedekamer.nl/zoeken?qry=2014Z21517) motie | aangenomen, 119 tegen 31 | Aangenomen, 119 tegen 31 | tegen: GrBvK, PvdD, PVV, SP | |
-| 5 | 13-12-2016 | [2016Z23468](https://www.tweedekamer.nl/zoeken?qry=2016Z23468) motie | verworpen, 36 tegen 113 | Verworpen, 36 tegen 113 (1 fractie niet deelgenomen) | voor: 50PLUS, GL, GrKÖ, PvdD, PVV, SP | |
-| 6 | 19-06-2018 | [2018Z11433](https://www.tweedekamer.nl/zoeken?qry=2018Z11433) motie | verworpen, 71 tegen 79 | Verworpen, 71 tegen 79 | tegen: CDA, ChristenUnie, D66, SGP, VVD | |
-| 7 | 22-09-2020 | [2020Z15847](https://www.tweedekamer.nl/zoeken?qry=2020Z15847) motie | aangenomen, 98 tegen 52 | Aangenomen, 98 tegen 52 | tegen: ChristenUnie, D66, GL, PvdA, PvdD en 1 eenmansfractie | |
-| 8 | 08-12-2020 | [2020Z18763](https://www.tweedekamer.nl/zoeken?qry=2020Z18763) amendement | verworpen, 51 tegen 98 | Verworpen, 51 tegen 98 | tegen: CDA, ChristenUnie, D66, PVV, SGP, VVD | |
-| 9 | 08-10-2024 | [2024Z13894](https://www.tweedekamer.nl/zoeken?qry=2024Z13894) motie | verworpen, 26 tegen 124 | Verworpen, 26 tegen 124 | voor: CDA, ChristenUnie, D66, FVD, JA21, SGP, Volt | |
-| 10 | 19-05-2026 | [2026Z09643](https://www.tweedekamer.nl/zoeken?qry=2026Z09643) motie | aangenomen, 102 tegen 48 | Aangenomen, 102 tegen 48 | tegen: BBB, FVD, JA21, VVD en 1 afgesplitste groep | |
+| 1 | 26-01-2010 | [2010Z00939](https://www.tweedekamer.nl/zoeken?qry=2010Z00939) motie | aangenomen, 85 tegen 65 | Aangenomen, 85 tegen 65 | tegen: GL, PVV, SGP, SP, VVD en 1 eenmansfractie | ☐ |
+| 2 | 11-06-2013 | [2013Z11750](https://www.tweedekamer.nl/zoeken?qry=2013Z11750) motie | verworpen, 27 tegen 123 | Verworpen, 27 tegen 123 | voor: 50PLUS, ChristenUnie, PvdD, SGP, SP | ☐ |
+| 3 | 20-02-2014 | [2014Z03255](https://www.tweedekamer.nl/zoeken?qry=2014Z03255) motie | verworpen, 37 tegen 113 | Verworpen, 37 tegen 113 | voor: 50PLUS, GL, PvdD, PVV, SP | ☐ |
+| 4 | 25-11-2014 | [2014Z21517](https://www.tweedekamer.nl/zoeken?qry=2014Z21517) motie | aangenomen, 119 tegen 31 | Aangenomen, 119 tegen 31 | tegen: GrBvK, PvdD, PVV, SP | ☐ |
+| 5 | 13-12-2016 | [2016Z23468](https://www.tweedekamer.nl/zoeken?qry=2016Z23468) motie | verworpen, 36 tegen 113 | Verworpen, 36 tegen 113 (1 fractie niet deelgenomen) | voor: 50PLUS, GL, GrKÖ, PvdD, PVV, SP | ☐ |
+| 6 | 19-06-2018 | [2018Z11433](https://www.tweedekamer.nl/zoeken?qry=2018Z11433) motie | verworpen, 71 tegen 79 | Verworpen, 71 tegen 79 | tegen: CDA, ChristenUnie, D66, SGP, VVD | ☐ |
+| 7 | 22-09-2020 | [2020Z15847](https://www.tweedekamer.nl/zoeken?qry=2020Z15847) motie | aangenomen, 98 tegen 52 | Aangenomen, 98 tegen 52 | tegen: ChristenUnie, D66, GL, PvdA, PvdD en 1 eenmansfractie | ☐ |
+| 8 | 08-12-2020 | [2020Z18763](https://www.tweedekamer.nl/zoeken?qry=2020Z18763) amendement | verworpen, 51 tegen 98 | Verworpen, 51 tegen 98 | tegen: CDA, ChristenUnie, D66, PVV, SGP, VVD | ☐ |
+| 9 | 08-10-2024 | [2024Z13894](https://www.tweedekamer.nl/zoeken?qry=2024Z13894) motie | verworpen, 26 tegen 124 | Verworpen, 26 tegen 124 | voor: CDA, ChristenUnie, D66, FVD, JA21, SGP, Volt | ☐ |
+| 10 | 19-05-2026 | [2026Z09643](https://www.tweedekamer.nl/zoeken?qry=2026Z09643) motie | aangenomen, 102 tegen 48 | Aangenomen, 102 tegen 48 | tegen: BBB, FVD, JA21, VVD en 1 afgesplitste groep | ☐ |
 
-Na jouw controle zet ik de uitkomst in `docs/steekproeven/R1-uitslagen.md`.
+### ☐ C2. Nacontrole cohesie (E2-S2): VVD en CDA onder Schoof
 
-### Nacontrole cohesie (E2-S2): VVD en CDA onder Schoof
+Alle tien stemmen kloppen met de bron. Jij: klik en vink af. Vaste steekproef: `db/controles/klik_cohesie.sql`.
 
-Alle tien stemmen kloppen met de bron. In deze tien stemden VVD en CDA 6 keer hetzelfde.
-
-| # | Datum | Zaak | VVD (wij) | CDA (wij) | Bron VVD en CDA | Hetzelfde? | Niels: klopt |
+| # | Datum | Zaak | VVD (wij) | CDA (wij) | Bron VVD en CDA | Hetzelfde? | Klopt? (jij) |
 |---|---|---|---|---|---|---|---|
-| 1 | 08-10-2024 | [2024Z13894](https://www.tweedekamer.nl/zoeken?qry=2024Z13894) motie | tegen | voor | tegen, voor | nee | |
-| 2 | 15-10-2024 | [2024Z15637](https://www.tweedekamer.nl/zoeken?qry=2024Z15637) motie | tegen | voor | tegen, voor | nee | |
-| 3 | 19-11-2024 | [2024Z18629](https://www.tweedekamer.nl/zoeken?qry=2024Z18629) motie | tegen | voor | tegen, voor | nee | |
-| 4 | 11-03-2025 | [2024Z15575](https://www.tweedekamer.nl/zoeken?qry=2024Z15575) motie | tegen | tegen | tegen, tegen | ja | |
-| 5 | 01-04-2025 | [2025Z05727](https://www.tweedekamer.nl/zoeken?qry=2025Z05727) motie | tegen | tegen | tegen, tegen | ja | |
-| 6 | 27-05-2025 | [2025Z10578](https://www.tweedekamer.nl/zoeken?qry=2025Z10578) motie | voor | voor | voor, voor | ja | |
-| 7 | 03-06-2025 | [2025Z10883](https://www.tweedekamer.nl/zoeken?qry=2025Z10883) motie | tegen | tegen | tegen, tegen | ja | |
-| 8 | 03-07-2025 | [2025Z14214](https://www.tweedekamer.nl/zoeken?qry=2025Z14214) motie | tegen | voor | tegen, voor | nee | |
-| 9 | 02-10-2025 | [2025Z18582](https://www.tweedekamer.nl/zoeken?qry=2025Z18582) motie | voor | voor | voor, voor | ja | |
-| 10 | 16-12-2025 | [2025Z21729](https://www.tweedekamer.nl/zoeken?qry=2025Z21729) motie | voor | voor | voor, voor | ja | |
+| 1 | 08-10-2024 | [2024Z13894](https://www.tweedekamer.nl/zoeken?qry=2024Z13894) motie | tegen | voor | tegen, voor | nee | ☐ |
+| 2 | 15-10-2024 | [2024Z15637](https://www.tweedekamer.nl/zoeken?qry=2024Z15637) motie | tegen | voor | tegen, voor | nee | ☐ |
+| 3 | 19-11-2024 | [2024Z18629](https://www.tweedekamer.nl/zoeken?qry=2024Z18629) motie | tegen | voor | tegen, voor | nee | ☐ |
+| 4 | 11-03-2025 | [2024Z15575](https://www.tweedekamer.nl/zoeken?qry=2024Z15575) motie | tegen | tegen | tegen, tegen | ja | ☐ |
+| 5 | 01-04-2025 | [2025Z05727](https://www.tweedekamer.nl/zoeken?qry=2025Z05727) motie | tegen | tegen | tegen, tegen | ja | ☐ |
+| 6 | 27-05-2025 | [2025Z10578](https://www.tweedekamer.nl/zoeken?qry=2025Z10578) motie | voor | voor | voor, voor | ja | ☐ |
+| 7 | 03-06-2025 | [2025Z10883](https://www.tweedekamer.nl/zoeken?qry=2025Z10883) motie | tegen | tegen | tegen, tegen | ja | ☐ |
+| 8 | 03-07-2025 | [2025Z14214](https://www.tweedekamer.nl/zoeken?qry=2025Z14214) motie | tegen | voor | tegen, voor | nee | ☐ |
+| 9 | 02-10-2025 | [2025Z18582](https://www.tweedekamer.nl/zoeken?qry=2025Z18582) motie | voor | voor | voor, voor | ja | ☐ |
+| 10 | 16-12-2025 | [2025Z21729](https://www.tweedekamer.nl/zoeken?qry=2025Z21729) motie | voor | voor | voor, voor | ja | ☐ |
 
 De berekende cohesie voor dit paar onder Schoof: 79,7% over alle stemmingen (5.578 van 6.998) en 77,7% over de verdeelde (4.951 van 6.371). Dat de steekproef 6 van de 10 geeft, is geen tegenspraak: bij tien stemmingen en 80% is 6 of minder ongeveer 1 op 8. De controle gaat over de stemmen per rij, niet over het percentage. Geen van de tien is een hoofdelijke stemming, dus de afleiding uit de leden zit niet in deze steekproef.
 
-## 3. Extra rijen bij Agendapunt en Besluit: verklaard en opgelost
+### ☐ C3. Steekproef zetelwerk: kies er 5
+
+Ik vergeleek 19 stukken met de bron: uitslag, indiener en fractie kloppen 19 van de 19 keer. Jij: kies er 5, klik op het nummer en vink af.
+
+| Kabinet | Soort | Nummer | Onderwerp (begin) | Wij | Bron (besluittekst) | Fractie indiener volgens bron | Klopt volgens mij | Gekeken (jij) |
+|---|---|---|---|---|---|---|---|---|
+| Rutte I | Motie | [2010Z18649](https://www.tweedekamer.nl/zoeken?qry=2010Z18649) | ... over een tender gericht op vrouwe | verworpen (57 tegen 93) | verworpen | GroenLinks | ja | ☐ |
+| Rutte I | Motie | [2011Z00574](https://www.tweedekamer.nl/zoeken?qry=2011Z00574) | ... over minimumhandhavingsstandaarden | verworpen (62 tegen 88) | verworpen | SP | ja | ☐ |
+| Rutte I | Amendement | [2011Z14134](https://www.tweedekamer.nl/zoeken?qry=2011Z14134) | ... ter vervanging van | aangenomen (76 tegen 74) | aangenomen | PvdA | ja | ☐ |
+| Rutte II | Motie | [2016Z07435](https://www.tweedekamer.nl/zoeken?qry=2016Z07435) | ... over een gelijk speelveld in alle l | aangenomen (149 tegen 1) | aangenomen | SP | ja | ☐ |
+| Rutte II | Motie | [2016Z16595](https://www.tweedekamer.nl/zoeken?qry=2016Z16595) | ... over in beeld brengen van de ef | verworpen (34 tegen 115) | verworpen | PvdD | ja | ☐ |
+| Rutte II | Amendement | [2016Z20784](https://www.tweedekamer.nl/zoeken?qry=2016Z20784) | ... over het versterken | aangenomen (121 tegen 29) | aangenomen | PvdA | ja | ☐ |
+| Rutte III | Motie | [2018Z12559](https://www.tweedekamer.nl/zoeken?qry=2018Z12559) | ... over een Wsnp-traject zond | verworpen (46 tegen 104) | verworpen | SP | ja | ☐ |
+| Rutte III | Motie | [2019Z24905](https://www.tweedekamer.nl/zoeken?qry=2019Z24905) | ... over het handhaven van de | aangenomen (150 tegen 0) | aangenomen | SP | ja | ☐ |
+| Rutte III | Motie | [2020Z05025](https://www.tweedekamer.nl/zoeken?qry=2020Z05025) | ... over een steunpakket voor de c | aangenomen (127 tegen 23) | aangenomen | D66 | ja | ☐ |
+| Rutte III | Amendement | [2019Z23148](https://www.tweedekamer.nl/zoeken?qry=2019Z23148) | ... over meer landelijke d | aangenomen (117 tegen 33) | aangenomen | VVD | ja | ☐ |
+| Rutte IV | Motie | [2022Z10177](https://www.tweedekamer.nl/zoeken?qry=2022Z10177) | ... over voorstellen om de u | aangenomen (147 tegen 0) | aangenomen | CDA | ja | ☐ |
+| Rutte IV | Motie | [2024Z02139](https://www.tweedekamer.nl/zoeken?qry=2024Z02139) | ... over in gesprekken met h | aangenomen (80 tegen 70) | aangenomen | SGP | ja | ☐ |
+| Rutte IV | Amendement | [2022Z24409](https://www.tweedekamer.nl/zoeken?qry=2022Z24409) | ... ter vervanging van nr. 12 | aangenomen (147 tegen 3) | aangenomen | CDA | ja | ☐ |
+| Schoof | Motie | [2025Z00585](https://www.tweedekamer.nl/zoeken?qry=2025Z00585) | ... over deelnemen aan de EU Talent P | verworpen (14 tegen 136) | verworpen | Volt | ja | ☐ |
+| Schoof | Motie | [2024Z15582](https://www.tweedekamer.nl/zoeken?qry=2024Z15582) | ... over een plan van JenV en IenW voo | aangenomen (144 tegen 6) | aangenomen | VVD | ja | ☐ |
+| Schoof | Amendement | [2025Z13261](https://www.tweedekamer.nl/zoeken?qry=2025Z13261) | ... ter vervanging (gewijzigd amendement) | aangenomen (86 tegen 64) | aangenomen | GroenLinks-PvdA | ja | ☐ |
+| Jetten | Motie | [2026Z06701](https://www.tweedekamer.nl/zoeken?qry=2026Z06701) | ... over het in kaart brengen van de u | verworpen (42 tegen 108) | verworpen | GroenLinks-PvdA | ja | ☐ |
+| Jetten | Motie | [2026Z19664](https://www.tweedekamer.nl/zoeken?qry=2026Z19664) | ... over een versnellingsaanpak | aangenomen (131 tegen 19) | aangenomen | D66 | ja | ☐ |
+| Jetten | Motie | [2026Z03135](https://www.tweedekamer.nl/zoeken?qry=2026Z03135) | ... over aanscherping van de huid | aangenomen (105 tegen 45) | aangenomen | ChristenUnie | ja | ☐ |
+
+Ook vergeleken: de aantallen per jaar met de telling in de API. In 2010 tellen wij 1.359 moties waarover gestemd is, de API 1.362. In de andere jaren is het verschil net zo klein: een paar stukken waarvan de stemming in de bron ontbreekt of verwijderd is.
+
+### ☐ C4. De 8 afwijkende uitslagen
+
+Bij 8 van de 60.133 besluiten past de uitslag in de bron niet bij de stemmen. Bij 20 januari 2026 meldt de bron zelf dat "aangenomen" fout was. Jij: per geval zeggen of wij het goed tonen (wij volgen de stemmen). Wil je ze als kliktabel, zoals C1? Zeg "C4 klaarzetten".
+
+### ☐ C5. Handmatige tabellen nakijken
+
+Deze tabellen heb ik met de hand gevuld, en ze sturen de cijfers op de site:
+
+- **Kabinetten en coalities:** [011_coalitie.sql](../../db/migrations/011_coalitie.sql). De samenstelling en de datums van uittreden. Schoof en Jetten komen uit Wikidata, de rest uit mijn kennis.
+- **Koppeltabel commissie naar beleidsterrein:** [014_onderwerpen.sql](../../db/migrations/014_onderwerpen.sql), blok `core.beleidsterrein_commissie`.
+- **Trefwoorden voor beleidsterreinen:** [015_trefwoorden.sql](../../db/migrations/015_trefwoorden.sql), blok `core.beleidsterrein_trefwoord`.
+- **Kamerperiodes en partijkoppeling:** in `db/migrations/003_core.sql`. Vier twijfelgevallen: GroenLinks-PvdA, PRO, DPK, Groep Markuszower.
+
+Jij: per tabel "klopt" of wat er anders moet.
+
+### ☐ C6. Test van de bewaking (uitvoeren)
+
+Testen of je een mail krijgt als de verversing een dag uitblijft. De stappen staan in [onderhoud.md](../onderhoud.md). Duurt een paar minuten, plus wachten op de mail.
+
+## K. Bekijken op de site
+
+### ☐ K1. Onderwerpen, aangepast na je feedback
+
+https://zetelen.vercel.app/onderwerpen
+
+- De stemming over het asielplan opent nu de pagina, met de kop "Eén stemming uit elkaar gehaald". Daarna komt "Nu jij", met de keuzes.
+- Kies twee fracties en klik op een terrein: de dossiers klappen eronder uit. Elk dossier heeft een balk met allebei voor, verschillend en allebei tegen.
+- Klik op een dossier: de stemmingen klappen uit, met de verschillen eerst.
+
+Vraag: is het nu één geheel?
+
+### ☐ K2. Oppositiewerk, aangepast na je feedback
+
+https://zetelen.vercel.app/oppositie
+
+- Hoofdstuk 4: de labels hebben een donkere rand en lopen niet meer over elkaar.
+- Geen gat meer voor hoofdstuk 5: de stippen schuiven door naar de cirkel.
+- Het palet heeft nu 18 tinten in plaats van 10, dus geen twee fracties meer in dezelfde kleur.
+
+Vraag: leesbaar, en loopt de overgang?
+
+### ☐ K3. De voorpagina als geheel
+
+https://zetelen.vercel.app
+
+Vijf hoofdstukken, dan de tegels: 1 hoe zijn we hier gekomen, 2 wie stemt er nu met wie, 3 samen in het kabinet: overal eens?, 4 kun jij er 76 vinden?, 5 en de oppositie?
+
+Vraag: klopt de volgorde, en mist er een overgang?
+
+### ☐ K4. Oppositiewerk als geheel
+
+Vragen:
+- werken de beelden?
+- zijn de lezingenparen eerlijk en onpartijdig?
+- is "een stip is 50 moties" duidelijk?
+
+### ☐ K5. Kamerleden en het blok zetelwerk
+
+- Kamerleden: https://zetelen.vercel.app/kamerleden. Per fractie, dan per Kamerlid, dan de stukken. Of hij live gaat, is B1.
+- Het blok zetelwerk op een fractiepagina, bijvoorbeeld https://zetelen.vercel.app/fracties/d66.
+
+Vraag: klopt het beeld?
+
+### ☐ K6. Teksten
+
+- De nieuwe teksten van de nacht (Oppositiewerk, Kamerleden, zetelwerk). Ze zijn in de toon van de stijlgids geschreven, maar jij hebt ze nog niet gezien.
+- De privacytekst: https://zetelen.vercel.app/privacy (concept).
+
+Vraag: akkoord, of wat moet anders?
+
+## D. Ter informatie (geen actie nodig)
+
+### Wat de livegang van R1 tegenhoudt
+
+Livegang betekent: indexeren aan (`LIVE = true`), het label concept eraf waar dat mag, en de site delen. Per punt: waar het in deze lijst staat.
+
+| Punt | Stand | Waar |
+|---|---|---|
+| Lezingen kiezen en bouwen (E4) | proefpagina staat | B4, daarna ik |
+| Coalitiebouwer uit concept | wacht op lezingen | B4, B7 |
+| Nacontrole cohesie en steekproef uitslagen | klaargezet | C1, C2 |
+| De 8 afwijkende uitslagen | open | C4 |
+| Handmatige tabellen | open | C5 |
+| Analytics (E3-S6) | niet gestart | B5, daarna ik |
+| Reactietermijn en privacytekst | open | B6, K6 |
+| Gebruiksvoorwaarden open data | klaar (CC0, op /methodiek) | |
+| Test bewaking | open | C6 |
+| Kamerleden met namen (R3 in het plan) | live als concept | B1, B2, B3 |
+| Naam en domein | open | B11 |
+| Oppositiewerk en lezingen op de telefoon | open | ik, na K4 |
+| Verversing van verwijderingen | klaar (26 oktober) | |
+| Prestatie-audit na `LIVE = true` | open | ik, als laatste |
+| Push protection | open | B12 |
+
+### Extra rijen bij Agendapunt en Besluit: verklaard en opgelost
 
 **Oorzaak.** De 5 agendapunten en 4 besluiten zijn op 23 oktober 2026 in de bron verwijderd, een paar uur na onze eerste laad. Bij die verwijdering zette de bron `Verwijderd` op waar en maakte hij de koppeling naar de activiteit leeg (`Activiteit_Id` is nu leeg). De verversing vraagt wijzigingen op met het datumfilter via die koppeling (`Activiteit/Datum`) plus `ApiGewijzigdOp`. Een record zonder activiteit valt buiten dat filter, dus de verwijdering komt nooit binnen en bij ons staat het record nog als niet verwijderd.
 
@@ -105,85 +342,7 @@ De berekende cohesie voor dit paar onder Schoof: 79,7% over alle stemmingen (5.5
 
 **Namen uit dit document gehaald (26 oktober 2026, op verzoek van Niels).** In de steekproef zetelwerk staat nu de fractie van de indiener in plaats van de naam, en het onderwerp zonder de namen van de indieners. De publieke log van de Controlequery-run met fractienamen van eenmansfracties (run 40265489488) is door Niels verwijderd; de git-historie blijft zoals hij is (besluit Niels). De andere runs van vandaag geven alleen aantallen en ids.
 
-## Eerst kijken (op de site)
-
-- [ ] **Voorpagina als geheel**, https://zetelen.vercel.app. Loopt het verhaal van begin tot eind?
-  - De hoofdstukken: 1 hoe zijn we hier gekomen, 2 wie stemt er nu met wie, 3 samen in het kabinet: overal eens?, 4 kun jij er 76 vinden?, 5 en de oppositie?
-  - Daarna de tegels naar alle onderdelen.
-  - Vraag: klopt de volgorde, en mist er een overgang?
-- [ ] **Oppositiewerk (nieuw, concept)**, https://zetelen.vercel.app/oppositie. Zes hoofdstukken met bewegende beelden, alle zinnen uit de data.
-  - Vraag: werken de beelden?
-  - Vraag: zijn de lezingenparen eerlijk en onpartijdig geformuleerd?
-  - Vraag: is "een stip is 50 moties" duidelijk genoeg?
-- [ ] **Kamerleden (nieuw, concept)**, https://zetelen.vercel.app/kamerleden. Per fractie, dan per Kamerlid, dan de stukken.
-  - Vraag: mogen de namen zo op de site?
-  - Vraag: is het zonder ranglijst over de hele Kamer goed zo?
-- [ ] **Blok zetelwerk op de fractiepagina's**, bijvoorbeeld https://zetelen.vercel.app/fracties/d66.
-
-## Teksten en toon
-
-- [ ] **Stijlgids:** [tone-of-voice.md](../ontwerp/tone-of-voice.md). Drie open vragen over woorden:
-  1. "fractie" of "partij";
-  2. "één VVD-Kamerlid" bij hoofdelijke stemmingen;
-  3. labels in hoofdletters.
-- [ ] **Alle teksten in de nieuwe toon:** een agent herschreef ze, ik heb ze nagelopen. Het overzicht staat in [alle-teksten.md](../teksten/alle-teksten.md). Drie knipogen wachten op je goedkeuring:
-  - 404: "Hier is nooit gezeteld.";
-  - /wijzigingen: "Er zijn nog geen correcties. We blijven natellen.";
-  - /over: "Er zit geen organisatie of partij achter, alleen nieuwsgierigheid.".
-- [ ] **De nieuwe teksten van deze nacht** (Oppositiewerk, Kamerleden, zetelwerk): in dezelfde toon geschreven, maar nog niet door jou gezien.
-
-## Definities en data (jouw controle)
-
-- [ ] **Zetelwerk:** een steekproef van 20 moties naast tweedekamer.nl. Zie de sectie "Steekproef zetelwerk" hieronder, die ik in de loop van de nacht vul.
-- [ ] **Koppeltabel commissie naar beleidsterrein:** [014_onderwerpen.sql](../../db/migrations/014_onderwerpen.sql), blok `core.beleidsterrein_commissie`.
-- [ ] **Trefwoorden voor beleidsterreinen:** [015_trefwoorden.sql](../../db/migrations/015_trefwoorden.sql), blok `core.beleidsterrein_trefwoord`.
-- [ ] **Kabinetstabel:** [011_coalitie.sql](../../db/migrations/011_coalitie.sql). De samenstelling en de datums van uittreden.
-- [ ] **De controles die al langer openstaan:**
-  - de nacontrole van cohesie;
-  - de steekproef van uitslagen;
-  - de 8 afwijkende uitslagen;
-  - de test met het uitblijvende signaal van healthchecks.
-
-## Keuzes
-
-- [ ] **Lezingen:** kijk op de proefpagina https://zetelen.vercel.app/lezingen (niet in het menu). Daar staan de vier aanbevolen lezingen met een grafiek op echte data en de twee lezingen naast elkaar. Welke komen vast in het verhaal? Zie [lezingen-kandidaten.md](lezingen-kandidaten.md). Mijn advies: 3 (eens tegenover regeerakkoord), 1 en 2 (coalitie), en 6 (asiel). De dynamische lezingen in de tools bouw ik daarna.
-- [ ] **Feedbackronde:** de link naar je vragenlijst, voor `FEEDBACK_URL` in `web/lib/site.ts`, plus de naam van de dienst en de bewaartermijn in de privacytekst.
-- [ ] **Menu:** er staan nu zeven onderdelen in (Verkenner, Onderwerpen, Coalitie, Oppositie, Fracties, Methodiek, Over). Kamerleden staat er niet in, maar is bereikbaar via Oppositiewerk, de fractiepagina's en de tegels. Akkoord, of liever korter?
-- [ ] **Labels "concept":** wanneer mogen ze eraf, en waarvan?
-
-## Wat ik deze nacht deed
-
-Zie de sectie "Verslag" onderaan, die ik aanvul tot ik stop.
-
-## Steekproef zetelwerk
-
-Automatisch vergeleken met de bron (26 oktober 2026, nacht): 19 willekeurige stukken, verspreid over zes kabinetten. **De uitslag, de indiener en diens fractie kloppen 19 van de 19 keer.** Jouw deel: kies er 5 en klik op het nummer, dan zie je op tweedekamer.nl of het klopt.
-
-| Kabinet | Soort | Nummer | Onderwerp (begin) | Wij | Bron (besluittekst) | Fractie indiener volgens bron | Klopt |
-|---|---|---|---|---|---|---|---|
-| Rutte I | Motie | [2010Z18649](https://www.tweedekamer.nl/zoeken?qry=2010Z18649) | ... over een tender gericht op vrouwe | verworpen (57 tegen 93) | verworpen | GroenLinks | ja |
-| Rutte I | Motie | [2011Z00574](https://www.tweedekamer.nl/zoeken?qry=2011Z00574) | ... over minimumhandhavingsstandaarden | verworpen (62 tegen 88) | verworpen | SP | ja |
-| Rutte I | Amendement | [2011Z14134](https://www.tweedekamer.nl/zoeken?qry=2011Z14134) | ... ter vervanging van | aangenomen (76 tegen 74) | aangenomen | PvdA | ja |
-| Rutte II | Motie | [2016Z07435](https://www.tweedekamer.nl/zoeken?qry=2016Z07435) | ... over een gelijk speelveld in alle l | aangenomen (149 tegen 1) | aangenomen | SP | ja |
-| Rutte II | Motie | [2016Z16595](https://www.tweedekamer.nl/zoeken?qry=2016Z16595) | ... over in beeld brengen van de ef | verworpen (34 tegen 115) | verworpen | PvdD | ja |
-| Rutte II | Amendement | [2016Z20784](https://www.tweedekamer.nl/zoeken?qry=2016Z20784) | ... over het versterken | aangenomen (121 tegen 29) | aangenomen | PvdA | ja |
-| Rutte III | Motie | [2018Z12559](https://www.tweedekamer.nl/zoeken?qry=2018Z12559) | ... over een Wsnp-traject zond | verworpen (46 tegen 104) | verworpen | SP | ja |
-| Rutte III | Motie | [2019Z24905](https://www.tweedekamer.nl/zoeken?qry=2019Z24905) | ... over het handhaven van de | aangenomen (150 tegen 0) | aangenomen | SP | ja |
-| Rutte III | Motie | [2020Z05025](https://www.tweedekamer.nl/zoeken?qry=2020Z05025) | ... over een steunpakket voor de c | aangenomen (127 tegen 23) | aangenomen | D66 | ja |
-| Rutte III | Amendement | [2019Z23148](https://www.tweedekamer.nl/zoeken?qry=2019Z23148) | ... over meer landelijke d | aangenomen (117 tegen 33) | aangenomen | VVD | ja |
-| Rutte IV | Motie | [2022Z10177](https://www.tweedekamer.nl/zoeken?qry=2022Z10177) | ... over voorstellen om de u | aangenomen (147 tegen 0) | aangenomen | CDA | ja |
-| Rutte IV | Motie | [2024Z02139](https://www.tweedekamer.nl/zoeken?qry=2024Z02139) | ... over in gesprekken met h | aangenomen (80 tegen 70) | aangenomen | SGP | ja |
-| Rutte IV | Amendement | [2022Z24409](https://www.tweedekamer.nl/zoeken?qry=2022Z24409) | ... ter vervanging van nr. 12 | aangenomen (147 tegen 3) | aangenomen | CDA | ja |
-| Schoof | Motie | [2025Z00585](https://www.tweedekamer.nl/zoeken?qry=2025Z00585) | ... over deelnemen aan de EU Talent P | verworpen (14 tegen 136) | verworpen | Volt | ja |
-| Schoof | Motie | [2024Z15582](https://www.tweedekamer.nl/zoeken?qry=2024Z15582) | ... over een plan van JenV en IenW voo | aangenomen (144 tegen 6) | aangenomen | VVD | ja |
-| Schoof | Amendement | [2025Z13261](https://www.tweedekamer.nl/zoeken?qry=2025Z13261) | ... ter vervanging (gewijzigd amendement) | aangenomen (86 tegen 64) | aangenomen | GroenLinks-PvdA | ja |
-| Jetten | Motie | [2026Z06701](https://www.tweedekamer.nl/zoeken?qry=2026Z06701) | ... over het in kaart brengen van de u | verworpen (42 tegen 108) | verworpen | GroenLinks-PvdA | ja |
-| Jetten | Motie | [2026Z19664](https://www.tweedekamer.nl/zoeken?qry=2026Z19664) | ... over een versnellingsaanpak | aangenomen (131 tegen 19) | aangenomen | D66 | ja |
-| Jetten | Motie | [2026Z03135](https://www.tweedekamer.nl/zoeken?qry=2026Z03135) | ... over aanscherping van de huid | aangenomen (105 tegen 45) | aangenomen | ChristenUnie | ja |
-
-Ook vergeleken: de aantallen per jaar met de telling in de API. In 2010 tellen wij 1.359 moties waarover gestemd is, de API 1.362. In de andere jaren is het verschil net zo klein: een paar stukken waarvan de stemming in de bron ontbreekt of verwijderd is.
-
-## Verslag van de nacht
+### Verslag van de nacht van 25 op 26 oktober
 
 **Gebouwd en live (alles met het label concept)**
 - **Analyse zetelwerk** (migraties 018 en 019): moties en amendementen met indieners, de uitslag uit de stemmen, rol, brede steun en samenwerking. Goed voor 57.401 stukken en 116.906 indieningen. De herbouw duurt 23 seconden.

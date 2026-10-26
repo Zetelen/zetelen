@@ -53,3 +53,16 @@ describe("tinten", () => {
     expect(t.get("X")).not.toBe(t.get("F0"));
   });
 });
+
+describe("palet", () => {
+  it("heeft achttien verschillende tinten, elk met contrast 3 op de achtergrond van de grafieken", async () => {
+    const { TOKENS, contrast } = await import("../lib/kleur");
+    expect(new Set(PALET).size).toBe(18);
+    for (const t of PALET) for (const a of ["nacht-950", "nacht-900", "nacht-800"] as const) expect(contrast(t, TOKENS[a])).toBeGreaterThanOrEqual(3);
+  });
+  it("geeft zeventien fracties die tegelijk in beeld staan elk een eigen tint", () => {
+    const v = Object.fromEntries(Array.from({ length: 17 }, (_, i) => [`F${i}`, 10]));
+    const t = tinten([v]);
+    expect(new Set(t.values()).size).toBe(17);
+  });
+});
