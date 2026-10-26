@@ -28,7 +28,9 @@ describe("oppositie", () => {
       { jaar, soort: "Motie" as const, indiener_rol: "kabinet", ingediend: 100, aangenomen: 90 },
     ]);
     const stappen = hoofdstukJaren(rijen, 2026);
-    expect(stappen).toHaveLength(4);
+    // Drie stappen en daarna de twee interpretaties, elk een eigen stap met een nummer (feedback Niels K2)
+    expect(stappen).toHaveLength(5);
+    expect(stappen.slice(3).map((s) => s.lezing)).toEqual([1, 2]);
     expect(stappen[0].tekst).toContain("In 2010 stemde de Kamer over 1.100 moties. In 2025 over 3.100");
     expect(stappen[0].tekst).toContain("2026 is nog niet om");
     // een stip is 50 moties: 2010 heeft 20 + 2 stippen
