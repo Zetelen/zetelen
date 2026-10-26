@@ -3,7 +3,7 @@
 import { Composition } from "remotion";
 import { CASUS_LIJST } from "./gegevens";
 import { BREED, FPS, HOOG } from "./stijl";
-import { DUUR_EEN_FRACTIE, EenFractie } from "./videos/EenFractie";
+import { EenFractie, duurEenFractie } from "./videos/EenFractie";
 import { DUUR_GELIJK, GelijkeStand } from "./videos/GelijkeStand";
 import { DUUR_HOEFIJZER, Hoefijzer } from "./videos/Hoefijzer";
 import { DUUR_STEMMING, Stemming } from "./videos/Stemming";
@@ -23,7 +23,7 @@ export const VARIANTEN: Array<{ id: string; slug: string; soort: "Weegschaal" | 
 
 // Duur per casus: bij de weegschaal hangt die af van het aantal fracties
 const DUUR: Record<string, (slug: string) => number> = {
-  Weegschaal: duurWeegschaal, Hoefijzer: () => DUUR_HOEFIJZER, GelijkeStand: () => DUUR_GELIJK, EenFractie: () => DUUR_EEN_FRACTIE,
+  Weegschaal: duurWeegschaal, Hoefijzer: () => DUUR_HOEFIJZER, GelijkeStand: () => DUUR_GELIJK, EenFractie: duurEenFractie,
 };
 const COMPONENT = { Weegschaal, Hoefijzer, GelijkeStand, EenFractie };
 
