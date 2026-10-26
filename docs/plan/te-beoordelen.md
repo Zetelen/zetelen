@@ -22,7 +22,36 @@ In deze volgorde; ☑ is gebouwd, getest en live.
 6. ☑ Kamerleden: strakkere tabel met rol als kolom, ranglijst op aandeel aangenomen per rol (vanaf 10 stukken, met twee lezingen), schakelaar tabel of spreidingsdiagram (K5, B2); fractiepagina: klik op een fractie en de onderwerpen klappen uit, tot op dossier en stemming (K5). Graag bekijken: K5
 7. ☐ Vaste lezingen en dynamische lezingen in de tools (B4)
 8. ☐ Reeks casussen "één stemming uit elkaar gehaald" (B16). Kliktabel afwijkende uitslagen (C4): ☑ klaargezet, met een besluit voor jou
-9. ☐ Stappen voor jou: zetelen.nl koppelen (B11), push protection (B12), Analytics aanzetten in Vercel (B5)
+9. ☑ Stappen voor jou uitgeschreven: S1 tot en met S3 hieronder
+
+## Stappen voor jou (uit B5, B11 en B12)
+
+### ☐ S1. Bezoekersstatistieken aanzetten in Vercel (B5)
+
+De code staat er al, maar Vercel telt pas als jij het aanzet.
+1. Ga naar vercel.com, open het project zetelen en klik bovenaan op **Analytics**.
+2. Klik op **Enable**. Kies het gratis plan als Vercel ernaar vraagt.
+3. Open de site en klik een paar pagina's aan. Na een paar minuten zie je de eerste bezoeken onder Analytics.
+
+Gaat het mis? Zie je na een uur nog niets, laat het me weten. Dan kijk ik of de site de juiste versie draait.
+
+### ☐ S2. zetelen.nl aan de site koppelen (B11)
+
+1. **Vercel:** project zetelen, **Settings**, **Domains**. Voeg `zetelen.nl` toe en daarna `www.zetelen.nl`. Kies bij www dat het doorverwijst naar zetelen.nl.
+2. Vercel toont nu per domein welke DNS-records nodig zijn: meestal een **A-record** voor zetelen.nl en een **CNAME** voor www. Laat dat scherm openstaan.
+3. **TransIP:** log in, ga naar **Domeinen**, `zetelen.nl`, tabblad **DNS**. Zet de schakelaar "TransIP-instellingen" uit als die aan staat; anders blijven de oude records staan. Voeg de records toe met precies de waarden die Vercel toont, en verwijder bestaande A- en CNAME-records voor `@` en `www`.
+4. Wacht. Meestal is het binnen een uur klaar, soms duurt het tot een dag. In Vercel wordt het domein dan groen (Valid Configuration), en het https-certificaat regelt Vercel zelf.
+5. Zeg het mij als het groen is. Dan controleer ik de deelafbeeldingen en de sitemap, want die gebruiken het hoofdadres.
+
+Gaat het mis? Blijft Vercel "Invalid Configuration" zeggen, controleer dan of er nog een oud A-record in TransIP staat. Er mag er maar één zijn. De site op zetelen.vercel.app blijft intussen gewoon werken.
+
+### ☐ S3. Push protection aanzetten op GitHub (B12)
+
+1. Ga naar github.com/Zetelen/zetelen, **Settings**.
+2. In het menu links: **Advanced Security** (bij sommige accounts heet het **Code security**).
+3. Zet bij **Secret Protection** de schakelaar **Push protection** aan.
+
+Gaat het mis? Zie je de optie niet, dan heb je waarschijnlijk geen beheerrechten op de organisatie Zetelen. Het werkt verder zonder: gitleaks blijft controleren na elke push.
 
 ## B. Besluiten
 
