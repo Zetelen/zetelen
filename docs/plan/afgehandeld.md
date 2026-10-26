@@ -4,6 +4,7 @@ Alles uit [te-beoordelen.md](te-beoordelen.md) dat beantwoord of gedaan is, met 
 
 ## Recent
 
+- **26 oktober, T1 feedbackformulier getest door Niels**: formulier ingevuld, het antwoord staat in Supabase.
 - **26 oktober, SEO-audit verwerkt** (`3ea05fb`): sitemap, canonicals, vast domein, H1, structured data, titels, permanente omleidingen. Zie [seo-audit.md](seo-audit.md). Licentie: bewust nog niet gekozen (geen noodzaak).
 - **26 oktober, video's**: alle formats in de flitsende stijl, ook het vaste format; behandelvoorbehoud zonder hoefijzer; lopende tekst schuift van links in (`b586016`, `a4dbe04`).
 - **26 oktober, C4 voorbereid**: de drie aannames nagelopen in de API; zie [controles-stappenplan.md](controles-stappenplan.md).

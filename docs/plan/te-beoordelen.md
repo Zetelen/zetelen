@@ -13,8 +13,11 @@ Bijgewerkt op 26 oktober 2026, eind van de middag. Hier staat alleen wat nog ope
 | ☐ K7 | Uitgelicht: omschrijvingen en spreiding | bekijken | nee | hieronder |
 | ☐ K8 | Video's in de nieuwe stijl | bekijken | nee | hieronder |
 | ☐ B17 | Pipeline voor nieuwe casussen: vier vragen | besluit | nee | hieronder |
-| ☐ T1 | Feedbackformulier één keer invullen als test | testen | nee | hieronder |
 | ☐ L1 | Bij de livegang: sitemap indienen en PageSpeed draaien | uitvoeren | nee, na de livegang | hieronder |
+
+## Je feedback van 26 oktober (mail)
+
+Volledig in [feedback-2026-10-26.md](feedback-2026-10-26.md). Ik verwerk hem; de K-punten hieronder blijven open tot je de nieuwe versie gezien hebt. Antwoorden op B17: één video per week, wachtrij in een private repository akkoord, Bluesky automatisch na je akkoord op tekst en video; vraag 4 (kosten) beantwoord in de chat.
 
 ## C. Controles (morgen)
 
@@ -59,12 +62,6 @@ Plan in [video-pipeline.md](video-pipeline.md): ontdekken in de data (ook samenw
 2. Akkoord met de wachtrij in een private repository?
 3. Bluesky automatisch plaatsen na je akkoord, of ook daar met de hand?
 4. Budget voor de Claude API (voorstel: hooguit 10 euro per maand)?
-
-## T. Testen
-
-### ☐ T1. Feedbackformulier
-
-Vul het formulier op https://zetelen.nl/feedback één keer in. Kijk daarna in Supabase (Table Editor, schema `beheer`, tabel `feedback`) of je antwoord er staat. Staat het er niet, zeg het: dan kijk ik in de logs van Vercel.
 
 ## L. Bij de livegang
 
