@@ -4,13 +4,14 @@
 import { type ReactNode, useEffect, useRef } from "react";
 import s from "./onderdelen.module.css";
 
-export function Inklapbaar({ titel, children, className }: { titel: string; children: ReactNode; className?: string }) {
+// Met dicht begint het blok ook op een breed scherm ingeklapt
+export function Inklapbaar({ titel, children, className, dicht = false }: { titel: string; children: ReactNode; className?: string; dicht?: boolean }) {
   const ref = useRef<HTMLDetailsElement>(null);
   useEffect(() => {
     if (ref.current && matchMedia("(max-width: 640px)").matches) ref.current.open = false;
   }, []);
   return (
-    <details ref={ref} open className={s.inklapbaar}>
+    <details ref={ref} open={!dicht} className={s.inklapbaar}>
       <summary>{titel}</summary>
       <div className={className}>{children}</div>
     </details>

@@ -28,5 +28,6 @@ export function siteUrl(): URL {
   return new URL(host ? `https://${host}` : "http://localhost:3000");
 }
 
-// Publieke pagina's, voor de sitemap
-export const PAGINAS = ["/", "/verkenner", "/onderwerpen", "/coalitie", "/oppositie", "/uitgelicht", "/fracties", ...(KAMERLEDEN ? ["/kamerleden"] : []), "/methodiek", "/wijzigingen", "/over"];
+// Publieke pagina's, voor de sitemap. /uitgelicht staat er niet in: die stuurt door naar de nieuwste stemming, en
+// de stemmingen zelf staan in de sitemap (app/sitemap.ts)
+export const PAGINAS = ["/", "/verkenner", "/onderwerpen", "/coalitie", "/oppositie", "/fracties", ...(KAMERLEDEN ? ["/kamerleden"] : []), "/methodiek", "/wijzigingen", "/over"];

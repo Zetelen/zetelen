@@ -5,9 +5,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { JsonLd, MAKER } from "@/components/JsonLd";
 import { Inhoud } from "@/components/Kader";
-import { HoofdstukKop } from "@/components/Onderdelen";
+import { HoofdstukKop, Lezingen } from "@/components/Onderdelen";
 import { Data, HeroKop, Label, Tekst } from "@/components/Typografie";
 import { ScrollVerhaal } from "@/components/verhaal/ScrollVerhaal";
+import { CasusKiezer } from "@/components/verhaal/CasusKiezer";
+import { Inklapbaar } from "@/components/Inklapbaar";
 import { lijst, zoekLink } from "@/lib/uitgelicht";
 import { UITGELICHT } from "@/lib/uitgelichtLijst";
 import { DOMEIN } from "@/lib/site";
@@ -40,12 +42,24 @@ export default async function CasusPagina({ params }: Props) {
       {/* Article met maker; zonder publicatiedatum, want die houden we per casus niet bij */}
       <JsonLd data={{ "@context": "https://schema.org", "@type": "Article", headline: u.titel, description: u.vraag, author: MAKER, inLanguage: "nl", url: `${DOMEIN}/uitgelicht/${u.slug}` }} />
       <section className={s.blok}>
+        <CasusKiezer casussen={UITGELICHT.map((c) => ({ slug: c.slug, titel: c.titel, jaar: c.datums[0].slice(0, 4) }))} gekozen={u.slug} />
         <Label>Uitgelicht · {datums}</Label>
         <HeroKop>{u.vraag}</HeroKop>
         <Tekst>
-          Eén hoofdelijke stemming van dichtbij. Scroll door de stappen: de zaal valt uiteen in voor, tegen en per fractie.{" "}
-          <Link href="/uitgelicht">Alle uitgelichte stemmingen</Link>
+          Eén hoofdelijke stemming van dichtbij. Scroll door de stappen: de zaal valt uiteen in voor, tegen en per fractie.
         </Tekst>
+        {/* De inleiding van de reeks, die eerst op /uitgelicht stond (die opent nu meteen een stemming) */}
+        <Inklapbaar titel="Waarom deze stemmingen?" dicht>
+          <Tekst>
+            Het zijn allemaal hoofdelijke stemmingen: elk Kamerlid stemt apart, en de bron legt elke stem vast. Bij gewoon
+            handopsteken telt de fractie als één stem. We kozen ze met de hand, op spreiding: over de jaren en kabinetten,
+            ingediend door fracties van links, midden en rechts, uit kabinet en oppositie. Een andere keuze had net zo goed gekund.
+          </Tekst>
+          <Lezingen
+            links={{ titel: "Eén stemming zegt veel", tekst: "Je ziet wat bij handopsteken verdwijnt: wie in een fractie anders stemt, wie er niet is, en hoe krap het was." }}
+            rechts={{ titel: "Eén stemming zegt weinig", tekst: "Hoofdelijk stemmen is een uitzondering. Hoe de Kamer meestal stemt, zie je pas in duizenden stemmingen samen." }}
+          />
+        </Inklapbaar>
       </section>
 
       <section id="stemming" className={s.graphic}>
@@ -60,7 +74,7 @@ export default async function CasusPagina({ params }: Props) {
 
       <nav className={s.verder} aria-label="Andere uitgelichte stemmingen">
         {vorige ? <Link href={`/uitgelicht/${vorige.slug}`}>← {vorige.titel}</Link> : <span />}
-        {volgende ? <Link href={`/uitgelicht/${volgende.slug}`}>{volgende.titel} →</Link> : <Link href="/uitgelicht">Alle uitgelichte stemmingen →</Link>}
+        {volgende ? <Link href={`/uitgelicht/${volgende.slug}`}>{volgende.titel} →</Link> : <span />}
       </nav>
     </Inhoud>
   );
