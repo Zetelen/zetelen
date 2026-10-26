@@ -10,6 +10,11 @@ export const SITE = {
 
 export const LIVE = false;
 
+// Conceptvlag voor de pagina Kamerleden (besluit Niels B1, 26 oktober 2026). Uit: de pagina geeft een 404 en alle
+// links ernaartoe en de vermelding in de sitemap verdwijnen. Aan sinds B2 (ranglijst) en B3 (verwijderverzoek)
+// besloten zijn; voor de livegang nog een keer nalopen.
+export const KAMERLEDEN = true;
+
 // Feedbackronde (besluit Niels, 25 oktober 2026): een vaste vragenlijst bij een externe dienst. Niels maakt het
 // formulier; zolang het adres leeg is, toont de site geen feedbackknop.
 export const FEEDBACK_URL = "";
@@ -21,4 +26,4 @@ export function siteUrl(): URL {
 }
 
 // Publieke pagina's, voor de sitemap
-export const PAGINAS = ["/", "/verkenner", "/onderwerpen", "/coalitie", "/oppositie", "/fracties", "/kamerleden", "/methodiek", "/wijzigingen", "/over"];
+export const PAGINAS = ["/", "/verkenner", "/onderwerpen", "/coalitie", "/oppositie", "/fracties", ...(KAMERLEDEN ? ["/kamerleden"] : []), "/methodiek", "/wijzigingen", "/over"];

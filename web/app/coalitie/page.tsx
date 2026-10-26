@@ -62,7 +62,7 @@ export default async function Coalitie({ searchParams }: Props) {
           </MobielPaneel>
         </Suspense>
       )}
-      <Inklapbaar titel="Zo lees je dit">
+      <Inklapbaar titel="Hoe lees je dit?">
         <Tekst>
           Eensgezind: alle fracties in je groep stemden hetzelfde, allemaal voor of allemaal tegen. Meegestemd: een andere fractie
           koos dezelfde kant. Beslissend: de groep had een meerderheid, en zonder die fractie niet meer. De zetels tellen zoals ze

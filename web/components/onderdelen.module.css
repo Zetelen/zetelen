@@ -152,13 +152,12 @@
   will-change: transform;
   transform: translateZ(0);
 }
+/* Uitleglabel als vraag in gewone letters (besluit Niels B9c, 26 oktober 2026) */
 .inklapbaar > summary {
   cursor: pointer;
   list-style: none;
-  font-size: var(--tekst-label);
+  font-size: 15px;
   font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
   color: var(--koper);
   min-height: var(--doel-min);
   display: flex;

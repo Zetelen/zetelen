@@ -28,7 +28,11 @@ export default function Privacy() {
       </section>
       <section style={sectie}>
         <SectieKop>Bezoekersstatistieken</SectieKop>
-        <Tekst>Nog niet gekozen. We vullen deze tekst aan voordat we statistieken bijhouden.</Tekst>
+        <Tekst>
+          Zetelen telt bezoeken met Vercel Web Analytics. Dat werkt zonder cookies en zonder je over websites heen te volgen.
+          Geteld wordt welke pagina&apos;s bezocht worden, met land, browser en type apparaat. Er wordt geen profiel van je
+          gemaakt, en een bezoek is na een dag niet meer aan een eerder bezoek te koppelen.
+        </Tekst>
       </section>
       <section style={sectie}>
         <SectieKop>Feedback</SectieKop>
@@ -42,7 +46,9 @@ export default function Privacy() {
         <SectieKop>Kamerleden</SectieKop>
         <Tekst>
           Van Kamerleden gebruikt Zetelen alleen naam, fractie en stemgedrag uit de open data van de Tweede Kamer. Geen
-          geboortedatum, woonplaats of andere persoonsgegevens. Vragen of een verzoek? Mail{" "}
+          geboortedatum, woonplaats of andere persoonsgegevens. Het gaat om openbare stemmingen en stukken uit een openbare bron.
+          Daarom blijven ze staan, ook als een Kamerlid vraagt ze weg te halen. Klopt er iets niet, dan herstellen we het
+          binnen 5 werkdagen en melden we het in het wijzigingslog. Vragen of een verzoek? Mail{" "}
           <a href={`mailto:${SITE.contact}`}>{SITE.contact}</a>.
         </Tekst>
       </section>

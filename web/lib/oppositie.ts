@@ -3,6 +3,7 @@
 // Alle zinnen worden uit de cijfers opgebouwd; een lezing is altijd een paar, de lezer kiest.
 import { getal } from "./cohesie";
 import { type Kleur, KORT, PALET, type Pad, type Stap, type Stip, type Tekstlabel, rond, tinten } from "./verhaal";
+import { KAMERLEDEN } from "./site";
 import { type FractieWerk, type JaarWerk, type PeriodeWerk, type Stuk, type Verbinding, MINIMUM } from "./zetelwerk";
 
 export const ROL_TINT: Record<string, string> = { oppositie: "#7fb7c9", kabinet: "#d2bb5a", gemengd: "#b9bfcc", onbekend: "#6d7590" };
@@ -112,7 +113,7 @@ export function hoofdstukKabinetten(rijen: PeriodeWerk[], kabinetten: string[], 
         datum: "wat haalt het?",
         tekst: `Aangenomen amendementen van de oppositie, per kabinet: ${lijst}. Het hoogste aandeel: onder kabinet-${hoogste}.`,
         stippen: bouw("aangenomen"), labels: [...labels, ...legenda(-20)],
-        link: { href: "/kamerleden?stuk=Amendement", tekst: "Wie dienden de amendementen in?" },
+        link: KAMERLEDEN ? { href: "/kamerleden?stuk=Amendement", tekst: "Wie dienden de amendementen in?" } : undefined,
       },
     ];
   }
@@ -288,7 +289,7 @@ export function hoofdstukNetwerk(perKabinet: Array<{ kabinet: string; verbinding
         const a = plek.get(v.fractie_a)!, b = plek.get(v.fractie_b)!;
         return { d: `M${a.x},${a.y} Q500,235 ${b.x},${b.y}`, breedte: rond(0.6 + (8 * v.stukken) / max), tint: grens(v) ? "#e0915a" : "#566aa6", zacht: !grens(v) };
       }),
-      link: i === perKabinet.length - 1 ? { href: "/kamerleden", tekst: "Wie dienden wat in?" } : undefined,
+      link: i === perKabinet.length - 1 && KAMERLEDEN ? { href: "/kamerleden", tekst: "Wie dienden wat in?" } : undefined,
     };
   });
 }

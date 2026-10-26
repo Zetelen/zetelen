@@ -1,7 +1,9 @@
 "use client";
-// Hoofdmenu; markeert de huidige pagina (aria-current)
+// Hoofdmenu; markeert de huidige pagina (aria-current). Op een smal scherm achter een menuknop
+// (besluit Niels B8, 26 oktober 2026); het menu sluit vanzelf na het kiezen van een pagina.
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Woordmerk } from "./Typografie";
 import s from "./kader.module.css";
 
@@ -18,6 +20,8 @@ const MENU = [
 
 export function Navigatie() {
   const pad = usePathname();
+  const [open, setOpen] = useState(false);
+  useEffect(() => setOpen(false), [pad]);
   return (
     <header>
       <a href="#inhoud" className={s.overslaan}>
@@ -25,7 +29,10 @@ export function Navigatie() {
       </a>
       <nav className={s.nav} aria-label="Hoofdmenu">
         <Woordmerk />
-        <ul className={s.links}>
+        <button type="button" className={s.menuKnop} aria-expanded={open} aria-controls="hoofdmenu" onClick={() => setOpen((o) => !o)}>
+          {open ? "Sluit" : "Menu"}
+        </button>
+        <ul className={s.links} id="hoofdmenu" data-open={open}>
           {MENU.map((m) => (
             <li key={m.href}>
               <Link href={m.href} aria-current={pad === m.href || pad.startsWith(`${m.href}/`) ? "page" : undefined}>

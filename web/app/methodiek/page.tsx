@@ -68,7 +68,8 @@ export default function Methodiek() {
         </Tekst>
         <Tekst>
           Fout gezien? Mail <a href={`mailto:${SITE.contact}`}>{SITE.contact}</a> of meld het op{" "}
-          <a href={`${SITE.broncode}/issues`}>GitHub</a>. Correcties staan in het <Link href="/wijzigingen">wijzigingslog</Link>.
+          <a href={`${SITE.broncode}/issues`}>GitHub</a>. Je krijgt binnen 5 werkdagen antwoord. Correcties staan in het{" "}
+          <Link href="/wijzigingen">wijzigingslog</Link>.
         </Tekst>
       </section>
     </Inhoud>

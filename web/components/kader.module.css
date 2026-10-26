@@ -40,11 +40,40 @@
 .links a[aria-current="page"] {
   color: var(--tekst);
 }
-/* Smal scherm: het menu loopt door op een tweede regel in plaats van van het scherm af te vallen */
+.menuKnop {
+  display: none;
+}
+/* Smal scherm: het menu zit achter een knop en klapt uit als lijst onder de kop */
 @media (max-width: 760px) {
+  .menuKnop {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--doel-min);
+    padding: 0 var(--r-4);
+    border: 1px solid var(--lijn-licht);
+    border-radius: var(--hoek-pil);
+    background: transparent;
+    color: var(--tekst);
+    font: inherit;
+    font-size: 15px;
+    cursor: pointer;
+  }
   .links {
-    flex-wrap: wrap;
-    gap: 0 var(--r-4);
+    display: none;
+    flex-basis: 100%;
+    flex-direction: column;
+    gap: 0;
+    border-top: 1px solid var(--lijn);
+  }
+  .links[data-open="true"] {
+    display: flex;
+  }
+  .links li {
+    border-bottom: 1px solid var(--lijn);
+  }
+  .links a {
+    width: 100%;
+    font-size: 17px;
   }
 }
 .inhoud {

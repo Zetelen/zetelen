@@ -126,7 +126,7 @@ export default async function Onderwerpen({ searchParams }: Props) {
           kozen. Kies er een tweede bij en vergelijk het paar per onderwerp. Klik dan op een terrein: de dossiers en stemmingen
           erachter klappen eronder uit.
         </Tekst>
-        <Inklapbaar titel="Zo lees je dit">
+        <Inklapbaar titel="Hoe lees je dit?">
           <Tekst>
             Elke stemming hoort bij een Kamerstukdossier, en elk dossier bij een beleidsterrein. Dat gaat via een trefwoord in de
             titel (asiel, wonen, digitaal), en anders via de vaste commissie die het dossier het vaakst behandelt. Hoort een

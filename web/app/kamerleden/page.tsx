@@ -3,6 +3,7 @@
 // Bewust geen ranglijst over de hele Kamer: kabinet en oppositie zijn niet te vergelijken (zie het plan).
 import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { Bronregel } from "@/components/cohesie/Bronregel";
 import { PeriodeKeuze } from "@/components/cohesie/PeriodeKeuze";
@@ -12,6 +13,7 @@ import { MobielPaneel } from "@/components/MobielPaneel";
 import { Data, Label, SectieKop, Tekst } from "@/components/Typografie";
 import { FractieTabel, KamerledenTabel } from "@/components/zetelwerk/Tabellen";
 import { getal, keuzeUitUrl, perioden } from "@/lib/cohesie";
+import { KAMERLEDEN } from "@/lib/site";
 import { STUKKEN, type Stuk, fractieWerk, kamerleden, persoonWerk, stukkenVan } from "@/lib/zetelwerk";
 import o from "@/components/onderwerpen/onderwerpen.module.css";
 import s from "@/components/zetelwerk/zetelwerk.module.css";
@@ -26,6 +28,7 @@ type Props = { searchParams: Promise<Record<string, string | string[] | undefine
 const UUID = /^[0-9a-f-]{36}$/;
 
 export default async function Kamerleden({ searchParams }: Props) {
+  if (!KAMERLEDEN) notFound();
   const zoek = await searchParams;
   const waarde = (k: string) => (Array.isArray(zoek[k]) ? zoek[k]?.[0] : zoek[k]) as string | undefined;
   const lijst = await perioden();
@@ -54,7 +57,7 @@ export default async function Kamerleden({ searchParams }: Props) {
           Stemmen is één kant van zetelen. De andere: zelf iets op tafel leggen. Een motie vraagt het kabinet iets te doen, een
           amendement verandert een wet. Kies een fractie en zie wie er wat indiende.
         </Tekst>
-        <Inklapbaar titel="Zo lees je dit">
+        <Inklapbaar titel="Hoe lees je dit?">
           <Tekst>
             Ingediend: het Kamerlid of de fractie staat als indiener op het stuk. Mede ingediend: als medeindiener. Aangenomen: meer
             zetels voor dan tegen, geteld uit de stemmen zelf. Brede steun: aangenomen met stemmen van een kabinets- én een

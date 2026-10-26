@@ -49,7 +49,7 @@ export default async function VerkennerPagina({ searchParams }: Props) {
         </Suspense>
       )}
 
-      <Inklapbaar titel="Zo lees je dit" className={s.leeswijzer}>
+      <Inklapbaar titel="Hoe lees je dit?" className={s.leeswijzer}>
           <Tekst>
             Kies een fractie in de lijst en kijk wie er meekleurt. Lichte stoelen stemden vaak hetzelfde, donkere zelden.
             Gestreept: te weinig stemmingen samen, dus geen oordeel.

@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { DM_Mono, Hanken_Grotesk, Newsreader } from "next/font/google";
 import type { ReactNode } from "react";
@@ -42,6 +43,8 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <FeedbackBalk />
         {children}
         <Voet ververst={ververst} />
+        {/* Bezoekersstatistieken zonder cookies (besluit Niels B5, 26 oktober 2026); telt pas als Niels het in Vercel aanzet */}
+        <Analytics />
       </body>
     </html>
   );

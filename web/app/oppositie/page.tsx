@@ -1,6 +1,7 @@
 // Oppositiewerk (concept, component zetelwerk): "Wat kun je als je niet regeert?" Een scrollverhaal in zes
 // hoofdstukken over moties en amendementen sinds 2010, met elk een bewegend beeld en een lezingenpaar.
 // Plan: docs/plan/08-componenten/zetelwerk.md. Alle zinnen en plekken komen uit de data (lib/oppositie.ts).
+import { KAMERLEDEN } from "@/lib/site";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Bronregel } from "@/components/cohesie/Bronregel";
@@ -64,7 +65,7 @@ export default async function Oppositie() {
           hoeveel zetelwerk die fractie verzette.
         </Tekst>
         <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--r-3)" }}>
-          <Link href="/kamerleden" className={knopKlasse}>Naar de Kamerleden</Link>
+          {KAMERLEDEN && <Link href="/kamerleden" className={knopKlasse}>Naar de Kamerleden</Link>}
           <Link href="/fracties" className={knopKlasse}>Naar de fracties</Link>
           <Link href="/coalitie" className={knopKlasse}>Zelf een meerderheid zoeken</Link>
         </div>

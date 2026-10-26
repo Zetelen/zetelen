@@ -1,5 +1,6 @@
 // Fractiepagina (E2-S6): met wie stemt deze fractie het vaakst hetzelfde, per periode.
 // Stabiele URL per afkorting: /fracties/pvv. Periode en variant in de URL, net als in de verkenner.
+import { KAMERLEDEN } from "@/lib/site";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -129,7 +130,7 @@ export default async function FractiePagina({ params, searchParams }: Props) {
               </Tekst>
               <Data>
                 {eigenWerk[0].rol === "kabinet" ? `${f.afkorting} zat in deze periode vooral in het kabinet.` : `${f.afkorting} zat in deze periode vooral in de oppositie.`}{" "}
-                <Link href={`/kamerleden?${new URLSearchParams({ soort, periode: periode.naam, fractie: f.afkorting }).toString()}#leden`}>Wie dienden wat in?</Link>
+                {KAMERLEDEN && <Link href={`/kamerleden?${new URLSearchParams({ soort, periode: periode.naam, fractie: f.afkorting }).toString()}#leden`}>Wie dienden wat in?</Link>}
               </Data>
             </section>
           )}

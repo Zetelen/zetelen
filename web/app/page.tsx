@@ -1,6 +1,7 @@
 // Voorpagina (E3-S1), herzien op 25 oktober 2026: het verhaal van de site in hoofdstukken, die elk eindigen
 // bij de plek op de site waar je verder kunt kijken (besluit Niels). Hoofdstuk 3 (onderwerpen) laat de twee
 // grootste kabinetspartijen per beleidsterrein zien (component onderwerpen).
+import { KAMERLEDEN } from "@/lib/site";
 import Link from "next/link";
 import { Inhoud, knopKlasse } from "@/components/Kader";
 import { Bronregel } from "@/components/cohesie/Bronregel";
@@ -19,7 +20,7 @@ const TOOLS = [
   { href: "/coalitie", titel: "Coalitiebouwer", tekst: "Stel zelf een groep fracties samen en zie bij wie die een meerderheid haalde.", concept: true },
   { href: "/oppositie", titel: "Oppositiewerk", tekst: "Wat kun je als je niet regeert? Zestien jaar moties en amendementen.", concept: true },
   { href: "/fracties", titel: "Fracties", tekst: "Alle fracties sinds 2010: zetels, kabinet of oppositie, en wie er overstapte." },
-  { href: "/kamerleden", titel: "Kamerleden", tekst: "Wie diende wat in, en wat haalde het? Per fractie en per Kamerlid.", concept: true },
+  ...(KAMERLEDEN ? [{ href: "/kamerleden", titel: "Kamerleden", tekst: "Wie diende wat in, en wat haalde het? Per fractie en per Kamerlid.", concept: true }] : []),
   { href: "/methodiek", titel: "Methodiek", tekst: "Hoe de cijfers tot stand komen, wat ze wel en niet zeggen, en wat er veranderde." },
 ];
 
