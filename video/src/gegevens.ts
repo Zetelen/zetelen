@@ -6,6 +6,7 @@ import { KORT, type Stemming, stemZaal, tinten } from "../../web/lib/verhaal";
 
 export type VideoCasus = {
   slug: string;
+  titel: string;
   vraag: string;
   omschrijving: string;
   zaak: string;
@@ -15,10 +16,10 @@ export type VideoCasus = {
 
 export const CASUS_LIJST: VideoCasus[] = [
   ...CASUSSEN.map((c) => ({
-    slug: c.slug, vraag: c.vraag, omschrijving: c.omschrijving, zaak: c.data.zaak, soort: c.data.soort ?? "Stemming", besluiten: c.data.besluiten,
+    slug: c.slug, titel: c.titel, vraag: c.vraag, omschrijving: c.omschrijving, zaak: c.data.zaak, soort: c.data.soort ?? "Stemming", besluiten: c.data.besluiten,
   })),
   {
-    slug: "motie-eerdmans", vraag: "Wie stemt voor het uitwerken van het asielplan?", zaak: eerdmans.zaak, soort: "Motie",
+    slug: "motie-eerdmans", titel: "Het asielplan uitwerken", vraag: "Wie stemt voor het uitwerken van het asielplan?", zaak: eerdmans.zaak, soort: "Motie",
     omschrijving: "Een week na de val van kabinet-Schoof stemt de Kamer over een motie: werk het asielplan uit en voer het waar mogelijk uit.",
     besluiten: [{
       datum: eerdmans.datum, besluitSoort: "Stemmen - verworpen", besluitTekst: eerdmans.uitslag, stemmen: eerdmans.stemmen as Stemming,

@@ -6,8 +6,8 @@
 import { AbsoluteFill, interpolate, random, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { KLEIN, VOORGANGER, type ZaalStip, sleutels, tinten, zaal } from "../../../web/lib/verhaal";
 import tijdlijn from "../gegevens/tijdlijn.json";
-import { datumTekst, lijstTekst, naam } from "../gegevens";
-import { Banner, Camera, Flits, Geluid, type Shot, Sprong, Stempel, Woorden, ZWAAR } from "../flits";
+import { lijstTekst, naam } from "../gegevens";
+import { Camera, Flits, Geluid, type Shot, Sprong, Stempel, Woorden, ZWAAR } from "../flits";
 import { Achtergrond, Eind, Merk, zacht } from "../onderdelen";
 import { K, LETTER, VEILIG } from "../stijl";
 
@@ -74,6 +74,48 @@ function duurTekst(van: string, tot: string): string {
 const HAAK = 84, PER = 126, EIND = 150;
 export const DUUR_TIJDLIJN = HAAK + M.length * PER + EIND;
 const S = 1.06, MY = 1120; // zaal: schaal en hoogte van het midden
+
+// Vaste tijdas bovenin (feedback Niels 26 oktober: één vast onderdeel geeft rust). Van de start van Rutte IV tot nu,
+// met een stip per moment: gepasseerd koper, nog te komen open. Een cursor schuift mee en draagt de datum.
+const AS = { x0: VEILIG.zij, x1: 1080 - VEILIG.zij, y: 268 };
+const tijd = (d: string) => new Date(`${d}T12:00:00`).getTime();
+const T0 = tijd(M[0].datum), T1 = tijd(M[M.length - 1].datum);
+const opAs = (d: string | number) => AS.x0 + ((typeof d === "number" ? d : tijd(d)) - T0) / (T1 - T0) * (AS.x1 - AS.x0);
+const kortDatum = (ms: number) => new Date(ms).toLocaleDateString("nl-NL", { day: "numeric", month: "short", year: "numeric" });
+
+function Tijdas({ i, lokaal, zicht }: { i: number; lokaal: number; zicht: number }) {
+  const s = interpolate(lokaal, [0, 30], [0, 1], { ...zacht, easing: (q) => 0.5 - Math.cos(Math.PI * q) / 2 });
+  const nu = i === 0 ? T0 : tijd(M[i - 1].datum) + (tijd(M[i].datum) - tijd(M[i - 1].datum)) * s;
+  const cx = opAs(nu);
+  const jaren: number[] = [];
+  for (let j = new Date(T0).getFullYear() + 1; j <= new Date(T1).getFullYear(); j++) jaren.push(j);
+  const labelX = Math.max(AS.x0 + 90, Math.min(AS.x1 - 90, cx));
+  return (
+    <svg width={1080} height={340} style={{ position: "absolute", top: 0, left: 0, opacity: zicht }}>
+      <line x1={AS.x0} x2={AS.x1} y1={AS.y} y2={AS.y} stroke={K.lijn} strokeWidth={4} strokeLinecap="round" />
+      <line x1={AS.x0} x2={cx} y1={AS.y} y2={AS.y} stroke={K.koper} strokeWidth={4} strokeLinecap="round" />
+      {jaren.map((j) => {
+        const x = opAs(`${j}-01-01`);
+        return (
+          <g key={j}>
+            <line x1={x} x2={x} y1={AS.y + 10} y2={AS.y + 20} stroke={K.lijnLicht} strokeWidth={2} />
+            <text x={x} y={AS.y + 50} textAnchor="middle" fontFamily={LETTER.mono} fontSize={24} fill={K.zacht}>{j}</text>
+          </g>
+        );
+      })}
+      {M.map((m, k) => {
+        const x = opAs(m.datum), voorbij = tijd(m.datum) <= nu + 1;
+        const r = k === i ? 11 : 7;
+        const kleur = voorbij ? (m.soort === "verkiezing" ? K.tekst : K.koper) : K.nacht950;
+        return m.soort === "verkiezing"
+          ? <rect key={k} x={x - r} y={AS.y - r} width={2 * r} height={2 * r} transform={`rotate(45 ${x} ${AS.y})`} fill={kleur} stroke={voorbij ? kleur : K.lijnLicht} strokeWidth={3} />
+          : <circle key={k} cx={x} cy={AS.y} r={r} fill={kleur} stroke={voorbij ? kleur : K.lijnLicht} strokeWidth={3} />;
+      })}
+      <line x1={cx} x2={cx} y1={AS.y - 46} y2={AS.y - 14} stroke={K.koper} strokeWidth={3} />
+      <text x={labelX} y={AS.y - 56} textAnchor="middle" fontFamily={ZWAAR} fontWeight={800} fontSize={30} letterSpacing="0.04em" fill={K.koper}>{kortDatum(nu).toUpperCase()}</text>
+    </svg>
+  );
+}
 
 export function Tijdlijn() {
   const frame = useCurrentFrame();
@@ -171,8 +213,8 @@ export function Tijdlijn() {
         </Camera>
 
         {/* Kop van het moment */}
-        <div style={{ position: "absolute", top: VEILIG.boven + 30, left: VEILIG.zij, right: VEILIG.zij, display: "flex", flexDirection: "column", gap: 18 }}>
-          <div><Banner key={`b${i}`} bij={start + 2} tot={start + PER}>{datumTekst(mo.datum)}</Banner></div>
+        <Tijdas i={i} lokaal={lokaal} zicht={1} />
+        <div style={{ position: "absolute", top: 370, left: VEILIG.zij, right: VEILIG.zij, display: "flex", flexDirection: "column", gap: 18 }}>
           <Woorden key={`k${i}`} tekst={mo.kop} bij={start + 6} tot={start + PER} grootte={mo.soort === "verkiezing" ? 120 : 96} />
           <Woorden key={`s${i}`} tekst={mo.sub} bij={start + 20} tot={start + PER} grootte={42} zwaar={false} kleur={K.zacht} />
         </div>
