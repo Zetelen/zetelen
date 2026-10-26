@@ -34,6 +34,8 @@ docs/plan/    Dit plan
 - **Een bestaand bestand wordt niet aangepast zonder dat Niels de wijziging eerst ziet.**
 - **Niets is "klaar" zonder draaiende tests.** Een component dat niet getest is, heeft status "in bouw", ook als de code er staat.
 - **Interfacewijzigingen worden expliciet gemeld.** Verander je een tabel, een view, een functie of een endpoint waar een ander component op leunt, meld dat in het antwoord en werk het componentbestand bij.
+- **Voor elke push de build en de tests zoals CI ze draait.** Dus `npm run build` in `web/` zonder database-variabelen (zonder `.env.local`), plus de tests (pytest en vitest). Reden: op 25 oktober 2026 faalde CI 11 keer achter elkaar op `main` en kreeg Niels voor elke run een mail.
+- **Is CI op `main` rood, dan niet verder pushen tot het opgelost is.** Eén herstelcommit, daarna controleren dat CI groen is.
 - **Het eind van elke taak is een korte samenvatting voor Niels:** wat is er gebouwd, wat is getest, wat valt op. Niels reviewt en moet het kunnen navertellen aan een ander. Kies dus de eenvoudigste oplossing die werkt.
 
 ## Voorstellen die Niels nog kan wijzigen
