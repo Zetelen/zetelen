@@ -15,9 +15,9 @@ Een Remotion-project in `video/` dat de gegevens en rekenfuncties van de site he
 
 | Format | Wanneer | Beeld | Duur |
 |---|---|---|---|
-| **Stemming** (vast) | Elke stemming | Vraag, zaal van 150, de zaal valt uiteen in voor en tegen, wat valt op, uitslag | 34 s |
+| **Stemming** (vast) | Elke stemming | Titel, zaal van 150, de zaal valt uiteen in voor en tegen, wat valt op, uitslag | 31 s |
 | **Weegschaal** | Krap: hooguit 2 stemmen verschil | Fracties vallen afwisselend in de schaal, de balk kantelt mee | 32 s |
-| **Hoefijzer** | De uiteinden van de rij stemmen gelijk en het midden anders | 150 stemmen op een rij, die dichtbuigt | 32 s |
+| **Hoefijzer** | De uiteinden van de rij stemmen gelijk en het midden anders (alleen Mercosur; behandelvoorbehoud krijgt het vaste format, besluit Niels 26 oktober) | 150 stemmen op een rij, die dichtbuigt | 33 s |
 | **Gelijke stand** | De stemmen staakten | Twee scoreborden, en wat er in een week veranderde | 32 s |
 | **Eén fractie** | Een fractie stemt verdeeld, of er is een vergissing | Inzoomen op de Kamerleden van één fractie | 36 s |
 | **Tijdlijn** | Van Rutte IV tot nu | De zaal als timelapse, scorebord tegen 76 | 40 s |

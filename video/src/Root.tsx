@@ -15,7 +15,6 @@ export const VARIANTEN: Array<{ id: string; slug: string; soort: "Weegschaal" | 
   { id: "Weegschaal-gehandicaptenzorg", slug: "gehandicaptenzorg", soort: "Weegschaal" },
   { id: "Weegschaal-live-weddenschappen", slug: "live-weddenschappen", soort: "Weegschaal" },
   { id: "Hoefijzer-mercosur", slug: "mercosur", soort: "Hoefijzer" },
-  { id: "Hoefijzer-behandelvoorbehoud", slug: "behandelvoorbehoud-defensie", soort: "Hoefijzer" },
   { id: "GelijkeStand-studievoorschot", slug: "studievoorschot", soort: "GelijkeStand" },
   { id: "EenFractie-ritueel-slachten", slug: "ritueel-slachten", soort: "EenFractie" },
   { id: "EenFractie-motie-eerdmans", slug: "motie-eerdmans", soort: "EenFractie" },

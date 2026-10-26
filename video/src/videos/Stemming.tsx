@@ -1,12 +1,17 @@
-// Vast format "De stemming" (34 s, 9:16): voor elke stemming te gebruiken, ook voor nieuwe uit de pipeline.
-// Vraag als haak, de zaal van 150, de zaal valt uiteen in voor en tegen, wie stemde wat, het bijzondere moment,
-// de uitslag en de eindkaart. Alles komt uit de gegevens; alleen de vraag en de omschrijving zijn met de hand.
+// Vast format "De stemming" (versie 2, flitsend; akkoord Niels 26 oktober). Voor elke stemming te gebruiken, ook voor
+// nieuwe uit de pipeline. Na de titel: de zaal van 150, de zaal valt uiteen in voor en tegen, wie stemde wat, het
+// bijzondere moment, de uitslag en de eindkaart. Alles komt uit de gegevens; alleen de titel, de vraag en de
+// omschrijving zijn met de hand.
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
-import { type Besluit, casus, datumTekst, kabinetOp, lijstTekst, naam, perFractie, tintenVan, totalen, uitslagWoord, vergissingen, verdeeld, zaalPunten } from "../gegevens";
-import { Achtergrond, Blok, Eind, Kop, Label, Merk, Teller, Tekst, zacht, zichtbaar } from "../onderdelen";
-import { K, LETTER, VEILIG } from "../stijl";
+import { type Besluit, casus, kabinetOp, lijstTekst, naam, perFractie, tintenVan, totalen, uitslagWoord, vergissingen, verdeeld, zaalPunten } from "../gegevens";
+import { Banner, Flits, Geluid, Woorden, ZWAAR } from "../flits";
+import { Achtergrond, Eind, Merk, Teller, zacht } from "../onderdelen";
+import { K, VEILIG } from "../stijl";
+import { MetTitel, TITEL } from "../titel";
 
-export const DUUR_STEMMING = 1020;
+// Momenten, gerekend vanaf het einde van de titel
+const SPLIT = 130, OPVAL = 340, UITSLAG = 530, EINDE = 650, EIND = 150;
+export const DUUR_STEMMING = TITEL + EINDE + EIND;
 
 // Plek in het raster: voor links, tegen rechts, per fractie bij elkaar (grootste eerst); niet deelgenomen eronder
 function raster(b: Besluit) {
@@ -53,17 +58,24 @@ function bijzonder(b: Besluit): { tekst: string; nadruk: Set<string> } {
 }
 
 export function Stemming({ slug }: { slug: string }) {
+  return <MetTitel slug={slug}><Verloop slug={slug} /></MetTitel>;
+}
+
+function Verloop({ slug }: { slug: string }) {
   const frame = useCurrentFrame();
   const c = casus(slug);
-  const b = c.besluiten[c.besluiten.length - 1];
+  const b = c.besluiten.at(-1)!;
   const t = totalen(b);
   const tint = tintenVan(b.stemmen);
-  const zaal = zaalPunten(b.stemmen);
+  const zaal = zaalPunten(b.stemmen, 1260);
   const plek = raster(b);
   const bijz = bijzonder(b);
   const pf = perFractie(b.stemmen);
   const top = (stem: "Voor" | "Tegen") => [...pf].filter((f) => (stem === "Voor" ? f.voor : f.tegen) > 0).sort((a, x) => (stem === "Voor" ? x.voor - a.voor : x.tegen - a.tegen));
-  const kort = (l: typeof pf) => (l.length > 4 ? `${l.slice(0, 3).map((f) => naam(f.fractie)).join(", ")} en ${l.length - 3} andere` : lijstTekst(l.map((f) => naam(f.fractie))));
+  const kort = (l: typeof pf) => {
+    const namen = [...new Set(l.map((f) => naam(f.fractie)))];
+    return namen.length > 4 ? `${namen.slice(0, 3).join(", ")} en ${namen.length - 3} andere` : lijstTekst(namen);
+  };
 
   // Volgnummer per fractie en stem, om elke zaalstip aan een rasterplek te koppelen
   const teller = new Map<string, number>();
@@ -72,57 +84,79 @@ export function Stemming({ slug }: { slug: string }) {
     const k = teller.get(sl) ?? 0;
     teller.set(sl, k + 1);
     const doel = plek.get(`${sl}|${k}`) ?? { x: p.x, y: p.y };
-    const verschijn = interpolate(frame, [150 + (i % 60), 165 + (i % 60)], [0, 1], zacht);
-    const beweeg = interpolate(frame, [270 + (i % 40), 320 + (i % 40)], [0, 1], { ...zacht, easing: (x) => 1 - (1 - x) ** 3 });
-    const nadruk = frame >= 600 && frame < 780 ? (bijz.nadruk.size === 0 || bijz.nadruk.has(p.fractie) ? 1 : 0.25) : 1;
-    return { ...p, cx: p.x + (doel.x - p.x) * beweeg, cy: p.y + (doel.y - p.y) * beweeg, op: verschijn * nadruk, kleur: tint.get(p.fractie) ?? K.lijnLicht };
+    const verschijn = interpolate(frame, [30 + i * 0.4, 40 + i * 0.4], [0, 1], zacht);
+    const beweeg = interpolate(frame, [SPLIT + (i % 30), SPLIT + 26 + (i % 30)], [0, 1], { ...zacht, easing: (x) => 1 - (1 - x) ** 3 });
+    const nadruk = frame >= OPVAL && frame < UITSLAG ? (bijz.nadruk.size === 0 || bijz.nadruk.has(p.fractie) ? 1 : 0.2) : 1;
+    return { ...p, cx: p.x + (doel.x - p.x) * beweeg, cy: p.y + (doel.y - p.y) * beweeg, op: verschijn * nadruk, kleur: tint.get(p.fractie) ?? K.lijnLicht,
+      gloed: frame >= OPVAL && frame < UITSLAG && bijz.nadruk.has(p.fractie) };
   });
-  const tellerZicht = zichtbaar(frame, 300, 600);
+  const stand = interpolate(frame, [SPLIT, SPLIT + 10, UITSLAG - 10, UITSLAG], [0, 1, 1, 0], zacht);
   const uitslag = uitslagWoord(b);
+  const tekstVlak = { position: "absolute" as const, top: 450, left: VEILIG.zij, right: VEILIG.zij, display: "flex", flexDirection: "column" as const, gap: 26, alignItems: "flex-start" as const };
 
   return (
     <AbsoluteFill style={{ backgroundColor: K.nacht950 }}>
-      <Achtergrond binnenhof={interpolate(frame, [0, 120, 150], [0.45, 0.45, 0.08], zacht)} />
+      <Achtergrond binnenhof={0.06} />
       <Merk />
 
-      <Blok van={0} tot={150}>
-        <Label>Eén stemming · {datumTekst(b.datum)}</Label>
-        <Kop>{c.vraag}</Kop>
-        <Tekst grootte={40} style={{ color: K.zacht, opacity: interpolate(frame, [50, 70], [0, 1], zacht) }}>{c.omschrijving}</Tekst>
-      </Blok>
-
-      <Blok van={150} tot={285}>
-        <Kop grootte={76}>150 Kamerleden.</Kop>
-        <Tekst>Bij deze stemming telt elk Kamerlid apart.</Tekst>
-      </Blok>
-
-      <Blok van={285} tot={600}>
-        <div style={{ display: "flex", justifyContent: "space-between", fontFamily: LETTER.serif, fontSize: 120, color: K.tekst, opacity: tellerZicht }}>
-          <div><Teller waarde={t.voor} van={290} /><div style={{ fontFamily: LETTER.sans, fontSize: 34, color: K.zacht }}>voor</div></div>
-          <div style={{ textAlign: "right" }}><Teller waarde={t.tegen} van={290} /><div style={{ fontFamily: LETTER.sans, fontSize: 34, color: K.zacht }}>tegen</div></div>
+      {/* Opening: waar het over ging, en de zaal */}
+      {frame < SPLIT && (
+        <div style={{ ...tekstVlak, top: VEILIG.boven + 40, opacity: interpolate(frame, [SPLIT - 10, SPLIT], [1, 0], zacht) }}>
+          <Woorden tekst={c.omschrijving} bij={4} grootte={44} zwaar={false} />
+          <Woorden tekst="150 Kamerleden." bij={50} grootte={90} kleur={K.koper} />
         </div>
-      </Blok>
-      <Blok van={430} tot={600} top={1420}>
-        <Tekst grootte={38}>Voor: {kort(top("Voor"))}.</Tekst>
-        <Tekst grootte={38}>Tegen: {kort(top("Tegen"))}.</Tekst>
-      </Blok>
+      )}
+      <Geluid bij={50} naam="stijg" volume={0.4} />
 
-      <Blok van={600} tot={780}>
-        <Label>Wat valt op</Label>
-        <Tekst grootte={50}>{bijz.tekst}</Tekst>
-      </Blok>
+      {/* Stand: voor en tegen, met de grootste fracties eronder */}
+      <div style={{ position: "absolute", top: VEILIG.boven + 10, left: VEILIG.zij, right: VEILIG.zij, display: "flex", justifyContent: "space-between", opacity: stand }}>
+        {(["voor", "tegen"] as const).map((k) => (
+          <div key={k} style={{ textAlign: k === "voor" ? "left" : "right" }}>
+            <div style={{ fontFamily: ZWAAR, fontWeight: 800, fontSize: 150, lineHeight: 0.95, color: k === "voor" ? K.voor : K.tegen }}>
+              <Teller waarde={k === "voor" ? t.voor : t.tegen} van={SPLIT + 4} duur={36} />
+            </div>
+            <div style={{ fontFamily: ZWAAR, fontWeight: 800, fontSize: 32, letterSpacing: "0.12em", color: K.zacht }}>{k.toUpperCase()}</div>
+          </div>
+        ))}
+      </div>
+      <Geluid bij={SPLIT} naam="swoosh" volume={0.7} />
+      {frame >= SPLIT + 60 && frame < OPVAL && (
+        <div style={{ ...tekstVlak, opacity: interpolate(frame, [OPVAL - 10, OPVAL], [1, 0], zacht) }}>
+          <Woorden tekst={`Voor: ${kort(top("Voor"))}.`} bij={SPLIT + 60} grootte={42} zwaar={false} kleur={K.voor} />
+          <Woorden tekst={`Tegen: ${kort(top("Tegen"))}.`} bij={SPLIT + 76} grootte={42} zwaar={false} kleur={K.tegen} />
+        </div>
+      )}
 
-      <svg width={1080} height={1920} style={{ position: "absolute", inset: 0, opacity: interpolate(frame, [780, 800], [1, 0.15], zacht) }}>
-        {stippen.map((s) => <circle key={s.key} cx={s.cx} cy={s.cy} r={9.5 + 4.5 * interpolate(frame, [270, 330], [0, 1], zacht)} fill={s.kleur} stroke={K.nacht950} strokeWidth={1.5} opacity={s.op} />)}
+      {/* Wat valt op */}
+      {frame >= OPVAL && frame < UITSLAG && (
+        <div style={{ ...tekstVlak, opacity: interpolate(frame, [UITSLAG - 10, UITSLAG], [1, 0], zacht) }}>
+          <Banner bij={OPVAL + 2}>Wat valt op</Banner>
+          <Woorden tekst={bijz.tekst} bij={OPVAL + 16} grootte={46} zwaar={false} />
+        </div>
+      )}
+      <Flits bij={OPVAL + 2} sterkte={0.3} />
+      <Geluid bij={OPVAL + 2} naam="dreun" volume={0.8} />
+
+      <svg width={1080} height={1920} style={{ position: "absolute", inset: 0, opacity: interpolate(frame, [UITSLAG, UITSLAG + 14, EINDE - 10, EINDE], [1, 0.15, 0.15, 0], zacht) }}>
+        {stippen.map((s) => (
+          <circle key={s.key} cx={s.cx} cy={s.cy} r={9.5 + 4.5 * interpolate(frame, [SPLIT, SPLIT + 50], [0, 1], zacht)} fill={s.kleur}
+            stroke={s.gloed ? K.goud : K.nacht950} strokeWidth={s.gloed ? 3.5 : 1.5} opacity={s.op} />
+        ))}
       </svg>
+      {Array.from({ length: 6 }, (_, k) => <Geluid key={k} bij={30 + k * 9} naam="tik" volume={0.4} />)}
 
-      <Blok van={790} tot={915} top={700}>
-        <Label>Uitslag</Label>
-        <Kop grootte={140}>{uitslag}</Kop>
-        <Kop grootte={96} style={{ color: K.koper }}>{t.voor} tegen {t.tegen}</Kop>
-      </Blok>
+      {/* Uitslag */}
+      {frame >= UITSLAG && frame < EINDE && (
+        <div style={{ ...tekstVlak, top: 700, opacity: interpolate(frame, [EINDE - 10, EINDE], [1, 0], zacht) }}>
+          <Woorden tekst={uitslag} bij={UITSLAG + 6} grootte={140} />
+          <Woorden tekst={`${t.voor} tegen ${t.tegen}`} bij={UITSLAG + 18} grootte={110} kleur={K.koper} />
+        </div>
+      )}
+      <Geluid bij={UITSLAG + 6} naam="dreun" />
+      <Geluid bij={UITSLAG + 18} naam="toon" volume={0.5} />
 
-      {frame >= 900 && <Eind van={900} bron={`zaak ${c.zaak}`} />}
+      {frame >= EINDE && <Eind van={EINDE} bron={`zaak ${c.zaak}`} />}
+      <Geluid bij={EINDE} naam="swoosh" volume={0.5} />
     </AbsoluteFill>
   );
 }
