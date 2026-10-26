@@ -6,11 +6,13 @@ export function HeroKop({ children }: { children: ReactNode }) {
   return <h1 className={s.hero}>{children}</h1>;
 }
 
-export function SectieKop({ children, id }: { children: ReactNode; id?: string }) {
+// Met niveau 1 is de sectiekop de H1 van een pagina zonder HeroKop: zelfde stijl, andere tag (SEO-audit 26 oktober)
+export function SectieKop({ children, id, niveau = 2 }: { children: ReactNode; id?: string; niveau?: 1 | 2 }) {
+  const Kop = niveau === 1 ? "h1" : "h2";
   return (
-    <h2 className={s.sectie} id={id}>
+    <Kop className={s.sectie} id={id}>
       {children}
-    </h2>
+    </Kop>
   );
 }
 

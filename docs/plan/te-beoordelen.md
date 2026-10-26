@@ -22,7 +22,8 @@ Volgorde: B1 tot en met B3 en C1 en C2 houden de livegang het meest op. Nieuw si
 | Test van de bewaking | C6 | uitvoeren |
 | Opnieuw bekijken na de aanpassingen: Onderwerpen, Oppositiewerk, voorpagina, Kamerleden | K1, K2, K3, K5 | bekijken |
 | Uitgelicht: omschrijvingen en spreiding | K7 | bekijken |
-| Video's: tijdlijn en studievoorschot zijn goed; de andere vijf volgen in de nieuwe stijl | K8 | bekijken |
+| Video's: alle formats in de nieuwe stijl, ook het vaste format; tekst schuift nu van links in | K8 | bekijken |
+| SEO bij de livegang: na `LIVE = true` de sitemap indienen in Search Console en PageSpeed draaien (zie seo-audit.md) | SEO | uitvoeren |
 | Pipeline voor nieuwe casussen: vier vragen | B17 | besluit |
 | Feedbackformulier één keer invullen als test | werklijst 4 | testen |
 

@@ -29,7 +29,7 @@ import s from "@/components/onderwerpen/onderwerpen.module.css";
 export const metadata: Metadata = {
   title: "Onderwerpen",
   description: "Waar zijn fracties in de Tweede Kamer het over eens? Kijk per beleidsterrein, per kabinet of Kamerperiode.",
-  robots: { index: false, follow: false },
+  alternates: { canonical: "/onderwerpen" },
 };
 
 type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> };

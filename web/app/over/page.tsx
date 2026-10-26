@@ -9,6 +9,7 @@ import { SITE } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Over",
   description: "Wie maakt Zetelen, met welke data, en hoe meld je een fout?",
+  alternates: { canonical: "/over" },
 };
 
 export default function Over() {

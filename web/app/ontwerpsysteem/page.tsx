@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { Voorbeelden } from "./Voorbeelden";
 
 export const metadata: Metadata = {
-  title: "Ontwerpsysteem · Zetelen",
+  title: "Ontwerpsysteem",
   robots: { index: false, follow: false },
 };
 

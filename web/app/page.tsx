@@ -3,7 +3,8 @@
 // grootste kabinetspartijen per beleidsterrein zien (component onderwerpen).
 // Sinds 26 oktober 2026 (B14 en K3): de opening vraagt waar fracties elkaar vinden, met twee lezingen en een
 // uitnodiging; dan "Maar eerst: hoe zijn we hier gekomen?". Hoofdstukken met een kop over de volle breedte.
-import { KAMERLEDEN } from "@/lib/site";
+import type { Metadata } from "next";
+import { KAMERLEDEN, SITE } from "@/lib/site";
 import Link from "next/link";
 import { Inhoud, knopKlasse } from "@/components/Kader";
 import { Bronregel } from "@/components/cohesie/Bronregel";
@@ -17,6 +18,13 @@ import type { Stap } from "@/lib/verhaal";
 import { kabinetNu, kabinetspartners, laadVerhaal, samenwerking, zaalVerhaal } from "@/lib/voorpagina";
 import { jaarWerk, periodeWerk } from "@/lib/zetelwerk";
 import s from "./voorpagina.module.css";
+
+// Titel met het onderwerp erin; "Zetelen" alleen zegt niets aan wie de site niet kent (SEO-audit 26 oktober)
+export const metadata: Metadata = {
+  title: { absolute: "Zetelen: wie stemt met wie in de Tweede Kamer?" },
+  description: SITE.beschrijving,
+  alternates: { canonical: "/" },
+};
 
 const TOOLS = [
   { href: "/verkenner", titel: "Verkenner", tekst: "Kies een fractie en zie hoe vaak elke andere fractie met haar meestemde, per kabinet of Kamerperiode." },

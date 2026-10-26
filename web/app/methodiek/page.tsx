@@ -2,14 +2,16 @@
 // bron en beperking. Tekst gebaseerd op docs/plan/definitie-cohesie.md (goedgekeurd door Niels).
 import type { Metadata } from "next";
 import Link from "next/link";
+import { JsonLd, MAKER } from "@/components/JsonLd";
 import { Inhoud } from "@/components/Kader";
 import { Data, HeroKop, Label, SectieKop, Tekst } from "@/components/Typografie";
 import { MATEN } from "@/lib/maten";
-import { SITE } from "@/lib/site";
+import { DOMEIN, SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Methodiek",
   description: "Hoe telt Zetelen? Wat cohesie is, de formule, de bron en wat de cijfers niet zeggen.",
+  alternates: { canonical: "/methodiek" },
 };
 
 const sectie = { display: "flex", flexDirection: "column" as const, gap: "var(--r-4)" };
@@ -17,6 +19,12 @@ const sectie = { display: "flex", flexDirection: "column" as const, gap: "var(--
 export default function Methodiek() {
   return (
     <Inhoud>
+      {/* Dataset: vindbaar in Google Dataset Search. Geen licentie opgegeven: die is nog niet gekozen */}
+      <JsonLd data={{
+        "@context": "https://schema.org", "@type": "Dataset", name: "Stemmingen in de Tweede Kamer, geteld per fractie",
+        description: "Hoe vaak fracties in de Tweede Kamer hetzelfde stemmen (cohesie), per kabinet, per Kamerperiode en per beleidsterrein. Geteld uit de open data van de Tweede Kamer.",
+        url: `${DOMEIN}/methodiek`, creator: MAKER, isBasedOn: SITE.bron, temporalCoverage: "2010/..", inLanguage: "nl",
+      }} />
       <section style={sectie}>
         <Label>Methodiek</Label>
         <HeroKop>Hoe tellen we?</HeroKop>

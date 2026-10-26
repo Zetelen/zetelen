@@ -3,10 +3,11 @@ import type { Metadata } from "next";
 import { DM_Mono, Hanken_Grotesk, Newsreader } from "next/font/google";
 import type { ReactNode } from "react";
 import { FeedbackBalk } from "@/components/FeedbackBalk";
+import { JsonLd, MAKER } from "@/components/JsonLd";
 import { Navigatie, Voet } from "@/components/Kader";
 import { Korrel } from "@/components/Onderdelen";
 import { laatstBijgewerkt } from "@/lib/api";
-import { LIVE, SITE, siteUrl } from "@/lib/site";
+import { DOMEIN, LIVE, SITE, siteUrl } from "@/lib/site";
 import "@/styles/globals.css";
 
 // Statisch gebouwd en elk uur ververst (ISR); gelijk aan VERVERS_SECONDEN in lib/api.ts
@@ -38,6 +39,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   return (
     <html lang="nl" className={`${newsreader.variable} ${hanken.variable} ${dmMono.variable}`}>
       <body>
+        <JsonLd data={{ "@context": "https://schema.org", "@type": "WebSite", name: SITE.naam, url: DOMEIN, inLanguage: "nl", description: SITE.beschrijving, creator: MAKER }} />
         <Korrel />
         <Navigatie />
         <FeedbackBalk />

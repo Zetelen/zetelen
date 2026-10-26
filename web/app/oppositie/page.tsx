@@ -16,7 +16,7 @@ import { fractieWerk, jaarWerk, netwerk, periodeWerk } from "@/lib/zetelwerk";
 export const metadata: Metadata = {
   title: "Oppositiewerk",
   description: "Wat kun je als je niet regeert? Moties en amendementen van de oppositie in de Tweede Kamer sinds 2010.",
-  robots: { index: false, follow: false },
+  alternates: { canonical: "/oppositie" },
 };
 
 // Kabinetten in het verhaal: vanaf Rutte I (Balkenende IV telt pas vanaf 2010 en is te kort)
@@ -49,7 +49,7 @@ export default async function Oppositie() {
     <Inhoud>
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", maxWidth: 860 }}>
         <Label>Oppositiewerk · concept</Label>
-        <SectieKop>Wat kun je als je niet regeert?</SectieKop>
+        <SectieKop niveau={1}>Wat kun je als je niet regeert?</SectieKop>
         <Tekst>
           Wie in de oppositie zit, mist de ministers en het regeerakkoord. Wat overblijft: stemmen, en zelf moties en amendementen
           indienen. Scroll door zestien jaar oppositiewerk, en kijk daarna zelf wie wat indiende.

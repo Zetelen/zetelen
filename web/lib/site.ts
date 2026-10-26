@@ -18,8 +18,12 @@ export const KAMERLEDEN = true;
 // Feedbackronde: een eigen formulier op /feedback (besluit Niels B13, 26 oktober 2026). Uit: geen balk.
 export const FEEDBACK = true;
 
-// Adres van de site: op Vercel het productieadres, lokaal localhost
+export const DOMEIN = "https://zetelen.nl";
+
+// Adres van de site: in productie vast het eigen domein (SEO-audit 26 oktober: nooit zetelen.vercel.app in sitemap,
+// canonical of deelplaatje), in een preview het Vercel-adres, lokaal localhost
 export function siteUrl(): URL {
+  if (process.env.VERCEL_ENV === "production") return new URL(DOMEIN);
   const host = process.env.VERCEL_PROJECT_PRODUCTION_URL;
   return new URL(host ? `https://${host}` : "http://localhost:3000");
 }

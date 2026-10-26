@@ -29,6 +29,8 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
       ? `${groep.split(",").join(", ")}: bij wie haalde deze groep een meerderheid in de Tweede Kamer?`
       : "Stel zelf een groep fracties samen. Bij welke andere fracties haalde die groep eerder een meerderheid?",
     openGraph: { images: [{ url: `/coalitie/plaatje?${plaatje.toString()}`, width: 1200, height: 630 }] },
+    // Elke combinatie van keuzes is dezelfde pagina: de canonical wijst naar het kale pad (SEO-audit 26 oktober)
+    alternates: { canonical: "/coalitie" },
   };
 }
 
@@ -44,7 +46,7 @@ export default async function Coalitie({ searchParams }: Props) {
     <Inhoud>
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
         <Label>Coalitiebouwer · concept</Label>
-        <SectieKop>Bij wie haal je een meerderheid?</SectieKop>
+        <SectieKop niveau={1}>Bij wie haal je een meerderheid?</SectieKop>
         <Tekst>
           Nu zetel jij. Kies fracties in de lijst of in de zaal en stel een kabinet samen, fictief of niet. Je ziet hoeveel zetels het
           heeft, en bij welke andere fracties die groep in de gekozen periode een meerderheid haalde.

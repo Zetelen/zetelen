@@ -4,7 +4,7 @@ import { Inhoud } from "@/components/Kader";
 import { Data, HeroKop, Label, Tekst } from "@/components/Typografie";
 import { WIJZIGINGEN } from "@/lib/wijzigingen";
 
-export const metadata: Metadata = { title: "Wijzigingen", description: "Alle inhoudelijke correcties op Zetelen, met datum." };
+export const metadata: Metadata = { title: "Wijzigingen", description: "Alle inhoudelijke correcties op Zetelen, met datum.", alternates: { canonical: "/wijzigingen" } };
 
 export default function Wijzigingen() {
   return (

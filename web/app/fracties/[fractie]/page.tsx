@@ -30,8 +30,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const f = await zoekFractie((await params).fractie);
   if (!f) return { title: "Fractie niet gevonden" };
   return {
-    title: f.afkorting,
+    title: `Stemgedrag ${f.afkorting} in de Tweede Kamer`,
     description: `Met wie stemt ${f.naam} het vaakst hetzelfde in de Tweede Kamer? Per kabinet en per Kamerperiode.`,
+    alternates: { canonical: `/fracties/${slug(f.afkorting)}` },
   };
 }
 

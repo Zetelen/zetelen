@@ -16,6 +16,7 @@ import s from "@/components/verhaal/uitgelicht.module.css";
 export const metadata: Metadata = {
   title: "Uitgelicht",
   description: "Zeven hoofdelijke stemmingen in de Tweede Kamer van dichtbij: wie stemde wat, en wat viel op.",
+  alternates: { canonical: "/uitgelicht" },
 };
 
 export default function Uitgelicht() {

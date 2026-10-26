@@ -19,6 +19,7 @@ import o from "@/components/onderwerpen/onderwerpen.module.css";
 export const metadata: Metadata = {
   title: "Verkenner",
   description: "Hoe vaak stemmen twee fracties in de Tweede Kamer hetzelfde? Kies een fractie en een periode.",
+  alternates: { canonical: "/verkenner" },
 };
 
 type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> };
@@ -37,7 +38,7 @@ export default async function VerkennerPagina({ searchParams }: Props) {
     <Inhoud>
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
         <Label>Verkenner</Label>
-        <SectieKop>Met wie stemt een fractie het vaakst hetzelfde?</SectieKop>
+        <SectieKop niveau={1}>Met wie stemt een fractie het vaakst hetzelfde?</SectieKop>
         <div className={o.alleenBreed}>
           <PeriodeKeuze perioden={lijst} soort={soort} periode={periode?.naam ?? null} variant={variant} />
         </div>

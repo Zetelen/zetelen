@@ -13,6 +13,7 @@ import s from "@/components/cohesie/fractie.module.css";
 export const metadata: Metadata = {
   title: "Fracties",
   description: "Alle fracties in de Tweede Kamer sinds 2010. Hoeveel zetels, kabinet of oppositie, en met wie stemden ze het vaakst hetzelfde?",
+  alternates: { canonical: "/fracties" },
 };
 
 type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> };
@@ -44,7 +45,7 @@ export default async function Fracties({ searchParams }: Props) {
     <Inhoud>
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
         <Label>Fracties</Label>
-        <SectieKop>Wie zit er in de Kamer?</SectieKop>
+        <SectieKop niveau={1}>Wie zit er in de Kamer?</SectieKop>
         <Tekst>
           De fracties bij het begin van de gekozen periode, de grootste bovenaan. Het lichte stuk van een balk: Kamerleden die
           tijdens de periode overstapten naar een andere fractie. Kies een fractie en zie met wie ze het vaakst hetzelfde stemde.

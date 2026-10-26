@@ -3,12 +3,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { JsonLd, MAKER } from "@/components/JsonLd";
 import { Inhoud } from "@/components/Kader";
 import { HoofdstukKop } from "@/components/Onderdelen";
 import { Data, HeroKop, Label, Tekst } from "@/components/Typografie";
 import { ScrollVerhaal } from "@/components/verhaal/ScrollVerhaal";
 import { lijst, zoekLink } from "@/lib/uitgelicht";
 import { UITGELICHT } from "@/lib/uitgelichtLijst";
+import { DOMEIN } from "@/lib/site";
 import { dagMaandJaar } from "@/lib/verhaal";
 import s from "@/components/verhaal/uitgelicht.module.css";
 
@@ -23,7 +25,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const slug = (await params).casus;
   const u = UITGELICHT.find((x) => x.slug === slug);
-  return u ? { title: `${u.titel} · Uitgelicht`, description: `${u.vraag} Een hoofdelijke stemming uit elkaar gehaald.` } : {};
+  return u ? { title: `${u.titel} · Uitgelicht`, description: `${u.vraag} Een hoofdelijke stemming uit elkaar gehaald.`, alternates: { canonical: `/uitgelicht/${u.slug}` } } : {};
 }
 
 export default async function CasusPagina({ params }: Props) {
@@ -35,6 +37,8 @@ export default async function CasusPagina({ params }: Props) {
   const datums = lijst(u.datums.map(dagMaandJaar));
   return (
     <Inhoud>
+      {/* Article met maker; zonder publicatiedatum, want die houden we per casus niet bij */}
+      <JsonLd data={{ "@context": "https://schema.org", "@type": "Article", headline: u.titel, description: u.vraag, author: MAKER, inLanguage: "nl", url: `${DOMEIN}/uitgelicht/${u.slug}` }} />
       <section className={s.blok}>
         <Label>Uitgelicht · {datums}</Label>
         <HeroKop>{u.vraag}</HeroKop>

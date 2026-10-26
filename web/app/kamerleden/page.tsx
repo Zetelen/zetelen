@@ -23,7 +23,7 @@ import s from "@/components/zetelwerk/zetelwerk.module.css";
 export const metadata: Metadata = {
   title: "Kamerleden",
   description: "Wat dienen Kamerleden zelf in, en wat haalt het? Moties en amendementen per fractie en per Kamerlid.",
-  robots: { index: false, follow: false },
+  alternates: { canonical: "/kamerleden" },
 };
 
 type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> };
@@ -66,7 +66,7 @@ export default async function Kamerleden({ searchParams }: Props) {
     <Inhoud>
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", maxWidth: 860 }}>
         <Label>Kamerleden · concept</Label>
-        <SectieKop>Wat dienen Kamerleden zelf in, en wat haalt het?</SectieKop>
+        <SectieKop niveau={1}>Wat dienen Kamerleden zelf in, en wat haalt het?</SectieKop>
         <Tekst>
           Stemmen is één kant van zetelen. De andere: zelf iets op tafel leggen. Een motie vraagt het kabinet iets te doen, een
           amendement verandert een wet. Kies een fractie en zie wie er wat indiende.
