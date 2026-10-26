@@ -1,0 +1,194 @@
+/* Stemgenoten: een stelling tegelijk, groot en rustig; daarna de uitslag per fractie */
+.kaart {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-4);
+  max-width: 760px;
+  padding: var(--r-6);
+  border: 1px solid var(--lijn);
+  border-radius: var(--hoek-paneel);
+  background: var(--nacht-900);
+}
+.label {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--koper);
+}
+.stelling {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(26px, 4vw, 38px);
+  line-height: 1.2;
+  color: var(--tekst);
+}
+.tekst {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--tekst);
+}
+.klein {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--tekst-zacht);
+}
+.voortgang {
+  height: 4px;
+  background: var(--nacht-700);
+  border-radius: 2px;
+}
+.voortgang > span {
+  display: block;
+  height: 100%;
+  background: var(--koper);
+  border-radius: 2px;
+}
+.knoppen {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--r-3);
+}
+.knoppen button,
+.hoofdknop {
+  min-height: 52px;
+  padding: 0 var(--r-5);
+  border-radius: var(--hoek-pil);
+  border: 2px solid var(--lijn-licht);
+  background: transparent;
+  color: var(--tekst);
+  font: inherit;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.hoofdknop {
+  align-self: flex-start;
+  border-color: var(--koper);
+  background: var(--koper);
+  color: var(--nacht-950);
+}
+.eens:hover,
+.eens[aria-pressed="true"] {
+  border-color: #6fbf8e;
+  background: color-mix(in srgb, #6fbf8e 22%, transparent);
+}
+.oneens:hover,
+.oneens[aria-pressed="true"] {
+  border-color: #e57f93;
+  background: color-mix(in srgb, #e57f93 22%, transparent);
+}
+.neutraal:hover,
+.neutraal[aria-pressed="true"] {
+  background: var(--nacht-700);
+}
+.onder {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--r-4);
+}
+.link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--koper);
+  font: inherit;
+  font-size: 15px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.uitslag {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-5);
+}
+.fracties {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-2);
+}
+.fracties li {
+  display: grid;
+  grid-template-columns: minmax(130px, 200px) 1fr minmax(110px, auto);
+  gap: var(--r-3);
+  align-items: center;
+}
+.naam {
+  font-weight: 600;
+}
+.zetels {
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--tekst-zacht);
+}
+.balk {
+  height: 12px;
+  background: var(--nacht-700);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.balk > span {
+  display: block;
+  height: 100%;
+  background: var(--koper);
+}
+.getal {
+  font-family: var(--mono);
+  font-size: 15px;
+  text-align: right;
+}
+.kop {
+  margin: var(--r-4) 0 0;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: var(--kop-sectie);
+}
+.overzicht {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-4);
+  max-width: 860px;
+}
+.regel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-bottom: var(--r-4);
+  border-bottom: 1px solid var(--lijn);
+}
+.regelStelling {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.4;
+}
+.voor {
+  color: #6fbf8e;
+  font-weight: 600;
+}
+.tegen {
+  color: #e57f93;
+  font-weight: 600;
+}
+@media (max-width: 640px) {
+  .kaart {
+    padding: var(--r-4);
+  }
+  .fracties li {
+    grid-template-columns: 1fr auto;
+  }
+  .balk {
+    grid-column: 1 / -1;
+    order: 3;
+  }
+}

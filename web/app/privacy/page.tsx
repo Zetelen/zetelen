@@ -45,6 +45,14 @@ export default function Privacy() {
         </Tekst>
       </section>
       <section style={sectie}>
+        <SectieKop>Stemgenoten</SectieKop>
+        <Tekst>
+          Bij Stemgenoten geef je je mening over echte stemmingen. Een politieke mening is een bijzonder persoonsgegeven, dus
+          die blijft bij jou: de uitslag wordt in je eigen browser berekend. Je antwoorden worden niet verstuurd, niet opgeslagen
+          en niet gemeten. Sluit je de pagina, dan zijn ze weg.
+        </Tekst>
+      </section>
+      <section style={sectie}>
         <SectieKop>Kamerleden</SectieKop>
         <Tekst>
           Van Kamerleden gebruikt Zetelen alleen naam, fractie en stemgedrag uit de open data van de Tweede Kamer. Geen

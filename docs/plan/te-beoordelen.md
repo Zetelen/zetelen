@@ -12,7 +12,8 @@ Bijgewerkt op 26 oktober 2026, eind van de middag. Hier staat alleen wat nog ope
 | ☐ K1, K2, K3, K5 | Opnieuw bekijken na de aanpassingen: Onderwerpen, Oppositiewerk, voorpagina, Kamerleden | bekijken | ja, voor het label concept | hieronder |
 | ☐ K7 | Uitgelicht: omschrijvingen en spreiding | bekijken | nee | hieronder |
 | ☐ K9 | Nieuw: Hoe lang duurt een wet? en een eigen beeld per stemming op Uitgelicht | bekijken | nee | hieronder |
-| ☐ B19 | Stemhulp op basis van echte stemmingen: vijf vragen (zie [stemwijzer-onderzoek.md](stemwijzer-onderzoek.md)) | besluit | nee | in dat bestand |
+| ☐ K10 | Stemgenoten (concept): 25 stellingen nakijken, 8 gemarkeerd met "nakijken" | controleren | ja, voor Stemgenoten | [stemgenoten-controle.md](stemgenoten-controle.md) |
+| ☐ S4 | Stemgenoten: twee meelezers met een andere politieke kleur vragen, en de naam controleren in het merkenregister (boip.int) | uitvoeren | ja, voor Stemgenoten | hieronder |
 | ☐ B17 | Pipeline voor nieuwe casussen: één vraag over (budget), en wacht tot na de feedbackrondes | besluit | nee | hieronder |
 | ☐ L1 | Bij de livegang: sitemap indienen en PageSpeed draaien | uitvoeren | nee, na de livegang | hieronder |
 
@@ -60,6 +61,13 @@ Plan in [video-pipeline.md](video-pipeline.md): ontdekken in de data (ook samenw
 2. Akkoord met de wachtrij in een private repository?
 3. Bluesky automatisch plaatsen na je akkoord, of ook daar met de hand?
 4. Budget voor de Claude API (voorstel: hooguit 10 euro per maand)?
+
+## S. Stappen voor jou
+
+### ☐ S4. Stemgenoten: meelezers en naam
+
+1. Vraag twee mensen die politiek anders denken dan jij om de stellingen te lezen: https://zetelen.nl/stemgenoten (concept, niet in het menu). Vraag: is er een stelling scheef, sturend of onduidelijk?
+2. Zoek "Stemgenoten" op https://www.boip.int (Benelux-merkenregister). Staat het er niet als merk voor stemhulp of politieke informatie, dan is de naam vrij. Ik vond online geen stemhulp met deze naam.
 
 ## L. Bij de livegang
 
