@@ -12,6 +12,7 @@ type Props = {
   verhaal: Verhaal;
   label: string;
   hoogteSmal?: number; // hoogte van de tekening op smalle schermen (viewBox)
+  breedteSmal?: number; // breedte van een eigen telefoontekening (viewBox); zonder: dezelfde breedte als op desktop
   stapHoogte?: string; // scrollafstand per stap
   tijdlijn?: boolean; // kaarten links als tijdlijn, tekening rechts (op brede schermen)
   breed?: boolean; // tekening over de volle breedte, kaarten eronder (feedback Niels K2, 26 oktober 2026)
@@ -22,7 +23,7 @@ function sleutel(basis: string, i: number, alle: string[]): string {
   return `${basis}#${alle.slice(0, i).filter((x) => x === basis).length}`;
 }
 
-export function ScrollVerhaal({ verhaal, label, hoogteSmal = 555, stapHoogte = "100vh", tijdlijn = false, breed = false }: Props) {
+export function ScrollVerhaal({ verhaal, label, hoogteSmal = 555, breedteSmal, stapHoogte = "100vh", tijdlijn = false, breed = false }: Props) {
   const [smal, setSmal] = useState(false);
   const [actief, setActief] = useState(0);
   const lijst = useRef<HTMLOListElement>(null);
@@ -89,7 +90,7 @@ export function ScrollVerhaal({ verhaal, label, hoogteSmal = 555, stapHoogte = "
     <div className={s.verhaal} data-tijdlijn={tijdlijn && !breed} data-breed={breed} style={{ "--stap": stapHoogte } as CSSProperties}>
       <div className={s.figuur}>
         {kop && <div className={s.figuurKop} aria-hidden="true">{kop}</div>}
-        <svg ref={tekening} viewBox={`-60 -50 1120 ${hoogte}`} className={s.svg} role="img" aria-label={`${label}: ${stap.datum}. ${stap.tekst}`}>
+        <svg ref={tekening} viewBox={smal && breedteSmal ? `-40 -50 ${breedteSmal} ${hoogte}` : `-60 -50 1120 ${hoogte}`} className={s.svg} role="img" aria-label={`${label}: ${stap.datum}. ${stap.tekst}`}>
           {/* Sleutels naar de inhoud, niet naar de stap: een as of lijn die in de volgende stap terugkomt blijft staan
               en flitst niet opnieuw in (feedback Niels K2, 26 oktober 2026) */}
           <g aria-hidden="true">

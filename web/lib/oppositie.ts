@@ -30,6 +30,19 @@ export function kolom(prefix: string, x0: number, bodem: number, breed: number, 
   return uit;
 }
 
+// Een liggende balk stippen, van links naar rechts gevuld, hoog stippen hoog (feedback Niels K2, 26 oktober 2026:
+// de kabinetten op de y-as)
+export function rij(prefix: string, x0: number, top: number, hoog: number, stap: number, r: number, segmenten: Segment[]): Stip[] {
+  const uit: Stip[] = [];
+  let i = 0;
+  for (const s of segmenten) {
+    for (let k = 0; k < s.aantal; k++, i++) {
+      uit.push({ key: `${prefix}-${i}`, x: rond(x0 + Math.floor(i / hoog) * stap), y: rond(top + (i % hoog) * stap), kleur: s.kleur, tint: s.tint, r });
+    }
+  }
+  return uit;
+}
+
 // Per groep (jaar of kabinet) de segmenten: per rol, en binnen de rol eerst aangenomen
 function segmenten(rijen: Array<{ indiener_rol: string; ingediend: number; aangenomen: number }>, per: number, modus: "neutraal" | "rol" | "aangenomen"): Segment[] {
   const uit: Segment[] = [];
@@ -101,10 +114,10 @@ export function hoofdstukKabinetten(rijen: PeriodeWerk[], kabinetten: string[], 
   const PER = stuk === "Motie" ? 50 : 10;
   const woord = stuk === "Motie" ? "moties" : "amendementen";
   const per = (k: string) => rijen.filter((r) => r.periode === k && r.soort === stuk);
-  const breedte = 1000 / kabinetten.length;
-  const bouw = (modus: "rol" | "aangenomen") => kabinetten.flatMap((k, i) => kolom(`${stuk}-${k}`, i * breedte + 10, 440, 9, 13, 5.2, segmenten(per(k), PER, modus)));
-  // Grotere stippen in smallere, hogere kolommen (feedback Niels K2, 26 oktober 2026: de grafiek groter, desnoods hoger)
-  const labels: Tekstlabel[] = kabinetten.map((k, i) => ({ x: Math.round(i * breedte + 62), y: 470, tekst: k, anchor: "middle" }));
+  // De kabinetten onder elkaar op de y-as, elk een liggende balk van vier stippen hoog (feedback Niels K2, 26 oktober 2026)
+  const band = 440 / kabinetten.length;
+  const bouw = (modus: "rol" | "aangenomen") => kabinetten.flatMap((k, i) => rij(`${stuk}-${k}`, 110, Math.round(10 + i * band), 4, 12, 4.8, segmenten(per(k), PER, modus)));
+  const labels: Tekstlabel[] = kabinetten.map((k, i) => ({ x: 96, y: Math.round(10 + i * band + 25), tekst: k, anchor: "end", groot: true }));
   const rol = (k: string, r: string) => per(k).find((x) => x.indiener_rol === r) ?? { ingediend: 0, aangenomen: 0, brede_steun: 0 };
   const succes = (k: string) => pct(rol(k, "oppositie").aangenomen, rol(k, "oppositie").ingediend);
   const meerderheid = kabinetten.filter((k) => !minderheid.includes(k));
@@ -198,8 +211,10 @@ export function plaatsLabels(stippen: LabelStip[], obstakels: Doos[] = [], grens
 }
 
 // Hoofdstuk 4: tegenstemmen tegenover aangenomen eigen moties, per fractie, door de kabinetten heen (met sporen)
-export function hoofdstukSpreiding(rijen: Array<FractieWerk & { periode: string }>, kabinetten: string[]): Stap[] {
-  const X0 = 60, X1 = 960, Y0 = 440, Y1 = 30;
+// smal: een eigen, staande tekening voor de telefoon, waarop de letters leesbaar blijven (feedback Niels K2)
+export const SMAL_SPREIDING = { breedte: 470, hoogte: 620 };
+export function hoofdstukSpreiding(rijen: Array<FractieWerk & { periode: string }>, kabinetten: string[], smal = false): Stap[] {
+  const [X0, X1, Y0, Y1] = smal ? [40, 400, 520, 40] : [60, 960, 440, 30];
   const geldig = rijen.filter((r) => r.soort === "Motie" && r.ingediend >= MINIMUM && r.tegen_aandeel != null && kabinetten.includes(r.periode));
   // De assen lopen over het bereik in de data (afgerond op 5), zodat de fracties niet op een kluitje staan
   const xs = geldig.map((r) => r.tegen_aandeel!), ys = geldig.map((r) => (100 * r.aangenomen) / r.ingediend);
@@ -213,7 +228,13 @@ export function hoofdstukSpreiding(rijen: Array<FractieWerk & { periode: string 
     { d: `M${X0},${Y0} H${X1}`, tint: "#566aa6" }, { d: `M${X0},${Y0} V${Y1}`, tint: "#566aa6" },
     { d: `M${sx(midX)},${Y0} V${Y1}`, tint: "#566aa6", streep: true, zacht: true }, { d: `M${X0},${sy(midY)} H${X1}`, tint: "#566aa6", streep: true, zacht: true },
   ];
-  const vast: Tekstlabel[] = [
+  const vast: Tekstlabel[] = smal ? [
+    { x: X1, y: Y0 + 30, tekst: `${XMAX}% tegen →`, anchor: "end" },
+    { x: X0, y: Y0 + 30, tekst: `${XMIN}%`, anchor: "start" },
+    { x: X0 - 6, y: Y1 + 5, tekst: "100%", anchor: "end" },
+    { x: X0 - 6, y: Y0, tekst: `${YMIN}%`, anchor: "end" },
+    { x: X0, y: Y1 - 18, tekst: "↑ eigen moties aangenomen", anchor: "start" },
+  ] : [
     { x: X1, y: Y0 + 40, tekst: `${XMAX}% tegen gestemd →`, anchor: "end" },
     { x: X0, y: Y0 + 40, tekst: `${XMIN}%`, anchor: "start" },
     { x: X0 - 10, y: Y1 + 5, tekst: "100%", anchor: "end" },
@@ -222,7 +243,8 @@ export function hoofdstukSpreiding(rijen: Array<FractieWerk & { periode: string 
   ];
   // Kwadrantnamen in de hoeken, kleiner en gedimd; bovenaan boven het vlak, onderaan net onder de as.
   // Ze tellen als obstakel, zodat de fractielabels eromheen gaan.
-  const kwadranten: Tekstlabel[] = [
+  // Op de telefoon geen kwadrantnamen: daar is geen plek voor
+  const kwadranten: Tekstlabel[] = smal ? [] : [
     { x: X0 + 6, y: Y1 - 14, tekst: "stemt weinig tegen, veel eigen moties aangenomen", tint: "#a9b4cc", zacht: true },
     { x: X1, y: Y1 - 14, tekst: "stemt veel tegen, veel eigen moties aangenomen", anchor: "end", tint: "#a9b4cc", zacht: true },
     { x: X0 + 6, y: Y0 + 19, tekst: "stemt weinig tegen, weinig eigen moties aangenomen", tint: "#a9b4cc", zacht: true },
@@ -253,7 +275,8 @@ export function hoofdstukSpreiding(rijen: Array<FractieWerk & { periode: string 
     const tegen = [...groot].sort((a, b) => (b.tegen_aandeel ?? 0) - (a.tegen_aandeel ?? 0))[0];
     const succes = [...groot].sort((a, b) => b.aangenomen / b.ingediend - a.aangenomen / a.ingediend)[0];
     const straal = (r: FractieWerk) => 9 + Math.min(10, Math.sqrt(r.ingediend) / 3);
-    const geplaatst = plaatsLabels(hier.map((r) => ({ ...plek(r), r: straal(r), tekst: naam(r.afkorting), tint: tint.get(r.afkorting) })), obstakels);
+    const geplaatst = plaatsLabels(hier.map((r) => ({ ...plek(r), r: straal(r), tekst: naam(r.afkorting), tint: tint.get(r.afkorting) })), obstakels,
+      smal ? { x0: -35, y0: -45, x1: 425, y1: 560 } : undefined);
     const oppZin = tegen && succes
       ? `In de oppositie stemde ${naam(tegen.afkorting)} het vaakst tegen (${Math.round(tegen.tegen_aandeel!)}%), en kreeg ${naam(succes.afkorting)} naar verhouding de meeste eigen moties aangenomen (${pct(succes.aangenomen, succes.ingediend)}%).`
       : "";
@@ -276,12 +299,14 @@ export function hoofdstukSpreiding(rijen: Array<FractieWerk & { periode: string 
 }
 
 // Hoofdstuk 5: samen ingediend, een netwerk van fracties op een cirkel; oranje lijnen gaan over de grens
-export function hoofdstukNetwerk(perKabinet: Array<{ kabinet: string; verbindingen: Verbinding[]; rollen: Map<string, string> }>): Stap[] {
+export function hoofdstukNetwerk(perKabinet: Array<{ kabinet: string; verbindingen: Verbinding[]; rollen: Map<string, string> }>, smal = false): Stap[] {
+  // Op de telefoon een staande ellips in de staande tekening
+  const [CX, CY, RX, RY] = smal ? [215, 270, 140, 230] : [500, 235, 330, 210];
   const fracties = [...new Set(perKabinet.flatMap((p) => p.verbindingen.flatMap((v) => [v.fractie_a, v.fractie_b])))].sort();
   const tint = tinten([Object.fromEntries(fracties.map((f) => [f, 10]))]);
   const plek = new Map(fracties.map((f, i) => {
     const hoek = (2 * Math.PI * i) / fracties.length - Math.PI / 2;
-    return [f, { x: rond(500 + 330 * Math.cos(hoek)), y: rond(235 + 210 * Math.sin(hoek)) }];
+    return [f, { x: rond(CX + RX * Math.cos(hoek)), y: rond(CY + RY * Math.sin(hoek)) }];
   }));
   return perKabinet.map((pAlles, i) => {
     // Alleen de 25 sterkste verbindingen in beeld; de tellingen in de tekst gaan over alle
@@ -298,11 +323,11 @@ export function hoofdstukNetwerk(perKabinet: Array<{ kabinet: string; verbinding
       stippen: fracties.filter((f) => actief.has(f)).map((f) => ({ key: `f-${f}`, ...plek.get(f)!, tint: tint.get(f)!, kleur: (p.rollen.get(f) === "kabinet" ? null : "hol") as Kleur, r: 11 })),
       labels: fracties.filter((f) => actief.has(f)).map((f) => {
         const q = plek.get(f)!;
-        return { x: q.x + (q.x >= 500 ? 16 : -16), y: q.y + 5, tekst: naam(f), anchor: (q.x >= 500 ? "start" : "end") as "start" | "end", tint: tint.get(f) };
+        return { x: q.x + (q.x >= CX ? 16 : -16), y: q.y + 5, tekst: naam(f), anchor: (q.x >= CX ? "start" : "end") as "start" | "end", tint: tint.get(f) };
       }),
       paden: p.verbindingen.filter((v) => plek.has(v.fractie_a) && plek.has(v.fractie_b)).map((v) => {
         const a = plek.get(v.fractie_a)!, b = plek.get(v.fractie_b)!;
-        return { d: `M${a.x},${a.y} Q500,235 ${b.x},${b.y}`, breedte: rond(0.6 + (8 * v.stukken) / max), tint: grens(v) ? "#e0915a" : "#566aa6", zacht: !grens(v) };
+        return { d: `M${a.x},${a.y} Q${CX},${CY} ${b.x},${b.y}`, breedte: rond(0.6 + (8 * v.stukken) / max), tint: grens(v) ? "#e0915a" : "#566aa6", zacht: !grens(v) };
       }),
       link: i === perKabinet.length - 1 && KAMERLEDEN ? { href: "/kamerleden", tekst: "Wie dienden wat in?" } : undefined,
     };

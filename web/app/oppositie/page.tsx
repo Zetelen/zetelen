@@ -10,7 +10,7 @@ import { Label, SectieKop, Tekst } from "@/components/Typografie";
 import { HoofdstukKop } from "@/components/Onderdelen";
 import { ScrollVerhaal } from "@/components/verhaal/ScrollVerhaal";
 import type { Stap } from "@/lib/verhaal";
-import { hoofdstukJaren, hoofdstukKabinetten, hoofdstukNetwerk, hoofdstukSpreiding, hoofdstukTegenEnSamen } from "@/lib/oppositie";
+import { hoofdstukJaren, hoofdstukKabinetten, hoofdstukNetwerk, SMAL_SPREIDING, hoofdstukSpreiding, hoofdstukTegenEnSamen } from "@/lib/oppositie";
 import { fractieWerk, jaarWerk, netwerk, periodeWerk } from "@/lib/zetelwerk";
 
 export const metadata: Metadata = {
@@ -63,7 +63,10 @@ export default async function Oppositie() {
       <HoofdstukKop nummer="2" titel="Per kabinet" />
       <ScrollVerhaal verhaal={{ breed: zonderKop(hoofdstukKabinetten(perioden, KABINETTEN, "Motie", minderheid)) }} label="Moties per kabinet" tijdlijn stapHoogte="60vh" />
       <HoofdstukKop nummer="4" titel="Tegenstemmen en zelf scoren" />
-      <ScrollVerhaal verhaal={{ breed: zonderKop(hoofdstukTegenEnSamen(hoofdstukSpreiding(fracties, KABINETTEN), hoofdstukNetwerk(netwerken.map((n) => ({ ...n, rollen: rollen(n.kabinet) }))))) }}
+      <ScrollVerhaal verhaal={{
+        breed: zonderKop(hoofdstukTegenEnSamen(hoofdstukSpreiding(fracties, KABINETTEN), hoofdstukNetwerk(netwerken.map((n) => ({ ...n, rollen: rollen(n.kabinet) }))))),
+        smal: zonderKop(hoofdstukTegenEnSamen(hoofdstukSpreiding(fracties, KABINETTEN, true), hoofdstukNetwerk(netwerken.map((n) => ({ ...n, rollen: rollen(n.kabinet) })), true))),
+      }} hoogteSmal={SMAL_SPREIDING.hoogte} breedteSmal={SMAL_SPREIDING.breedte}
         label="Tegenstemmen en aangenomen moties per fractie, daarna samen ingediend" breed stapHoogte="60vh" />
       <HoofdstukKop nummer="6" titel="Aan de wet zelf zitten" />
       <ScrollVerhaal verhaal={{ breed: zonderKop(hoofdstukKabinetten(perioden, KABINETTEN, "Amendement", minderheid)) }} label="Amendementen per kabinet" tijdlijn stapHoogte="60vh" />
