@@ -85,14 +85,16 @@ export default async function Voorpagina() {
       </section>
 
       <section className={s.opening}>
-        {/* De twee lezingen onder elkaar, zonder tweede kop (feedback Niels K3, 26 oktober 2026) */}
+        {/* De twee lezingen onder elkaar, elk met een vette openingszin (tekst akkoord Niels, 26 oktober 2026) */}
+        <Tekst>Je kunt dat op twee manieren lezen.</Tekst>
         <Tekst>
           <strong>Er wordt meer samengewerkt dan het lijkt.</strong> Achter de ruzie in het debat stemmen kabinet en oppositie
           vaak samen, en dat is sinds 2010 flink toegenomen.
         </Tekst>
         <Tekst>
-          Of: over een verzoek om een onderzoek of een brief is de Kamer het snel eens. Waar het om geld en koers gaat, bij de
-          begroting en de grote wetten, staan kabinet en oppositie nog steeds vaak tegenover elkaar.
+          <strong>Of: eens zijn over een motie zegt weinig.</strong> Over een verzoek om een onderzoek of een brief is de Kamer
+          het snel eens. Waar het om geld en koers gaat, bij de begroting en de grote wetten, staan kabinet en oppositie nog
+          steeds vaak tegenover elkaar.
         </Tekst>
         <Tekst>
           Op sommige onderwerpen, zoals asiel, gaan fracties juist verder uit elkaar dan gemiddeld. Zoek zelf waar ze elkaar vinden,

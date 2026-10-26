@@ -269,6 +269,21 @@
     --duur-verhaal: 600ms;
   }
 }
+/* Telefoon en tablet: kaarten over de tekening. Een volle schermhoogte per stap, zodat er steeds maar één kaart in
+   beeld is; een kaart vervaagt zodra hij over de tekening schuift (--zicht, gezet in ScrollVerhaal.tsx). */
+@media (max-width: 900px) {
+  .verhaal:not([data-breed="true"]) .kaart,
+  .verhaal[data-tijdlijn="true"]:not([data-breed="true"]) .kaart {
+    min-height: max(var(--stap, 100vh), 100svh);
+  }
+  .verhaal:not([data-breed="true"]) .kaart > div {
+    opacity: calc(0.6 * var(--zicht, 1));
+    transition: opacity 120ms;
+  }
+  .verhaal:not([data-breed="true"]) .kaart[data-actief="true"] > div {
+    opacity: var(--zicht, 1);
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .pad {
     animation: none;

@@ -21,6 +21,7 @@ export function ScrollVerhaal({ verhaal, label, hoogteSmal = 555, stapHoogte = "
   const [smal, setSmal] = useState(false);
   const [actief, setActief] = useState(0);
   const lijst = useRef<HTMLOListElement>(null);
+  const tekening = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
     const m = matchMedia("(max-width: 640px)");
@@ -30,21 +31,35 @@ export function ScrollVerhaal({ verhaal, label, hoogteSmal = 555, stapHoogte = "
     return () => m.removeEventListener("change", kies);
   }, []);
 
-  // Actieve stap: de kaart waarvan de tekst het dichtst bij de leeslijn staat: het midden van het scherm,
-  // op smalle schermen lager (78%), zodat de kaart onder de tekening blijft.
+  // Actieve stap. Breed scherm: de kaart waarvan de tekst het dichtst bij het midden van het scherm staat.
+  // Telefoon en tablet (kaarten over de tekening): een stap wisselt zodra de volgende kaart onderin binnenkomt, en
+  // een kaart vervaagt zodra hij over de tekening schuift. Zo gebeurt elke verandering in een vrij beeld (feedback
+  // Niels, 26 oktober 2026: op de telefoon schoof de tekst over de veranderende tekening).
   // Rekenen bij het scrollen, hooguit een keer per beeldje (requestAnimationFrame).
   useEffect(() => {
     let wacht = false;
     const kies = () => {
       wacht = false;
       const kaarten = lijst.current?.querySelectorAll<HTMLElement>("[data-stap] > div") ?? [];
-      const leeslijn = innerHeight * (innerWidth <= 640 ? 0.78 : 0.5);
+      const over = innerWidth <= 900 && !breed;
       let beste = 0, afstand = Infinity;
-      kaarten.forEach((k, i) => {
-        const r = k.getBoundingClientRect();
-        const d = Math.abs((r.top + r.bottom) / 2 - leeslijn);
-        if (d < afstand) { afstand = d; beste = i; }
-      });
+      if (over) {
+        const onder = tekening.current?.getBoundingClientRect().bottom ?? innerHeight * 0.5;
+        kaarten.forEach((k, i) => {
+          const r = k.getBoundingClientRect();
+          if (r.top < innerHeight * 0.85) beste = i;
+          // Zichtbaar onder de tekening, weg in de 100 pixels erboven
+          k.style.setProperty("--zicht", String(Math.min(1, Math.max(0, (r.top - (onder - 100)) / 100))));
+        });
+      } else {
+        const leeslijn = innerHeight * 0.5;
+        kaarten.forEach((k, i) => {
+          const r = k.getBoundingClientRect();
+          k.style.removeProperty("--zicht");
+          const d = Math.abs((r.top + r.bottom) / 2 - leeslijn);
+          if (d < afstand) { afstand = d; beste = i; }
+        });
+      }
       setActief(beste);
     };
     const bijScroll = () => { if (!wacht) { wacht = true; requestAnimationFrame(kies); } };
@@ -52,7 +67,7 @@ export function ScrollVerhaal({ verhaal, label, hoogteSmal = 555, stapHoogte = "
     addEventListener("scroll", bijScroll, { passive: true });
     addEventListener("resize", bijScroll);
     return () => { removeEventListener("scroll", bijScroll); removeEventListener("resize", bijScroll); };
-  }, []);
+  }, [breed]);
 
   const stappen: Stap[] = smal && verhaal.smal ? verhaal.smal : verhaal.breed;
   const stap = stappen[actief] ?? stappen[0];
@@ -67,7 +82,7 @@ export function ScrollVerhaal({ verhaal, label, hoogteSmal = 555, stapHoogte = "
     <div className={s.verhaal} data-tijdlijn={tijdlijn && !breed} data-breed={breed} style={{ "--stap": stapHoogte } as CSSProperties}>
       <div className={s.figuur}>
         {kop && <div className={s.figuurKop} aria-hidden="true">{kop}</div>}
-        <svg viewBox={`-60 -50 1120 ${hoogte}`} className={s.svg} role="img" aria-label={`${label}: ${stap.datum}. ${stap.tekst}`}>
+        <svg ref={tekening} viewBox={`-60 -50 1120 ${hoogte}`} className={s.svg} role="img" aria-label={`${label}: ${stap.datum}. ${stap.tekst}`}>
           <g aria-hidden="true">
             {stap.paden?.map((p, i) => (
               <path key={`${actief}-p${i}`} d={p.d} className={s.pad} data-zacht={p.zacht ? "ja" : undefined}
