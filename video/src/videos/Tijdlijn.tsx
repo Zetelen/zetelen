@@ -22,13 +22,14 @@ type Moment = { soort: Soort; datum: string; kop: string; sub: string; zetels: R
 const som = (z: Record<string, number>, fr: string[]) => fr.reduce((t, f) => t + (z[f] ?? 0), 0);
 const grootste = (z: Record<string, number>) => Object.entries(z).sort((a, b) => b[1] - a[1])[0];
 
-// Veranderingen in de fracties tussen twee momenten: afsplitsing (de voorganger blijft) of nieuwe naam (de voorganger is weg)
+// Veranderingen in de fracties tussen twee momenten: afsplitsingen (de voorganger blijft) en nieuwe fracties
 function veranderingen(vorig: Record<string, number>, nu: Record<string, number>): string[] {
   return Object.keys(nu).filter((f) => !(f in vorig)).map((f) => {
     const v = (VOORGANGER[f] ?? []).find((p) => p in vorig);
     if (!v) return `${naam(f)} is nieuw.`;
-    return v in nu ? `${naam(f)} splitste af van ${naam(v)}.` : `${naam(v)} heet nu ${naam(f)}.`;
-  });
+    // Een nieuwe naam (de voorganger is weg) zie je verder niet in beeld: niet noemen (feedback Niels)
+    return v in nu ? `${naam(f)} splitste af van ${naam(v)}.` : "";
+  }).filter(Boolean);
 }
 
 // Alle momenten op datum: kabinetten, uitstappers, verkiezingen en nu
