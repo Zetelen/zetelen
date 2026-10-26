@@ -38,7 +38,7 @@ Livegang betekent: `LIVE = true` (indexeren, sitemap), het label concept eraf wa
 
 Beide steekproeven zijn vast, niet willekeurig, zodat jij dezelfde rijen ziet als ik: `db/controles/klik_uitslagen.sql` en `db/controles/klik_cohesie.sql`, gedraaid via Controlequery op 26 oktober 2026. Ik heb elke rij al naast de bron gelegd (de API van de Tweede Kamer, de stemmen per fractie). Jouw deel: klik op het zaaknummer, kijk op tweedekamer.nl en vul de laatste kolom in.
 
-Eenmansfracties staan er zonder naam in: hun fractienaam is de naam van een persoon.
+Eenmansfracties en groepen met de naam van een persoon staan er zonder naam in.
 
 ### Steekproef uitslagen (E7-S5, 10 besluiten)
 
@@ -55,7 +55,7 @@ Alle tien kloppen met de bron: dezelfde uitslag, dezelfde zetels en dezelfde fra
 | 7 | 22-09-2020 | [2020Z15847](https://www.tweedekamer.nl/zoeken?qry=2020Z15847) motie | aangenomen, 98 tegen 52 | Aangenomen, 98 tegen 52 | tegen: ChristenUnie, D66, GL, PvdA, PvdD en 1 eenmansfractie | |
 | 8 | 08-12-2020 | [2020Z18763](https://www.tweedekamer.nl/zoeken?qry=2020Z18763) amendement | verworpen, 51 tegen 98 | Verworpen, 51 tegen 98 | tegen: CDA, ChristenUnie, D66, PVV, SGP, VVD | |
 | 9 | 08-10-2024 | [2024Z13894](https://www.tweedekamer.nl/zoeken?qry=2024Z13894) motie | verworpen, 26 tegen 124 | Verworpen, 26 tegen 124 | voor: CDA, ChristenUnie, D66, FVD, JA21, SGP, Volt | |
-| 10 | 19-05-2026 | [2026Z09643](https://www.tweedekamer.nl/zoeken?qry=2026Z09643) motie | aangenomen, 102 tegen 48 | Aangenomen, 102 tegen 48 | tegen: BBB, FVD, Groep Markuszower, JA21, VVD | |
+| 10 | 19-05-2026 | [2026Z09643](https://www.tweedekamer.nl/zoeken?qry=2026Z09643) motie | aangenomen, 102 tegen 48 | Aangenomen, 102 tegen 48 | tegen: BBB, FVD, JA21, VVD en 1 afgesplitste groep | |
 
 Na jouw controle zet ik de uitkomst in `docs/steekproeven/R1-uitslagen.md`.
 
@@ -92,7 +92,7 @@ De berekende cohesie voor dit paar onder Schoof: 79,7% over alle stemmingen (5.5
 
 **Voorstel, niet uitgevoerd:** in `pipeline/ververs.py` de wijzigingen voor Agendapunt, Besluit en Stemming (en de andere entiteiten met een datumfilter via een koppeling) opvragen op `ApiGewijzigdOp` alleen, zonder datumfilter. Wijzigingen per dag zijn klein, dus dat kost weinig. Records van voor 2010 die zo binnenkomen, vallen in `core` toch buiten het datumfilter. Na de aanpassing is een Ververs nodig die terugkijkt tot 23 oktober; Migreer is niet nodig. Ik heb niets in de database hersteld.
 
-**Let op, log met namen.** De Controlequery-run van de uitslagensteekproef (https://github.com/Zetelen/zetelen/actions/runs/40265489488) toont de afkortingen van fracties zoals de database ze heeft. Bij eenmansfracties is dat een achternaam. De log is publiek. Wil je dat ik die run verwijder? Ook de tabel "Steekproef zetelwerk" verderop noemt de indieners bij naam. Dat zijn Kamerleden, maar dit document is een rapport in een publieke repo. Zal ik die kolom vervangen door alleen de fractie?
+**Namen uit dit document gehaald (26 oktober 2026, op verzoek van Niels).** In de steekproef zetelwerk staat nu de fractie van de indiener in plaats van de naam, en het onderwerp zonder de namen van de indieners. De publieke log van de Controlequery-run met fractienamen van eenmansfracties (run 40265489488) wordt verwijderd door Niels. De andere runs van vandaag geven alleen aantallen en ids.
 
 ## Eerst kijken (op de site)
 
@@ -148,27 +148,27 @@ Zie de sectie "Verslag" onderaan, die ik aanvul tot ik stop.
 
 Automatisch vergeleken met de bron (26 oktober 2026, nacht): 19 willekeurige stukken, verspreid over zes kabinetten. **De uitslag, de indiener en diens fractie kloppen 19 van de 19 keer.** Jouw deel: kies er 5 en klik op het nummer, dan zie je op tweedekamer.nl of het klopt.
 
-| Kabinet | Soort | Nummer | Onderwerp (begin) | Wij | Bron (besluittekst) | Indiener volgens bron | Klopt |
+| Kabinet | Soort | Nummer | Onderwerp (begin) | Wij | Bron (besluittekst) | Fractie indiener volgens bron | Klopt |
 |---|---|---|---|---|---|---|---|
-| Rutte I | Motie | [2010Z18649](https://www.tweedekamer.nl/zoeken?qry=2010Z18649) | Motie El Fassed en Hachchi over een tender gericht op vrouwe | verworpen (57 tegen 93) | verworpen | A. El Fassed (GroenLinks) | ja |
-| Rutte I | Motie | [2011Z00574](https://www.tweedekamer.nl/zoeken?qry=2011Z00574) | Motie Paulus Jansen c.s. over minimumhandhavingsstandaarden  | verworpen (62 tegen 88) | verworpen | P.F.C. (Paulus) Jansen (SP) | ja |
-| Rutte I | Amendement | [2011Z14134](https://www.tweedekamer.nl/zoeken?qry=2011Z14134) | Gewijzigd amendement van het lid Van Dam ter vervanging van  | aangenomen (76 tegen 74) | aangenomen | M.H.P. van Dam (PvdA) | ja |
-| Rutte II | Motie | [2016Z07435](https://www.tweedekamer.nl/zoeken?qry=2016Z07435) | Motie van het lid Bashir over een gelijk speelveld in alle l | aangenomen (149 tegen 1) | aangenomen | F. Bashir (SP) | ja |
-| Rutte II | Motie | [2016Z16595](https://www.tweedekamer.nl/zoeken?qry=2016Z16595) | Motie van het lid Wassenberg over in beeld brengen van de ef | verworpen (34 tegen 115) | verworpen | F.P. Wassenberg (PvdD) | ja |
-| Rutte II | Amendement | [2016Z20784](https://www.tweedekamer.nl/zoeken?qry=2016Z20784) | Amendement van de leden Volp en Potters over het versterken  | aangenomen (121 tegen 29) | aangenomen | M.J.J. Volp (PvdA) | ja |
-| Rutte III | Motie | [2018Z12559](https://www.tweedekamer.nl/zoeken?qry=2018Z12559) | Motie van het lid Jasper van Dijk over een Wsnp-traject zond | verworpen (46 tegen 104) | verworpen | J.J. (Jasper) van Dijk (SP) | ja |
-| Rutte III | Motie | [2019Z24905](https://www.tweedekamer.nl/zoeken?qry=2019Z24905) | Motie van het lid Van Nispen c.s. over het handhaven van de  | aangenomen (150 tegen 0) | aangenomen | M. van Nispen (SP) | ja |
-| Rutte III | Motie | [2020Z05025](https://www.tweedekamer.nl/zoeken?qry=2020Z05025) | Motie van het lid Jetten c.s. over een steunpakket voor de c | aangenomen (127 tegen 23) | aangenomen | R.A.A. Jetten (D66) | ja |
-| Rutte III | Amendement | [2019Z23148](https://www.tweedekamer.nl/zoeken?qry=2019Z23148) | Amendement van het lid Remco Dijkstra over meer landelijke d | aangenomen (117 tegen 33) | aangenomen | R.J. (Remco) Dijkstra (VVD) | ja |
-| Rutte IV | Motie | [2022Z10177](https://www.tweedekamer.nl/zoeken?qry=2022Z10177) | Gewijzigde motie van het lid Werner over voorstellen om de u | aangenomen (147 tegen 0) | aangenomen | L.M. Werner (CDA) | ja |
-| Rutte IV | Motie | [2024Z02139](https://www.tweedekamer.nl/zoeken?qry=2024Z02139) | Motie van het lid Diederik van Dijk over in gesprekken met h | aangenomen (80 tegen 70) | aangenomen | D.J.H. (Diederik) van Dijk (SGP) | ja |
-| Rutte IV | Amendement | [2022Z24409](https://www.tweedekamer.nl/zoeken?qry=2022Z24409) | Amendement van het lid Werner c.s. ter vervanging van nr. 12 | aangenomen (147 tegen 3) | aangenomen | L.M. Werner (CDA) | ja |
-| Schoof | Motie | [2025Z00585](https://www.tweedekamer.nl/zoeken?qry=2025Z00585) | Motie van het lid Koekkoek over deelnemen aan de EU Talent P | verworpen (14 tegen 136) | verworpen | M. Koekkoek (Volt) | ja |
-| Schoof | Motie | [2024Z15582](https://www.tweedekamer.nl/zoeken?qry=2024Z15582) | Motie van het lid Veltman over een plan van JenV en IenW voo | aangenomen (144 tegen 6) | aangenomen | H.N. Veltman (VVD) | ja |
-| Schoof | Amendement | [2025Z13261](https://www.tweedekamer.nl/zoeken?qry=2025Z13261) | Gewijzigd amendement van de leden De Hoop en Welzijn ter ver | aangenomen (86 tegen 64) | aangenomen | H.E. de Hoop (GroenLinks-PvdA) | ja |
-| Jetten | Motie | [2026Z06701](https://www.tweedekamer.nl/zoeken?qry=2026Z06701) | Motie van het lid Moorman over het in kaart brengen van de u | verworpen (42 tegen 108) | verworpen | M. Moorman (GroenLinks-PvdA) | ja |
-| Jetten | Motie | [2026Z19664](https://www.tweedekamer.nl/zoeken?qry=2026Z19664) | Motie van het lid Vervuurt c.s. over een versnellingsaanpak  | aangenomen (131 tegen 19) | aangenomen | M. Vervuurt (D66) | ja |
-| Jetten | Motie | [2026Z03135](https://www.tweedekamer.nl/zoeken?qry=2026Z03135) | Motie van het lid Grinwis c.s. over aanscherping van de huid | aangenomen (105 tegen 45) | aangenomen | P.A. Grinwis (ChristenUnie) | ja |
+| Rutte I | Motie | [2010Z18649](https://www.tweedekamer.nl/zoeken?qry=2010Z18649) | ... over een tender gericht op vrouwe | verworpen (57 tegen 93) | verworpen | GroenLinks | ja |
+| Rutte I | Motie | [2011Z00574](https://www.tweedekamer.nl/zoeken?qry=2011Z00574) | ... over minimumhandhavingsstandaarden | verworpen (62 tegen 88) | verworpen | SP | ja |
+| Rutte I | Amendement | [2011Z14134](https://www.tweedekamer.nl/zoeken?qry=2011Z14134) | ... ter vervanging van | aangenomen (76 tegen 74) | aangenomen | PvdA | ja |
+| Rutte II | Motie | [2016Z07435](https://www.tweedekamer.nl/zoeken?qry=2016Z07435) | ... over een gelijk speelveld in alle l | aangenomen (149 tegen 1) | aangenomen | SP | ja |
+| Rutte II | Motie | [2016Z16595](https://www.tweedekamer.nl/zoeken?qry=2016Z16595) | ... over in beeld brengen van de ef | verworpen (34 tegen 115) | verworpen | PvdD | ja |
+| Rutte II | Amendement | [2016Z20784](https://www.tweedekamer.nl/zoeken?qry=2016Z20784) | ... over het versterken | aangenomen (121 tegen 29) | aangenomen | PvdA | ja |
+| Rutte III | Motie | [2018Z12559](https://www.tweedekamer.nl/zoeken?qry=2018Z12559) | ... over een Wsnp-traject zond | verworpen (46 tegen 104) | verworpen | SP | ja |
+| Rutte III | Motie | [2019Z24905](https://www.tweedekamer.nl/zoeken?qry=2019Z24905) | ... over het handhaven van de | aangenomen (150 tegen 0) | aangenomen | SP | ja |
+| Rutte III | Motie | [2020Z05025](https://www.tweedekamer.nl/zoeken?qry=2020Z05025) | ... over een steunpakket voor de c | aangenomen (127 tegen 23) | aangenomen | D66 | ja |
+| Rutte III | Amendement | [2019Z23148](https://www.tweedekamer.nl/zoeken?qry=2019Z23148) | ... over meer landelijke d | aangenomen (117 tegen 33) | aangenomen | VVD | ja |
+| Rutte IV | Motie | [2022Z10177](https://www.tweedekamer.nl/zoeken?qry=2022Z10177) | ... over voorstellen om de u | aangenomen (147 tegen 0) | aangenomen | CDA | ja |
+| Rutte IV | Motie | [2024Z02139](https://www.tweedekamer.nl/zoeken?qry=2024Z02139) | ... over in gesprekken met h | aangenomen (80 tegen 70) | aangenomen | SGP | ja |
+| Rutte IV | Amendement | [2022Z24409](https://www.tweedekamer.nl/zoeken?qry=2022Z24409) | ... ter vervanging van nr. 12 | aangenomen (147 tegen 3) | aangenomen | CDA | ja |
+| Schoof | Motie | [2025Z00585](https://www.tweedekamer.nl/zoeken?qry=2025Z00585) | ... over deelnemen aan de EU Talent P | verworpen (14 tegen 136) | verworpen | Volt | ja |
+| Schoof | Motie | [2024Z15582](https://www.tweedekamer.nl/zoeken?qry=2024Z15582) | ... over een plan van JenV en IenW voo | aangenomen (144 tegen 6) | aangenomen | VVD | ja |
+| Schoof | Amendement | [2025Z13261](https://www.tweedekamer.nl/zoeken?qry=2025Z13261) | ... ter vervanging (gewijzigd amendement) | aangenomen (86 tegen 64) | aangenomen | GroenLinks-PvdA | ja |
+| Jetten | Motie | [2026Z06701](https://www.tweedekamer.nl/zoeken?qry=2026Z06701) | ... over het in kaart brengen van de u | verworpen (42 tegen 108) | verworpen | GroenLinks-PvdA | ja |
+| Jetten | Motie | [2026Z19664](https://www.tweedekamer.nl/zoeken?qry=2026Z19664) | ... over een versnellingsaanpak | aangenomen (131 tegen 19) | aangenomen | D66 | ja |
+| Jetten | Motie | [2026Z03135](https://www.tweedekamer.nl/zoeken?qry=2026Z03135) | ... over aanscherping van de huid | aangenomen (105 tegen 45) | aangenomen | ChristenUnie | ja |
 
 Ook vergeleken: de aantallen per jaar met de telling in de API. In 2010 tellen wij 1.359 moties waarover gestemd is, de API 1.362. In de andere jaren is het verschil net zo klein: een paar stukken waarvan de stemming in de bron ontbreekt of verwijderd is.
 
