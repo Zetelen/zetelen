@@ -13,22 +13,30 @@ export default function Privacy() {
     <Inhoud>
       <section style={sectie}>
         <Label>Privacy · concept</Label>
-        <HeroKop>Welke gegevens Zetelen verwerkt</HeroKop>
+        <HeroKop>Welke gegevens verwerkt Zetelen?</HeroKop>
         <Tekst>
-          Zetelen heeft geen accounts, slaat geen opvattingen van bezoekers op en plaatst geen cookies. Wat je kiest in de
-          verkenner of de coalitiebouwer staat alleen in de link in je browser.
+          Zetelen heeft geen accounts, bewaart geen opvattingen van bezoekers en plaatst geen cookies. Wat je kiest in de
+          verkenner of de coalitiebouwer, staat alleen in de link in je browser.
         </Tekst>
       </section>
       <section style={sectie}>
-        <SectieKop>Hosting</SectieKop>
+        <SectieKop>Waar draait de site?</SectieKop>
         <Tekst>
-          De site draait bij Vercel. Zoals elke webserver verwerkt Vercel technische gegevens, zoals je IP-adres, om de
-          pagina te kunnen leveren en misbruik te voorkomen. Zetelen gebruikt die gegevens niet.
+          Bij Vercel. Zoals elke webserver verwerkt Vercel technische gegevens, zoals je IP-adres. Dat is nodig om de pagina
+          te leveren en misbruik te voorkomen. Zetelen gebruikt die gegevens niet.
         </Tekst>
       </section>
       <section style={sectie}>
         <SectieKop>Bezoekersstatistieken</SectieKop>
-        <Tekst>Nog niet gekozen. Deze tekst wordt aangevuld voordat er statistieken worden bijgehouden.</Tekst>
+        <Tekst>Nog niet gekozen. We vullen deze tekst aan voordat we statistieken bijhouden.</Tekst>
+      </section>
+      <section style={sectie}>
+        <SectieKop>Feedback</SectieKop>
+        <Tekst>
+          In de testperiode staat er een link naar een vragenlijst bij een externe dienst. Wat je daar invult, verwerkt die
+          dienst. Zetelen gebruikt de antwoorden alleen om de site te verbeteren en vraagt niet om je naam. Invullen is
+          vrijwillig. {/* Niels: naam van de dienst en bewaartermijn aanvullen zodra het formulier er is */}
+        </Tekst>
       </section>
       <section style={sectie}>
         <SectieKop>Kamerleden</SectieKop>

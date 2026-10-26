@@ -1,0 +1,381 @@
+.balken {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--lijn);
+}
+.balkRij {
+  display: grid;
+  grid-template-columns: minmax(150px, 220px) minmax(0, 1fr) 52px;
+  gap: var(--r-3);
+  align-items: center;
+  min-height: 40px;
+  border-bottom: 1px solid var(--lijn);
+}
+.terrein {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.aantal {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--tekst-zacht);
+}
+.baan {
+  position: relative;
+  height: 12px;
+  background: var(--nacht-900);
+  border-radius: 3px;
+}
+.baan > span {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+}
+.teWeinig {
+  width: 100%;
+  background: var(--te-weinig-data);
+}
+.referentie {
+  position: absolute;
+  top: -5px;
+  bottom: -5px;
+  width: 2px;
+  background: var(--tekst);
+}
+.waarde {
+  font-family: var(--mono);
+  font-size: 13px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.keuze {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--r-5);
+  align-items: flex-end;
+}
+.keuze label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.kaartKader {
+  overflow-x: auto;
+  border: 1px solid var(--lijn);
+  border-radius: var(--hoek-paneel);
+}
+.kaart {
+  border-collapse: separate;
+  border-spacing: 2px;
+  font-size: 13px;
+}
+.kaart th {
+  font-weight: 400;
+  color: var(--tekst-zacht);
+  padding: var(--r-2);
+  white-space: nowrap;
+}
+.kaart thead th {
+  font-family: var(--mono);
+  font-size: 11px;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  text-align: left;
+  height: 110px;
+}
+.kaart tbody th {
+  position: sticky;
+  left: 0;
+  background: var(--nacht-950);
+  text-align: left;
+  color: var(--tekst);
+}
+.cel {
+  min-width: 44px;
+  height: 34px;
+  text-align: center;
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 12px;
+}
+.cel a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+.cel a:hover,
+.cel a:focus-visible {
+  outline: 2px solid var(--koper);
+  outline-offset: -2px;
+  border-radius: 4px;
+}
+.celTeWeinig {
+  background: var(--te-weinig-data);
+}
+@media (max-width: 640px) {
+  .balkRij {
+    grid-template-columns: minmax(0, 1fr) 48px;
+    grid-template-areas: "terrein waarde" "baan baan";
+    row-gap: 6px;
+    padding: 6px 0;
+  }
+  .terrein { grid-area: terrein; }
+  .waarde { grid-area: waarde; }
+  .baan { grid-area: baan; }
+}
+
+/* Terrein als link naar de verdieping */
+a.balkRij {
+  color: var(--tekst);
+  text-decoration: none;
+}
+a.balkRij:hover,
+a.balkRij[data-actief="true"] {
+  background: var(--nacht-800);
+}
+a.balkRij[data-actief="true"] {
+  box-shadow: inset 3px 0 0 var(--koper);
+}
+
+/* Verdieping: dossiers en stemmingen */
+.dossiers,
+.stemmingen ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--lijn);
+}
+.dossierRij {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 150px 160px;
+  gap: var(--r-3);
+  align-items: center;
+  min-height: 48px;
+  padding: var(--r-2);
+  border-bottom: 1px solid var(--lijn);
+  color: var(--tekst);
+  text-decoration: none;
+}
+.dossierRij:hover,
+.dossierRij[data-actief="true"] {
+  background: var(--nacht-800);
+}
+.dossierRij[data-actief="true"] {
+  box-shadow: inset 3px 0 0 var(--koper);
+}
+.dossierTitel {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.telling {
+  font-family: var(--mono);
+  font-size: 13px;
+}
+.stipjes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+.stipjes span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--nacht-700);
+  border: 1px solid var(--lijn-licht);
+}
+.stipjes span[data-eens="true"] {
+  background: var(--schaal-100);
+  border-color: var(--schaal-100);
+}
+.stemmingen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-3);
+}
+.stemming {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--r-3) var(--r-2) var(--r-3) var(--r-4);
+  border-bottom: 1px solid var(--lijn);
+  border-left: 3px solid var(--lijn);
+}
+.stemming[data-eens="true"] {
+  border-left-color: var(--schaal-100);
+}
+.stemming[data-eens="false"] {
+  border-left-color: var(--koper);
+}
+.stemmingTitel {
+  font-size: 16px;
+}
+.stemmen {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--r-4);
+  font-size: 14px;
+  color: var(--tekst-zacht);
+}
+.stemmen strong {
+  color: var(--tekst);
+}
+.oordeel {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--koper);
+}
+.extern {
+  font-size: 14px;
+  color: var(--koper);
+}
+
+/* Telefoon: lijst per terrein */
+.terreinLijst {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--lijn);
+}
+.terreinLijst > li {
+  border-bottom: 1px solid var(--lijn);
+}
+.terreinLijst summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px var(--r-2);
+  align-items: baseline;
+  padding: var(--r-3) 0;
+  cursor: pointer;
+  list-style: none;
+}
+.terreinLijst summary::-webkit-details-marker {
+  display: none;
+}
+.spreiding {
+  flex-basis: 100%;
+  font-size: 14px;
+  color: var(--tekst-zacht);
+}
+.staafjes {
+  list-style: none;
+  margin: 0 0 var(--r-3);
+  padding: 0;
+}
+.staafjes a {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr) 44px;
+  gap: var(--r-2);
+  align-items: center;
+  min-height: 40px;
+  color: var(--tekst);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+/* Telefoon: vaste balk en paneel van onderen */
+.mobieleBalk,
+.sluier,
+.paneel {
+  display: none;
+}
+.alleenSmal {
+  display: none;
+}
+@media (max-width: 640px) {
+  .alleenBreed {
+    display: none !important;
+  }
+  .alleenSmal {
+    display: block;
+  }
+  .mobieleBalk {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--r-3);
+    margin: 0 calc(-1 * var(--r-4));
+    padding: var(--r-2) var(--r-4);
+    background: var(--nacht-900);
+    border-bottom: 1px solid var(--lijn);
+    font-size: 14px;
+  }
+  .mobieleBalk button {
+    min-height: var(--doel-min);
+    padding: 0 var(--r-4);
+    border-radius: var(--hoek-pil);
+    border: 1px solid var(--koper);
+    background: transparent;
+    color: var(--koper);
+    font: inherit;
+  }
+  .sluier {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    background: rgba(7, 11, 24, 0.6);
+  }
+  .paneel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--r-4);
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 31;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: var(--r-5) var(--r-4) var(--r-6);
+    background: var(--nacht-800);
+    border-top: 1px solid var(--lijn);
+    border-radius: 16px 16px 0 0;
+    animation: omhoog 250ms ease-out;
+  }
+  .paneel[hidden] {
+    display: none;
+  }
+  .paneelVeld {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .klaar {
+    min-height: var(--doel-min);
+    border-radius: var(--hoek-pil);
+    border: 0;
+    background: var(--koper);
+    color: var(--nacht-950);
+    font: inherit;
+    font-weight: 600;
+  }
+  .dossierRij {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .stipjes {
+    display: none;
+  }
+}
+@keyframes omhoog {
+  from { transform: translateY(100%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .paneel { animation: none; }
+}
+
+/* Terrein met weinig stemmingen samen: onderaan en gedimd */
+.balkRij[data-klein="true"] {
+  opacity: 0.6;
+}

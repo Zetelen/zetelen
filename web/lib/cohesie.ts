@@ -15,6 +15,8 @@ export type FractieInPeriode = {
   eerste: string;
   laatste: string;
   inZaal: boolean;
+  zetelsBegin: number;
+  bijBegin: boolean;
 };
 
 export const PERIODESOORTEN: Array<{ waarde: Periodesoort; tekst: string }> = [
@@ -56,9 +58,11 @@ export async function fractiesIn(soort: Periodesoort, periode: string): Promise<
       eerste_stemming: string;
       laatste_stemming: string;
       in_zaal: boolean;
+      zetels_begin: number;
+      bij_begin: boolean;
     }>
   >(
-    `fractie_periode?select=fractie,afkorting,naam,zetels,stemmingen,eerste_stemming,laatste_stemming,in_zaal` +
+    `fractie_periode?select=fractie,afkorting,naam,zetels,stemmingen,eerste_stemming,laatste_stemming,in_zaal,zetels_begin,bij_begin` +
       `&periodesoort=eq.${soort}&periode=eq.${encodeURIComponent(periode)}`,
   );
   if (!rijen) return null;
@@ -71,6 +75,8 @@ export async function fractiesIn(soort: Periodesoort, periode: string): Promise<
     eerste: r.eerste_stemming,
     laatste: r.laatste_stemming,
     inZaal: r.in_zaal,
+    zetelsBegin: r.zetels_begin,
+    bijBegin: r.bij_begin,
   }));
 }
 
@@ -142,4 +148,32 @@ export async function alleFracties(): Promise<FractieOverzicht[] | null> {
     per.set(r.afkorting, f);
   }
   return [...per.values()].sort((a, b) => a.afkorting.localeCompare(b.afkorting, "nl"));
+}
+
+// Kabinet of oppositie per fractie (api.coalitie)
+export type Rol = { rol: "kabinet" | "gedoogsteun"; tot: string | null };
+
+export async function coalitieVan(kabinet: string): Promise<Map<string, Rol>> {
+  const rijen = await leesApi<Array<{ afkorting: string; rol: "kabinet" | "gedoogsteun"; tot: string | null }>>(
+    `coalitie?select=afkorting,rol,tot&kabinet=eq.${encodeURIComponent(kabinet)}`,
+  );
+  return new Map((rijen ?? []).map((r) => [r.afkorting, { rol: r.rol, tot: r.tot }]));
+}
+
+export function rolTekst(rol: Rol | undefined): string {
+  if (!rol) return "Oppositie";
+  const naam = rol.rol === "kabinet" ? "Kabinet" : "Gedoogsteun";
+  if (!rol.tot) return naam;
+  const datum = new Date(rol.tot).toLocaleDateString("nl-NL", { day: "numeric", month: "long", year: "numeric" });
+  return `${naam} tot ${datum}`;
+}
+
+// Overstappers per periode (api.overstap): Kamerleden die van de ene naar de andere fractie gingen
+export type Overstap = { van: string; naar: string; leden: number };
+
+export async function overstappenIn(soort: Periodesoort, periode: string): Promise<Overstap[]> {
+  const rijen = await leesApi<Overstap[]>(
+    `overstap?select=van,naar,leden&periodesoort=eq.${soort}&periode=eq.${encodeURIComponent(periode)}`,
+  );
+  return rijen ?? [];
 }

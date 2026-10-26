@@ -1,6 +1,6 @@
 // Tests voor de keuze uit de URL, de fractie-URL en de ordening (lib/cohesie.ts, lib/ordening.ts)
 import { describe, expect, it } from "vitest";
-import { type FractieInPeriode, type Periode, keuzeUitUrl, procent, slug } from "../lib/cohesie";
+import { type FractieInPeriode, type Periode, keuzeUitUrl, procent, rolTekst, slug } from "../lib/cohesie";
 import { ordenFracties } from "../lib/ordening";
 
 const PERIODEN: Periode[] = [
@@ -38,11 +38,19 @@ describe("slug en procent", () => {
 
 describe("ordenFracties", () => {
   const f = (id: string, afkorting: string, inZaal: boolean, eerste = "2020-01-01"): FractieInPeriode => ({
-    id, afkorting, naam: afkorting, zetels: 10, stemmingen: 100, eerste, laatste: "2021-01-01", inZaal,
+    id, afkorting, naam: afkorting, zetels: 10, stemmingen: 100, eerste, laatste: "2021-01-01", inZaal, zetelsBegin: 10, bijBegin: true,
   });
   it("zet de zaal voorop en maakt dubbele afkortingen uniek", () => {
     const uit = ordenFracties([f("1", "Krol", false, "2020-05-03"), f("2", "Krol", false, "2020-08-06"), f("3", "VVD", true), f("4", "SP", true), f("5", "D66", true)], new Map());
     expect(uit.slice(0, 3).every((x) => x.inZaal)).toBe(true);
     expect(uit.slice(3).map((x) => x.afkorting)).toEqual(["Krol 2020-05", "Krol 2020-08"]);
+  });
+});
+
+describe("rolTekst", () => {
+  it("geeft oppositie zonder rol en de einddatum bij uittreden", () => {
+    expect(rolTekst(undefined)).toBe("Oppositie");
+    expect(rolTekst({ rol: "kabinet", tot: null })).toBe("Kabinet");
+    expect(rolTekst({ rol: "gedoogsteun", tot: "2012-04-21" })).toBe("Gedoogsteun tot 21 april 2012");
   });
 });

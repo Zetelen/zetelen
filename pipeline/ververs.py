@@ -9,8 +9,9 @@ de API zet dan de vlag Verwijderd en werkt ApiGewijzigdOp bij.
 Entiteiten waarvan de eerste laad nog niet klaar is, worden overgeslagen.
 De log bevat alleen aantallen en duur.
 
-Na de raw-laag worden de core-laag (core.herbouw(), component core-model) en de
-analyse-laag (analyses.herbouw(), component cohesie-analyse) opnieuw opgebouwd,
+Daarna de Kamerstukdossiers en de koppeling zaak en dossier (pipeline/dossiers.py, component onderwerpen).
+Na de raw-laag worden de core-laag (core.herbouw() en core.herbouw_dossiers()) en de
+analyse-laag (analyses.herbouw() en analyses.herbouw_terrein()) opnieuw opgebouwd,
 zodat de analyses altijd op de verse data draaien. Daarna volgen de
 datakwaliteitscontroles (component datakwaliteit); een harde fout laat de run falen.
 
@@ -34,6 +35,7 @@ from pathlib import Path
 import psycopg
 
 from api_check import BASE, lees_metadata
+from dossiers import ververs_dossiers
 from laad import PAUZE, VOLGORDE, getal, http_json, basis_url, mb, database_grootte, schrijf_pagina, skiptoken_uit
 from raw_schema import METADATA, kolommen
 from verbindingstest import uitleg
@@ -109,18 +111,18 @@ def eind_log(conn, run_id, status, records=None, fout=None):
     )
 
 
-def herbouw(conn, schema):
-    """Bouwt een afgeleide laag (core of analyses) opnieuw op en logt het aantal rijen per tabel."""
+def herbouw(conn, schema, functie="herbouw"):
+    """Bouwt een afgeleide laag (core of analyses), of een deel daarvan, opnieuw op en logt het aantal rijen per tabel."""
     start = time.monotonic()
     # Supabase stopt standaard lange queries; de herbouw over ruim een miljoen stemmen heeft meer tijd nodig
     oud = conn.execute("show statement_timeout").fetchone()[0]
     conn.execute("set statement_timeout = '20min'")
     try:
-        aantallen = conn.execute(f"select tabel, rijen from {schema}.herbouw()").fetchall()
+        aantallen = conn.execute(f"select tabel, rijen from {schema}.{functie}()").fetchall()
     finally:
         conn.execute("select set_config('statement_timeout', %s, false)", (oud,))
     seconden = f"{time.monotonic() - start:.0f}"
-    print(f"{schema} herbouwd in {seconden} s: " + ", ".join(f"{t} {getal(n)}" for t, n in aantallen))
+    print(f"{schema}.{functie} klaar in {seconden} s: " + ", ".join(f"{t} {getal(n)}" for t, n in aantallen))
 
 
 def herbouw_stemmatrix(conn):
@@ -160,8 +162,14 @@ def ververs_alles(conn, meta, haal=http_json, base=BASE, pauze=PAUZE):
         for entiteit in VOLGORDE:
             totaal += ververs_entiteit(conn, entiteit, kolommen(meta, entiteit),
                                        haal=haal, base=base, pauze=pauze) or 0
+        # Dossiers en beleidsterreinen (component onderwerpen). Telt niet mee in het totaal van gewijzigde
+        # records: de dossiers worden elke run volledig opgehaald
+        ververs_dossiers(conn, meta, haal=haal, base=base, pauze=pauze)
         herbouw(conn, "core")
+        herbouw(conn, "core", "herbouw_dossiers")
         herbouw(conn, "analyses")
+        herbouw(conn, "analyses", "herbouw_terrein")
+        herbouw(conn, "analyses", "herbouw_zetelwerk")
         herbouw_stemmatrix(conn)
         controleer_datakwaliteit(conn)
     except Exception as e:

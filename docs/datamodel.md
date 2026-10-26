@@ -16,6 +16,11 @@ erDiagram
     besluit ||--o{ besluit_zaak : "gaat over"
     zaak ||--o{ besluit_zaak : "is onderwerp van"
     fractie_partij ||--|| fractie : "koppelt partij aan"
+    kabinet ||--o{ coalitie : "bestaat uit"
+    zaak ||--o{ zaak_dossier : "hoort bij"
+    dossier ||--o{ zaak_dossier : "bevat"
+    beleidsterrein_commissie ||--o{ dossier : "geeft terrein"
+    beleidsterrein_trefwoord ||--o{ dossier : "gaat voor de commissie"
 ```
 
 ## Handmatige tabellen
@@ -33,6 +38,18 @@ Een rij per zittingsperiode van de Tweede Kamer, van de installatie van de nieuw
 ### fractie_partij
 
 Koppelt een fractie aan een partij, of aan niets. Fractie en partij zijn niet hetzelfde: een groep of een afgesplitst Kamerlid vormt een fractie zonder partij. Bevat de fracties die op of na 1 januari 2010 actief waren; twijfelgevallen hebben een opmerking.
+
+### coalitie
+
+Welke fracties in welk kabinet zaten (rol `kabinet`) of het kabinet gedoogden (rol `gedoogsteun`), met een datum van uittreden als een fractie tussentijds opstapte. Gekoppeld op de afkorting van de fractie. Toegevoegd op 24 oktober 2026 (vervroegd op verzoek van Niels), bron per rij.
+
+### beleidsterrein_commissie
+
+Zet een vaste commissie (naam zoals in de API, in kleine letters) om in een van vijftien beleidsterreinen, zodat namen die per kabinet veranderen onder hetzelfde terrein vallen. Een commissie die hier niet staat, telt als 'Overig'. Opgesteld op 25 oktober 2026 (`db/migrations/014_onderwerpen.sql`), nog na te kijken door Niels.
+
+### beleidsterrein_trefwoord
+
+Trefwoorden (patronen) in de titel van een dossier die het beleidsterrein bepalen, vóór de commissie: zo vallen asiel, wonen en digitalisering onder hun eigen terrein, ook in de jaren dat een andere commissie ze behandelde. Toegevoegd op 25 oktober 2026 (`db/migrations/015_trefwoorden.sql`), nog na te kijken door Niels.
 
 ## Afgeleide tabellen
 
@@ -65,3 +82,11 @@ De zaken (moties, wetsvoorstellen en dergelijke) waarover een besluit met een st
 ### besluit_zaak
 
 Koppelt een besluit aan de zaak of zaken waar het over gaat. Deze koppeling staat in de API niet als veld in het besluit, maar als relatie; `ingest` laadt hem apart.
+
+### dossier
+
+Elk Kamerstukdossier met nummer, toevoeging en titel, de vaste commissie die het vaakst voortouwcommissie is van de zaken in dat dossier ('TK' telt niet), en het beleidsterrein uit `beleidsterrein_commissie`. Opgebouwd door `core.herbouw_dossiers()` (component onderwerpen).
+
+### zaak_dossier
+
+Koppelt een zaak waarover gestemd is aan de dossiers waar die bij hoort. Een zaak kan bij meer dossiers horen; een stemming telt dan mee bij elk beleidsterrein (besluit Niels, 25 oktober 2026).

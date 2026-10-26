@@ -43,4 +43,16 @@ describe("bereken", () => {
     expect([z[0][0], z[0][1]]).toEqual([70, 80]);
     expect(bereken(m, ["a"], z).meerderheid).toBe(1); // 70 tegen 70 nee, 80 tegen 70 ja
   });
+
+  it("telt met alleenVerdeeld alleen stemmingen waarop fracties voor en tegen stemden", () => {
+    const m = basis(["VVVV", "VVTT", "TTTT"]);
+    expect(bereken(m, ["a"]).eensgezind).toBe(3);
+    expect(bereken(m, ["a"], zetelTabel(m), true).eensgezind).toBe(1);
+  });
+
+  it("onthoudt op welke stemmingen een partner beslissend was", () => {
+    const m = basis(["VTTV", "VVTT", "VVTT"]);
+    const b = bereken(m, ["a"]).partners.find((p) => p.afkorting === "B")!;
+    expect(b.beslissendIn).toEqual([1, 2]);
+  });
 });

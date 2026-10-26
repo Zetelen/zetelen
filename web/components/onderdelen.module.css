@@ -144,9 +144,34 @@
 .korrel {
   position: fixed;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.03;
   pointer-events: none;
-  mix-blend-mode: screen;
+  background-image: url("/korrel.png");
+  background-size: 96px 96px;
+  opacity: 0.035;
+  /* Eigen laag: de browser hoeft de korrel bij scrollen niet opnieuw te tekenen */
+  will-change: transform;
+  transform: translateZ(0);
+}
+.inklapbaar > summary {
+  cursor: pointer;
+  list-style: none;
+  font-size: var(--tekst-label);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--koper);
+  min-height: var(--doel-min);
+  display: flex;
+  align-items: center;
+  gap: var(--r-2);
+}
+.inklapbaar > summary::-webkit-details-marker {
+  display: none;
+}
+.inklapbaar > summary::after {
+  content: "+";
+  font-family: var(--mono);
+}
+.inklapbaar[open] > summary::after {
+  content: "−";
 }

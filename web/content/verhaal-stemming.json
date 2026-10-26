@@ -1,0 +1,12 @@
+{
+  "_bron": "Tweede Kamer, open data: Besluit met StemmingsSoort 'Hoofdelijk' bij zaak 2025Z11623, stemmen per fractie geteld uit Stemming (opgehaald 25 oktober 2026). Controle tegen de database: db/controles/verhaal_stemming.sql.",
+  "zaak": "2025Z11623",
+  "datum": "2025-06-10",
+  "onderwerp": "Gewijzigde motie van het lid Eerdmans over het tienpuntenplan over asiel van Wilders uitwerken en waar mogelijk uitvoeren",
+  "uitslag": "Verworpen (55-88)",
+  "stemmen": {
+    "Voor": { "VVD": 23, "Nieuw Sociaal Contract": 18, "BBB": 7, "FVD": 3, "SGP": 3, "JA21": 1 },
+    "Tegen": { "PVV": 34, "GroenLinks-PvdA": 24, "D66": 9, "SP": 5, "CDA": 4, "PvdD": 3, "ChristenUnie": 3, "DENK": 3, "Volt": 2, "VVD": 1 },
+    "Niet deelgenomen": { "PVV": 3, "Nieuw Sociaal Contract": 2, "GroenLinks-PvdA": 1, "CDA": 1 }
+  }
+}

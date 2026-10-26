@@ -4,7 +4,7 @@ import type { FractieInPeriode } from "../lib/cohesie";
 import { plaatjeInhoud } from "../lib/deelplaatje";
 import { type CohesieKaart, sleutel } from "../lib/zaal";
 
-const f = (id: string, afkorting: string): FractieInPeriode => ({ id, afkorting, naam: afkorting, zetels: 10, stemmingen: 100, eerste: "2025-01-01", laatste: "2026-01-01", inZaal: true });
+const f = (id: string, afkorting: string): FractieInPeriode => ({ id, afkorting, naam: afkorting, zetels: 10, stemmingen: 100, eerste: "2025-01-01", laatste: "2026-01-01", inZaal: true, zetelsBegin: 10, bijBegin: true });
 const fracties = [f("a", "A"), f("b", "B"), f("c", "C"), f("d", "D")];
 function kaart(paren: Array<[string, string, number | null, boolean]>): CohesieKaart {
   const k: CohesieKaart = new Map();

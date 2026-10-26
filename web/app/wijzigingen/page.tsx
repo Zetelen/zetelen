@@ -11,14 +11,14 @@ export default function Wijzigingen() {
     <Inhoud>
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
         <Label>Wijzigingslog</Label>
-        <HeroKop>Wat er is gecorrigeerd</HeroKop>
+        <HeroKop>Wat is er gecorrigeerd?</HeroKop>
         <Tekst>
-          Elke inhoudelijke correctie van een cijfer of tekst staat hier, met datum. Dagelijkse verversingen van de data
-          staan er niet in; die zijn geen correctie.
+          Hier staat elke inhoudelijke correctie van een cijfer of tekst, met datum. De dagelijkse verversing van de data
+          staat er niet in: dat is geen correctie.
         </Tekst>
       </section>
       {WIJZIGINGEN.length === 0 ? (
-        <Tekst>Er zijn nog geen correcties.</Tekst>
+        <Tekst>Er zijn nog geen correcties. We blijven natellen.</Tekst>
       ) : (
         <ol style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
           {WIJZIGINGEN.map((w) => (

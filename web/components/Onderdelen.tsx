@@ -145,7 +145,7 @@ export function Schaal() {
       </div>
       <span style={{ display: "inline-flex", gap: 8, alignItems: "center" }}>
         <span className={`${s.cel} ${s.teWeinig}`} style={{ minWidth: 32, minHeight: 20 }} aria-hidden="true" />
-        <Data>Te weinig data: minder dan 25 gezamenlijke stemmingen</Data>
+        <Data>Te weinig stemmingen: minder dan 25 samen, dus geen oordeel</Data>
       </span>
     </div>
   );
@@ -155,8 +155,8 @@ export function Schaal() {
 export function CohesieCel({ procent }: { procent: number | null }) {
   if (procent === null) {
     return (
-      <span className={`${s.cel} ${s.teWeinig}`} title="Te weinig data">
-        <span className="verborgen">Te weinig data</span>
+      <span className={`${s.cel} ${s.teWeinig}`} title="Te weinig stemmingen">
+        <span className="verborgen">Te weinig stemmingen</span>
       </span>
     );
   }
@@ -168,15 +168,9 @@ export function CohesieCel({ procent }: { procent: number | null }) {
   );
 }
 
-// Korrel van ongeveer 3% over de pagina (SVG feTurbulence), geen afbeelding
+// Korrel van ongeveer 3% over de pagina: een klein, vooraf gemaakt ruisplaatje (public/korrel.png).
+// Eerder een SVG-filter met overvloeimodus; die moest de browser bij elke scrollbeweging opnieuw
+// tekenen, wat het scrollen schokkerig maakte (feedback Niels, 24 oktober 2026).
 export function Korrel() {
-  return (
-    <svg aria-hidden="true" className={s.korrel}>
-      <filter id="korrel">
-        <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves={2} stitchTiles="stitch" />
-        <feColorMatrix type="saturate" values="0" />
-      </filter>
-      <rect width="100%" height="100%" filter="url(#korrel)" />
-    </svg>
-  );
+  return <div aria-hidden="true" className={s.korrel} />;
 }

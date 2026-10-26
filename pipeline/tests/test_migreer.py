@@ -45,7 +45,8 @@ def test_tabellen_en_kolommen(conn):
     tabellen = {r[0] for r in conn.execute(
         "select table_name from information_schema.tables where table_schema = 'raw'"
     )}
-    verwacht = {e.lower() for e in raw_schema.ENTITEITEN} | {"besluit_zaak", "laadstatus"}
+    # Plus de koppeltabel van besluiten, de laadstatus en de dossiers (014_onderwerpen.sql)
+    verwacht = {e.lower() for e in raw_schema.ENTITEITEN} | {"besluit_zaak", "laadstatus", "kamerstukdossier", "zaak_kamerstukdossier"}
     assert tabellen == verwacht
     persoon = {r[0] for r in conn.execute(
         "select column_name from information_schema.columns "

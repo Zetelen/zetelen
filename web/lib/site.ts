@@ -5,10 +5,14 @@ export const SITE = {
   contact: "niels@datavizd.io",
   broncode: "https://github.com/Zetelen/zetelen",
   bron: "https://opendata.tweedekamer.nl",
-  beschrijving: "Hoe vaak stemmen fracties in de Tweede Kamer hetzelfde? Op basis van de open data van de Tweede Kamer.",
+  beschrijving: "Wie stemt met wie in de Tweede Kamer? Geteld uit de open data van de Tweede Kamer.",
 };
 
 export const LIVE = false;
+
+// Feedbackronde (besluit Niels, 25 oktober 2026): een vaste vragenlijst bij een externe dienst. Niels maakt het
+// formulier; zolang het adres leeg is, toont de site geen feedbackknop.
+export const FEEDBACK_URL = "";
 
 // Adres van de site: op Vercel het productieadres, lokaal localhost
 export function siteUrl(): URL {
@@ -17,4 +21,4 @@ export function siteUrl(): URL {
 }
 
 // Publieke pagina's, voor de sitemap
-export const PAGINAS = ["/", "/verkenner", "/fracties", "/methodiek", "/wijzigingen", "/over"];
+export const PAGINAS = ["/", "/verkenner", "/onderwerpen", "/coalitie", "/oppositie", "/fracties", "/kamerleden", "/methodiek", "/wijzigingen", "/over"];

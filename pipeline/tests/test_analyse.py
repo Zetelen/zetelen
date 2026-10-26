@@ -171,3 +171,14 @@ def test_stemmatrix_per_periode(conn, scenario):
     assert sum(1 for r in stemmen if r[a] == "V" and r[c] == "T") >= 30
     # A heeft 10 zetels bij handopsteken; bij de hoofdelijke stemming telt het aantal leden (3)
     assert {10, 3} <= {z for _, z in zetels[a]}
+
+
+def test_stemmatrix_met_besluiten_in_dezelfde_volgorde(conn, scenario):
+    # Per regel in stemmen het besluit, zodat de site bij een partner de stemmingen kan tonen (migratie 017)
+    conn.execute("select analyses.herbouw_stemmatrix()")
+    stemmen, besluiten = conn.execute(
+        "select stemmen, besluiten from api.stemmatrix where periodesoort = 'kabinet' and periode = 'Schoof'"
+    ).fetchone()
+    assert len(besluiten) == len(stemmen) == len(set(besluiten))
+    datums = [conn.execute("select datum from core.besluit where id = %s", (b,)).fetchone()[0] for b in besluiten]
+    assert datums == sorted(datums)

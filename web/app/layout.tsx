@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Mono, Hanken_Grotesk, Newsreader } from "next/font/google";
 import type { ReactNode } from "react";
+import { FeedbackBalk } from "@/components/FeedbackBalk";
 import { Navigatie, Voet } from "@/components/Kader";
 import { Korrel } from "@/components/Onderdelen";
 import { laatstBijgewerkt } from "@/lib/api";
@@ -38,6 +39,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
       <body>
         <Korrel />
         <Navigatie />
+        <FeedbackBalk />
         {children}
         <Voet ververst={ververst} />
       </body>

@@ -99,3 +99,132 @@
   color: var(--tekst-zacht);
   margin-top: -6px;
 }
+.bullets {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--lijn);
+}
+.bulletRij {
+  display: grid;
+  grid-template-columns: minmax(140px, 260px) minmax(0, 1fr) 44px 190px;
+  gap: var(--r-4);
+  align-items: center;
+  min-height: 56px;
+  padding: var(--r-2) var(--r-2);
+  border-bottom: 1px solid var(--lijn);
+  color: var(--tekst);
+  text-decoration: none;
+}
+.bulletRij:hover {
+  background: var(--nacht-900);
+}
+.bulletNaam {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.bulletVoluit {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--tekst-zacht);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bulletKolom {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.bulletBaan {
+  display: flex;
+  gap: 2px;
+  height: 14px;
+  background: var(--nacht-900);
+  border-radius: var(--hoek-klein);
+  overflow: hidden;
+}
+.bulletBalk {
+  display: block;
+  height: 100%;
+  border-radius: var(--hoek-klein);
+  background: var(--lijn-licht);
+}
+.bulletDeel {
+  display: block;
+  height: 100%;
+  border-radius: var(--hoek-klein);
+  background: repeating-linear-gradient(135deg, var(--lijn-licht) 0 3px, transparent 3px 6px);
+  opacity: 0.7;
+}
+.bulletNoot {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--tekst-zacht);
+}
+.bulletBalk[data-rol="kabinet"] {
+  background: var(--koper);
+}
+.bulletBalk[data-rol="gedoogsteun"] {
+  background: var(--goud);
+}
+.bulletGetal {
+  font-family: var(--mono);
+  font-size: 15px;
+  text-align: right;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.rol {
+  justify-self: start;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: var(--hoek-pil);
+  border: 1px solid var(--lijn);
+  color: var(--tekst-zacht);
+}
+.rol[data-rol="kabinet"] {
+  border-color: var(--koper);
+  color: var(--koper);
+}
+.rol[data-rol="gedoogsteun"] {
+  border-color: var(--goud);
+  color: var(--goud);
+}
+.kolommen {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  columns: 4 160px;
+  column-gap: var(--r-5);
+}
+.kolommen li {
+  break-inside: avoid;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+}
+.kolommen a {
+  color: var(--tekst);
+  text-decoration: none;
+}
+.kolommen a:hover {
+  color: var(--koper);
+}
+@media (max-width: 640px) {
+  .bulletRij {
+    grid-template-columns: minmax(0, 1fr) 40px;
+    grid-template-areas: "naam getal" "baan baan" "rol rol";
+    row-gap: var(--r-2);
+  }
+  .bulletNaam { grid-area: naam; }
+  .bulletGetal { grid-area: getal; }
+  .bulletKolom { grid-area: baan; }
+  .rol { grid-area: rol; }
+}

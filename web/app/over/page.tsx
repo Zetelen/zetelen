@@ -7,7 +7,7 @@ import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Over",
-  description: "Wie maakt Zetelen, met welke data, en hoe meld je een fout.",
+  description: "Wie maakt Zetelen, met welke data, en hoe meld je een fout?",
 };
 
 export default function Over() {
@@ -16,20 +16,19 @@ export default function Over() {
     <Inhoud>
       <section style={sectie}>
         <Label>Over</Label>
-        <HeroKop>Over Zetelen</HeroKop>
+        <HeroKop>Wie maakt Zetelen?</HeroKop>
         <Tekst>
-          Zetelen is een onafhankelijk project van {SITE.maker}. Er zit geen organisatie of partij achter. Het doel is
-          het stemgedrag in de Tweede Kamer inzichtelijk te maken met openbare data, en daarbij te laten zien dat
-          een cijfer meer dan een lezing kent.
+          Zetelen is een onafhankelijk project van {SITE.maker}. Er zit geen organisatie of partij achter, alleen
+          nieuwsgierigheid. Het doel: met openbare data laten zien hoe er in de Tweede Kamer wordt gestemd. En laten zien
+          dat je een cijfer op meer dan één manier kunt lezen.
         </Tekst>
       </section>
 
       <section style={sectie}>
-        <SectieKop>De data</SectieKop>
+        <SectieKop>Waar komen de cijfers vandaan?</SectieKop>
         <Tekst>
-          Alle cijfers komen uit de open data van de Tweede Kamer. Een script haalt die elke dag op, rekent de
-          analyses uit en controleert de uitkomst, onder meer tegen de officiële uitslagen. De broncode en de
-          berekeningen zijn openbaar.
+          Uit de open data van de Tweede Kamer. Een script haalt die elke dag op, rekent alles uit en controleert de
+          uitkomst, onder meer tegen de officiële uitslagen. De broncode en de berekeningen zijn openbaar.
         </Tekst>
         <Tekst>
           <a href={SITE.broncode}>Bekijk de broncode op GitHub</a>
@@ -37,10 +36,10 @@ export default function Over() {
       </section>
 
       <section style={sectie}>
-        <SectieKop>Een fout melden</SectieKop>
+        <SectieKop>Klopt er iets niet?</SectieKop>
         <Tekst>
           Zie je een cijfer dat niet klopt? Mail <a href={`mailto:${SITE.contact}`}>{SITE.contact}</a> of meld het
-          op <a href={`${SITE.broncode}/issues`}>GitHub</a>. Noem de pagina en wat je verwachtte. Elke
+          op <a href={`${SITE.broncode}/issues`}>GitHub</a>. Zet erbij op welke pagina het was en wat je verwachtte. Elke
           correctie komt in het <Link href="/wijzigingen">wijzigingslog</Link>.
         </Tekst>
       </section>

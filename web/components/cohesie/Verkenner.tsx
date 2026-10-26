@@ -1,6 +1,7 @@
 "use client";
 // Cohesie-verkenner (component cohesie-pagina, E2-S3 tot en met E2-S5): zaal, boog en matrix
 // van dezelfde cijfers. De keuze van fractie en weergave staat in de URL, net als periode en variant.
+import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import type { FractieInPeriode } from "@/lib/cohesie";
@@ -61,52 +62,47 @@ export function Verkenner({ fracties, paren, periodeNaam }: VerkennerProps) {
       {/* Voor schermlezers: wat er gekozen is en wat de muis aanwijst */}
       <p className="verborgen" aria-live="polite">
         Gekozen fractie: {gekozen.naam}.
-        {uitlees && uitleesPaar ? ` Cohesie met ${uitlees.naam}: ${uitleesPaar.teWeinig ? "te weinig data" : procent(uitleesPaar.cohesie, 1)}.` : ""}
+        {uitlees && uitleesPaar ? ` Stemde hetzelfde als ${uitlees.naam}: ${uitleesPaar.teWeinig ? "te weinig stemmingen" : procent(uitleesPaar.cohesie, 1)}.` : ""}
       </p>
 
-      {weergave === "zaal" && (
-        <Zaal fracties={inZaal} gekozen={gekozen} hover={hover} setHover={setHover} kies={(f) => zet("fractie", f)} paar={paar}
-          uitlees={uitlees} uitleesPaar={uitleesPaar} />
-      )}
-      {weergave === "boog" && (
-        <Boog fracties={inZaal} gekozen={gekozen} hover={hover} setHover={setHover} kies={(f) => zet("fractie", f)} paar={paar}
-          uitlees={uitlees} uitleesPaar={uitleesPaar} />
-      )}
-      {weergave === "tabel" && <Matrix fracties={fracties} gekozen={gekozen} kies={(f) => zet("fractie", f)} paar={paar} />}
-
-      {weergave !== "tabel" && (
-        <>
-          <Schaal />
-          <div className={s.knoppen} role="group" aria-label="Kies een fractie">
-            {fracties.map((f) => {
-              const p = f.id === gekozen.id ? undefined : paar(gekozen.id, f.id);
-              return (
-                <button
-                  key={f.id}
-                  type="button"
-                  aria-pressed={f.id === gekozen.id}
-                  onClick={() => zet("fractie", f.afkorting)}
-                  onMouseEnter={() => setHover(f.id)}
-                  onMouseLeave={() => setHover(null)}
-                  onFocus={() => setHover(f.id)}
-                  onBlur={() => setHover(null)}
-                >
-                  {f.afkorting}
-                  <span className={s.knopwaarde}>
-                    {f.id === gekozen.id ? "gekozen" : p ? (p.teWeinig ? "te weinig" : procent(p.cohesie)) : "geen"}
-                  </span>
-                </button>
-              );
-            })}
+      {weergave === "tabel" ? (
+        <Matrix fracties={fracties} gekozen={gekozen} kies={(f) => zet("fractie", f)} paar={paar} />
+      ) : (
+        <div className={s.werkvlak}>
+          <Paneel fracties={inZaal} gekozen={gekozen} hover={hover} setHover={setHover} kies={(f) => zet("fractie", f)} paar={paar} />
+          <div className={s.figuur}>
+            {weergave === "zaal" ? (
+              <Zaal fracties={inZaal} gekozen={gekozen} hover={hover} setHover={setHover} kies={(f) => zet("fractie", f)} paar={paar}
+                uitlees={uitlees} uitleesPaar={uitleesPaar} />
+            ) : (
+              <Boog fracties={inZaal} gekozen={gekozen} hover={hover} setHover={setHover} kies={(f) => zet("fractie", f)} paar={paar}
+                uitlees={uitlees} uitleesPaar={uitleesPaar} />
+            )}
+            <Schaal />
+            <Verder gekozen={gekozen.afkorting} zoek={zoek} />
+            {fracties.some((f) => !f.inZaal) && (
+              <Data>
+                Niet in de zaal, wel in deze periode: {fracties.filter((f) => !f.inZaal).map((f) => f.afkorting).join(", ")}. Deze
+                fracties stopten halverwege {periodeNaam}. In de tabel staan ze wel.
+              </Data>
+            )}
           </div>
-          {fracties.some((f) => !f.inZaal) && (
-            <Data>
-              Niet in de zaal, wel in deze periode: {fracties.filter((f) => !f.inZaal).map((f) => f.afkorting).join(", ")}. Deze
-              fracties stopten halverwege {periodeNaam}; ze staan wel in de tabel.
-            </Data>
-          )}
-        </>
+        </div>
       )}
+    </div>
+  );
+}
+
+// Verder op de site (samentrekken, 25 oktober 2026): de gekozen fractie per onderwerp en in de coalitiebouwer
+function Verder({ gekozen, zoek }: { gekozen: string; zoek: URLSearchParams }) {
+  const basis = new URLSearchParams(zoek.toString());
+  basis.delete("weergave");
+  basis.set("fractie", gekozen);
+  const coalitie = new URLSearchParams({ soort: basis.get("soort") ?? "kabinet", ...(basis.get("periode") ? { periode: basis.get("periode")! } : {}), groep: gekozen });
+  return (
+    <div className={s.verder}>
+      <Link href={`/onderwerpen?${basis.toString()}`}>{gekozen} per onderwerp →</Link>
+      <Link href={`/coalitie?${coalitie.toString()}`}>Bij wie haalt {gekozen} een meerderheid? →</Link>
     </div>
   );
 }
@@ -149,7 +145,49 @@ function Uitlees({ gekozen, uitlees, uitleesPaar, y }: { gekozen: FractieInPerio
   );
 }
 
-// Zaal: fracties als omlijnde vakken met een label erbuiten; de hele fractie licht op (feedback Niels)
+// Bedienpaneel (feedback Niels, 25 oktober 2026): een bullet chart naast de zaal, op volgorde van zetels
+// zodat de rijen niet verspringen. De balk is de cohesie met de gekozen fractie. Klikken kiest een fractie,
+// aanwijzen licht haar op in de zaal (en andersom).
+function Paneel({ fracties, gekozen, hover, setHover, kies, paar }: Omit<WeergaveProps, "uitlees" | "uitleesPaar">) {
+  const rijen = [...fracties].sort((a, b) => b.zetels - a.zetels || a.afkorting.localeCompare(b.afkorting));
+  return (
+    <div className={s.paneel} role="group" aria-label="Kies een fractie">
+      <div className={s.paneelKop} aria-hidden="true">
+        <span>Zetels</span>
+        <span>Fractie</span>
+        <span>Eens met {gekozen.afkorting}</span>
+      </div>
+      {rijen.map((f) => {
+        const ik = f.id === gekozen.id;
+        const p = ik ? undefined : paar(gekozen.id, f.id);
+        const kleur = kleurVan(p);
+        const waarde = ik ? "gekozen" : p ? (p.teWeinig ? "te weinig" : procent(p.cohesie)) : "geen";
+        return (
+          <button key={f.id} type="button" className={s.paneelRij} aria-pressed={ik} data-aan={hover === f.id}
+            aria-label={`${f.naam}, ${f.zetels} zetels, stemde hetzelfde: ${waarde}`}
+            onClick={() => kies(f.afkorting)} onMouseEnter={() => setHover(f.id)} onMouseLeave={() => setHover(null)}
+            onFocus={() => setHover(f.id)} onBlur={() => setHover(null)}>
+            <span className={s.paneelZetels}>{f.zetels}</span>
+            <span className={s.paneelNaam}>{f.afkorting}</span>
+            {ik ? (
+              <span className={s.paneelGekozen}>gekozen</span>
+            ) : (
+              <>
+                <span className={s.paneelBaan} aria-hidden="true">
+                  {kleur ? <span style={{ width: `${p!.cohesie}%`, background: kleur }} /> : <span className={s.paneelTeWeinig} />}
+                </span>
+                <span className={s.paneelWaarde}>{p && !p.teWeinig ? procent(p.cohesie) : "–"}</span>
+              </>
+            )}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+// Zaal: fracties als omlijnde vakken; de naam staat midden in de eigen zetels (alleen als hij past),
+// de percentages staan in het paneel ernaast. De hele fractie licht op (feedback Niels)
 function Zaal({ fracties, gekozen, hover, setHover, kies, paar, uitlees, uitleesPaar }: WeergaveProps) {
   const zetelLijst = useMemo(() => zetelsVan(fracties.map((f) => ({ id: f.id, zetels: f.zetels }))), [fracties]);
   const vakLijst = useMemo(() => vakken(zetelLijst, fracties.map((f) => f.id)), [zetelLijst, fracties]);
@@ -158,26 +196,16 @@ function Zaal({ fracties, gekozen, hover, setHover, kies, paar, uitlees, uitlees
   const zw = gz.length ? { x: gz.reduce((t, z) => t + z.x, 0) / gz.length, y: gz.reduce((t, z) => t + z.y, 0) / gz.length } : MIDDEN;
 
   return (
-    <svg viewBox="-60 -50 1120 555" className={s.zaal} role="img" aria-label={`Zaal met ${fracties.length} fracties; gekozen: ${gekozen.naam}`}>
-      {vakLijst.map((v, i) => {
+    // Hoogte tot onder de laagste zetels (hoefijzer van 220 graden): anders liep de zaal over de legenda heen
+    <svg viewBox="80 -10 840 640" className={s.zaal} role="img" aria-label={`Zaal met ${fracties.length} fracties; gekozen: ${gekozen.naam}`}>
+      {vakLijst.map((v) => {
         const f = perId.get(v.fractie)!;
         const ik = f.id === gekozen.id;
         const aan = f.id === hover;
-        const p = ik ? undefined : paar(gekozen.id, f.id);
-        const rLabel = i % 2 ? 488 : 462;
-        const l = punt(rLabel, v.midden);
-        const t = punt(447, v.midden);
-        const t2 = punt(rLabel - 14, v.midden);
-        const anker = l.x < MIDDEN.x - 40 ? "end" : l.x > MIDDEN.x + 40 ? "start" : "middle";
         return (
           <g key={f.id} className={s.vakGroep} onMouseEnter={() => setHover(f.id)} onMouseLeave={() => setHover(null)}
             onClick={() => kies(f.afkorting)}>
             <path d={sector(132, 443, v.van, v.tot)} className={s.vak} data-gekozen={ik} data-aan={aan} />
-            <line x1={t.x} y1={t.y} x2={t2.x} y2={t2.y} className={s.labellijn} />
-            <text x={l.x} y={l.y} textAnchor={anker} dominantBaseline="middle" className={s.label} data-gekozen={ik} data-aan={aan}>
-              {f.afkorting.replace(/^Groep /, "Gr. ")}{" "}
-              <tspan className={s.labelwaarde}>{ik ? "gekozen" : p ? (p.teWeinig ? "–" : procent(p.cohesie)) : ""}</tspan>
-            </text>
           </g>
         );
       })}
@@ -193,6 +221,22 @@ function Zaal({ fracties, gekozen, hover, setHover, kies, paar, uitlees, uitlees
             onClick={() => { const f = z.fractie ? perId.get(z.fractie) : undefined; if (f) kies(f.afkorting); }} />
         );
       })}
+      {/* Namen boven de zetels, zodat ze leesbaar blijven; alleen als de naam in de breedte van het vak past */}
+      <g aria-hidden="true" pointerEvents="none">
+        {vakLijst.map((v) => {
+          const f = perId.get(v.fractie)!;
+          const naam = f.afkorting.replace(/^Groep /, "Gr. ");
+          const breedte = ((v.van - v.tot) * Math.PI / 180) * 330;
+          if (breedte < naam.length * 9) return null;
+          const l = punt(330, v.midden);
+          return (
+            <text key={f.id} x={l.x} y={l.y} textAnchor="middle" dominantBaseline="middle" className={s.labelBinnen}
+              data-gekozen={f.id === gekozen.id} data-aan={f.id === hover}>
+              {naam}
+            </text>
+          );
+        })}
+      </g>
       <Uitlees gekozen={gekozen} uitlees={uitlees} uitleesPaar={uitleesPaar} y={MIDDEN.y} />
     </svg>
   );
@@ -249,7 +293,7 @@ function Matrix({ fracties, gekozen, kies, paar }: Omit<WeergaveProps, "hover" |
   }, [fracties, sorteer, paar]);
   return (
     <div className={s.matrixKader}>
-      <div role="table" aria-label="Cohesie tussen elke twee fracties, in procenten" className={s.matrix}
+      <div role="table" aria-label="Hoe vaak elke twee fracties hetzelfde stemden, in procenten" className={s.matrix}
         style={{ gridTemplateColumns: `minmax(120px, max-content) repeat(${fracties.length}, minmax(52px, 1fr))` }}>
         <div role="row" className={s.matrixRij}>
           <div role="columnheader" className={`${s.kop} ${s.eerste}`}>Fractie</div>
@@ -276,15 +320,15 @@ function Matrix({ fracties, gekozen, kies, paar }: Omit<WeergaveProps, "hover" |
               return (
                 <div role="cell" key={k.id} className={kleur ? s.cel : `${s.cel} ${s.celTeWeinig}`}
                   style={kleur ? { background: kleur, color: tekstOp(kleur) } : undefined}
-                  title={p ? `${r.afkorting} en ${k.afkorting}: ${p.teWeinig ? "te weinig data" : procent(p.cohesie, 1)}, ${getal(p.gezamenlijk)} stemmingen` : "geen gezamenlijke stemmingen"}>
-                  {p && !p.teWeinig ? procent(p.cohesie) : <span className="verborgen">{p ? "te weinig data" : "geen"}</span>}
+                  title={p ? `${r.afkorting} en ${k.afkorting}: ${p.teWeinig ? "te weinig stemmingen" : procent(p.cohesie, 1)}, ${getal(p.gezamenlijk)} stemmingen` : "geen gezamenlijke stemmingen"}>
+                  {p && !p.teWeinig ? procent(p.cohesie) : <span className="verborgen">{p ? "te weinig stemmingen" : "geen"}</span>}
                 </div>
               );
             })}
           </div>
         ))}
       </div>
-      <Data>Kies een kolomkop om de rijen te sorteren. Kies een fractie in de eerste kolom om haar te markeren.</Data>
+      <Data>Kies een kolomkop en de rijen sorteren zich. Kies een fractie in de eerste kolom en ze licht op.</Data>
     </div>
   );
 }

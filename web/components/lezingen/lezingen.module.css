@@ -1,0 +1,43 @@
+.grafiek {
+  width: 100%;
+  max-width: 760px;
+  height: auto;
+  overflow: visible;
+}
+.raster {
+  stroke: var(--lijn);
+  stroke-width: 1;
+}
+.as {
+  font-family: var(--mono);
+  font-size: 12px;
+  fill: var(--tekst-zacht);
+}
+.lijn {
+  fill: none;
+  stroke-width: 2.5;
+}
+.punt {
+  stroke-width: 2;
+}
+.reeksnaam {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+}
+.rijnaam {
+  font-family: var(--sans);
+  font-size: 14px;
+  fill: var(--tekst);
+}
+.halter {
+  stroke: var(--lijn-licht);
+  stroke-width: 3;
+}
+.lezing {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-4);
+  padding-top: var(--r-6);
+  border-top: 1px solid var(--lijn);
+}

@@ -6,11 +6,11 @@ export default function Fout({ reset }: { error: Error; reset: () => void }) {
   return (
     <Inhoud>
       <FoutStaat
-        titel="De cijfers konden niet worden geladen"
-        uitleg="De gegevens zijn nu waarschijnlijk niet bereikbaar. Probeer het over een paar minuten opnieuw."
+        titel="De cijfers laden nu niet"
+        uitleg="De gegevens zijn waarschijnlijk even niet bereikbaar. Probeer het over een paar minuten nog eens."
         kinderen={
           <button type="button" className={knopKlasse} onClick={() => reset()}>
-            Probeer opnieuw
+            Nog een keer
           </button>
         }
       />

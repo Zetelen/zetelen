@@ -5,9 +5,12 @@ import { usePathname } from "next/navigation";
 import { Woordmerk } from "./Typografie";
 import s from "./kader.module.css";
 
-// Alleen pagina's die bestaan; Lezingen komt met zijn component
+// In de volgorde van het verhaal op de voorpagina (besluit Niels, 25 oktober 2026)
 const MENU = [
   { href: "/verkenner", tekst: "Verkenner" },
+  { href: "/onderwerpen", tekst: "Onderwerpen" },
+  { href: "/coalitie", tekst: "Coalitie" },
+  { href: "/oppositie", tekst: "Oppositie" },
   { href: "/fracties", tekst: "Fracties" },
   { href: "/methodiek", tekst: "Methodiek" },
   { href: "/over", tekst: "Over" },

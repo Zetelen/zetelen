@@ -97,6 +97,26 @@ Besluit Niels, 22 oktober 2026. Cohesie is het percentage gezamenlijke stemminge
 
 Besluit Niels, 22 oktober 2026. Twee periodesoorten, kabinet (standaard, herkenbaarder voor het publiek) en Kamerperiode. Verwerkt in `06-epics.md` (E2-S4, nieuwe E1-S8), `core-model.md`, `cohesie-analyse.md`, `cohesie-pagina.md`. Kabinetten komen uit een handmatige tabel; de API bevat ze niet (handmatige API-check, 23 oktober 2026). Coalitie en oppositie als latere lezing is niet in R1.
 
+## Besluit: kabinet en zetels op /fracties
+
+Besluit Niels, 24 oktober 2026. De samenstelling van elk kabinet sinds Balkenende IV is vervroegd (was Later): tabel `core.coalitie` (migratie 011), met gedoogsteun en de datum waarop een fractie uit het kabinet stapte. Nog na te kijken door Niels: Schoof en Jetten komen uit Wikidata (partij van de bewindspersonen), de rest en alle datums uit de kennis van Claude. Op /fracties tellen de zetels bij het begin van de periode (bij Schoof stond anders de Kamer van na de verkiezingen van 2025); wie tijdens de periode overstapte, is een lichter deel van de balk (migratie 012, `analyses.overstap`, uit de zetels per persoon in de bron). Sinds 25 oktober 2026 (migratie 013) gemeten 30 dagen na het begin: bij de eerste stemming van Rutte IV hadden D66 en CDA nog lege zetels.
+
+## Concept: scroll graphics
+
+25 oktober 2026. Ontwerp in `docs/ontwerp/scroll-graphics.md`, gebouwd als conceptpagina `/verhaal`. Open voor Niels: naar de voorpagina, volgorde (nu Rutte IV naar nu), datums nakijken, graphic 3 na de onderwerpen (voorstel in de plan-PR, component `onderwerpen`).
+
+## Besluit: onderwerpen in R1
+
+Besluit Niels, 25 oktober 2026. Beleidsterrein via het Kamerstukdossier (de vaste commissie die het vaakst voortouw heeft over de zaken in dat dossier), dossier als fijner niveau; een stemming telt mee bij elk terrein van haar dossiers; in R1. Ook akkoord: de lijn voor het verhaal van de site (hoe zijn we hier gekomen, hoe stemt elke partij nu, waar zijn ze het over eens, kun jij een meerderheid vinden). Gebouwd: migratie 014 (`raw.kamerstukdossier`, `raw.zaak_kamerstukdossier`, `core.beleidsterrein_commissie` handmatig, `core.dossier`, `core.zaak_dossier`, `analyses.cohesie_terrein`, `api.cohesie_terrein`, `api.beleidsterrein_periode`) en `pipeline/dossiers.py`, dat meedraait in de dagelijkse verversing. Migratie 015: trefwoorden in de dossiertitel gaan voor de commissie (asiel, wonen, digitalisering), zodat terreinen over de jaren vergelijkbaar zijn; nieuw terrein Digitalisering. Frontend: `/onderwerpen` (concept) en hoofdstuk 3 op de voorpagina. Nog na te kijken door Niels: de koppeltabel van commissie naar beleidsterrein (`db/migrations/014_onderwerpen.sql`, blok `core.beleidsterrein_commissie`) en de trefwoorden (`db/migrations/015_trefwoorden.sql`, blok `core.beleidsterrein_trefwoord`). Verdieping (migratie 016, `api.stemming_dossier`): in de vergelijking van een paar per terrein de dossiers, van minst naar meest eens, en per dossier de stemmingen met beide stemmen en een zoeklink naar tweedekamer.nl; tellingen, geen percentages. Telefoon: vaste balk met paneel van onderen en een lijst per terrein in plaats van de kaart (verzoek Niels, 25 oktober 2026).
+
+## Besluit: definitie en opzet coalitiebouwer
+
+Besluit Niels, 25 oktober 2026 (advies van Claude gevolgd): standaard alleen verdeelde stemmingen met een schakelaar naar alle; zetels bij hoofdelijk de leden die echt stemden; rangorde eerst beslissend, dan meegestemd; drempel 25 eensgezinde stemmingen. Opzet: bediening als de verkenner (bullet chart links, zaal rechts), partners met verdieping naar de stemmingen waarop een partner beslissend was (migratie 017: besluiten in de stemmatrix), vaste balk met paneel op de telefoon, deelplaatje per combinatie (`/coalitie/plaatje`), in het menu en de sitemap. Label "concept" tot de lezingen (E2-S10) en de nacontrole van een steekproef er zijn. Bevinding: ook met alleen verdeelde stemmingen wint een kabinet van 66 zetels (Jetten) 98% van zijn eensgezinde stemmingen; maar ongeveer 9% van die stemmingen was unaniem.
+
+## Zetelwerk en Oppositiewerk (nacht 25 op 26 oktober 2026)
+
+Gebouwd op verzoek van Niels, die sliep: analyse zetelwerk (migraties 018 tot en met 020), de pagina's Kamerleden, Oppositiewerk en Lezingen (proef), en hoofdstuk 5 op de voorpagina. Alles met het label concept. Wat Niels moet beoordelen, staat in `docs/plan/te-beoordelen.md`.
+
 ## Gebruiksvoorwaarden open data
 
 Op data.overheid.nl staat de dataset met licentie CC0 1.0 (22 oktober 2026). De licentielink in de sectie "Hergebruik" is daar leeg en de API-pagina op developer.overheid.nl vermeldt niets over licentie of limieten. Niet gecontroleerd: foto's van Kamerleden, tekst van documenten, persoonsgegevens. Voorstel voor de voetnoot: de bron noemen, ook al is dat niet verplicht.

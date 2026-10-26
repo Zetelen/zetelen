@@ -18,10 +18,12 @@ Biedt:
 - Een periodefilter dat in de URL staat
 - Een leeswijzer naast de matrix
 - Een deelbare pagina per fractie met de cohesie met elke andere fractie
+- Een overzicht van fracties (/fracties) als bullet chart: zetels bij het begin van de periode, kabinet, gedoogsteun of oppositie, en overstappers als lichter deel van de balk (24 oktober 2026, op feedback van Niels)
 
 Verwacht:
 - De voorberekende cohesietabel uit `cohesie-analyse`, via de anon-rol
 - Het ontwerpsysteem en de paginastructuur
+- `api.coalitie` (migratie 011), `api.overstap` en de kolommen `zetels_begin` en `bij_begin` in `api.fractie_periode` (migratie 012)
 
 ## Afhankelijkheden
 

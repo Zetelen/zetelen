@@ -9,6 +9,7 @@ import { alleFracties, cohesieIn, fractiesIn, getal, perioden, procent, slug, ty
 import { schaalkleur } from "@/lib/kleur";
 import { sleutel } from "@/lib/zaal";
 import { Bronregel } from "@/components/cohesie/Bronregel";
+import { aandeel, fractieWerk } from "@/lib/zetelwerk";
 import s from "@/components/cohesie/fractie.module.css";
 
 type Props = {
@@ -48,7 +49,11 @@ export default async function FractiePagina({ params, searchParams }: Props) {
     return `${basis}?${q.toString()}`;
   };
 
-  const [fracties, kaart] = periode ? await Promise.all([fractiesIn(soort, periode.naam), cohesieIn(soort, periode.naam, variant)]) : [null, null];
+  const [fracties, kaart, werk] = periode
+    ? await Promise.all([fractiesIn(soort, periode.naam), cohesieIn(soort, periode.naam, variant), fractieWerk(soort, periode.naam)])
+    : [null, null, null];
+  // Zetelwerk van deze fractie in de periode (component zetelwerk): moties en amendementen apart
+  const eigenWerk = (werk ?? []).filter((r) => r.afkorting === f.afkorting);
   const ik = fracties?.find((x) => x.afkorting === f.afkorting);
   const rijen = ik && kaart
     ? fracties!.filter((x) => x.id !== ik.id).map((x) => ({ x, p: kaart.get(sleutel(ik.id, x.id)) }))
@@ -89,8 +94,8 @@ export default async function FractiePagina({ params, searchParams }: Props) {
       </nav>
 
       {!periode || !ik ? (
-        <LegeStaat label="Geen stemmingen" titel={`Geen stemmingen van ${f.afkorting} in deze ${soort === "kabinet" ? "kabinetsperiode" : "Kamerperiode"}`}
-          uitleg="Deze fractie bestond in de gekozen periode niet, of stemde niet mee. Kies een andere periode." />
+        <LegeStaat label="Geen stemmingen" titel={`${f.afkorting} stemde niet mee in deze ${soort === "kabinet" ? "kabinetsperiode" : "Kamerperiode"}`}
+          uitleg="Deze fractie bestond toen niet, of deed niet mee aan de stemmingen. Kies een andere periode." />
       ) : (
         <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
           <Label>Met wie stemt {f.afkorting} het vaakst hetzelfde? · {periode.naam}</Label>
@@ -105,15 +110,41 @@ export default async function FractiePagina({ params, searchParams }: Props) {
                     <span className={`${s.balk} ${s.teWeinig}`} style={{ width: "100%" }} />
                   )}
                 </span>
-                <span className={s.waarde}>{p && !p.teWeinig ? procent(p.cohesie, 1) : "te weinig data"}</span>
+                <span className={s.waarde}>{p && !p.teWeinig ? procent(p.cohesie, 1) : "te weinig stemmingen"}</span>
                 <span className={s.aantal}>{p ? `${getal(p.gezamenlijk)} stemmingen` : ""}</span>
               </li>
             ))}
           </ol>
           <Bronregel toelichting={`${periode.naam} · ${variant === "alle" ? "alle stemmingen" : "alleen verdeelde stemmingen"}`} />
-          <Link href={`/verkenner?${new URLSearchParams({ soort, periode: periode.naam, variant, fractie: ik.afkorting }).toString()}`} className={knopKlasse}>
-            Bekijk in de verkenner
-          </Link>
+          {eigenWerk.length > 0 && (
+            <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-3)" }}>
+              <Label>Zetelwerk van {f.afkorting} · {periode.naam}</Label>
+              <Tekst>
+                {eigenWerk.map((r) => {
+                  const p = aandeel(r.aangenomen, r.ingediend);
+                  const soortTekst = r.soort === "Motie" ? "moties" : "amendementen";
+                  return `${getal(r.ingediend)} ${soortTekst} ingediend, waarvan ${getal(r.aangenomen)} aangenomen${p != null ? ` (${p}%)` : ""} en ${getal(r.brede_steun)} met brede steun.`;
+                }).join(" ")}{" "}
+                {eigenWerk[0].tegen_aandeel != null ? `Op ${procent(eigenWerk[0].tegen_aandeel)} van alle stemmingen stemde ${f.afkorting} tegen.` : ""}
+              </Tekst>
+              <Data>
+                {eigenWerk[0].rol === "kabinet" ? `${f.afkorting} zat in deze periode vooral in het kabinet.` : `${f.afkorting} zat in deze periode vooral in de oppositie.`}{" "}
+                <Link href={`/kamerleden?${new URLSearchParams({ soort, periode: periode.naam, fractie: f.afkorting }).toString()}#leden`}>Wie dienden wat in?</Link>
+              </Data>
+            </section>
+          )}
+          {/* Verder op de site (samentrekken, 25 oktober 2026): dezelfde fractie en periode in de andere tools */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--r-3)" }}>
+            <Link href={`/verkenner?${new URLSearchParams({ soort, periode: periode.naam, variant, fractie: ik.afkorting }).toString()}`} className={knopKlasse}>
+              Bekijk in de verkenner
+            </Link>
+            <Link href={`/onderwerpen?${new URLSearchParams({ soort, periode: periode.naam, variant, fractie: ik.afkorting }).toString()}`} className={knopKlasse}>
+              {ik.afkorting} per onderwerp
+            </Link>
+            <Link href={`/coalitie?${new URLSearchParams({ soort, periode: periode.naam, groep: ik.afkorting }).toString()}`} className={knopKlasse}>
+              Bij wie haalt {ik.afkorting} een meerderheid?
+            </Link>
+          </div>
         </section>
       )}
     </Inhoud>

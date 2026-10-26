@@ -42,7 +42,7 @@ export function Voorbeelden() {
         <SectieKop id="type">Typografie</SectieKop>
         <Kaart>
           <Data>Hero-kop · Newsreader 400</Data>
-          <HeroKop>Hoe vaak stemmen fracties hetzelfde?</HeroKop>
+          <HeroKop>Wie stemt met wie in de Kamer?</HeroKop>
         </Kaart>
         <Kaart>
           <Data>Sectiekop · Newsreader 400</Data>
@@ -54,7 +54,7 @@ export function Voorbeelden() {
         </Kaart>
         <Kaart>
           <Data>Lopende tekst · Hanken Grotesk 17 px</Data>
-          <Tekst>Cohesie is het percentage stemmingen waarop twee fracties hetzelfde stemden. Een hoog percentage betekent niet dat fracties het inhoudelijk eens zijn.</Tekst>
+          <Tekst>Hoe vaak stemden twee fracties hetzelfde? Een hoog percentage betekent niet dat ze het inhoudelijk eens zijn.</Tekst>
         </Kaart>
         <Kaart>
           <Data>Datalabel en bron · DM Mono</Data>
@@ -93,7 +93,7 @@ export function Voorbeelden() {
           waarde={variant}
           bijKeuze={setVariant}
         />
-        <Uitleesvak titel="Cohesie met D66" waarde="74%" toelichting="Gebaseerd op 2.104 gezamenlijke stemmingen" />
+        <Uitleesvak titel="Eens met D66" waarde="74%" toelichting="Geteld over 2.104 stemmingen samen" />
         <Grafiekkader titel="Cohesie" toelichting="Voorbeeld van een grafiekkader met bron" bron="Tweede Kamer open data, eigen berekening">
           <Tabel
             bijschrift="Voorbeeld van cohesie per fractie"

@@ -2,7 +2,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { datumTekst } from "@/lib/api";
-import { SITE } from "@/lib/site";
+import { FEEDBACK_URL, SITE } from "@/lib/site";
 import { Data, Label, Woordmerk } from "./Typografie";
 export { Navigatie } from "./Navigatie";
 import s from "./kader.module.css";
@@ -39,8 +39,13 @@ export function Voet({ ververst }: { ververst: Date | null }) {
             <a href={`${SITE.broncode}/issues`}>GitHub</a>.
           </p>
           <p>
-            <a href={SITE.broncode}>Broncode en methode</a>
+            <a href={SITE.broncode}>Broncode en methode</a> · <a href="/privacy">Privacy</a>
           </p>
+          {FEEDBACK_URL && (
+            <p>
+              <a href={FEEDBACK_URL} target="_blank" rel="noopener noreferrer">Geef feedback ↗</a>
+            </p>
+          )}
         </div>
       </div>
     </footer>
