@@ -18,6 +18,9 @@ from verbindingstest import uitleg
 # De schema's van dit project; de schema's die Supabase zelf beheert (auth, storage, ...) vallen erbuiten
 EIGEN = "('public', 'api', 'core', 'raw', 'beheer', 'analyses')"
 BEZOEKERS = "('anon', 'authenticated')"
+# De enige functie die bezoekers mogen uitvoeren: het feedbackformulier (migratie 021, besluit Niels B13).
+# Ze moet security definer zijn met een vast search_path; anders is het alsnog een overtreding.
+TOEGESTANE_FUNCTIES = "('api.stuur_feedback')"
 
 CONTROLES = [
     (
@@ -68,7 +71,15 @@ CONTROLES = [
             from pg_proc p join pg_namespace n on n.oid = p.pronamespace
             cross join pg_roles r
             where n.nspname in {EIGEN} and r.rolname in {BEZOEKERS}
-              and has_function_privilege(r.oid, p.oid, 'EXECUTE')""",
+              and has_function_privilege(r.oid, p.oid, 'EXECUTE')
+              and n.nspname || '.' || p.proname not in {TOEGESTANE_FUNCTIES}""",
+    ),
+    (
+        "De toegestane functie draait als eigenaar met een vast search_path",
+        f"""select n.nspname || '.' || p.proname
+            from pg_proc p join pg_namespace n on n.oid = p.pronamespace
+            where n.nspname || '.' || p.proname in {TOEGESTANE_FUNCTIES}
+              and not (p.prosecdef and coalesce(array_to_string(p.proconfig, ',') like '%search_path=%', false))""",
     ),
 ]
 

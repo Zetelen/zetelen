@@ -1,0 +1,91 @@
+.formulier {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-5);
+  max-width: 720px;
+}
+.vraag {
+  border: 0;
+  margin: 0;
+  padding: 0 0 var(--r-4);
+  border-bottom: 1px solid var(--lijn);
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-2);
+}
+.vraag legend {
+  font-size: 17px;
+  color: var(--tekst);
+  padding: 0;
+  margin-bottom: var(--r-2);
+}
+.nummer {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--koper);
+  margin-right: 6px;
+}
+.hulp {
+  margin: 0;
+  font-size: 14px;
+  color: var(--tekst-zacht);
+}
+.invoer {
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--r-3);
+  border: 1px solid var(--lijn-licht);
+  border-radius: var(--hoek-klein);
+  background: var(--nacht-900);
+  color: var(--tekst);
+  font: inherit;
+  font-size: 16px;
+}
+.invoer:focus-visible {
+  outline: 2px solid var(--koper);
+  outline-offset: 1px;
+}
+.keuzes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--r-2);
+}
+.keuze {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--doel-min);
+  padding: 0 var(--r-3);
+  border: 1px solid var(--lijn-licht);
+  border-radius: var(--hoek-pil);
+  color: var(--tekst);
+  cursor: pointer;
+}
+.keuze:has(input:checked) {
+  border-color: var(--koper);
+  background: var(--nacht-700);
+}
+.keuze input {
+  accent-color: var(--koper);
+}
+.valkuil {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.versturen {
+  display: flex;
+  align-items: center;
+  gap: var(--r-4);
+  flex-wrap: wrap;
+}
+.melding {
+  margin: 0;
+  color: var(--koper);
+}
+.klaar {
+  font-size: 19px;
+  color: var(--tekst);
+}

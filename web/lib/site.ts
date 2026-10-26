@@ -15,9 +15,8 @@ export const LIVE = false;
 // besloten zijn; voor de livegang nog een keer nalopen.
 export const KAMERLEDEN = true;
 
-// Feedbackronde (besluit Niels, 25 oktober 2026): een vaste vragenlijst bij een externe dienst. Niels maakt het
-// formulier; zolang het adres leeg is, toont de site geen feedbackknop.
-export const FEEDBACK_URL = "";
+// Feedbackronde: een eigen formulier op /feedback (besluit Niels B13, 26 oktober 2026). Uit: geen balk.
+export const FEEDBACK = true;
 
 // Adres van de site: op Vercel het productieadres, lokaal localhost
 export function siteUrl(): URL {

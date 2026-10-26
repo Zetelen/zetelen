@@ -2,7 +2,8 @@
 """Rechtentest van buitenaf: doet wat een bezoeker kan, via de Data API van Supabase (component rechten).
 
 Gebruikt de publieke anon-sleutel, net als straks de website. Alleen lezen uit schema api mag
-lukken; schrijven, wijzigen, verwijderen, andere schema's lezen en functies aanroepen moet falen.
+lukken, plus de ene functie van het feedbackformulier; schrijven, wijzigen, verwijderen, andere schema's
+lezen en andere functies aanroepen moet falen.
 
 Gebruik:
   SUPABASE_URL=https://<project>.supabase.co SUPABASE_ANON_KEY=... python3 pipeline/rechtentest_api.py
@@ -59,6 +60,12 @@ PROEVEN = [
     ("Core rechtstreeks lezen", "GET", "kabinet?limit=1", "core", None, False),
     ("Beheer lezen", "GET", "verversing?limit=1", "beheer", None, False),
     ("Herbouw aanroepen", "POST", "rpc/herbouw", "core", {}, False),
+    # Feedbackformulier (migratie 021): de proef controleert zonder een rij toe te voegen
+    ("Feedback controleren (proef, geen rij)", "POST", "rpc/stuur_feedback", "api",
+     {"pagina": "rechtentest", "antwoorden": {"indruk": "proef"}, "proef": True}, True),
+    ("Feedback met ongeldige invoer", "POST", "rpc/stuur_feedback", "api",
+     {"pagina": "rechtentest", "antwoorden": "geen object", "proef": True}, False),
+    ("Feedback lezen", "GET", "feedback?limit=1", "beheer", None, False),
 ]
 
 

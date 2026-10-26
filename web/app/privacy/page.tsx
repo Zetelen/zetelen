@@ -15,7 +15,8 @@ export default function Privacy() {
         <Label>Privacy · concept</Label>
         <HeroKop>Welke gegevens verwerkt Zetelen?</HeroKop>
         <Tekst>
-          Zetelen heeft geen accounts, bewaart geen opvattingen van bezoekers en plaatst geen cookies. Wat je kiest in de
+          Zetelen heeft geen accounts en plaatst geen cookies. Opvattingen van bezoekers bewaren we niet, behalve wat je
+          zelf invult in de vragenlijst. Wat je kiest in de
           verkenner of de coalitiebouwer, staat alleen in de link in je browser.
         </Tekst>
       </section>
@@ -37,9 +38,10 @@ export default function Privacy() {
       <section style={sectie}>
         <SectieKop>Feedback</SectieKop>
         <Tekst>
-          In de testperiode staat er een link naar een vragenlijst bij een externe dienst. Wat je daar invult, verwerkt die
-          dienst. Zetelen gebruikt de antwoorden alleen om de site te verbeteren en vraagt niet om je naam. Invullen is
-          vrijwillig. {/* Niels: naam van de dienst en bewaartermijn aanvullen zodra het formulier er is */}
+          In de testperiode staat er een eigen vragenlijst op de site. Je antwoorden gaan naar de database van Zetelen, niet
+          naar een andere dienst. We slaan alleen je antwoorden en het tijdstip op: geen naam, geen IP-adres, geen
+          browsergegevens. Een e-mailadres alleen als je dat zelf invult, en dan alleen om je te kunnen antwoorden. Alleen
+          de maker kan de antwoorden lezen. Na 12 maanden worden ze automatisch verwijderd. Invullen is vrijwillig.
         </Tekst>
       </section>
       <section style={sectie}>
