@@ -33,8 +33,8 @@ export const VOORGANGER: Record<string, string[]> = {
 export const KORT: Record<string, string> = { "GroenLinks-PvdA": "GL-PvdA", "Nieuw Sociaal Contract": "NSC", ChristenUnie: "CU", "Groep Markuszower": "Gr. Markuszower",
   GrKÖ: "Gr. Kuzu/Öztürk", GrBvK: "Gr. Bontes/Van Klaveren" };
 
-// Eigen palet per fractie (geen partijkleuren: besluit 22 oktober 2026). Tien tinten, elk minstens
-// 6:1 contrast op nacht-950. Fracties met minder dan 5 zetels in elke stap delen een neutrale tint.
+// Eigen palet per fractie (geen partijkleuren: besluit 22 oktober 2026). Achttien tinten (zie PALET), elk minstens
+// 6:1 contrast op nacht-950 voor de eerste tien, minstens 3:1 voor alle (getest). Fracties met minder dan 5 zetels in elke stap delen een neutrale tint.
 // Eigen palet, geen partijkleuren. De eerste tien zijn de oorspronkelijke; de laatste acht kwamen erbij op
 // 26 oktober 2026 (verzoek Niels), omdat onder Schoof en Jetten meer dan tien fracties tegelijk in beeld staan.
 // Achteraan, zodat fracties die al een tint hadden die houden.
