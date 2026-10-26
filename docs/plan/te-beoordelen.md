@@ -11,7 +11,9 @@ Bijgewerkt op 26 oktober 2026, eind van de middag. Hier staat alleen wat nog ope
 | ☐ C1 tot en met C6 | Controles: uitslagen, cohesie, zetelwerk, afwijkende uitslagen (besluit), handmatige tabellen, bewaking | controleren en één besluit | ja | [controles-stappenplan.md](controles-stappenplan.md) |
 | ☐ K1, K2, K3, K5 | Opnieuw bekijken na de aanpassingen: Onderwerpen, Oppositiewerk, voorpagina, Kamerleden | bekijken | ja, voor het label concept | hieronder |
 | ☐ K7 | Uitgelicht: omschrijvingen en spreiding | bekijken | nee | hieronder |
-| ☐ B17 | Pipeline voor nieuwe casussen: vier vragen | besluit | nee | hieronder |
+| ☐ K9 | Nieuw: Hoe lang duurt een wet? en een eigen beeld per stemming op Uitgelicht | bekijken | nee | hieronder |
+| ☐ B18 | Richting "En toen? Wat gebeurt er met een aangenomen motie?": wel of niet, en hoe | besluit | nee | hieronder |
+| ☐ B17 | Pipeline voor nieuwe casussen: één vraag over (budget), en wacht tot na de feedbackrondes | besluit | nee | hieronder |
 | ☐ L1 | Bij de livegang: sitemap indienen en PageSpeed draaien | uitvoeren | nee, na de livegang | hieronder |
 
 ## Je feedback van 26 oktober (mail)
@@ -44,7 +46,22 @@ https://zetelen.nl/uitgelicht. Alle uitslagen zijn nagekeken tegen de besluittek
 
 Vraag: kloppen de omschrijvingen, en is de spreiding over partijen goed zo?
 
+### ☐ K9. Nieuw op Uitgelicht (26 oktober)
+
+- **Hoe lang duurt een wet?** https://zetelen.nl/uitgelicht/hoe-lang-duurt-een-wet: drie wetten als reis (13 dagen, 6 maanden, 6 jaar), op één tijdas, en alle 1.979 wetsvoorstellen uit 2010 tot en met 2022 naar doorlooptijd. Gegevens met `pipeline/wet_reis.py`. Na te kijken: de korte omschrijvingen van de drie wetten (met de hand), en of je deze drie voorbeelden goed vindt.
+- **Eigen beeld per stemming:** weegschaal (gehandicaptenzorg, live-weddenschappen), hoefijzer (Mercosur), van dichtbij (PvdA bij ritueel slachten). Zelfde keuze als bij de video's.
+
 ## B. Besluiten
+
+### ☐ B18. "En toen?" Wat gebeurt er met een aangenomen motie?
+
+Onderzoek in [onderzoek-motie-opvolging.md](onderzoek-motie-opvolging.md). Kort: de bron zegt nergens of een motie is uitgevoerd. Wel te tellen: of er daarna een brief van de regering over de motie kwam (betrouwbaar vanaf 2017-2018), het oordeel van het kabinet vóór de stemming (1.890 moties werden aangenomen terwijl het kabinet ze ontraadde), en toezeggingen van bewindspersonen met hun status (pas vanaf september 2022).
+
+- **A.** Bouwen als "Kwam er een brief?", per kabinet vanaf Rutte III, met de beperking er duidelijk bij, plus de ontraden-maar-aangenomen moties.
+- **B.** Alleen de ontraden-maar-aangenomen moties (het sterkste verhaal, en de gegevens zijn volledig).
+- **C.** Niet bouwen.
+
+**Advies: B eerst**, A later als er tijd is. Een brief is geen uitvoering, en dat verschil is lastig uit te leggen.
 
 ### ☐ B17. De pipeline voor nieuwe casussen
 
