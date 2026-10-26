@@ -43,7 +43,12 @@ export default async function Voorpagina() {
   const zonderKop = (stappen: Stap[]): Stap[] => stappen.map((st, i) => (i === 0 ? { ...st, hoofdstuk: undefined } : st));
   return (
     <Inhoud>
-      <section className={s.opening}>
+      {/* Hero met de lijntekening van het Binnenhof (ontwerp Niels, public/binnenhof.svg). Het tekstvlak staat links,
+          de Ridderzaal rechts; op een telefoon staat het beeld boven het vlak. */}
+      <section className={s.hero}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/binnenhof.svg" alt="" aria-hidden="true" className={s.heroBeeld} />
+        <div className={s.heroVlak}>
         <Label>zetelen (ww.) · stemmen, onderhandelen en meetellen in de Tweede Kamer</Label>
         <HeroKop>Waar vinden ze elkaar?</HeroKop>
         <Tekst>
@@ -57,17 +62,23 @@ export default async function Voorpagina() {
             kreeg {samen.oppositieNu}% van haar moties erdoor. Onder {samen.eerste} was dat {samen.oppositieEerst}%.
           </Tekst>
         )}
+        <nav className={s.cta} aria-label="Zoek zelf">
+          <Link href="/verkenner" className={s.ctaHoofd}>Wie stemt met wie?</Link>
+          <Link href="/onderwerpen" className={knopKlasse}>Waar zijn ze het over eens?</Link>
+          <Link href="/coalitie" className={knopKlasse}>Kun jij er 76 vinden?</Link>
+        </nav>
+        </div>
+      </section>
+
+      <section className={s.opening}>
         <Lezingen
           links={{ titel: "Er wordt meer samengewerkt dan het lijkt", tekst: "Achter de ruzie in het debat stemmen kabinet en oppositie vaak samen, en dat is sinds 2010 flink toegenomen." }}
           rechts={{ titel: "Breed is niet diep", tekst: "Over een verzoek om een onderzoek of een brief is de Kamer het snel eens. Waar het om geld en koers gaat, bij de begroting en de grote wetten, staan kabinet en oppositie nog steeds vaak tegenover elkaar." }}
         />
-        <Tekst>Op sommige onderwerpen, zoals asiel, gaan fracties juist verder uit elkaar dan gemiddeld. Zoek zelf waar ze elkaar vinden, en waar niet.</Tekst>
-        <nav className={s.cta} aria-label="Zoek zelf">
-          <Link href="/verkenner" className={knopKlasse}>Wie stemt met wie?</Link>
-          <Link href="/onderwerpen" className={knopKlasse}>Waar zijn ze het over eens?</Link>
-          <Link href="/coalitie" className={knopKlasse}>Kun jij er 76 vinden?</Link>
-          <a href="#verder" className={s.overslaan}>Alle onderdelen</a>
-        </nav>
+        <Tekst>
+          Op sommige onderwerpen, zoals asiel, gaan fracties juist verder uit elkaar dan gemiddeld. Zoek zelf waar ze elkaar vinden,
+          en waar niet. <a href="#verder">Alle onderdelen</a>
+        </Tekst>
       </section>
 
       <HoofdstukKop titel="Maar eerst: hoe zijn we hier gekomen?" id="verhaal" />

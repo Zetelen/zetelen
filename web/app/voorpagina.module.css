@@ -101,3 +101,81 @@
   color: var(--tekst-zacht);
   text-decoration: underline;
 }
+
+/* Hero met het Binnenhof (ontwerp Niels, 26 oktober 2026): beeld over de volle breedte van het scherm,
+   tekstvlak links uitgelijnd met de inhoud. De gloed zit in de achtergrond, niet in de tekening. */
+.hero {
+  position: relative;
+  margin-inline: calc(50% - 50vw);
+  margin-top: calc(-1 * var(--r-7));
+  min-height: 720px;
+  padding-block: var(--r-8);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  background:
+    radial-gradient(ellipse 34% 62% at 68% 54%, rgba(208, 138, 85, 0.34), rgba(208, 138, 85, 0) 72%),
+    radial-gradient(ellipse 90% 60% at 60% 100%, rgba(62, 124, 177, 0.18), rgba(62, 124, 177, 0) 70%),
+    var(--nacht-950);
+  overflow: hidden;
+}
+.heroBeeld {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: right center;
+  pointer-events: none;
+}
+.heroVlak {
+  position: relative;
+  box-sizing: border-box;
+  width: min(560px, 48%);
+  margin-left: max(var(--pagina-marge), calc((100vw - var(--pagina-max)) / 2 + var(--pagina-marge)));
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-4);
+  padding: 44px;
+  background: rgba(7, 11, 24, 0.9);
+  border: 1px solid var(--lijn);
+  border-top: 2px solid var(--koper);
+}
+/* Kop in het vlak kleiner dan de gewone hero-kop, zodat hij in twee regels past (ontwerp: 40 tot 66 px) */
+.heroVlak h1 {
+  font-size: clamp(40px, 4.6vw, 66px);
+  line-height: 1.04;
+}
+.ctaHoofd {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--doel-min);
+  padding: 0 var(--r-5);
+  border-radius: var(--hoek-pil);
+  background: var(--koper);
+  color: var(--nacht-950);
+  font-weight: 600;
+  text-decoration: none;
+}
+.ctaHoofd:hover {
+  background: var(--goud);
+}
+/* Smal: beeld 340 px bovenaan, het vlak eronder in de flow over de volle breedte */
+@media (max-width: 760px) {
+  .hero {
+    display: block;
+    min-height: 0;
+    padding: 340px 0 0;
+  }
+  .heroBeeld {
+    height: 340px;
+    bottom: auto;
+  }
+  .heroVlak {
+    width: auto;
+    margin: 0;
+    padding: var(--r-5) var(--pagina-marge);
+    border-left: 0;
+    border-right: 0;
+  }
+}

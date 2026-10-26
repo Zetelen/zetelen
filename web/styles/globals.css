@@ -12,6 +12,8 @@ html {
 
 body {
   margin: 0;
+  /* De hero loopt over de volle schermbreedte; clip (geen scrollcontainer) voorkomt een horizontale scrollbalk en laat sticky werken */
+  overflow-x: clip;
   background: var(--nacht-950);
   color: var(--tekst);
   font-family: var(--sans);
