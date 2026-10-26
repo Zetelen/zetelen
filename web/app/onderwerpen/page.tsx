@@ -85,7 +85,10 @@ export default async function Onderwerpen({ searchParams }: Props) {
       <section id="een-stemming" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
         <HoofdstukKop titel="Eén stemming uit elkaar gehaald" />
         <ScrollVerhaal verhaal={{ breed: stemVerhaal(false), smal: stemVerhaal(true) }} label="De stemming over de motie-Eerdmans" hoogteSmal={1080} stapHoogte="45vh" tijdlijn />
-        <Data>Stemming over zaak {stemming.zaak}, hoofdelijk, {dagMaandJaar(stemming.datum)}. Kleuren zijn een eigen palet, geen partijkleuren.</Data>
+        <Data>
+          Stemming over zaak {stemming.zaak}, hoofdelijk, {dagMaandJaar(stemming.datum)}. Kleuren zijn een eigen palet, geen
+          partijkleuren. <Link href="/uitgelicht">Meer stemmingen uit elkaar gehaald</Link>
+        </Data>
       </section>
 
       {/* Nu jij als duidelijke uitnodiging (feedback Niels K1, 26 oktober 2026) */}

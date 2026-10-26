@@ -21,7 +21,7 @@ In deze volgorde; ☑ is gebouwd, getest en live.
 5. ☑ Onderwerpen (K1), voorpagina met de nieuwe opening (B14, K3), Oppositiewerk breed (K2). Graag opnieuw bekijken: K1, K2 en K3. Bekend: de spreiding is op de telefoon nog klein
 6. ☑ Kamerleden: strakkere tabel met rol als kolom, ranglijst op aandeel aangenomen per rol (vanaf 10 stukken, met twee lezingen), schakelaar tabel of spreidingsdiagram (K5, B2); fractiepagina: klik op een fractie en de onderwerpen klappen uit, tot op dossier en stemming (K5). Graag bekijken: K5
 7. ☑ Lezingen bij de tool (B4): lezing 3 in de verkenner zodra je een kabinetsfractie kiest, lezing 1 en 2 in de coalitiebouwer bij een groep zonder meerderheid, lezing 6 bij Onderwerpen als je Asiel openklapt. De cijfers rekenen mee met je keuze. De proefpagina /lezingen verwijst nu naar de voorpagina. Ook nieuw: de hero met het Binnenhof op de voorpagina
-8. ☐ Reeks casussen "één stemming uit elkaar gehaald" (B16). Kliktabel afwijkende uitslagen (C4): ☑ klaargezet, met een besluit voor jou
+8. ☑ Reeks "Uitgelicht" op /uitgelicht (B16): zes hoofdelijke stemmingen en de motie-Eerdmans, elk met een eigen pagina; script `pipeline/stemming_casus.py` maakt de gegevens per zaaknummer. Graag bekijken: K7. Kliktabel afwijkende uitslagen (C4): ☑ klaargezet, met een besluit voor jou
 9. ☑ Stappen voor jou uitgeschreven: S1 tot en met S3 hieronder
 
 ## Stappen voor jou (uit B5, B11 en B12)
@@ -454,6 +454,17 @@ Vraag: klopt het beeld?
 - De privacytekst: https://zetelen.vercel.app/privacy (concept).
 
 Vraag: akkoord, of wat moet anders?
+
+### ☐ K7. Uitgelicht: zeven stemmingen van dichtbij (nieuw, 26 oktober)
+
+https://zetelen.vercel.app/uitgelicht. Alle uitslagen zijn nagekeken tegen de besluittekst in de bron; geen van de zes heeft een vergissing. Na te kijken:
+- **De omschrijvingen** zijn met de hand geschreven en neutraal bedoeld. Lees vooral die over ritueel slachten (2011: wat mocht toen) en over het behandelvoorbehoud (2025: wat houdt het in).
+- **Staken van stemmen** (studievoorschot, 2018): de uitleg dat de Kamer bij staken opnieuw stemt en dat het voorstel bij opnieuw staken niet is aangenomen, komt uit het Reglement van Orde, niet uit de data. De uitslag in de bron past erbij.
+- **Kabinetten** komen uit de kabinetstabel (C5). Bij Mercosur staat daardoor: kabinet-Schoof is demissionair en bestaat nog uit VVD en BBB.
+- **Het behandelvoorbehoud** (2025Z05204) is formeel een brief van een commissie; de bron noemt BBB als indiener, en zo staat het er.
+- Gedeelde code is aangepast: afsplitsingen uit 2014 tot 2017 staan in de zaal nu naast de fractie waar ze uit kwamen (eerder achteraan). Daardoor kunnen kleuren in Oppositiewerk voor die jaren verschoven zijn.
+
+Vraag: kloppen de omschrijvingen, en is de spreiding over partijen goed zo?
 
 ## D. Ter informatie (geen actie nodig)
 
