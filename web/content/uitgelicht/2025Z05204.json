@@ -1,0 +1,54 @@
+{
+  "_bron": "Tweede Kamer, open data: Besluit met StemmingsSoort 'Hoofdelijk' bij zaak 2025Z05204, stemmen per fractie geteld uit Stemming (alleen personen, zonder Verwijderd; Vergissing telt mee). Gemaakt met pipeline/stemming_casus.py.",
+  "zaak": "2025Z05204",
+  "soort": "Brief van lid/fractie/commissie",
+  "onderwerp": "Brief van de vaste commissie voor Europese Zaken over het plaatsen van een parlementair behandelvoorbehoud bij het EU-voorstel: Veiligheidsmaatregelen voor Europa COM (2025) 122",
+  "indieners": [
+    "BBB"
+  ],
+  "besluiten": [
+    {
+      "datum": "2025-03-25",
+      "besluitSoort": "Stemmen - aangenomen",
+      "besluitTekst": "Aangenomen (78-70).",
+      "stemmen": {
+        "Voor": {
+          "PVV": 36,
+          "Nieuw Sociaal Contract": 20,
+          "BBB": 7,
+          "SP": 5,
+          "DENK": 3,
+          "FVD": 3,
+          "SGP": 3,
+          "JA21": 1
+        },
+        "Tegen": {
+          "GroenLinks-PvdA": 24,
+          "VVD": 24,
+          "D66": 9,
+          "CDA": 5,
+          "ChristenUnie": 3,
+          "PvdD": 3,
+          "Volt": 2
+        },
+        "Niet deelgenomen": {
+          "GroenLinks-PvdA": 1,
+          "PVV": 1
+        }
+      },
+      "vergissingen": {},
+      "telling": {
+        "Voor": 78,
+        "Tegen": 70,
+        "Niet deelgenomen": 2
+      },
+      "verwijderd": 0,
+      "zonderPersoon": 0,
+      "bron": {
+        "voor": 78,
+        "tegen": 70
+      },
+      "verschillen": []
+    }
+  ]
+}

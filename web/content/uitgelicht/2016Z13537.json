@@ -1,0 +1,56 @@
+{
+  "_bron": "Tweede Kamer, open data: Besluit met StemmingsSoort 'Hoofdelijk' bij zaak 2016Z13537, stemmen per fractie geteld uit Stemming (alleen personen, zonder Verwijderd; Vergissing telt mee). Gemaakt met pipeline/stemming_casus.py.",
+  "zaak": "2016Z13537",
+  "soort": "Motie",
+  "onderwerp": "Motie van de leden Mei Li Vos en Van der Staaij over een verbod op reclame voor live-weddenschappen",
+  "indieners": [
+    "PvdA",
+    "SGP"
+  ],
+  "besluiten": [
+    {
+      "datum": "2016-07-05",
+      "besluitSoort": "Stemmen - aangenomen",
+      "besluitTekst": "Aangenomen. (74-72) (Hoofdelijk)",
+      "stemmen": {
+        "Voor": {
+          "PvdA": 35,
+          "SP": 15,
+          "CDA": 13,
+          "ChristenUnie": 5,
+          "SGP": 3,
+          "PvdD": 2,
+          "50PLUS": 1
+        },
+        "Tegen": {
+          "VVD": 40,
+          "D66": 12,
+          "PVV": 12,
+          "GL": 4,
+          "GrBvK": 1,
+          "Houwers": 1,
+          "Klein": 1,
+          "Van Vliet": 1
+        },
+        "Niet deelgenomen": {
+          "GrKÖ": 2,
+          "GrBvK": 1,
+          "PvdA": 1
+        }
+      },
+      "vergissingen": {},
+      "telling": {
+        "Voor": 74,
+        "Tegen": 72,
+        "Niet deelgenomen": 4
+      },
+      "verwijderd": 0,
+      "zonderPersoon": 0,
+      "bron": {
+        "voor": 74,
+        "tegen": 72
+      },
+      "verschillen": []
+    }
+  ]
+}

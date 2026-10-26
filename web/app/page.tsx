@@ -23,6 +23,7 @@ const TOOLS = [
   { href: "/onderwerpen", titel: "Onderwerpen", tekst: "Waar zijn fracties het over eens? Per beleidsterrein, voor elk paar fracties, tot op de motie.", concept: true },
   { href: "/coalitie", titel: "Coalitiebouwer", tekst: "Stel zelf een groep fracties samen en zie bij wie die een meerderheid haalde.", concept: true },
   { href: "/oppositie", titel: "Oppositiewerk", tekst: "Wat kun je als je niet regeert? Zestien jaar moties en amendementen.", concept: true },
+  { href: "/uitgelicht", titel: "Uitgelicht", tekst: "Zeven stemmingen van dichtbij: wie stemde wat, en wat viel op?", concept: true },
   { href: "/fracties", titel: "Fracties", tekst: "Alle fracties sinds 2010: zetels, kabinet of oppositie, en wie er overstapte." },
   ...(KAMERLEDEN ? [{ href: "/kamerleden", titel: "Kamerleden", tekst: "Wie diende wat in, en wat haalde het? Per fractie en per Kamerlid.", concept: true }] : []),
   { href: "/methodiek", titel: "Methodiek", tekst: "Hoe de cijfers tot stand komen, wat ze wel en niet zeggen, en wat er veranderde." },

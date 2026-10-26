@@ -1,0 +1,52 @@
+{
+  "_bron": "Tweede Kamer, open data: Besluit met StemmingsSoort 'Hoofdelijk' bij zaak 2008Z01504, stemmen per fractie geteld uit Stemming (alleen personen, zonder Verwijderd; Vergissing telt mee). Gemaakt met pipeline/stemming_casus.py.",
+  "zaak": "2008Z01504",
+  "soort": "Initiatiefwetgeving",
+  "onderwerp": "Voorstel van wet van het lid Thieme tot wijziging van de Gezondheids- en welzijnswet voor dieren in verband met het invoeren van een verplichte voorafgaande bedwelming bij ritueel slachten\n",
+  "indieners": [
+    "PvdD"
+  ],
+  "besluiten": [
+    {
+      "datum": "2011-06-28",
+      "besluitSoort": "Stemmen - aangenomen",
+      "besluitTekst": "Aangenomen (116-30)",
+      "stemmen": {
+        "Voor": {
+          "VVD": 31,
+          "PvdA": 26,
+          "PVV": 23,
+          "SP": 15,
+          "D66": 10,
+          "GL": 9,
+          "PvdD": 2
+        },
+        "Tegen": {
+          "CDA": 19,
+          "ChristenUnie": 5,
+          "PvdA": 3,
+          "SGP": 2,
+          "PVV": 1
+        },
+        "Niet deelgenomen": {
+          "CDA": 2,
+          "GL": 1,
+          "PvdA": 1
+        }
+      },
+      "vergissingen": {},
+      "telling": {
+        "Voor": 116,
+        "Tegen": 30,
+        "Niet deelgenomen": 4
+      },
+      "verwijderd": 0,
+      "zonderPersoon": 0,
+      "bron": {
+        "voor": 116,
+        "tegen": 30
+      },
+      "verschillen": []
+    }
+  ]
+}

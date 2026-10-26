@@ -1,0 +1,57 @@
+{
+  "_bron": "Tweede Kamer, open data: Besluit met StemmingsSoort 'Hoofdelijk' bij zaak 2025Z21858, stemmen per fractie geteld uit Stemming (alleen personen, zonder Verwijderd; Vergissing telt mee). Gemaakt met pipeline/stemming_casus.py.",
+  "zaak": "2025Z21858",
+  "soort": "Motie",
+  "onderwerp": "Motie van het lid Van der Burg c.s. over instemmen met het EU-Mercosur-handelsakkoord en zich inzetten voor een spoedige totstandkoming en inwerkingtreding van het verdrag",
+  "indieners": [
+    "VVD",
+    "50PLUS",
+    "D66",
+    "JA21",
+    "CDA"
+  ],
+  "besluiten": [
+    {
+      "datum": "2025-12-16",
+      "besluitSoort": "Stemmen - aangenomen",
+      "besluitTekst": "Aangenomen. (76-73)",
+      "stemmen": {
+        "Voor": {
+          "D66": 26,
+          "VVD": 21,
+          "CDA": 18,
+          "JA21": 9,
+          "50PLUS": 2
+        },
+        "Tegen": {
+          "PVV": 26,
+          "GroenLinks-PvdA": 20,
+          "FVD": 7,
+          "BBB": 4,
+          "ChristenUnie": 3,
+          "DENK": 3,
+          "PvdD": 3,
+          "SGP": 3,
+          "SP": 3,
+          "Volt": 1
+        },
+        "Niet deelgenomen": {
+          "VVD": 1
+        }
+      },
+      "vergissingen": {},
+      "telling": {
+        "Voor": 76,
+        "Tegen": 73,
+        "Niet deelgenomen": 1
+      },
+      "verwijderd": 0,
+      "zonderPersoon": 0,
+      "bron": {
+        "voor": 76,
+        "tegen": 73
+      },
+      "verschillen": []
+    }
+  ]
+}

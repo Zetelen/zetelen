@@ -1,0 +1,58 @@
+{
+  "_bron": "Tweede Kamer, open data: Besluit met StemmingsSoort 'Hoofdelijk' bij zaak 2026Z04746, stemmen per fractie geteld uit Stemming (alleen personen, zonder Verwijderd; Vergissing telt mee). Gemaakt met pipeline/stemming_casus.py.",
+  "zaak": "2026Z04746",
+  "soort": "Motie",
+  "onderwerp": "Gewijzigde motie van het lid Bikker c.s. over niet bezuinigen op de gehandicaptenzorg (t.v.v. 36848-49)",
+  "indieners": [
+    "ChristenUnie",
+    "SGP",
+    "GroenLinks-PvdA",
+    "SP"
+  ],
+  "besluiten": [
+    {
+      "datum": "2026-03-10",
+      "besluitSoort": "Stemmen - aangenomen",
+      "besluitTekst": "Aangenomen. (75-74)",
+      "stemmen": {
+        "Voor": {
+          "GroenLinks-PvdA": 20,
+          "PVV": 19,
+          "FVD": 7,
+          "Groep Markuszower": 7,
+          "BBB": 3,
+          "ChristenUnie": 3,
+          "DENK": 3,
+          "PvdD": 3,
+          "SGP": 3,
+          "SP": 3,
+          "50PLUS": 2,
+          "Lid Keijzer": 1,
+          "Volt": 1
+        },
+        "Tegen": {
+          "D66": 26,
+          "VVD": 21,
+          "CDA": 18,
+          "JA21": 9
+        },
+        "Niet deelgenomen": {
+          "VVD": 1
+        }
+      },
+      "vergissingen": {},
+      "telling": {
+        "Voor": 75,
+        "Tegen": 74,
+        "Niet deelgenomen": 1
+      },
+      "verwijderd": 0,
+      "zonderPersoon": 0,
+      "bron": {
+        "voor": 75,
+        "tegen": 74
+      },
+      "verschillen": []
+    }
+  ]
+}
