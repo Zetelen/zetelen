@@ -8,7 +8,7 @@ Bijgewerkt op 26 oktober 2026, 's avonds. Hier staat alleen wat nog open is. **V
 
 | | Wat | Soort | Houdt de livegang op? | Waar |
 |---|---|---|---|---|
-| ☐ C1 tot en met C6 | Controles: uitslagen, cohesie, zetelwerk, afwijkende uitslagen (besluit), handmatige tabellen, bewaking | controleren en één besluit | ja | [controles-stappenplan.md](controles-stappenplan.md) |
+| ☑ C1 tot en met C6 | Controles: alle zes afgerond op 27 oktober 2026 (uitkomst in controles-uitkomst-2026-10-27.md) | klaar | nee | [controles-stappenplan.md](controles-stappenplan.md) |
 | ☐ K1, K2, K3, K5 | Opnieuw bekijken na de aanpassingen: Onderwerpen, Oppositiewerk, voorpagina, Kamerleden | bekijken | ja, voor het label concept | hieronder |
 | ☐ K7 | Uitgelicht: omschrijvingen en spreiding | bekijken | nee | hieronder |
 | ☐ K9 | Nieuw: Hoe lang duurt een wet?, Tegen het advies in (B18), en een eigen beeld per stemming op Uitgelicht | bekijken | nee | hieronder |

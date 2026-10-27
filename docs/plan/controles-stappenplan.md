@@ -188,7 +188,7 @@ Open elk bestand op GitHub (klik op de link) en loop de punten na. Noteer per ta
 
 ---
 
-## ☐ C6. Test van de bewaking (een kwartier, plus wachten)
+## ☑ C6. Test van de bewaking (een kwartier, plus wachten)
 
 **Waarom:** als de dagelijkse verversing faalt of uitblijft, moet je een mail krijgen. Dit test of dat werkt.
 
@@ -217,3 +217,5 @@ Open elk bestand op GitHub (klik op de link) en loop de punten na. Noteer per ta
 Na de test meldt de eerstvolgende gewone verversing (dagelijks) zich weer als "up". Je hoeft niets te herstellen in GitHub.
 
 Achtergrond: [onderhoud.md](../onderhoud.md), onder "De bewaking zelf testen".
+
+**Uitkomst (27 oktober 2026):** geslaagd. Mails van GitHub ("Run failed: Ververs") en healthchecks ("DOWN | zetelen-ververs") komen binnen op het datavizd.io-adres. Let op: healthchecks mailt alleen bij een wisseling van up naar down. Staat de check al op down, dan geeft een nieuwe fout geen nieuwe mail.
