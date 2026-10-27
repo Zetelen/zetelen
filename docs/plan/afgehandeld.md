@@ -1,9 +1,12 @@
 # Afgehandeld: besluiten, stappen en terugkoppeling
 
-Alles uit [te-beoordelen.md](te-beoordelen.md) dat beantwoord of gedaan is, met je antwoorden en wat ik ermee deed. Hier hoef je niets mee: het is het archief, zodat de lijst met open punten kort blijft. Nieuwste afgehandelde punten komen bovenaan in "Recent".
+Alles wat Niels beantwoordde of deed (tot 27 oktober uit [te-beoordelen.md](te-beoordelen.md), daarna uit zijn eigen notities), met je antwoorden en wat ik ermee deed. Hier hoef je niets mee: het is het archief, zodat de lijst met open punten kort blijft. Nieuwste afgehandelde punten komen bovenaan in "Recent".
 
 ## Recent
 
+- **27 oktober, open punten naar de vault**: akkoord Niels. Open punten voor Niels staan vanaf nu in zijn Obsidian-vault (een notitie per punt, met een veld voor feedback); te-beoordelen.md is een verwijzing.
+- **27 oktober, Stemgenoten (feedback K10, deel pagina)** (`b7e3b78`): titel "Stem jij zoals zij?", regels als opsomming, alleen stemmingen onder kabinet-Jetten (wijkt af van B19 "huidige Kamerperiode", besluit Niels: dan klopt het label kabinet of oppositie; vier stellingen vervangen), verwachting vooraf in goud, uitslag uitklapbaar met label kabinet of oppositie, deelknop meteen zichtbaar, overzicht met uitkomstlabel en zetelbalk, bronlink per stelling. De stellingen zelf (K10) staan nog open.
+- **27 oktober, C1 tot en met C6 afgerond**: uitkomst in [controles-uitkomst-2026-10-27.md](controles-uitkomst-2026-10-27.md); migraties 023, 024 en 025; bewaking getest.
 - **26 oktober, B17 pipeline**: één video per week, wachtrij in een private repository, Bluesky automatisch na je akkoord; budget: maandlimiet 5 euro (S5). De pipeline wacht tot na de feedbackrondes.
 - **26 oktober, B19 stemhulp**: Niels: alleen wetten en amendementen; alleen de huidige Kamerperiode; stellingen als concept door Claude uit de gegevens, met controle door Niels; meelezers levert Niels later aan; naam **Stemgenoten**. Gebouwd als concept op /stemgenoten (`pipeline/stemgenoten_selectie.py`, controle in [stemgenoten-controle.md](stemgenoten-controle.md)).
 - **26 oktober, B18 "En toen?"**: akkoord Niels met het advies: eerst alleen de moties die het kabinet ontraadde en die toch werden aangenomen (optie B). Onderzoek: [onderzoek-motie-opvolging.md](onderzoek-motie-opvolging.md).

@@ -2,7 +2,7 @@
 
 Voor Niels (en daarna twee meelezers met een andere politieke kleur). Gemaakt op 26 oktober 2026, bijgewerkt op 27 oktober 2026: alleen nog stemmingen onder het huidige kabinet-Jetten (sinds 23 februari 2026), zodat het label kabinet of oppositie bij elke stemming klopt. Daarvoor zijn vier stellingen vervangen (nummer 10, 20, 21, 24); de zetels zijn nu die onder Jetten. Per stelling: de tekst op de site, wat er in de bron staat (zonder namen van Kamerleden), en hoe de fracties stemden. **Eens betekent voor het voorstel.**
 
-**Zo antwoord je:** per nummer "klopt", of wat er anders moet. Begin bij de stellingen met **nakijken**: daar weet ik de betekenis niet helemaal zeker.
+**Zo antwoord je:** in je vault (Beoordelen, K10), per nummer achter `Feedback::`: "klopt", of wat er anders moet. Begin bij de stellingen met **nakijken**: daar weet ik de betekenis niet helemaal zeker.
 
 Selectie: 25 uit 462 verdeelde stemmingen over wetten en amendementen onder kabinet-Jetten (`pipeline/stemgenoten_selectie.py`). Controle: de overeenkomst tussen fracties in deze set wijkt gemiddeld 4,6 procentpunt af van al het stemgedrag. Concept op https://zetelen.nl/stemgenoten (niet in het menu, niet geïndexeerd).
 
