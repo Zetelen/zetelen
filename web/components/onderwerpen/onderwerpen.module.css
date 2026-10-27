@@ -400,9 +400,6 @@ details[open] > summary .open {
   .alleenSmal {
     display: block;
   }
-  .vasteKop {
-    display: none;
-  }
   .balkTekst {
     display: flex;
     flex-direction: column;
@@ -594,6 +591,13 @@ details[open] > summary .open {
 .vasteKop span {
   font-size: 15px;
   color: var(--tekst-zacht);
+}
+/* Op de telefoon staat de fractie al in de mobiele balk; deze regel moet na .vasteKop staan, anders wint display: flex
+   en staan er twee balken, waarvan deze over het keuzepaneel heen valt (feedback Niels, 27 oktober 2026) */
+@media (max-width: 640px) {
+  .vasteKop {
+    display: none;
+  }
 }
 .toelichting {
   margin: 0;
