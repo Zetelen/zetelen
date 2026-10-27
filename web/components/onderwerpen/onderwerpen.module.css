@@ -615,6 +615,49 @@ details[open] > summary .open {
 .matrixDossier th:focus .dossierVol {
   display: block;
 }
+/* Cellen van een dossier: getal en aantal stemmingen bij hover of tik (feedback Niels, 27 oktober 2026) */
+.celTip {
+  position: relative;
+  cursor: help;
+}
+.celTip:hover,
+.celTip:focus {
+  z-index: 6;
+  outline: 2px solid var(--koper);
+  outline-offset: -2px;
+}
+.celVol {
+  display: none;
+  position: absolute;
+  z-index: 6;
+  left: 0;
+  top: calc(100% + 4px);
+  width: max-content;
+  max-width: 240px;
+  padding: 8px 12px;
+  border: 1px solid var(--lijn-licht);
+  border-radius: 6px;
+  background: var(--nacht-800);
+  color: var(--tekst);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: left;
+  white-space: normal;
+  box-shadow: 0 6px 18px rgb(0 0 0 / 0.45);
+  pointer-events: none;
+}
+.celTip[data-rechts] .celVol {
+  left: auto;
+  right: 0;
+}
+.celTip:hover .celVol,
+.celTip:focus .celVol {
+  display: block;
+}
+.kaart tbody:has(.celTip:hover) .celTip:focus:not(:hover) .celVol {
+  display: none;
+}
 /* Een aangetikte titel maakt plaats zodra je een andere aanwijst */
 .kaart tbody:has(.matrixDossier th:hover) .matrixDossier th:focus:not(:hover) .dossierVol {
   display: none;

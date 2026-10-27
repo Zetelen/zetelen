@@ -240,15 +240,19 @@ export default async function Onderwerpen({ searchParams }: Props) {
                         <span className={s.dossierKort}>{d.titel} <span className={s.aantal}>{d.stemmingen}</span></span>
                         <span className={s.dossierVol} aria-hidden="true">{d.titel} · {d.stemmingen} {d.stemmingen === 1 ? "stemming" : "stemmingen"}</span>
                       </th>
-                      {zaal.filter((f) => f.id !== gekozen.id).map((f) => {
+                      {zaal.filter((f) => f.id !== gekozen.id).map((f, i, rij) => {
                         const p = d.per.get(f.id);
                         // Minder dan 5 stemmingen samen: geen percentage, dat zegt dan te weinig
                         const c = p && p.samen >= 5 ? (100 * p.eens) / p.samen : null;
                         const kleur = c != null ? schaalkleur(c) : null;
                         return (
-                          <td key={f.id} className={kleur ? s.cel : `${s.cel} ${s.celTeWeinig}`} style={kleur ? { background: kleur, color: tekstOp(kleur) } : undefined}
-                            title={`${gekozen.afkorting} en ${f.afkorting}, ${d.titel}: ${c != null ? `${p!.eens} van ${p!.samen} keer hetzelfde` : "te weinig stemmingen"}`}>
+                          // Aantikbaar met een eigen tooltip, ook op tablet; rechts in de tabel opent hij naar links
+                          <td key={f.id} tabIndex={0} data-rechts={i >= rij.length / 2 || undefined}
+                            className={kleur ? `${s.cel} ${s.celTip}` : `${s.cel} ${s.celTip} ${s.celTeWeinig}`} style={kleur ? { background: kleur, color: tekstOp(kleur) } : undefined}>
                             {c != null ? procent(c) : <span className="verborgen">te weinig stemmingen</span>}
+                            <span className={s.celVol} aria-hidden="true">
+                              {gekozen.afkorting} en {f.afkorting}: {c != null ? `${p!.eens} van de ${p!.samen} keer hetzelfde (${procent(c)})` : `te weinig stemmingen samen (${p?.samen ?? 0})`}
+                            </span>
                           </td>
                         );
                       })}
