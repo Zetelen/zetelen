@@ -4,7 +4,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Inhoud } from "@/components/Kader";
-import { HoofdstukKop } from "@/components/Onderdelen";
+import { HoofdstukKop, Kern } from "@/components/Onderdelen";
 import { Data, HeroKop, Label, Tekst } from "@/components/Typografie";
 import { CasusKiezer } from "@/components/verhaal/CasusKiezer";
 import { ScrollVerhaal } from "@/components/verhaal/ScrollVerhaal";
@@ -60,6 +60,9 @@ export default function HoeLang() {
         <CasusKiezer casussen={KIEZER} gekozen="hoe-lang-duurt-een-wet" />
         <Label>Uitgelicht · van indiening tot besluit</Label>
         <HeroKop>Hoe lang duurt een wet?</HeroKop>
+        {/* Kern van de pagina (K11, 27 oktober 2026) */}
+        <Kern ziet="Drie wetten van indiening tot besluit, als reis met haltes. Daarna alle wetsvoorstellen sinds 2010."
+          opvalt={`Van de wetsvoorstellen uit 2010 tot en met 2022 met een besluit kreeg de helft dat binnen ${duurTekst(t.mediaan)}, ${pct(t.binnenJaar, t.besloten.length)} binnen een jaar.`} />
         <Tekst>
           Een wet begint met een voorstel, van de regering of van Kamerleden zelf. Dan volgen haltes: het advies van de Raad van
           State, vragen van de Kamer, antwoorden, aanpassingen, en een besluit. Soms gaat dat in twee weken, soms duurt het jaren.

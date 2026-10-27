@@ -39,6 +39,8 @@
   gap: var(--r-4);
   flex-wrap: wrap;
 }
+/* Menu in drie groepen (K11, 27 oktober 2026). Breed: een knop per groep, die een paneel met de onderdelen en hun
+   regel uitleg openklapt. Smal: alle groepen open onder de menuknop, met de groepsnaam als tussenkop. */
 .links {
   display: flex;
   gap: var(--r-5);
@@ -46,20 +48,91 @@
   margin: 0;
   padding: 0;
 }
-.links a {
-  color: var(--tekst-zacht);
-  text-decoration: none;
-  font-size: 15px;
+.groep {
+  position: relative;
+}
+.groepKnop {
   display: inline-flex;
   align-items: center;
+  gap: 6px;
   min-height: var(--doel-min);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--tekst-zacht);
+  font: inherit;
+  font-size: 15px;
+  cursor: pointer;
 }
-.links a:hover,
-.links a[aria-current="page"] {
+.groepKnop::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 160ms ease;
+}
+.groepKnop[aria-expanded="true"]::after {
+  transform: translateY(1px) rotate(-135deg);
+}
+.groepKnop:hover,
+.groepKnop[aria-expanded="true"],
+.groepKnop[data-hier] {
   color: var(--tekst);
+}
+.groepNaam {
+  display: none;
+}
+.paneel {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 60;
+  width: 340px;
+  margin: 0;
+  padding: var(--r-2);
+  list-style: none;
+  background: var(--nacht-900);
+  border: 1px solid var(--lijn-licht);
+  border-radius: var(--hoek-paneel);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.35);
+}
+.paneel[data-open="true"] {
+  display: block;
+}
+.paneel a {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--r-3) var(--r-3);
+  border-radius: var(--hoek-klein);
+  text-decoration: none;
+}
+.paneel a:hover,
+.paneel a:focus-visible {
+  background: var(--nacht-800);
+}
+.itemTekst {
+  color: var(--tekst);
+  font-size: 16px;
+}
+.paneel a[aria-current="page"] .itemTekst {
+  color: var(--koper);
+}
+.itemRegel {
+  color: var(--tekst-zacht);
+  font-size: 14px;
+  line-height: 1.4;
 }
 .menuKnop {
   display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .groepKnop::after {
+    transition: none;
+  }
 }
 /* Smal scherm: het menu zit achter een knop en klapt uit als lijst onder de kop */
 @media (max-width: 760px) {
@@ -80,17 +153,44 @@
     display: none;
     flex-basis: 100%;
     flex-direction: column;
-    gap: 0;
+    gap: var(--r-4);
+    max-height: calc(100dvh - 80px);
+    overflow-y: auto;
+    padding: var(--r-4) 0;
     border-top: 1px solid var(--lijn);
   }
   .links[data-open="true"] {
     display: flex;
   }
-  .links li {
+  .groepKnop {
+    display: none;
+  }
+  .groepNaam {
+    display: block;
+    font-size: var(--tekst-label);
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--koper);
+  }
+  .paneel,
+  .paneel[data-open="true"] {
+    display: block;
+    position: static;
+    width: auto;
+    padding: 0;
+    background: none;
+    border: 0;
+    box-shadow: none;
+  }
+  .paneel li {
     border-bottom: 1px solid var(--lijn);
   }
-  .links a {
-    width: 100%;
+  .paneel a {
+    padding: var(--r-3) 0;
+    border-radius: 0;
+  }
+  .itemTekst {
     font-size: 17px;
   }
 }

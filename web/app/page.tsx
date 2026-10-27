@@ -3,6 +3,7 @@
 // grootste kabinetspartijen per beleidsterrein zien (component onderwerpen).
 // Sinds 26 oktober 2026 (B14 en K3): de opening vraagt waar fracties elkaar vinden, met twee lezingen en een
 // uitnodiging; dan "Maar eerst: hoe zijn we hier gekomen?". Hoofdstukken met een kop over de volle breedte.
+// Sinds 27 oktober 2026 (K11): het overzicht "Kijk zelf" staat direct na de opening, voor het verhaal.
 import type { Metadata } from "next";
 import { KAMERLEDEN, SITE } from "@/lib/site";
 import Link from "next/link";
@@ -27,16 +28,14 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-// Onderaan drie vragen als uitnodiging, en de rest op één regel; de tegels herhaalden het menu (feedback Niels K3,
-// 26 oktober 2026)
+// Het overzicht na de opening: de drie vragen staan al als knoppen in de hero, dus de tegels tonen de andere
+// onderdelen en de rest staat op één regel (feedback Niels K3 en K11, 27 oktober 2026)
 const VRAGEN = [
-  { href: "/verkenner", vraag: "Wie stemt met wie?", tekst: "Kies een fractie en zie hoe vaak elke andere fractie met haar meestemde, per kabinet of Kamerperiode." },
-  { href: "/onderwerpen", vraag: "Waar zijn ze het over eens?", tekst: "Per beleidsterrein, voor elk paar fracties, tot op de motie." },
-  { href: "/coalitie", vraag: "Stel zelf een coalitie samen", tekst: "Stel zelf een groep fracties samen en zie bij wie die een meerderheid haalde." },
+  { href: "/stemgenoten", vraag: "Stem jij zoals zij?", tekst: "Kies je kant bij echte stemmingen en zie welke fracties net zo stemden." },
+  { href: "/uitgelicht", vraag: "Stemmingen van dichtbij", tekst: "Wie stemde wat, wie stemde anders dan de eigen fractie, en hoe krap was het." },
+  { href: "/oppositie", vraag: "Wat kun je als je niet regeert?", tekst: "Zestien jaar moties en amendementen van de oppositie: wat haalt het, en met wie." },
 ];
 const VERDER = [
-  { href: "/oppositie", titel: "Oppositiewerk" },
-  { href: "/uitgelicht", titel: "Uitgelicht" },
   { href: "/fracties", titel: "Fracties" },
   ...(KAMERLEDEN ? [{ href: "/kamerleden", titel: "Kamerleden" }] : []),
   { href: "/methodiek", titel: "Methodiek" },
@@ -128,8 +127,26 @@ export default async function Voorpagina() {
         </Tekst>
         <Tekst>
           Op sommige onderwerpen, zoals asiel, gaan fracties juist verder uit elkaar dan gemiddeld. Zoek zelf waar ze elkaar vinden,
-          en waar niet. <a href="#verder">Alle onderdelen</a>
+          en waar niet.
         </Tekst>
+      </section>
+
+      {/* Het overzicht direct na de opening, voor het scrollverhaal (K11, 27 oktober 2026): bezoekers misten het
+          overzicht, en het stond helemaal onderaan */}
+      <section id="verder" className={s.hoofdstuk} style={{ maxWidth: "none", scrollMarginTop: 80 }}>
+        <HoofdstukKop titel="Meer op Zetelen" />
+        <div className={s.tegels}>
+          {VRAGEN.map((t) => (
+            <Link key={t.href} href={t.href} className={s.tegel}>
+              <strong>{t.vraag}</strong>
+              <span>{t.tekst}</span>
+            </Link>
+          ))}
+        </div>
+        <nav className={s.verder} aria-label="Verder op Zetelen">
+          <span>Verder:</span>
+          {VERDER.map((t) => <Link key={t.href} href={t.href}>{t.titel}</Link>)}
+        </nav>
       </section>
 
       <HoofdstukKop titel="Maar eerst: hoe zijn we hier gekomen?" id="verhaal" />
@@ -197,21 +214,10 @@ export default async function Voorpagina() {
         );
       })()}
 
-      <section id="verder" className={s.hoofdstuk} style={{ maxWidth: "none", scrollMarginTop: 80 }}>
-        <HoofdstukKop titel="Maar hoe werd er nou echt gezeteld? Kijk zelf" />
-        <div className={s.tegels}>
-          {VRAGEN.map((t) => (
-            <Link key={t.href} href={t.href} className={s.tegel}>
-              <strong>{t.vraag}</strong>
-              <span>{t.tekst}</span>
-            </Link>
-          ))}
-        </div>
-        <nav className={s.verder} aria-label="Verder op Zetelen">
-          <span>Verder:</span>
-          {VERDER.map((t) => <Link key={t.href} href={t.href}>{t.titel}</Link>)}
-        </nav>
-      </section>
+      {/* Het overzicht staat sinds K11 bovenaan; onderaan alleen de weg terug */}
+      <nav className={s.verder} aria-label="Terug naar het overzicht">
+        <a href="#verder">Terug naar het overzicht van Zetelen</a>
+      </nav>
 
       <Bronregel toelichting="Zetels bij het begin van elk kabinet en elke Kamerperiode, gemeten 30 dagen na de start. Kleuren van fracties zijn een eigen palet, geen partijkleuren." />
     </Inhoud>

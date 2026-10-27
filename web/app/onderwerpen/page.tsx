@@ -18,7 +18,8 @@ import { ScrollVerhaal } from "@/components/verhaal/ScrollVerhaal";
 import { Inklapbaar } from "@/components/Inklapbaar";
 import { dagMaandJaar } from "@/lib/verhaal";
 import { stemVerhaal, stemming } from "@/lib/stemmingVerhaal";
-import { HoofdstukKop } from "@/components/Onderdelen";
+import { HoofdstukKop, Kern } from "@/components/Onderdelen";
+import { onderwerpenOpvalt, paarOpvalt } from "@/lib/kern";
 import { Data, HeroKop, Label, SectieKop, Tekst } from "@/components/Typografie";
 import { cohesieIn, fractiesIn, keuzeUitUrl, perioden, procent } from "@/lib/cohesie";
 import { schaalkleur, tekstOp } from "@/lib/kleur";
@@ -57,6 +58,9 @@ export default async function Onderwerpen({ searchParams }: Props) {
   const paar = met && perTerrein ? paarPerTerrein(perTerrein, met.id) : null;
   const totaal = met && kaart ? kaart.get(sleutel(gekozen.id, met.id))?.cohesie ?? null : null;
   const u = paar ? uitersten(paar) : null;
+  // Wat opvalt (K11): bij een paar de uitersten, anders de fractie waarmee het per onderwerp het meest verschilt
+  const opvalt = met && paar ? paarOpvalt(gekozen.afkorting, met.afkorting, paar)
+    : gekozen && perTerrein ? onderwerpenOpvalt(gekozen.afkorting, zaal.filter((f) => f.id !== gekozen.id), perTerrein) : null;
   const query = (extra: Record<string, string>) =>
     `?${new URLSearchParams({ soort, ...(periode ? { periode: periode.naam } : {}), variant, ...extra }).toString()}`;
   // Verdieping: het terrein klapt uit met de dossiers en stemmingen (components/onderwerpen/TerreinUitklap.tsx)
@@ -104,6 +108,7 @@ export default async function Onderwerpen({ searchParams }: Props) {
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", maxWidth: 860 }}>
         <Label>Onderwerpen</Label>
         <HeroKop>Waar zijn fracties het over eens?</HeroKop>
+        <Kern ziet="Hoe vaak fracties dezelfde kant kozen, per beleidsterrein. Eerst één stemming van dichtbij, daarna kies je zelf." opvalt={opvalt} />
         <Tekst>
           Fracties die het op het ene onderwerp zelden eens zijn, vinden elkaar op een ander onderwerp soms juist wel. Hier zie je
           per beleidsterrein hoe vaak fracties dezelfde kant kozen, tot op het dossier en de motie.

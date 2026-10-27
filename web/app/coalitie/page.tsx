@@ -10,9 +10,10 @@ import { PeriodeKeuze } from "@/components/cohesie/PeriodeKeuze";
 import { Inhoud, LegeStaat } from "@/components/Kader";
 import { Inklapbaar } from "@/components/Inklapbaar";
 import { MobielPaneel } from "@/components/MobielPaneel";
-import { Kaart } from "@/components/Onderdelen";
+import { Kaart, Kern } from "@/components/Onderdelen";
 import { Label, SectieKop, Tekst } from "@/components/Typografie";
-import { cohesieIn, fractiesIn, keuzeUitUrl, perioden } from "@/lib/cohesie";
+import { coalitieVan, cohesieIn, fractiesIn, keuzeUitUrl, perioden } from "@/lib/cohesie";
+import { coalitieOpvalt, kabinetBijStart } from "@/lib/kern";
 import { ordenFracties } from "@/lib/ordening";
 import o from "@/components/onderwerpen/onderwerpen.module.css";
 
@@ -42,11 +43,15 @@ export default async function Coalitie({ searchParams }: Props) {
   const variant = waarde(zoek, "variant") === "alle" ? "alle" : "verdeeld";
   const groep = (waarde(zoek, "groep") ?? "").split(",").filter(Boolean);
   const [fracties, kaart] = periode ? await Promise.all([fractiesIn(soort, periode.naam), cohesieIn(soort, periode.naam, "alle")]) : [null, null];
+  // Wat opvalt (K11): had het gekozen kabinet bij de start een meerderheid? Bij een Kamerperiode geen regel.
+  const rollen = soort === "kabinet" && periode ? await coalitieVan(periode.naam) : null;
+  const opvalt = rollen?.size && fracties && periode ? coalitieOpvalt(periode.naam, kabinetBijStart(fracties, rollen)) : null;
   return (
     <Inhoud>
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
         <Label>Coalitiebouwer</Label>
         <SectieKop niveau={1}>Bij wie haal je een meerderheid?</SectieKop>
+        <Kern ziet="Een groep fracties die jij kiest: hoeveel zetels die heeft, en met welke andere fracties ze eerder een meerderheid haalde." opvalt={opvalt} />
         <Tekst>
           Nu zetel jij. Kies fracties in de lijst of in de zaal en stel een kabinet samen, fictief of niet. Je ziet hoeveel zetels het
           heeft, en bij welke andere fracties die groep in de gekozen periode een meerderheid haalde.

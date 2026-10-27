@@ -28,6 +28,8 @@ Fase 4: koppelen en bouwen (stap 9). Backend van R1 gebouwd en getest, plus `ont
 - Component `ontwerpsysteem` (24 oktober 2026): Next.js 16 in `web/`, tokens, basiscomponenten, voorbeeldpagina `/ontwerpsysteem`. Getest: 24 contrasttests, bekeken op telefoon en groot scherm, goedgekeurd door Niels
 - Component `site-shell` (24 oktober 2026): navigatie, voet, voorpagina, Over, lege staat en foutstaat, sitemap, robots, deelafbeelding, buildcontrole. Online op Vercel. Getest: 28 tests en online gecontroleerd
 
+- Overzicht en duiding (27 oktober 2026, K11, naar aanleiding van de eerste feedback): het menu in drie groepen met een regel uitleg per onderdeel (`web/lib/menu.ts`), Uitgelicht in het menu, Methodiek en Over in de voet; bovenaan elke pagina het blok "Wat je ziet" en "Wat opvalt" (`Kern` in `web/components/Onderdelen.tsx`, zinnen uit de data in `web/lib/kern.ts`); op de voorpagina staat "Kijk zelf" direct na de opening. Getest: 159 vitest-tests, CI-build en buildcontrole, bekeken op telefoon en groot scherm
+
 ## Openstaand
 
 - Secret scanning met push protection van GitHub aanzetten (voorstel Claude, 23 oktober 2026): blokkeert een sleutel al voor de push, gitleaks vindt hem pas erna. Instelling voor Niels

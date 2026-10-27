@@ -9,6 +9,8 @@ import { PeriodeKeuze } from "@/components/cohesie/PeriodeKeuze";
 import { Verkenner } from "@/components/cohesie/Verkenner";
 import { Label, SectieKop, Tekst } from "@/components/Typografie";
 import { cohesieIn, fractiesIn, keuzeUitUrl, perioden } from "@/lib/cohesie";
+import { Kern } from "@/components/Onderdelen";
+import { verkennerOpvalt } from "@/lib/kern";
 import { ordenFracties } from "@/lib/ordening";
 import s from "@/components/cohesie/verkenner.module.css";
 import { Inklapbaar } from "@/components/Inklapbaar";
@@ -39,6 +41,9 @@ export default async function VerkennerPagina({ searchParams }: Props) {
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
         <Label>Verkenner</Label>
         <SectieKop niveau={1}>Met wie stemt een fractie het vaakst hetzelfde?</SectieKop>
+        {/* Kern van de pagina (K11, 27 oktober 2026) */}
+        <Kern ziet="Per fractie hoe vaak elke andere fractie dezelfde kant koos. Kies een fractie, een periode en zaal, boog of tabel."
+          opvalt={periode && fracties && kaart ? verkennerOpvalt(soort, periode.naam, fracties, kaart) : null} />
         <div className={o.alleenBreed}>
           <PeriodeKeuze perioden={lijst} soort={soort} periode={periode?.naam ?? null} variant={variant} />
         </div>

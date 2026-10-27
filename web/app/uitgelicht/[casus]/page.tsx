@@ -5,7 +5,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { JsonLd, MAKER } from "@/components/JsonLd";
 import { Inhoud } from "@/components/Kader";
-import { HoofdstukKop, Lezingen } from "@/components/Onderdelen";
+import { HoofdstukKop, Kern, Lezingen } from "@/components/Onderdelen";
 import { Data, HeroKop, Label, Tekst } from "@/components/Typografie";
 import { ScrollVerhaal } from "@/components/verhaal/ScrollVerhaal";
 import { CasusKiezer } from "@/components/verhaal/CasusKiezer";
@@ -45,9 +45,8 @@ export default async function CasusPagina({ params }: Props) {
         <CasusKiezer casussen={KIEZER} gekozen={u.slug} />
         <Label>Uitgelicht · {datums}</Label>
         <HeroKop>{u.vraag}</HeroKop>
-        <Tekst>
-          Eén hoofdelijke stemming van dichtbij. Scroll door de stappen: de zaal valt uiteen in voor, tegen en per fractie.
-        </Tekst>
+        {/* Kern van de pagina (K11, 27 oktober 2026); geen "wat opvalt", dat verklapt de uitslag van het verhaal */}
+        <Kern ziet={`${u.titel}: één hoofdelijke stemming, stap voor stap. De uitslag, per fractie, en wie anders stemde.`} />
         {/* De inleiding van de reeks, die eerst op /uitgelicht stond (die opent nu meteen een stemming) */}
         <Inklapbaar titel="Waarom deze stemmingen?" dicht>
           <Tekst>

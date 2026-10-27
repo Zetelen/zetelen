@@ -185,3 +185,22 @@ export function CohesieCel({ procent }: { procent: number | null }) {
 export function Korrel() {
   return <div aria-hidden="true" className={s.korrel} />;
 }
+
+// Kern van een pagina, direct onder de kop: wat je ziet en wat opvalt, groter dan de lopende tekst (K11, 27 oktober
+// 2026). "Wat opvalt" komt uit de data (lib/kern.ts); zonder data valt die regel weg.
+export function Kern({ ziet, opvalt }: { ziet: string; opvalt?: string | null }) {
+  return (
+    <dl className={s.kern}>
+      <div>
+        <dt>Wat je ziet</dt>
+        <dd>{ziet}</dd>
+      </div>
+      {opvalt && (
+        <div>
+          <dt>Wat opvalt</dt>
+          <dd>{opvalt}</dd>
+        </div>
+      )}
+    </dl>
+  );
+}

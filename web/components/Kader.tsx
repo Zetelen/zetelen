@@ -24,6 +24,10 @@ export function Voet({ ververst }: { ververst: Date | null }) {
           <p>
             Een onafhankelijk project van {SITE.maker}. Geen organisatie, geen partij.
           </p>
+          {/* Uit het hoofdmenu naar de voet (K11, 27 oktober 2026) */}
+          <p>
+            <Link href="/over">Over Zetelen</Link> · <Link href="/methodiek">Methodiek</Link>
+          </p>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           <Label>Bron</Label>

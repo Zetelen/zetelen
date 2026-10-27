@@ -7,7 +7,9 @@ import Link from "next/link";
 import { Bronregel } from "@/components/cohesie/Bronregel";
 import { Inhoud, LegeStaat, knopKlasse } from "@/components/Kader";
 import { Label, SectieKop, Tekst } from "@/components/Typografie";
-import { HoofdstukKop } from "@/components/Onderdelen";
+import { HoofdstukKop, Kern } from "@/components/Onderdelen";
+import { oppositieOpvalt } from "@/lib/kern";
+import { samenwerking } from "@/lib/voorpagina";
 import { ScrollVerhaal } from "@/components/verhaal/ScrollVerhaal";
 import type { Stap } from "@/lib/verhaal";
 import { hoofdstukJaren, hoofdstukKabinetten, hoofdstukNetwerk, SMAL_SPREIDING, hoofdstukSpreiding, hoofdstukTegenEnSamen } from "@/lib/oppositie";
@@ -48,12 +50,16 @@ export default async function Oppositie() {
   const minderheid = ["Rutte I", "Jetten"];
   const rollen = (k: string) => new Map(fracties.filter((r) => r.periode === k && r.soort === "Motie").map((r) => [r.afkorting, r.rol]));
   const ditJaar = new Date().getFullYear();
+  // Wat opvalt (K11): het deel van de oppositiemoties dat werd aangenomen, onder het nieuwste en het eerste kabinet
+  const samen = samenwerking(perioden, KABINETTEN[KABINETTEN.length - 1], KABINETTEN[0]);
 
   return (
     <Inhoud>
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", maxWidth: 860 }}>
         <Label>Oppositiewerk</Label>
         <SectieKop niveau={1}>Wat kun je als je niet regeert?</SectieKop>
+        <Kern ziet="Zestien jaar moties en amendementen: hoeveel de oppositie indiende, wat het haalde, en met wie ze samenwerkte."
+          opvalt={samen ? oppositieOpvalt(KABINETTEN[KABINETTEN.length - 1], samen.oppositieNu, samen.eerste, samen.oppositieEerst) : null} />
         <Tekst>
           Wat doe je als oppositie? Alleen maar tegen stemmen? Juist niet. Scroll door zestien jaar oppositiewerk, en kijk daarna
           zelf wie wat indiende.

@@ -212,3 +212,26 @@
   font-size: 20px;
   color: var(--koper);
 }
+/* Kern van een pagina (K11): twee regels onder de kop, met een koperen lijn ervoor */
+.kern {
+  margin: 0;
+  max-width: 62ch;
+  padding-left: var(--r-4);
+  border-left: 2px solid var(--koper);
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-3);
+}
+.kern dt {
+  font-size: var(--tekst-label);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--koper);
+}
+.kern dd {
+  margin: 2px 0 0;
+  font-size: clamp(18px, 1.6vw, 22px);
+  line-height: 1.4;
+  color: var(--tekst);
+}

@@ -4,33 +4,41 @@
 // De kop blijft bovenaan staan (feedback Niels K1, 27 oktober 2026). Op een smal scherm verdwijnt hij bij omlaag
 // scrollen en komt hij terug bij het kleinste stukje omhoog. De zichtbare hoogte staat in --kop-zicht, zodat
 // andere vaste elementen (scroll graphics, de filterbalk van Onderwerpen) eronder schuiven.
+// Sinds K11 (27 oktober 2026) in drie groepen met een regel uitleg per onderdeel (lib/menu.ts). Op een breed scherm
+// klapt een groep open onder zijn knop; op een smal scherm staan alle groepen open onder de menuknop.
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { MENU, isHier } from "@/lib/menu";
 import { Woordmerk } from "./Typografie";
 import s from "./kader.module.css";
 
-// In de volgorde van het verhaal op de voorpagina (besluit Niels, 25 oktober 2026); Kamerleden erbij (feedback K5)
-const MENU = [
-  { href: "/verkenner", tekst: "Verkenner" },
-  { href: "/onderwerpen", tekst: "Onderwerpen" },
-  { href: "/coalitie", tekst: "Coalitie" },
-  { href: "/oppositie", tekst: "Oppositie" },
-  { href: "/kamerleden", tekst: "Kamerleden" },
-  { href: "/stemgenoten", tekst: "Stemgenoten" }, // live sinds 27 oktober 2026 (besluit Niels)
-  { href: "/fracties", tekst: "Fracties" },
-  { href: "/methodiek", tekst: "Methodiek" },
-  { href: "/over", tekst: "Over" },
-];
 const SMAL = "(max-width: 760px)";
 const DREMPEL = 6; // zoveel pixels scrollen voordat de kop verdwijnt of terugkomt
 
 export function Navigatie() {
   const pad = usePathname();
   const [open, setOpen] = useState(false);
+  const [groep, setGroep] = useState<string | null>(null);
   const [verborgen, setVerborgen] = useState(false);
   const kop = useRef<HTMLElement>(null);
-  useEffect(() => setOpen(false), [pad]);
+  useEffect(() => {
+    setOpen(false);
+    setGroep(null);
+  }, [pad]);
+
+  // Een open groep sluit met Escape of met een klik buiten het menu
+  useEffect(() => {
+    if (!groep) return;
+    const bijToets = (e: KeyboardEvent) => e.key === "Escape" && setGroep(null);
+    const bijKlik = (e: MouseEvent) => !kop.current?.contains(e.target as Node) && setGroep(null);
+    document.addEventListener("keydown", bijToets);
+    document.addEventListener("mousedown", bijKlik);
+    return () => {
+      document.removeEventListener("keydown", bijToets);
+      document.removeEventListener("mousedown", bijKlik);
+    };
+  }, [groep]);
 
   useEffect(() => {
     let vorige = window.scrollY;
@@ -65,13 +73,29 @@ export function Navigatie() {
           {open ? "Sluit" : "Menu"}
         </button>
         <ul className={s.links} id="hoofdmenu" data-open={open}>
-          {MENU.map((m) => (
-            <li key={m.href}>
-              <Link href={m.href} aria-current={pad === m.href || pad.startsWith(`${m.href}/`) ? "page" : undefined}>
-                {m.tekst}
-              </Link>
-            </li>
-          ))}
+          {MENU.map((g) => {
+            const id = `menu-${g.naam.toLowerCase().replace(/\s+/g, "-")}`;
+            const hier = g.items.some((m) => isHier(pad, m.href));
+            return (
+              <li key={g.naam} className={s.groep}>
+                <button type="button" className={s.groepKnop} aria-expanded={groep === g.naam} aria-controls={id}
+                  data-hier={hier || undefined} onClick={() => setGroep((x) => (x === g.naam ? null : g.naam))}>
+                  {g.naam}
+                </button>
+                <span className={s.groepNaam}>{g.naam}</span>
+                <ul className={s.paneel} id={id} data-open={groep === g.naam}>
+                  {g.items.map((m) => (
+                    <li key={m.href}>
+                      <Link href={m.href} aria-current={isHier(pad, m.href) ? "page" : undefined}>
+                        <span className={s.itemTekst}>{m.tekst}</span>
+                        <span className={s.itemRegel}>{m.regel}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            );
+          })}
         </ul>
       </nav>
     </header>

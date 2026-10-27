@@ -3,7 +3,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Inhoud } from "@/components/Kader";
-import { HoofdstukKop } from "@/components/Onderdelen";
+import { HoofdstukKop, Kern } from "@/components/Onderdelen";
 import { Data, HeroKop, Label, Tekst } from "@/components/Typografie";
 import { CasusKiezer } from "@/components/verhaal/CasusKiezer";
 import { ScrollVerhaal } from "@/components/verhaal/ScrollVerhaal";
@@ -69,6 +69,9 @@ export default function TegenHetAdviesIn() {
         <CasusKiezer casussen={KIEZER} gekozen="tegen-het-advies-in" />
         <Label>Uitgelicht · moties en het kabinet</Label>
         <HeroKop>Tegen het advies in</HeroKop>
+        {/* Kern van de pagina (K11, 27 oktober 2026) */}
+        <Kern ziet="Alle moties sinds april 2019, naar wat het kabinet ervan vond en wat de Kamer besloot."
+          opvalt={`${getal(t.tochAangenomen.length)} moties nam de Kamer aan terwijl het kabinet ze ontraadde: ${pct(t.tochAangenomen.length, t.aangenomen)} van alle aangenomen moties.`} />
         <Tekst>
           Het kabinet zegt voor elke stemming wat het van een motie vindt. Meestal volgt de Kamer dat. Maar soms neemt een
           meerderheid een motie aan die het kabinet ontraadde. Hoe vaak gebeurt dat, en wie zit erachter?

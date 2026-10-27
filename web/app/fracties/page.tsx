@@ -6,6 +6,8 @@ import Link from "next/link";
 import { PeriodeKeuze } from "@/components/cohesie/PeriodeKeuze";
 import { Inhoud, LegeStaat } from "@/components/Kader";
 import { Data, Label, SectieKop, Tekst } from "@/components/Typografie";
+import { Kern } from "@/components/Onderdelen";
+import { fractiesOpvalt } from "@/lib/kern";
 import { type Rol, alleFracties, coalitieVan, fractiesIn, keuzeUitUrl, overstappenIn, perioden, rolTekst, slug } from "@/lib/cohesie";
 import { balken } from "@/lib/fracties";
 import s from "@/components/cohesie/fractie.module.css";
@@ -46,8 +48,11 @@ export default async function Fracties({ searchParams }: Props) {
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
         <Label>Fracties</Label>
         <SectieKop niveau={1}>Wie zit er in de Kamer?</SectieKop>
+        {/* Kern van de pagina (K11, 27 oktober 2026) */}
+        <Kern ziet="De fracties bij het begin van de gekozen periode, de grootste bovenaan, en wie er tijdens de periode overstapte."
+          opvalt={fractiesOpvalt(soort, periode.naam, rijen)} />
         <Tekst>
-          De fracties bij het begin van de gekozen periode, de grootste bovenaan. Het lichte stuk van een balk: Kamerleden die
+          Het lichte stuk van een balk: Kamerleden die
           tijdens de periode overstapten naar een andere fractie. Kies een fractie en zie met wie ze het vaakst hetzelfde stemde.
         </Tekst>
         <PeriodeKeuze perioden={lijst} soort={soort} periode={periode.naam} pad="/fracties" />
