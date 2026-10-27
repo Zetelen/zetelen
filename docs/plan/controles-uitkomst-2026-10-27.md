@@ -41,7 +41,7 @@ Uitslag en zetels kloppen bij rij 1, 2 en 4 tot en met 19.
 
 ## Een bevinding om op te lossen
 
-Rij 3 laat een zwakke plek zien. Zetelwerk neemt de laatste stemming over een stuk. Staan er twee besluiten op dezelfde dag, zoals hier een procedurele stemming en de stemming over het amendement zelf, dan kiest de query op volgorde van het interne nummer van het besluit. Hier ging dat goed, maar dat is toeval. Voorstel: bij gelijke datum het besluit over het stuk zelf voorrang geven boven een procedureel besluit (ontoelaatbaar verklaren, uitstel en dergelijke). Dit wacht op akkoord van Niels.
+Rij 3 laat een zwakke plek zien. Zetelwerk neemt de laatste stemming over een stuk. Staan er twee besluiten op dezelfde dag, zoals hier een procedurele stemming en de stemming over het amendement zelf, dan kiest de query op volgorde van het interne nummer van het besluit. Hier ging dat goed, maar dat is toeval. Opgelost in migratie 024 (akkoord Niels, 27 oktober 2026): bij gelijke datum gaat het besluit over het stuk zelf voor op een procedureel besluit (ontoelaatbaar verklaren, uitstel). In de bron gaat het om een handvol besluiten.
 
 ## Steekproef
 
