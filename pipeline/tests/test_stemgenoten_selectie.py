@@ -22,3 +22,16 @@ def test_technische_amendementen_herkend():
 def test_overeenkomst():
     s = [{"stemmen": {"A": "Voor", "B": "Voor"}}, {"stemmen": {"A": "Voor", "B": "Tegen"}}, {"stemmen": {"A": "Voor", "B": "Niet deelgenomen"}}]
     assert sg.overeenkomst(s, "A", "B") == 50
+
+
+def test_kamerstuk():
+    assert sg.kamerstuk(36800, "XVI") == "36800-XVI"
+    assert sg.kamerstuk(36881, None) == "36881"
+    assert sg.kamerstuk(None, None) is None
+
+
+def test_uitslag_van_de_kamer_gaat_voor():
+    assert sg.uitslag("Aangenomen.", 60, 90) == "aangenomen"
+    assert sg.uitslag("Verworpen.", 90, 60) == "verworpen"
+    assert sg.uitslag(None, 90, 60) == "aangenomen"
+    assert sg.uitslag("", 60, 90) == "verworpen"

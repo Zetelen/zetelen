@@ -1,45 +1,63 @@
 // Stemgenoten (concept, besluit Niels 26 oktober 2026): wie stemde in de Kamer zoals jij? Niet in het menu, niet in de
 // sitemap en niet geïndexeerd tot Niels en twee meelezers met een andere politieke kleur de stellingen hebben gezien.
 // De selectie komt uit pipeline/stemgenoten_selectie.py, de stellingen uit content/stemgenoten/stellingen.json.
+// Vanaf 27 oktober 2026 alleen stemmingen onder het huidige kabinet, zodat het label kabinet of oppositie klopt.
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Inhoud } from "@/components/Kader";
 import { Data, HeroKop, Label, Tekst } from "@/components/Typografie";
-import { type Stelling, Stemgenoten } from "@/components/stemgenoten/Stemgenoten";
+import { type Rollen, type Stelling, Stemgenoten } from "@/components/stemgenoten/Stemgenoten";
 import kandidaten from "@/content/stemgenoten/kandidaten.json";
 import teksten from "@/content/stemgenoten/stellingen.json";
+import { coalitieVan } from "@/lib/cohesie";
 
 export const metadata: Metadata = {
-  title: "Stemgenoten",
+  title: "Stem jij zoals zij?",
   description: "Wie stemde in de Tweede Kamer zoals jij? Echte stemmingen over wetten en amendementen.",
   robots: { index: false, follow: false },
 };
 
-export default function StemgenotenPagina() {
+export default async function StemgenotenPagina() {
   const per = new Map(kandidaten.gekozen.map((k) => [k.besluit, k]));
   const stellingen: Stelling[] = teksten.map((t) => {
     const k = per.get(t.besluit)!;
     return { besluit: t.besluit, zaak: t.zaak, stelling: t.stelling, uitleg: t.uitleg, terrein: k.terrein, soort: k.soort, datum: k.datum,
-      uitslag: k.uitslag, voor: k.voor, tegen: k.tegen, stemmen: k.stemmen as Record<string, string> };
+      uitslag: k.uitslag, voor: k.voor, tegen: k.tegen, stemmen: k.stemmen as Record<string, string>, kamerstuk: k.kamerstuk ?? null };
   });
+  // Kabinet of oppositie volgens het huidige kabinet; zonder antwoord van de database geen labels, liever dan allemaal oppositie
+  const coalitie = await coalitieVan(kandidaten.kabinet);
+  const rollen: Rollen | null = coalitie.size === 0 ? null : Object.fromEntries(
+    Object.keys(kandidaten.fracties).map((f) => {
+      const r = coalitie.get(f);
+      return [f, r && r.rol === "kabinet" && !r.tot ? "kabinet" : "oppositie"];
+    }),
+  );
   return (
     <Inhoud>
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", maxWidth: 860 }}>
         <Label>Stemgenoten · concept</Label>
-        <HeroKop>Wie stemt als jij?</HeroKop>
+        <HeroKop>Stem jij zoals zij?</HeroKop>
         <Tekst>
-          Vind je stemgenoten in de Tweede Kamer: niet aan de hand van beloftes, maar van wat fracties echt stemden.
+          {stellingen.length} echte stemmingen uit de Tweede Kamer. Kies je kant en zie welke fracties net zo stemden: niet op basis
+          van beloftes, maar van wat ze echt stemden.
         </Tekst>
       </section>
-      <Stemgenoten stellingen={stellingen} fracties={kandidaten.fracties} />
+      <Stemgenoten stellingen={stellingen} fracties={kandidaten.fracties} rollen={rollen} />
       <section id="methode" style={{ display: "flex", flexDirection: "column", gap: "var(--r-3)", maxWidth: 860, scrollMarginTop: 80 }}>
         <Label>Hoe de stemmingen zijn gekozen</Label>
         <Tekst>
-          Uit alle {kandidaten.aantal_verdeeld} verdeelde stemmingen over wetten en amendementen in deze Kamerperiode (sinds november 2025)
-          koos een vast programma er {stellingen.length}, volgens regels die vooraf vastlagen: geen stemming waarin bijna iedereen aan één
-          kant stond, hooguit één per dossier, gespreid over de beleidsterreinen, minstens vijf wetten, en elke grote fractie een paar keer
-          aan elke kant. Stemmingen die te technisch zijn om als vraag te stellen (zoals evaluatietermijnen of procedures) doen niet mee.
+          Uit alle {kandidaten.aantal_verdeeld} verdeelde stemmingen over wetten en amendementen onder het huidige kabinet-{kandidaten.kabinet}
+          {" "}(sinds 23 februari 2026) koos een vast programma er {stellingen.length}, volgens regels die vooraf vastlagen:
         </Tekst>
+        <ul style={{ margin: 0, paddingLeft: "1.2em", maxWidth: "68ch", display: "flex", flexDirection: "column", gap: 4,
+          fontSize: "var(--tekst-lopend)", lineHeight: 1.6, color: "var(--tekst-zacht)" }}>
+          <li>geen stemming waarin bijna iedereen aan één kant stond;</li>
+          <li>hooguit één stemming per dossier;</li>
+          <li>gespreid over de beleidsterreinen;</li>
+          <li>minstens vijf wetten;</li>
+          <li>elke grote fractie een paar keer aan elke kant;</li>
+          <li>geen stemmingen die te technisch zijn om als vraag te stellen, zoals evaluatietermijnen of procedures.</li>
+        </ul>
         <Tekst>
           Uit duizenden sets die aan die regels voldoen, is de set gekozen die het meest lijkt op al het stemgedrag: hoe vaak twee fracties
           in deze set hetzelfde stemmen, wijkt gemiddeld {String(kandidaten.controle_verschil).replace(".", ",")} procentpunt af van hoe vaak ze
@@ -47,8 +65,9 @@ export default function StemgenotenPagina() {
         </Tekst>
         <Data>
           Overeenkomst: van de stellingen waarop jij en een fractie allebei een kant kozen, het deel waarop dat dezelfde kant was. Zelfde
-          telling als de cohesie op de rest van Zetelen. Onder 5 gemeenschappelijke stellingen geen percentage. De stellingen zijn
-          samenvattingen; de stemming zelf staat bij elke stelling op tweedekamer.nl. <Link href="/methodiek">Methodiek</Link>
+          telling als de cohesie op de rest van Zetelen. Onder 5 gemeenschappelijke stellingen geen percentage. Kabinet of oppositie: de
+          rol in het huidige kabinet. De uitkomst is die van de Kamer; de zetels zijn de fractiegroottes onder dit kabinet. De stellingen
+          zijn samenvattingen; bij elke stelling staat een link naar het wetsvoorstel op tweedekamer.nl. <Link href="/methodiek">Methodiek</Link>
         </Data>
       </section>
     </Inhoud>

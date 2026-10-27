@@ -67,6 +67,10 @@
   font-weight: 600;
   cursor: pointer;
 }
+.hoofdknop:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
 .hoofdknop {
   align-self: flex-start;
   border-color: var(--koper);
@@ -115,11 +119,104 @@
   flex-direction: column;
   gap: var(--r-2);
 }
-.fracties li {
+.fracties > li {
+  border-radius: 8px;
+}
+/* Uitklappen per fractie (feedback Niels, 27 oktober 2026): de stellingen waarop die anders stemde */
+.fracties summary {
   display: grid;
-  grid-template-columns: minmax(130px, 200px) 1fr minmax(110px, auto);
+  grid-template-columns: minmax(150px, 300px) 1fr minmax(110px, auto) 16px;
   gap: var(--r-3);
   align-items: center;
+  padding: 6px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  list-style: none;
+}
+.fracties summary::-webkit-details-marker {
+  display: none;
+}
+.fracties summary:hover {
+  background: var(--nacht-800);
+}
+.uitklapHint::after {
+  content: "▾";
+  color: var(--koper);
+}
+.fracties details[open] .uitklapHint::after {
+  content: "▴";
+}
+.anders {
+  padding: var(--r-2) 8px var(--r-3);
+}
+.anders ul {
+  margin: var(--r-2) 0 0;
+  padding-left: 1.2em;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 15px;
+  line-height: 1.45;
+}
+/* Fracties die je vooraf verwachtte: goud, zoals op het deelplaatje */
+.fracties > li[data-verwacht] {
+  background: color-mix(in srgb, var(--goud) 12%, transparent);
+}
+.fracties > li[data-verwacht] .naam {
+  color: var(--goud);
+}
+.fracties > li[data-verwacht] .balk > span {
+  background: var(--goud);
+}
+.verwachtZin {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.stip {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--goud);
+}
+.rol {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 1px 7px;
+  border: 1px solid var(--lijn-licht);
+  border-radius: var(--hoek-pil);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tekst-zacht);
+  vertical-align: 2px;
+}
+.rol[data-rol="kabinet"] {
+  border-color: var(--koper);
+  color: var(--koper);
+}
+.keuzes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--r-2);
+}
+.keuzes button {
+  min-height: 44px;
+  padding: 0 var(--r-4);
+  border-radius: var(--hoek-pil);
+  border: 2px solid var(--lijn-licht);
+  background: transparent;
+  color: var(--tekst);
+  font: inherit;
+  font-size: 16px;
+  cursor: pointer;
+}
+.keuzes button[aria-pressed="true"] {
+  border-color: var(--goud);
+  background: color-mix(in srgb, var(--goud) 22%, transparent);
 }
 .naam {
   font-weight: 600;
@@ -128,6 +225,9 @@
   font-weight: 400;
   font-size: 13px;
   color: var(--tekst-zacht);
+}
+.naam .zetels {
+  white-space: nowrap;
 }
 .balk {
   height: 12px;
@@ -180,12 +280,85 @@
   color: #e57f93;
   font-weight: 600;
 }
+/* Overzicht per stemming (feedback Niels, 27 oktober 2026): de uitkomst als vast label, de zetels als balk */
+.jij {
+  display: inline-block;
+  padding: 0 8px;
+  border-radius: var(--hoek-pil);
+  background: var(--goud);
+  color: var(--nacht-950);
+  font-weight: 700;
+}
+.uitkomst {
+  display: flex;
+  align-items: center;
+  gap: var(--r-2);
+}
+.uitkomstLabel {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tekst-zacht);
+}
+.pil {
+  padding: 2px 12px;
+  border-radius: var(--hoek-pil);
+  font-size: 14px;
+  font-weight: 700;
+}
+.pil[data-uitslag="aangenomen"] {
+  background: color-mix(in srgb, #6fbf8e 22%, transparent);
+  border: 1px solid #6fbf8e;
+  color: #9ad8b1;
+}
+.pil[data-uitslag="verworpen"] {
+  background: color-mix(in srgb, #e57f93 22%, transparent);
+  border: 1px solid #e57f93;
+  color: #f2a9b7;
+}
+.zetelbalk {
+  position: relative;
+  display: flex;
+  height: 14px;
+  max-width: 520px;
+  border-radius: 7px;
+  overflow: hidden;
+  background: var(--nacht-700);
+}
+.zetelVoor {
+  background: #6fbf8e;
+}
+.zetelTegen {
+  background: #e57f93;
+}
+.helft {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--nacht-950);
+}
+.zetelGetallen {
+  display: flex;
+  justify-content: space-between;
+  max-width: 520px;
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 14px;
+}
 @media (max-width: 640px) {
   .kaart {
     padding: var(--r-4);
   }
-  .fracties li {
-    grid-template-columns: 1fr auto;
+  .fracties summary {
+    grid-template-columns: 1fr auto 16px;
+  }
+  /* Op de telefoon alleen het percentage; het aantal staat in de uitgeklapte regel */
+  .getal .zetels {
+    display: none;
   }
   .balk {
     grid-column: 1 / -1;

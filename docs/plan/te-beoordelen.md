@@ -12,7 +12,7 @@ Bijgewerkt op 26 oktober 2026, 's avonds. Hier staat alleen wat nog open is. **V
 | ☐ K1, K2, K3, K5 | Opnieuw bekijken na de aanpassingen: Onderwerpen, Oppositiewerk, voorpagina, Kamerleden | bekijken | ja, voor het label concept | hieronder |
 | ☐ K7 | Uitgelicht: omschrijvingen en spreiding | bekijken | nee | hieronder |
 | ☐ K9 | Nieuw: Hoe lang duurt een wet?, Tegen het advies in (B18), en een eigen beeld per stemming op Uitgelicht | bekijken | nee | hieronder |
-| ☐ K10 | Stemgenoten (concept): 25 stellingen nakijken, 8 gemarkeerd met "nakijken" | controleren | ja, voor Stemgenoten | [stemgenoten-controle.md](stemgenoten-controle.md) |
+| ☐ K10 | Stemgenoten (concept): 25 stellingen nakijken, 10 gemarkeerd met "nakijken"; 4 vervangen op 27 oktober (alleen stemmingen onder Jetten) en de pagina aangepast na jouw feedback | controleren | ja, voor Stemgenoten | [stemgenoten-controle.md](stemgenoten-controle.md) |
 | ☐ S4 | Stemgenoten: twee meelezers met een andere politieke kleur vragen, en de naam controleren in het merkenregister (boip.int) | uitvoeren | ja, voor Stemgenoten | hieronder |
 | ☐ B20 | Prestaties: koplettertype lichter maken of zo laten (advies: zo laten) | besluit | nee | hieronder |
 | ☐ S5 | Claude API-sleutel met maandlimiet (voor de pipeline, na de feedbackrondes) | uitvoeren | nee | [morgen.md](morgen.md) |

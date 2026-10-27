@@ -17,7 +17,7 @@ Alles wat op jou wacht, in een volgorde die werkt, met de tijd erbij. Samen onge
 
 | ☐ | Code | Wat | Tijd | Waar |
 |---|---|---|---|---|
-| ☐ | K10 | De 25 stellingen van Stemgenoten nakijken; begin bij de 8 met "nakijken" | 45 min | [stemgenoten-controle.md](stemgenoten-controle.md), en probeer zelf https://zetelen.nl/stemgenoten |
+| ☐ | K10 | De 25 stellingen van Stemgenoten nakijken; begin bij de 10 met "nakijken" (4 nieuw sinds 27 oktober: alleen nog stemmingen onder Jetten) | 45 min | [stemgenoten-controle.md](stemgenoten-controle.md), en probeer zelf https://zetelen.nl/stemgenoten |
 | ☐ | K1, K2, K3, K5 | Onderwerpen, Oppositiewerk, voorpagina en Kamerleden opnieuw bekijken; ook op je telefoon | 40 min | [te-beoordelen.md](te-beoordelen.md#-k1-k2-k3-k5-opnieuw-bekijken-na-de-aanpassingen) |
 | ☐ | K7, K9 | Uitgelicht: de omschrijvingen, de nieuwe beelden per stemming, Hoe lang duurt een wet? en Tegen het advies in | 30 min | https://zetelen.nl/uitgelicht |
 

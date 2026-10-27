@@ -3,9 +3,10 @@
 docs/plan/stemwijzer-onderzoek.md).
 
 Leest via de Data API van Zetelen (alleen lezen, met de publieke sleutel) alle verdeelde stemmingen over
-wetsvoorstellen en amendementen in de huidige Kamerperiode, en kiest er volgens vaste regels een set uit:
+wetsvoorstellen en amendementen onder het huidige kabinet, en kiest er volgens vaste regels een set uit:
 
-1. Alleen wetsvoorstellen (regering en initiatief) en amendementen, verdeeld gestemd, huidige Kamerperiode.
+1. Alleen wetsvoorstellen (regering en initiatief) en amendementen, verdeeld gestemd, onder het huidige kabinet.
+   Zo klopt het label kabinet of oppositie bij elke stemming (besluit Niels, 27 oktober 2026).
 2. Geen stemming waarin bijna iedereen aan één kant stond: de kleinste kant heeft minstens 15% van de zetels.
 3. Hooguit één stemming per dossier, per beleidsterrein hooguit een vast aantal, en minstens 5 wetsvoorstellen.
 4. Elke fractie met minstens 5 zetels staat in de set minstens een paar keer aan elke kant (voor en tegen).
@@ -17,6 +18,10 @@ wetsvoorstellen en amendementen in de huidige Kamerperiode, en kiest er volgens 
    startwaarde, dus elke keer dezelfde uitkomst) en kiest de set waarin de overeenkomst tussen elk paar grote
    fracties het dichtst bij hun overeenkomst over alle verdeelde stemmingen in de periode ligt. Zo stuurt de
    selectie zo min mogelijk. Het gemiddelde verschil staat in de uitvoer en op de site.
+
+De uitslag is die van de Kamer (zoals in Zetelwerk, migratie 023); noemt de bron geen uitslag, dan meer zetels
+voor dan tegen. Het kamerstuknummer (dossier met toevoeging, zoals 36800-XVI voor een begroting) is voor de link
+naar het wetsvoorstel op tweedekamer.nl.
 
 Een fractie die verder ging onder een nieuwe naam (GroenLinks-PvdA als PRO) telt als dezelfde fractie.
 
@@ -45,6 +50,7 @@ from collections import Counter
 from pathlib import Path
 
 PERIODE = "2025-"
+KABINET = "Jetten"  # aangetreden 23 februari 2026
 AANTAL = 25
 RESERVE = 15
 PER_TERREIN = 4
@@ -164,20 +170,37 @@ def houden(vorig: list, stemmingen: list, zetels: dict, alles: list) -> tuple[li
     return sorted(gekozen, key=lambda s: s["datum"]), random.Random(2026).sample(reserves, min(RESERVE, len(reserves))), verschil(gekozen, alles, grote)
 
 
+def kamerstuk(nummer: int | None, toevoeging: str | None) -> str | None:
+    """36800 met XVI wordt 36800-XVI; zonder toevoeging alleen het nummer."""
+    if nummer is None:
+        return None
+    return f"{nummer}-{toevoeging}" if toevoeging else str(nummer)
+
+
+def uitslag(bron: str | None, voor: int, tegen: int) -> str:
+    """De uitslag die de Kamer vaststelde ("Aangenomen.", "Verworpen."); anders meer zetels voor dan tegen."""
+    b = (bron or "").lower()
+    if b.startswith("aangenomen"):
+        return "aangenomen"
+    if b.startswith(("verworpen", "niet aangenomen")):
+        return "verworpen"
+    return "aangenomen" if voor > tegen else "verworpen"
+
+
 def overeenkomst(set_: list, a: str, b: str) -> float | None:
     beide = [s for s in set_ if s["stemmen"].get(a) in ("Voor", "Tegen") and s["stemmen"].get(b) in ("Voor", "Tegen")]
     return 100 * sum(1 for s in beide if s["stemmen"][a] == s["stemmen"][b]) / len(beide) if beide else None
 
 
 def main() -> None:
-    fr = api(f"fractie_periode?select=fractie,afkorting,zetels,in_zaal&periodesoort=eq.kamerperiode&periode=eq.{urllib.parse.quote(PERIODE)}")
+    fr = api(f"fractie_periode?select=fractie,afkorting,zetels,in_zaal&periodesoort=eq.kabinet&periode=eq.{urllib.parse.quote(KABINET)}")
     id_naar = {f["fractie"]: OPVOLGER.get(f["afkorting"], f["afkorting"]) for f in fr}
     zetels = {}
     for f in fr:
         a = OPVOLGER.get(f["afkorting"], f["afkorting"])
         zetels[a] = max(zetels.get(a, 0), f["zetels"] or 0)
-    rijen = alle(f"stemming_dossier?select=besluit,dossier,datum,zaak_nummer,zaak_soort,onderwerp,dossier_titel,beleidsterrein,stemmen"
-                 f"&kamerperiode=eq.{urllib.parse.quote(PERIODE)}&verdeeld=is.true&zaak_soort=in.(Amendement,Wetgeving,Initiatiefwetgeving)&order=besluit")
+    rijen = alle(f"stemming_dossier?select=besluit,dossier,datum,zaak_nummer,zaak_soort,onderwerp,dossier_nummer,dossier_toevoeging,dossier_titel,beleidsterrein,uitslag,stemmen"
+                 f"&kamerperiode=eq.{urllib.parse.quote(PERIODE)}&kabinet=eq.{urllib.parse.quote(KABINET)}&verdeeld=is.true&zaak_soort=in.(Amendement,Wetgeving,Initiatiefwetgeving)&order=besluit")
     per_besluit = {}
     for r in rijen:
         if r["besluit"] in per_besluit:
@@ -189,9 +212,9 @@ def main() -> None:
             continue
         per_besluit[r["besluit"]] = {
             "besluit": r["besluit"], "datum": r["datum"], "zaak": r["zaak_nummer"], "soort": r["zaak_soort"], "dossier": r["dossier"],
-            "terrein": r["beleidsterrein"], "onderwerp": zonder_namen(r["onderwerp"]), "dossier_titel": zonder_namen(r["dossier_titel"]),
+            "kamerstuk": kamerstuk(r["dossier_nummer"], r["dossier_toevoeging"]), "terrein": r["beleidsterrein"], "onderwerp": zonder_namen(r["onderwerp"]), "dossier_titel": zonder_namen(r["dossier_titel"]),
             "stemmen": stemmen, "voor": voor, "tegen": tegen, "evenwicht": round(min(voor, tegen) / (voor + tegen), 3),
-            "uitslag": "aangenomen" if voor > tegen else "verworpen",
+            "uitslag": uitslag(r["uitslag"], voor, tegen),
         }
     uitgesloten = {u["besluit"] for u in json.loads((UITVOER / "uitgesloten.json").read_text())} if (UITVOER / "uitgesloten.json").exists() else set()
     stemmingen = list(per_besluit.values())
@@ -206,14 +229,14 @@ def main() -> None:
     else:
         gekozen, reserves, gem = kies(stemmingen, zetels, alles)
     print(f"Uitgesloten als technisch of procedureel: {len(uitgesloten)}")
-    print(f"{len(stemmingen)} verdeelde stemmingen over wetten en amendementen in {PERIODE}; gekozen {len(gekozen)}, reserve {len(reserves)}")
+    print(f"{len(stemmingen)} verdeelde stemmingen over wetten en amendementen onder {KABINET}; gekozen {len(gekozen)}, reserve {len(reserves)}")
     print("Per terrein:", dict(Counter(s["terrein"] for s in gekozen)))
     print("Per soort:", dict(Counter(s["soort"] for s in gekozen)), "uitslag:", dict(Counter(s["uitslag"] for s in gekozen)))
     for f in sorted(z for z in zetels if zetels[z] >= 5):
         print(f"  {f}: {sum(1 for s in gekozen if s['stemmen'].get(f) == 'Voor')} voor, {sum(1 for s in gekozen if s['stemmen'].get(f) == 'Tegen')} tegen")
     print(f"Controle: gemiddeld verschil tussen overeenkomst in de set en in alle verdeelde stemmingen: {gem:.1f} procentpunt")
     UITVOER.mkdir(parents=True, exist_ok=True)
-    (UITVOER / "kandidaten.json").write_text(json.dumps({"periode": PERIODE, "controle_verschil": round(gem, 1), "aantal_verdeeld": len(alles),
+    (UITVOER / "kandidaten.json").write_text(json.dumps({"periode": PERIODE, "kabinet": KABINET, "controle_verschil": round(gem, 1), "aantal_verdeeld": len(alles),
                                                         "fracties": {f: z for f, z in sorted(zetels.items()) if z}, "gekozen": gekozen, "reserve": reserves},
                                                         ensure_ascii=False, indent=1) + "\n")
 
