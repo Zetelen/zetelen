@@ -235,7 +235,11 @@ export default async function Onderwerpen({ searchParams }: Props) {
                   </tr>
                   {t === openTerrein && (dossierRijen ?? []).slice(0, MAX_DOSSIERS).map((d) => (
                     <tr key={d.dossier} className={s.matrixDossier}>
-                      <th scope="row" title={d.titel}>{d.titel} <span className={s.aantal}>{d.stemmingen}</span></th>
+                      {/* Volledige titel bij hover of tik; title alleen werkt niet op een tablet (feedback Niels, 27 oktober 2026) */}
+                      <th scope="row" tabIndex={0}>
+                        <span className={s.dossierKort}>{d.titel} <span className={s.aantal}>{d.stemmingen}</span></span>
+                        <span className={s.dossierVol} aria-hidden="true">{d.titel} · {d.stemmingen} {d.stemmingen === 1 ? "stemming" : "stemmingen"}</span>
+                      </th>
                       {zaal.filter((f) => f.id !== gekozen.id).map((f) => {
                         const p = d.per.get(f.id);
                         // Minder dan 5 stemmingen samen: geen percentage, dat zegt dan te weinig

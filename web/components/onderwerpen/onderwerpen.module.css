@@ -579,9 +579,49 @@ details[open] > summary .open {
   font-size: 13px;
   color: var(--tekst-zacht);
   max-width: 260px;
+  cursor: help;
+}
+.dossierKort {
+  display: block;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.dossierVol {
+  display: none;
+  position: absolute;
+  z-index: 5;
+  left: 14px;
+  top: calc(100% - 4px);
+  width: max-content;
+  max-width: min(440px, 80vw);
+  padding: 8px 12px;
+  border: 1px solid var(--lijn-licht);
+  border-radius: 6px;
+  background: var(--nacht-800);
+  color: var(--tekst);
+  font-size: 14px;
+  line-height: 1.4;
+  white-space: normal;
+  box-shadow: 0 6px 18px rgb(0 0 0 / 0.45);
+  pointer-events: none;
+}
+/* De kolom is sticky; de rij met de tooltip moet boven de rijen eronder liggen */
+.matrixDossier th:hover,
+.matrixDossier th:focus {
+  z-index: 6;
+}
+.matrixDossier th:hover .dossierVol,
+.matrixDossier th:focus .dossierVol {
+  display: block;
+}
+/* Een aangetikte titel maakt plaats zodra je een andere aanwijst */
+.kaart tbody:has(.matrixDossier th:hover) .matrixDossier th:focus:not(:hover) .dossierVol {
+  display: none;
+}
+.matrixDossier th:focus {
+  outline: 2px solid var(--koper);
+  outline-offset: -2px;
 }
 .matrixDossier td {
   font-size: 12px;
