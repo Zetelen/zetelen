@@ -71,7 +71,7 @@ export const MATEN: Maat[] = [
     keuzes: [
       "De uitslag is die van de Kamer, want die is formeel besloten. Bij 8 besluiten sinds 2010 past die niet bij de stemmen in de bron: twee keer een telfout die achteraf werd gemeld, waarna de uitslag volgens het Reglement van Orde bleef staan (2014Z08729 en 2026Z00559); drie keer stemmen die een dag later zijn gecorrigeerd terwijl de uitslag bleef staan (2022Z24291, 2023Z09118, 2023Z17815); twee besluiten over een grondwetswijziging, waar twee derde nodig is (2021Z02980); en een geval zonder verklaring in de bron (2026Z20415). De grondwetswijziging is geen zetelwerk; de zes moties tellen met de uitslag van de Kamer.",
       "Noemt de bron geen uitslag, dan tellen de stemmen: bij handopsteken de fractiegrootte, bij een hoofdelijke stemming het aantal leden dat voor of tegen stemde.",
-      "Is er vaker over een stuk gestemd, dan telt de laatste stemming.",
+      "Is er vaker over een stuk gestemd, dan telt de laatste stemming. Op dezelfde dag gaat de stemming over het stuk zelf voor op een procedurele stemming, zoals over ontoelaatbaar verklaren of uitstel.",
       "Kabinet of oppositie op de dag van de stemming. Gedoogsteun telt als kabinet.",
       "Een stuk met meer indieners telt voor elk van hen volledig. Medeindieners tellen apart, als mede ingediend.",
       "Tegenstemmen per fractie: het aandeel van alle stemmingen in de periode waarop de fractie tegen stemde.",

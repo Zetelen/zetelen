@@ -127,3 +127,21 @@ def test_uitslag_van_de_kamer_gaat_voor(conn):
     assert uit[telfout] is True
     assert uit[gecorrigeerd] is False
     assert uit[zonder] is True
+
+
+def test_procedureel_besluit_op_dezelfde_dag_telt_niet(conn):
+    # 024: amendement met op een dag de stemming zelf en een voorstel om het ontoelaatbaar te verklaren
+    vvd, sp = fractie(conn, "VVD"), fractie(conn, "SP")
+    a = persoon(conn, "Lid A")
+    z = stuk(conn, "Amendement", "2026-04-01", {sp: ("Voor", 76), vvd: ("Tegen", 74)}, [(a, sp, "Indiener")])
+    conn.execute("update core.besluit set besluitsoort = 'Stemmen - aangenomen', besluittekst = 'Aangenomen' "
+                 "where id = (select besluit_id from core.besluit_zaak where zaak_id = %s)", (z,))
+    # Het procedurele besluit krijgt het hoogste id, zodat de oude volgorde het zou kiezen
+    b = "ffffffff-ffff-4fff-bfff-ffffffffffff"
+    conn.execute("insert into core.besluit (id, datum, kabinet, stemmingssoort, besluitsoort, besluittekst) values "
+                 "(%s, '2026-04-01', 'Jetten', 'Met handopsteken', 'Stemmen - verworpen', "
+                 "'Verworpen is het voorstel van het lid X tot ontoelaatbaar verklaren van het amendement')", (b,))
+    conn.execute("insert into core.besluit_zaak values (%s, %s)", (b, z))
+    conn.execute("insert into core.fractiestem values (%s, %s, 'Tegen', 76, false), (%s, %s, 'Voor', 74, false)", (b, sp, b, vvd))
+    conn.execute("select * from analyses.herbouw_zetelwerk()")
+    assert conn.execute("select aangenomen, zetels_voor, zetels_tegen from analyses.zaak_uitslag where zaak_id = %s", (z,)).fetchone() == (True, 76, 74)
