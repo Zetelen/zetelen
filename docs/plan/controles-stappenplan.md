@@ -11,7 +11,7 @@ Klaargezet op 26 oktober 2026 voor Niels. Alles wat je nodig hebt staat in dit b
 | ☐ C1 | Steekproef uitslagen: 3 van de 10 rijen openen | controleren | 15 min | ja |
 | ☐ C2 | Nacontrole cohesie VVD en CDA: 3 van de 10 rijen openen | controleren | 15 min | ja |
 | ☐ C3 | Steekproef zetelwerk: 5 van de 19 rijen openen | controleren | 20 min | ja |
-| ☐ C4 | Afwijkende uitslagen: één keuze, A of B | besluit | 10 min | ja |
+| ☑ C4 | Afwijkende uitslagen: één keuze, A of B | besluit | 10 min | ja |
 | ☐ C5 | Handmatige tabellen nalopen | controleren | 30 tot 45 min | ja |
 | ☐ C6 | Test van de bewaking | uitvoeren | 15 min plus wachten | nee, wel voor de livegang |
 
@@ -130,7 +130,7 @@ Ook vergeleken: de aantallen per jaar met de telling in de API. In 2010 tellen w
 
 ---
 
-## ☐ C4. Afwijkende uitslagen: kies A of B (tien minuten)
+## ☑ C4. Afwijkende uitslagen: kies A of B (tien minuten)
 
 **Waarom:** bij 8 besluiten past de uitslag van de Kamer niet bij de stemmen in de bron. Cohesie en de coalitiebouwer gebruiken de stemmen, dus daar verandert niets. Zetelwerk telt "aangenomen" nu uit de stemmen. Bij 6 moties wijkt zetelwerk daardoor af van wat de Kamer formeel besloot.
 
@@ -158,7 +158,7 @@ Ook vergeleken: de aantallen per jaar met de telling in de API. In 2010 tellen w
 - **A:** één migratie die bij zetelwerk de uitslag uit de besluittekst haalt, en alleen de stemmen gebruikt als de besluittekst geen uitslag noemt. Daarna een tekst op /methodiek met de 8 gevallen, een test, en Migreer. Ongeveer een uur werk aan mijn kant; voor jou niets.
 - **B:** alleen de tekst op /methodiek.
 
-Jouw besluit: ☐ A ☐ B
+Jouw besluit: ☑ A (27 oktober 2026; verwerkt in migratie 023, Migreer en Ververs wachten op je akkoord) ☐ B
 
 ---
 

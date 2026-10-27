@@ -8,7 +8,7 @@ Alles wat op jou wacht, in een volgorde die werkt, met de tijd erbij. Samen onge
 
 | ☐ | Code | Wat | Tijd | Waar |
 |---|---|---|---|---|
-| ☐ | C4 | Kies A of B voor de 8 afwijkende uitslagen (advies A) | 10 min | [controles-stappenplan.md](controles-stappenplan.md#-c4-afwijkende-uitslagen-kies-a-of-b-tien-minuten) |
+| ☑ | C4 | Kies A of B voor de 8 afwijkende uitslagen (advies A) | 10 min | [controles-stappenplan.md](controles-stappenplan.md#-c4-afwijkende-uitslagen-kies-a-of-b-tien-minuten) |
 | ☐ | C1 | 3 rijen uitslagen openen op tweedekamer.nl | 15 min | idem, C1 |
 | ☐ | C2 | 3 rijen cohesie VVD en CDA openen | 15 min | idem, C2 |
 | ☐ | C3 | 5 stukken zetelwerk openen | 20 min | idem, C3 |

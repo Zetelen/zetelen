@@ -24,7 +24,7 @@ Volledig in [feedback-2026-10-26.md](feedback-2026-10-26.md). Alles uit ronde 1,
 
 ## C. Controles (morgen)
 
-Alles staat met stappen, tijden en wat te doen als iets niet klopt in [controles-stappenplan.md](controles-stappenplan.md). C4 is een besluit en voorbereid: de drie aannames zijn nagelopen, en per geval staat welke fractie het raakt.
+Alles staat met stappen, tijden en wat te doen als iets niet klopt in [controles-stappenplan.md](controles-stappenplan.md). C4 is besloten (A, 27 oktober) en verwerkt in migratie 023; Migreer en Ververs volgen na akkoord.
 
 ## K. Bekijken op de site
 
@@ -89,7 +89,7 @@ Livegang betekent: indexeren aan (`LIVE = true`), het label concept eraf waar da
 | Punt | Stand | Wie |
 |---|---|---|
 | Controles C1 tot en met C3, C5 | klaargezet | jij, morgen |
-| Afwijkende uitslagen (C4) | voorbereid, besluit open | jij, daarna ik |
+| Afwijkende uitslagen (C4) | A gekozen, migratie 023 klaar; Migreer en Ververs na akkoord | ik |
 | Test bewaking (C6) | klaargezet | jij, morgen |
 | Label concept per pagina | wacht op K1, K2, K3, K5 | jij, daarna ik |
 | Prestatie-audit | na `LIVE = true` | ik, als laatste |
