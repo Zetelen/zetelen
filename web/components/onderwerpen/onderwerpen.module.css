@@ -326,15 +326,62 @@ a.balkRij[data-actief="true"] {
   margin: 0 0 var(--r-3);
   padding: 0;
 }
+/* Eigen klassen voor de staafjes: .baan en .waarde krijgen op de telefoon grid-areas voor .balkRij, en die
+   braken deze rij in losse regels met een minibalkje (feedback Niels, 27 oktober 2026) */
 .staafjes a {
   display: grid;
-  grid-template-columns: 90px minmax(0, 1fr) 44px;
-  gap: var(--r-2);
+  grid-template-columns: 104px minmax(0, 1fr) 48px;
+  gap: var(--r-3);
   align-items: center;
   min-height: 40px;
   color: var(--tekst);
   text-decoration: none;
+  font-size: 15px;
+}
+.staafNaam {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.staafBaan {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 24px;
+  background: var(--nacht-900);
+  border-radius: 4px;
+}
+.staafBaan > span {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+}
+.staafWaarde {
+  text-align: right;
+  font-family: var(--mono);
   font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.uitklapHint {
+  flex-basis: 100%;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--koper);
+}
+.uitklapHint::after {
+  content: " ▾";
+}
+details[open] > summary .uitklapHint::after {
+  content: " ▴";
+}
+.open,
+details[open] > summary .dicht {
+  display: none;
+}
+details[open] > summary .open {
+  display: inline;
 }
 
 /* Telefoon: vaste balk en paneel van onderen */

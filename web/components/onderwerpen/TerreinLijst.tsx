@@ -32,16 +32,20 @@ export function TerreinLijst({ terreinen, perTerrein, fracties, aantallen, hrefM
                     ? `vaakst eens met ${hoog.f.afkorting} ${procent(hoog.c)}, minst vaak met ${laag.f.afkorting} ${procent(laag.c)}`
                     : "te weinig stemmingen"}
                 </span>
+                {/* Zichtbaar dat de regel uitklapt (feedback Niels, 27 oktober 2026) */}
+                <span className={s.uitklapHint} aria-hidden="true">
+                  <span className={s.dicht}>Toon alle fracties</span><span className={s.open}>Verberg</span>
+                </span>
               </summary>
               <ol className={s.staafjes}>
                 {rij.map(({ f, c }) => (
                   <li key={f.id}>
                     <Link href={hrefMet(f.afkorting)}>
-                      <span>{f.afkorting}</span>
-                      <span className={s.baan} aria-hidden="true">
+                      <span className={s.staafNaam}>{f.afkorting}</span>
+                      <span className={s.staafBaan} aria-hidden="true">
                         {c != null ? <span style={{ width: `${c}%`, background: schaalkleur(c) }} /> : <span className={s.teWeinig} />}
                       </span>
-                      <span className={s.waarde}>{c != null ? procent(c) : "–"}</span>
+                      <span className={s.staafWaarde}>{c != null ? procent(c) : "–"}</span>
                     </Link>
                   </li>
                 ))}
