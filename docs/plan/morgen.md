@@ -9,9 +9,7 @@ Alles wat op jou wacht, in een volgorde die werkt, met de tijd erbij. Samen onge
 | ☐ | Code | Wat | Tijd | Waar |
 |---|---|---|---|---|
 | ☑ | C4 | Kies A of B voor de 8 afwijkende uitslagen (advies A) | 10 min | [controles-stappenplan.md](controles-stappenplan.md#-c4-afwijkende-uitslagen-kies-a-of-b-tien-minuten) |
-| ☐ | C1 | 3 rijen uitslagen openen op tweedekamer.nl | 15 min | idem, C1 |
-| ☐ | C2 | 3 rijen cohesie VVD en CDA openen | 15 min | idem, C2 |
-| ☐ | C3 | 5 stukken zetelwerk openen | 20 min | idem, C3 |
+| ☐ | C1 tot en met C3 | Claude heeft alle 38 zaken vergeleken met tweedekamer.nl: alles klopt. Jij opent er drie als steekproef (C1 rij 6, C2 rij 8, C3 rij 16) | 10 min | [controles-uitkomst-2026-10-27.md](controles-uitkomst-2026-10-27.md) |
 | ☐ | C5 | Handmatige tabellen nalopen (kabinetten, terreinen, trefwoorden) | 30 tot 45 min | idem, C5 |
 | ☐ | C6 | Test van de bewaking (Terminal en healthchecks.io), als laatste: je wacht op mails | 15 min | idem, C6 |
 
