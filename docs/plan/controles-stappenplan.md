@@ -162,7 +162,7 @@ Jouw besluit: ☑ A (27 oktober 2026; verwerkt in migratie 023, Migreer en Verve
 
 ---
 
-## ☐ C5. Handmatige tabellen nalopen (half uur tot drie kwartier)
+## ☑ C5. Handmatige tabellen nalopen (half uur tot drie kwartier)
 
 **Waarom:** deze tabellen heb ik met de hand gevuld, en ze sturen veel cijfers op de site. Een fout in een datum verschuift elke telling per kabinet.
 
