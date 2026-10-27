@@ -3,7 +3,8 @@
 }
 .figuur {
   position: sticky;
-  top: 0;
+  top: var(--kop-zicht, 0px); /* onder de vaste kop */
+  transition: top 220ms ease;
   height: 100vh;
   display: flex;
   align-items: center;
@@ -282,13 +283,17 @@
    beeld is; een kaart vervaagt zodra hij over de tekening schuift (--zicht, gezet in ScrollVerhaal.tsx). */
 @media (max-width: 900px) {
   .verhaal .kaart,
-  .verhaal[data-tijdlijn="true"] .kaart,
-  .verhaal[data-breed="true"] .kaart {
+  .verhaal[data-tijdlijn="true"] .kaart {
     min-height: max(var(--stap, 100vh), 100svh);
+  }
+  /* Breed: de tekst staat onder de tekening, dus driekwart scherm per stap is genoeg; met een volle schermhoogte
+     moest je lang scrollen naar het volgende vak (feedback Niels K2, 27 oktober 2026) */
+  .verhaal[data-breed="true"] .kaart {
+    min-height: max(var(--stap, 100vh), 75svh);
   }
   .verhaal:not([data-breed="true"]) .kaart > div {
     opacity: calc(0.8 * var(--zicht, 1));
-    transition: opacity 120ms;
+    transition: opacity 250ms;
   }
   .verhaal:not([data-breed="true"]) .kaart[data-actief="true"] > div {
     opacity: var(--zicht, 1);
@@ -332,7 +337,7 @@
   max-width: 820px;
   width: 100%;
   opacity: calc(0.8 * var(--zicht, 1));
-  transition: opacity 120ms;
+  transition: opacity 250ms;
 }
 .verhaal[data-breed="true"] .kaart[data-actief="true"] > div {
   opacity: var(--zicht, 1);
@@ -374,4 +379,115 @@
   font-family: var(--serif);
   font-size: 22px;
   line-height: 1.4;
+}
+
+/* Beeld in het tekstvak (feedback Niels K1 en K2, 27 oktober 2026) */
+.beeld {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-3);
+  margin: var(--r-2) 0 var(--r-3);
+}
+.uitslag {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.uitslagBalk {
+  display: flex;
+  height: 14px;
+  border-radius: 7px;
+  overflow: hidden;
+  background: var(--nacht-700);
+}
+.uitslagVoor {
+  background: #6fbf8e;
+}
+.uitslagTegen {
+  background: #e57f93;
+}
+.uitslagNiet {
+  background: var(--nacht-700);
+}
+.uitslagGetallen {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--tekst-zacht);
+}
+.kleurVoor {
+  color: #9ad8b1;
+  font-weight: 600;
+}
+.kleurTegen {
+  color: #f2a9b7;
+  font-weight: 600;
+}
+.kanten {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-2);
+}
+.kant {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: var(--r-2);
+  align-items: start;
+  font-size: 14px;
+}
+.kant > span:first-child {
+  padding-top: 3px;
+}
+.pillen {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.pil {
+  padding: 2px 8px;
+  border-radius: var(--hoek-pil);
+  font-size: 13px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.pil[data-kant="voor"] {
+  border: 1px solid #6fbf8e;
+  background: color-mix(in srgb, #6fbf8e 16%, transparent);
+}
+.pil[data-kant="tegen"] {
+  border: 1px solid #e57f93;
+  background: color-mix(in srgb, #e57f93 16%, transparent);
+}
+.balken {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.balkRij {
+  display: grid;
+  grid-template-columns: minmax(70px, auto) 1fr auto;
+  gap: var(--r-2);
+  align-items: center;
+  font-size: 14px;
+}
+.balkLabel {
+  color: var(--tekst-zacht);
+  white-space: nowrap;
+}
+.balkBaan {
+  height: 10px;
+  border-radius: 5px;
+  background: var(--nacht-700);
+  overflow: hidden;
+}
+.balkBaan > span {
+  display: block;
+  height: 100%;
+  background: var(--koper);
+}
+.balkTekst {
+  font-family: var(--mono);
+  font-size: 14px;
+  text-align: right;
 }

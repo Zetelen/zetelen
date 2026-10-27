@@ -17,7 +17,14 @@ export type Stap = {
   hoofdstuk?: string; // kop boven de kaart, bij het begin van een hoofdstuk
   link?: { href: string; tekst: string }; // verder op de site
   lezing?: 1 | 2; // een van twee interpretaties, als eigen blok getoond (feedback Niels K2, 26 oktober 2026)
+  // Het tekstvak vertelt ook met beeld (feedback Niels K1 en K2, 27 oktober 2026): de uitslag als balk, de fracties per
+  // kant als rijtjes, en aantallen of percentages als korte balkjes. Alles optioneel; de tekst blijft voor schermlezers.
+  uitslag?: { voor: number; tegen: number; niet?: number };
+  kanten?: { voor: string[]; tegen: string[] };
+  balken?: Balk[];
+  kort?: string; // zichtbare tekst naast het beeld; de volledige tekst blijft voor schermlezers
 };
+export type Balk = { label: string; waarde: number; max: number; tekst: string; tint?: string };
 export type Verhaal = { breed: Stap[]; smal?: Stap[] }; // smal: alleen als het op mobiel anders is
 export const rond = (n: number) => Math.round(n * 10) / 10;
 

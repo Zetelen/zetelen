@@ -21,7 +21,7 @@ function Aangenomen({ aangenomen, ingediend }: { aangenomen: number; ingediend: 
 export function FractieTabel({ rijen, hrefVoor, actief, stuk }: { rijen: FractieWerk[]; hrefVoor: (afk: string) => string; actief: string | null; stuk: Stuk }) {
   return (
     <div className={s.tabelKader}>
-      <table className={s.tabel}>
+      <table className={`${s.tabel} ${s.compact}`}>
         <caption className="verborgen">{meervoudVan(stuk)} per fractie: ingediend, aangenomen, brede steun en mede ingediend</caption>
         <thead>
           <tr><th scope="col">Fractie</th><th scope="col" className={s.rolKolom}>Rol</th><th scope="col">Ingediend</th><th scope="col">Aangenomen</th><th scope="col">Brede steun</th><th scope="col">Mede ingediend</th></tr>
@@ -29,12 +29,15 @@ export function FractieTabel({ rijen, hrefVoor, actief, stuk }: { rijen: Fractie
         <tbody>
           {rijen.map((r) => (
             <tr key={r.fractie} data-actief={actief === r.afkorting}>
-              <td><Link href={hrefVoor(r.afkorting)} scroll={false}>{r.afkorting}</Link></td>
-              <td data-label="Rol" className={s.rolKolom}><span className={s.rol} data-rol={r.rol}>{r.rol}</span></td>
-              <td data-label="Ingediend">{getal(r.ingediend)}</td>
-              <td data-label="Aangenomen"><Aangenomen aangenomen={r.aangenomen} ingediend={r.ingediend} /></td>
-              <td data-label="Brede steun">{getal(r.brede_steun)}</td>
-              <td data-label="Mede ingediend">{getal(r.mede)}</td>
+              <td className={s.cNaam}>
+                <Link href={hrefVoor(r.afkorting)} scroll={false}>{r.afkorting}</Link>
+                <span className={`${s.rol} ${s.alleenSmal}`} data-rol={r.rol}>{r.rol}</span>
+              </td>
+              <td data-label="Rol" className={`${s.rolKolom} ${s.cRol}`}><span className={s.rol} data-rol={r.rol}>{r.rol}</span></td>
+              <td data-label="Ingediend" className={s.cIngediend}>{getal(r.ingediend)}</td>
+              <td data-label="Aangenomen" className={s.cAangenomen}><Aangenomen aangenomen={r.aangenomen} ingediend={r.ingediend} /></td>
+              <td data-label="Brede steun" className={s.cExtra}>{getal(r.brede_steun)}</td>
+              <td data-label="Mede ingediend" className={s.cExtra2}>{getal(r.mede)}</td>
             </tr>
           ))}
         </tbody>
@@ -82,7 +85,7 @@ export function KamerledenTabel({ leden, hrefVoor, actief, rolVan }: { leden: Ka
 export function RanglijstTabel({ plekken, hrefVoor, meervoud }: { plekken: Plek[]; hrefVoor: (persoon: string) => string; meervoud: string }) {
   return (
     <div className={s.tabelKader}>
-      <table className={s.tabel}>
+      <table className={`${s.tabel} ${s.compact}`}>
         <caption className="verborgen">Kamerleden op aandeel aangenomen {meervoud}</caption>
         <thead>
           <tr><th scope="col">#</th><th scope="col" className={s.rolKolom}>Kamerlid</th><th scope="col" className={s.rolKolom}>Fractie</th><th scope="col">Ingediend</th><th scope="col">Aangenomen</th></tr>
@@ -90,11 +93,14 @@ export function RanglijstTabel({ plekken, hrefVoor, meervoud }: { plekken: Plek[
         <tbody>
           {plekken.map((p, i) => (
             <tr key={p.persoon}>
-              <td>{i + 1}</td>
-              <td className={s.rolKolom}><Link href={hrefVoor(p.persoon)} scroll={false}>{p.naam}</Link></td>
-              <td data-label="Fractie" className={s.rolKolom}>{p.fractie}</td>
-              <td data-label="Ingediend">{getal(p.ingediend)}</td>
-              <td data-label="Aangenomen"><Aangenomen aangenomen={p.aangenomen} ingediend={p.ingediend} /></td>
+              <td className={s.cNummer}>{i + 1}</td>
+              <td className={`${s.rolKolom} ${s.cNaam}`}>
+                <Link href={hrefVoor(p.persoon)} scroll={false}>{p.naam}</Link>
+                <span className={`${s.fractiePil} ${s.alleenSmal}`}>{p.fractie}</span>
+              </td>
+              <td data-label="Fractie" className={`${s.rolKolom} ${s.cRol}`}>{p.fractie}</td>
+              <td data-label="Ingediend" className={s.cIngediend}>{getal(p.ingediend)}</td>
+              <td data-label="Aangenomen" className={s.cAangenomen}><Aangenomen aangenomen={p.aangenomen} ingediend={p.ingediend} /></td>
             </tr>
           ))}
         </tbody>

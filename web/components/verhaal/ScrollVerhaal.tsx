@@ -5,6 +5,7 @@
 import Link from "next/link";
 import { type CSSProperties, useEffect, useRef, useState } from "react";
 import type { Stap, Verhaal } from "@/lib/verhaal";
+import { KORT } from "@/lib/verhaal";
 import { MIDDEN } from "@/lib/zaal";
 import s from "./verhaal.module.css";
 
@@ -77,8 +78,9 @@ export function ScrollVerhaal({ verhaal, label, hoogteSmal = 555, breedteSmal, s
         kaarten.forEach((k, i) => {
           const r = k.getBoundingClientRect();
           if (r.top < innerHeight * 0.85) beste = i;
-          // Zichtbaar onder de tekening, weg in de 100 pixels erboven
-          k.style.setProperty("--zicht", String(Math.min(1, Math.max(0, (r.top - (onder - 100)) / 100))));
+          // Zichtbaar onder de tekening; vervaagt pas over de 180 pixels erboven (later en trager dan eerst: feedback
+          // Niels K2, 27 oktober 2026)
+          k.style.setProperty("--zicht", String(Math.min(1, Math.max(0, (r.top - (onder - 180)) / 180))));
         });
       } else {
         const leeslijn = innerHeight * 0.5;
@@ -188,12 +190,63 @@ export function ScrollVerhaal({ verhaal, label, hoogteSmal = 555, breedteSmal, s
             <div data-lezing={st.lezing}>
               {st.hoofdstuk && <span className={s.hoofdstuk}>{st.hoofdstuk}</span>}
               {st.lezing ? <span className={s.lezingKop}>{st.datum} · {st.lezing} van 2</span> : <span className={s.datum}>{st.datum}</span>}
-              {st.tekst}
+              <Beeld stap={st} />
+              {st.kort !== undefined ? <><span className="verborgen">{st.tekst}</span>{st.kort}</> : st.tekst}
               {st.link && <Link href={st.link.href} className={s.verder}>{st.link.tekst} →</Link>}
             </div>
           </li>
         ))}
       </ol>
     </div>
+  );
+}
+
+// Het beeld in het tekstvak: de uitslag als balk, de fracties per kant, en korte balkjes. Voor schermlezers staat
+// hetzelfde in de tekst, daarom aria-hidden.
+function Beeld({ stap }: { stap: Stap }) {
+  const { uitslag, kanten, balken } = stap;
+  if (!uitslag && !kanten && !balken) return null;
+  const naam = (f: string) => KORT[f] ?? f;
+  return (
+    <span className={s.beeld} aria-hidden="true">
+      {uitslag && (() => {
+        const totaal = uitslag.voor + uitslag.tegen + (uitslag.niet ?? 0);
+        return (
+          <span className={s.uitslag}>
+            <span className={s.uitslagBalk}>
+              <span className={s.uitslagVoor} style={{ width: `${(100 * uitslag.voor) / totaal}%` }} />
+              {uitslag.niet ? <span className={s.uitslagNiet} style={{ width: `${(100 * uitslag.niet) / totaal}%` }} /> : null}
+              <span className={s.uitslagTegen} style={{ width: `${(100 * uitslag.tegen) / totaal}%` }} />
+            </span>
+            <span className={s.uitslagGetallen}>
+              <span className={s.kleurVoor}>{uitslag.voor} voor</span>
+              {uitslag.niet ? <span>{uitslag.niet} niet mee</span> : null}
+              <span className={s.kleurTegen}>{uitslag.tegen} tegen</span>
+            </span>
+          </span>
+        );
+      })()}
+      {kanten && (
+        <span className={s.kanten}>
+          {(["voor", "tegen"] as const).map((k) => kanten[k].length > 0 && (
+            <span key={k} className={s.kant}>
+              <span className={k === "voor" ? s.kleurVoor : s.kleurTegen}>{k === "voor" ? "Voor" : "Tegen"}</span>
+              <span className={s.pillen}>{kanten[k].map((f) => <span key={f} className={s.pil} data-kant={k}>{naam(f)}</span>)}</span>
+            </span>
+          ))}
+        </span>
+      )}
+      {balken && (
+        <span className={s.balken}>
+          {balken.map((b) => (
+            <span key={b.label} className={s.balkRij}>
+              <span className={s.balkLabel}>{b.label}</span>
+              <span className={s.balkBaan}><span style={{ width: `${Math.max(2, (100 * b.waarde) / b.max)}%`, background: b.tint }} /></span>
+              <span className={s.balkTekst}>{b.tekst}</span>
+            </span>
+          ))}
+        </span>
+      )}
+    </span>
   );
 }

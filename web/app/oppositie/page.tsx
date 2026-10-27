@@ -12,6 +12,7 @@ import { ScrollVerhaal } from "@/components/verhaal/ScrollVerhaal";
 import type { Stap } from "@/lib/verhaal";
 import { hoofdstukJaren, hoofdstukKabinetten, hoofdstukNetwerk, SMAL_SPREIDING, hoofdstukSpreiding, hoofdstukTegenEnSamen } from "@/lib/oppositie";
 import { fractieWerk, jaarWerk, netwerk, periodeWerk } from "@/lib/zetelwerk";
+import { fractiesIn } from "@/lib/cohesie";
 
 export const metadata: Metadata = {
   title: "Oppositiewerk",
@@ -27,6 +28,9 @@ const zonderKop = (stappen: Stap[]): Stap[] => stappen.map((s, i) => (i === 0 ? 
 
 export default async function Oppositie() {
   const [jaren, perioden, fracties] = await Promise.all([jaarWerk(), periodeWerk("kabinet"), fractieWerk("kabinet")]);
+  // Eenmansfracties per kabinet: op de telefoon niet in de spreiding, daar maken ze het te druk (feedback Niels K2, 27 oktober 2026)
+  const klein = new Set((await Promise.all(KABINETTEN.map(async (k) => ((await fractiesIn("kabinet", k)) ?? [])
+    .filter((f) => f.zetels <= 1).map((f) => `${k}|${f.afkorting}`)))).flat());
   const netwerken = await Promise.all(["Schoof", "Jetten"].map(async (k) => ({ kabinet: k, verbindingen: (await netwerk("kabinet", k, "Motie")) ?? [] })));
   // Geen data: een fout in plaats van een lege staat. Dan bewaart de site die mislukte versie niet, en blijft de
   // laatste goede pagina staan (E3-S9); de foutpagina verschijnt alleen als er nog nooit een goede versie was.
@@ -65,10 +69,10 @@ export default async function Oppositie() {
       <HoofdstukKop nummer="4" titel="Tegenstemmen en zelf scoren" />
       <ScrollVerhaal verhaal={{
         breed: zonderKop(hoofdstukTegenEnSamen(hoofdstukSpreiding(fracties, KABINETTEN), hoofdstukNetwerk(netwerken.map((n) => ({ ...n, rollen: rollen(n.kabinet) }))))),
-        smal: zonderKop(hoofdstukTegenEnSamen(hoofdstukSpreiding(fracties, KABINETTEN, true), hoofdstukNetwerk(netwerken.map((n) => ({ ...n, rollen: rollen(n.kabinet) })), true))),
+        smal: zonderKop(hoofdstukTegenEnSamen(hoofdstukSpreiding(fracties, KABINETTEN, true, klein), hoofdstukNetwerk(netwerken.map((n) => ({ ...n, rollen: rollen(n.kabinet) })), true))),
       }} hoogteSmal={SMAL_SPREIDING.hoogte} breedteSmal={SMAL_SPREIDING.breedte}
         label="Tegenstemmen en aangenomen moties per fractie, daarna samen ingediend" breed stapHoogte="60vh" />
-      <HoofdstukKop nummer="6" titel="Aan de wet zelf zitten" />
+      <HoofdstukKop nummer="6" titel="De wet zelf veranderen" />
       <ScrollVerhaal verhaal={{ breed: zonderKop(hoofdstukKabinetten(perioden, KABINETTEN, "Amendement", minderheid)) }} label="Amendementen per kabinet" tijdlijn stapHoogte="60vh" />
 
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", maxWidth: 860 }}>

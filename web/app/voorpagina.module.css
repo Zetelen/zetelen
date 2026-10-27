@@ -191,3 +191,51 @@
 .verder span {
   color: var(--tekst-zacht);
 }
+
+/* Trechter in de hero (feedback Niels K3, 27 oktober 2026): ingediend, aangenomen, met stemmen van kabinet én oppositie */
+.trechter {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.trechterKop {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tekst-zacht);
+  margin-bottom: 2px;
+}
+.trechterRij {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.trechterBalk {
+  box-sizing: border-box;
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  border-radius: 6px;
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--nacht-950);
+  background: var(--koper);
+}
+.trechterRij[data-stap="0"] .trechterBalk {
+  background: #566aa6;
+  color: var(--tekst);
+}
+.trechterRij[data-stap="2"] .trechterBalk {
+  background: var(--goud);
+}
+.trechterTekst {
+  font-size: 14px;
+  color: var(--tekst-zacht);
+  text-align: center;
+}

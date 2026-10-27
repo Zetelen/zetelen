@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 const VRAGEN = [
   { href: "/verkenner", vraag: "Wie stemt met wie?", tekst: "Kies een fractie en zie hoe vaak elke andere fractie met haar meestemde, per kabinet of Kamerperiode." },
   { href: "/onderwerpen", vraag: "Waar zijn ze het over eens?", tekst: "Per beleidsterrein, voor elk paar fracties, tot op de motie." },
-  { href: "/coalitie", vraag: "Kun jij er 76 vinden?", tekst: "Stel zelf een groep fracties samen en zie bij wie die een meerderheid haalde." },
+  { href: "/coalitie", vraag: "Stel zelf een coalitie samen", tekst: "Stel zelf een groep fracties samen en zie bij wie die een meerderheid haalde." },
 ];
 const VERDER = [
   { href: "/oppositie", titel: "Oppositiewerk" },
@@ -64,23 +64,41 @@ export default async function Voorpagina() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/binnenhof.svg" alt="" aria-hidden="true" className={s.heroBeeld} />
         <div className={s.heroVlak}>
-        <Label>zetelen (ww.) · stemmen, onderhandelen en meetellen in de Tweede Kamer</Label>
-        <HeroKop>Waar vinden ze elkaar?</HeroKop>
+        <Label><em>zetelen</em> (ww.) · stemmen, onderhandelen en meetellen in de Tweede Kamer</Label>
+        <HeroKop>Hoe verdeeld is de Kamer echt?</HeroKop>
         <Tekst>
           <strong>Ruzie, ophef, de waan van de dag.</strong> Wie het nieuws volgt, ziet een verdeelde Kamer en een politiek die op
           slot zit. Maar wat zie je als je de stemmingen telt?
         </Tekst>
         {samen && kabinet && (
-          <Tekst>
-            Onder kabinet-{kabinet.naam} nam de Kamer {getal(samen.aangenomen)} van de {getal(samen.moties)} moties aan. Bij{" "}
-            {getal(samen.breed)} daarvan stemde ten minste één fractie uit het kabinet én één uit de oppositie voor. De oppositie
-            kreeg {samen.oppositieNu}% van haar moties erdoor. Onder {samen.eerste} was dat {samen.oppositieEerst}%.
-          </Tekst>
+          <>
+            {/* De getallen als trechter in de tekst (feedback Niels K3, 27 oktober 2026); de zin blijft voor schermlezers */}
+            <p className="verborgen">
+              Onder kabinet-{kabinet.naam} nam de Kamer {getal(samen.aangenomen)} van de {getal(samen.moties)} moties aan. Bij{" "}
+              {getal(samen.breed)} daarvan stemde ten minste één fractie uit het kabinet én één uit de oppositie voor.
+            </p>
+            <div className={s.trechter} aria-hidden="true">
+              <span className={s.trechterKop}>Moties onder kabinet-{kabinet.naam}</span>
+              {[
+                { tekst: "ingediend", n: samen.moties },
+                { tekst: "aangenomen", n: samen.aangenomen },
+                { tekst: "met stemmen van kabinet én oppositie", n: samen.breed },
+              ].map((r, i) => (
+                <div key={r.tekst} className={s.trechterRij} data-stap={i}>
+                  <span className={s.trechterBalk} style={{ width: `${Math.max(18, (100 * r.n) / samen.moties)}%` }}>{getal(r.n)}</span>
+                  <span className={s.trechterTekst}>{r.tekst}</span>
+                </div>
+              ))}
+            </div>
+            <Tekst>
+              De oppositie kreeg {samen.oppositieNu}% van haar moties erdoor. Onder {samen.eerste} was dat {samen.oppositieEerst}%.
+            </Tekst>
+          </>
         )}
         <nav className={s.cta} aria-label="Zoek zelf">
           <Link href="/verkenner" className={s.ctaHoofd}>Wie stemt met wie?</Link>
           <Link href="/onderwerpen" className={knopKlasse}>Waar zijn ze het over eens?</Link>
-          <Link href="/coalitie" className={knopKlasse}>Kun jij er 76 vinden?</Link>
+          <Link href="/coalitie" className={knopKlasse}>Stel zelf een coalitie samen</Link>
         </nav>
         </div>
       </section>
@@ -138,7 +156,7 @@ export default async function Voorpagina() {
       )}
 
       <section className={s.hoofdstuk}>
-        <HoofdstukKop nummer="4" titel="Kun jij er 76 vinden?" />
+        <HoofdstukKop nummer="4" titel="Stel zelf een coalitie samen" />
         <Tekst>
           {kabinet && kabinet.zetels < 76
             ? `Kabinet-${kabinet.naam} heeft ${kabinet.zetels} zetels en heeft er 76 nodig voor een meerderheid. `
@@ -162,7 +180,7 @@ export default async function Voorpagina() {
           <section className={s.hoofdstuk}>
             <HoofdstukKop nummer="5" titel="En de oppositie? Wat kun je als je niet regeert?" />
             <Tekst>
-              Moties indienen, vooral. In {eerste.jaar} stemde de Kamer over {eerste.totaal.toLocaleString("nl-NL")} moties, in {laatste.jaar} over{" "}
+              Het belangrijkste middel van de oppositie is de motie: een verzoek van de Kamer aan het kabinet. In {eerste.jaar} stemde de Kamer over {eerste.totaal.toLocaleString("nl-NL")} moties, in {laatste.jaar} over{" "}
               {laatste.totaal.toLocaleString("nl-NL")}. Het grootste deel komt van de oppositie. Maar hoeveel haalt het, en verandert dat
               als het kabinet geen meerderheid heeft?
             </Tekst>

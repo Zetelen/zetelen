@@ -246,3 +246,127 @@
   flex-wrap: wrap;
   align-items: center;
 }
+
+/* Telefoon: fractietabel en ranglijst als compacte rijen (feedback Niels K5, 27 oktober 2026). Bovenaan naam, pill en
+   ingediend; daaronder een databar voor het aandeel aangenomen; brede steun en mede klein eronder. Op de computer
+   blijft de tabel zoals hij is. */
+.alleenSmal {
+  display: none;
+}
+.fractiePil {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: var(--hoek-pil);
+  border: 1px solid var(--lijn-licht);
+  font-size: 12px;
+  color: var(--tekst-zacht);
+}
+@media (max-width: 640px) {
+  .compact tr {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas:
+      "nummer naam ingediend"
+      "nummer aangenomen aangenomen"
+      "nummer extra extra2";
+    column-gap: var(--r-3);
+    row-gap: 6px;
+    align-items: center;
+  }
+  /* Zonder rangnummer (fractietabel) geen lege eerste kolom */
+  .compact tr:not(:has(.cNummer)) {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "naam ingediend"
+      "aangenomen aangenomen"
+      "extra extra2";
+  }
+  .compact td {
+    width: auto;
+  }
+  .compact td[data-label]::before {
+    min-width: 0;
+    margin-right: 6px;
+  }
+  .compact .cNummer {
+    grid-area: nummer;
+    align-self: start;
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--tekst-zacht);
+    padding-top: 3px;
+  }
+  .compact .cNaam {
+    grid-area: naam;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    font-size: 17px;
+    padding-bottom: 0;
+  }
+  .compact .cNaam .rol {
+    margin-left: 0;
+  }
+  .compact .alleenSmal {
+    display: inline-block;
+  }
+  .compact .cRol {
+    display: none;
+  }
+  .compact .cIngediend {
+    grid-area: ingediend;
+    text-align: right;
+    font-family: var(--mono);
+  }
+  .compact .cIngediend::before {
+    content: "ingediend " !important;
+  }
+  .compact .cAangenomen {
+    grid-area: aangenomen;
+  }
+  .compact .cAangenomen::before {
+    display: none !important;
+  }
+  .compact .cExtra {
+    grid-area: extra;
+    font-size: 13px;
+    color: var(--tekst-zacht);
+  }
+  .compact .cExtra2 {
+    grid-area: extra2;
+    font-size: 13px;
+    color: var(--tekst-zacht);
+    text-align: right;
+  }
+  /* De aangenomen-cel als databar over de volle breedte: percentage in de balk, aantal erachter */
+  .compact .aangenomenCel {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    grid-template-areas: "balk procent aantal";
+    width: 100%;
+    column-gap: var(--r-2);
+  }
+  .compact .aangenomenCel > span:nth-child(1) {
+    grid-area: aantal;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--tekst-zacht);
+  }
+  .compact .aangenomenCel > span:nth-child(1)::after {
+    content: " aangenomen";
+  }
+  .compact .aangenomenCel > span:nth-child(2) {
+    grid-area: procent;
+    font-family: var(--mono);
+    font-weight: 600;
+    color: var(--tekst);
+  }
+  .compact .aangenomenCel .balkje {
+    grid-area: balk;
+    width: 100%;
+    height: 12px;
+    border-radius: 6px;
+    background: var(--nacht-700);
+  }
+}

@@ -1,6 +1,6 @@
 "use client";
-// Telefoon (component onderwerpen): een vaste balk bovenaan met de keuze in een regel ("Jetten · alle
-// stemmingen · D66 · wijzig"). Wijzig opent een paneel dat van onderen omhoog schuift, met periodesoort,
+// Telefoon (component onderwerpen): een vaste balk bovenaan met de gekozen fractie groot, daaronder de vraag,
+// periode en stemmingen, en "wijzig". Wijzig opent een paneel dat van onderen omhoog schuift, met periodesoort,
 // periode, stemmingen en fractie. Vergelijken gebeurt door in de inhoud op een fractie te tikken.
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -34,7 +34,14 @@ export function MobieleBalk({ perioden, soort, periode, variant, fracties, fract
   return (
     <>
       <div className={s.mobieleBalk}>
-        <span>{periode} · {variant === "alle" ? "alle stemmingen" : "verdeelde stemmingen"} · <strong>{fractie}</strong>{met ? ` en ${met}` : ""}</span>
+        {/* Twee regels: de fractie groot, daaronder de vraag en de keuze (feedback Niels K1, 27 oktober 2026) */}
+        <span className={s.balkTekst}>
+          <span className={s.balkFractie}>{fractie}{met ? ` en ${met}` : ""}</span>
+          <span className={s.balkVraag}>
+            {met ? "Op welke onderwerpen stemmen ze hetzelfde?" : `Met wie stemt ${fractie} het vaakst hetzelfde?`} · {periode},{" "}
+            {variant === "alle" ? "alle stemmingen" : "verdeelde stemmingen"}
+          </span>
+        </span>
         <button type="button" onClick={() => setOpen(true)} aria-expanded={open} aria-controls="keuzepaneel">wijzig</button>
       </div>
       {open && <div className={s.sluier} onClick={() => setOpen(false)} aria-hidden="true" />}

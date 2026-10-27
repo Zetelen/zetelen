@@ -27,7 +27,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const slug = (await params).casus;
   const u = UITGELICHT.find((x) => x.slug === slug);
-  return u ? { title: `${u.titel} · Uitgelicht`, description: `${u.vraag} Een hoofdelijke stemming uit elkaar gehaald.`, alternates: { canonical: `/uitgelicht/${u.slug}` } } : {};
+  return u ? { title: `${u.titel} · Uitgelicht`, description: `${u.vraag} Een hoofdelijke stemming ontleed.`, alternates: { canonical: `/uitgelicht/${u.slug}` } } : {};
 }
 
 export default async function CasusPagina({ params }: Props) {

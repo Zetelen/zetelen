@@ -400,9 +400,28 @@ details[open] > summary .open {
   .alleenSmal {
     display: block;
   }
+  .vasteKop {
+    display: none;
+  }
+  .balkTekst {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .balkFractie {
+    font-family: var(--serif);
+    font-size: 21px;
+    line-height: 1.2;
+    color: var(--goud);
+  }
+  .balkVraag {
+    font-size: 13px;
+    color: var(--tekst-zacht);
+  }
   .mobieleBalk {
     position: sticky;
-    top: 0;
+    top: var(--kop-zicht, 0px); /* onder de vaste kop */
+    transition: top 220ms ease;
     z-index: 20;
     display: flex;
     justify-content: space-between;
@@ -550,6 +569,32 @@ details[open] > summary .open {
   align-items: flex-end;
 }
 /* Toelichting bij een grafiek: gewone tekstkleur voor genoeg contrast op de donkere achtergrond */
+/* Vaste kop boven de visual: de gekozen fractie blijft in beeld (feedback Niels K1, 27 oktober 2026). Op de
+   telefoon neemt de vaste balk (MobieleBalk) deze rol over. */
+.vasteKop {
+  position: sticky;
+  top: var(--kop-zicht, 0px);
+  transition: top 220ms ease;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0 calc(-1 * var(--r-3));
+  padding: var(--r-2) var(--r-3);
+  background: var(--nacht-950);
+  border-bottom: 1px solid var(--lijn);
+}
+.vasteKop strong {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 1.15;
+  color: var(--goud);
+}
+.vasteKop span {
+  font-size: 15px;
+  color: var(--tekst-zacht);
+}
 .toelichting {
   margin: 0;
   font-family: var(--sans);

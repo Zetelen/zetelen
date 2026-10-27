@@ -1,4 +1,4 @@
-// Uitgelicht: één hoofdelijke stemming uit elkaar gehaald (besluit Niels B16, 26 oktober 2026).
+// Uitgelicht: één hoofdelijke stemming ontleed (besluit Niels B16, 26 oktober 2026).
 // Dezelfde scroll graphic als de motie-Eerdmans op /onderwerpen (lib/stemmingVerhaal.ts), maar algemeen: de stappen
 // worden opgebouwd uit de gegevens in content/uitgelicht/<zaak>.json (gemaakt met pipeline/stemming_casus.py).
 // Alleen de omschrijving van het onderwerp is per casus met de hand geschreven. Elke casus staat op zichzelf
@@ -224,9 +224,10 @@ export function casusStappen(c: Casus, smal: boolean): Stap[] {
       const regel = staakt
         ? ` ${doenNietMee(niet)} Staken de stemmen en is niet iedereen er, dan stemt de Kamer in een volgende vergadering opnieuw. Staken ze dan weer, dan is ${wat} niet aangenomen.`
         : "";
-      stappen.push({ datum: "de uitslag", tekst: `${voor} voor, ${tegen} tegen. ${uitslagZin(b, wat)}${regel}${bronVerschil}`, stippen: metKleur(los.stippen, () => null), labels: los.labels });
+      stappen.push({ datum: "de uitslag", tekst: `${voor} voor, ${tegen} tegen. ${uitslagZin(b, wat)}${regel}${bronVerschil}`,
+        uitslag: { voor, tegen, niet }, kort: `${uitslagZin(b, wat)}${regel}${bronVerschil}`.trim(), stippen: metKleur(los.stippen, () => null), labels: los.labels });
       // 3. Per fractie
-      stappen.push({ datum: "per fractie", tekst: perFractieZin(b.stemmen), stippen: metKleur(groep.stippen, () => null), labels: groep.labels, kaders: kaders(groep.kaders) });
+      stappen.push({ datum: "per fractie", tekst: perFractieZin(b.stemmen), ...kantenVan(b.stemmen), stippen: metKleur(groep.stippen, () => null), labels: groep.labels, kaders: kaders(groep.kaders) });
     } else {
       // Herstemming: de nieuwe uitslag en wat er veranderde
       const vorig = besluiten[i - 1], tv = totalen(vorig);
@@ -234,6 +235,7 @@ export function casusStappen(c: Casus, smal: boolean): Stap[] {
       const later = dagen === 7 ? "Een week later" : `${dagen} dagen later`;
       const gelijk = voor === tegen ? `Weer gelijk, dus ${wat} is niet aangenomen.` : uitslagZin(b, wat);
       stappen.push({ datum: dagMaandJaar(b.datum), tekst: `${later} stemt de Kamer opnieuw: ${voor} voor, ${tegen} tegen. ${gelijk}${bronVerschil}`,
+        uitslag: { voor, tegen, niet }, kort: `${later} stemt de Kamer opnieuw. ${gelijk}${bronVerschil}`,
         stippen: metKleur(los.stippen, () => null), labels: los.labels });
       const nu = perFractie(b.stemmen), toen = new Map(perFractie(vorig.stemmen).map((f) => [f.fractie, f]));
       const anders = nu.filter((f) => { const o = toen.get(f.fractie); return !o || o.voor !== f.voor || o.tegen !== f.tegen || o.niet !== f.niet; }).map((f) => f.fractie);
@@ -285,7 +287,8 @@ export function casusStappen(c: Casus, smal: boolean): Stap[] {
     const meerderheid = Math.max(voor, tegen) >= 76 ? ` Met ${Math.max(voor, tegen)} stemmen is het ook een meerderheid van alle 150 zetels.` : "";
     // Hooguit twee verschil: als weegschaal (eigen beeld, feedback Niels K7; dezelfde grens als de video's)
     const krap = { datum: verschil === 1 ? "één stem" : `${telwoord(verschil)} stemmen`,
-      tekst: `${voor} voor en ${tegen} tegen: ${telwoord(verschil)} ${verschil === 1 ? "stem" : "stemmen"} verschil. ${niet ? doenNietMee(niet) : "Iedereen doet mee."}${meerderheid}` };
+      tekst: `${voor} voor en ${tegen} tegen: ${telwoord(verschil)} ${verschil === 1 ? "stem" : "stemmen"} verschil. ${niet ? doenNietMee(niet) : "Iedereen doet mee."}${meerderheid}`,
+      uitslag: { voor, tegen, niet } };
     stappen.push(verschil <= 2 ? { ...weegschaal(zs, t), ...krap }
       : { ...krap, stippen: metKleur(los.stippen, (p) => (p.stem === "Niet deelgenomen" ? "nadruk" : null)), labels: los.labels });
   }
@@ -312,6 +315,16 @@ export function casusStappen(c: Casus, smal: boolean): Stap[] {
 }
 
 // "Voor stemmen A en B. Tegen C. Verdeeld: D." in zaalvolgorde
+// Het beeld bij "per fractie": de fracties per kant als rijtjes; zichtbaar blijft alleen wie verdeeld stemde
+export function kantenVan(st: Stemming): { kanten: { voor: string[]; tegen: string[] }; kort: string } {
+  const pf = perFractie(st);
+  const split = verdeeld(st).map((f) => `${naam(f.fractie)} (${f.voor} voor, ${f.tegen} tegen)`);
+  return {
+    kanten: { voor: pf.filter((f) => f.kant === "Voor").map((f) => f.fractie), tegen: pf.filter((f) => f.kant === "Tegen").map((f) => f.fractie) },
+    kort: split.length ? `Verdeeld: ${lijst(split)}.` : "",
+  };
+}
+
 export function perFractieZin(st: Stemming): string {
   const pf = perFractie(st);
   const heel = (k: "Voor" | "Tegen") => pf.filter((f) => f.kant === k && !(f.voor > 0 && f.tegen > 0)).map((f) => naam(f.fractie));

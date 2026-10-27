@@ -11,10 +11,28 @@
   border: 1px solid var(--koper);
   border-radius: var(--hoek-klein);
 }
+/* Vaste kop (feedback Niels K1, 27 oktober 2026); op een smal scherm schuift hij weg bij omlaag scrollen */
+.kop {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in srgb, var(--nacht-950) 94%, transparent);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--lijn);
+  transition: transform 220ms ease;
+}
+.kop[data-verborgen] {
+  transform: translateY(-100%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .kop {
+    transition: none;
+  }
+}
 .nav {
   max-width: var(--pagina-max);
   margin: 0 auto;
-  padding: var(--r-5) var(--pagina-marge);
+  padding: var(--r-4) var(--pagina-marge);
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -103,9 +103,9 @@ export default async function Onderwerpen({ searchParams }: Props) {
     <Inhoud>
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", maxWidth: 860 }}>
         <Label>Onderwerpen · concept</Label>
-        <HeroKop>Waar vinden ze elkaar?</HeroKop>
+        <HeroKop>Waar zijn fracties het over eens?</HeroKop>
         <Tekst>
-          Fracties die het op het ene onderwerp zelden eens worden, stemmen op een ander onderwerp vaak hetzelfde. Hier zie je
+          Fracties die het op het ene onderwerp zelden eens zijn, vinden elkaar op een ander onderwerp soms juist wel. Hier zie je
           per beleidsterrein hoe vaak fracties dezelfde kant kozen, tot op het dossier en de motie.
         </Tekst>
         <Tekst>
@@ -114,13 +114,13 @@ export default async function Onderwerpen({ searchParams }: Props) {
         </Tekst>
       </section>
 
-      {/* Graphic 2 als opening: één stemming uit elkaar gehaald (verzoek Niels, 26 oktober 2026) */}
+      {/* Graphic 2 als opening: één stemming ontleed (verzoek Niels, 26 oktober 2026) */}
       <section id="een-stemming" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
-        <HoofdstukKop titel="Eén stemming uit elkaar gehaald" />
+        <HoofdstukKop titel="Eén stemming ontleed" />
         <ScrollVerhaal verhaal={{ breed: stemVerhaal(false), smal: stemVerhaal(true) }} label="De stemming over de motie-Eerdmans" hoogteSmal={1080} stapHoogte="45vh" tijdlijn />
         <Data>
           Stemming over zaak {stemming.zaak}, hoofdelijk, {dagMaandJaar(stemming.datum)}. Kleuren zijn een eigen palet, geen
-          partijkleuren. <Link href="/uitgelicht">Meer stemmingen uit elkaar gehaald</Link>
+          partijkleuren. <Link href="/uitgelicht">Meer stemmingen ontleed</Link>
         </Data>
       </section>
 
@@ -163,7 +163,11 @@ export default async function Onderwerpen({ searchParams }: Props) {
       ) : met && paar ? (
         <section id="vergelijking" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
           {filters}
-          <Label>{gekozen.afkorting} en {met.afkorting} · {periode.naam}</Label>
+          {/* Vaste kop: welke fracties je bekijkt, blijft staan tijdens het scrollen (feedback Niels K1, 27 oktober 2026) */}
+          <div className={s.vasteKop}>
+            <strong>{gekozen.afkorting} en {met.afkorting}</strong>
+            <span>Op welke onderwerpen stemmen ze hetzelfde? · {periode.naam}</span>
+          </div>
           {u && (
             <Tekst>
               Het vaakst eens bij {u.hoog.terrein} ({procent(u.hoog.cohesie)}), het minst bij {u.laag.terrein} ({procent(u.laag.cohesie)}).
@@ -199,7 +203,18 @@ export default async function Onderwerpen({ searchParams }: Props) {
       ) : (
         <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
           {filters}
-          <Label>{gekozen.afkorting} en elke andere fractie, per beleidsterrein · {periode.naam}</Label>
+          <div className={s.vasteKop}>
+            <strong>{gekozen.afkorting}</strong>
+            <span>Met welke fracties stemt {gekozen.afkorting} het vaakst hetzelfde? · {periode.naam}</span>
+          </div>
+          {/* De leeswijzer staat boven de visual, ingeklapt (feedback Niels K1, 27 oktober 2026) */}
+          <Inklapbaar titel="Hoe werkt deze kaart?" dicht>
+            <p className={s.toelichting}>
+              Klik op een terrein: de dossiers klappen eronder uit, met de grootste dossiers eerst. Het getal erachter is het aantal
+              stemmingen in deze periode. Kies een cel en vergelijk {gekozen.afkorting} en die fractie per terrein. Gestreept: te weinig
+              stemmingen samen (een terrein onder de 25, een dossier onder de 5).
+            </p>
+          </Inklapbaar>
           <div className={`${s.kaartKader} ${s.alleenBreed}`}>
             <table className={s.kaart}>
               <caption className="verborgen">Hoe vaak {gekozen.afkorting} hetzelfde stemde als elke andere fractie, per beleidsterrein, in procenten</caption>
@@ -271,12 +286,6 @@ export default async function Onderwerpen({ searchParams }: Props) {
               fracties={zaal.filter((f) => f.id !== gekozen.id).map((f) => ({ id: f.id, afkorting: f.afkorting }))}
               hrefMet={(afk) => `/onderwerpen${query({ fractie: gekozen.afkorting, met: afk })}`} />
           </div>
-          {/* Meer contrast dan de gewone datatekst (feedback Niels K1, 26 oktober 2026) */}
-          <p className={s.toelichting}>
-            Klik op een terrein: de dossiers klappen eronder uit, met de grootste dossiers eerst. Het getal erachter is het aantal
-            stemmingen in deze periode. Kies een cel en vergelijk {gekozen.afkorting} en die fractie per terrein. Gestreept: te weinig
-            stemmingen samen (een terrein onder de 25, een dossier onder de 5).
-          </p>
         </section>
       )}
 
