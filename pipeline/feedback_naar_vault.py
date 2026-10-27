@@ -43,7 +43,10 @@ def ontsleutel(bestand: Path, sleutel: Path) -> list[dict]:
 def blok(f: dict, teksten: dict[str, str]) -> str:
     t = datetime.fromisoformat(f["ontvangen_op"]).astimezone(ZoneInfo("Europe/Amsterdam"))
     regels = [f"## Nr. {f['id']} · {t.day} {MAANDEN[t.month - 1]} {t.year}, {t:%H:%M}", ""]
-    for sleutel, antwoord in f["antwoorden"].items():
+    # In de volgorde van het formulier; onbekende sleutels (oude vragen) achteraan
+    volgorde = list(teksten) + [k for k in f["antwoorden"] if k not in teksten]
+    for sleutel in (k for k in volgorde if k in f["antwoorden"]):
+        antwoord = f["antwoorden"][sleutel]
         if sleutel == "mail":
             regels.append(f"- **E-mail:** adres achtergelaten (opvragen bij nr. {f['id']})")
             continue
