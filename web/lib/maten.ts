@@ -67,9 +67,10 @@ export const MATEN: Maat[] = [
     definitie:
       "Zetelwerk is wat Kamerleden en fracties zelf op tafel leggen: moties (een verzoek aan het kabinet), amendementen (een wijziging van een wet) en initiatiefwetten (een wetsvoorstel dat Kamerleden zelf schrijven). We tellen wie een stuk indiende, of het werd aangenomen, en met wiens steun. De drie soorten tellen we altijd apart.",
     formule:
-      "ingediend: het aantal stukken met het Kamerlid of de fractie als indiener. Aangenomen: meer zetels voor dan tegen, geteld uit de stemmen. Brede steun: aangenomen met stemmen voor van minstens een kabinets- en een oppositiefractie die zelf geen indiener of medeindiener was. Onder 10 ingediende stukken geen percentage.",
+      "ingediend: het aantal stukken met het Kamerlid of de fractie als indiener. Aangenomen: de uitslag die de Kamer vaststelde; noemt de bron geen uitslag, dan meer zetels voor dan tegen. Brede steun: aangenomen met stemmen voor van minstens een kabinets- en een oppositiefractie die zelf geen indiener of medeindiener was. Onder 10 ingediende stukken geen percentage.",
     keuzes: [
-      "De uitslag komt uit de stemmen, niet uit de tekst van het besluit: in een handvol gevallen spreekt de bron zichzelf tegen. Bij handopsteken telt de fractiegrootte, bij een hoofdelijke stemming het aantal leden dat voor of tegen stemde.",
+      "De uitslag is die van de Kamer, want die is formeel besloten. Bij 8 besluiten sinds 2010 past die niet bij de stemmen in de bron: twee keer een telfout die achteraf werd gemeld, waarna de uitslag volgens het Reglement van Orde bleef staan (2014Z08729 en 2026Z00559); drie keer stemmen die een dag later zijn gecorrigeerd terwijl de uitslag bleef staan (2022Z24291, 2023Z09118, 2023Z17815); twee besluiten over een grondwetswijziging, waar twee derde nodig is (2021Z02980); en een geval zonder verklaring in de bron (2026Z20415). De grondwetswijziging is geen zetelwerk; de zes moties tellen met de uitslag van de Kamer.",
+      "Noemt de bron geen uitslag, dan tellen de stemmen: bij handopsteken de fractiegrootte, bij een hoofdelijke stemming het aantal leden dat voor of tegen stemde.",
       "Is er vaker over een stuk gestemd, dan telt de laatste stemming.",
       "Kabinet of oppositie op de dag van de stemming. Gedoogsteun telt als kabinet.",
       "Een stuk met meer indieners telt voor elk van hen volledig. Medeindieners tellen apart, als mede ingediend.",

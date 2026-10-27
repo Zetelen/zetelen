@@ -111,3 +111,19 @@ def test_initiatiefwet_telt_mee_als_wetsvoorstel(conn):
     assert rijen == [(w1, "Wetsvoorstel", True, "oppositie")]
     assert conn.execute("select count(*) from analyses.indiening where zaak_id = %s", (w1,)).fetchone()[0] == 1
     assert conn.execute("select ingediend, aangenomen from analyses.zetelwerk_fractie where afkorting = 'SP' and soort = 'Wetsvoorstel' and periodesoort = 'kabinet'").fetchone() == (1, 1)
+
+
+def test_uitslag_van_de_kamer_gaat_voor(conn):
+    # C4 (optie A): de besluitsoort bepaalt aangenomen; de stemmen alleen als die geen uitslag noemt
+    vvd, sp = fractie(conn, "VVD"), fractie(conn, "SP")
+    a = persoon(conn, "Lid A")
+    telfout = stuk(conn, "Motie", "2026-04-01", {sp: ("Voor", 74), vvd: ("Tegen", 76)}, [(a, sp, "Indiener")])
+    gecorrigeerd = stuk(conn, "Motie", "2026-04-02", {sp: ("Voor", 78), vvd: ("Tegen", 72)}, [(a, sp, "Indiener")])
+    zonder = stuk(conn, "Motie", "2026-04-03", {sp: ("Voor", 80), vvd: ("Tegen", 70)}, [(a, sp, "Indiener")])
+    for z, soort in [(telfout, "Stemmen - aangenomen"), (gecorrigeerd, "Stemmen - verworpen"), (zonder, None)]:
+        conn.execute("update core.besluit set besluitsoort = %s where id = (select besluit_id from core.besluit_zaak where zaak_id = %s)", (soort, z))
+    conn.execute("select * from analyses.herbouw_zetelwerk()")
+    uit = dict(conn.execute("select zaak_id::text, aangenomen from analyses.zaak_uitslag").fetchall())
+    assert uit[telfout] is True
+    assert uit[gecorrigeerd] is False
+    assert uit[zonder] is True

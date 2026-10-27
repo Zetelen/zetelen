@@ -84,7 +84,7 @@ export default async function Oppositie() {
           <Link href="/coalitie" className={knopKlasse}>Zelf een meerderheid zoeken</Link>
         </div>
       </section>
-      <Bronregel toelichting="Moties en amendementen waarover gestemd is; uitslag geteld uit de stemmen; kabinet of oppositie op de dag van de stemming, gedoogsteun telt als kabinet." />
+      <Bronregel toelichting="Moties en amendementen waarover gestemd is; de uitslag is die van de Kamer; kabinet of oppositie op de dag van de stemming, gedoogsteun telt als kabinet." />
     </Inhoud>
   );
 }
