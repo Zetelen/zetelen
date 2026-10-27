@@ -20,39 +20,53 @@ export function hoefijzerPast(pf: FractieStem[]): boolean {
   return eerste.kant === laatste.kant && rij.slice(1, -1).some((f) => f.kant !== eerste.kant);
 }
 
-// Weegschaal: voor in de linkerschaal, tegen in de rechter; de balk kantelt naar de zwaarste kant
-export function weegschaal(zs: StemStip[], tint: (p: StemStip) => string): Stap {
+// Weegschaal in twee stappen (feedback Niels K9, 27 oktober 2026: "langzaam vollopen en bewegen", zoals in de video):
+// eerst vallen de stemmen een voor een in de schalen terwijl de balk recht hangt, dan kantelt de balk naar de zwaarste
+// kant. De balk en de schalen houden hun sleutel, zodat ze meedraaien en meeschuiven in plaats van opnieuw te verschijnen.
+export function weegschaal(zs: StemStip[], tint: (p: StemStip) => string): Stap[] {
   const voor = zs.filter((p) => p.stem === "Voor").sort(volgorde), tegen = zs.filter((p) => p.stem === "Tegen").sort(volgorde);
   const niet = zs.filter((p) => p.stem === "Niet deelgenomen").sort(volgorde);
-  const hoek = Math.max(-9, Math.min(9, (tegen.length - voor.length) * 3)) * (Math.PI / 180);
-  const M = { x: 500, y: 150 }, HALF = 300, HANG = 150, BREED = 13, STAP = 17;
-  const eind = (k: -1 | 1) => ({ x: rond(M.x + k * HALF * Math.cos(hoek)), y: rond(M.y + k * HALF * Math.sin(hoek)) });
-  const L = eind(-1), R = eind(1);
-  const stapel = (ps: StemStip[], p: { x: number; y: number }) => ps.map((s, i) => ({
-    key: s.key, x: rond(p.x - ((BREED - 1) * STAP) / 2 + (i % BREED) * STAP), y: rond(p.y + HANG - 8 - Math.floor(i / BREED) * STAP), kleur: null as Kleur, tint: tint(s), r: 7,
-  }));
-  const schaal = (p: { x: number; y: number }): Pad[] => [
-    { d: `M${p.x},${p.y} L${rond(p.x - 120)},${rond(p.y + HANG)} M${p.x},${p.y} L${rond(p.x + 120)},${rond(p.y + HANG)}`, tint: "#566aa6" },
-    { d: `M${rond(p.x - 125)},${rond(p.y + HANG)} Q${p.x},${rond(p.y + HANG + 40)} ${rond(p.x + 125)},${rond(p.y + HANG)}`, tint: "#d08a55", breedte: 3 },
-  ];
-  const paden: Pad[] = [
-    { d: `M${M.x},${M.y} L${M.x - 30},440 L${M.x + 30},440 Z`, tint: "#2a3a63", breedte: 2 },
-    { d: `M${L.x},${L.y} L${R.x},${R.y}`, tint: "#e3b76a", breedte: 6 },
-    ...schaal(L), ...schaal(R),
-  ];
-  const labels: Tekstlabel[] = [
-    { x: L.x, y: rond(L.y + HANG + 70), tekst: "voor", waarde: String(voor.length), anchor: "middle", groot: true },
-    { x: R.x, y: rond(R.y + HANG + 70), tekst: "tegen", waarde: String(tegen.length), anchor: "middle", groot: true },
-    ...(niet.length ? [{ x: M.x, y: 495, tekst: "niet mee", waarde: String(niet.length), anchor: "middle" as const }] : []),
-  ];
-  const stippen = [...stapel(voor, L), ...stapel(tegen, R),
-    ...niet.map((s, i) => ({ key: s.key, x: rond(M.x - ((niet.length - 1) * 16) / 2 + i * 16), y: 470, kleur: "zacht" as Kleur, tint: tint(s), r: 6 }))];
-  const v = Math.abs(voor.length - tegen.length);
-  return {
-    datum: "op de weegschaal",
-    tekst: `${voor.length} tegen ${tegen.length}: de balk zakt naar de kant met ${telwoord(v)} ${v === 1 ? "stem" : "stemmen"} meer.${niet.length ? ` ${Hoofd(telwoord(niet.length))} ${niet.length === 1 ? "Kamerlid deed" : "Kamerleden deden"} niet mee: genoeg om het anders te laten uitvallen.` : ""}`,
-    stippen, labels, paden,
+  const M = { x: 500, y: 150 }, HALF = 300, HANG = 150, BREED = 13, STAP = 17, WACHT = 14;
+  const L0 = { x: M.x - HALF, y: M.y }, R0 = { x: M.x + HALF, y: M.y };
+  const stand = (graden: number, vullen: boolean): Stap => {
+    const hoek = graden * (Math.PI / 180);
+    const eind = (k: -1 | 1) => ({ x: rond(M.x + k * HALF * Math.cos(hoek)), y: rond(M.y + k * HALF * Math.sin(hoek)) });
+    const L = eind(-1), R = eind(1);
+    // Vullen: de onderste rij eerst, elke stip iets later dan de vorige; beide schalen tegelijk
+    const stapel = (ps: StemStip[], p: { x: number; y: number }) => ps.map((s, i) => ({
+      key: s.key, x: rond(p.x - ((BREED - 1) * STAP) / 2 + (i % BREED) * STAP), y: rond(p.y + HANG - 8 - Math.floor(i / BREED) * STAP), kleur: null as Kleur, tint: tint(s), r: 7,
+      ...(vullen ? { wacht: i * WACHT } : {}),
+    }));
+    // De schalen getekend op hun plek bij een rechte balk, en verschoven naar het eind van de balk
+    const schaal = (p0: { x: number; y: number }, p: { x: number; y: number }, kant: string): Pad[] => {
+      const verschuif = `translate(${rond(p.x - p0.x)}px, ${rond(p.y - p0.y)}px)`;
+      return [
+        { naam: `touw-${kant}`, verschuif, d: `M${p0.x},${p0.y} L${p0.x - 120},${p0.y + HANG} M${p0.x},${p0.y} L${p0.x + 120},${p0.y + HANG}`, tint: "#566aa6" },
+        { naam: `schaal-${kant}`, verschuif, d: `M${p0.x - 125},${p0.y + HANG} Q${p0.x},${p0.y + HANG + 40} ${p0.x + 125},${p0.y + HANG}`, tint: "#d08a55", breedte: 3 },
+      ];
+    };
+    const paden: Pad[] = [
+      { naam: "voet", d: `M${M.x},${M.y} L${M.x - 30},440 L${M.x + 30},440 Z`, tint: "#2a3a63", breedte: 2 },
+      { naam: "balk", d: `M${L0.x},${L0.y} L${R0.x},${R0.y}`, tint: "#e3b76a", breedte: 6,
+        verschuif: `translate(${M.x}px, ${M.y}px) rotate(${graden}deg) translate(${-M.x}px, ${-M.y}px)` },
+      ...schaal(L0, L, "voor"), ...schaal(R0, R, "tegen"),
+    ];
+    const labels: Tekstlabel[] = [
+      { x: L.x, y: rond(L.y + HANG + 70), tekst: "voor", waarde: String(voor.length), anchor: "middle", groot: true },
+      { x: R.x, y: rond(R.y + HANG + 70), tekst: "tegen", waarde: String(tegen.length), anchor: "middle", groot: true },
+      ...(niet.length ? [{ x: M.x, y: 495, tekst: "niet mee", waarde: String(niet.length), anchor: "middle" as const }] : []),
+    ];
+    const stippen = [...stapel(voor, L), ...stapel(tegen, R),
+      ...niet.map((s, i) => ({ key: s.key, x: rond(M.x - ((niet.length - 1) * 16) / 2 + i * 16), y: 470, kleur: "zacht" as Kleur, tint: tint(s), r: 6 }))];
+    return { datum: "", tekst: "", stippen, labels, paden };
   };
+  const v = Math.abs(voor.length - tegen.length);
+  const kantel = Math.max(-9, Math.min(9, (tegen.length - voor.length) * 3));
+  return [
+    { ...stand(0, true), datum: "op de weegschaal", tekst: "Elke stip is een Kamerlid. Voor gaat in de linkerschaal, tegen in de rechter." },
+    { ...stand(kantel, false), datum: "de balk zakt",
+      tekst: `${voor.length} tegen ${tegen.length}: de balk zakt naar de kant met ${telwoord(v)} ${v === 1 ? "stem" : "stemmen"} meer.${niet.length ? ` ${Hoofd(telwoord(niet.length))} ${niet.length === 1 ? "Kamerlid deed" : "Kamerleden deden"} niet mee: genoeg om het anders te laten uitvallen.` : ""}` },
+  ];
 }
 
 // Hoefijzer: eerst de 150 stemmen op een rij in de volgorde van de zaal, dan buigt de rij dicht
@@ -67,9 +81,12 @@ export function hoefijzer(zs: StemStip[], st: Stemming, tint: (p: StemStip) => s
     return { x: rond(recht.x + (boog.x - recht.x) * buig), y: rond(recht.y + (boog.y - recht.y) * buig) };
   };
   const stemKleur = (p: StemStip): Kleur => (p.stem === "Voor" ? null : p.stem === "Tegen" ? "uit" : "zacht");
-  const bouw = (buig: number) => rij.map((p, i) => ({ key: p.key, ...plek(i, buig), kleur: stemKleur(p), tint: tint(p), r: 7 }));
   const pf = perFractie(st).filter((f) => f.kant !== "Niet deelgenomen").sort((a, b) => rang(a.fractie) - rang(b.fractie));
   const eerste = pf[0], laatste = pf[pf.length - 1];
+  // Gebogen: de twee uiteinden lichten op (feedback Niels K7, 27 oktober 2026: "niet per se duidelijk dat die uiteinden
+  // hetzelfde hebben gestemd"); de rest houdt de kleur van de stem
+  const uiteinde = (p: StemStip) => p.fractie === eerste.fractie || p.fractie === laatste.fractie;
+  const bouw = (buig: number) => rij.map((p, i) => ({ key: p.key, ...plek(i, buig), kleur: buig && uiteinde(p) ? "nadruk" as Kleur : stemKleur(p), tint: tint(p), r: 7 }));
   const midden = pf.filter((f) => f.kant !== eerste.kant).map((f) => naam(f.fractie));
   const eindLabels = (buig: number): Tekstlabel[] => {
     const a = plek(1, buig), z = plek(rij.length - 2, buig);
@@ -79,11 +96,17 @@ export function hoefijzer(zs: StemStip[], st: Stemming, tint: (p: StemStip) => s
       { x: z.x, y, tekst: naam(laatste.fractie), anchor: buig ? "start" : "end", groot: true, halo: true },
     ];
   };
+  // Een boog onder de opening, van het ene uiteinde naar het andere
+  const verbinding = (): Pad => {
+    const a = plek(1, 1), z = plek(rij.length - 2, 1);
+    return { d: `M${rond(a.x + 14)},${a.y} Q500,${rond(Math.max(a.y, z.y) + 50)} ${rond(z.x - 14)},${z.y}`, tint: "#e3b76a", breedte: 2.5, streep: true };
+  };
   return [
     { datum: "op een rij", tekst: `Dezelfde 150 stemmen op een rij, in de volgorde van de zaal: fracties die vaak hetzelfde stemmen, staan naast elkaar. Voor in volle kleur, tegen gedimd.`,
       stippen: bouw(0), labels: eindLabels(0) },
     { datum: "buig de rij", tekst: `Buig de rij en de uiteinden raken elkaar: ${naam(eerste.fractie)} en ${naam(laatste.fractie)} stemmen allebei ${eerste.kant.toLowerCase()}. Het midden stemt anders: ${lijst(midden.slice(0, 4))}${midden.length > 4 ? " en meer" : ""}.`,
-      stippen: bouw(1), labels: eindLabels(1) },
+      stippen: bouw(1), labels: [...eindLabels(1), { x: 500, y: rond(plek(1, 1).y - 24), tekst: `allebei ${eerste.kant.toLowerCase()}`, anchor: "middle", groot: true, halo: true }],
+      paden: [verbinding()] },
   ];
 }
 

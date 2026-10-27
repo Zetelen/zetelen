@@ -102,7 +102,7 @@ export default async function Onderwerpen({ searchParams }: Props) {
   return (
     <Inhoud>
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", maxWidth: 860 }}>
-        <Label>Onderwerpen · concept</Label>
+        <Label>Onderwerpen</Label>
         <HeroKop>Waar zijn fracties het over eens?</HeroKop>
         <Tekst>
           Fracties die het op het ene onderwerp zelden eens zijn, vinden elkaar op een ander onderwerp soms juist wel. Hier zie je

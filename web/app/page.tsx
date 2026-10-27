@@ -162,7 +162,7 @@ export default async function Voorpagina() {
             ? `Kabinet-${kabinet.naam} heeft ${kabinet.zetels} zetels en heeft er 76 nodig voor een meerderheid. `
             : ""}
           Stel zelf een groep fracties samen en zie bij welke andere fracties die groep in het verleden een meerderheid
-          haalde. De coalitiebouwer is nog een concept.
+          haalde.
         </Tekst>
         <Link href="/coalitie" className={knopKlasse}>Naar de coalitiebouwer</Link>
       </section>

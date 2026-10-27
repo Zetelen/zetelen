@@ -1,5 +1,5 @@
 // Coalitiebouwer (componenten coalitie-analyse en coalitie-pagina). Definitie en opzet goedgekeurd door Niels op
-// 25 oktober 2026; label "concept" tot de lezingen (E2-S10) en de nacontrole van een steekproef er zijn.
+// 25 oktober 2026; label "concept" weg bij de livegang op 27 oktober 2026 (besluit Niels).
 // Standaard alleen verdeelde stemmingen (schakelaar naar alle stemmingen). Deelplaatje per combinatie via
 // /coalitie/plaatje.
 import type { Metadata } from "next";
@@ -45,7 +45,7 @@ export default async function Coalitie({ searchParams }: Props) {
   return (
     <Inhoud>
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
-        <Label>Coalitiebouwer · concept</Label>
+        <Label>Coalitiebouwer</Label>
         <SectieKop niveau={1}>Bij wie haal je een meerderheid?</SectieKop>
         <Tekst>
           Nu zetel jij. Kies fracties in de lijst of in de zaal en stel een kabinet samen, fictief of niet. Je ziet hoeveel zetels het

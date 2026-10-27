@@ -8,7 +8,7 @@ export const SITE = {
   beschrijving: "Wie stemt met wie in de Tweede Kamer? Geteld uit de open data van de Tweede Kamer.",
 };
 
-export const LIVE = false;
+export const LIVE = true; // live sinds 27 oktober 2026 (besluit Niels)
 
 // Conceptvlag voor de pagina Kamerleden (besluit Niels B1, 26 oktober 2026). Uit: de pagina geeft een 404 en alle
 // links ernaartoe en de vermelding in de sitemap verdwijnen. Aan sinds B2 (ranglijst) en B3 (verwijderverzoek)
@@ -30,4 +30,4 @@ export function siteUrl(): URL {
 
 // Publieke pagina's, voor de sitemap. /uitgelicht staat er niet in: die stuurt door naar de nieuwste stemming, en
 // de stemmingen zelf staan in de sitemap (app/sitemap.ts)
-export const PAGINAS = ["/", "/verkenner", "/onderwerpen", "/coalitie", "/oppositie", "/fracties", ...(KAMERLEDEN ? ["/kamerleden"] : []), "/methodiek", "/wijzigingen", "/over"];
+export const PAGINAS = ["/", "/verkenner", "/onderwerpen", "/coalitie", "/oppositie", "/fracties", ...(KAMERLEDEN ? ["/kamerleden"] : []), "/stemgenoten", "/methodiek", "/wijzigingen", "/over"];

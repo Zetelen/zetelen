@@ -153,8 +153,8 @@ export function ScrollVerhaal({ verhaal, label, hoogteSmal = 555, breedteSmal, s
               en flitst niet opnieuw in (feedback Niels K2, 26 oktober 2026) */}
           <g aria-hidden="true">
             {stap.paden?.map((p, i) => (
-              <path key={sleutel(`p${p.d}${p.tint}${p.streep}`, i, stap.paden!.map((q) => `p${q.d}${q.tint}${q.streep}`))} d={p.d} className={s.pad} data-zacht={p.zacht ? "ja" : undefined}
-                style={{ stroke: p.tint, strokeWidth: p.breedte, strokeDasharray: p.streep ? "4 6" : undefined }} />
+              <path key={p.naam ?? sleutel(`p${p.d}${p.tint}${p.streep}`, i, stap.paden!.map((q) => `p${q.d}${q.tint}${q.streep}`))} d={p.d} className={s.pad} data-zacht={p.zacht ? "ja" : undefined}
+                style={{ stroke: p.tint, strokeWidth: p.breedte, strokeDasharray: p.streep ? "4 6" : undefined, transform: p.verschuif }} />
             ))}
           </g>
           {alle.map((k) => {
@@ -162,7 +162,7 @@ export function ScrollVerhaal({ verhaal, label, hoogteSmal = 555, breedteSmal, s
             return (
               <circle key={k} r={p?.r ?? 10.5} className={s.stip} data-kleur={p?.kleur ?? ""} data-weg={p ? "nee" : "ja"}
                 style={{ fill: p?.kleur === "hol" ? "var(--nacht-950)" : p?.tint, stroke: p?.kleur === "hol" ? p.tint : undefined,
-                  transform: p ? `translate(${p.x}px, ${p.y}px)` : `translate(${MIDDEN.x}px, ${MIDDEN.y}px)` }} />
+                  transform: p ? `translate(${p.x}px, ${p.y}px)` : `translate(${MIDDEN.x}px, ${MIDDEN.y}px)`, transitionDelay: p?.wacht ? `${p.wacht}ms` : undefined }} />
             );
           })}
           <g aria-hidden="true">

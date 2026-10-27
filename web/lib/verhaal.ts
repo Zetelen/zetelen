@@ -5,9 +5,11 @@ import { MIDDEN, punt, zetels as zaalZetels } from "./zaal";
 // Nadruk per stip: kabinet (gouden rand), nadruk (lichte rand), uit (gedimd), zacht (sterk gedimd)
 // hol: alleen een rand in de eigen tint (oppositie in Oppositiewerk; feedback Niels K2, 26 oktober 2026)
 export type Kleur = "kabinet" | "nadruk" | "uit" | "zacht" | "hol" | null;
-export type Stip = { key: string; x: number; y: number; kleur: Kleur; tint: string; r?: number }; // r: straal, standaard 10,5
+// r: straal, standaard 10,5. wacht: vertraging in ms voordat de stip gaat schuiven (de weegschaal loopt zo vol)
+export type Stip = { key: string; x: number; y: number; kleur: Kleur; tint: string; r?: number; wacht?: number };
 // Pad: een lijn achter de stippen (assen, sporen in een spreidingsdiagram, verbindingen in een netwerk)
-export type Pad = { d: string; tint?: string; breedte?: number; streep?: boolean; zacht?: boolean };
+// naam: een vaste sleutel, zodat de lijn tussen stappen blijft staan en via verschuif soepel beweegt (CSS-transform)
+export type Pad = { d: string; tint?: string; breedte?: number; streep?: boolean; zacht?: boolean; naam?: string; verschuif?: string };
 // halo: een donkere rand om de letters, zodat het label leesbaar blijft boven lijnen en stippen
 export type Tekstlabel = { x: number; y: number; tekst: string; waarde?: string; anchor?: "start" | "middle" | "end"; tint?: string; fractie?: string; halo?: boolean; zacht?: boolean; groot?: boolean };
 // Kader: een lijn om de stippen van een fractie (alleen in de gegroepeerde blokken)

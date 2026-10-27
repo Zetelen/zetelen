@@ -12,7 +12,7 @@ export default function Privacy() {
   return (
     <Inhoud>
       <section style={sectie}>
-        <Label>Privacy · concept</Label>
+        <Label>Privacy</Label>
         <HeroKop>Welke gegevens verwerkt Zetelen?</HeroKop>
         <Tekst>
           Zetelen heeft geen accounts en plaatst geen cookies. Opvattingen van bezoekers bewaren we niet, behalve wat je

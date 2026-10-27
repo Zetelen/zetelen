@@ -52,7 +52,7 @@ export default async function Oppositie() {
   return (
     <Inhoud>
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", maxWidth: 860 }}>
-        <Label>Oppositiewerk · concept</Label>
+        <Label>Oppositiewerk</Label>
         <SectieKop niveau={1}>Wat kun je als je niet regeert?</SectieKop>
         <Tekst>
           Wat doe je als oppositie? Alleen maar tegen stemmen? Juist niet. Scroll door zestien jaar oppositiewerk, en kijk daarna

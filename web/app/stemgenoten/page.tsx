@@ -1,5 +1,5 @@
-// Stemgenoten (concept, besluit Niels 26 oktober 2026): wie stemde in de Kamer zoals jij? Niet in het menu, niet in de
-// sitemap en niet geïndexeerd tot Niels en twee meelezers met een andere politieke kleur de stellingen hebben gezien.
+// Stemgenoten (concept, besluit Niels 26 oktober 2026): wie stemde in de Kamer zoals jij? Sinds 27 oktober 2026 live,
+// in het menu en de sitemap (besluit Niels); de twee meelezers kijken de stellingen na terwijl de pagina online staat.
 // De selectie komt uit pipeline/stemgenoten_selectie.py, de stellingen uit content/stemgenoten/stellingen.json.
 // Vanaf 27 oktober 2026 alleen stemmingen onder het huidige kabinet, zodat het label kabinet of oppositie klopt.
 import type { Metadata } from "next";
@@ -14,7 +14,7 @@ import { coalitieVan } from "@/lib/cohesie";
 export const metadata: Metadata = {
   title: "Stem jij zoals zij?",
   description: "Wie stemde in de Tweede Kamer zoals jij? Echte stemmingen over wetten en amendementen.",
-  robots: { index: false, follow: false },
+  alternates: { canonical: "/stemgenoten" },
 };
 
 export default async function StemgenotenPagina() {
@@ -35,7 +35,7 @@ export default async function StemgenotenPagina() {
   return (
     <Inhoud>
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", maxWidth: 860 }}>
-        <Label>Stemgenoten · concept</Label>
+        <Label>Stemgenoten</Label>
         <HeroKop>Stem jij zoals zij?</HeroKop>
         <Tekst>
           {stellingen.length} echte stemmingen uit de Tweede Kamer. Kies je kant en zie welke fracties net zo stemden: niet op basis

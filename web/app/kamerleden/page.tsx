@@ -66,7 +66,7 @@ export default async function Kamerleden({ searchParams }: Props) {
   return (
     <Inhoud>
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", maxWidth: 860 }}>
-        <Label>Kamerleden · concept</Label>
+        <Label>Kamerleden</Label>
         <SectieKop niveau={1}>Wat dienen Kamerleden zelf in, en wat haalt het?</SectieKop>
         <Tekst>
           Stemmen is één kant van zetelen. De andere: zelf iets op tafel leggen. Een motie vraagt het kabinet iets te doen, een

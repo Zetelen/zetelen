@@ -8,7 +8,7 @@ export function FeedbackBalk() {
   if (!FEEDBACK) return null;
   return (
     <div className={s.feedbackBalk}>
-      Zetelen is nog een testversie. Wat vind je ervan? <Link href="/feedback">Zeg het in 3 minuten</Link>
+      Zetelen is net online. Wat vind je ervan? <Link href="/feedback">Zeg het in 3 minuten</Link>
     </div>
   );
 }

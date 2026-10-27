@@ -80,6 +80,9 @@ export function reisStap(r: ReisMetTekst, prefix: string): Stap {
     labels.push({ x: rond((a + b) / 2), y: Y + 120, tekst: `${duurTekst(gat)} stil`, anchor: "middle", groot: true, tint: "#d08a55" });
   }
   labels.push({ x: X1, y: 470, tekst: `in totaal ${duurTekst(span)}`, anchor: "end", groot: true });
+  // De naam van de wet als titel boven de tijdas (feedback Niels K9, 27 oktober 2026: "zonder dat er duidelijk bij
+  // staat om welke wet het gaat")
+  labels.push({ x: X0, y: 40, tekst: r.titel, groot: true });
   return { datum: duurTekst(span), hoofdstuk: undefined, tekst: r.tekst, stippen, labels, paden };
 }
 

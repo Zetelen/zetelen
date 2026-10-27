@@ -191,6 +191,7 @@
   stroke-linecap: round;
   stroke-linejoin: round;
   animation: verschijnPad 700ms 300ms both;
+  transition: transform var(--duur-verhaal, 900ms) cubic-bezier(0.6, 0, 0.2, 1);
 }
 .pad[data-zacht="ja"] {
   opacity: 0.4;
@@ -302,9 +303,11 @@
 @media (prefers-reduced-motion: reduce) {
   .pad {
     animation: none;
+    transition: none;
   }
   .stip {
     --duur-verhaal: 0ms;
+    transition-delay: 0ms !important; /* geen vollopende weegschaal */
   }
   .kader {
     animation: none;

@@ -43,7 +43,7 @@ export const CASUSSEN: Casus[] = [
   },
   {
     slug: "behandelvoorbehoud-defensie", titel: "Behandelvoorbehoud bij een Europees defensievoorstel", vraag: "Wil de Kamer meekijken in Brussel?", data: defensie as unknown as CasusData,
-    omschrijving: "De Europese Commissie doet een voorstel over defensie: \"Veiligheidsmaatregelen voor Europa\". De Kamer stemt over een parlementair behandelvoorbehoud. Dan maakt ze afspraken met het kabinet over hoe ze tijdens de onderhandelingen in Brussel op de hoogte blijft.",
+    omschrijving: "De Europese Commissie doet een voorstel over defensie: \"Veiligheidsmaatregelen voor Europa\". De Kamer stemt over een parlementair behandelvoorbehoud. Voor betekent: het kabinet tekent in Brussel een parlementair voorbehoud aan en maakt binnen vier weken afspraken met de Kamer over hoe het haar tijdens de onderhandelingen op de hoogte houdt. Tot die afspraken er zijn, legt het kabinet zich in Brussel niet vast. Tegen betekent: het kabinet onderhandelt zonder dat voorbehoud en informeert de Kamer op de gebruikelijke manier.",
   },
   {
     slug: "gehandicaptenzorg", titel: "Niet bezuinigen op de gehandicaptenzorg", vraag: "Hoe krap kan een meerderheid zijn?", data: gehandicaptenzorg as unknown as CasusData,
@@ -289,8 +289,10 @@ export function casusStappen(c: Casus, smal: boolean): Stap[] {
     const krap = { datum: verschil === 1 ? "één stem" : `${telwoord(verschil)} stemmen`,
       tekst: `${voor} voor en ${tegen} tegen: ${telwoord(verschil)} ${verschil === 1 ? "stem" : "stemmen"} verschil. ${niet ? doenNietMee(niet) : "Iedereen doet mee."}${meerderheid}`,
       uitslag: { voor, tegen, niet } };
-    stappen.push(verschil <= 2 ? { ...weegschaal(zs, t), ...krap }
-      : { ...krap, stippen: metKleur(los.stippen, (p) => (p.stem === "Niet deelgenomen" ? "nadruk" : null)), labels: los.labels });
+    if (verschil <= 2) {
+      const [vol, gekanteld] = weegschaal(zs, t);
+      stappen.push(vol, { ...gekanteld, ...krap });
+    } else stappen.push({ ...krap, stippen: metKleur(los.stippen, (p) => (p.stem === "Niet deelgenomen" ? "nadruk" : null)), labels: los.labels });
   }
   // Een stem die achteraf een vergissing heette
   const fout = vergissingen(b);

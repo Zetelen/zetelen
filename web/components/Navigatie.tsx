@@ -17,6 +17,7 @@ const MENU = [
   { href: "/coalitie", tekst: "Coalitie" },
   { href: "/oppositie", tekst: "Oppositie" },
   { href: "/kamerleden", tekst: "Kamerleden" },
+  { href: "/stemgenoten", tekst: "Stemgenoten" }, // live sinds 27 oktober 2026 (besluit Niels)
   { href: "/fracties", tekst: "Fracties" },
   { href: "/methodiek", tekst: "Methodiek" },
   { href: "/over", tekst: "Over" },

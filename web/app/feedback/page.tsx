@@ -7,7 +7,7 @@ import { HeroKop, Label, Tekst } from "@/components/Typografie";
 
 export const metadata: Metadata = {
   title: "Wat vind je ervan?",
-  description: "Tien korte vragen over Zetelen. Alles is vrijwillig.",
+  description: "Elf korte vragen over Zetelen. Alles is vrijwillig.",
   robots: { index: false, follow: false },
 };
 
@@ -18,7 +18,7 @@ export default function Feedback() {
         <Label>Feedback</Label>
         <HeroKop>Wat vind je ervan?</HeroKop>
         <Tekst>
-          Zetelen is nog een testversie. Tien korte vragen, alles is vrijwillig: sla over wat je niet wilt beantwoorden.
+          Zetelen is net online. Elf korte vragen, alles is vrijwillig: sla over wat je niet wilt beantwoorden.
           Je naam is niet nodig. Hoe we met je antwoorden omgaan, staat bij <Link href="/privacy">privacy</Link>.
         </Tekst>
       </section>
