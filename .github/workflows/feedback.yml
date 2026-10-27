@@ -1,0 +1,48 @@
+# Haalt de feedback op en zet hem versleuteld klaar als artefact (een dag bewaard). De log is publiek, dus
+# de inhoud komt nooit in de log; het artefact is versleuteld met pipeline/feedback-ontvanger.pem en alleen
+# te openen met de geheime sleutel op de Mac van Niels (pipeline/feedback_naar_vault.py).
+# Alleen met de hand: gh workflow run feedback.yml -f vanaf=0
+name: Feedback ophalen
+
+on:
+  workflow_dispatch:
+    inputs:
+      vanaf:
+        description: "Alleen formulieren met een hoger id"
+        type: string
+        default: "0"
+
+permissions:
+  contents: read
+
+jobs:
+  ophalen:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code ophalen
+        uses: actions/checkout@v7
+
+      - name: Python opzetten
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Afhankelijkheden installeren
+        run: pip install -r pipeline/requirements.txt
+
+      - name: Feedback ophalen en versleutelen
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          VANAF: ${{ inputs.vanaf }}
+        run: |
+          [[ "$VANAF" =~ ^[0-9]+$ ]] || { echo "vanaf moet een getal zijn"; exit 1; }
+          python pipeline/feedback_ophalen.py "$VANAF" "$RUNNER_TEMP/feedback.json"
+          openssl smime -encrypt -aes256 -binary -outform DER -in "$RUNNER_TEMP/feedback.json" -out feedback.p7m pipeline/feedback-ontvanger.pem
+          rm "$RUNNER_TEMP/feedback.json"
+
+      - name: Versleuteld bestand klaarzetten
+        uses: actions/upload-artifact@v5
+        with:
+          name: feedback
+          path: feedback.p7m
+          retention-days: 1
