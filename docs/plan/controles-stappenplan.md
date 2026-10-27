@@ -26,7 +26,7 @@ Klaargezet op 26 oktober 2026 voor Niels. Alles wat je nodig hebt staat in dit b
 
 ---
 
-## ☐ C1. Steekproef uitslagen (10 minuten tot een kwartier)
+## ☑ C1. Steekproef uitslagen (10 minuten tot een kwartier)
 
 **Waarom:** dit toont dat de uitslag op de site dezelfde is als die van de Kamer.
 
@@ -60,7 +60,7 @@ Rij 5 heeft een andere datum dan de indiening (8 december): wij tonen de stemdat
 
 ---
 
-## ☐ C2. Nacontrole cohesie: VVD en CDA onder Schoof (een kwartier)
+## ☑ C2. Nacontrole cohesie: VVD en CDA onder Schoof (een kwartier)
 
 **Waarom:** cohesie telt hoe vaak twee fracties hetzelfde stemmen. Als de stem per fractie klopt, klopt de telling.
 
@@ -90,7 +90,7 @@ Ter achtergrond: de berekende cohesie voor dit paar onder Schoof is 79,7% over a
 
 ---
 
-## ☐ C3. Steekproef zetelwerk: kies er 5 (twintig minuten)
+## ☑ C3. Steekproef zetelwerk: kies er 5 (twintig minuten)
 
 **Waarom:** zetelwerk telt per fractie de ingediende moties en amendementen, en hoeveel daarvan het haalden.
 

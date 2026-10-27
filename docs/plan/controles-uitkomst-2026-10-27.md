@@ -43,6 +43,20 @@ Uitslag en zetels kloppen bij rij 1, 2 en 4 tot en met 19.
 
 Rij 3 laat een zwakke plek zien. Zetelwerk neemt de laatste stemming over een stuk. Staan er twee besluiten op dezelfde dag, zoals hier een procedurele stemming en de stemming over het amendement zelf, dan kiest de query op volgorde van het interne nummer van het besluit. Hier ging dat goed, maar dat is toeval. Voorstel: bij gelijke datum het besluit over het stuk zelf voorrang geven boven een procedureel besluit (ontoelaatbaar verklaren, uitstel en dergelijke). Dit wacht op akkoord van Niels.
 
-## Wat Niels nog doet
+## Steekproef
 
-Twee of drie rijen zelf openen, als steekproef op dit werk. Voorstel: C1 rij 6, C2 rij 8 en C3 rij 16. Klopt dat, dan zijn C1 tot en met C3 af.
+Niels opende C1 rij 6, C2 rij 8 en C3 rij 16 en vond geen afwijking. Omdat dat dezelfde bron is, volgde de tweede controle hieronder.
+
+## Tweede controle: tegen de Handelingen, door een aparte agent (27 oktober 2026)
+
+Op voorstel van Niels heeft een aparte agent, zonder de uitkomsten hierboven te kennen, 12 beweringen getoetst aan de Handelingen (het verslag van de vergadering op officielebekendmakingen.nl). Dat is een andere bron dan de website en de API van de Kamer. Gekozen: C1 rij 1 tot en met 10, C3 rij 3 en C2 rij 8.
+
+**Uitkomst: 12 van 12 kloppen in uitslag en fracties per kant.** Ook het amendement uit C3 rij 3 (2011Z14134): aangenomen, en dezelfde dag eerst de verworpen stemming over ontoelaatbaarheid. De koppeling van een gewijzigde motie aan het zaaknummer klopte in alle gevallen.
+
+Een kanttekening, bij C1 rij 8 (amendement 2020Z18763): de voorzitter noemt de voorstemmers en "de leden van de overige fracties ertegen". Letterlijk hoort daar een eenmansfractie bij die volgens de bron niet deelnam. Wij tellen die fractie niet als tegen (51 tegen 98, samen 149), net als de website van de Kamer. De uitslag verandert er niet door. In de tabel van het stappenplan stond bij rij 5 wel "1 fractie niet deelgenomen" en bij rij 8 niet; dat was onvolledig in de tabel, niet in de data.
+
+Wat de agent verder opmerkte, en wat ermee is gedaan:
+- Zetels bij handopsteken tellen de hele fractie, ook als niet alle leden er zijn. Zo telt de Kamer zelf ook; dit staat nu op /methodiek.
+- Zetelaantallen rond afsplitsingen hangen af van de exacte datum; de agent kon die niet in een officiële bron nakijken. De uitslag en de fracties per kant kloppen wel.
+
+**C1 tot en met C3 zijn hiermee af.**

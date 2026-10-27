@@ -88,9 +88,9 @@ Livegang betekent: indexeren aan (`LIVE = true`), het label concept eraf waar da
 
 | Punt | Stand | Wie |
 |---|---|---|
-| Controles C1 tot en met C3 | door Claude vergeleken met tweedekamer.nl (alles klopt); steekproef van drie rijen door jou | jij |
+| Controles C1 tot en met C3 | af: tweedekamer.nl en Handelingen (aparte agent), alles klopt | klaar |
 | Controle C5 | nagelopen; besluiten verwerkt in migratie 025 | klaar |
-| Bevinding uit C3: twee besluiten op dezelfde dag (procedureel en inhoudelijk) | voorstel in controles-uitkomst-2026-10-27.md | jij, daarna ik |
+| Bevinding uit C3: twee besluiten op dezelfde dag | opgelost in migratie 024 | klaar |
 | Afwijkende uitslagen (C4) | A gekozen, migratie 023 klaar; Migreer en Ververs na akkoord | ik |
 | Test bewaking (C6) | klaargezet | jij, morgen |
 | Label concept per pagina | wacht op K1, K2, K3, K5 | jij, daarna ik |
