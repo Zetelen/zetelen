@@ -51,6 +51,7 @@ PROEVEN = [
     ("Stemmingen per dossier lezen uit api", "GET", "stemming_dossier?select=dossier&limit=1", "api", None, True),
     ("Zetelwerk per fractie lezen uit api", "GET", "zetelwerk_fractie?select=afkorting&limit=1", "api", None, True),
     ("Zetelwerk per Kamerlid lezen uit api", "GET", "zetelwerk_persoon?select=naam&limit=1", "api", None, True),
+    ("Cohesie per half jaar lezen uit api", "GET", "cohesie_halfjaar?select=halfjaar&limit=1", "api", None, True),
     ("Stemmatrix lezen uit api", "GET", "stemmatrix?select=periode&limit=1", "api", None, True),
     ("Tussenstap analyses lezen", "GET", "fractie_besluit_stem?limit=1", "analyses", None, False),
     ("Kabinet toevoegen", "POST", "kabinet", "api", {"naam": "x", "begin": "2030-01-01"}, False),

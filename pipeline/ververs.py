@@ -16,7 +16,7 @@ De log bevat alleen aantallen en duur.
 
 Daarna de Kamerstukdossiers en de koppeling zaak en dossier (pipeline/dossiers.py, component onderwerpen).
 Na de raw-laag worden de core-laag (core.herbouw() en core.herbouw_dossiers()) en de
-analyse-laag (analyses.herbouw() en analyses.herbouw_terrein()) opnieuw opgebouwd,
+analyse-laag (analyses.herbouw(), herbouw_terrein() en herbouw_halfjaar()) opnieuw opgebouwd,
 zodat de analyses altijd op de verse data draaien. Daarna volgen de
 datakwaliteitscontroles (component datakwaliteit); een harde fout laat de run falen.
 
@@ -178,6 +178,7 @@ def ververs_alles(conn, meta, haal=http_json, base=BASE, pauze=PAUZE, terug_tot=
         herbouw(conn, "core", "herbouw_dossiers")
         herbouw(conn, "analyses")
         herbouw(conn, "analyses", "herbouw_terrein")
+        herbouw(conn, "analyses", "herbouw_halfjaar")
         herbouw(conn, "analyses", "herbouw_zetelwerk")
         herbouw_stemmatrix(conn)
         controleer_datakwaliteit(conn)
