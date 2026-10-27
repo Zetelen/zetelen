@@ -16,6 +16,8 @@ import s from "@/components/cohesie/verkenner.module.css";
 import { Inklapbaar } from "@/components/Inklapbaar";
 import { SamenRegeren } from "@/components/lezingen/SamenRegeren";
 import { MobielPaneel } from "@/components/MobielPaneel";
+import { Trend } from "@/components/cohesie/Trend";
+import { cohesiePerHalfjaar, halveJaren, punten } from "@/lib/trend";
 import o from "@/components/onderwerpen/onderwerpen.module.css";
 
 export const metadata: Metadata = {
@@ -35,6 +37,14 @@ export default async function VerkennerPagina({ searchParams }: Props) {
     ? await Promise.all([fractiesIn(soort, periode.naam), cohesieIn(soort, periode.naam, variant)])
     : [null, null];
   const soortTekst = soort === "kabinet" ? "dit kabinet" : "deze Kamerperiode";
+  // Door de jaren (verzoek Niels, 27 oktober 2026): de gekozen fractie (zoals de verkenner: standaard de grootste) met
+  // een tweede fractie uit deze periode, per half jaar sinds 2010
+  const metZetels = [...(fracties ?? [])].filter((f) => f.zetels > 0).sort((x, y) => y.zetels - x.zetels || x.afkorting.localeCompare(y.afkorting));
+  const trendA = metZetels.find((f) => f.afkorting === fractieKeuze) ?? metZetels[0];
+  const keuzes = metZetels.filter((f) => f.id !== trendA?.id);
+  const metKeuze = (Array.isArray(zoek.met) ? zoek.met[0] : zoek.met) as string | undefined;
+  const trendB = keuzes.find((f) => f.afkorting === metKeuze) ?? keuzes[0];
+  const trendRijen = trendA && trendB ? await cohesiePerHalfjaar(trendA.id, trendB.id, variant) : null;
 
   return (
     <Inhoud>
@@ -89,6 +99,18 @@ export default async function VerkennerPagina({ searchParams }: Props) {
           )}
         </div>
       </div>
+      {trendA && trendB && trendRijen && (
+        <section id="door-de-jaren" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
+          <Label>Door de jaren</Label>
+          <SectieKop>Hoe vaak stemden {trendA.afkorting} en {trendB.afkorting} hetzelfde, sinds 2010?</SectieKop>
+          <Suspense>
+            <Trend a={trendA.afkorting} b={trendB.afkorting} keuzes={keuzes.map((f) => f.afkorting)}
+              punten={punten(trendRijen, halveJaren(new Date()))}
+              kabinetten={lijst.filter((p) => p.soort === "kabinet").sort((x, y) => x.begin.localeCompare(y.begin))} />
+          </Suspense>
+          <Bronregel toelichting={`Per half jaar · ${variant === "alle" ? "alle stemmingen" : "alleen verdeelde stemmingen"}`} />
+        </section>
+      )}
       {/* Lezing 3 (B4): bij een fractie die in het kabinet zit, de lijn met elke kabinetspartner door de kabinetten */}
       {soort === "kabinet" && periode && fractieKeuze && (
         <SamenRegeren fractie={fractieKeuze} kabinet={periode.naam}

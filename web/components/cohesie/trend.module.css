@@ -1,0 +1,135 @@
+/* Door de jaren: trendlijn van de cohesie tussen twee fracties, per half jaar (verzoek Niels, 27 oktober 2026) */
+.trend {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-4);
+}
+.keuze {
+  display: flex;
+  align-items: center;
+  gap: var(--r-3);
+  flex-wrap: wrap;
+  font-size: 15px;
+  color: var(--tekst-zacht);
+}
+.keuze select {
+  min-height: var(--doel-min);
+  padding: 0 var(--r-3);
+  border: 1px solid var(--lijn-licht);
+  border-radius: var(--hoek-klein);
+  background: var(--nacht-900);
+  color: var(--tekst);
+  font: inherit;
+}
+.totaal {
+  margin: 0;
+  max-width: 62ch;
+  font-size: clamp(18px, 1.6vw, 22px);
+  line-height: 1.4;
+  color: var(--tekst);
+}
+.totaal strong {
+  color: var(--goud);
+  font-weight: 600;
+}
+.grafiek {
+  width: 100%;
+  max-width: 900px;
+  height: auto;
+  overflow: visible;
+}
+.vlakA {
+  fill: var(--nacht-900);
+}
+.vlakB {
+  fill: var(--nacht-800);
+}
+.kabinet {
+  font-family: var(--mono);
+  font-size: 11px;
+  fill: var(--tekst-zacht);
+}
+.raster {
+  stroke: var(--lijn);
+  stroke-width: 1;
+}
+.as {
+  font-family: var(--mono);
+  font-size: 12px;
+  fill: var(--tekst-zacht);
+}
+.lijn {
+  fill: none;
+  stroke: var(--goud);
+  stroke-width: 2.5;
+}
+.punt {
+  fill: var(--goud);
+}
+.puntUit {
+  fill: var(--tekst-zacht);
+}
+.buiten {
+  fill: var(--nacht-950);
+  opacity: 0.65;
+}
+.schuif {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: var(--r-3) var(--r-5);
+  max-width: 900px;
+}
+.schuif legend {
+  margin-bottom: var(--r-2);
+  font-size: var(--tekst-label);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--koper);
+}
+.schuif label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 15px;
+  color: var(--tekst-zacht);
+}
+.schuif strong {
+  color: var(--tekst);
+  font-weight: 500;
+}
+.schuif input[type="range"] {
+  width: 100%;
+  min-height: var(--doel-min);
+  accent-color: var(--koper);
+}
+.snel {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--r-2);
+}
+.snel button {
+  min-height: var(--doel-min);
+  padding: 0 var(--r-4);
+  border: 1px solid var(--lijn-licht);
+  border-radius: var(--hoek-pil);
+  background: transparent;
+  color: var(--tekst);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+.snel button:hover {
+  border-color: var(--koper);
+}
+.uitleg {
+  margin: 0;
+  max-width: 70ch;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--tekst-zacht);
+}
