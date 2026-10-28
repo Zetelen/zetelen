@@ -10,7 +10,11 @@ import { K, LETTER } from "./stijl";
 export const ZWAAR = loadFont("normal", { weights: ["800"], subsets: ["latin"] }).fontFamily;
 
 export type GeluidNaam = "tik" | "swoosh" | "dreun" | "toon" | "stijg" | "daal" | "plof";
+// Geluidseffecten staan uit (besluit Niels, 28 oktober 2026); de aanroepen blijven staan, zodat ze met één regel terug
+// kunnen. Muziek komt er straks apart onder.
+export const MET_GELUID = false;
 export function Geluid({ bij, naam, volume = 1 }: { bij: number; naam: GeluidNaam; volume?: number }) {
+  if (!MET_GELUID) return null;
   return (
     <Sequence from={Math.max(0, Math.round(bij))} durationInFrames={60} layout="none">
       <Audio src={staticFile(`geluid/${naam}.wav`)} volume={volume} />
