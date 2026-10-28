@@ -29,6 +29,12 @@ Fase 4: koppelen en bouwen (stap 9). Backend van R1 gebouwd en getest, plus `ont
 - Component `site-shell` (24 oktober 2026): navigatie, voet, voorpagina, Over, lege staat en foutstaat, sitemap, robots, deelafbeelding, buildcontrole. Online op Vercel. Getest: 28 tests en online gecontroleerd
 
 - Overzicht en duiding (27 oktober 2026, K11, naar aanleiding van de eerste feedback): het menu in drie groepen met een regel uitleg per onderdeel (`web/lib/menu.ts`), Uitgelicht in het menu, Methodiek en Over in de voet; bovenaan elke pagina het blok "Wat je ziet" en "Wat opvalt" (`Kern` in `web/components/Onderdelen.tsx`, zinnen uit de data in `web/lib/kern.ts`); op de voorpagina staat "Kijk zelf" direct na de opening. Getest: 159 vitest-tests, CI-build en buildcontrole, bekeken op telefoon en groot scherm
+- Cohesie door de jaren (27 en 28 oktober 2026): migratie 026 (`analyses.cohesie_halfjaar`, tellingen per half jaar, herbouwd in de verversing), in de verkenner het blok "Door de jaren" met schuiven voor de periode (`web/components/cohesie/Trend.tsx`, `web/lib/trend.ts`); naamswijziging als één lijn, fusie als dunne lijnen (`web/content/fractie-opvolgers.json`). Getest: pipeline-test in CI, vitest, en een aparte controle (som per half jaar gelijk aan som per kabinet; één half jaar exact nageteld tegen de bron)
+- Zaal van een kabinet tot de verkiezingen (28 oktober 2026, migratie 027): loopt een kabinet demissionair door, dan is de zaal de Kamer van voor de verkiezingen (NSC bij Schoof). Getest: pipeline-test in CI, zaal per kabinet nagekeken na de verversing
+- Voorpagina (28 oktober 2026): kop zegt wat de site is, de trechter daarna onder "Wat opvalt" met de twee lezingen ernaast
+- Stemgenoten (28 oktober 2026): na de uitslag "Nog 15 stellingen" (`pipeline/stemgenoten_selectie.py --extra`), alle stellingen nagekeken door een aparte controle; een test blokkeert stellingen die niet zijn nagekeken
+- Uitgelicht "Hoe vaak stemmen VVD en PRO hetzelfde?" (28 oktober 2026, `web/app/uitgelicht/vvd-en-pro`, `web/lib/vvdPro.ts`) en de video `VvdEnPro` (`video/src/videos/VvdEnPro.tsx`). Getest: aparte controle van getallen, feiten en neutraliteit; bekeken op telefoon en groot scherm
+- Verder (28 oktober 2026): scroll graphics op de telefoon zonder overlap, weergavekeuze bij de ranglijst van Kamerleden, schaaluitleg in het feedbackformulier, lezing Inflatie bij Oppositie uitgebreid, `pipeline/feedback_dagelijks.sh` (launchd zet Niels zelf aan)
 
 ## Openstaand
 
