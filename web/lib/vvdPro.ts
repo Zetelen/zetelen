@@ -5,9 +5,11 @@
 import opvolgers from "@/content/fractie-opvolgers.json";
 import { leesApi } from "./api";
 import type { TerreinPaar } from "./onderwerpen";
-import { type Opvolger, lijnVan } from "./trend";
+import { DREMPEL, type Opvolger, lijnVan } from "./trend";
 
 export const KABINETTEN = ["Balkenende IV", "Rutte I", "Rutte II", "Rutte III", "Rutte IV", "Schoof", "Jetten"];
+// Het kabinet van de ranglijst op de pagina en in het deelplaatje
+export const KABINET_NU = "Jetten";
 
 export type PeriodeRij = { periode: string; andere_fractie: string; andere_fractie_afkorting: string; gezamenlijk: number; gelijk: number };
 export type Coalitie = { kabinet: string; afkorting: string; rol: string; tot: string | null };
@@ -63,4 +65,33 @@ export async function laadVvdPro() {
     `cohesie?select=periode,cohesie&periodesoort=eq.kabinet&variant=eq.alle&fractie=eq.${gl}&andere_fractie=eq.${pvda}`) : null;
   if (!rijen || !coalitie || !terrein) return null;
   return { vvd, lijnPro, idVan, fracties: fr, rijen, coalitie, terrein, onderling: onderling ?? [] };
+}
+
+// De VVD met elke fractie per half jaar (api.cohesie_halfjaar)
+export type HalfjaarRij = { halfjaar: string; andere_fractie: string; andere_fractie_afkorting: string; gezamenlijk: number; gelijk: number };
+export async function halfjarenVvd(vvd: string): Promise<HalfjaarRij[]> {
+  return (await leesApi<HalfjaarRij[]>(
+    `cohesie_halfjaar?select=halfjaar,andere_fractie,andere_fractie_afkorting,gezamenlijk,gelijk&variant=eq.alle&fractie=eq.${vvd}&limit=5000`)) ?? [];
+}
+
+// Streepje in de ranglijst: de VVD met elke fractie van 2010 tot en met 2023, opgeteld over alle halve jaren (vanaf 25
+// stemmingen samen). Op afkorting, dus ook PvdA, GroenLinks en PVV. Gedeeld door de pagina en het deelplaatje
+export function gemiddeldTot2024(rijen: HalfjaarRij[]): Record<string, number | null> {
+  const opgeteld = new Map<string, { gezamenlijk: number; gelijk: number }>();
+  for (const x of rijen.filter((x) => x.halfjaar.slice(0, 10) < "2024-01-01")) {
+    const t = opgeteld.get(x.andere_fractie_afkorting) ?? { gezamenlijk: 0, gelijk: 0 };
+    opgeteld.set(x.andere_fractie_afkorting, { gezamenlijk: t.gezamenlijk + x.gezamenlijk, gelijk: t.gelijk + x.gelijk });
+  }
+  return Object.fromEntries([...opgeteld].map(([k, t]) => [k, t.gezamenlijk >= DREMPEL ? (100 * t.gelijk) / t.gezamenlijk : null]));
+}
+
+// Zetels per fractie in een kabinet, met PRO als één lijn
+export function zetelsIn(fracties: Array<{ fractie: string; afkorting: string; periode: string; zetels: number; in_zaal: boolean }>,
+  kabinet: string, lijnNaam: Map<string, string>): Map<string, number> {
+  const m = new Map<string, number>();
+  for (const f of fracties.filter((x) => x.periode === kabinet && x.in_zaal)) {
+    const n = lijnNaam.get(f.fractie) ?? f.afkorting;
+    m.set(n, Math.max(m.get(n) ?? 0, f.zetels));
+  }
+  return m;
 }

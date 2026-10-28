@@ -6,15 +6,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Inhoud, LegeStaat } from "@/components/Kader";
+import { DeelKnop } from "@/components/deel/DeelKnop";
 import { HoofdstukKop, Kern } from "@/components/Onderdelen";
 import { Data, HeroKop, Label, Tekst } from "@/components/Typografie";
 import { CasusKiezer } from "@/components/verhaal/CasusKiezer";
 import { ScrollVerhaal } from "@/components/verhaal/ScrollVerhaal";
-import { leesApi } from "@/lib/api";
 import { perioden } from "@/lib/cohesie";
-import { DREMPEL, cohesiePerHalfjaar, halveJaren, punten } from "@/lib/trend";
+import { cohesiePerHalfjaar, halveJaren, punten } from "@/lib/trend";
 import { KIEZER } from "@/lib/uitgelichtLijst";
-import { cohesieVan, laadVvdPro, perTerrein, rangorde } from "@/lib/vvdPro";
+import { KABINET_NU, cohesieVan, gemiddeldTot2024, halfjarenVvd, laadVvdPro, perTerrein, rangorde, zetelsIn } from "@/lib/vvdPro";
 import { vvdProVerhaal } from "@/lib/vvdProVerhaal";
 import s from "@/components/verhaal/uitgelicht.module.css";
 
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 };
 
 const pct = (c: number | null | undefined) => (c == null ? "" : `${Math.round(c)}%`);
-const KABINET = "Jetten";
+const KABINET = KABINET_NU;
 
 export default async function VvdEnPro() {
   const d = await laadVvdPro();
@@ -44,8 +44,7 @@ export default async function VvdEnPro() {
   // Referentie: de VVD met elke andere fractie per half jaar (zonder de lijn van PRO, PvdA, GroenLinks en PVV, die in
   // kleur staan); alleen fracties met minstens vier halve jaren met een percentage, anders zijn het losse streepjes
   const uitgezonderd = new Set([...lijnPro.ids, pvda, gl, pvv]);
-  const alleRijen = (await leesApi<Array<{ halfjaar: string; andere_fractie: string; andere_fractie_afkorting: string; gezamenlijk: number; gelijk: number }>>(
-    `cohesie_halfjaar?select=halfjaar,andere_fractie,andere_fractie_afkorting,gezamenlijk,gelijk&variant=eq.alle&fractie=eq.${vvd}&limit=5000`)) ?? [];
+  const alleRijen = await halfjarenVvd(vvd);
   const perFractie = new Map<string, Array<{ halfjaar: string; gezamenlijk: number; gelijk: number }>>();
   for (const x of alleRijen.filter((x) => !uitgezonderd.has(x.andere_fractie))) {
     const l = perFractie.get(x.andere_fractie_afkorting) ?? [];
@@ -54,25 +53,12 @@ export default async function VvdEnPro() {
   }
   const anderen = [...perFractie].map(([naam, l]) => ({ naam, punten: punten(l, jaren) }))
     .filter((a) => a.punten.filter((p) => p.cohesie != null).length >= 4);
-  // Streepje in de ranglijst: de VVD met elke fractie van 2010 tot en met 2023, opgeteld over alle halve jaren (vanaf 25
-  // stemmingen samen). Op afkorting, dus ook PvdA, GroenLinks en PVV
-  const opgeteld = new Map<string, { gezamenlijk: number; gelijk: number }>();
-  for (const x of alleRijen.filter((x) => x.halfjaar.slice(0, 10) < "2024-01-01")) {
-    const t = opgeteld.get(x.andere_fractie_afkorting) ?? { gezamenlijk: 0, gelijk: 0 };
-    opgeteld.set(x.andere_fractie_afkorting, { gezamenlijk: t.gezamenlijk + x.gezamenlijk, gelijk: t.gelijk + x.gelijk });
-  }
-  const gemiddeld = Object.fromEntries([...opgeteld].map(([k, t]) => [k, t.gezamenlijk >= DREMPEL ? (100 * t.gelijk) / t.gezamenlijk : null]));
+  // Streepje in de ranglijst: het gemiddelde van 2010 tot en met 2023 (lib/vvdPro.ts)
+  const gemiddeld = gemiddeldTot2024(alleRijen);
 
   // Rangorde onder het huidige en het vorige kabinet, met PRO als één lijn
   const lijnNaam = new Map(lijnPro.ids.map((i) => [i, "PRO"]));
-  const zetels = (k: string) => {
-    const m = new Map<string, number>();
-    for (const f of fracties.filter((x) => x.periode === k && x.in_zaal)) {
-      const n = lijnNaam.get(f.fractie) ?? f.afkorting;
-      m.set(n, Math.max(m.get(n) ?? 0, f.zetels));
-    }
-    return m;
-  };
+  const zetels = (k: string) => zetelsIn(fracties, k, lijnNaam);
   const nu = rangorde(rijen, KABINET, zetels(KABINET), lijnNaam);
   const toen = rangorde(rijen, "Schoof", zetels("Schoof"), lijnNaam);
   const plek = (l: typeof nu) => l.findIndex((x) => x.naam === "PRO") + 1;
@@ -109,8 +95,9 @@ export default async function VvdEnPro() {
       </section>
 
       {stappen && (
-        <section className={s.graphic}>
+        <section id="ranglijst" className={s.graphic}>
           <HoofdstukKop titel="VVD en PRO, van 2010 tot nu" />
+          <DeelKnop grafiek="vvd-en-pro" />
           <ScrollVerhaal verhaal={{ breed: stappen, smal: stappenSmal }} label="Hoe vaak de VVD hetzelfde stemde als PRO, en daarvoor GroenLinks en PvdA" stapHoogte="60vh" tijdlijn />
           <Data>
             Bron: open data van de Tweede Kamer, eigen berekening (<Link href="/methodiek">methodiek</Link>). Hetzelfde stemmen: van de

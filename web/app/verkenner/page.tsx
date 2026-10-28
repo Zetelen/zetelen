@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 import { Bronregel } from "@/components/cohesie/Bronregel";
+import { DeelKnop } from "@/components/deel/DeelKnop";
 import { Inhoud, LegeStaat } from "@/components/Kader";
 import { PeriodeKeuze } from "@/components/cohesie/PeriodeKeuze";
 import { Verkenner } from "@/components/cohesie/Verkenner";
@@ -79,7 +80,7 @@ export default async function VerkennerPagina({ searchParams }: Props) {
             <Link href="/methodiek#cohesie">Benieuwd hoe we tellen?</Link>
           </Tekst>
         </Inklapbaar>
-      <div className={s.indeling}>
+      <div id="zaal" className={s.indeling} style={{ scrollMarginTop: 80 }}>
         <div style={{ minWidth: 0 }}>
           {!lijst.length ? (
             <LegeStaat label="Niet bereikbaar" titel="De cijfers konden niet worden geladen"
@@ -94,7 +95,10 @@ export default async function VerkennerPagina({ searchParams }: Props) {
             </Suspense>
           )}
           {periode && fracties?.length && kaart && (
-            <Bronregel toelichting={`${periode.naam} · ${variant === "alle" ? "alle stemmingen" : "alleen verdeelde stemmingen"}`} />
+            <>
+              <Bronregel toelichting={`${periode.naam} · ${variant === "alle" ? "alle stemmingen" : "alleen verdeelde stemmingen"}`} />
+              <DeelKnop grafiek="verkenner" />
+            </>
           )}
         </div>
       </div>

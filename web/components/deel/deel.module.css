@@ -1,0 +1,44 @@
+/* Knop "Deel" bij een grafiek: klein en rustig, rechts boven of onder de grafiek */
+.deel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--r-3);
+  flex-wrap: wrap;
+}
+.knop {
+  min-height: var(--doel-min);
+  padding: 0 var(--r-4);
+  border-radius: var(--hoek-pil);
+  border: 1px solid var(--lijn);
+  background: transparent;
+  color: var(--tekst);
+  font: inherit;
+  font-size: 15px;
+  cursor: pointer;
+}
+.knop:hover {
+  border-color: var(--koper);
+}
+.knop:focus-visible {
+  outline: 2px solid var(--koper);
+  outline-offset: 2px;
+}
+.melding {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--tekst-zacht);
+  word-break: break-all;
+}
+/* De tussenpagina van een deellink */
+.tussen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-5);
+  max-width: 760px;
+}
+.tussen img {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--lijn);
+  border-radius: var(--hoek-paneel);
+}

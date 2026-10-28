@@ -21,6 +21,7 @@ import { cohesiePerTerrein, paarPerTerrein, uitersten } from "@/lib/onderwerpen"
 import type { Stap } from "@/lib/verhaal";
 import { bredeSteunPerKabinet, kabinetNu, kabinetspartners, laadVerhaal, samenwerking, zaalVerhaal } from "@/lib/voorpagina";
 import { BredeSteun } from "@/components/BredeSteun";
+import { DeelKnop } from "@/components/deel/DeelKnop";
 import { jaarWerk, periodeWerk } from "@/lib/zetelwerk";
 import s from "./voorpagina.module.css";
 import uitgelicht from "@/components/verhaal/uitgelicht.module.css";
@@ -116,14 +117,15 @@ export default async function Voorpagina() {
           rechts={{ titel: "Of: eens zijn over een motie zegt weinig", tekst: "Over een verzoek om een onderzoek of een brief is de Kamer het snel eens. Waar het om geld en koers gaat, bij de begroting en de grote wetten, staan kabinet en oppositie nog steeds vaak tegenover elkaar." }}
         />
         {perPeriode && perPeriode.length > 0 && (
-          <>
+          <div id="brede-steun" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
             <Label>Aangenomen met stemmen van kabinet én oppositie, per kabinet</Label>
             <BredeSteun rijen={bredeSteunPerKabinet(perPeriode)} />
             <Data>
               Deel van alle ingediende moties en amendementen per kabinet dat werd aangenomen met stemmen voor van ten minste één
               fractie uit het kabinet en één uit de oppositie, naast de indieners. Gedoogsteun telt als kabinet.
             </Data>
-          </>
+            <DeelKnop grafiek="brede-steun" />
+          </div>
         )}
         <Tekst>
           Op sommige onderwerpen, zoals asiel, gaan fracties juist verder uit elkaar dan gemiddeld. Zoek zelf waar ze elkaar vinden,
