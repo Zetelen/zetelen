@@ -4,13 +4,14 @@
 // Sinds 26 oktober 2026 (B14 en K3): de opening vraagt waar fracties elkaar vinden, met twee lezingen en een
 // uitnodiging; dan "Maar eerst: hoe zijn we hier gekomen?". Hoofdstukken met een kop over de volle breedte.
 // Sinds 27 oktober 2026 (K11): het overzicht "Kijk zelf" staat direct na de opening, voor het verhaal.
+// Sinds 28 oktober 2026: de kop zegt wat de site is; de cijfers volgen daarna, direct met de twee lezingen.
 import type { Metadata } from "next";
 import { KAMERLEDEN, SITE } from "@/lib/site";
 import Link from "next/link";
 import { Inhoud, knopKlasse } from "@/components/Kader";
 import { Bronregel } from "@/components/cohesie/Bronregel";
-import { HoofdstukKop } from "@/components/Onderdelen";
-import { Data, HeroKop, Label, Tekst } from "@/components/Typografie";
+import { HoofdstukKop, Lezingen } from "@/components/Onderdelen";
+import { Data, HeroKop, Label, SectieKop, Tekst } from "@/components/Typografie";
 import { TerreinBalken } from "@/components/onderwerpen/TerreinBalken";
 import { ScrollVerhaal } from "@/components/verhaal/ScrollVerhaal";
 import { procent } from "@/lib/cohesie";
@@ -64,14 +65,26 @@ export default async function Voorpagina() {
         <img src="/binnenhof.svg" alt="" aria-hidden="true" className={s.heroBeeld} />
         <div className={s.heroVlak}>
         <Label><em>zetelen</em> (ww.) · stemmen, onderhandelen en meetellen in de Tweede Kamer</Label>
-        <HeroKop>Hoe verdeeld is de Kamer echt?</HeroKop>
+        {/* Een kop die zegt wat de site is, in plaats van een vraag met een strekking (feedback van bezoekers, besluit Niels
+            28 oktober 2026). De cijfers staan daaronder, direct met de twee lezingen. */}
+        <HeroKop>Wie stemt met wie in de Tweede Kamer?</HeroKop>
         <Tekst>
-          <strong>Ruzie, ophef, de waan van de dag.</strong> Wie het nieuws volgt, ziet een verdeelde Kamer en een politiek die op
-          slot zit. Maar wat zie je als je de stemmingen telt?
+          Alle stemmingen sinds 2010, per fractie, per onderwerp en per kabinet. Zoek zelf, of lees eerst wat opvalt.
         </Tekst>
+        <nav className={s.cta} aria-label="Zoek zelf">
+          <Link href="/verkenner" className={s.ctaHoofd}>Wie stemt met wie?</Link>
+          <Link href="/onderwerpen" className={knopKlasse}>Waar zijn ze het over eens?</Link>
+          <Link href="/coalitie" className={knopKlasse}>Stel zelf een coalitie samen</Link>
+        </nav>
+        </div>
+      </section>
+
+      <section className={s.opening}>
+        <Label>Wat opvalt</Label>
+        <SectieKop>Hoe vaak stemmen kabinet en oppositie samen?</SectieKop>
         {samen && kabinet && (
           <>
-            {/* De getallen als trechter in de tekst (feedback Niels K3, 27 oktober 2026); de zin blijft voor schermlezers */}
+            {/* De getallen als trechter (feedback Niels K3, 27 oktober 2026); de zin blijft voor schermlezers */}
             <p className="verborgen">
               Onder kabinet-{kabinet.naam} nam de Kamer {getal(samen.aangenomen)} van de {getal(samen.moties)} moties aan. Bij{" "}
               {getal(samen.breed)} daarvan stemde ten minste één fractie uit het kabinet én één uit de oppositie voor.
@@ -94,19 +107,14 @@ export default async function Voorpagina() {
             </Tekst>
           </>
         )}
-        <nav className={s.cta} aria-label="Zoek zelf">
-          <Link href="/verkenner" className={s.ctaHoofd}>Wie stemt met wie?</Link>
-          <Link href="/onderwerpen" className={knopKlasse}>Waar zijn ze het over eens?</Link>
-          <Link href="/coalitie" className={knopKlasse}>Stel zelf een coalitie samen</Link>
-        </nav>
-        </div>
-      </section>
-
-      <section className={s.opening}>
-        {/* Eén grafiek die de toon zet: samenwerken over de grens, per kabinet (feedback Niels K3, 26 oktober 2026) */}
+        {/* De twee lezingen direct bij de cijfers, naast elkaar (tekst akkoord Niels, 26 oktober 2026) */}
+        <Lezingen
+          links={{ titel: "Er wordt meer samengewerkt dan het lijkt", tekst: "Achter de ruzie in het debat stemmen kabinet en oppositie vaak samen, en dat is sinds 2010 flink toegenomen." }}
+          rechts={{ titel: "Of: eens zijn over een motie zegt weinig", tekst: "Over een verzoek om een onderzoek of een brief is de Kamer het snel eens. Waar het om geld en koers gaat, bij de begroting en de grote wetten, staan kabinet en oppositie nog steeds vaak tegenover elkaar." }}
+        />
         {perPeriode && perPeriode.length > 0 && (
           <>
-            <Label>Aangenomen met stemmen van kabinet én oppositie</Label>
+            <Label>Aangenomen met stemmen van kabinet én oppositie, per kabinet</Label>
             <BredeSteun rijen={bredeSteunPerKabinet(perPeriode)} />
             <Data>
               Deel van alle ingediende moties en amendementen per kabinet dat werd aangenomen met stemmen voor van ten minste één
@@ -114,17 +122,6 @@ export default async function Voorpagina() {
             </Data>
           </>
         )}
-        {/* De twee lezingen onder elkaar, elk met een vette openingszin (tekst akkoord Niels, 26 oktober 2026) */}
-        <Tekst>Je kunt dat op twee manieren lezen.</Tekst>
-        <Tekst>
-          <strong>Er wordt meer samengewerkt dan het lijkt.</strong> Achter de ruzie in het debat stemmen kabinet en oppositie
-          vaak samen, en dat is sinds 2010 flink toegenomen.
-        </Tekst>
-        <Tekst>
-          <strong>Of: eens zijn over een motie zegt weinig.</strong> Over een verzoek om een onderzoek of een brief is de Kamer
-          het snel eens. Waar het om geld en koers gaat, bij de begroting en de grote wetten, staan kabinet en oppositie nog
-          steeds vaak tegenover elkaar.
-        </Tekst>
         <Tekst>
           Op sommige onderwerpen, zoals asiel, gaan fracties juist verder uit elkaar dan gemiddeld. Zoek zelf waar ze elkaar vinden,
           en waar niet.
