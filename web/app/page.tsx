@@ -2,7 +2,7 @@
 // bij de plek op de site waar je verder kunt kijken (besluit Niels). Hoofdstuk 3 (onderwerpen) laat de twee
 // grootste kabinetspartijen per beleidsterrein zien (component onderwerpen).
 // Sinds 26 oktober 2026 (B14 en K3): de opening vraagt waar fracties elkaar vinden, met twee lezingen en een
-// uitnodiging; dan "Maar eerst: hoe zijn we hier gekomen?". Hoofdstukken met een kop over de volle breedte.
+// uitnodiging; dan "Hoe kwam deze Kamer tot stand?" (tot 28 oktober 2026 "Maar eerst: hoe zijn we hier gekomen?"). Hoofdstukken met een kop over de volle breedte.
 // Sinds 27 oktober 2026 (K11): het overzicht "Kijk zelf" staat direct na de opening, voor het verhaal.
 // Sinds 28 oktober 2026: de kop zegt wat de site is; de cijfers volgen daarna, direct met de twee lezingen.
 // Later die dag (bezoekerscijfers, akkoord Niels): op de telefoon staan de drie knoppen in het eerste scherm, het verhaal
@@ -23,6 +23,7 @@ import { bredeSteunPerKabinet, kabinetNu, kabinetspartners, laadVerhaal, samenwe
 import { BredeSteun } from "@/components/BredeSteun";
 import { jaarWerk, periodeWerk } from "@/lib/zetelwerk";
 import s from "./voorpagina.module.css";
+import uitgelicht from "@/components/verhaal/uitgelicht.module.css";
 
 // Titel met het onderwerp erin; "Zetelen" alleen zegt niets aan wie de site niet kent (SEO-audit 26 oktober)
 export const metadata: Metadata = {
@@ -56,7 +57,7 @@ export default async function Voorpagina() {
   const perPeriode = await periodeWerk("kabinet");
   const samen = kabinet && perPeriode ? samenwerking(perPeriode, kabinet.naam, "Rutte I") : null;
   const getal = (n: number) => n.toLocaleString("nl-NL");
-  // De kop "Maar eerst: hoe zijn we hier gekomen?" staat boven het verhaal; de eerste kaart herhaalt hem niet
+  // De kop "Hoe kwam deze Kamer tot stand?" staat boven het verhaal; de eerste kaart herhaalt hem niet
   const zonderKop = (stappen: Stap[]): Stap[] => stappen.map((st, i) => (i === 0 ? { ...st, hoofdstuk: undefined } : st));
   return (
     <Inhoud>
@@ -148,13 +149,18 @@ export default async function Voorpagina() {
         </nav>
       </section>
 
-      <HoofdstukKop titel="Maar eerst: hoe zijn we hier gekomen?" id="verhaal" />
-      <Tekst><a href="#na-verhaal">Sla het verhaal over ↓</a></Tekst>
-      {d ? (
-        <ScrollVerhaal verhaal={{ breed: zonderKop(zaalVerhaal(d)) }} label="De zaal van de Tweede Kamer" tijdlijn stapHoogte="70vh" />
-      ) : (
-        <Tekst>Het verhaal kon niet worden geladen. Probeer het over een paar minuten opnieuw, of ga direct naar de verkenner.</Tekst>
-      )}
+      {/* Kop, link en verhaal als één blok, zodat de grote ruimte tussen de blokken van de pagina er niet tussen valt.
+          De kop was "Maar eerst: hoe zijn we hier gekomen?"; sinds het overzicht ervoor staat, klopte "maar eerst" niet
+          meer (Niels, 28 oktober 2026; voorstel uit K14) */}
+      <section className={uitgelicht.graphic}>
+        <HoofdstukKop titel="Hoe kwam deze Kamer tot stand?" id="verhaal" />
+        <Tekst><a href="#na-verhaal">Sla het verhaal over ↓</a></Tekst>
+        {d ? (
+          <ScrollVerhaal verhaal={{ breed: zonderKop(zaalVerhaal(d)) }} label="De zaal van de Tweede Kamer" tijdlijn stapHoogte="70vh" />
+        ) : (
+          <Tekst>Het verhaal kon niet worden geladen. Probeer het over een paar minuten opnieuw, of ga direct naar de verkenner.</Tekst>
+        )}
+      </section>
       <div id="na-verhaal" style={{ scrollMarginTop: 80 }} />
 
       {partners && paar && u && kabinet && (

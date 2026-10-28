@@ -15,6 +15,7 @@ import type { Stap } from "@/lib/verhaal";
 import { hoofdstukJaren, hoofdstukKabinetten, hoofdstukNetwerk, SMAL_SPREIDING, hoofdstukSpreiding, hoofdstukTegenEnSamen } from "@/lib/oppositie";
 import { fractieWerk, jaarWerk, netwerk, periodeWerk } from "@/lib/zetelwerk";
 import { fractiesIn } from "@/lib/cohesie";
+import u from "@/components/verhaal/uitgelicht.module.css";
 
 export const metadata: Metadata = {
   title: "Oppositiewerk",
@@ -68,19 +69,28 @@ export default async function Oppositie() {
       </section>
 
       {/* Elk hoofdstuk opent met een kop over de volle breedte (feedback Niels K2, 26 oktober 2026); hoofdstuk 4 en 5
-          breed, met de kaart onder de tekening */}
-      <HoofdstukKop nummer="1" titel="Steeds meer moties" />
-      <ScrollVerhaal verhaal={{ breed: zonderKop(hoofdstukJaren(jaren, ditJaar)) }} label="Moties per jaar" tijdlijn stapHoogte="60vh" />
-      <HoofdstukKop nummer="2" titel="Per kabinet" />
-      <ScrollVerhaal verhaal={{ breed: zonderKop(hoofdstukKabinetten(perioden, KABINETTEN, "Motie", minderheid)) }} label="Moties per kabinet" tijdlijn stapHoogte="60vh" />
-      <HoofdstukKop nummer="4" titel="Tegenstemmen en zelf scoren" />
-      <ScrollVerhaal verhaal={{
-        breed: zonderKop(hoofdstukTegenEnSamen(hoofdstukSpreiding(fracties, KABINETTEN), hoofdstukNetwerk(netwerken.map((n) => ({ ...n, rollen: rollen(n.kabinet) }))))),
-        smal: zonderKop(hoofdstukTegenEnSamen(hoofdstukSpreiding(fracties, KABINETTEN, true, klein), hoofdstukNetwerk(netwerken.map((n) => ({ ...n, rollen: rollen(n.kabinet) })), true))),
-      }} hoogteSmal={SMAL_SPREIDING.hoogte} breedteSmal={SMAL_SPREIDING.breedte}
-        label="Tegenstemmen en aangenomen moties per fractie, daarna samen ingediend" breed stapHoogte="60vh" />
-      <HoofdstukKop nummer="6" titel="De wet zelf veranderen" />
-      <ScrollVerhaal verhaal={{ breed: zonderKop(hoofdstukKabinetten(perioden, KABINETTEN, "Amendement", minderheid)) }} label="Amendementen per kabinet" tijdlijn stapHoogte="60vh" />
+          breed, met de kaart onder de tekening. Kop en verhaal als één blok, anders viel de grote ruimte tussen de blokken
+          van de pagina tussen kop en grafiek (Niels, 28 oktober 2026) */}
+      <section className={u.graphic}>
+        <HoofdstukKop nummer="1" titel="Steeds meer moties" />
+        <ScrollVerhaal verhaal={{ breed: zonderKop(hoofdstukJaren(jaren, ditJaar)) }} label="Moties per jaar" tijdlijn stapHoogte="60vh" />
+      </section>
+      <section className={u.graphic}>
+        <HoofdstukKop nummer="2" titel="Per kabinet" />
+        <ScrollVerhaal verhaal={{ breed: zonderKop(hoofdstukKabinetten(perioden, KABINETTEN, "Motie", minderheid)) }} label="Moties per kabinet" tijdlijn stapHoogte="60vh" />
+      </section>
+      <section className={u.graphic}>
+        <HoofdstukKop nummer="4" titel="Tegenstemmen en zelf scoren" />
+        <ScrollVerhaal verhaal={{
+          breed: zonderKop(hoofdstukTegenEnSamen(hoofdstukSpreiding(fracties, KABINETTEN), hoofdstukNetwerk(netwerken.map((n) => ({ ...n, rollen: rollen(n.kabinet) }))))),
+          smal: zonderKop(hoofdstukTegenEnSamen(hoofdstukSpreiding(fracties, KABINETTEN, true, klein), hoofdstukNetwerk(netwerken.map((n) => ({ ...n, rollen: rollen(n.kabinet) })), true))),
+        }} hoogteSmal={SMAL_SPREIDING.hoogte} breedteSmal={SMAL_SPREIDING.breedte}
+          label="Tegenstemmen en aangenomen moties per fractie, daarna samen ingediend" breed stapHoogte="60vh" />
+      </section>
+      <section className={u.graphic}>
+        <HoofdstukKop nummer="6" titel="De wet zelf veranderen" />
+        <ScrollVerhaal verhaal={{ breed: zonderKop(hoofdstukKabinetten(perioden, KABINETTEN, "Amendement", minderheid)) }} label="Amendementen per kabinet" tijdlijn stapHoogte="60vh" />
+      </section>
 
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", maxWidth: 860 }}>
         <Label>Nu jij</Label>

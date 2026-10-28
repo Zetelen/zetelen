@@ -66,7 +66,7 @@ export function zaalVerhaal(d: VerhaalData): Stap[] {
   };
 
   kabinetStap("Rutte IV", zetels("kabinet", "Rutte IV", true), "Kabinet-Rutte IV begint met");
-  ruw[0].hoofdstuk = "1 · Hoe zijn we hier gekomen?";
+  ruw[0].hoofdstuk = "1 · Hoe kwam deze Kamer tot stand?";
   const schoof = zetels("kabinet", "Schoof", true);
   kabinetStap("Schoof", schoof, "Na de verkiezingen van 2023 begint kabinet-Schoof met");
   for (const c of d.co.filter((x) => x.kabinet === "Schoof" && x.tot).sort((a, b) => a.tot!.localeCompare(b.tot!))) {
