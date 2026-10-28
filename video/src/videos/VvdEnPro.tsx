@@ -194,8 +194,9 @@ function Lezingen() {
 export function VvdEnPro() {
   return (
     <AbsoluteFill style={{ backgroundColor: K.nacht950 }}>
-      {/* Eigen muzikale onderlaag (scripts/muziek.py), zacht en neutraal; uit aan het eind */}
-      <Audio src={staticFile("muziek/onderlaag.wav")} volume={(f) => 0.55 * interpolate(f, [0, 20, DUUR_VVD_PRO - 60, DUUR_VVD_PRO], [0, 1, 1, 0], zacht)} />
+      {/* Huisnummer van Zetelen (Suno, gekozen door Niels 28 oktober), op een maatstreep geknipt naar 44 s met het eigen
+          slot rond 42 s; niet in de repo. Valt het weg, dan scripts/muziek.py als onderlaag.wav */}
+      <Audio src={staticFile("muziek/zetelen.wav")} volume={(f) => 0.7 * interpolate(f, [0, 6], [0, 1], zacht)} />
       <Sequence from={A} durationInFrames={B - A}><Vraag /></Sequence>
       <Sequence from={B} durationInFrames={C - B}><Nu /></Sequence>
       <Sequence from={C} durationInFrames={D - C}><Lijn /></Sequence>
