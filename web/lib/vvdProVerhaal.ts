@@ -11,6 +11,8 @@ const pct = (c: number | null | undefined) => (c == null ? "" : `${Math.round(c)
 
 export type VerhaalInvoer = {
   rangorde: Array<{ naam: string; cohesie: number }>; // onder het huidige kabinet, PRO als één lijn
+  // Gemiddelde van de VVD met elke fractie van 2010 tot en met 2023, op afkorting; voor PRO de markeringen PvdA en GL
+  gemiddeld: Record<string, number | null>;
   pro: Punt[]; pvda: Punt[]; gl: Punt[]; pvv: Punt[]; // per half jaar, zelfde reeks halve jaren
   anderen: Array<{ naam: string; punten: Punt[] }>; // de VVD met elke andere fractie, als grijze referentie
   perKabinet: { r1: number | null; r2: number | null; r3: number | null; r2Gl: number | null };
@@ -21,10 +23,13 @@ export type VerhaalInvoer = {
 };
 
 // Tijdas: halve jaren van links naar rechts, cohesie van 20 tot 100% van onder naar boven
-const X0 = 70, X1 = 960, Y0 = 40, Y1 = 450;
-const cy = (c: number) => rond(Y1 - ((c - 20) / 80) * (Y1 - Y0));
+const X0 = 70, X1 = 960, Y0 = 40;
 
-export function vvdProVerhaal(d: VerhaalInvoer): Stap[] {
+// smal: de telefoonversie (vraag Niels, 28 oktober 2026). Daar past de tekening zich aan de inhoud aan, dus mogen de
+// tijdgrafiek en de ranglijst hoger zijn: zelfde breedte, meer hoogte, zodat ze op het scherm groter staan
+export function vvdProVerhaal(d: VerhaalInvoer, smal = false): Stap[] {
+  const Y1 = smal ? 760 : 450;
+  const cy = (c: number) => rond(Y1 - ((c - 20) / 80) * (Y1 - Y0));
   const jaren = d.pro.map((p) => p.halfjaar);
   const n = jaren.length;
   const tx = (h: string) => rond(X0 + (jaren.indexOf(h) / Math.max(1, n - 1)) * (X1 - X0));
@@ -60,16 +65,31 @@ export function vvdProVerhaal(d: VerhaalInvoer): Stap[] {
   const eersteNa = (punten: Punt[]) => punten.find((p) => p.cohesie != null)!;
   const naam = (x: number, y: number, tekst: string, tint: string): Tekstlabel => ({ x, y, tekst, tint, halo: true, anchor: "start" });
 
-  // Stap 1: de rangorde onder het huidige kabinet
-  const R = d.rangorde, rx = (c: number) => rond(220 + ((c - 30) / 70) * 720), ry = (i: number) => rond(30 + i * 33);
+  // Stap 1: de rangorde onder het huidige kabinet als bullet chart (vraag Niels, 28 oktober 2026): een balk vanaf 0% voor
+  // nu, een streepje voor het gemiddelde van 2010 tot en met 2023. PRO bestond toen niet: daar twee streepjes, PvdA en
+  // GroenLinks. Smaller en met meer ruimte tussen de rijen dan de stippen ervoor, zodat hij op de telefoon groter staat.
+  const R = d.rangorde, rx = (c: number) => rond(220 + ((c - 30) / 70) * 720);
+  const bx = (c: number) => rond(220 + (c / 100) * 440), ry = (i: number) => rond(30 + i * (smal ? 54 : 36));
   const plek = R.findIndex((x) => x.naam === "PRO") + 1;
-  const rangStippen: Stip[] = R.map((x, i) => ({ key: x.naam === "PRO" ? "pro-nu" : `r-${x.naam}`, x: rx(x.cohesie), y: ry(i),
-    kleur: x.naam === "PRO" ? "nadruk" : null, tint: x.naam === "PRO" ? TINT.pro : TINT.rest, r: x.naam === "PRO" ? 10 : 7 }));
-  const rangLabels: Tekstlabel[] = R.flatMap((x, i) => [
-    { x: 200, y: ry(i) + 5, tekst: x.naam, anchor: "end" as const, tint: x.naam === "PRO" ? TINT.pro : undefined, zacht: x.naam !== "PRO" },
-    { x: rx(x.cohesie) + 16, y: ry(i) + 5, tekst: pct(x.cohesie), tint: x.naam === "PRO" ? TINT.pro : undefined, zacht: x.naam !== "PRO" },
-  ]);
-  const rangPaden: Pad[] = [50, 75].map((v) => ({ d: `M${rx(v)},10 V${ry(R.length - 1) + 20}`, tint: TINT.rest, streep: true, zacht: true, naam: `rang-${v}` }));
+  const isPro = (x: { naam: string }) => x.naam === "PRO";
+  const rangStippen: Stip[] = R.map((x, i) => ({ key: isPro(x) ? "pro-nu" : `r-${x.naam}`, x: bx(x.cohesie), y: ry(i),
+    kleur: isPro(x) ? "nadruk" : null, tint: isPro(x) ? TINT.pro : TINT.rest, r: isPro(x) ? 7 : 6 }));
+  const streepjes = (x: { naam: string }): Array<[number, string]> =>
+    (isPro(x) ? ([["PvdA", TINT.pvda], ["GL", TINT.gl]] as const) : ([[x.naam, "#e8ecf5"]] as const))
+      .flatMap(([k, t]) => (d.gemiddeld[k] == null ? [] : [[d.gemiddeld[k]!, t] as [number, string]]));
+  const rangPaden: Pad[] = [
+    ...[25, 50, 75, 100].map((v) => ({ d: `M${bx(v)},12 V${ry(R.length - 1) + 18}`, tint: TINT.rest, streep: true, zacht: true, naam: `rang-${v}` })),
+    ...R.map((x, i) => ({ d: `M${bx(0)},${ry(i)} H${bx(x.cohesie)}`, tint: isPro(x) ? TINT.pro : TINT.rest, breedte: smal ? 24 : 16, naam: `balk-${x.naam}` })),
+    ...R.flatMap((x, i) => streepjes(x).map(([c, t], j) => ({ d: `M${bx(c)},${ry(i) - (smal ? 18 : 13)} V${ry(i) + (smal ? 18 : 13)}`, tint: t, breedte: 3.5, naam: `gem-${x.naam}-${j}` }))),
+  ];
+  const rangLabels: Tekstlabel[] = [
+    ...R.flatMap((x, i) => [
+      { x: 200, y: ry(i) + 5, tekst: x.naam, anchor: "end" as const, tint: isPro(x) ? TINT.pro : undefined, zacht: !isPro(x) },
+      { x: bx(Math.max(x.cohesie, ...streepjes(x).map(([c]) => c))) + 16, y: ry(i) + 5, tekst: pct(x.cohesie), tint: isPro(x) ? TINT.pro : undefined, zacht: !isPro(x) },
+    ]),
+    ...[0, 50, 100].map((v) => ({ x: bx(v), y: ry(R.length - 1) + (smal ? 50 : 40), tekst: `${v}%`, anchor: "middle" as const, zacht: true })),
+    { x: bx(0), y: -14, tekst: `▬ onder kabinet-${d.kabinet}   | gemiddeld 2010 t/m 2023`, zacht: true },
+  ];
   const proNu = R.find((x) => x.naam === "PRO");
 
   // Lijnen van PvdA, GroenLinks en PVV, met nadruk op een periode
@@ -83,6 +103,12 @@ export function vvdProVerhaal(d: VerhaalInvoer): Stap[] {
   const glZacht = reeks("g", d.gl, TINT.gl, () => "zacht");
   const proZacht = reeks("p", d.pro, TINT.pro, () => "zacht");
   const pvv = reeks("v", d.pvv, TINT.pvv, (p) => (p.halfjaar === "2024-07-01" || p.halfjaar === "2026-01-01" ? "nadruk" : "zacht"));
+  // Venster van 2018 tot de fusie (vraag Niels, 28 oktober 2026): de periode waarin de twee lijnen samenvallen
+  const FUSIE = "2023-10-27";
+  const pvdaSamen = reeks("a", d.pvda, TINT.pvda, (p) => (binnen(p, "2018-01-01", "2024-01-01") ? "nadruk" : "zacht"));
+  const glSamen = reeks("g", d.gl, TINT.gl, (p) => (binnen(p, "2018-01-01", "2024-01-01") ? "nadruk" : "zacht"));
+  const venster: Pad[] = [{ d: `M${tx("2018-01-01")},${Y0} V${Y1}`, tint: TINT.gl, streep: true, naam: "samen-van" },
+    { d: `M${maandX(FUSIE)},${Y0} V${Y1}`, tint: TINT.gl, streep: true, naam: "samen-tot" }];
   const band: Pad[] = [{ d: `M${maandX(d.rutte2.begin)},${Y0} V${Y1}`, tint: TINT.pvda, streep: true, naam: "r2-van" },
     { d: `M${maandX(d.rutte2.einde)},${Y0} V${Y1}`, tint: TINT.pvda, streep: true, naam: "r2-tot" }];
   // Legenda onder elkaar boven de grafiek: naast elkaar vielen de labels op de telefoon over elkaar (daar worden letters groter)
@@ -92,7 +118,7 @@ export function vvdProVerhaal(d: VerhaalInvoer): Stap[] {
 
   // Per onderwerp: een rij per beleidsterrein met minstens 50 stemmingen samen
   const T = d.terreinen.filter((t) => t.gezamenlijk >= 50 && t.cohesie != null).slice(0, 14);
-  const ty = (i: number) => rond(30 + i * 31);
+  const ty = (i: number) => rond(30 + i * (smal ? 48 : 31));
   const hoog = T[0], laag = T[T.length - 1];
   const terStippen: Stip[] = T.map((t, i) => ({ key: `t-${t.terrein}`, x: rx(t.cohesie!), y: ty(i),
     kleur: t === hoog || t === laag ? "nadruk" : null, tint: t === hoog || t === laag ? TINT.pro : TINT.rest, r: 7 }));
@@ -134,7 +160,7 @@ export function vvdProVerhaal(d: VerhaalInvoer): Stap[] {
 
   return [
     { datum: `onder kabinet-${d.kabinet}`, hoofdstuk: "Nu",
-      tekst: `Onder kabinet-${d.kabinet} stemden VVD en PRO in ${pct(proNu?.cohesie)} van de stemmingen hetzelfde: plek ${plek} van ${R.length} fracties met minstens 3 zetels. Middenmoot.`,
+      tekst: `Onder kabinet-${d.kabinet} stemden VVD en PRO in ${pct(proNu?.cohesie)} van de stemmingen hetzelfde: plek ${plek} van ${R.length} fracties met minstens 3 zetels. Middenmoot. Het streepje: hoe vaak de VVD van 2010 tot en met 2023 hetzelfde stemde als die fractie, of zolang die er toen zat; zonder streepje zat ze er toen niet. Bij PRO in blauw de PvdA en in roze GroenLinks, toen nog twee fracties.`,
       stippen: rangStippen, paden: rangPaden, labels: rangLabels },
     { datum: "sinds oktober 2023", hoofdstuk: "Door de jaren",
       tekst: `De lijn van VVD met GroenLinks-PvdA, sinds juni 2026 PRO. Eerst rond de ${pct(eersteNa(d.pro).cohesie)}, het laatste halve jaar ${pct(laatste.cohesie)}. Dat halve jaar loopt nog.`,
@@ -143,16 +169,17 @@ export function vvdProVerhaal(d: VerhaalInvoer): Stap[] {
       tekst: `In grijs: de VVD met elke andere fractie. Onder kabinet-${d.kabinet} stemde de VVD het vaakst hetzelfde als ${hoogNu.naam} (${pct(hoogNu.cohesie)}), het minst als ${laagNu.naam} (${pct(laagNu.cohesie)}). PRO zit daartussen.`,
       ...tijd(pro.stippen, pro.paden, [...legenda([["VVD en PRO", TINT.pro], ["VVD en de andere fracties", TINT.rest]]), naam(tx(laatste.halfjaar) - 40, cy(laatste.cohesie!) - 20, pct(laatste.cohesie), TINT.pro)]) },
     ...refStappen,
-    { datum: "2010 tot 2023",
-      tekst: "Daarvoor waren GroenLinks en PvdA twee fracties. Vanaf 2018 stemden ze tegenover de VVD bijna precies hetzelfde.",
-      ...overzicht },
     { datum: "Rutte II", hoofdstuk: "Samen regeren",
-      tekst: `Onder Rutte II zaten VVD en PvdA samen in het kabinet. Ze stemden in ${pct(d.perKabinet.r2)} hetzelfde. Onder Rutte I, met de PvdA in de oppositie, was dat ${pct(d.perKabinet.r1)}. GroenLinks bleef onder Rutte II op ${pct(d.perKabinet.r2Gl)}.`,
+      tekst: `Tot oktober 2023 waren GroenLinks en PvdA twee fracties. Onder Rutte II zaten VVD en PvdA samen in het kabinet. Ze stemden in ${pct(d.perKabinet.r2)} hetzelfde. Onder Rutte I, met de PvdA in de oppositie, was dat ${pct(d.perKabinet.r1)}. GroenLinks bleef onder Rutte II op ${pct(d.perKabinet.r2Gl)}.`,
       ...tijd([...pvdaR2.stippen, ...glZacht.stippen, ...proZacht.stippen], [...band, ...pvda.paden, ...gl.paden, ...pro.paden],
         [...legenda(l3), { x: rond((maandX(d.rutte2.begin) + maandX(d.rutte2.einde)) / 2), y: Y0 + 10, tekst: "Rutte II", anchor: "middle", tint: TINT.pvda, halo: true }]) },
     { datum: "na Rutte II",
       tekst: `Na Rutte II zakte het weer: onder Rutte III stemden VVD en PvdA in ${pct(d.perKabinet.r3)} hetzelfde.`,
       ...tijd([...pvdaNa.stippen, ...glZacht.stippen, ...proZacht.stippen], [...band, ...pvda.paden, ...gl.paden, ...pro.paden], legenda(l3)) },
+    { datum: "2018 tot 2023",
+      tekst: `Vanaf 2018 kwamen GroenLinks en PvdA tegenover de VVD dicht bij elkaar, vanaf 2019 stemden ze bijna precies hetzelfde: hun lijnen lopen over elkaar. In oktober 2023 gingen ze verder als één fractie, sinds juni 2026 PRO.`,
+      ...tijd([...pvdaSamen.stippen, ...glSamen.stippen, ...proZacht.stippen], [...venster, ...pvda.paden, ...gl.paden, ...pro.paden],
+        [...legenda(l3), { x: rond((tx("2018-01-01") + maandX(FUSIE)) / 2), y: Y0 + 10, tekst: "samen", anchor: "middle", tint: TINT.gl, halo: true }]) },
     { datum: "de PVV",
       tekst: `Bij de PVV hetzelfde patroon. In de tweede helft van 2024, samen in kabinet-Schoof: ${pct(d.pvvSamen)}. In de eerste helft van 2026, met de PVV in de oppositie: ${pct(d.pvvOppositie)}. De PVV stapte in juni 2025 uit het kabinet.`,
       ...tijd([...pvv.stippen, ...proZacht.stippen], [...pvv.paden, ...pro.paden], legenda([["VVD en PVV", TINT.pvv], ["VVD en PRO", TINT.pro]])) },

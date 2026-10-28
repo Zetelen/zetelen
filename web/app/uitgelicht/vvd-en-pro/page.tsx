@@ -12,7 +12,7 @@ import { CasusKiezer } from "@/components/verhaal/CasusKiezer";
 import { ScrollVerhaal } from "@/components/verhaal/ScrollVerhaal";
 import { leesApi } from "@/lib/api";
 import { perioden } from "@/lib/cohesie";
-import { cohesiePerHalfjaar, halveJaren, punten } from "@/lib/trend";
+import { DREMPEL, cohesiePerHalfjaar, halveJaren, punten } from "@/lib/trend";
 import { KIEZER } from "@/lib/uitgelichtLijst";
 import { cohesieVan, laadVvdPro, perTerrein, rangorde } from "@/lib/vvdPro";
 import { vvdProVerhaal } from "@/lib/vvdProVerhaal";
@@ -54,6 +54,14 @@ export default async function VvdEnPro() {
   }
   const anderen = [...perFractie].map(([naam, l]) => ({ naam, punten: punten(l, jaren) }))
     .filter((a) => a.punten.filter((p) => p.cohesie != null).length >= 4);
+  // Streepje in de ranglijst: de VVD met elke fractie van 2010 tot en met 2023, opgeteld over alle halve jaren (vanaf 25
+  // stemmingen samen). Op afkorting, dus ook PvdA, GroenLinks en PVV
+  const opgeteld = new Map<string, { gezamenlijk: number; gelijk: number }>();
+  for (const x of alleRijen.filter((x) => x.halfjaar.slice(0, 10) < "2024-01-01")) {
+    const t = opgeteld.get(x.andere_fractie_afkorting) ?? { gezamenlijk: 0, gelijk: 0 };
+    opgeteld.set(x.andere_fractie_afkorting, { gezamenlijk: t.gezamenlijk + x.gezamenlijk, gelijk: t.gelijk + x.gelijk });
+  }
+  const gemiddeld = Object.fromEntries([...opgeteld].map(([k, t]) => [k, t.gezamenlijk >= DREMPEL ? (100 * t.gelijk) / t.gezamenlijk : null]));
 
   // Rangorde onder het huidige en het vorige kabinet, met PRO als één lijn
   const lijnNaam = new Map(lijnPro.ids.map((i) => [i, "PRO"]));
@@ -72,15 +80,17 @@ export default async function VvdEnPro() {
   const pvvHj = punten(metPvv ?? [], jaren);
   const r2 = kab.find((p) => p.soort === "kabinet" && p.naam === "Rutte II");
 
-  const stappen = r2 ? vvdProVerhaal({
-    rangorde: nu, kabinet: KABINET,
+  const invoer = r2 ? {
+    rangorde: nu, kabinet: KABINET, gemiddeld,
     anderen, pro: punten(hoofd ?? [], jaren), pvda: punten(metPvda ?? [], jaren), gl: punten(metGl ?? [], jaren), pvv: pvvHj,
     perKabinet: { r1: c("Rutte I", [pvda]), r2: c("Rutte II", [pvda]), r3: c("Rutte III", [pvda]), r2Gl: c("Rutte II", [gl]) },
     pvvSamen: pvvHj.find((p) => p.halfjaar === "2024-07-01")?.cohesie ?? null,
     pvvOppositie: pvvHj.find((p) => p.halfjaar === "2026-01-01")?.cohesie ?? null,
     terreinen: perTerrein(terrein, lijnPro.ids),
     rutte2: { begin: r2.begin, einde: r2.einde! },
-  }) : null;
+  } : null;
+  const stappen = invoer ? vvdProVerhaal(invoer) : null;
+  const stappenSmal = invoer ? vvdProVerhaal(invoer, true) : undefined;
 
   return (
     <Inhoud>
@@ -101,7 +111,7 @@ export default async function VvdEnPro() {
       {stappen && (
         <section className={s.graphic}>
           <HoofdstukKop titel="VVD en PRO, van 2010 tot nu" />
-          <ScrollVerhaal verhaal={{ breed: stappen }} label="Hoe vaak de VVD hetzelfde stemde als PRO, en daarvoor GroenLinks en PvdA" stapHoogte="60vh" tijdlijn />
+          <ScrollVerhaal verhaal={{ breed: stappen, smal: stappenSmal }} label="Hoe vaak de VVD hetzelfde stemde als PRO, en daarvoor GroenLinks en PvdA" stapHoogte="60vh" tijdlijn />
           <Data>
             Bron: open data van de Tweede Kamer, eigen berekening (<Link href="/methodiek">methodiek</Link>). Hetzelfde stemmen: van de
             stemmingen waarin beide fracties voor of tegen stemden, het deel waarin ze dezelfde kant kozen. Alle stemmingen: moties,
