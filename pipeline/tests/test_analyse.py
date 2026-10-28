@@ -182,3 +182,35 @@ def test_stemmatrix_met_besluiten_in_dezelfde_volgorde(conn, scenario):
     assert len(besluiten) == len(stemmen) == len(set(besluiten))
     datums = [conn.execute("select datum from core.besluit where id = %s", (b,)).fetchone()[0] for b in besluiten]
     assert datums == sorted(datums)
+
+
+def test_zaal_van_kabinet_eindigt_bij_de_verkiezingen(conn, scenario):
+    # Kabinet-Schoof loopt over de Kamerperiodes 2023-2025 en 2025- heen (nieuwe Kamer vanaf 12 november 2025).
+    # N stemt mee tot vlak voor de nieuwe Kamer en komt niet terug; M stemt alleen in de nieuwe Kamer.
+    # Besluit Niels, 28 oktober 2026: de zaal van het kabinet is die van voor de verkiezingen.
+    n, m = fractie(conn, "N"), fractie(conn, "M")
+
+    def stem(datum, fracties):
+        bes, act, ap = nieuw(), nieuw(), nieuw()
+        conn.execute('insert into raw.activiteit ("Id", "Datum", "Verwijderd") values (%s, %s, false)', (act, datum))
+        conn.execute('insert into raw.agendapunt ("Id", "Activiteit_Id", "Verwijderd") values (%s, %s, false)', (ap, act))
+        conn.execute('insert into raw.besluit ("Id", "Agendapunt_Id", "StemmingsSoort", "Verwijderd") values (%s, %s, %s, false)',
+                     (bes, ap, "Met handopsteken"))
+        for f, grootte in fracties:
+            conn.execute('insert into raw.stemming ("Id", "Besluit_Id", "Fractie_Id", "Soort", "FractieGrootte", "Vergissing", "Verwijderd") '
+                         "values (%s, %s, %s, 'Voor', %s, false, false)", (nieuw(), bes, f, grootte))
+
+    stem("2025-11-06T12:00:00+01:00", [(n, 19)])
+    stem("2026-01-20T12:00:00+01:00", [(m, 9)])
+    herbouw(conn)
+    conn.execute("select * from analyses.herbouw()")
+    rijen = {r[0]: r[1:] for r in conn.execute(
+        "select afkorting, zetels, in_zaal from api.fractie_periode where periodesoort = 'kabinet' and periode = 'Schoof'"
+    ).fetchall()}
+    assert rijen["N"] == (19, True)
+    assert rijen["M"] == (9, False)
+    # Per Kamerperiode blijft het einde van de periode de zaal
+    kp = {r[0]: r[1] for r in conn.execute(
+        "select afkorting, in_zaal from api.fractie_periode where periodesoort = 'kamerperiode' and periode = '2025-'"
+    ).fetchall()}
+    assert kp["M"] is True

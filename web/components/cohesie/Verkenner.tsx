@@ -83,7 +83,8 @@ export function Verkenner({ fracties, paren, periodeNaam }: VerkennerProps) {
             {fracties.some((f) => !f.inZaal) && (
               <Data>
                 Niet in de zaal, wel in deze periode: {fracties.filter((f) => !f.inZaal).map((f) => f.afkorting).join(", ")}. Deze
-                fracties stopten halverwege {periodeNaam}. In de tabel staan ze wel.
+                fracties stopten halverwege {periodeNaam}, of kwamen er pas na verkiezingen bij: bij een kabinet dat demissionair
+                doorloopt, is de zaal die van voor de verkiezingen. In de tabel staan ze wel.
               </Data>
             )}
           </div>
