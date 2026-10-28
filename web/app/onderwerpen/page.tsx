@@ -60,7 +60,7 @@ export default async function Onderwerpen({ searchParams }: Props) {
   const u = paar ? uitersten(paar) : null;
   // Wat opvalt (K11): bij een paar de uitersten, anders de fractie waarmee het per onderwerp het meest verschilt
   const opvalt = met && paar ? paarOpvalt(gekozen.afkorting, met.afkorting, paar)
-    : gekozen && perTerrein ? onderwerpenOpvalt(gekozen.afkorting, zaal.filter((f) => f.id !== gekozen.id), perTerrein) : null;
+    : gekozen && perTerrein ? onderwerpenOpvalt(soort, periode!.naam, gekozen.afkorting, zaal.filter((f) => f.id !== gekozen.id), perTerrein) : null;
   const query = (extra: Record<string, string>) =>
     `?${new URLSearchParams({ soort, ...(periode ? { periode: periode.naam } : {}), variant, ...extra }).toString()}`;
   // Verdieping: het terrein klapt uit met de dossiers en stemmingen (components/onderwerpen/TerreinUitklap.tsx)

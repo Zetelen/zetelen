@@ -3,6 +3,7 @@
 // fracties nu, de lijn sinds 2010 met Rutte II, de PVV als tweede voorbeeld, twee lezingen, de bron.
 // Gegevens: src/gegevens/vvd-pro.json (scripts/vvd_pro.mjs). Geen partijkleuren, geen namen van personen.
 import { AbsoluteFill, Sequence, interpolate, useCurrentFrame } from "remotion";
+import { vloeiendPad } from "../../../web/lib/vloeiend";
 import data from "../gegevens/vvd-pro.json";
 import { Banner, Flits, Geluid, Sprong, Woorden, ZWAAR } from "../flits";
 import { Achtergrond, Eind, Label, Merk, Tekst, useVeer, zacht } from "../onderdelen";
@@ -83,12 +84,17 @@ function Lijn() {
   const W = 936, H = 760, L = 70, R = 20, T = 20, O = 60;
   const x = (i: number) => L + ((i + 0.5) / n) * (W - L - R);
   const y = (c: number) => T + ((100 - c) / 100) * (H - T - O);
-  // Hoe ver de lijnen getekend zijn: de oude lijnen van frame 20 tot 200, de lijn van PRO van 230 tot 290
-  const oud = interpolate(frame, [20, 200], [0, n], zacht), nieuw = interpolate(frame, [230, 290], [0, n], zacht);
-  const pad = (punten: Array<{ h: string; c: number | null }>, tot: number) => {
-    const p = punten.filter((q) => q.c != null && idx(q.h) <= tot);
-    return p.length ? `M${p.map((q) => `${x(idx(q.h))},${y(q.c!)}`).join(" L")}` : "";
-  };
+  // Vloeiende lijnen die geleidelijk verschijnen (feedback Niels, 28 oktober 2026): het hele pad staat klaar en een
+  // streep met pathLength 1 schuift erover. De oude lijnen van frame 20 tot 200, de lijn van PRO van 230 tot 300;
+  // uitlopend met een zachte curve, zodat het tekenen niet schokt.
+  const glad = { ...zacht, easing: (t: number) => 1 - (1 - t) ** 3 };
+  const oud = interpolate(frame, [20, 200], [0, 1], glad), nieuw = interpolate(frame, [230, 300], [0, 1], glad);
+  const pad = (punten: Array<{ h: string; c: number | null }>) =>
+    vloeiendPad(punten.filter((q) => q.c != null).map((q) => [x(idx(q.h)), y(q.c!)]));
+  const lijn = (d: string, deel: number, kleur: string, dikte: number) => (
+    <path d={d} fill="none" stroke={kleur} strokeWidth={dikte} strokeLinecap="round" pathLength={1}
+      strokeDasharray="1 1" strokeDashoffset={1 - deel} />
+  );
   const maand = (iso: string) => (Number(iso.slice(0, 4)) - Number(eerste.slice(0, 4))) * 2 + (Number(iso.slice(5, 7)) - 1) / 6;
   const r2 = data.kabinetten.find((k) => k.naam === "Rutte II")!;
   const band = interpolate(frame, [90, 105], [0, 1], zacht);
@@ -118,10 +124,10 @@ function Lijn() {
         {[2010, 2014, 2018, 2022, 2026].map((j) => (
           <text key={j} x={x((j - Number(eerste.slice(0, 4))) * 2)} y={H - 16} textAnchor="middle" fontFamily={LETTER.mono} fontSize={26} fill={K.zacht}>{j}</text>
         ))}
-        <path d={pad(data.lijnen.gl, oud)} fill="none" stroke={GL} strokeWidth={5} />
-        <path d={pad(data.lijnen.pvda, oud)} fill="none" stroke={PVDA} strokeWidth={5} />
-        <path d={pad(data.lijnen.pro, nieuw)} fill="none" stroke={K.goud} strokeWidth={8} />
-        {frame > 290 && laatste.c != null && <circle cx={x(idx(laatste.h))} cy={y(laatste.c)} r={14} fill={K.goud} />}
+        {lijn(pad(data.lijnen.gl), oud, GL, 5)}
+        {lijn(pad(data.lijnen.pvda), oud, PVDA, 5)}
+        {lijn(pad(data.lijnen.pro), nieuw, K.goud, 8)}
+        {laatste.c != null && <circle cx={x(idx(laatste.h))} cy={y(laatste.c)} r={14 * interpolate(frame, [295, 310], [0, 1], zacht)} fill={K.goud} />}
       </svg>
       <div style={{ position: "absolute", top: 1270, left: VEILIG.zij, right: VEILIG.zij, display: "flex", flexDirection: "column", gap: 20 }}>
         <Woorden tekst={`Rutte II: VVD en PvdA samen in het kabinet. ${pct(data.pvdaPerKabinet["Rutte II"])} hetzelfde.`} bij={100} tot={225} grootte={58} kleur={K.koper} />

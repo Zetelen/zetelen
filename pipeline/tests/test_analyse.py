@@ -214,3 +214,28 @@ def test_zaal_van_kabinet_eindigt_bij_de_verkiezingen(conn, scenario):
         "select afkorting, in_zaal from api.fractie_periode where periodesoort = 'kamerperiode' and periode = '2025-'"
     ).fetchall()}
     assert kp["M"] is True
+
+
+def test_zaal_eindigt_voor_de_verkiezingsdatum(conn, scenario):
+    # Na de verkiezingen van 22 november 2023 stemde de oude Kamer nog op 2 december (Kamerperiode 2021-2023, kabinet
+    # Rutte IV). Die stemming hoort niet bij de zaal: P (stemde in oktober) zit erin, Q (alleen op 2 december) niet.
+    p, q = fractie(conn, "P"), fractie(conn, "Q")
+
+    def stem(datum, f, grootte):
+        bes, act, ap = nieuw(), nieuw(), nieuw()
+        conn.execute('insert into raw.activiteit ("Id", "Datum", "Verwijderd") values (%s, %s, false)', (act, datum))
+        conn.execute('insert into raw.agendapunt ("Id", "Activiteit_Id", "Verwijderd") values (%s, %s, false)', (ap, act))
+        conn.execute('insert into raw.besluit ("Id", "Agendapunt_Id", "StemmingsSoort", "Verwijderd") values (%s, %s, %s, false)',
+                     (bes, ap, "Met handopsteken"))
+        conn.execute('insert into raw.stemming ("Id", "Besluit_Id", "Fractie_Id", "Soort", "FractieGrootte", "Vergissing", "Verwijderd") '
+                     "values (%s, %s, %s, 'Voor', %s, false, false)", (nieuw(), bes, f, grootte))
+
+    stem("2023-10-26T12:00:00+02:00", p, 34)
+    stem("2023-12-02T12:00:00+01:00", q, 1)
+    herbouw(conn)
+    conn.execute("select * from analyses.herbouw()")
+    rijen = {r[0]: r[1:] for r in conn.execute(
+        "select afkorting, zetels, in_zaal from api.fractie_periode where periodesoort = 'kabinet' and periode = 'Rutte IV'"
+    ).fetchall()}
+    assert rijen["P"] == (34, True)
+    assert rijen["Q"] == (1, False)

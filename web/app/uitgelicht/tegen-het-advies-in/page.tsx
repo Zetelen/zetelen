@@ -71,7 +71,7 @@ export default function TegenHetAdviesIn() {
         <HeroKop>Tegen het advies in</HeroKop>
         {/* Kern van de pagina (K11, 27 oktober 2026) */}
         <Kern ziet="Alle moties sinds april 2019, naar wat het kabinet ervan vond en wat de Kamer besloot."
-          opvalt={`${getal(t.tochAangenomen.length)} moties nam de Kamer aan terwijl het kabinet ze ontraadde: ${pct(t.tochAangenomen.length, t.aangenomen)} van alle aangenomen moties.`} />
+          opvalt={`Sinds april 2019 nam de Kamer ${getal(t.tochAangenomen.length)} moties aan terwijl het kabinet ze ontraadde: ${pct(t.tochAangenomen.length, t.aangenomen)} van alle aangenomen moties.`} />
         <Tekst>
           Het kabinet zegt voor elke stemming wat het van een motie vindt. Meestal volgt de Kamer dat. Maar soms neemt een
           meerderheid een motie aan die het kabinet ontraadde. Hoe vaak gebeurt dat, en wie zit erachter?

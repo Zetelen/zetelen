@@ -11,7 +11,8 @@ import { Inklapbaar } from "@/components/Inklapbaar";
 import { Inhoud, LegeStaat } from "@/components/Kader";
 import { MobielPaneel } from "@/components/MobielPaneel";
 import { Kern, Lezingen } from "@/components/Onderdelen";
-import { kamerledenOpvalt } from "@/lib/kern";
+import { hernoemingen, kamerledenOpvalt } from "@/lib/kern";
+import opvolgers from "@/content/fractie-opvolgers.json";
 import { Data, Label, SectieKop, Tekst } from "@/components/Typografie";
 import { Spreiding } from "@/components/zetelwerk/Spreiding";
 import { FractieTabel, KamerledenTabel, RanglijstTabel } from "@/components/zetelwerk/Tabellen";
@@ -71,7 +72,7 @@ export default async function Kamerleden({ searchParams }: Props) {
         <SectieKop niveau={1}>Wat dienen Kamerleden zelf in, en wat haalt het?</SectieKop>
         {/* Kern van de pagina (K11, 27 oktober 2026) */}
         <Kern ziet="Wat fracties en Kamerleden zelf indienden, en hoeveel daarvan de Kamer aannam. Kies moties, amendementen of initiatiefwetten."
-          opvalt={periode && fracties ? kamerledenOpvalt(soort, periode.naam, stuk, meervoud, fracties) : null} />
+          opvalt={periode && fracties ? kamerledenOpvalt(soort, periode.naam, stuk, meervoud, fracties, hernoemingen(opvolgers.opvolgers)) : null} />
         <Tekst>
           Stemmen is één kant van zetelen. De andere: zelf iets op tafel leggen. Een motie vraagt het kabinet iets te doen, een
           amendement verandert een wet. Kies een fractie en zie wie er wat indiende.

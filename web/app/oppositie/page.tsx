@@ -52,6 +52,7 @@ export default async function Oppositie() {
   const ditJaar = new Date().getFullYear();
   // Wat opvalt (K11): het deel van de oppositiemoties dat werd aangenomen, onder het nieuwste en het eerste kabinet
   const samen = samenwerking(perioden, KABINETTEN[KABINETTEN.length - 1], KABINETTEN[0]);
+  const vorig = samenwerking(perioden, KABINETTEN[KABINETTEN.length - 1], KABINETTEN[KABINETTEN.length - 2]);
 
   return (
     <Inhoud>
@@ -59,7 +60,7 @@ export default async function Oppositie() {
         <Label>Oppositiewerk</Label>
         <SectieKop niveau={1}>Wat kun je als je niet regeert?</SectieKop>
         <Kern ziet="Zestien jaar moties en amendementen: hoeveel de oppositie indiende, wat het haalde, en met wie ze samenwerkte."
-          opvalt={samen ? oppositieOpvalt(KABINETTEN[KABINETTEN.length - 1], samen.oppositieNu, samen.eerste, samen.oppositieEerst) : null} />
+          opvalt={samen && vorig ? oppositieOpvalt(KABINETTEN[KABINETTEN.length - 1], samen.oppositieNu, vorig.eerste, vorig.oppositieEerst, samen.eerste, samen.oppositieEerst) : null} />
         <Tekst>
           Wat doe je als oppositie? Alleen maar tegen stemmen? Juist niet. Scroll door zestien jaar oppositiewerk, en kijk daarna
           zelf wie wat indiende.

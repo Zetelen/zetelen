@@ -3,7 +3,7 @@ import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import type { FractieInPeriode, Rol } from "../lib/cohesie";
-import { coalitieOpvalt, fractiesOpvalt, kabinetBijStart, kamerledenOpvalt, onderwerpenOpvalt, paarOpvalt, periodeTekst, verkennerOpvalt } from "../lib/kern";
+import { coalitieOpvalt, fractiesOpvalt, hernoemingen, kabinetBijStart, kamerledenOpvalt, onderwerpenOpvalt, paarOpvalt, periodeTekst, verkennerOpvalt } from "../lib/kern";
 import { MENU } from "../lib/menu";
 import { PAGINAS } from "../lib/site";
 import type { CohesieKaart, Paar } from "../lib/zaal";
@@ -40,13 +40,13 @@ describe("onderwerpen", () => {
     new Map(Object.entries(paren).map(([t, m]) => [t, new Map(Object.entries(m).map(([f, c]) => [f, { cohesie: c, gezamenlijk: 80, teWeinig: false } as Paar]))]));
   const perTerrein = terrein({ Zorg: { b: 90, c: 70 }, Asiel: { b: 20, c: 60 }, Klimaat: { b: 50, c: 65 } });
   it("kiest de fractie met het grootste verschil tussen onderwerpen", () => {
-    expect(onderwerpenOpvalt("A", [{ id: "b", afkorting: "B", zetels: 20 }, { id: "c", afkorting: "C", zetels: 10 }], perTerrein)).toBe(
-      "Van de grootste fracties verschillen A en B het meest per onderwerp: het vaakst eens bij Zorg (90%), het minst bij Asiel (20%). Alleen onderwerpen met minstens 50 stemmingen samen.");
+    expect(onderwerpenOpvalt("kabinet", "X", "A", [{ id: "b", afkorting: "B", zetels: 20 }, { id: "c", afkorting: "C", zetels: 10 }], perTerrein)).toBe(
+      "Onder kabinet-X verschilt het per onderwerp het meest tussen A en B, van de 5 grootste andere fracties: het vaakst eens bij Zorg (90%), het minst bij Asiel (20%). Alleen onderwerpen met minstens 50 stemmingen samen.");
   });
   it("kijkt alleen naar de vijf grootste andere fracties", () => {
     const klein = ["d", "e", "f", "g", "h"].map((id) => ({ id, afkorting: id.toUpperCase(), zetels: 30 }));
-    expect(onderwerpenOpvalt("A", [{ id: "b", afkorting: "B", zetels: 2 }, ...klein], perTerrein)).toBeNull();
-    expect(onderwerpenOpvalt("A", [{ id: "b", afkorting: "B", zetels: 2 }, { id: "c", afkorting: "C", zetels: 10 }], perTerrein)).toContain("A en B");
+    expect(onderwerpenOpvalt("kabinet", "X", "A", [{ id: "b", afkorting: "B", zetels: 2 }, ...klein], perTerrein)).toBeNull();
+    expect(onderwerpenOpvalt("kabinet", "X", "A", [{ id: "b", afkorting: "B", zetels: 2 }, { id: "c", afkorting: "C", zetels: 10 }], perTerrein)).toContain("A en B");
   });
   it("noemt bij een paar het hoogste en laagste terrein", () => {
     expect(paarOpvalt("A", "C", [
@@ -83,7 +83,12 @@ describe("kamerledenOpvalt", () => {
   const w = (afkorting: string, soort: FractieWerk["soort"], ingediend: number) => ({ afkorting, soort, ingediend }) as FractieWerk;
   it("noemt de twee fracties die het meest indienden, alleen van de gekozen soort", () => {
     expect(kamerledenOpvalt("kabinet", "X", "Motie", "moties", [w("A", "Motie", 1200), w("B", "Motie", 900), w("C", "Amendement", 5000)]))
-      .toBe("Onder kabinet-X diende A de meeste moties in (1.200), daarna B (900).");
+      .toBe("Onder kabinet-X diende A (1.200) de meeste moties in, daarna B (900).");
+  });
+  it("telt een fractie onder een nieuwe naam samen met haar voorganger", () => {
+    const h = hernoemingen([{ soort: "naamswijziging", van: [{ afkorting: "Oud" }], naar: { afkorting: "Nieuw" } }]);
+    expect(kamerledenOpvalt("kabinet", "X", "Motie", "moties", [w("A", "Motie", 300), w("Oud", "Motie", 200), w("Nieuw", "Motie", 250)], h))
+      .toBe("Onder kabinet-X diende Nieuw (450, ook als Oud) de meeste moties in, daarna A (300).");
   });
   it("geeft null zonder stukken", () => {
     expect(kamerledenOpvalt("kabinet", "X", "Wetsvoorstel", "initiatiefwetten", [])).toBeNull();
@@ -100,5 +105,18 @@ describe("menu", () => {
     for (const m of items) expect(existsSync(join(__dirname, "..", "app", m.href, "page.tsx"))).toBe(true);
     for (const m of items) if (m.href !== "/uitgelicht") expect(PAGINAS).toContain(m.href);
     expect(items.map((m) => m.href)).toEqual(expect.arrayContaining(["/uitgelicht", "/stemgenoten"]));
+  });
+});
+
+describe("verkennerOpvalt bij bijna gelijke paren", () => {
+  it("noemt een paar dat binnen 1 procentpunt van het hoogste ligt", () => {
+    const fr = ["A", "B", "C", "D"].map((a) => ({ id: a.toLowerCase(), afkorting: a, naam: a, zetels: 20, stemmingen: 100, eerste: "", laatste: "",
+      inZaal: true, zetelsBegin: 20, bijBegin: true }));
+    const k = new Map<string, { cohesie: number; gezamenlijk: number; teWeinig: boolean }>();
+    for (const [a, b, c] of [["a", "b", 91.8], ["a", "c", 91.7], ["b", "c", 70], ["a", "d", 40], ["b", "d", 50], ["c", "d", 60]] as const) {
+      k.set(`${a}|${b}`, { cohesie: c, gezamenlijk: 100, teWeinig: false });
+      k.set(`${b}|${a}`, { cohesie: c, gezamenlijk: 100, teWeinig: false });
+    }
+    expect(verkennerOpvalt("kabinet", "X", fr, k)).toContain("A en B het vaakst hetzelfde (92%, vrijwel gelijk met A en C)");
   });
 });

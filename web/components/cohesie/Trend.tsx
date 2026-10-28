@@ -7,6 +7,7 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { DREMPEL, type Punt, beginTekst, eindTekst, kortTekst, samenvatting, uitvalTekst } from "@/lib/trend";
+import { vloeiendPad } from "@/lib/vloeiend";
 import s from "./trend.module.css";
 
 type Kabinet = { naam: string; begin: string; einde: string | null };
@@ -62,7 +63,8 @@ export function Trend({ a, b, keuzes, punten, extra, eerder, kabinetten, vast = 
     });
     return uit;
   };
-  const lijnPad = (st: Punt[]) => `M${st.map((p) => `${px(alle.indexOf(p.halfjaar))},${y(p.cohesie!)}`).join(" L")}`;
+  // Vloeiend, zonder over de punten heen te schieten (lib/vloeiend.ts)
+  const lijnPad = (st: Punt[]) => vloeiendPad(st.map((p) => [px(alle.indexOf(p.halfjaar)), y(p.cohesie!)]));
   const stukken = stukkenVan(punten);
   const vlakken = kabinetten
     .map((k) => ({ ...k, m0: Math.max(0, maandVan(k.begin)), m1: Math.min(maanden, k.einde ? maandVan(k.einde) : maanden) }))

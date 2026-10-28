@@ -30,7 +30,12 @@ export function verkennerOpvalt(soort: Periodesoort, periode: string, fracties: 
   if (paren.length < 2) return null;
   paren.sort((x, y) => y.c - x.c || x.a.localeCompare(y.a) || x.b.localeCompare(y.b));
   const hoog = paren[0], laag = paren[paren.length - 1];
-  return `${periodeTekst(soort, periode)} stemden ${hoog.a} en ${hoog.b} het vaakst hetzelfde (${pct(hoog.c)}), ${laag.a} en ${laag.b} het minst (${pct(laag.c)}). Dat geldt voor fracties met minstens ${MINIMUM_ZETELS} zetels.`;
+  // Ligt het volgende paar binnen 1 procentpunt, dan is "het vaakst" geen echt verschil: noem het erbij (feitencontrole
+  // 28 oktober 2026)
+  const tweede = paren[1], voorlaatste = paren[paren.length - 2];
+  const bijHoog = paren.length > 2 && hoog.c - tweede.c < 1 ? `, vrijwel gelijk met ${tweede.a} en ${tweede.b}` : "";
+  const bijLaag = paren.length > 2 && voorlaatste.c - laag.c < 1 ? `, vrijwel gelijk met ${voorlaatste.a} en ${voorlaatste.b}` : "";
+  return `${periodeTekst(soort, periode)} stemden ${hoog.a} en ${hoog.b} het vaakst hetzelfde (${pct(hoog.c)}${bijHoog}), ${laag.a} en ${laag.b} het minst (${pct(laag.c)}${bijLaag}). Dat geldt voor fracties met minstens ${MINIMUM_ZETELS} zetels.`;
 }
 
 // Onderwerpen met twee fracties: het terrein waarop ze het vaakst en het minst vaak eens waren
@@ -43,7 +48,7 @@ export function paarOpvalt(a: string, b: string, paar: TerreinPaar[]): string | 
 // Onderwerpen met één fractie: de andere fractie waarmee het verschil tussen de onderwerpen het grootst is. Alleen de
 // vijf grootste andere fracties, zodat de zin over herkenbare fracties gaat (besluit Niels, 27 oktober 2026)
 export const GROOTSTE = 5;
-export function onderwerpenOpvalt(gekozen: string, anderen: Array<{ id: string; afkorting: string; zetels: number }>,
+export function onderwerpenOpvalt(soort: Periodesoort, periode: string, gekozen: string, anderen: Array<{ id: string; afkorting: string; zetels: number }>,
   perTerrein: Map<string, Map<string, Paar>>): string | null {
   let beste: { afkorting: string; hoog: TerreinPaar; laag: TerreinPaar } | null = null;
   const groot = [...anderen].sort((a, b) => b.zetels - a.zetels || a.afkorting.localeCompare(b.afkorting)).slice(0, GROOTSTE);
@@ -54,7 +59,7 @@ export function onderwerpenOpvalt(gekozen: string, anderen: Array<{ id: string; 
     if (!beste || verschil > beste.hoog.cohesie! - beste.laag.cohesie!) beste = { afkorting: f.afkorting, ...u };
   }
   if (!beste) return null;
-  return `Van de grootste fracties verschillen ${gekozen} en ${beste.afkorting} het meest per onderwerp: het vaakst eens bij ${beste.hoog.terrein} (${pct(beste.hoog.cohesie!)}), het minst bij ${beste.laag.terrein} (${pct(beste.laag.cohesie!)}). Alleen onderwerpen met minstens ${MINIMUM_UITERSTEN} stemmingen samen.`;
+  return `${periodeTekst(soort, periode)} verschilt het per onderwerp het meest tussen ${gekozen} en ${beste.afkorting}, van de ${GROOTSTE} grootste andere fracties: het vaakst eens bij ${beste.hoog.terrein} (${pct(beste.hoog.cohesie!)}), het minst bij ${beste.laag.terrein} (${pct(beste.laag.cohesie!)}). Alleen onderwerpen met minstens ${MINIMUM_UITERSTEN} stemmingen samen.`;
 }
 
 // Zetels van het kabinet bij de start: de fracties die bij de start in het kabinet zaten
@@ -70,9 +75,10 @@ export function coalitieOpvalt(kabinet: string, zetels: number): string | null {
     : `Kabinet-${kabinet} begon met ${zetels} van de 150 zetels. Voor een meerderheid zijn er 76 nodig, dus het kabinet heeft stemmen van de oppositie nodig.`;
 }
 
-// Oppositie: welk deel van de oppositiemoties werd aangenomen, nu en onder het eerste kabinet
-export function oppositieOpvalt(kabinet: string, nu: number, eerste: string, toen: number): string {
-  return `Onder kabinet-${kabinet} nam de Kamer ${nu}% van de oppositiemoties aan. Onder ${eerste} was dat ${toen}%.`;
+// Oppositie: welk deel van de oppositiemoties werd aangenomen, nu (nog lopend), onder het vorige en onder het eerste
+// kabinet (feitencontrole 28 oktober 2026: alleen het begin van de reeks noemen was selectief)
+export function oppositieOpvalt(kabinet: string, nu: number, vorige: string, vorig: number, eerste: string, toen: number): string {
+  return `Onder kabinet-${kabinet}, dat nog loopt, nam de Kamer ${nu}% van de oppositiemoties aan. Onder ${vorige} was dat ${vorig}%, onder ${eerste} ${toen}%.`;
 }
 
 // Fracties: hoeveel fracties er bij de start waren, en de grootste
@@ -84,10 +90,27 @@ export function fractiesOpvalt(soort: Periodesoort, periode: string, rijen: Arra
 }
 
 // Kamerleden: de fractie die de meeste stukken van deze soort indiende
-export function kamerledenOpvalt(soort: Periodesoort, periode: string, stuk: Stuk, meervoud: string, rijen: FractieWerk[]): string | null {
-  const eigen = rijen.filter((r) => r.soort === stuk && r.ingediend > 0).sort((a, b) => b.ingediend - a.ingediend);
+// Een fractie onder een nieuwe naam telt samen met haar voorganger (GroenLinks-PvdA en PRO; feitencontrole 28 oktober
+// 2026: apart geteld leek de PVV de meeste moties in te dienen). hernoemd: oude afkorting naar de nieuwste.
+export function kamerledenOpvalt(soort: Periodesoort, periode: string, stuk: Stuk, meervoud: string, rijen: FractieWerk[],
+  hernoemd: Map<string, string> = new Map()): string | null {
+  const per = new Map<string, { n: number; namen: Set<string> }>();
+  for (const r of rijen.filter((x) => x.soort === stuk && x.ingediend > 0)) {
+    const naam = hernoemd.get(r.afkorting) ?? r.afkorting, x = per.get(naam) ?? { n: 0, namen: new Set<string>() };
+    x.n += r.ingediend; x.namen.add(r.afkorting); per.set(naam, x);
+  }
+  const eigen = [...per].map(([afkorting, x]) => ({ afkorting, n: x.n, eerder: [...x.namen].filter((a) => a !== afkorting) }))
+    .sort((a, b) => b.n - a.n);
   if (!eigen.length) return null;
   // Geen totaal erbij: een stuk met indieners uit meer fracties telt bij elke fractie mee
+  const tekst = (x: (typeof eigen)[number]) => `${x.afkorting} (${getal(x.n)}${x.eerder.length ? `, ook als ${x.eerder.join(" en ")}` : ""})`;
   const [een, twee] = eigen;
-  return `${periodeTekst(soort, periode)} diende ${een.afkorting} de meeste ${meervoud} in (${getal(een.ingediend)})${twee ? `, daarna ${twee.afkorting} (${getal(twee.ingediend)})` : ""}.`;
+  return `${periodeTekst(soort, periode)} diende ${tekst(een)} de meeste ${meervoud} in${twee ? `, daarna ${tekst(twee)}` : ""}.`;
+}
+
+// Naamswijzigingen uit content/fractie-opvolgers.json als kaart van oude naar nieuwste afkorting
+export function hernoemingen(opvolgers: Array<{ soort: string; van: Array<{ afkorting: string }>; naar: { afkorting: string } }>): Map<string, string> {
+  const stap = new Map(opvolgers.filter((o) => o.soort === "naamswijziging").flatMap((o) => o.van.map((v) => [v.afkorting, o.naar.afkorting] as const)));
+  const nieuwste = (a: string): string => (stap.has(a) ? nieuwste(stap.get(a)!) : a);
+  return new Map([...stap.keys()].map((a) => [a, nieuwste(a)]));
 }
