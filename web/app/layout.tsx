@@ -1,6 +1,6 @@
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
-import { DM_Mono, Hanken_Grotesk, Newsreader } from "next/font/google";
+import { DM_Mono, Fraunces, Hanken_Grotesk, Newsreader } from "next/font/google";
 import type { ReactNode } from "react";
 import { FeedbackBalk } from "@/components/FeedbackBalk";
 import { SnelleFeedback } from "@/components/SnelleFeedback";
@@ -27,6 +27,8 @@ const newsreader = Newsreader({
 });
 const hanken = Hanken_Grotesk({ subsets: ["latin"], variable: "--font-hanken", display: "swap" });
 const dmMono = DM_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-dm-mono", display: "swap" });
+// Alleen voor het woordmerk (merk van 28 oktober 2026), één gewicht
+const fraunces = Fraunces({ subsets: ["latin"], weight: ["600"], variable: "--font-fraunces", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: siteUrl(),
@@ -40,7 +42,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const ververst = await laatstBijgewerkt();
   return (
-    <html lang="nl" className={`${newsreader.variable} ${hanken.variable} ${dmMono.variable}`}>
+    <html lang="nl" className={`${newsreader.variable} ${hanken.variable} ${dmMono.variable} ${fraunces.variable}`}>
       <body>
         <JsonLd data={{ "@context": "https://schema.org", "@type": "WebSite", name: SITE.naam, url: DOMEIN, inLanguage: "nl", description: SITE.beschrijving, creator: MAKER }} />
         <Korrel />

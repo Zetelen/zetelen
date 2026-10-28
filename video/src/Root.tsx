@@ -10,7 +10,7 @@ import { DUUR_STEMMING, Stemming } from "./videos/Stemming";
 import { DUUR_TIJDLIJN, Tijdlijn } from "./videos/Tijdlijn";
 import { Weegschaal, duurWeegschaal } from "./videos/Weegschaal";
 import { DUUR_VVD_PRO, VvdEnPro } from "./videos/VvdEnPro";
-import { Banner, Profiel, Woordmerk } from "./merk";
+import { Banner, Deel, Icoon, Profiel, Woordmerk } from "./merk";
 
 // Welke variant bij welke casus past
 export const VARIANTEN: Array<{ id: string; slug: string; soort: "Weegschaal" | "Hoefijzer" | "GelijkeStand" | "EenFractie" }> = [
@@ -46,7 +46,9 @@ export function Root() {
       <Composition id="Merk-profiel" component={Profiel} durationInFrames={1} fps={FPS} width={1080} height={1080} />
       <Composition id="Merk-banner-linkedin" component={Banner} durationInFrames={1} fps={FPS} width={1584} height={396} />
       <Composition id="Merk-banner-reddit" component={Banner} durationInFrames={1} fps={FPS} width={1920} height={384} />
-      <Composition id="Merk-woordmerk" component={Woordmerk} durationInFrames={1} fps={FPS} width={1400} height={420} />
+      <Composition id="Merk-woordmerk" component={Woordmerk} durationInFrames={1} fps={FPS} width={1600} height={900} />
+      <Composition id="Merk-deel" component={Deel} durationInFrames={1} fps={FPS} width={1200} height={630} />
+      <Composition id="Merk-icoon" component={Icoon} durationInFrames={1} fps={FPS} width={512} height={512} />
     </>
   );
 }

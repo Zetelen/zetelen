@@ -2,6 +2,7 @@
 // een oplopende teller en de eindkaart met de bron.
 import type { CSSProperties, ReactNode } from "react";
 import { AbsoluteFill, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { FRAUNCES, Zaal150 } from "./merk";
 import { K, LETTER, VEILIG } from "./stijl";
 
 export const zacht = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
@@ -26,8 +27,9 @@ export function Achtergrond({ binnenhof = 0.18 }: { binnenhof?: number }) {
 
 export function Merk() {
   return (
-    <div style={{ position: "absolute", top: VEILIG.boven - 90, left: VEILIG.zij, fontFamily: LETTER.serif, fontSize: 40, letterSpacing: "0.12em", color: K.tekst }}>
-      ZETELEN
+    // Merk van 28 oktober 2026: "zetelen" in Fraunces
+    <div style={{ position: "absolute", top: VEILIG.boven - 90, left: VEILIG.zij, fontFamily: FRAUNCES, fontWeight: 600, fontSize: 46, letterSpacing: "-0.01em", color: K.tekst }}>
+      zetelen
     </div>
   );
 }
@@ -79,10 +81,11 @@ export function Eind({ van, bron }: { van: number; bron: string }) {
   const z = interpolate(frame, [van, van + 15], [0, 1], zacht);
   return (
     <AbsoluteFill style={{ opacity: z }}>
-      <Achtergrond binnenhof={0.55} />
-      <div style={{ position: "absolute", top: 560, left: VEILIG.zij, right: VEILIG.zij, display: "flex", flexDirection: "column", gap: 36 }}>
-        <Label>Kijk zelf</Label>
-        <Kop grootte={104}>zetelen.nl</Kop>
+      <Achtergrond binnenhof={0} />
+      {/* Eindkaart met het merk: de zaal met 150 zetels boven het adres */}
+      <div style={{ position: "absolute", top: 380, left: 0, right: 0, display: "flex", justifyContent: "center" }}><Zaal150 breedte={820} /></div>
+      <div style={{ position: "absolute", top: 720, left: VEILIG.zij, right: VEILIG.zij, display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 30 }}>
+        <div style={{ fontFamily: FRAUNCES, fontWeight: 600, fontSize: 130, letterSpacing: "-0.02em", lineHeight: 1, color: K.tekst, textShadow: `0 0 40px ${K.nacht950}` }}>zetelen.nl</div>
         <Tekst grootte={40} style={{ color: K.zacht }}>Elke stemming in de Tweede Kamer sinds 2010, geteld uit de open data.</Tekst>
       </div>
       <div style={{ position: "absolute", bottom: VEILIG.onder - 60, left: VEILIG.zij, right: VEILIG.zij, fontFamily: LETTER.mono, fontSize: 26, lineHeight: 1.5, color: K.zacht }}>

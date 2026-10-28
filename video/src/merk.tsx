@@ -1,68 +1,121 @@
-// Merkteken van Zetelen (besluit Niels, 28 oktober 2026: ontwerp A, "de zaal"): een halfrond van zetels in koper, met
-// één gouden zetel in het midden. Bewust geen partijkleur. Hier getekend voor de profielfoto, de banners en het woordmerk
-// (stilstaande beelden, render met node render.mjs Merk-...). Het favicon van de site is een vereenvoudigde versie met twee
-// rijen (web/app/icon.tsx), omdat dertig zetels op 32 pixels dichtslibben.
+// Merk van Zetelen (besluit Niels, 28 oktober 2026): de zaal met 150 zetels, van diep koper onderaan naar licht goud
+// bovenaan (bewust niet van links naar rechts: dat leest als een politiek spectrum), half achter het woord "zetelen" in
+// Fraunces. Stilstaande beelden voor profielfoto, banners, woordmerk, deelplaatje en favicon; render met
+// node scripts/merk.mjs (zet het deelplaatje en het favicon ook in web/app).
 import { AbsoluteFill } from "remotion";
+import { loadFont as laadFraunces } from "@remotion/google-fonts/Fraunces";
+import { MIDDEN, zetels } from "../../web/lib/zaal";
 import { K, LETTER } from "./stijl";
 
-// Zetels in drie rijen: per rij een straal (als deel van de maat) en een aantal
-const RIJEN: Array<[number, number]> = [[0.42, 7], [0.62, 10], [0.82, 13]];
+export const FRAUNCES = laadFraunces("normal", { weights: ["600"], subsets: ["latin"] }).fontFamily;
 
-export function zetels(rijen = RIJEN) {
-  return rijen.flatMap(([r, n], ri) => Array.from({ length: n }, (_, i) => {
-    const a = Math.PI - (Math.PI * i) / (n - 1);
-    return { x: Math.cos(a) * r, y: -Math.sin(a) * r, goud: ri === rijen.length - 1 && i === (n - 1) / 2 };
-  }));
+// Kleur per zetel naar hoogte: diep koper onderaan, goud bovenaan
+const STOPS: Array<[number, [number, number, number]]> = [[0, [74, 38, 26]], [0.45, [194, 120, 72]], [0.8, [233, 168, 102]], [1, [255, 228, 163]]];
+export function zetelKleur(t: number) {
+  for (let i = 1; i < STOPS.length; i++) {
+    const [t0, a] = STOPS[i - 1], [t1, b] = STOPS[i];
+    if (t <= t1) {
+      const u = (t - t0) / (t1 - t0);
+      return `rgb(${a.map((x, j) => Math.round(x + (b[j] - x) * u)).join(",")})`;
+    }
+  }
+  return "rgb(255,228,163)";
 }
 
-// Het teken in een vierkant van maat x maat; het halfrond staat optisch in het midden
-export function Merkteken({ maat }: { maat: number }) {
-  const m = maat / 2;
+// De zaal met 150 zetels; vervaagt onder de middellijn (daar staat het woord). breedte in pixels
+export function Zaal150({ breedte, vervaag = true }: { breedte: number; vervaag?: boolean }) {
+  const z = zetels([{ id: "k", zetels: 150 }]);
   return (
-    <svg width={maat} height={maat} viewBox={`${-m} ${-m} ${maat} ${maat}`}>
-      {zetels().map((z, i) => (
-        <circle key={i} cx={z.x * m} cy={z.y * m + m * 0.36} r={m * (z.goud ? 0.06 : 0.048)} fill={z.goud ? K.goud : K.koper} />
-      ))}
+    <svg width={breedte} height={breedte * 0.68} viewBox="40 0 920 625">
+      {z.map((p, i) => {
+        const hoogte = (MIDDEN.y - p.y) / 443;
+        const t = Math.min(1, Math.max(0, (hoogte + 0.35) / 1.35));
+        const onder = Math.max(0, -hoogte);
+        return <circle key={i} cx={p.x} cy={p.y} r={10.5} fill={zetelKleur(t)} opacity={vervaag ? 1 - onder * 2.2 : 1} />;
+      })}
     </svg>
   );
 }
 
-function Woord({ grootte }: { grootte: number }) {
+const gloed = `radial-gradient(ellipse 45% 55% at 50% 52%, rgba(208,138,85,0.22), rgba(208,138,85,0) 70%), ${K.nacht950}`;
+
+function Woord({ maat }: { maat: number }) {
   return (
-    <div style={{ fontFamily: LETTER.serif, fontSize: grootte, letterSpacing: "0.14em", fontVariant: "small-caps", color: K.tekst, lineHeight: 1 }}>
-      Zetelen
+    <div style={{ fontFamily: FRAUNCES, fontWeight: 600, fontSize: maat, letterSpacing: "-0.02em", lineHeight: 0.95, color: K.tekst,
+      textShadow: `0 0 ${maat * 0.25}px ${K.nacht950}, 0 0 ${maat * 0.08}px ${K.nacht950}` }}>
+      zetelen
     </div>
   );
 }
 
-// Profielfoto: het teken op nacht; past ook in een ronde uitsnede
+function Onder({ maat }: { maat: number }) {
+  return (
+    <div style={{ fontFamily: LETTER.sans, fontSize: maat, letterSpacing: "0.16em", textTransform: "uppercase", color: K.koper }}>
+      Wie stemt met wie in de Tweede Kamer
+    </div>
+  );
+}
+
+// Zaal met het woord over de onderste helft; schaal: breedte van de zaal in pixels
+export function Beeldmerk({ schaal, onder = true }: { schaal: number; onder?: boolean }) {
+  return (
+    <div style={{ position: "relative", width: schaal, height: schaal * 0.72, display: "flex", justifyContent: "center" }}>
+      <Zaal150 breedte={schaal} />
+      <div style={{ position: "absolute", left: -schaal, right: -schaal, top: schaal * 0.4, display: "flex", flexDirection: "column", alignItems: "center", gap: schaal * 0.014 }}>
+        <Woord maat={schaal * 0.23} />
+        {onder && <Onder maat={schaal * 0.03} />}
+      </div>
+    </div>
+  );
+}
+
+// Profielfoto: alleen de zaal, want die wordt klein getoond; past ook in een ronde uitsnede
 export function Profiel() {
   return (
-    <AbsoluteFill style={{ backgroundColor: K.nacht950, alignItems: "center", justifyContent: "center" }}>
-      <Merkteken maat={920} />
+    <AbsoluteFill style={{ background: gloed, alignItems: "center", justifyContent: "center" }}>
+      <div style={{ marginTop: 40 }}><Zaal150 breedte={900} vervaag={false} /></div>
     </AbsoluteFill>
   );
 }
 
-// Banner: teken en woord naast elkaar, met de ondertitel van de site
 export function Banner() {
   return (
-    <AbsoluteFill style={{ backgroundColor: K.nacht950, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 48 }}>
-      <Merkteken maat={260} />
-      <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-        <Woord grootte={120} />
-        <div style={{ fontFamily: LETTER.sans, fontSize: 34, color: K.zacht }}>Wie stemt met wie in de Tweede Kamer · zetelen.nl</div>
-      </div>
+    <AbsoluteFill style={{ background: gloed, alignItems: "center", justifyContent: "center" }}>
+      <div style={{ marginTop: 40 }}><Beeldmerk schaal={470} /></div>
     </AbsoluteFill>
   );
 }
 
-// Woordmerk: teken en woord op een transparante achtergrond
+// Deelplaatje voor links (1200 bij 630): het merk met de ondertitel
+export function Deel() {
+  return (
+    <AbsoluteFill style={{ background: gloed, alignItems: "center", justifyContent: "center" }}>
+      <div style={{ marginTop: 50 }}><Beeldmerk schaal={760} /></div>
+    </AbsoluteFill>
+  );
+}
+
+// Woordmerk op transparant, voor documenten en video
 export function Woordmerk() {
   return (
-    <AbsoluteFill style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 36 }}>
-      <Merkteken maat={300} />
-      <Woord grootte={150} />
+    <AbsoluteFill style={{ alignItems: "center", justifyContent: "center" }}>
+      <Beeldmerk schaal={1000} />
+    </AbsoluteFill>
+  );
+}
+
+// Favicon: vereenvoudigd tot twee rijen zetels in het verloop, op nacht met afgeronde hoeken
+export function Icoon() {
+  const rijen: Array<[number, number]> = [[0.5, 5], [0.86, 9]];
+  const punten = rijen.flatMap(([r, n], ri) => Array.from({ length: n }, (_, i) => {
+    const a = Math.PI - (Math.PI * i) / (n - 1);
+    return { x: 256 + Math.cos(a) * r * 216, y: 350 - Math.sin(a) * r * 216, t: Math.sin(a) * (ri ? 1 : 0.7) };
+  }));
+  return (
+    <AbsoluteFill style={{ backgroundColor: K.nacht950, borderRadius: 96 }}>
+      <svg width={512} height={512}>
+        {punten.map((p, i) => <circle key={i} cx={p.x} cy={p.y} r={26} fill={zetelKleur(0.35 + 0.65 * p.t)} />)}
+      </svg>
     </AbsoluteFill>
   );
 }

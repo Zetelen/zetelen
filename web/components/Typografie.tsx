@@ -35,11 +35,21 @@ export function Cijfer({ children }: { children: ReactNode }) {
   return <span className={s.cijfer}>{children}</span>;
 }
 
-// Woordmerk: Zetelen in Newsreader, kleine kapitalen, zonder logo
+// Woordmerk (merk van 28 oktober 2026): een kleine zaal in het verloop van koper naar goud, met "zetelen" in Fraunces.
+// Het volledige merk met 150 zetels staat in video/src/merk.tsx; hier twee rijen, zodat het op 22 pixels leesbaar blijft.
+const MINI = [[0.5, 5], [0.86, 9]].flatMap(([r, n], ri) => Array.from({ length: n }, (_, i) => {
+  const a = Math.PI - (Math.PI * i) / (n - 1);
+  const t = Math.sin(a) * (ri ? 1 : 0.7);
+  return { x: 16 + Math.cos(a) * r * 14, y: 21 - Math.sin(a) * r * 14, kleur: t > 0.85 ? "#FFE4A3" : t > 0.6 ? "#E9A866" : t > 0.3 ? "#D08A55" : "#A66A42" };
+}));
+
 export function Woordmerk() {
   return (
-    <a href="/" className={s.woordmerk}>
-      Zetelen
+    <a href="/" className={s.woordmerk} aria-label="Zetelen, naar de voorpagina">
+      <svg width="32" height="24" viewBox="0 0 32 24" aria-hidden="true">
+        {MINI.map((z, i) => <circle key={i} cx={z.x.toFixed(1)} cy={z.y.toFixed(1)} r={1.7} fill={z.kleur} />)}
+      </svg>
+      zetelen
     </a>
   );
 }
