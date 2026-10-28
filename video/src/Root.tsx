@@ -10,6 +10,7 @@ import { DUUR_STEMMING, Stemming } from "./videos/Stemming";
 import { DUUR_TIJDLIJN, Tijdlijn } from "./videos/Tijdlijn";
 import { Weegschaal, duurWeegschaal } from "./videos/Weegschaal";
 import { DUUR_VVD_PRO, VvdEnPro } from "./videos/VvdEnPro";
+import { Banner, Profiel, Woordmerk } from "./merk";
 
 // Welke variant bij welke casus past
 export const VARIANTEN: Array<{ id: string; slug: string; soort: "Weegschaal" | "Hoefijzer" | "GelijkeStand" | "EenFractie" }> = [
@@ -41,6 +42,11 @@ export function Root() {
       <Composition id="Tijdlijn" component={Tijdlijn} durationInFrames={DUUR_TIJDLIJN} fps={FPS} width={BREED} height={HOOG} />
       {/* Uitgelicht: hoe vaak stemmen VVD en PRO hetzelfde? (28 oktober 2026) */}
       <Composition id="VvdEnPro" component={VvdEnPro} durationInFrames={DUUR_VVD_PRO} fps={FPS} width={BREED} height={HOOG} />
+      {/* Merk (28 oktober 2026): stilstaande beelden voor profielfoto, banners en woordmerk */}
+      <Composition id="Merk-profiel" component={Profiel} durationInFrames={1} fps={FPS} width={1080} height={1080} />
+      <Composition id="Merk-banner-linkedin" component={Banner} durationInFrames={1} fps={FPS} width={1584} height={396} />
+      <Composition id="Merk-banner-reddit" component={Banner} durationInFrames={1} fps={FPS} width={1920} height={384} />
+      <Composition id="Merk-woordmerk" component={Woordmerk} durationInFrames={1} fps={FPS} width={1400} height={420} />
     </>
   );
 }
