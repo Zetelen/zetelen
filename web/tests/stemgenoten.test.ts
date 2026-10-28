@@ -45,11 +45,19 @@ describe("gegevens", () => {
       expect(k.kamerstuk).toMatch(/^\d{5}(-[A-Z]+)?$/);
     }
   });
-  it("bij elke gekozen stemming precies één stelling, zonder gedachtestreepjes", () => {
-    expect(stellingen.map((s) => s.besluit).sort()).toEqual(kandidaten.gekozen.map((k) => k.besluit).sort());
+  it("bij elke gekozen en extra stemming precies één stelling, zonder gedachtestreepjes", () => {
+    expect(stellingen.map((s) => s.besluit).sort()).toEqual([...kandidaten.gekozen, ...kandidaten.extra].map((k) => k.besluit).sort());
     for (const s of stellingen) expect(`${s.stelling} ${s.uitleg}`).not.toMatch(/[—–!]/);
   });
-  it("de selectie wijkt weinig af van al het stemgedrag", () => {
+  it("de extra ronde deelt geen dossier met de eerste", () => {
+    const eerste = new Set(kandidaten.gekozen.map((k) => k.dossier));
+    for (const k of kandidaten.extra) expect(eerste.has(k.dossier)).toBe(false);
+  });
+  it("de selectie wijkt weinig af van al het stemgedrag, ook met de extra ronde", () => {
     expect(kandidaten.controle_verschil).toBeLessThan(8);
+    expect(kandidaten.controle_verschil_extra).toBeLessThan(8);
+  });
+  it("elke stelling is nagekeken", () => {
+    for (const s of stellingen) expect(s.controle).toBe("zeker");
   });
 });

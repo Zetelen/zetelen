@@ -19,12 +19,16 @@ export const metadata: Metadata = {
 };
 
 export default async function StemgenotenPagina() {
-  const per = new Map(kandidaten.gekozen.map((k) => [k.besluit, k]));
-  const stellingen: Stelling[] = teksten.map((t) => {
+  // De eerste ronde (gekozen) en de extra ronde achter de knop "Nog 15 stellingen" (besluit Niels, 28 oktober 2026)
+  const per = new Map([...kandidaten.gekozen, ...(kandidaten.extra ?? [])].map((k) => [k.besluit, k]));
+  const alle: Stelling[] = teksten.map((t) => {
     const k = per.get(t.besluit)!;
     return { besluit: t.besluit, zaak: t.zaak, stelling: t.stelling, uitleg: t.uitleg, terrein: k.terrein, soort: k.soort, datum: k.datum,
       uitslag: k.uitslag, voor: k.voor, tegen: k.tegen, stemmen: k.stemmen as Record<string, string>, kamerstuk: k.kamerstuk ?? null };
   });
+  const extraIds = new Set((kandidaten.extra ?? []).map((k) => k.besluit));
+  const stellingen = alle.filter((st) => !extraIds.has(st.besluit));
+  const extra = alle.filter((st) => extraIds.has(st.besluit));
   // Kabinet of oppositie volgens het huidige kabinet; zonder antwoord van de database geen labels, liever dan allemaal oppositie
   const coalitie = await coalitieVan(kandidaten.kabinet);
   const rollen: Rollen | null = coalitie.size === 0 ? null : Object.fromEntries(
@@ -41,7 +45,7 @@ export default async function StemgenotenPagina() {
         {/* Kern van de pagina (K11, 27 oktober 2026); geen "wat opvalt", dat zou de uitkomst verklappen */}
         <Kern ziet={`${stellingen.length} echte stemmingen uit de Tweede Kamer. Kies je kant en zie welke fracties net zo stemden: niet op basis van beloftes, maar van wat ze echt stemden.`} />
       </section>
-      <Stemgenoten stellingen={stellingen} fracties={kandidaten.fracties} rollen={rollen} />
+      <Stemgenoten stellingen={stellingen} extra={extra} fracties={kandidaten.fracties} rollen={rollen} />
       <section id="methode" style={{ display: "flex", flexDirection: "column", gap: "var(--r-3)", maxWidth: 860, scrollMarginTop: 80 }}>
         <Label>Hoe de stemmingen zijn gekozen</Label>
         <Tekst>
@@ -62,6 +66,12 @@ export default async function StemgenotenPagina() {
           in deze set hetzelfde stemmen, wijkt gemiddeld {String(kandidaten.controle_verschil).replace(".", ",")} procentpunt af van hoe vaak ze
           dat in alle verdeelde stemmingen deden. Zo stuurt de keuze van de stellingen de uitslag zo min mogelijk.
         </Tekst>
+        {extra.length > 0 && (
+          <Tekst>
+            Wie meer wil, krijgt na de uitslag nog {extra.length} stellingen, gekozen met dezelfde regels en uit andere dossiers. Over alle{" "}
+            {stellingen.length + extra.length} samen is het verschil gemiddeld {String(kandidaten.controle_verschil_extra).replace(".", ",")} procentpunt.
+          </Tekst>
+        )}
         <Data>
           Overeenkomst: van de stellingen waarop jij en een fractie allebei een kant kozen, het deel waarop dat dezelfde kant was. Zelfde
           telling als de cohesie op de rest van Zetelen. Onder 5 gemeenschappelijke stellingen geen percentage. Kabinet of oppositie: de

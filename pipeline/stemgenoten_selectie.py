@@ -35,6 +35,12 @@ Gebruik (sleutel en adres uit web/.env.local):
   set -a; . web/.env.local; set +a; python3 pipeline/stemgenoten_selectie.py            # nieuwe set trekken
   set -a; . web/.env.local; set +a; python3 pipeline/stemgenoten_selectie.py --houd     # set houden, alleen uitgesloten vervangen
 
+Met --extra blijft de set van 25 staan en komen er 15 stellingen bij voor de knop "Nog 15 stellingen" (besluit Niels,
+28 oktober 2026). Dezelfde regels gelden; de extra set is de trekking waarin alle 40 samen het dichtst bij alle verdeelde
+stemmingen liggen. Met --houd blijft ook een eerdere extra set staan.
+
+  set -a; . web/.env.local; set +a; python3 pipeline/stemgenoten_selectie.py --houd --extra  # extra set trekken of houden
+
 Met --houd blijft de vorige set staan: een stemming die inmiddels is uitgesloten, wordt vervangen door de
 kandidaat die de controle het minst verslechtert, het liefst op hetzelfde beleidsterrein. Zo gooit een
 uitsluiting niet de hele set om.
@@ -58,6 +64,10 @@ MIN_KANT = 3  # elke fractie met minstens 5 zetels minstens zo vaak voor en zo v
 MIN_WETTEN = 5
 MIN_EVENWICHT = 0.15
 TREKKINGEN = 4000
+EXTRA = 15
+EXTRA_PER_TERREIN = 3
+EXTRA_WETTEN = 3
+MIN_KANT_SAMEN = 5  # in alle 40 samen: elke grote fractie minstens zo vaak voor en zo vaak tegen
 OPVOLGER = {"GroenLinks-PvdA": "PRO"}  # zelfde fractie onder een nieuwe naam (VOORGANGER in web/lib/verhaal.ts)
 UITVOER = Path(__file__).resolve().parents[1] / "web" / "content" / "stemgenoten"
 
@@ -170,6 +180,44 @@ def houden(vorig: list, stemmingen: list, zetels: dict, alles: list) -> tuple[li
     return sorted(gekozen, key=lambda s: s["datum"]), random.Random(2026).sample(reserves, min(RESERVE, len(reserves))), verschil(gekozen, alles, grote)
 
 
+def kies_extra(vast: list, stemmingen: list, zetels: dict, alles: list) -> tuple[list, float]:
+    """Extra stellingen naast een vaste set: zelfde regels voor spreiding, geen dossier dat al in de vaste set zit."""
+    grote = sorted(f for f, z in zetels.items() if z >= 5)
+    al = {s["dossier"] for s in vast}
+    pool = [s for s in stemmingen if s["evenwicht"] >= MIN_EVENWICHT and s["dossier"] not in al]
+    rng = random.Random(2027)
+    beste, score = None, float("inf")
+    for _ in range(TREKKINGEN):
+        gekozen, dossiers, terreinen = [], set(), Counter()
+        def probeer(s):
+            if s in gekozen or s["dossier"] in dossiers or terreinen[s["terrein"]] >= EXTRA_PER_TERREIN:
+                return False
+            gekozen.append(s); dossiers.add(s["dossier"]); terreinen[s["terrein"]] += 1
+            return True
+        # Eerst precies EXTRA_WETTEN wetsvoorstellen, dan aanvullen met alles (zoals trek())
+        wetten = [s for s in pool if s["soort"] != "Amendement"]
+        n = 0
+        for s in rng.sample(wetten, len(wetten)):
+            if n >= EXTRA_WETTEN:
+                break
+            n += probeer(s)
+        for s in rng.sample(pool, len(pool)):
+            if len(gekozen) >= EXTRA:
+                break
+            probeer(s)
+        if len(gekozen) < EXTRA:
+            continue
+        samen = vast + gekozen
+        if any(sum(1 for x in samen if x["stemmen"].get(f) == kant) < MIN_KANT_SAMEN for f in grote for kant in ("Voor", "Tegen")):
+            continue
+        v = verschil(samen, alles, grote)
+        if v < score:
+            beste, score = gekozen, v
+    if beste is None:
+        raise SystemExit(f"Geen extra set gevonden ({len(pool)} bruikbaar)")
+    return sorted(beste, key=lambda s: s["datum"]), score
+
+
 def kamerstuk(nummer: int | None, toevoeging: str | None) -> str | None:
     """36800 met XVI wordt 36800-XVI; zonder toevoeging alleen het nummer."""
     if nummer is None:
@@ -222,7 +270,7 @@ def main() -> None:
     technisch = [s for s in stemmingen if s["soort"] == "Amendement" and TECHNISCH.search(s["onderwerp"])]
     stemmingen = [s for s in stemmingen if s["besluit"] not in uitgesloten and s not in technisch]
     print(f"Technisch of procedureel volgens de vaste lijst: {len(technisch)}")
-    p = argparse.ArgumentParser(); p.add_argument("--houd", action="store_true"); a = p.parse_args()
+    p = argparse.ArgumentParser(); p.add_argument("--houd", action="store_true"); p.add_argument("--extra", action="store_true"); a = p.parse_args()
     vorige = UITVOER / "kandidaten.json"
     if a.houd and vorige.exists():
         gekozen, reserves, gem = houden(json.loads(vorige.read_text())["gekozen"], stemmingen, zetels, alles)
@@ -235,9 +283,28 @@ def main() -> None:
     for f in sorted(z for z in zetels if zetels[z] >= 5):
         print(f"  {f}: {sum(1 for s in gekozen if s['stemmen'].get(f) == 'Voor')} voor, {sum(1 for s in gekozen if s['stemmen'].get(f) == 'Tegen')} tegen")
     print(f"Controle: gemiddeld verschil tussen overeenkomst in de set en in alle verdeelde stemmingen: {gem:.1f} procentpunt")
+    extra, gem_extra = [], None
+    vorig_extra = json.loads(vorige.read_text()).get("extra", []) if vorige.exists() else []
+    if a.extra and a.houd and vorig_extra:
+        extra, _, _ = houden(vorig_extra, [s for s in stemmingen if s["dossier"] not in {g["dossier"] for g in gekozen}], zetels, alles)
+        gem_extra = verschil(gekozen + extra, alles, sorted(f for f, z in zetels.items() if z >= 5))
+    elif a.extra:
+        extra, gem_extra = kies_extra(gekozen, stemmingen, zetels, alles)
+    elif vorig_extra:
+        extra = vorig_extra
+    if extra:
+        bezet = {s["dossier"] for s in gekozen + extra}
+        reserves = [s for s in reserves if s["dossier"] not in bezet]
+        print(f"Extra: {len(extra)}; per terrein:", dict(Counter(s["terrein"] for s in extra)), "per soort:", dict(Counter(s["soort"] for s in extra)))
+        for f in sorted(z for z in zetels if zetels[z] >= 5):
+            samen = gekozen + extra
+            print(f"  {f} in alle {len(samen)}: {sum(1 for s in samen if s['stemmen'].get(f) == 'Voor')} voor, {sum(1 for s in samen if s['stemmen'].get(f) == 'Tegen')} tegen")
+        if gem_extra is not None:
+            print(f"Controle over alle {len(gekozen) + len(extra)}: {gem_extra:.1f} procentpunt")
     UITVOER.mkdir(parents=True, exist_ok=True)
     (UITVOER / "kandidaten.json").write_text(json.dumps({"periode": PERIODE, "kabinet": KABINET, "controle_verschil": round(gem, 1), "aantal_verdeeld": len(alles),
-                                                        "fracties": {f: z for f, z in sorted(zetels.items()) if z}, "gekozen": gekozen, "reserve": reserves},
+                                                        "fracties": {f: z for f, z in sorted(zetels.items()) if z}, "gekozen": gekozen, "reserve": reserves,
+                                                        **({"extra": extra, "controle_verschil_extra": round(gem_extra, 1) if gem_extra is not None else json.loads(vorige.read_text()).get("controle_verschil_extra")} if extra else {})},
                                                         ensure_ascii=False, indent=1) + "\n")
 
 

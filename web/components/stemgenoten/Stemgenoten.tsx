@@ -63,7 +63,13 @@ export function verwachtingZin(lijst: Uitslag[], verwacht: string[]): string | n
   return zinnen.join(" ");
 }
 
-export function Stemgenoten({ stellingen, fracties, rollen }: { stellingen: Stelling[]; fracties: Record<string, number>; rollen: Rollen | null }) {
+// Na de uitslag kan de bezoeker nog een ronde extra stellingen doen; de uitslag telt dan alle stellingen mee
+// (feedback van een bezoeker, besluit Niels 28 oktober 2026)
+export function Stemgenoten({ stellingen: eerste, extra = [], fracties, rollen }: {
+  stellingen: Stelling[]; extra?: Stelling[]; fracties: Record<string, number>; rollen: Rollen | null;
+}) {
+  const [meer, setMeer] = useState(false);
+  const stellingen = meer ? [...eerste, ...extra] : eerste;
   const [stap, setStap] = useState(-2); // -2: uitleg, -1: verwachting, 0..n-1: stellingen, n: uitslag
   const [antwoorden, setAntwoorden] = useState<Record<string, Antwoord>>({});
   const [verwacht, setVerwacht] = useState<string[]>([]);
@@ -87,7 +93,7 @@ export function Stemgenoten({ stellingen, fracties, rollen }: { stellingen: Stel
     return (
       <div className={s.kaart} ref={kader}>
         <p className={s.tekst}>
-          Je krijgt {n} echte stemmingen uit de Tweede Kamer: wetten en amendementen (wijzigingen in een wet) van onder het
+          Je krijgt {eerste.length} echte stemmingen uit de Tweede Kamer: wetten en amendementen (wijzigingen in een wet) van onder het
           huidige kabinet. Kies bij elke stelling eens, oneens of geen mening. Daarna zie je per fractie hoe vaak die net zo stemde als
           jij, en bij elke stemming hoe het afliep.
         </p>
@@ -230,9 +236,17 @@ export function Stemgenoten({ stellingen, fracties, rollen }: { stellingen: Stel
         {zonder.length > 0 && beantwoord >= MINIMUM && (
           <p className={s.klein}>Te weinig gemeenschappelijke stellingen voor een percentage: {zonder.map((u) => u.fractie).join(", ")}.</p>
         )}
+        {!meer && extra.length > 0 && (
+          <div className={s.meer}>
+            <p className={s.tekst}>Wil je een preciezer beeld? Hoe meer stellingen, hoe betrouwbaarder de percentages.</p>
+            <button type="button" className={s.hoofdknop} onClick={() => { setMeer(true); naar(eerste.length); }}>
+              Nog {extra.length} stellingen
+            </button>
+          </div>
+        )}
         {beantwoord >= MINIMUM && (
           <div className={s.onder}>
-            <button type="button" className={s.hoofdknop} onClick={deel} disabled={delen === "bezig"}>Deel als plaatje</button>
+            <button type="button" className={meer || !extra.length ? s.hoofdknop : s.link} onClick={deel} disabled={delen === "bezig"}>Deel als plaatje</button>
             <p className={s.klein} aria-live="polite">
               {delen === "gedownload" ? "Het plaatje staat in je downloads." : delen === "fout" ? "Het plaatje lukte niet. Probeer het nog eens." : ""}
             </p>
@@ -240,7 +254,7 @@ export function Stemgenoten({ stellingen, fracties, rollen }: { stellingen: Stel
         )}
         <div className={s.onder}>
           <button type="button" className={s.link} onClick={() => naar(n - 1)}>← Terug naar de laatste stelling</button>
-          <button type="button" className={s.link} onClick={() => { setAntwoorden({}); setVerwacht([]); setDelen(""); naar(-2); }}>Opnieuw beginnen</button>
+          <button type="button" className={s.link} onClick={() => { setAntwoorden({}); setVerwacht([]); setDelen(""); setMeer(false); naar(-2); }}>Opnieuw beginnen</button>
         </div>
       </div>
 
