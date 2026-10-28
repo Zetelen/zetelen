@@ -43,6 +43,13 @@ def ontsleutel(bestand: Path, sleutel: Path) -> list[dict]:
 def blok(f: dict, teksten: dict[str, str]) -> str:
     t = datetime.fromisoformat(f["ontvangen_op"]).astimezone(ZoneInfo("Europe/Amsterdam"))
     regels = [f"## Nr. {f['id']} · {t.day} {MAANDEN[t.month - 1]} {t.year}, {t:%H:%M}", ""]
+    # Snelle vraag onderaan een pagina (28 oktober 2026): de pagina en de twee antwoorden op één plek
+    if str(f.get("pagina") or "").startswith("snel "):
+        a = f["antwoorden"]
+        regels.append(f"- **Snelle vraag op {f['pagina'][5:]}:** duidelijk? {a.get('duidelijk', '')}")
+        if a.get("onduidelijk"):
+            regels.append(f"- **Toelichting:** {MAIL.sub('[e-mailadres]', str(a['onduidelijk'])).replace(chr(10), ' ')}")
+        return "\n".join(regels) + "\n"
     # In de volgorde van het formulier; onbekende sleutels (oude vragen) achteraan
     volgorde = list(teksten) + [k for k in f["antwoorden"] if k not in teksten]
     for sleutel in (k for k in volgorde if k in f["antwoorden"]):

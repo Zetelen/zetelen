@@ -48,3 +48,17 @@ export function schoonAntwoorden(invoer: unknown): Record<string, string | numbe
   }
   return Object.keys(uit).length ? uit : null;
 }
+
+// Snelle vraag onderaan elke pagina (verzoek Niels, 28 oktober 2026: de drempel van elf vragen was te hoog). Een tik op
+// ja, een beetje of nee, met een optionele toelichting. De pagina komt mee als adres, zonder zoekparameters.
+export const SNEL_OPTIES = ["ja", "een beetje", "nee"] as const;
+
+export function schoonSnel(invoer: unknown, pad: unknown): { pagina: string; antwoorden: Record<string, string> } | null {
+  if (!invoer || typeof invoer !== "object" || Array.isArray(invoer)) return null;
+  if (typeof pad !== "string" || !/^\/[a-z0-9/-]{0,100}$/.test(pad)) return null;
+  const { duidelijk, onduidelijk } = invoer as Record<string, unknown>;
+  if (typeof duidelijk !== "string" || !(SNEL_OPTIES as readonly string[]).includes(duidelijk)) return null;
+  const uit: Record<string, string> = { duidelijk };
+  if (typeof onduidelijk === "string" && onduidelijk.trim()) uit.onduidelijk = onduidelijk.trim().slice(0, MAX_TEKST);
+  return { pagina: `snel ${pad}`, antwoorden: uit };
+}

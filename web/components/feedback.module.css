@@ -99,3 +99,74 @@
   font-size: 14px;
   color: var(--tekst-zacht);
 }
+/* Snelle vraag onderaan elke pagina (28 oktober 2026) */
+.snel {
+  max-width: var(--pagina-max);
+  margin: 0 auto;
+  padding: var(--r-6) var(--pagina-marge);
+  border-top: 1px solid var(--lijn);
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-3);
+}
+.snelVraag {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 24px;
+  color: var(--tekst);
+}
+.snelKnoppen {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--r-2);
+}
+.snelKnop {
+  min-height: var(--doel-min);
+  padding: 0 var(--r-5);
+  border: 1px solid var(--lijn-licht);
+  border-radius: var(--hoek-pil);
+  background: transparent;
+  color: var(--tekst);
+  font: inherit;
+  cursor: pointer;
+}
+.snelKnop[aria-pressed="true"] {
+  border-color: var(--koper);
+  background: var(--nacht-700);
+}
+@media (hover: hover) {
+  .snelKnop:hover {
+    border-color: var(--koper);
+  }
+}
+.snelToelichting {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-2);
+  max-width: 560px;
+}
+.snelLabel {
+  font-size: 15px;
+  color: var(--tekst-zacht);
+}
+.snelOnder {
+  display: flex;
+  align-items: center;
+  gap: var(--r-4);
+  flex-wrap: wrap;
+}
+.snelVerstuur {
+  min-height: var(--doel-min);
+  padding: 0 var(--r-5);
+  border: 1px solid var(--koper);
+  border-radius: var(--hoek-pil);
+  background: var(--nacht-700);
+  color: var(--tekst);
+  font: inherit;
+  cursor: pointer;
+}
+.snelKlein {
+  margin: 0;
+  font-size: 15px;
+  color: var(--tekst-zacht);
+}

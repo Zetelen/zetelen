@@ -8,7 +8,8 @@ export function FeedbackBalk() {
   if (!FEEDBACK) return null;
   return (
     <div className={s.feedbackBalk}>
-      Zetelen is net online. Wat vind je ervan? <Link href="/feedback">Zeg het in 3 minuten</Link>
+      {/* Lagere drempel (28 oktober 2026): de snelle vraag staat onderaan elke pagina */}
+      Zetelen is net online. Iets onduidelijk? <a href="#snelle-feedback">Zeg het in één tik</a> of <Link href="/feedback">vul het formulier in</Link>
     </div>
   );
 }

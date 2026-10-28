@@ -26,3 +26,11 @@ def test_laatste_id(tmp_path):
     assert laatste_id(n) == 0
     n.write_text("---\nlaatste_id: 12\n---\n", encoding="utf-8")
     assert laatste_id(n) == 12
+
+
+def test_snelle_vraag():
+    f = {"id": 9, "ontvangen_op": "2026-10-28T10:00:00+00:00", "pagina": "snel /verkenner",
+         "antwoorden": {"duidelijk": "nee", "onduidelijk": "Wat betekent cohesie? mail me op a@b.nl"}}
+    tekst = blok(f, vragen())
+    assert "Snelle vraag op /verkenner:** duidelijk? nee" in tekst
+    assert "@" not in tekst
