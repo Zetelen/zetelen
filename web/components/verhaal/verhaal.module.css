@@ -299,6 +299,16 @@
   .verhaal:not([data-breed="true"]) .kaart[data-actief="true"] > div {
     opacity: var(--zicht, 1);
   }
+  /* De tekening ligt boven de kaarten, met een dichte achtergrond: een kaart schuift eronder door in plaats van
+     erover, zodat tekst en tekening niet door elkaar lopen (feedback nr. 6, 28 oktober 2026). De figuur vangt geen
+     klikken; er staat niets klikbaars in. */
+  .verhaal:not([data-breed="true"]) .figuur {
+    z-index: 1;
+    pointer-events: none;
+  }
+  .verhaal:not([data-breed="true"]) .svg {
+    background: var(--nacht-950);
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .pad {
