@@ -143,7 +143,8 @@ export function Stemgenoten({ stellingen: eerste, extra = [], fracties, rollen }
             </a>
           </p>
         )}
-        <div className={s.knoppen}>
+        {/* Per stelling nieuwe knoppen (key), zodat focus en aantiktoestand niet meegaan naar de volgende */}
+        <div className={s.knoppen} key={st.besluit}>
           <button type="button" className={s.eens} aria-pressed={huidig === "Voor"} onClick={() => kies("Voor")}>Eens</button>
           <button type="button" className={s.oneens} aria-pressed={huidig === "Tegen"} onClick={() => kies("Tegen")}>Oneens</button>
           <button type="button" className={s.neutraal} aria-pressed={huidig === "geen"} onClick={() => kies("geen")}>Geen mening</button>

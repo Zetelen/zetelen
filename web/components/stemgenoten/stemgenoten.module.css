@@ -77,19 +77,31 @@
   background: var(--koper);
   color: var(--nacht-950);
 }
-.eens:hover,
 .eens[aria-pressed="true"] {
   border-color: #6fbf8e;
   background: color-mix(in srgb, #6fbf8e 22%, transparent);
 }
-.oneens:hover,
 .oneens[aria-pressed="true"] {
   border-color: #e57f93;
   background: color-mix(in srgb, #e57f93 22%, transparent);
 }
-.neutraal:hover,
 .neutraal[aria-pressed="true"] {
   background: var(--nacht-700);
+}
+/* Hover alleen met een muis: op een telefoon bleef een aangetikte knop er bij de volgende stelling gekozen uitzien
+   (feedback van een bezoeker, 28 oktober 2026) */
+@media (hover: hover) {
+  .eens:hover {
+    border-color: #6fbf8e;
+    background: color-mix(in srgb, #6fbf8e 22%, transparent);
+  }
+  .oneens:hover {
+    border-color: #e57f93;
+    background: color-mix(in srgb, #e57f93 22%, transparent);
+  }
+  .neutraal:hover {
+    background: var(--nacht-700);
+  }
 }
 .onder {
   display: flex;
