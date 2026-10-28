@@ -2,7 +2,7 @@
 // Basiscomponenten van het ontwerpsysteem: kaart, segmentkeuze, uitleesvak, tabel,
 // grafiekkader, lezingenblok, cohesieschaal en -cel, en de korrel over de pagina.
 import type { ReactNode } from "react";
-import { schaalkleur, tekstOp } from "@/lib/kleur";
+import { KLASSEN, schaalkleur, tekstOp } from "@/lib/kleur";
 import { Data, Label } from "./Typografie";
 import s from "./onderdelen.module.css";
 
@@ -144,16 +144,19 @@ export function Lezingen({ links, rechts }: { links: { titel: string; tekst: Rea
 }
 
 // Legenda van de cohesieschaal, met de arcering voor te weinig data
+// Legenda van de cohesie: vijf klassen met een woord en het bereik (28 oktober 2026)
 export function Schaal() {
-  const verloop = `linear-gradient(90deg, ${[0, 33, 67, 100].map((p) => `${schaalkleur(p)} ${p}%`).join(", ")})`;
   return (
     <div className={s.schaal}>
-      <div className={s.schaalbalk} style={{ background: verloop }} aria-hidden="true" />
-      <div className={s.schaalas}>
-        <Data>0%</Data>
-        <Data>50%</Data>
-        <Data>100%</Data>
-      </div>
+      <ol className={s.klassen} aria-label="Hoe vaak hetzelfde gestemd">
+        {KLASSEN.map((k) => (
+          <li key={k.vanaf}>
+            <span className={s.klasseVlak} style={{ background: k.kleur }} aria-hidden="true" />
+            <span className={s.klasseWoord}>{k.woord}</span>
+            <Data>{k.bereik}</Data>
+          </li>
+        ))}
+      </ol>
       <span style={{ display: "inline-flex", gap: 8, alignItems: "center" }}>
         <span className={`${s.cel} ${s.teWeinig}`} style={{ minWidth: 32, minHeight: 20 }} aria-hidden="true" />
         <Data>Te weinig stemmingen: minder dan 25 samen, dus geen oordeel</Data>

@@ -14,7 +14,7 @@ export const TOKENS = {
   goud: "#E3B76A",
 } as const;
 
-// Vier stops, lineair geinterpoleerd in sRGB
+// Vier stops van het oude verloop; nog gebruikt als vaste kleuren in CSS (--schaal-33, -67, -100), niet meer voor cohesie
 export const SCHAAL: Array<[number, string]> = [
   [0, "#2B2F6B"],
   [33, "#3E7CB1"],
@@ -47,20 +47,22 @@ export function contrast(a: string, b: string): number {
   return (l1 + 0.05) / (l2 + 0.05);
 }
 
-// Kleur voor een cohesie van 0 tot 100 procent
+// Vijf duidelijk verschillende klassen in plaats van een doorlopend verloop (feedback van een bezoeker, besluit Niels
+// 28 oktober 2026): op de telefoon was 60% niet van 75% te onderscheiden. Elke klasse is lichter dan de vorige, ook bij
+// kleurenblindheid; de donkerste haalt 3:1 op nacht-950. "vanaf" is de ondergrens in procenten.
+export const KLASSEN: Array<{ vanaf: number; kleur: string; woord: string; bereik: string }> = [
+  { vanaf: 0, kleur: "#4A55B0", woord: "zelden", bereik: "onder 40%" },
+  { vanaf: 40, kleur: "#3984C0", woord: "soms", bereik: "40 tot 55%" },
+  { vanaf: 55, kleur: "#4FB0A6", woord: "vaak", bereik: "55 tot 70%" },
+  { vanaf: 70, kleur: "#9CCF83", woord: "meestal", bereik: "70 tot 85%" },
+  { vanaf: 85, kleur: "#FFE08A", woord: "bijna altijd", bereik: "85% en meer" },
+];
+
+// Kleur voor een cohesie van 0 tot 100 procent: de kleur van de klasse (afgerond op hele procenten, zoals het getal
+// dat ernaast staat)
 export function schaalkleur(procent: number): string {
-  const p = Math.min(100, Math.max(0, procent));
-  for (let i = 1; i < SCHAAL.length; i++) {
-    const [p0, k0] = SCHAAL[i - 1];
-    const [p1, k1] = SCHAAL[i];
-    if (p <= p1) {
-      const t = (p - p0) / (p1 - p0);
-      const a = naarRgb(k0);
-      const b = naarRgb(k1);
-      return naarHex([0, 1, 2].map((j) => a[j] + (b[j] - a[j]) * t) as Rgb);
-    }
-  }
-  return SCHAAL[SCHAAL.length - 1][1];
+  const p = Math.round(Math.min(100, Math.max(0, procent)));
+  return [...KLASSEN].reverse().find((k) => p >= k.vanaf)!.kleur;
 }
 
 // Tekst in een gekleurde cel: wit of zwart, gekozen op relatieve luminantie (grens 0,179)

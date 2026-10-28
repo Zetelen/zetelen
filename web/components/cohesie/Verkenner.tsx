@@ -222,22 +222,30 @@ function Zaal({ fracties, gekozen, hover, setHover, kies, paar, uitlees, uitlees
             onClick={() => { const f = z.fractie ? perId.get(z.fractie) : undefined; if (f) kies(f.afkorting); }} />
         );
       })}
-      {/* Namen boven de zetels, zodat ze leesbaar blijven; alleen als de naam in de breedte van het vak past */}
-      <g aria-hidden="true" pointerEvents="none">
-        {vakLijst.map((v) => {
-          const f = perId.get(v.fractie)!;
-          const naam = f.afkorting.replace(/^Groep /, "Gr. ");
-          const breedte = ((v.van - v.tot) * Math.PI / 180) * 330;
-          if (breedte < naam.length * 9) return null;
-          const l = punt(330, v.midden);
-          return (
-            <text key={f.id} x={l.x} y={l.y} textAnchor="middle" dominantBaseline="middle" className={s.labelBinnen}
-              data-gekozen={f.id === gekozen.id} data-aan={f.id === hover}>
-              {naam}
-            </text>
-          );
-        })}
-      </g>
+      {/* Naam en percentage midden in de eigen zetels, alleen als ze in de breedte van het eigen vak passen: zo vallen
+          labels nooit over elkaar (feedback van een bezoeker, 28 oktober 2026). Twee sets: een kleine letter voor een
+          breed scherm en een grote voor de telefoon, waar alleen de grotere fracties een label krijgen. */}
+      {([["breed", 19], ["smal", 38]] as const).map(([soort, grootte]) => (
+        <g key={soort} aria-hidden="true" pointerEvents="none" className={soort === "breed" ? s.labelsBreed : s.labelsSmal}>
+          {vakLijst.map((v) => {
+            const f = perId.get(v.fractie)!;
+            const ik = f.id === gekozen.id;
+            const naam = f.afkorting.replace(/^Groep /, "Gr. ");
+            const c = ik ? null : paar(gekozen.id, f.id);
+            const waarde = ik ? "" : c && !c.teWeinig && c.cohesie != null ? `${Math.round(c.cohesie)}%` : "–";
+            const breedte = ((v.van - v.tot) * Math.PI / 180) * 300;
+            if (breedte < Math.max(naam.length, waarde.length) * grootte * 0.62 + 8) return null;
+            const l = punt(300, v.midden);
+            return (
+              <text key={f.id} x={l.x} y={l.y - (waarde ? grootte * 0.5 : 0)} textAnchor="middle" dominantBaseline="middle"
+                className={s.labelBinnen} style={{ fontSize: grootte, strokeWidth: grootte * 0.28 }} data-gekozen={ik} data-aan={f.id === hover}>
+                {naam}
+                {waarde && <tspan x={l.x} dy={grootte * 1.05} className={s.labelWaarde}>{waarde}</tspan>}
+              </text>
+            );
+          })}
+        </g>
+      ))}
       <Uitlees gekozen={gekozen} uitlees={uitlees} uitleesPaar={uitleesPaar} y={MIDDEN.y} />
     </svg>
   );

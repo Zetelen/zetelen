@@ -1,7 +1,7 @@
 // Contrastcontrole van het ontwerpsysteem tegen WCAG AA (story E3-S2)
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { SCHAAL, TOKENS, contrast, luminantie, schaalkleur, tekstOp } from "../lib/kleur";
+import { KLASSEN, TOKENS, contrast, luminantie, schaalkleur, tekstOp } from "../lib/kleur";
 
 const ACHTERGRONDEN = ["nacht-950", "nacht-900", "nacht-800", "nacht-700"] as const;
 
@@ -28,16 +28,30 @@ describe("grafische vormen", () => {
   });
 });
 
-describe("cohesieschaal", () => {
-  it("begint en eindigt op de stops", () => {
-    expect(schaalkleur(0)).toBe(SCHAAL[0][1]);
-    expect(schaalkleur(100)).toBe(SCHAAL[3][1]);
+describe("cohesieschaal in vijf klassen", () => {
+  it("geeft de kleur van de klasse, met grenzen op 40, 55, 70 en 85 procent", () => {
+    expect(schaalkleur(0)).toBe(KLASSEN[0].kleur);
+    expect(schaalkleur(39.4)).toBe(KLASSEN[0].kleur);
+    expect(schaalkleur(39.6)).toBe(KLASSEN[1].kleur); // afgerond 40, zoals het getal ernaast
+    expect(schaalkleur(55)).toBe(KLASSEN[2].kleur);
+    expect(schaalkleur(84)).toBe(KLASSEN[3].kleur);
+    expect(schaalkleur(100)).toBe(KLASSEN[4].kleur);
   });
 
-  it("wordt steeds lichter van 0 naar 100 procent", () => {
-    for (let p = 1; p <= 100; p++) {
-      expect(luminantie(schaalkleur(p))).toBeGreaterThan(luminantie(schaalkleur(p - 1)));
+  it("elke klasse is lichter dan de vorige", () => {
+    for (let i = 1; i < KLASSEN.length; i++) {
+      expect(luminantie(KLASSEN[i].kleur)).toBeGreaterThan(luminantie(KLASSEN[i - 1].kleur));
     }
+  });
+
+  it("buren zijn duidelijk van elkaar te onderscheiden (contrast minstens 1,35)", () => {
+    for (let i = 1; i < KLASSEN.length; i++) {
+      expect(contrast(KLASSEN[i].kleur, KLASSEN[i - 1].kleur)).toBeGreaterThanOrEqual(1.35);
+    }
+  });
+
+  it("elke klasse haalt 3 op nacht-950", () => {
+    for (const k of KLASSEN) expect(contrast(k.kleur, TOKENS["nacht-950"])).toBeGreaterThanOrEqual(3);
   });
 
   it("tekst in elke cel haalt 4,5", () => {
@@ -70,9 +84,9 @@ describe("cohesieschaal bij kleurenblindheid", () => {
     return 0.2126 * sim[0] + 0.7152 * sim[1] + 0.0722 * sim[2];
   }
   for (const [naam, m] of Object.entries(MATRICES)) {
-    it(`wordt ook bij ${naam} steeds lichter`, () => {
-      for (let p = 1; p <= 100; p++) {
-        expect(luminantieNaSimulatie(schaalkleur(p), m)).toBeGreaterThan(luminantieNaSimulatie(schaalkleur(p - 1), m));
+    it(`wordt ook bij ${naam} per klasse lichter`, () => {
+      for (let i = 1; i < KLASSEN.length; i++) {
+        expect(luminantieNaSimulatie(KLASSEN[i].kleur, m)).toBeGreaterThan(luminantieNaSimulatie(KLASSEN[i - 1].kleur, m));
       }
     });
   }

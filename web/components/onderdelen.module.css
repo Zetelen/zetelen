@@ -235,3 +235,33 @@
   line-height: 1.4;
   color: var(--tekst);
 }
+/* Legenda met vijf klassen (28 oktober 2026) */
+.klassen {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--r-2);
+}
+.klassen li {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.klasseVlak {
+  height: 14px;
+  border-radius: 3px;
+}
+.klasseWoord {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--tekst);
+}
+@media (max-width: 520px) {
+  .klassen {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: var(--r-3);
+  }
+}

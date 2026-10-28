@@ -55,11 +55,12 @@
 .vakGroep {
   cursor: pointer;
 }
+/* Geen lijnen tussen de vakken: die maakten de zaal onrustig (feedback van een bezoeker, 28 oktober 2026). Alleen de
+   gekozen fractie en de fractie onder de muis krijgen een rand. */
 .vak {
   fill: var(--nacht-800);
   fill-opacity: 0;
-  stroke: var(--lijn);
-  stroke-width: 1;
+  stroke: none;
 }
 .vak[data-aan="true"] {
   fill-opacity: 0.6;
@@ -69,7 +70,7 @@
 .vak[data-gekozen="true"] {
   fill-opacity: 0.6;
   stroke: var(--goud);
-  stroke-width: 2.5;
+  stroke-width: 1.5;
 }
 .labellijn {
   stroke: var(--lijn);
@@ -401,8 +402,12 @@
 .labelBinnen[data-gekozen="true"] {
   fill: var(--goud);
 }
-.labelBinnen[data-aan="true"] {
-  font-size: 19px;
+.labelWaarde {
+  font-family: var(--mono);
+  font-weight: 400;
+}
+.labelsSmal {
+  display: none;
 }
 @media (max-width: 900px) {
   /* Smal: eerst de zaal, dan het paneel eronder */
@@ -414,8 +419,11 @@
   }
 }
 @media (max-width: 640px) {
-  .labelBinnen {
+  .labelsBreed {
     display: none;
+  }
+  .labelsSmal {
+    display: inline;
   }
 }
 
