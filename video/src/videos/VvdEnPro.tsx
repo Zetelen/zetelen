@@ -2,7 +2,7 @@
 // zonder stem, in de flitsende stijl. Zelfde opbouw en cijfers als /uitgelicht/vvd-en-pro: de vraag, PRO tussen de andere
 // fracties nu, de lijn sinds 2010 met Rutte II, de PVV als tweede voorbeeld, twee lezingen, de bron.
 // Gegevens: src/gegevens/vvd-pro.json (scripts/vvd_pro.mjs). Geen partijkleuren, geen namen van personen.
-import { AbsoluteFill, Sequence, interpolate, useCurrentFrame } from "remotion";
+import { AbsoluteFill, Audio, Sequence, interpolate, staticFile, useCurrentFrame } from "remotion";
 import { vloeiendPad } from "../../../web/lib/vloeiend";
 import data from "../gegevens/vvd-pro.json";
 import { Banner, Flits, Geluid, Sprong, Woorden, ZWAAR } from "../flits";
@@ -194,6 +194,8 @@ function Lezingen() {
 export function VvdEnPro() {
   return (
     <AbsoluteFill style={{ backgroundColor: K.nacht950 }}>
+      {/* Eigen muzikale onderlaag (scripts/muziek.py), zacht en neutraal; uit aan het eind */}
+      <Audio src={staticFile("muziek/onderlaag.wav")} volume={(f) => 0.55 * interpolate(f, [0, 20, DUUR_VVD_PRO - 60, DUUR_VVD_PRO], [0, 1, 1, 0], zacht)} />
       <Sequence from={A} durationInFrames={B - A}><Vraag /></Sequence>
       <Sequence from={B} durationInFrames={C - B}><Nu /></Sequence>
       <Sequence from={C} durationInFrames={D - C}><Lijn /></Sequence>

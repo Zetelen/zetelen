@@ -25,3 +25,4 @@ web/next-env.d.ts
 
 # Video: gerenderde bestanden
 video/out/
+video/public/muziek/
