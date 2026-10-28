@@ -8,6 +8,7 @@ import { Inhoud, knopKlasse } from "@/components/Kader";
 import { Label, SectieKop, Tekst } from "@/components/Typografie";
 import { Doorsturen } from "@/components/deel/Doorsturen";
 import { BRON, deellinkVan, doelVan, isGrafiek, plaatjeVan, titelVan } from "@/lib/deel";
+import { schoonZoek } from "@/lib/deelSchoon";
 import s from "@/components/deel/deel.module.css";
 
 type Props = { params: Promise<{ grafiek: string }>; searchParams: Promise<Record<string, string | string[] | undefined>> };
@@ -15,7 +16,7 @@ type Props = { params: Promise<{ grafiek: string }>; searchParams: Promise<Recor
 export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
   const g = (await params).grafiek;
   if (!isGrafiek(g)) return {};
-  const zoek = await searchParams;
+  const zoek = await schoonZoek(g, await searchParams);
   const titel = titelVan(g, zoek), plaatje = plaatjeVan(g, zoek);
   const beschrijving = `${BRON}. Bekijk de grafiek en kies zelf een partij of periode.`;
   return {
@@ -30,7 +31,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
 export default async function Deellink({ params, searchParams }: Props) {
   const g = (await params).grafiek;
   if (!isGrafiek(g)) notFound();
-  const zoek = await searchParams;
+  const zoek = await schoonZoek(g, await searchParams);
   const doel = doelVan(g, zoek);
   return (
     <Inhoud>
