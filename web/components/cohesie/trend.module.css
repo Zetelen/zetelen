@@ -133,3 +133,33 @@
   line-height: 1.5;
   color: var(--tekst-zacht);
 }
+.lijnExtra {
+  fill: none;
+  stroke-width: 1.5;
+  opacity: 0.9;
+}
+.legenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--r-2) var(--r-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  color: var(--tekst-zacht);
+}
+.legenda li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--r-2);
+}
+.streep,
+.streepDun {
+  display: inline-block;
+  width: 18px;
+  height: 3px;
+  border-radius: 2px;
+}
+.streepDun {
+  height: 2px;
+}

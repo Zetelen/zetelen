@@ -2,15 +2,21 @@
 // Door de jaren (verzoek Niels, 27 oktober 2026): hoe vaak twee fracties hetzelfde stemden, per half jaar sinds 2010,
 // met de kabinetten als vlakken op de achtergrond. Met een schuif kies je de periode; het totaal en de toelichting
 // over wat uitvalt rekenen mee. De tweede fractie staat in de URL (met=), de periode alleen in de pagina.
+// Bij een fusie (content/fractie-opvolgers.json) staan de voorgangers als dunne lijnen ernaast; die tellen niet mee in
+// het totaal (verzoek Niels, 28 oktober 2026).
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { DREMPEL, type Punt, beginTekst, eindTekst, kortTekst, samenvatting, uitvalTekst } from "@/lib/trend";
 import s from "./trend.module.css";
 
 type Kabinet = { naam: string; begin: string; einde: string | null };
+type Extra = { naam: string; punten: Punt[] };
+const TINTEN = ["#7fb7c9", "#e57f93", "#a08fe0", "#6fbf8e"]; // uit het palet van de scroll graphics (lib/verhaal.ts)
 const STANDAARD = 20; // de laatste tien jaar (opmerking van een bezoeker: een Kamerperiode is arbitrair)
 
-export function Trend({ a, b, keuzes, punten, kabinetten }: { a: string; b: string; keuzes: string[]; punten: Punt[]; kabinetten: Kabinet[] }) {
+export function Trend({ a, b, keuzes, punten, extra, eerder, kabinetten }: {
+  a: string; b: string; keuzes: string[]; punten: Punt[]; extra: Extra[]; eerder: string[]; kabinetten: Kabinet[];
+}) {
   const router = useRouter(), pad = usePathname(), zoek = useSearchParams();
   const n = punten.length;
   const [van, setVan] = useState(Math.max(0, n - STANDAARD));
@@ -44,13 +50,18 @@ export function Trend({ a, b, keuzes, punten, kabinetten }: { a: string; b: stri
   const y = (v: number) => T + ((100 - v) / 100) * (H - T - O);
   const px = (i: number) => x(i * 6 + 3);
   // Lijnstukken tussen opeenvolgende halve jaren met een percentage; een gat waar er geen is
-  const stukken: Punt[][] = [];
-  punten.forEach((p, i) => {
-    if (p.cohesie == null) return;
-    const vorige = stukken[stukken.length - 1];
-    if (vorige && punten[i - 1]?.cohesie != null) vorige.push(p);
-    else stukken.push([p]);
-  });
+  const stukkenVan = (reeks: Punt[]) => {
+    const uit: Punt[][] = [];
+    reeks.forEach((p, i) => {
+      if (p.cohesie == null) return;
+      const vorige = uit[uit.length - 1];
+      if (vorige && reeks[i - 1]?.cohesie != null) vorige.push(p);
+      else uit.push([p]);
+    });
+    return uit;
+  };
+  const lijnPad = (st: Punt[]) => `M${st.map((p) => `${px(alle.indexOf(p.halfjaar))},${y(p.cohesie!)}`).join(" L")}`;
+  const stukken = stukkenVan(punten);
   const vlakken = kabinetten
     .map((k) => ({ ...k, m0: Math.max(0, maandVan(k.begin)), m1: Math.min(maanden, k.einde ? maandVan(k.einde) : maanden) }))
     .filter((k) => k.m1 > k.m0);
@@ -71,6 +82,13 @@ export function Trend({ a, b, keuzes, punten, kabinetten }: { a: string; b: stri
           : <>Van {beginTekst(alle[van])} {totTekst} stemden {a} en {b} te weinig samen voor een percentage ({sv.gezamenlijk} stemmingen, minimaal {DREMPEL}).</>}
       </p>
 
+      {extra.length > 0 && (
+        <ul className={s.legenda}>
+          <li><span className={s.streep} style={{ background: "var(--goud)" }} />{a} en {b}</li>
+          {extra.map((e, j) => <li key={e.naam}><span className={s.streepDun} style={{ background: TINTEN[j % TINTEN.length] }} />{e.naam}, voor de fusie</li>)}
+        </ul>
+      )}
+
       <svg viewBox={`0 0 ${B} ${H}`} className={s.grafiek} role="img"
         aria-label={`Hoe vaak ${a} en ${b} hetzelfde stemden, per half jaar sinds ${alle[0].slice(0, 4)}`}>
         {vlakken.map((k, i) => (
@@ -86,9 +104,17 @@ export function Trend({ a, b, keuzes, punten, kabinetten }: { a: string; b: stri
           </g>
         ))}
         {jaarLabels.map(({ h, i }) => <text key={h} x={x(i * 6)} y={H - 10} textAnchor="middle" className={s.as}>{h.slice(0, 4)}</text>)}
-        {stukken.map((st) => (
-          <path key={st[0].halfjaar} d={`M${st.map((p) => `${px(alle.indexOf(p.halfjaar))},${y(p.cohesie!)}`).join(" L")}`} className={s.lijn} />
+        {extra.map((e, j) => (
+          <g key={e.naam}>
+            {stukkenVan(e.punten).map((st) => <path key={st[0].halfjaar} d={lijnPad(st)} className={s.lijnExtra} style={{ stroke: TINTEN[j % TINTEN.length] }} />)}
+            {e.punten.map((p, i) => p.cohesie != null && (
+              <circle key={p.halfjaar} cx={px(i)} cy={y(p.cohesie)} r={smal ? 1.8 : 2.5} style={{ fill: TINTEN[j % TINTEN.length] }}>
+                <title>{`${e.naam}, ${beginTekst(p.halfjaar)} tot en met ${eindTekst(p.halfjaar)}: ${Math.round(p.cohesie)}% van ${p.gezamenlijk} stemmingen`}</title>
+              </circle>
+            ))}
+          </g>
         ))}
+        {stukken.map((st) => <path key={st[0].halfjaar} d={lijnPad(st)} className={s.lijn} />)}
         {punten.map((p, i) => p.cohesie != null && (
           <circle key={p.halfjaar} cx={px(i)} cy={y(p.cohesie)} r={smal ? 2.5 : 3.5} className={i >= van && i <= tot ? s.punt : s.puntUit}>
             <title>{`${beginTekst(p.halfjaar)} tot en met ${eindTekst(p.halfjaar)}: ${Math.round(p.cohesie)}% van ${p.gezamenlijk} stemmingen`}</title>
@@ -122,6 +148,8 @@ export function Trend({ a, b, keuzes, punten, kabinetten }: { a: string; b: stri
         Elk punt is een half jaar: van alle stemmingen waarin {a} en {b} allebei voor of tegen stemden, het deel waarin ze dezelfde
         kant kozen. Een punt vanaf {DREMPEL} stemmingen samen. De vlakken zijn de kabinetten.
         {uitval ? ` ${uitval}` : ""}
+        {eerder.length > 0 && ` ${eerder.join(". ")}.`}
+        {extra.length > 0 && " De dunne lijnen tellen niet mee in het totaal hierboven."}
       </p>
     </div>
   );

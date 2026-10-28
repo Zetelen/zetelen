@@ -17,7 +17,8 @@ import { Inklapbaar } from "@/components/Inklapbaar";
 import { SamenRegeren } from "@/components/lezingen/SamenRegeren";
 import { MobielPaneel } from "@/components/MobielPaneel";
 import { Trend } from "@/components/cohesie/Trend";
-import { cohesiePerHalfjaar, halveJaren, punten } from "@/lib/trend";
+import { type Opvolger, halveJaren, laadTrend, punten } from "@/lib/trend";
+import opvolgers from "@/content/fractie-opvolgers.json";
 import o from "@/components/onderwerpen/onderwerpen.module.css";
 
 export const metadata: Metadata = {
@@ -38,13 +39,11 @@ export default async function VerkennerPagina({ searchParams }: Props) {
     : [null, null];
   const soortTekst = soort === "kabinet" ? "dit kabinet" : "deze Kamerperiode";
   // Door de jaren (verzoek Niels, 27 oktober 2026): de gekozen fractie (zoals de verkenner: standaard de grootste) met
-  // een tweede fractie uit deze periode, per half jaar sinds 2010
-  const metZetels = [...(fracties ?? [])].filter((f) => f.zetels > 0).sort((x, y) => y.zetels - x.zetels || x.afkorting.localeCompare(y.afkorting));
-  const trendA = metZetels.find((f) => f.afkorting === fractieKeuze) ?? metZetels[0];
-  const keuzes = metZetels.filter((f) => f.id !== trendA?.id);
+  // een tweede fractie uit deze periode, per half jaar sinds 2010. Een naamswijziging is één lijn, bij een fusie komen de
+  // voorgangers als aparte lijnen (content/fractie-opvolgers.json, verzoek Niels 28 oktober 2026)
   const metKeuze = (Array.isArray(zoek.met) ? zoek.met[0] : zoek.met) as string | undefined;
-  const trendB = keuzes.find((f) => f.afkorting === metKeuze) ?? keuzes[0];
-  const trendRijen = trendA && trendB ? await cohesiePerHalfjaar(trendA.id, trendB.id, variant) : null;
+  const trend = fracties ? await laadTrend(fracties, fractieKeuze, metKeuze, variant, opvolgers.opvolgers as Opvolger[]) : null;
+  const jaren = halveJaren(new Date());
 
   return (
     <Inhoud>
@@ -99,13 +98,14 @@ export default async function VerkennerPagina({ searchParams }: Props) {
           )}
         </div>
       </div>
-      {trendA && trendB && trendRijen && (
+      {trend && (
         <section id="door-de-jaren" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
           <Label>Door de jaren</Label>
-          <SectieKop>Hoe vaak stemden {trendA.afkorting} en {trendB.afkorting} hetzelfde, sinds 2010?</SectieKop>
+          <SectieKop>Hoe vaak stemden {trend.a.naam} en {trend.b.naam} hetzelfde, sinds 2010?</SectieKop>
           <Suspense>
-            <Trend a={trendA.afkorting} b={trendB.afkorting} keuzes={keuzes.map((f) => f.afkorting)}
-              punten={punten(trendRijen, halveJaren(new Date()))}
+            <Trend a={trend.a.naam} b={trend.b.naam} keuzes={trend.keuzes} punten={punten(trend.hoofd, jaren)}
+              extra={trend.extra.map((e) => ({ naam: e.naam, punten: punten(e.rijen, jaren) }))}
+              eerder={[...trend.a.teksten, ...trend.b.teksten]}
               kabinetten={lijst.filter((p) => p.soort === "kabinet").sort((x, y) => x.begin.localeCompare(y.begin))} />
           </Suspense>
           <Bronregel toelichting={`Per half jaar · ${variant === "alle" ? "alle stemmingen" : "alleen verdeelde stemmingen"}`} />

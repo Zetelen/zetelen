@@ -149,6 +149,13 @@ export default async function Kamerleden({ searchParams }: Props) {
               <Link href={`${keuzeLink({ rol: "" })}#ranglijst`} aria-current={rangRol === "oppositie" ? "true" : undefined} scroll={false}>Oppositie</Link>
               <Link href={`${keuzeLink({ rol: "kabinet" })}#ranglijst`} aria-current={rangRol === "kabinet" ? "true" : undefined} scroll={false}>Kabinet</Link>
             </nav>
+            {/* De weergave ook hier te kiezen; hij staat gelijk met die bij de fracties (feedback Niels, 28 oktober 2026) */}
+            {stuk !== "Wetsvoorstel" && (
+              <nav className={s.pillen} aria-label="Weergave van de ranglijst">
+                <Link href={`${keuzeLink({ weergave: "" })}#ranglijst`} aria-current={!spreiding ? "true" : undefined} scroll={false}>Tabel</Link>
+                <Link href={`${keuzeLink({ weergave: "spreiding" })}#ranglijst`} aria-current={spreiding ? "true" : undefined} scroll={false}>Spreidingsdiagram</Link>
+              </nav>
+            )}
             {plekken.length === 0 ? (
               <Tekst>Geen Kamerleden met minstens {minimum} {meervoud} in deze periode.</Tekst>
             ) : spreiding && stuk !== "Wetsvoorstel" ? (

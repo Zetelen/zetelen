@@ -1,0 +1,20 @@
+{
+  "_toelichting": "Fracties die in de bron als nieuwe fractie beginnen, maar een voortzetting zijn (verzoek Niels, 28 oktober 2026). Een naamswijziging trekt de trendlijn in de verkenner door als één lijn; bij een fusie toont de verkenner de voorgangers als aparte lijnen. Afsplitsingen staan hier niet: dat is een andere fractie. Opgesteld door Claude uit de fracties in api.fractie_periode; Niels kijkt elke regel na.",
+  "opvolgers": [
+    {
+      "soort": "fusie",
+      "van": [
+        { "id": "8fd1a907-0355-4d27-8dc1-fd5a531b471e", "afkorting": "GL" },
+        { "id": "8d46d23c-4f20-49be-b279-5439a2ef8d17", "afkorting": "PvdA" }
+      ],
+      "naar": { "id": "0208097d-ef04-438a-8c29-eebb84956204", "afkorting": "GroenLinks-PvdA" },
+      "tekst": "GroenLinks en PvdA vormen sinds de verkiezingen van november 2023 één fractie; daarvoor stemden ze apart"
+    },
+    {
+      "soort": "naamswijziging",
+      "van": [{ "id": "0208097d-ef04-438a-8c29-eebb84956204", "afkorting": "GroenLinks-PvdA" }],
+      "naar": { "id": "d60f373a-5bb2-477f-9979-a8f3a0514e6b", "afkorting": "PRO" },
+      "tekst": "PRO is de fractie GroenLinks-PvdA onder een nieuwe naam, sinds juni 2026"
+    }
+  ]
+}

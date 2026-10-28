@@ -10,10 +10,50 @@ export const EERSTE_JAAR = 2010;
 export type HalfjaarRij = { halfjaar: string; gezamenlijk: number; gelijk: number };
 export type Punt = { halfjaar: string; gezamenlijk: number; gelijk: number; cohesie: number | null };
 
-export async function cohesiePerHalfjaar(fractie: string, andere: string, variant: Variant): Promise<HalfjaarRij[] | null> {
-  return leesApi<HalfjaarRij[]>(
-    `cohesie_halfjaar?select=halfjaar,gezamenlijk,gelijk&variant=eq.${variant}&fractie=eq.${fractie}&andere_fractie=eq.${andere}&order=halfjaar&limit=1000`,
+// Rijen van alle paren tussen twee groepen fracties, per half jaar opgeteld. Fracties uit één lijn (een naamswijziging)
+// stemmen nooit op hetzelfde besluit, dus optellen telt geen besluit dubbel.
+export async function cohesiePerHalfjaar(fracties: string[], andere: string[], variant: Variant): Promise<HalfjaarRij[] | null> {
+  const rijen = await leesApi<HalfjaarRij[]>(
+    `cohesie_halfjaar?select=halfjaar,gezamenlijk,gelijk&variant=eq.${variant}&fractie=in.(${fracties.join(",")})&andere_fractie=in.(${andere.join(",")})&order=halfjaar&limit=1000`,
   );
+  if (!rijen) return null;
+  const per = new Map<string, HalfjaarRij>();
+  for (const r of rijen) {
+    const h = r.halfjaar.slice(0, 10);
+    const x = per.get(h) ?? { halfjaar: h, gezamenlijk: 0, gelijk: 0 };
+    per.set(h, { halfjaar: h, gezamenlijk: x.gezamenlijk + r.gezamenlijk, gelijk: x.gelijk + r.gelijk });
+  }
+  return [...per.values()];
+}
+
+// Opvolgers (content/fractie-opvolgers.json): een naamswijziging maakt van twee fracties één lijn, bij een fusie worden
+// de voorgangers aparte lijnen
+export type Opvolger = { soort: "fusie" | "naamswijziging"; van: Array<{ id: string; afkorting: string }>; naar: { id: string; afkorting: string }; tekst: string };
+export type Lijn = { ids: string[]; naam: string; eerder: string[]; voorgangers: Array<{ id: string; afkorting: string }>; teksten: string[] };
+
+export function lijnVan(id: string, afkorting: string, opvolgers: Opvolger[]): Lijn {
+  const namen = new Map<string, string>([[id, afkorting]]);
+  const ids = new Set([id]);
+  const hernoemd = opvolgers.filter((o) => o.soort === "naamswijziging");
+  // Naamswijzigingen in beide richtingen volgen, tot er niets meer bijkomt
+  for (let nieuw = true; nieuw;) {
+    nieuw = false;
+    for (const o of hernoemd) {
+      const leden = [o.naar, ...o.van];
+      if (leden.some((f) => ids.has(f.id)) && leden.some((f) => !ids.has(f.id))) {
+        for (const f of leden) { ids.add(f.id); namen.set(f.id, f.afkorting); }
+        nieuw = true;
+      }
+    }
+  }
+  // De naam is die van de nieuwste fractie in de lijn: de fractie waar geen naamswijziging meer op volgt
+  const nieuwste = [...ids].find((i) => !hernoemd.some((o) => o.van.some((f) => f.id === i))) ?? id;
+  const fusies = opvolgers.filter((o) => o.soort === "fusie" && ids.has(o.naar.id));
+  const relevant = opvolgers.filter((o) => ids.has(o.naar.id) || o.van.some((f) => ids.has(f.id)));
+  return {
+    ids: [...ids], naam: namen.get(nieuwste)!, eerder: [...ids].filter((i) => i !== nieuwste).map((i) => namen.get(i)!),
+    voorgangers: fusies.flatMap((o) => o.van), teksten: relevant.map((o) => o.tekst),
+  };
 }
 
 // Alle halve jaren van januari 2010 tot en met het halve jaar van vandaag, als "2024-01-01" en "2024-07-01"
@@ -79,4 +119,30 @@ export function uitvalTekst(a: string, b: string, sv: Samenvatting, alle: string
     zinnen.push(`Te weinig stemmingen samen (minder dan ${DREMPEL}) voor een eigen punt in ${lijstTekst(reeksTekst(sv.teWeinig, alle))}; die tellen wel mee in het totaal.`);
   }
   return zinnen.length ? zinnen.join(" ") : null;
+}
+
+// Alles voor het blok "door de jaren": de lijn van de gekozen fractie en van de tweede fractie (standaard de grootste),
+// de keuzelijst zonder dubbele lijnen, en een extra lijn per voorganger bij een fusie
+export type Trenddata = { a: Lijn; b: Lijn; keuzes: string[]; hoofd: HalfjaarRij[]; extra: Array<{ naam: string; rijen: HalfjaarRij[] }> };
+
+export async function laadTrend(fracties: Array<{ id: string; afkorting: string; zetels: number }>, gekozen: string | undefined,
+  met: string | undefined, variant: Variant, opvolgers: Opvolger[]): Promise<Trenddata | null> {
+  const groot = [...fracties].filter((f) => f.zetels > 0).sort((x, y) => y.zetels - x.zetels || x.afkorting.localeCompare(y.afkorting));
+  const lijnen: Lijn[] = [];
+  for (const f of groot) {
+    const l = lijnVan(f.id, f.afkorting, opvolgers);
+    if (!lijnen.some((x) => x.naam === l.naam)) lijnen.push(l);
+  }
+  const bevat = (l: Lijn, afk: string | undefined) => !!afk && (l.naam === afk || l.eerder.includes(afk));
+  const a = lijnen.find((l) => bevat(l, gekozen)) ?? lijnen[0];
+  const keuzes = lijnen.filter((l) => l !== a);
+  const b = keuzes.find((l) => bevat(l, met)) ?? keuzes[0];
+  if (!a || !b) return null;
+  const hoofd = await cohesiePerHalfjaar(a.ids, b.ids, variant);
+  if (!hoofd) return null;
+  const extra = await Promise.all([
+    ...a.voorgangers.map(async (v) => ({ naam: `${v.afkorting} en ${b.naam}`, rijen: (await cohesiePerHalfjaar([v.id], b.ids, variant)) ?? [] })),
+    ...b.voorgangers.map(async (v) => ({ naam: `${a.naam} en ${v.afkorting}`, rijen: (await cohesiePerHalfjaar(a.ids, [v.id], variant)) ?? [] })),
+  ]);
+  return { a, b, keuzes: keuzes.map((l) => l.naam), hoofd, extra: extra.filter((e) => e.rijen.length) };
 }

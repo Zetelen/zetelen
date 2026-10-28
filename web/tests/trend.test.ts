@@ -1,6 +1,7 @@
 // Cohesie door de jaren: halve jaren, optellen over een gekozen periode en de toelichting over wat uitvalt
 import { describe, expect, it } from "vitest";
-import { halveJaren, punten, reeksTekst, samenvatting, uitvalTekst } from "../lib/trend";
+import opvolgers from "../content/fractie-opvolgers.json";
+import { type Opvolger, halveJaren, lijnVan, punten, reeksTekst, samenvatting, uitvalTekst } from "../lib/trend";
 
 describe("halveJaren", () => {
   it("loopt van januari 2010 tot en met het halve jaar van vandaag", () => {
@@ -36,5 +37,31 @@ describe("punten en samenvatting", () => {
   });
   it("voegt aaneengesloten halve jaren samen", () => {
     expect(reeksTekst(["2010-01-01", "2010-07-01", "2012-01-01"], jaren)).toEqual(["januari 2010 tot en met december 2010", "januari 2012 tot en met juni 2012"]);
+  });
+});
+
+describe("opvolgers", () => {
+  const o = opvolgers.opvolgers as Opvolger[];
+  const GLPVDA = "0208097d-ef04-438a-8c29-eebb84956204", PRO = "d60f373a-5bb2-477f-9979-a8f3a0514e6b";
+  it("maakt van een naamswijziging één lijn met de nieuwste naam, vanaf beide kanten", () => {
+    for (const [id, afk] of [[PRO, "PRO"], [GLPVDA, "GroenLinks-PvdA"]]) {
+      const l = lijnVan(id, afk, o);
+      expect(l.naam).toBe("PRO");
+      expect(l.ids.sort()).toEqual([GLPVDA, PRO].sort());
+      expect(l.eerder).toEqual(["GroenLinks-PvdA"]);
+    }
+  });
+  it("geeft bij een fusie de voorgangers als aparte lijnen", () => {
+    expect(lijnVan(PRO, "PRO", o).voorgangers.map((v) => v.afkorting)).toEqual(["GL", "PvdA"]);
+  });
+  it("laat een fractie zonder opvolger zoals ze is", () => {
+    const l = lijnVan("x", "VVD", o);
+    expect(l).toEqual({ ids: ["x"], naam: "VVD", eerder: [], voorgangers: [], teksten: [] });
+  });
+  it("heeft alleen bekende soorten en geen fractie die naar zichzelf wijst", () => {
+    for (const r of o) {
+      expect(["fusie", "naamswijziging"]).toContain(r.soort);
+      expect(r.van.map((v) => v.id)).not.toContain(r.naar.id);
+    }
   });
 });
