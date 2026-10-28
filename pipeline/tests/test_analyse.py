@@ -186,7 +186,7 @@ def test_stemmatrix_met_besluiten_in_dezelfde_volgorde(conn, scenario):
 
 def test_zaal_van_kabinet_eindigt_bij_de_verkiezingen(conn, scenario):
     # Kabinet-Schoof loopt over de Kamerperiodes 2023-2025 en 2025- heen (nieuwe Kamer vanaf 12 november 2025).
-    # N stemt mee tot vlak voor de nieuwe Kamer en komt niet terug; M stemt alleen in de nieuwe Kamer.
+    # N stemt mee tot vlak voor de verkiezingen en komt niet terug; M stemt alleen in de nieuwe Kamer.
     # Besluit Niels, 28 oktober 2026: de zaal van het kabinet is die van voor de verkiezingen.
     n, m = fractie(conn, "N"), fractie(conn, "M")
 
@@ -200,7 +200,7 @@ def test_zaal_van_kabinet_eindigt_bij_de_verkiezingen(conn, scenario):
             conn.execute('insert into raw.stemming ("Id", "Besluit_Id", "Fractie_Id", "Soort", "FractieGrootte", "Vergissing", "Verwijderd") '
                          "values (%s, %s, %s, 'Voor', %s, false, false)", (nieuw(), bes, f, grootte))
 
-    stem("2025-11-06T12:00:00+01:00", [(n, 19)])
+    stem("2025-10-16T12:00:00+02:00", [(n, 19)])  # voor de verkiezingen van 29 oktober (migratie 028)
     stem("2026-01-20T12:00:00+01:00", [(m, 9)])
     herbouw(conn)
     conn.execute("select * from analyses.herbouw()")
