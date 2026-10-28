@@ -6,15 +6,17 @@ export type Vraag = {
   soort: "tekst" | "keuze" | "schaal";
   opties?: string[];
   hulp?: string;
+  // Woorden bij 1 en 5, naast de knoppen: twee invullers gaven onpartijdig een 1 terwijl ze geen voorkeur zagen (28 oktober 2026)
+  uitersten?: [string, string];
 };
 
 export const VRAGEN: Vraag[] = [
   { id: "indruk", vraag: "Wat is in één zin je eerste indruk?", soort: "tekst" },
   { id: "pagina", vraag: "Welk onderdeel bekeek je het langst?", soort: "keuze",
     opties: ["Voorpagina", "Verkenner", "Onderwerpen", "Coalitie", "Oppositie", "Fracties", "Kamerleden", "Uitgelicht", "Stemgenoten", "Methodiek"] },
-  { id: "begrip", vraag: "Snap je wat je ziet?", soort: "schaal", hulp: "1 is helemaal niet, 5 is helemaal" },
+  { id: "begrip", vraag: "Snap je wat je ziet?", soort: "schaal", uitersten: ["snap ik niet", "snap ik helemaal"] },
   { id: "onduidelijk", vraag: "Wat was onduidelijk, of waar haakte je af?", soort: "tekst" },
-  { id: "onpartijdig", vraag: "Hoe onpartijdig vind je de site?", soort: "schaal", hulp: "1 is helemaal niet, 5 is helemaal" },
+  { id: "onpartijdig", vraag: "Hoe onpartijdig vind je de site?", soort: "schaal", uitersten: ["kiest partij", "helemaal onpartijdig"] },
   { id: "voorkeur", vraag: "Zag je ergens een voorkeur voor een partij? Waar?", soort: "tekst" },
   { id: "fout", vraag: "Zag je een cijfer of tekst die niet klopt? Op welke pagina?", soort: "tekst" },
   { id: "stellingen", vraag: "Stemgenoten: vond je een stelling scheef, sturend of onduidelijk? Welke?", soort: "tekst" },

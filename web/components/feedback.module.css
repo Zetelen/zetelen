@@ -89,3 +89,13 @@
   font-size: 19px;
   color: var(--tekst);
 }
+/* Schaalvraag met de betekenis van 1 en 5 erbij (28 oktober 2026) */
+.schaal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-2);
+}
+.uiterste {
+  font-size: 14px;
+  color: var(--tekst-zacht);
+}

@@ -53,10 +53,17 @@ export function FeedbackFormulier() {
             </div>
           )}
           {v.soort === "schaal" && (
-            <div className={s.keuzes} aria-describedby={v.hulp ? `hulp-${v.id}` : undefined}>
-              {[1, 2, 3, 4, 5].map((n) => (
-                <label key={n} className={s.keuze}><input type="radio" name={v.id} value={n} /> {n}</label>
-              ))}
+            <div className={s.schaal}>
+              {v.uitersten && <span className={s.uiterste} aria-hidden="true">1 = {v.uitersten[0]}</span>}
+              <div className={s.keuzes}>
+                {[1, 2, 3, 4, 5].map((n) => (
+                  <label key={n} className={s.keuze}>
+                    <input type="radio" name={v.id} value={n} /> {n}
+                    {v.uitersten && (n === 1 || n === 5) && <span className="verborgen"> ({v.uitersten[n === 1 ? 0 : 1]})</span>}
+                  </label>
+                ))}
+              </div>
+              {v.uitersten && <span className={s.uiterste} aria-hidden="true">5 = {v.uitersten[1]}</span>}
             </div>
           )}
         </fieldset>
