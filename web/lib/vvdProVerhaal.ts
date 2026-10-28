@@ -108,6 +108,29 @@ export function vvdProVerhaal(d: VerhaalInvoer): Stap[] {
     ({ stippen, paden: [...raster, ...(metRef ? ref : []), ...paden], labels: [...asLabels, ...labels] });
   const overzicht = tijd([...pvda.stippen, ...gl.stippen, ...pro.stippen], [...pvda.paden, ...gl.paden, ...pro.paden], legenda(l3));
   const hoogNu = R[0], laagNu = R[R.length - 1];
+  // Twee referenties uitgelicht (vraag Niels, 28 oktober 2026): de fractie waarmee de VVD nu het vaakst hetzelfde stemt,
+  // en die waarmee het minst; hun lijn in kleur in het grijze veld, PRO ernaast
+  const uitgelicht = (x: { naam: string; cohesie: number }, tint: string) => {
+    const a = d.anderen.find((y) => y.naam === x.naam);
+    if (!a) return null;
+    const lijn = reeks(`u-${x.naam}`, a.punten, tint);
+    const eind = [...a.punten].reverse().find((p) => p.cohesie != null);
+    return { lijn, label: eind ? naam(tx(eind.halfjaar) + 12, cy(eind.cohesie!) + 5, x.naam, tint) : null };
+  };
+  const HOOG_TINT = "#9CCF83", LAAG_TINT = "#4FB0A6";
+  const refHoog = hoogNu.naam !== "PRO" ? uitgelicht(hoogNu, HOOG_TINT) : null;
+  const refLaag = laagNu.naam !== "PRO" ? uitgelicht(laagNu, LAAG_TINT) : null;
+  const refStap = (u: NonNullable<typeof refHoog>, x: { naam: string; cohesie: number }, tint: string, tekst: string): Stap => ({
+    datum: `VVD en ${x.naam}`, tekst,
+    ...tijd([...u.lijn.stippen, ...proZacht.stippen], [...u.lijn.paden, ...pro.paden],
+      [...legenda([[`VVD en ${x.naam}`, tint], ["VVD en PRO", TINT.pro]]), ...(u.label ? [u.label] : [])]),
+  });
+  const refStappen: Stap[] = [
+    ...(refHoog ? [refStap(refHoog, hoogNu, HOOG_TINT,
+      `Het vaakst hetzelfde stemt de VVD nu met ${hoogNu.naam}: ${pct(hoogNu.cohesie)} onder kabinet-${d.kabinet}, tegen ${pct(proNu?.cohesie)} met PRO.`)] : []),
+    ...(refLaag ? [refStap(refLaag, laagNu, LAAG_TINT,
+      `Het minst met ${laagNu.naam}: ${pct(laagNu.cohesie)} onder kabinet-${d.kabinet}. Met PRO was dat ${pct(proNu?.cohesie)}.`)] : []),
+  ];
 
   return [
     { datum: `onder kabinet-${d.kabinet}`, hoofdstuk: "Nu",
@@ -119,6 +142,7 @@ export function vvdProVerhaal(d: VerhaalInvoer): Stap[] {
     { datum: "ter vergelijking",
       tekst: `In grijs: de VVD met elke andere fractie. Onder kabinet-${d.kabinet} stemde de VVD het vaakst hetzelfde als ${hoogNu.naam} (${pct(hoogNu.cohesie)}), het minst als ${laagNu.naam} (${pct(laagNu.cohesie)}). PRO zit daartussen.`,
       ...tijd(pro.stippen, pro.paden, [...legenda([["VVD en PRO", TINT.pro], ["VVD en de andere fracties", TINT.rest]]), naam(tx(laatste.halfjaar) - 40, cy(laatste.cohesie!) - 20, pct(laatste.cohesie), TINT.pro)]) },
+    ...refStappen,
     { datum: "2010 tot 2023",
       tekst: "Daarvoor waren GroenLinks en PvdA twee fracties. Vanaf 2018 stemden ze tegenover de VVD bijna precies hetzelfde.",
       ...overzicht },
@@ -132,7 +156,7 @@ export function vvdProVerhaal(d: VerhaalInvoer): Stap[] {
     { datum: "de PVV",
       tekst: `Bij de PVV hetzelfde patroon. In de tweede helft van 2024, samen in kabinet-Schoof: ${pct(d.pvvSamen)}. In de eerste helft van 2026, met de PVV in de oppositie: ${pct(d.pvvOppositie)}. De PVV stapte in juni 2025 uit het kabinet.`,
       ...tijd([...pvv.stippen, ...proZacht.stippen], [...pvv.paden, ...pro.paden], legenda([["VVD en PVV", TINT.pvv], ["VVD en PRO", TINT.pro]])) },
-    { datum: "per onderwerp", hoofdstuk: "Per onderwerp",
+    { datum: `onder kabinet-${d.kabinet}`, hoofdstuk: "Per onderwerp",
       tekst: `Onder kabinet-${d.kabinet} het vaakst eens bij ${hoog.terrein.toLowerCase()} (${pct(hoog.cohesie)}), het minst bij ${laag.terrein.toLowerCase()} (${pct(laag.cohesie)}).`,
       stippen: terStippen, paden: [50, 75].map((v) => ({ d: `M${rx(v)},10 V${ty(T.length - 1) + 20}`, tint: TINT.rest, streep: true, zacht: true, naam: `rang-${v}` })), labels: terLabels },
     { ...overzicht, datum: "2 interpretaties", lezing: 1,
