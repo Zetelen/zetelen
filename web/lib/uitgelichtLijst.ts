@@ -29,4 +29,5 @@ export const KIEZER = [
   ...UITGELICHT.map((c) => ({ slug: c.slug, titel: c.titel, jaar: c.datums[0].slice(0, 4) })),
   { slug: "hoe-lang-duurt-een-wet", titel: "Hoe lang duurt een wet?", jaar: "2010 tot nu" },
   { slug: "tegen-het-advies-in", titel: "Tegen het advies in", jaar: "2019 tot nu" },
+  { slug: "vvd-en-pro", titel: "Hoe vaak stemmen VVD en PRO hetzelfde?", jaar: "2010 tot nu" },
 ];

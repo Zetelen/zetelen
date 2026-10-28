@@ -4,13 +4,14 @@ import s from "./lezingen.module.css";
 
 export type Reeks = { naam: string; tint: string; punten: Array<{ kabinet: string; waarde: number | null; samen: boolean }> };
 
-export function LijnKabinetten({ kabinetten, reeksen, label }: { kabinetten: string[]; reeksen: Reeks[]; label: string }) {
+// vanaf: onderkant van de as (standaard 40%; lager als een reeks daaronder komt)
+export function LijnKabinetten({ kabinetten, reeksen, label, vanaf = 40 }: { kabinetten: string[]; reeksen: Reeks[]; label: string; vanaf?: number }) {
   const B = 760, H = 300, L = 50, R = 120, T = 20, O = 40;
   const x = (i: number) => L + (i * (B - L - R)) / Math.max(1, kabinetten.length - 1);
-  const y = (v: number) => T + ((100 - v) / 60) * (H - T - O); // as van 40 tot 100%
+  const y = (v: number) => T + ((100 - v) / (100 - vanaf)) * (H - T - O);
   return (
     <svg viewBox={`0 0 ${B} ${H}`} className={s.grafiek} role="img" aria-label={label}>
-      {[40, 60, 80, 100].map((v) => (
+      {[vanaf, ...[40, 60, 80, 100].filter((v) => v > vanaf + 5)].map((v) => (
         <g key={v}>
           <line x1={L} x2={B - R} y1={y(v)} y2={y(v)} className={s.raster} />
           <text x={L - 8} y={y(v) + 4} textAnchor="end" className={s.as}>{v}%</text>

@@ -14,12 +14,14 @@ type Extra = { naam: string; punten: Punt[] };
 const TINTEN = ["#7fb7c9", "#e57f93", "#a08fe0", "#6fbf8e"]; // uit het palet van de scroll graphics (lib/verhaal.ts)
 const STANDAARD = 20; // de laatste tien jaar (opmerking van een bezoeker: een Kamerperiode is arbitrair)
 
-export function Trend({ a, b, keuzes, punten, extra, eerder, kabinetten }: {
-  a: string; b: string; keuzes: string[]; punten: Punt[]; extra: Extra[]; eerder: string[]; kabinetten: Kabinet[];
+// vast: alleen de grafiek, zonder keuzelijst, totaal en schuif, met een eigen uitleg (op een uitgelichte pagina);
+// alles: standaard de hele periode
+export function Trend({ a, b, keuzes, punten, extra, eerder, kabinetten, vast = false, alles = false, uitleg: eigenUitleg }: {
+  a: string; b: string; keuzes: string[]; punten: Punt[]; extra: Extra[]; eerder: string[]; kabinetten: Kabinet[]; vast?: boolean; alles?: boolean; uitleg?: string;
 }) {
   const router = useRouter(), pad = usePathname(), zoek = useSearchParams();
   const n = punten.length;
-  const [van, setVan] = useState(Math.max(0, n - STANDAARD));
+  const [van, setVan] = useState(alles ? 0 : Math.max(0, n - STANDAARD));
   const [tot, setTot] = useState(n - 1);
   // Op een smal scherm een eigen maatvoering: anders krimpt de brede tekening tot onleesbare letters
   const [smal, setSmal] = useState(false);
@@ -69,18 +71,18 @@ export function Trend({ a, b, keuzes, punten, extra, eerder, kabinetten }: {
 
   return (
     <div className={s.trend}>
-      <div className={s.keuze}>
+      {!vast && <div className={s.keuze}>
         <label htmlFor="trend-met">Vergelijk {a} met</label>
         <select id="trend-met" value={b} onChange={(e) => kies(e.target.value)}>
           {keuzes.map((k) => <option key={k} value={k}>{k}</option>)}
         </select>
-      </div>
+      </div>}
 
-      <p className={s.totaal} aria-live="polite">
+      {!vast && <p className={s.totaal} aria-live="polite">
         {sv.cohesie != null
           ? <>Van {beginTekst(alle[van])} {totTekst} stemden {a} en {b} in <strong>{Math.round(sv.cohesie)}%</strong> van de {sv.gezamenlijk.toLocaleString("nl-NL")} stemmingen samen hetzelfde.</>
           : <>Van {beginTekst(alle[van])} {totTekst} stemden {a} en {b} te weinig samen voor een percentage ({sv.gezamenlijk} stemmingen, minimaal {DREMPEL}).</>}
-      </p>
+      </p>}
 
       {extra.length > 0 && (
         <ul className={s.legenda}>
@@ -125,7 +127,7 @@ export function Trend({ a, b, keuzes, punten, extra, eerder, kabinetten }: {
         {tot < n - 1 && <rect x={x((tot + 1) * 6)} y={T} width={x(maanden) - x((tot + 1) * 6)} height={H - T - O} className={s.buiten} />}
       </svg>
 
-      <fieldset className={s.schuif}>
+      {!vast && <fieldset className={s.schuif}>
         <legend>Periode</legend>
         <label>
           <span>Van <strong>{beginTekst(alle[van])}</strong></span>
@@ -142,15 +144,15 @@ export function Trend({ a, b, keuzes, punten, extra, eerder, kabinetten }: {
           <button type="button" onClick={() => { setVan(Math.max(0, n - 10)); setTot(n - 1); }}>Laatste vijf jaar</button>
           <button type="button" onClick={() => { setVan(0); setTot(n - 1); }}>Alles sinds {kortTekst(alle[0])}</button>
         </div>
-      </fieldset>
+      </fieldset>}
 
-      <p className={s.uitleg}>
+      {eigenUitleg ? <p className={s.uitleg}>{eigenUitleg}</p> : <p className={s.uitleg}>
         Elk punt is een half jaar: van alle stemmingen waarin {a} en {b} allebei voor of tegen stemden, het deel waarin ze dezelfde
         kant kozen. Een punt vanaf {DREMPEL} stemmingen samen. De vlakken zijn de kabinetten.
         {uitval ? ` ${uitval}` : ""}
         {eerder.length > 0 && ` ${eerder.join(". ")}.`}
         {extra.length > 0 && " De dunne lijnen tellen niet mee in het totaal hierboven."}
-      </p>
+      </p>}
     </div>
   );
 }

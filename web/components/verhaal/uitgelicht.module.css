@@ -49,3 +49,59 @@
   gap: var(--r-4);
   scroll-margin-top: 80px;
 }
+/* VVD en PRO: rangorde van de fracties, PRO uitgelicht (28 oktober 2026) */
+.rangorde {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 640px;
+}
+.rangorde li {
+  display: grid;
+  grid-template-columns: minmax(90px, 160px) 1fr 3.5em;
+  align-items: center;
+  gap: var(--r-3);
+  font-size: 15px;
+  color: var(--tekst-zacht);
+}
+.rangorde li[data-nadruk] {
+  color: var(--tekst);
+  font-weight: 600;
+}
+.rangNaam {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.rangBalk {
+  height: 10px;
+  border-radius: 5px;
+  background: var(--nacht-800);
+  overflow: hidden;
+}
+.rangBalk span {
+  display: block;
+  height: 100%;
+  background: var(--lijn-licht);
+}
+.rangorde li[data-nadruk] .rangBalk span {
+  background: var(--goud);
+}
+.rangGetal {
+  font-family: var(--mono);
+  text-align: right;
+}
+/* Brede grafiek die op de telefoon opzij schuift in plaats van te krimpen */
+@media (max-width: 640px) {
+  .schuifVlak {
+    overflow-x: auto;
+    margin: 0 calc(-1 * var(--pagina-marge));
+    padding: 0 var(--pagina-marge);
+  }
+  .schuifVlak > svg {
+    min-width: 640px;
+  }
+}
