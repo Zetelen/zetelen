@@ -113,6 +113,7 @@ export default async function VerkennerPagina({ searchParams }: Props) {
               kabinetten={lijst.filter((p) => p.soort === "kabinet").sort((x, y) => x.begin.localeCompare(y.begin))} />
           </Suspense>
           <Bronregel toelichting={`Per half jaar · ${variant === "alle" ? "alle stemmingen" : "alleen verdeelde stemmingen"}`} />
+          <DeelKnop grafiek="trend" />
         </section>
       )}
       {/* Lezing 3 (B4): bij een fractie die in het kabinet zit, de lijn met elke kabinetspartner door de kabinetten */}

@@ -174,6 +174,8 @@ export default async function Voorpagina() {
             verschilt dat: het vaakst eens bij {u.hoog.terrein} ({procent(u.hoog.cohesie)}), het minst bij {u.laag.terrein} ({procent(u.laag.cohesie)}).
           </Tekst>
           <TerreinBalken lijst={paar} totaal={partners.totaal} label={`Cohesie van ${partners.a.afkorting} en ${partners.b.afkorting} per beleidsterrein`} />
+          {/* Gedeeld als het paar op Onderwerpen: daar staat dezelfde grafiek met alle keuzes */}
+          <DeelKnop grafiek="onderwerpen" zoek={{ soort: "kabinet", periode: kabinet.naam, fractie: partners.a.afkorting, met: partners.b.afkorting }} />
           <Link href={`/onderwerpen?soort=kabinet&periode=${encodeURIComponent(kabinet.naam)}&fractie=${encodeURIComponent(partners.a.afkorting)}&met=${encodeURIComponent(partners.b.afkorting)}`}
             className={knopKlasse}>
             Vergelijk zelf twee fracties per onderwerp
@@ -218,6 +220,7 @@ export default async function Voorpagina() {
                 </span>
               ))}
             </div>
+            <DeelKnop grafiek="oppositie-jaren" />
             <Link href="/oppositie" className={knopKlasse}>Naar Oppositie</Link>
           </section>
         );

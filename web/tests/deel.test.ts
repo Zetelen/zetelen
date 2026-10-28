@@ -1,6 +1,6 @@
 // Tests voor de deellinks per grafiek (lib/deel.ts)
 import { describe, expect, it } from "vitest";
-import { deellinkVan, doelVan, isGrafiek, plaatjeVan, titelVan, zoekVan } from "../lib/deel";
+import { deellinkVan, doelVan, isGrafiek, plaatjeVan, schoneUitslag, titelVan, zoekVan } from "../lib/deel";
 
 describe("deellinks", () => {
   it("neemt alleen de parameters van de grafiek mee, in vaste volgorde", () => {
@@ -25,5 +25,27 @@ describe("deellinks", () => {
     expect(isGrafiek("verkenner")).toBe(true);
     expect(isGrafiek("constructor")).toBe(false);
     expect(isGrafiek("onbekend")).toBe(false);
+  });
+});
+
+describe("deellinks van de overige grafieken", () => {
+  it("geeft de keuzes van Stemgenoten niet door aan de pagina", () => {
+    expect(doelVan("stemgenoten", { u: "PVV:62", b: "18", n: "25" })).toBe("/stemgenoten");
+    expect(deellinkVan("stemgenoten", { u: "PVV:62", b: "18", n: "25" })).toBe("/deel/stemgenoten?u=PVV%3A62&b=18&n=25");
+  });
+  it("kiest het anker en het pad uit de keuzes", () => {
+    expect(doelVan("onderwerpen", { fractie: "D66", met: "VVD" })).toBe("/onderwerpen?fractie=D66&met=VVD#vergelijking");
+    expect(doelVan("onderwerpen", { fractie: "D66" })).toBe("/onderwerpen?fractie=D66#zelf");
+    expect(doelVan("oppositie-kabinetten", { stuk: "Amendement" })).toBe("/oppositie?stuk=Amendement#amendementen");
+    expect(doelVan("stemming", { casus: "motie-eerdmans" })).toBe("/uitgelicht/motie-eerdmans?casus=motie-eerdmans#stemming");
+  });
+  it("gebruikt het bestaande plaatje van de coalitie", () => {
+    expect(plaatjeVan("coalitie", { groep: "D66,VVD" })).toBe("/coalitie/plaatje?groep=D66%2CVVD");
+  });
+  it("laat in de uitslag van Stemgenoten alleen bestaande partijen en percentages door", () => {
+    const partijen = new Set(["PVV", "VVD", "D66"]);
+    expect(schoneUitslag("PVV:62,VVD:58,Nep:99,D66:140,D66:40", partijen)).toBe("PVV:62,VVD:58,D66:40");
+    expect(schoneUitslag("<script>:1", partijen)).toBeNull();
+    expect(schoneUitslag("PVV:6.5", partijen)).toBeNull();
   });
 });

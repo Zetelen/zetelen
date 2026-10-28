@@ -1,5 +1,6 @@
 // Eén uitgelichte stemming op een eigen pagina (besluit Niels B16): de scroll graphic, de datum, het zaaknummer met
 // een link naar tweedekamer.nl, en de uitslag zoals de bron hem noteert. Statisch gebouwd voor elke casus.
+import { DeelKnop } from "@/components/deel/DeelKnop";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -63,6 +64,7 @@ export default async function CasusPagina({ params }: Props) {
 
       <section id="stemming" className={s.graphic}>
         <HoofdstukKop titel={u.titel} />
+        <DeelKnop grafiek="stemming" zoek={{ casus: u.slug }} titel={u.vraag} />
         <ScrollVerhaal verhaal={u.verhaal()} label={`De stemming: ${u.titel}`} hoogteSmal={u.hoogteSmal} stapHoogte="45vh" tijdlijn />
         <Data>
           Stemming over zaak <a href={zoekLink(u.zaak)}>{u.zaak}</a>, hoofdelijk, {datums}. Uitslag in de bron:{" "}

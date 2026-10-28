@@ -23,6 +23,12 @@ const HALTE_TINT: Record<Halte["halte"], string> = {
 
 export const dagen = (van: string, tot: string) => Math.round((Date.parse(tot) - Date.parse(van)) / 864e5);
 
+// Bij een regeringswet komt het advies van de Raad van State voor de indiening en wordt het tegelijk openbaar;
+// op de tijdas zou het dan op de indiening vallen, dus die halte laten we daar weg (de tekst noemt het)
+export const zonderVoorafAdvies = (r: Reis): Reis => ({ ...r, haltes: r.haltes.filter((h) => !(h.halte === "advies" && h.datum <= r.haltes.find((x) => x.halte === "ingediend")!.datum)) });
+// Doorlooptijd van een reis in dagen, van de eerste tot de laatste halte
+export const duurVan = (r: Reis) => dagen(r.haltes[0].datum, r.haltes[r.haltes.length - 1].datum);
+
 // Een duur in gewone woorden: "13 dagen", "7 maanden", "bijna 6 jaar"
 export function duurTekst(d: number): string {
   if (d < 45) return `${d} ${d === 1 ? "dag" : "dagen"}`;

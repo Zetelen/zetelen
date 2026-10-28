@@ -14,10 +14,10 @@ import { periodeWerk } from "@/lib/zetelwerk";
 
 export const KLEUR = { achter: "#070B18", vlak: "#0B1226", tekst: "#E8ECF5", zacht: "#A9B4CC", koper: "#D08A55", goud: "#E3B76A", lijn: "#2A3A63", amendement: "#7FB7C9" };
 
-const rond = (c: number | null) => (c == null ? "" : `${Math.round(c)}%`);
+export const rond = (c: number | null) => (c == null ? "" : `${Math.round(c)}%`);
 
 // Vaste opbouw: kop, titel, regel eronder, de grafiek, en onderaan de bron met de stand van de data
-function Kader({ kop, titel, regel, stand, children }: { kop: string; titel: string; regel: string; stand: Date | null; children: ReactNode }) {
+export function Kader({ kop, titel, regel, stand, children }: { kop: string; titel: string; regel: string; stand: Date | null; children: ReactNode }) {
   return (
     <div style={{ width: "100%", height: "100%", background: KLEUR.achter, color: KLEUR.tekst, display: "flex", flexDirection: "column", padding: "52px 64px", gap: 14 }}>
       <div style={{ display: "flex", fontSize: 22, letterSpacing: 6, color: KLEUR.koper }}>{`ZETELEN · ${kop.toUpperCase()}`}</div>
@@ -31,7 +31,7 @@ function Kader({ kop, titel, regel, stand, children }: { kop: string; titel: str
   );
 }
 
-const Melding = ({ tekst }: { tekst: string }) => <div style={{ display: "flex", fontSize: 32, color: KLEUR.zacht }}>{tekst}</div>;
+export const Melding = ({ tekst }: { tekst: string }) => <div style={{ display: "flex", fontSize: 32, color: KLEUR.zacht }}>{tekst}</div>;
 
 // Verkenner: met wie stemt de gekozen partij het vaakst mee (standaard de grootste, zoals de verkenner zelf)
 export async function verkennerPlaatje(zoek: Record<string, string>) {

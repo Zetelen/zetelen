@@ -8,7 +8,7 @@ import { Inhoud, knopKlasse } from "@/components/Kader";
 import { Label, SectieKop, Tekst } from "@/components/Typografie";
 import { Doorsturen } from "@/components/deel/Doorsturen";
 import { BRON, deellinkVan, doelVan, isGrafiek, plaatjeVan, titelVan } from "@/lib/deel";
-import { schoonZoek } from "@/lib/deelSchoon";
+import { schoonZoek, titelMetData } from "@/lib/deelSchoon";
 import s from "@/components/deel/deel.module.css";
 
 type Props = { params: Promise<{ grafiek: string }>; searchParams: Promise<Record<string, string | string[] | undefined>> };
@@ -17,7 +17,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   const g = (await params).grafiek;
   if (!isGrafiek(g)) return {};
   const zoek = await schoonZoek(g, await searchParams);
-  const titel = titelVan(g, zoek), plaatje = plaatjeVan(g, zoek);
+  const titel = titelMetData(g, zoek) ?? titelVan(g, zoek), plaatje = plaatjeVan(g, zoek);
   const beschrijving = `${BRON}. Bekijk de grafiek en kies zelf een partij of periode.`;
   return {
     title: titel,
@@ -33,14 +33,15 @@ export default async function Deellink({ params, searchParams }: Props) {
   if (!isGrafiek(g)) notFound();
   const zoek = await schoonZoek(g, await searchParams);
   const doel = doelVan(g, zoek);
+  const titel = titelMetData(g, zoek) ?? titelVan(g, zoek);
   return (
     <Inhoud>
       <Doorsturen naar={doel} />
       <section className={s.tussen}>
         <Label>Gedeeld van Zetelen</Label>
-        <SectieKop niveau={1}>{titelVan(g, zoek)}</SectieKop>
+        <SectieKop niveau={1}>{titel}</SectieKop>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={plaatjeVan(g, zoek)} alt={titelVan(g, zoek)} width={1200} height={630} />
+        <img src={plaatjeVan(g, zoek)} alt={titel} width={1200} height={630} />
         <Tekst>Je gaat zo door naar de grafiek. Gebeurt dat niet?</Tekst>
         <Link href={doel} className={knopKlasse}>Bekijk de grafiek op Zetelen</Link>
       </section>

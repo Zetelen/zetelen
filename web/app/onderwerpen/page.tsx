@@ -3,6 +3,7 @@
 // per terrein); met een tweede fractie een balk per terrein, met de cohesie over alle stemmingen als referentie.
 // Verdieping: tik op een terrein en de dossiers klappen eronder uit, tik op een dossier voor de stemmingen
 // (sinds 26 oktober 2026 in de lijst zelf, verzoek Niels). Bovenaan graphic 2 als opening. Keuzes staan in de URL.
+import { DeelKnop } from "@/components/deel/DeelKnop";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Fragment, Suspense } from "react";
@@ -127,6 +128,7 @@ export default async function Onderwerpen({ searchParams }: Props) {
       {/* Graphic 2 als opening: één stemming ontleed (verzoek Niels, 26 oktober 2026) */}
       <section id="een-stemming" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
         <HoofdstukKop titel="Eerst één stemming van dichtbij" />
+        <DeelKnop grafiek="stemming" zoek={{ casus: "motie-eerdmans" }} />
         <Tekst><a href="#zelf">Sla het verhaal over en kies zelf ↓</a></Tekst>
         <ScrollVerhaal verhaal={{ breed: stemVerhaal(false), smal: stemVerhaal(true) }} label="De stemming over de motie-Eerdmans" hoogteSmal={1080} stapHoogte="45vh" tijdlijn />
         <Data>
@@ -209,6 +211,7 @@ export default async function Onderwerpen({ searchParams }: Props) {
             uitklap={terrein ? uitklapTerrein : null} />
           </>
           )}
+          <DeelKnop grafiek="onderwerpen" />
           <Data><Link href={`/onderwerpen${query({ fractie: gekozen.afkorting })}`}>Terug naar alle fracties</Link></Data>
         </section>
       ) : (
@@ -297,6 +300,7 @@ export default async function Onderwerpen({ searchParams }: Props) {
               fracties={zaal.filter((f) => f.id !== gekozen.id).map((f) => ({ id: f.id, afkorting: f.afkorting }))}
               hrefMet={(afk) => `/onderwerpen${query({ fractie: gekozen.afkorting, met: afk })}`} />
           </div>
+          <DeelKnop grafiek="onderwerpen" />
         </section>
       )}
 

@@ -1,6 +1,7 @@
 // Oppositiewerk (concept, component zetelwerk): "Wat kun je als je niet regeert?" Een scrollverhaal in zes
 // hoofdstukken over moties en amendementen sinds 2010, met elk een bewegend beeld en een lezingenpaar.
 // Plan: docs/plan/08-componenten/zetelwerk.md. Alle zinnen en plekken komen uit de data (lib/oppositie.ts).
+import { DeelKnop } from "@/components/deel/DeelKnop";
 import { KAMERLEDEN } from "@/lib/site";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -71,24 +72,28 @@ export default async function Oppositie() {
       {/* Elk hoofdstuk opent met een kop over de volle breedte (feedback Niels K2, 26 oktober 2026); hoofdstuk 4 en 5
           breed, met de kaart onder de tekening. Kop en verhaal als één blok, anders viel de grote ruimte tussen de blokken
           van de pagina tussen kop en grafiek (Niels, 28 oktober 2026) */}
-      <section className={u.graphic}>
+      <section id="moties-per-jaar" className={u.graphic}>
         <HoofdstukKop nummer="1" titel="Steeds meer moties" />
+        <DeelKnop grafiek="oppositie-jaren" />
         <ScrollVerhaal verhaal={{ breed: zonderKop(hoofdstukJaren(jaren, ditJaar)) }} label="Moties per jaar" tijdlijn stapHoogte="60vh" />
       </section>
-      <section className={u.graphic}>
+      <section id="per-kabinet" className={u.graphic}>
         <HoofdstukKop nummer="2" titel="Per kabinet" />
+        <DeelKnop grafiek="oppositie-kabinetten" zoek={{ stuk: "Motie" }} />
         <ScrollVerhaal verhaal={{ breed: zonderKop(hoofdstukKabinetten(perioden, KABINETTEN, "Motie", minderheid)) }} label="Moties per kabinet" tijdlijn stapHoogte="60vh" />
       </section>
-      <section className={u.graphic}>
+      <section id="tegenstemmen" className={u.graphic}>
         <HoofdstukKop nummer="4" titel="Tegenstemmen en zelf iets binnenhalen" />
+        <DeelKnop grafiek="oppositie-spreiding" />
         <ScrollVerhaal verhaal={{
           breed: zonderKop(hoofdstukTegenEnSamen(hoofdstukSpreiding(fracties, KABINETTEN), hoofdstukNetwerk(netwerken.map((n) => ({ ...n, rollen: rollen(n.kabinet) }))))),
           smal: zonderKop(hoofdstukTegenEnSamen(hoofdstukSpreiding(fracties, KABINETTEN, true, klein), hoofdstukNetwerk(netwerken.map((n) => ({ ...n, rollen: rollen(n.kabinet) })), true))),
         }} hoogteSmal={SMAL_SPREIDING.hoogte} breedteSmal={SMAL_SPREIDING.breedte}
           label="Tegenstemmen en aangenomen moties per fractie, daarna samen ingediend" breed stapHoogte="60vh" />
       </section>
-      <section className={u.graphic}>
+      <section id="amendementen" className={u.graphic}>
         <HoofdstukKop nummer="6" titel="Wetten aanpassen met amendementen" />
+        <DeelKnop grafiek="oppositie-kabinetten" zoek={{ stuk: "Amendement" }} />
         <ScrollVerhaal verhaal={{ breed: zonderKop(hoofdstukKabinetten(perioden, KABINETTEN, "Amendement", minderheid)) }} label="Amendementen per kabinet" tijdlijn stapHoogte="60vh" />
       </section>
 

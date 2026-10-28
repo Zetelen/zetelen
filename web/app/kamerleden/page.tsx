@@ -1,6 +1,7 @@
 // Kamerleden (concept, component zetelwerk): wat dienen Kamerleden en fracties zelf in, en wat wordt aangenomen?
 // Moties en amendementen apart. Per fractie, dan per Kamerlid van die fractie, dan de stukken van een Kamerlid.
 // Bewust geen ranglijst over de hele Kamer: kabinet en oppositie zijn niet te vergelijken (zie het plan).
+import { DeelKnop } from "@/components/deel/DeelKnop";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -120,6 +121,7 @@ export default async function Kamerleden({ searchParams }: Props) {
             ) : (
               <FractieTabel rijen={rijen} stuk={stuk} actief={fractie} hrefVoor={(afk) => `${link({ fractie: afk })}#leden`} />
             )}
+            <DeelKnop grafiek="kamerleden" />
           </section>
 
           {/* Ranglijst over de hele Kamer, op uitkomst en per rol (besluit Niels B2, 26 oktober 2026) */}
@@ -174,6 +176,7 @@ export default async function Kamerleden({ searchParams }: Props) {
                 )}
               </>
             )}
+            <DeelKnop grafiek="ranglijst" />
           </section>
 
           <section id="leden" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>

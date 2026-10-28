@@ -6,6 +6,7 @@
 // Feedback Niels (27 oktober 2026): eerst je verwachting, een bronlink per stelling, de uitslag uitklapbaar met
 // het label kabinet of oppositie, een deelplaatje dat in de browser wordt getekend, en een overzicht met de
 // uitkomst als vast label en de zetels als balk.
+import { DeelKnop } from "../deel/DeelKnop";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { deelPlaatje } from "./plaatje";
@@ -248,6 +249,9 @@ export function Stemgenoten({ stellingen: eerste, extra = [], fracties, rollen }
         {beantwoord >= MINIMUM && (
           <div className={s.onder}>
             <button type="button" className={meer || !extra.length ? s.hoofdknop : s.link} onClick={deel} disabled={delen === "bezig"}>Deel als plaatje</button>
+            {/* Ook als link met een voorbeeldplaatje: alleen de percentages per partij gaan mee, niet de antwoorden */}
+            <DeelKnop grafiek="stemgenoten" tekst="Deel als link ↗"
+              zoek={{ u: met.map((x) => `${x.fractie}:${Math.round(x.aandeel!)}`).join(","), b: String(beantwoord), n: String(n) }} />
             <p className={s.klein} aria-live="polite">
               {delen === "gedownload" ? "Het plaatje staat in je downloads." : delen === "fout" ? "Het plaatje lukte niet. Probeer het nog eens." : ""}
             </p>

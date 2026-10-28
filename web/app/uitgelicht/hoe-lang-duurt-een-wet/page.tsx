@@ -1,6 +1,7 @@
 // Hoe lang duurt een wet? (feedback Niels, 26 oktober 2026: het wetgevingsproces als reis, in het format van
 // Uitgelicht). Drie wetten als reis met haltes, daarna alle wetsvoorstellen sinds 2010, en twee interpretaties.
 // Statisch: de gegevens staan in content/wetten (pipeline/wet_reis.py).
+import { DeelKnop } from "@/components/deel/DeelKnop";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Inhoud } from "@/components/Kader";
@@ -12,7 +13,7 @@ import { getal } from "@/lib/cohesie";
 import { SITE } from "@/lib/site";
 import { KIEZER } from "@/lib/uitgelichtLijst";
 import type { Stap } from "@/lib/verhaal";
-import { type Reis, type ReisMetTekst, WETSVOORSTELLEN, alleStap, dagen, duurTekst, reisStap, samenStap, telling } from "@/lib/wetten";
+import { type Reis, type ReisMetTekst, WETSVOORSTELLEN, alleStap, dagen, duurTekst, duurVan, reisStap, samenStap, telling, zonderVoorafAdvies } from "@/lib/wetten";
 import snel from "@/content/wetten/2020Z17945.json";
 import gewoon from "@/content/wetten/2018Z15488.json";
 import lang from "@/content/wetten/2020Z11768.json";
@@ -24,11 +25,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/uitgelicht/hoe-lang-duurt-een-wet" },
 };
 
-// Bij een regeringswet komt het advies van de Raad van State voor de indiening en wordt het tegelijk openbaar;
-// op de tijdas zou het dan op de indiening vallen, dus die halte laten we daar weg (de tekst noemt het)
-const zonderVoorafAdvies = (r: Reis): Reis => ({ ...r, haltes: r.haltes.filter((h) => !(h.halte === "advies" && h.datum <= r.haltes.find((x) => x.halte === "ingediend")!.datum)) });
 const datum = (iso: string) => new Date(`${iso}T12:00:00`).toLocaleDateString("nl-NL", { day: "numeric", month: "long", year: "numeric" });
-const duur = (r: Reis) => dagen(r.haltes[0].datum, r.haltes[r.haltes.length - 1].datum);
+const duur = duurVan;
 const pct = (a: number, b: number) => `${Math.round((100 * a) / b)}%`;
 
 export default function HoeLang() {
@@ -69,8 +67,9 @@ export default function HoeLang() {
           Drie wetten als reis, en daarna alle wetsvoorstellen sinds 2010.
         </Tekst>
       </section>
-      <section className={s.graphic}>
+      <section id="reizen" className={s.graphic}>
         <HoofdstukKop titel="Drie wetten gevolgd" />
+        <DeelKnop grafiek="wetten" />
         <ScrollVerhaal verhaal={{ breed: stappen }} label="Hoe lang duurt een wet: drie reizen en alle wetsvoorstellen" stapHoogte="60vh" tijdlijn />
         <Data>
           Bron: <a href={SITE.bron}>open data van de Tweede Kamer</a>. Haltes uit de documenten bij elk wetsvoorstel (zaken {A.nummer},{" "}
