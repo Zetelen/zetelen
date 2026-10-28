@@ -117,6 +117,6 @@ describe("verkennerOpvalt bij bijna gelijke paren", () => {
       k.set(`${a}|${b}`, { cohesie: c, gezamenlijk: 100, teWeinig: false });
       k.set(`${b}|${a}`, { cohesie: c, gezamenlijk: 100, teWeinig: false });
     }
-    expect(verkennerOpvalt("kabinet", "X", fr, k)).toContain("A en B het vaakst hetzelfde (92%, vrijwel gelijk met A en C)");
+    expect(verkennerOpvalt("kabinet", "X", fr, k)).toContain("A en B het vaakst hetzelfde (92%), A en D het minst (40%). Bijna even vaak: A en C (92%). Dat geldt");
   });
 });

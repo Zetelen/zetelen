@@ -31,11 +31,12 @@ export function verkennerOpvalt(soort: Periodesoort, periode: string, fracties: 
   paren.sort((x, y) => y.c - x.c || x.a.localeCompare(y.a) || x.b.localeCompare(y.b));
   const hoog = paren[0], laag = paren[paren.length - 1];
   // Ligt het volgende paar binnen 1 procentpunt, dan is "het vaakst" geen echt verschil: noem het erbij (feitencontrole
-  // 28 oktober 2026)
+  // 28 oktober 2026). In een eigen zin: tussen haakjes achter het eerste paar las het als vier fracties door elkaar
+  // (vraag Niels, 28 oktober 2026)
   const tweede = paren[1], voorlaatste = paren[paren.length - 2];
-  const bijHoog = paren.length > 2 && hoog.c - tweede.c < 1 ? `, vrijwel gelijk met ${tweede.a} en ${tweede.b}` : "";
-  const bijLaag = paren.length > 2 && voorlaatste.c - laag.c < 1 ? `, vrijwel gelijk met ${voorlaatste.a} en ${voorlaatste.b}` : "";
-  return `${periodeTekst(soort, periode)} stemden ${hoog.a} en ${hoog.b} het vaakst hetzelfde (${pct(hoog.c)}${bijHoog}), ${laag.a} en ${laag.b} het minst (${pct(laag.c)}${bijLaag}). Dat geldt voor fracties met minstens ${MINIMUM_ZETELS} zetels.`;
+  const bijHoog = paren.length > 2 && hoog.c - tweede.c < 1 ? ` Bijna even vaak: ${tweede.a} en ${tweede.b} (${pct(tweede.c)}).` : "";
+  const bijLaag = paren.length > 2 && voorlaatste.c - laag.c < 1 ? ` Bijna even weinig: ${voorlaatste.a} en ${voorlaatste.b} (${pct(voorlaatste.c)}).` : "";
+  return `${periodeTekst(soort, periode)} stemden ${hoog.a} en ${hoog.b} het vaakst hetzelfde (${pct(hoog.c)}), ${laag.a} en ${laag.b} het minst (${pct(laag.c)}).${bijHoog}${bijLaag} Dat geldt voor fracties met minstens ${MINIMUM_ZETELS} zetels.`;
 }
 
 // Onderwerpen met twee fracties: het terrein waarop ze het vaakst en het minst vaak eens waren
