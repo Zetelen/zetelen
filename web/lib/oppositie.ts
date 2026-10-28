@@ -112,10 +112,11 @@ export function hoofdstukJaren(rijen: JaarWerk[], ditJaar: number): Stap[] {
     ...(pct(eind.aangenomen, eind.ingediend) > pct(begin.aangenomen, begin.ingediend)
       ? interpretaties({ stippen: bouw("aangenomen"), labels: [...labels, ...legenda()] },
         `Meer invloed. De oppositie krijgt vaker iets binnen dan in ${eerste}, en in aantallen meer dan ooit.`,
-        "Inflatie. Moties vragen vaak weinig: een kabinet stemt makkelijk in met een onderzoek of een brief, en een aangenomen motie is nog geen uitgevoerd besluit.")
+        // Het tweede deel (moties om een standpunt te laten zien) uit feedback nr. 4, 28 oktober 2026
+        "Inflatie. Moties vragen vaak weinig: een kabinet stemt makkelijk in met een onderzoek of een brief. Ook dienen fracties moties in om te laten zien waar ze staan, met weinig kans van slagen. En een aangenomen motie is nog geen uitgevoerd besluit.")
       : interpretaties({ stippen: bouw("aangenomen"), labels: [...labels, ...legenda()] },
         `Meer moties, meer kansen. In aantallen krijgt de oppositie meer binnen dan in ${eerste}.`,
-        "Inflatie. Naar verhouding haalt minder het, en een aangenomen motie is nog geen uitgevoerd besluit.")),
+        "Inflatie. Naar verhouding haalt minder het. Ook dienen fracties moties in om te laten zien waar ze staan, met weinig kans van slagen. En een aangenomen motie is nog geen uitgevoerd besluit.")),
   ];
 }
 
