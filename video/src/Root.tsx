@@ -9,6 +9,7 @@ import { DUUR_HOEFIJZER, Hoefijzer } from "./videos/Hoefijzer";
 import { DUUR_STEMMING, Stemming } from "./videos/Stemming";
 import { DUUR_TIJDLIJN, Tijdlijn } from "./videos/Tijdlijn";
 import { Weegschaal, duurWeegschaal } from "./videos/Weegschaal";
+import { DUUR_VVD_PRO, VvdEnPro } from "./videos/VvdEnPro";
 
 // Welke variant bij welke casus past
 export const VARIANTEN: Array<{ id: string; slug: string; soort: "Weegschaal" | "Hoefijzer" | "GelijkeStand" | "EenFractie" }> = [
@@ -38,6 +39,8 @@ export function Root() {
           durationInFrames={DUUR_STEMMING} fps={FPS} width={BREED} height={HOOG} />
       ))}
       <Composition id="Tijdlijn" component={Tijdlijn} durationInFrames={DUUR_TIJDLIJN} fps={FPS} width={BREED} height={HOOG} />
+      {/* Uitgelicht: hoe vaak stemmen VVD en PRO hetzelfde? (28 oktober 2026) */}
+      <Composition id="VvdEnPro" component={VvdEnPro} durationInFrames={DUUR_VVD_PRO} fps={FPS} width={BREED} height={HOOG} />
     </>
   );
 }
