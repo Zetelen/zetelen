@@ -35,6 +35,7 @@ Fase 4: koppelen en bouwen (stap 9). Backend van R1 gebouwd en getest, plus `ont
 - Stemgenoten (28 oktober 2026): na de uitslag "Nog 15 stellingen" (`pipeline/stemgenoten_selectie.py --extra`), alle stellingen nagekeken door een aparte controle; een test blokkeert stellingen die niet zijn nagekeken
 - Uitgelicht "Hoe vaak stemmen VVD en PRO hetzelfde?" (28 oktober 2026, `web/app/uitgelicht/vvd-en-pro`, `web/lib/vvdPro.ts`) en de video `VvdEnPro` (`video/src/videos/VvdEnPro.tsx`). Getest: aparte controle van getallen, feiten en neutraliteit; bekeken op telefoon en groot scherm
 - Verder (28 oktober 2026): scroll graphics op de telefoon zonder overlap, weergavekeuze bij de ranglijst van Kamerleden, schaaluitleg in het feedbackformulier, lezing Inflatie bij Oppositie uitgebreid, `pipeline/feedback_dagelijks.sh` (launchd zet Niels zelf aan)
+- Delen per grafiek (28 oktober 2026): knop "Deel" bij elke grafiek en een eigen deellink `/deel/<grafiek>` met een voorbeeldplaatje uit de data (`web/lib/deel.ts`, `web/lib/deelSchoon.ts`, `web/components/deel/`, `web/app/deel/`). De keuzes in een link worden gecontroleerd tegen de data. Verkenner, VVD en PRO en de voorpagina live; de overige grafieken op de branch `delen-alle-grafieken`, wacht op akkoord Niels (K15). Getest: vitest, build, controle op geheimen, alle plaatjes bekeken
 
 ## Openstaand
 
