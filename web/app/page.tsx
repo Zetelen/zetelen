@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 // Het overzicht na de opening: de drie vragen staan al als knoppen in de hero, dus de tegels tonen de andere
 // onderdelen en de rest staat op één regel (feedback Niels K3 en K11, 27 oktober 2026)
 const VRAGEN = [
-  { href: "/stemgenoten", vraag: "Stem jij zoals zij?", tekst: "Kies je kant bij echte stemmingen en zie welke fracties net zo stemden." },
+  { href: "/stemgenoten", vraag: "Met welke partij stem jij het vaakst mee?", tekst: "Kies je kant bij echte stemmingen en zie welke fracties net zo stemden." },
   { href: "/uitgelicht", vraag: "Stemmingen van dichtbij", tekst: "Wie stemde wat, wie stemde anders dan de eigen fractie, en hoe krap was het." },
   { href: "/oppositie", vraag: "Wat kun je als je niet regeert?", tekst: "Zestien jaar moties en amendementen van de oppositie: wat haalt het, en met wie." },
 ];
@@ -165,7 +165,7 @@ export default async function Voorpagina() {
 
       {partners && paar && u && kabinet && (
         <section className={s.hoofdstuk} style={{ maxWidth: "none" }}>
-          <HoofdstukKop nummer="3" titel="Samen in het kabinet. Overal eens?" />
+          <HoofdstukKop nummer="3" titel="Zijn kabinetspartijen het overal over eens?" />
           <Tekst>
             {partners.a.afkorting} en {partners.b.afkorting} zijn de grootste partijen van kabinet-{kabinet.naam}
             {partners.totaal != null ? ` en stemmen in ${procent(partners.totaal)} van de stemmingen hetzelfde` : ""}. Per onderwerp
@@ -188,7 +188,7 @@ export default async function Voorpagina() {
           Stel zelf een groep fracties samen en zie bij welke andere fracties die groep in het verleden een meerderheid
           haalde.
         </Tekst>
-        <Link href="/coalitie" className={knopKlasse}>Naar de coalitiebouwer</Link>
+        <Link href="/coalitie" className={knopKlasse}>Naar Coalitie</Link>
       </section>
 
       {jaren && jaren.length > 0 && (() => {
@@ -202,7 +202,7 @@ export default async function Voorpagina() {
         const eerste = perJaar[0], laatste = perJaar.filter((x) => x.jaar < new Date().getFullYear()).pop() ?? perJaar[perJaar.length - 1];
         return (
           <section className={s.hoofdstuk}>
-            <HoofdstukKop nummer="5" titel="En de oppositie? Wat kun je als je niet regeert?" />
+            <HoofdstukKop nummer="5" titel="Wat kan de oppositie?" />
             <Tekst>
               Het belangrijkste middel van de oppositie is de motie: een verzoek van de Kamer aan het kabinet. In {eerste.jaar} stemde de Kamer over {eerste.totaal.toLocaleString("nl-NL")} moties, in {laatste.jaar} over{" "}
               {laatste.totaal.toLocaleString("nl-NL")}. Het grootste deel komt van de oppositie. Maar hoeveel haalt het, en verandert dat
@@ -216,7 +216,7 @@ export default async function Voorpagina() {
                 </span>
               ))}
             </div>
-            <Link href="/oppositie" className={knopKlasse}>Naar Oppositiewerk</Link>
+            <Link href="/oppositie" className={knopKlasse}>Naar Oppositie</Link>
           </section>
         );
       })()}

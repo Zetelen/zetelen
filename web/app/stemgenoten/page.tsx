@@ -13,7 +13,7 @@ import { Kern } from "@/components/Onderdelen";
 import { coalitieVan } from "@/lib/cohesie";
 
 export const metadata: Metadata = {
-  title: "Stem jij zoals zij?",
+  title: "Met welke partij stem jij het vaakst mee?",
   description: "Wie stemde in de Tweede Kamer zoals jij? Echte stemmingen over wetten en amendementen.",
   alternates: { canonical: "/stemgenoten" },
 };
@@ -41,7 +41,7 @@ export default async function StemgenotenPagina() {
     <Inhoud>
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", maxWidth: 860 }}>
         <Label>Stemgenoten</Label>
-        <HeroKop>Stem jij zoals zij?</HeroKop>
+        <HeroKop>Met welke partij stem jij het vaakst mee?</HeroKop>
         {/* Kern van de pagina (K11, 27 oktober 2026); geen "wat opvalt", dat zou de uitkomst verklappen */}
         <Kern ziet={`${stellingen.length} echte stemmingen uit de Tweede Kamer. Kies je kant en zie welke fracties net zo stemden: niet op basis van beloftes, maar van wat ze echt stemden.`} />
       </section>

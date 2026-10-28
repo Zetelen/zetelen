@@ -25,7 +25,7 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   const plaatje = new URLSearchParams(Object.fromEntries(["soort", "periode", "groep", "variant"].flatMap((k) => (waarde(zoek, k) ? [[k, waarde(zoek, k)!]] : []))));
   const groep = waarde(zoek, "groep");
   return {
-    title: "Coalitiebouwer",
+    title: "Coalitie",
     description: groep
       ? `${groep.split(",").join(", ")}: bij wie haalde deze groep een meerderheid in de Tweede Kamer?`
       : "Stel zelf een groep fracties samen. Bij welke andere fracties haalde die groep eerder een meerderheid?",
@@ -49,8 +49,8 @@ export default async function Coalitie({ searchParams }: Props) {
   return (
     <Inhoud>
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
-        <Label>Coalitiebouwer</Label>
-        <SectieKop niveau={1}>Bij wie haal je een meerderheid?</SectieKop>
+        <Label>Coalitie</Label>
+        <SectieKop niveau={1}>Welke partijen halen samen een meerderheid?</SectieKop>
         <Kern ziet="Een groep fracties die jij kiest: hoeveel zetels die heeft, en met welke andere fracties ze eerder een meerderheid haalde." opvalt={opvalt} />
         <Tekst>
           Nu zetel jij. Kies fracties in de lijst of in de zaal en stel een kabinet samen, fictief of niet. Je ziet hoeveel zetels het

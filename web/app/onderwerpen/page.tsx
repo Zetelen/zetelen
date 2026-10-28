@@ -30,7 +30,7 @@ import s from "@/components/onderwerpen/onderwerpen.module.css";
 import v from "@/components/cohesie/verkenner.module.css";
 
 export const metadata: Metadata = {
-  title: "Onderwerpen",
+  title: "Per onderwerp",
   description: "Waar zijn fracties in de Tweede Kamer het over eens? Kijk per beleidsterrein, per kabinet of Kamerperiode.",
   alternates: { canonical: "/onderwerpen" },
 };
@@ -106,8 +106,8 @@ export default async function Onderwerpen({ searchParams }: Props) {
   return (
     <Inhoud>
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", maxWidth: 860 }}>
-        <Label>Onderwerpen</Label>
-        <HeroKop>Waar zijn fracties het over eens?</HeroKop>
+        <Label>Per onderwerp</Label>
+        <HeroKop>Waarover zijn partijen het eens?</HeroKop>
         <Kern ziet="Hoe vaak fracties dezelfde kant kozen, per beleidsterrein. Eerst één stemming van dichtbij, daarna kies je zelf." opvalt={opvalt} />
         <Tekst>
           Fracties die het op het ene onderwerp zelden eens zijn, vinden elkaar op een ander onderwerp soms juist wel. Hier zie je
@@ -119,14 +119,14 @@ export default async function Onderwerpen({ searchParams }: Props) {
         </Tekst>
         {/* Sprongen naar de twee delen: de pagina is lang en een bezoeker raakte het overzicht kwijt (feedback nr. 7, 28 oktober 2026) */}
         <nav aria-label="Op deze pagina" style={{ display: "flex", flexWrap: "wrap", gap: "var(--r-3)" }}>
-          <a href="#een-stemming" className={knopKlasse}>Eén stemming ontleed ↓</a>
+          <a href="#een-stemming" className={knopKlasse}>Eerst één stemming van dichtbij ↓</a>
           <a href="#zelf" className={knopKlasse}>Meteen zelf kiezen ↓</a>
         </nav>
       </section>
 
       {/* Graphic 2 als opening: één stemming ontleed (verzoek Niels, 26 oktober 2026) */}
       <section id="een-stemming" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
-        <HoofdstukKop titel="Eén stemming ontleed" />
+        <HoofdstukKop titel="Eerst één stemming van dichtbij" />
         <Tekst><a href="#zelf">Sla het verhaal over en kies zelf ↓</a></Tekst>
         <ScrollVerhaal verhaal={{ breed: stemVerhaal(false), smal: stemVerhaal(true) }} label="De stemming over de motie-Eerdmans" hoogteSmal={1080} stapHoogte="45vh" tijdlijn />
         <Data>
@@ -138,7 +138,7 @@ export default async function Onderwerpen({ searchParams }: Props) {
       {/* Nu jij als duidelijke uitnodiging (feedback Niels K1, 26 oktober 2026) */}
       <section id="zelf" className={s.nuJij}>
         <Label>Nu jij</Label>
-        <SectieKop>Kies een fractie. Waar vindt ze de anderen?</SectieKop>
+        <SectieKop>Kies een partij: met wie is ze het waarover eens?</SectieKop>
         <Tekst>
           Elk percentage hieronder is opgeteld uit duizenden stemmingen zoals deze. Kies een fractie en zie per beleidsterrein
           hoe vaak de andere fracties dezelfde kant kozen. Kies er een tweede bij om het paar te vergelijken, en klik dan op een

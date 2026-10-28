@@ -22,7 +22,7 @@ import opvolgers from "@/content/fractie-opvolgers.json";
 import o from "@/components/onderwerpen/onderwerpen.module.css";
 
 export const metadata: Metadata = {
-  title: "Verkenner",
+  title: "Wie stemt met wie",
   description: "Hoe vaak stemmen twee fracties in de Tweede Kamer hetzelfde? Kies een fractie en een periode.",
   alternates: { canonical: "/verkenner" },
 };
@@ -48,8 +48,8 @@ export default async function VerkennerPagina({ searchParams }: Props) {
   return (
     <Inhoud>
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
-        <Label>Verkenner</Label>
-        <SectieKop niveau={1}>Met wie stemt een fractie het vaakst hetzelfde?</SectieKop>
+        <Label>Wie stemt met wie</Label>
+        <SectieKop niveau={1}>Met wie stemt een partij het vaakst mee?</SectieKop>
         {/* Kern van de pagina (K11, 27 oktober 2026) */}
         <Kern ziet="Per fractie hoe vaak elke andere fractie dezelfde kant koos. Kies een fractie, een periode en zaal, boog of tabel."
           opvalt={periode && fracties && kaart ? verkennerOpvalt(soort, periode.naam, fracties, kaart) : null} />

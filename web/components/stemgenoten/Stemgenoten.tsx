@@ -111,7 +111,7 @@ export function Stemgenoten({ stellingen: eerste, extra = [], fracties, rollen }
     return (
       <div className={s.kaart} ref={kader} style={{ scrollMarginTop: 90 }}>
         <p className={s.label}>Eerst je verwachting</p>
-        <h2 className={s.stelling}>Welke fracties stemmen volgens jou zoals jij?</h2>
+        <h2 className={s.stelling}>Welke partijen stemmen volgens jou zoals jij?</h2>
         <p className={s.klein}>Tik er een paar aan. In de uitslag zie je ze terug in een eigen kleur. Je kunt dit ook overslaan.</p>
         <div className={s.keuzes}>
           {opZetels.map((f) => (

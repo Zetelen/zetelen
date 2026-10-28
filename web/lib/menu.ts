@@ -21,7 +21,7 @@ export const MENU: MenuGroep[] = [
     ],
   },
   {
-    naam: "Wie zit er",
+    naam: "De Kamer", // was "Wie zit er" (K14, 28 oktober 2026)
     items: [
       { href: "/fracties", tekst: "Fracties", regel: "Alle fracties sinds 2010, met hun zetels en met wie ze meestemden." },
       { href: "/kamerleden", tekst: "Kamerleden", regel: "Wat Kamerleden zelf indienen, en wat het haalt." },

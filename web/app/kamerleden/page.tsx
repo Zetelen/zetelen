@@ -24,7 +24,7 @@ import s from "@/components/zetelwerk/zetelwerk.module.css";
 
 export const metadata: Metadata = {
   title: "Kamerleden",
-  description: "Wat dienen Kamerleden zelf in, en wat haalt het? Moties, amendementen en initiatiefwetten per fractie en per Kamerlid.",
+  description: "Wat stellen Kamerleden voor, en wat wordt aangenomen? Moties, amendementen en initiatiefwetten per fractie en per Kamerlid.",
   alternates: { canonical: "/kamerleden" },
 };
 
@@ -69,7 +69,7 @@ export default async function Kamerleden({ searchParams }: Props) {
     <Inhoud>
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", maxWidth: 860 }}>
         <Label>Kamerleden</Label>
-        <SectieKop niveau={1}>Wat dienen Kamerleden zelf in, en wat haalt het?</SectieKop>
+        <SectieKop niveau={1}>Wat stellen Kamerleden voor, en wat wordt aangenomen?</SectieKop>
         {/* Kern van de pagina (K11, 27 oktober 2026) */}
         <Kern ziet="Wat fracties en Kamerleden zelf indienden, en hoeveel daarvan de Kamer aannam. Kies moties, amendementen of initiatiefwetten."
           opvalt={periode && fracties ? kamerledenOpvalt(soort, periode.naam, stuk, meervoud, fracties, hernoemingen(opvolgers.opvolgers)) : null} />

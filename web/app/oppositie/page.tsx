@@ -18,7 +18,7 @@ import { fractiesIn } from "@/lib/cohesie";
 import u from "@/components/verhaal/uitgelicht.module.css";
 
 export const metadata: Metadata = {
-  title: "Oppositiewerk",
+  title: "Oppositie",
   description: "Wat kun je als je niet regeert? Moties en amendementen van de oppositie in de Tweede Kamer sinds 2010.",
   alternates: { canonical: "/oppositie" },
 };
@@ -58,7 +58,7 @@ export default async function Oppositie() {
   return (
     <Inhoud>
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", maxWidth: 860 }}>
-        <Label>Oppositiewerk</Label>
+        <Label>Oppositie</Label>
         <SectieKop niveau={1}>Wat kun je als je niet regeert?</SectieKop>
         <Kern ziet="Zestien jaar moties en amendementen: hoeveel de oppositie indiende, wat het haalde, en met wie ze samenwerkte."
           opvalt={samen && vorig ? oppositieOpvalt(KABINETTEN[KABINETTEN.length - 1], samen.oppositieNu, vorig.eerste, vorig.oppositieEerst, samen.eerste, samen.oppositieEerst) : null} />
@@ -80,7 +80,7 @@ export default async function Oppositie() {
         <ScrollVerhaal verhaal={{ breed: zonderKop(hoofdstukKabinetten(perioden, KABINETTEN, "Motie", minderheid)) }} label="Moties per kabinet" tijdlijn stapHoogte="60vh" />
       </section>
       <section className={u.graphic}>
-        <HoofdstukKop nummer="4" titel="Tegenstemmen en zelf scoren" />
+        <HoofdstukKop nummer="4" titel="Tegenstemmen en zelf iets binnenhalen" />
         <ScrollVerhaal verhaal={{
           breed: zonderKop(hoofdstukTegenEnSamen(hoofdstukSpreiding(fracties, KABINETTEN), hoofdstukNetwerk(netwerken.map((n) => ({ ...n, rollen: rollen(n.kabinet) }))))),
           smal: zonderKop(hoofdstukTegenEnSamen(hoofdstukSpreiding(fracties, KABINETTEN, true, klein), hoofdstukNetwerk(netwerken.map((n) => ({ ...n, rollen: rollen(n.kabinet) })), true))),
@@ -88,13 +88,13 @@ export default async function Oppositie() {
           label="Tegenstemmen en aangenomen moties per fractie, daarna samen ingediend" breed stapHoogte="60vh" />
       </section>
       <section className={u.graphic}>
-        <HoofdstukKop nummer="6" titel="De wet zelf veranderen" />
+        <HoofdstukKop nummer="6" titel="Wetten aanpassen met amendementen" />
         <ScrollVerhaal verhaal={{ breed: zonderKop(hoofdstukKabinetten(perioden, KABINETTEN, "Amendement", minderheid)) }} label="Amendementen per kabinet" tijdlijn stapHoogte="60vh" />
       </section>
 
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", maxWidth: 860 }}>
         <Label>Nu jij</Label>
-        <SectieKop>Wie diende wat in?</SectieKop>
+        <SectieKop>Welke partij diende wat in?</SectieKop>
         <Tekst>
           Achter elke stip zitten Kamerleden die iets indienden. Zoek ze op, per fractie en per kabinet, of kijk op een fractiepagina
           hoeveel zetelwerk die fractie verzette.

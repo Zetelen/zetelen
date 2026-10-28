@@ -22,7 +22,7 @@ export async function GET(verzoek: Request) {
     : undefined;
   const uitkomst = rij ? bereken(rij, groep.map((f) => f.id), undefined, alleenVerdeeld) : null;
   const genoeg = !!uitkomst && uitkomst.eensgezind >= DREMPEL;
-  const titel = groep.length ? `${groep.map((f) => f.afkorting).join(" + ")}: ${zetels} zetels` : "Bij wie haal je een meerderheid?";
+  const titel = groep.length ? `${groep.map((f) => f.afkorting).join(" + ")}: ${zetels} zetels` : "Welke partijen halen samen een meerderheid?";
   const regel = groep.length ? (zetels >= 76 ? "Een meerderheid in de Kamer" : `${76 - zetels} zetels tekort voor een meerderheid`) : "Stel zelf een groep fracties samen";
 
   return new ImageResponse(

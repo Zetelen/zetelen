@@ -70,7 +70,7 @@ export default function HoeLang() {
         </Tekst>
       </section>
       <section className={s.graphic}>
-        <HoofdstukKop titel="Drie reizen" />
+        <HoofdstukKop titel="Drie wetten gevolgd" />
         <ScrollVerhaal verhaal={{ breed: stappen }} label="Hoe lang duurt een wet: drie reizen en alle wetsvoorstellen" stapHoogte="60vh" tijdlijn />
         <Data>
           Bron: <a href={SITE.bron}>open data van de Tweede Kamer</a>. Haltes uit de documenten bij elk wetsvoorstel (zaken {A.nummer},{" "}

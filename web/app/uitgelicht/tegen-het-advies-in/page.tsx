@@ -15,7 +15,7 @@ import { KORT, type Stap } from "@/lib/verhaal";
 import s from "@/components/verhaal/uitgelicht.module.css";
 
 export const metadata: Metadata = {
-  title: "Tegen het advies in",
+  title: "Moties die het kabinet ontraadde",
   description: "Moties die het kabinet ontraadde en die de Tweede Kamer toch aannam, sinds april 2019.",
   alternates: { canonical: "/uitgelicht/tegen-het-advies-in" },
 };
@@ -68,7 +68,7 @@ export default function TegenHetAdviesIn() {
       <section className={s.blok}>
         <CasusKiezer casussen={KIEZER} gekozen="tegen-het-advies-in" />
         <Label>Uitgelicht · moties en het kabinet</Label>
-        <HeroKop>Tegen het advies in</HeroKop>
+        <HeroKop>Moties die het kabinet ontraadde</HeroKop>
         {/* Kern van de pagina (K11, 27 oktober 2026) */}
         <Kern ziet="Alle moties sinds april 2019, naar wat het kabinet ervan vond en wat de Kamer besloot."
           opvalt={`Sinds april 2019 nam de Kamer ${getal(t.tochAangenomen.length)} moties aan terwijl het kabinet ze ontraadde: ${pct(t.tochAangenomen.length, t.aangenomen)} van alle aangenomen moties.`} />

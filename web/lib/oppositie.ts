@@ -143,7 +143,7 @@ export function hoofdstukKabinetten(rijen: PeriodeWerk[], kabinetten: string[], 
   if (stuk === "Amendement") {
     return [
       {
-        hoofdstuk: "6 · De wet zelf veranderen", datum: "amendementen",
+        hoofdstuk: "6 · Wetten aanpassen met amendementen", datum: "amendementen",
         tekst: `Een amendement verandert een wet direct. Het zijn er veel minder dan moties: elke stip is ${PER} amendementen. Ook hier dient vooral de oppositie in.`,
         stippen: bouw("rol"), labels: [...labels, ...legenda()],
       },
@@ -302,7 +302,7 @@ export function hoofdstukSpreiding(rijen: Array<FractieWerk & { periode: string 
       ? `In de oppositie stemde ${naam(tegen.afkorting)} het vaakst tegen (${Math.round(tegen.tegen_aandeel!)}%), en kreeg ${naam(succes.afkorting)} naar verhouding de meeste eigen moties aangenomen (${pct(succes.aangenomen, succes.ingediend)}%).`
       : "";
     return {
-      hoofdstuk: i === 0 ? "4 · Tegenstemmen en zelf scoren" : undefined,
+      hoofdstuk: i === 0 ? "4 · Tegenstemmen en zelf iets binnenhalen" : undefined,
       datum: `kabinet-${k}`,
       tekst: i === 0
         ? `Elke stip is een fractie${klein.size ? " (zonder eenmansfracties)" : ""}. Naar rechts: vaker tegen gestemd. Naar boven: meer eigen moties aangenomen. Een volle stip: in het kabinet; een holle stip: in de oppositie. Wat opvalt: wie regeert, stemt het vaakst tegen. Onder kabinet-${k} stemden de kabinetsfracties gemiddeld op ${gemTegen(kab)}% van de stemmingen tegen, de oppositie op ${gemTegen(opp)}%. Ze stemmen tegen de vele moties van de oppositie. ${oppZin}`

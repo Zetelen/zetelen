@@ -45,7 +45,7 @@ export const MATEN: Maat[] = [
   },
   {
     id: "coalitie",
-    naam: "Coalitiebouwer: meegestemd en beslissend",
+    naam: "Coalitie: meegestemd en beslissend",
     definitie:
       "Voor een groep fracties die je zelf kiest, telt de coalitiebouwer de stemmingen waarop de groep eensgezind was: alle fracties in de groep stemden hetzelfde, allemaal voor of allemaal tegen. Van die stemmingen telt hij hoe vaak de kant van de groep won. En per andere fractie hoe vaak die meestemde en hoe vaak die beslissend was.",
     formule:
@@ -104,7 +104,7 @@ export const MATEN: Maat[] = [
   },
   {
     id: "ontraden",
-    naam: "Tegen het advies in: ontraden en toch aangenomen",
+    naam: "Moties die het kabinet ontraadde: toch aangenomen",
     definitie:
       "Voor een stemming zegt het kabinet wat het van een motie vindt (in de bron: Kabinetsappreciatie). Een motie die het kabinet ontraadde en die de Kamer toch aannam, telt als ontraden en toch aangenomen. Te zien op Uitgelicht, bij Tegen het advies in.",
     formule:
