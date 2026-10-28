@@ -1,7 +1,7 @@
 // Het verhaal op de voorpagina (docs/ontwerp/scroll-graphics.md): de plekken van de stippen per stap,
 // uit de data. Alleen op de server; de browser krijgt de uitkomst (components/verhaal/ScrollVerhaal.tsx).
 import { leesApi } from "./api";
-import { cohesieIn, fractiesIn, procent } from "./cohesie";
+import { cohesieIn, fractiesIn, procent, slug } from "./cohesie";
 import { schaalkleur } from "./kleur";
 import {
   KLEIN, KORT, type Kleur, type Stap, type ZaalStip,
@@ -52,13 +52,17 @@ export function zaalVerhaal(d: VerhaalData): Stap[] {
     genoemd?: string[]; // fracties die de tekst noemt: altijd een label en een rand, ook als ze klein zijn
   };
   const ruw: Ruw[] = [];
+  // Elke stap eindigt bij een plek op de site waar je verder kunt kijken: het verhaal is op de telefoon acht schermen
+  // lang, en wie daar afhaakte had geen uitweg (bezoekerscijfers en verzoek Niels, 28 oktober 2026)
+  const zoek = (pad: string, w: Record<string, string>) => `${pad}?${new URLSearchParams(w).toString()}`;
   // Kabinetsfracties met een gouden rand, de oppositie gedimd
   const koper = (fr: string[]) => (f: string): Kleur => (fr.includes(f) ? "kabinet" : "uit");
   const kabinetStap = (k: string, z: Record<string, number>, intro: string) => {
     const fr = kabinet(k);
     const n = som(z, fr);
     ruw.push({ datum: maandJaar(beginVan(k)), tekst: `${intro} ${lijstTekst(fr.map(naam))}: samen ${n} van de 150 zetels${n < 76 ? ", een minderheid" : ""}.`,
-      zetels: z, kleur: koper(fr), groot: String(n), klein: "zetels voor het kabinet" });
+      zetels: z, kleur: koper(fr), groot: String(n), klein: "zetels voor het kabinet",
+      link: { href: zoek("/verkenner", { soort: "kabinet", periode: k }), tekst: `Wie stemde met wie onder kabinet-${k}` } });
   };
 
   kabinetStap("Rutte IV", zetels("kabinet", "Rutte IV", true), "Kabinet-Rutte IV begint met");
@@ -68,20 +72,24 @@ export function zaalVerhaal(d: VerhaalData): Stap[] {
   for (const c of d.co.filter((x) => x.kabinet === "Schoof" && x.tot).sort((a, b) => a.tot!.localeCompare(b.tot!))) {
     const fr = kabinet("Schoof", c.tot!);
     const n = som(schoof, fr);
-    ruw.push({ datum: dagMaandJaar(c.tot!), tekst: `${naam(c.afkorting)} stapt uit het kabinet. Er blijven ${n} zetels over.`, zetels: schoof, kleur: koper(fr), groot: String(n), klein: "zetels voor het kabinet" });
+    ruw.push({ datum: dagMaandJaar(c.tot!), tekst: `${naam(c.afkorting)} stapt uit het kabinet. Er blijven ${n} zetels over.`, zetels: schoof, kleur: koper(fr), groot: String(n), klein: "zetels voor het kabinet",
+      link: { href: zoek("/coalitie", { soort: "kabinet", periode: "Schoof", groep: fr.join(",") }), tekst: "Bij wie haalde de rest een meerderheid" } });
   }
   const nieuweKamer = zetels("kamerperiode", KAMER, true);
   const grootste = Math.max(...Object.values(nieuweKamer));
   const kop = Object.keys(nieuweKamer).filter((f) => nieuweKamer[f] === grootste);
   ruw.push({ datum: maandJaar(d.kp.find((p) => p.naam === KAMER)?.begin ?? ""), tekst: `Verkiezingen, en een nieuwe Kamer. De grootste: ${lijstTekst(kop.map(naam))}, met ${grootste} zetels.`,
-    zetels: nieuweKamer, kleur: (f) => (kop.includes(f) ? "nadruk" : null) });
+    zetels: nieuweKamer, kleur: (f) => (kop.includes(f) ? "nadruk" : null),
+    link: { href: zoek("/fracties", { soort: "kamerperiode", periode: KAMER }), tekst: "Alle fracties in deze Kamer" } });
   const jettenBegin = zetels("kabinet", "Jetten", true);
   for (const o of d.ov.filter((x) => x.periodesoort === "kamerperiode" && x.leden >= 2 && jettenBegin[x.naar] && !nieuweKamer[x.naar])) {
     const eerste = d.fp.find((r) => r.periodesoort === "kamerperiode" && r.afkorting === o.naar)?.eerste_stemming ?? "";
     ruw.push({ datum: maandJaar(eerste), tekst: `${o.leden} Kamerleden verlaten de ${naam(o.van)} en gaan verder als ${naam(o.naar)}.`,
-      zetels: jettenBegin, kleur: (f) => (f === o.naar ? "nadruk" : f === o.van ? null : "zacht") });
+      zetels: jettenBegin, kleur: (f) => (f === o.naar ? "nadruk" : f === o.van ? null : "zacht"),
+      link: { href: `/fracties/${slug(o.naar)}`, tekst: `Meer over ${naam(o.naar)}` } });
   }
   kabinetStap("Jetten", jettenBegin, "Kabinet-Jetten begint met");
+  ruw[ruw.length - 1].link = { href: zoek("/coalitie", { soort: "kabinet", periode: "Jetten", groep: kabinet("Jetten").join(",") }), tekst: "Bij wie haalt dit kabinet een meerderheid" };
   const nu = zetels("kabinet", "Jetten", false);
   const fr = kabinet("Jetten");
   const n = som(nu, fr);
@@ -112,7 +120,8 @@ export function zaalVerhaal(d: VerhaalData): Stap[] {
       tint: (f) => (f === wie ? "var(--koper)" : cohesie(wie, f) != null ? schaalkleur(cohesie(wie, f)!) : KLEIN),
       waarde: (f) => (f === wie ? undefined : cohesie(wie, f) != null ? procent(cohesie(wie, f)) : undefined) });
   };
-  cohesieStap(kabinetsfractie, "Neem de grootste kabinetspartij:", "2 · Wie stemt er nu met wie?");
+  cohesieStap(kabinetsfractie, "Neem de grootste kabinetspartij:", "2 · Wie stemt er nu met wie?",
+    { href: zoek("/verkenner", { fractie: kabinetsfractie }), tekst: `${naam(kabinetsfractie)} in de verkenner` });
   cohesieStap(oppositie, "En de grootste oppositiepartij:", undefined, { href: "/verkenner", tekst: "Kies zelf een fractie in de verkenner" });
 
   const zalen: ZaalStip[][] = ruw.map((r) => zaal(r.zetels));

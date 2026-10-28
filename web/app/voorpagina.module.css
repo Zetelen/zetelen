@@ -160,15 +160,17 @@
 .ctaHoofd:hover {
   background: var(--goud);
 }
-/* Smal: beeld 340 px bovenaan, het vlak eronder in de flow over de volle breedte */
+/* Smal: beeld bovenaan, het vlak eronder in de flow over de volle breedte. Het beeld is 180 px hoog, zodat de drie
+   knoppen in het eerste scherm van een telefoon staan; bij 340 px begonnen ze net onder de rand en klikte ruim de helft
+   van de bezoekers niet door (bezoekerscijfers, akkoord Niels 28 oktober 2026) */
 @media (max-width: 760px) {
   .hero {
     display: block;
     min-height: 0;
-    padding: 340px 0 0;
+    padding: 180px 0 0;
   }
   .heroBeeld {
-    height: 340px;
+    height: 180px;
     bottom: auto;
   }
   .heroVlak {

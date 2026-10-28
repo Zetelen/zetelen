@@ -5,6 +5,8 @@
 // uitnodiging; dan "Maar eerst: hoe zijn we hier gekomen?". Hoofdstukken met een kop over de volle breedte.
 // Sinds 27 oktober 2026 (K11): het overzicht "Kijk zelf" staat direct na de opening, voor het verhaal.
 // Sinds 28 oktober 2026: de kop zegt wat de site is; de cijfers volgen daarna, direct met de twee lezingen.
+// Later die dag (bezoekerscijfers, akkoord Niels): op de telefoon staan de drie knoppen in het eerste scherm, het verhaal
+// is over te slaan en elke stap eindigt bij een plek op de site.
 import type { Metadata } from "next";
 import { KAMERLEDEN, SITE } from "@/lib/site";
 import Link from "next/link";
@@ -147,11 +149,13 @@ export default async function Voorpagina() {
       </section>
 
       <HoofdstukKop titel="Maar eerst: hoe zijn we hier gekomen?" id="verhaal" />
+      <Tekst><a href="#na-verhaal">Sla het verhaal over ↓</a></Tekst>
       {d ? (
         <ScrollVerhaal verhaal={{ breed: zonderKop(zaalVerhaal(d)) }} label="De zaal van de Tweede Kamer" tijdlijn stapHoogte="70vh" />
       ) : (
         <Tekst>Het verhaal kon niet worden geladen. Probeer het over een paar minuten opnieuw, of ga direct naar de verkenner.</Tekst>
       )}
+      <div id="na-verhaal" style={{ scrollMarginTop: 80 }} />
 
       {partners && paar && u && kabinet && (
         <section className={s.hoofdstuk} style={{ maxWidth: "none" }}>
