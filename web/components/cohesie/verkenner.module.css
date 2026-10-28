@@ -414,8 +414,22 @@
   .werkvlak {
     grid-template-columns: minmax(0, 1fr);
   }
-  .paneel {
+  /* Het paneel met alle fracties direct onder de zaal en de kleurschaal, niet onderaan: een bezoeker zag op de telefoon
+     maar vier partijen om op te klikken, want alleen grote vakken krijgen een naam (feedback nr. 7, 28 oktober 2026) */
+  .figuur {
+    display: contents;
+  }
+  .figuur > * {
+    order: 4;
+  }
+  .figuur > .zaal {
+    order: 1;
+  }
+  .figuur > .zaal + * {
     order: 2;
+  }
+  .paneel {
+    order: 3;
   }
 }
 @media (max-width: 640px) {

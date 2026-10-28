@@ -8,7 +8,7 @@ import Link from "next/link";
 import { Fragment, Suspense } from "react";
 import { Bronregel } from "@/components/cohesie/Bronregel";
 import { PeriodeKeuze } from "@/components/cohesie/PeriodeKeuze";
-import { Inhoud, LegeStaat } from "@/components/Kader";
+import { Inhoud, LegeStaat, knopKlasse } from "@/components/Kader";
 import { FractieKeuze } from "@/components/onderwerpen/FractieKeuze";
 import { MobieleBalk } from "@/components/onderwerpen/MobieleBalk";
 import { TerreinBalken, terreinAnker } from "@/components/onderwerpen/TerreinBalken";
@@ -115,13 +115,19 @@ export default async function Onderwerpen({ searchParams }: Props) {
         </Tekst>
         <Tekst>
           Elk percentage is opgeteld uit stemmingen. Daarom eerst één stemming van dichtbij: wie stemde wat, en wat telt mee.
-          Daarna kies je zelf. <a href="#zelf">Meteen zelf kiezen</a>
+          Daarna kies je zelf.
         </Tekst>
+        {/* Sprongen naar de twee delen: de pagina is lang en een bezoeker raakte het overzicht kwijt (feedback nr. 7, 28 oktober 2026) */}
+        <nav aria-label="Op deze pagina" style={{ display: "flex", flexWrap: "wrap", gap: "var(--r-3)" }}>
+          <a href="#een-stemming" className={knopKlasse}>Eén stemming ontleed ↓</a>
+          <a href="#zelf" className={knopKlasse}>Meteen zelf kiezen ↓</a>
+        </nav>
       </section>
 
       {/* Graphic 2 als opening: één stemming ontleed (verzoek Niels, 26 oktober 2026) */}
       <section id="een-stemming" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
         <HoofdstukKop titel="Eén stemming ontleed" />
+        <Tekst><a href="#zelf">Sla het verhaal over en kies zelf ↓</a></Tekst>
         <ScrollVerhaal verhaal={{ breed: stemVerhaal(false), smal: stemVerhaal(true) }} label="De stemming over de motie-Eerdmans" hoogteSmal={1080} stapHoogte="45vh" tijdlijn />
         <Data>
           Stemming over zaak {stemming.zaak}, hoofdelijk, {dagMaandJaar(stemming.datum)}. Kleuren zijn een eigen palet, geen
