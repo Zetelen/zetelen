@@ -21,7 +21,7 @@ import { cohesiePerTerrein, paarPerTerrein, uitersten } from "@/lib/onderwerpen"
 import type { Stap } from "@/lib/verhaal";
 import { bredeSteunPerKabinet, kabinetNu, kabinetspartners, laadVerhaal, samenwerking, zaalVerhaal } from "@/lib/voorpagina";
 import { BredeSteun } from "@/components/BredeSteun";
-import { GrafiekKader, GrafiekKop } from "@/components/deel/GrafiekKader";
+import { GrafiekKader, GrafiekVlak } from "@/components/deel/GrafiekKader";
 import { jaarWerk, periodeWerk } from "@/lib/zetelwerk";
 import s from "./voorpagina.module.css";
 import uitgelicht from "@/components/verhaal/uitgelicht.module.css";
@@ -118,8 +118,8 @@ export default async function Voorpagina() {
         />
         {perPeriode && perPeriode.length > 0 && (
           <GrafiekKader grafiek="brede-steun" id="brede-steun" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
-            <GrafiekKop><Label>Aangenomen met stemmen van kabinet én oppositie, per kabinet</Label></GrafiekKop>
-            <BredeSteun rijen={bredeSteunPerKabinet(perPeriode)} />
+            <Label>Aangenomen met stemmen van kabinet én oppositie, per kabinet</Label>
+            <GrafiekVlak><BredeSteun rijen={bredeSteunPerKabinet(perPeriode)} /></GrafiekVlak>
             <Data>
               Deel van alle ingediende moties en amendementen per kabinet dat werd aangenomen met stemmen voor van ten minste één
               fractie uit het kabinet en één uit de oppositie, naast de indieners. Gedoogsteun telt als kabinet.
@@ -168,13 +168,15 @@ export default async function Voorpagina() {
         // Gedeeld als het paar op Onderwerpen: daar staat dezelfde grafiek met alle keuzes
         <GrafiekKader grafiek="onderwerpen" zoek={{ soort: "kabinet", periode: kabinet.naam, fractie: partners.a.afkorting, met: partners.b.afkorting }}
           className={s.hoofdstuk} style={{ maxWidth: "none" }}>
-          <GrafiekKop><HoofdstukKop nummer="3" titel="Zijn kabinetspartijen het overal over eens?" /></GrafiekKop>
+          <HoofdstukKop nummer="3" titel="Zijn kabinetspartijen het overal over eens?" />
           <Tekst>
             {partners.a.afkorting} en {partners.b.afkorting} zijn de grootste partijen van kabinet-{kabinet.naam}
             {partners.totaal != null ? ` en stemmen in ${procent(partners.totaal)} van de stemmingen hetzelfde` : ""}. Per onderwerp
             verschilt dat: het vaakst eens bij {u.hoog.terrein} ({procent(u.hoog.cohesie)}), het minst bij {u.laag.terrein} ({procent(u.laag.cohesie)}).
           </Tekst>
-          <TerreinBalken lijst={paar} totaal={partners.totaal} label={`Cohesie van ${partners.a.afkorting} en ${partners.b.afkorting} per beleidsterrein`} />
+          <GrafiekVlak>
+            <TerreinBalken lijst={paar} totaal={partners.totaal} label={`Cohesie van ${partners.a.afkorting} en ${partners.b.afkorting} per beleidsterrein`} />
+          </GrafiekVlak>
           <Link href={`/onderwerpen?soort=kabinet&periode=${encodeURIComponent(kabinet.naam)}&fractie=${encodeURIComponent(partners.a.afkorting)}&met=${encodeURIComponent(partners.b.afkorting)}`}
             className={knopKlasse}>
             Vergelijk zelf twee fracties per onderwerp
@@ -205,13 +207,14 @@ export default async function Voorpagina() {
         const eerste = perJaar[0], laatste = perJaar.filter((x) => x.jaar < new Date().getFullYear()).pop() ?? perJaar[perJaar.length - 1];
         return (
           <GrafiekKader grafiek="oppositie-jaren" className={s.hoofdstuk}>
-            <GrafiekKop><HoofdstukKop nummer="5" titel="Wat kan de oppositie?" /></GrafiekKop>
+            <HoofdstukKop nummer="5" titel="Wat kan de oppositie?" />
             <Tekst>
               Het belangrijkste middel van de oppositie is de motie: een verzoek van de Kamer aan het kabinet. In {eerste.jaar} stemde de Kamer over {eerste.totaal.toLocaleString("nl-NL")} moties, in {laatste.jaar} over{" "}
               {laatste.totaal.toLocaleString("nl-NL")}. Het grootste deel komt van de oppositie. Maar hoeveel haalt het, en verandert dat
               als het kabinet geen meerderheid heeft?
             </Tekst>
             <Data>Moties per jaar sinds {eerste.jaar}; blauw is het deel van de oppositie.</Data>
+            <GrafiekVlak>
             <div className={s.jaren} aria-hidden="true">
               {perJaar.map((x) => (
                 <span key={x.jaar} title={`${x.jaar}: ${x.totaal} moties`} style={{ height: `${(100 * x.totaal) / max}%` }}>
@@ -219,6 +222,7 @@ export default async function Voorpagina() {
                 </span>
               ))}
             </div>
+            </GrafiekVlak>
             <Link href="/oppositie" className={knopKlasse}>Naar Oppositie</Link>
           </GrafiekKader>
         );

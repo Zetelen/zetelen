@@ -6,7 +6,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Inhoud, LegeStaat } from "@/components/Kader";
-import { GrafiekKader, GrafiekKop } from "@/components/deel/GrafiekKader";
+import { GrafiekKader, GrafiekVlak } from "@/components/deel/GrafiekKader";
 import { HoofdstukKop, Kern } from "@/components/Onderdelen";
 import { Data, HeroKop, Label, Tekst } from "@/components/Typografie";
 import { CasusKiezer } from "@/components/verhaal/CasusKiezer";
@@ -96,8 +96,8 @@ export default async function VvdEnPro() {
 
       {stappen && (
         <GrafiekKader grafiek="vvd-en-pro" vergroot={false} id="ranglijst" className={s.graphic}>
-          <GrafiekKop><HoofdstukKop titel="VVD en PRO, van 2010 tot nu" /></GrafiekKop>
-          <ScrollVerhaal verhaal={{ breed: stappen, smal: stappenSmal }} label="Hoe vaak de VVD hetzelfde stemde als PRO, en daarvoor GroenLinks en PvdA" stapHoogte="60vh" tijdlijn />
+          <HoofdstukKop titel="VVD en PRO, van 2010 tot nu" />
+          <GrafiekVlak><ScrollVerhaal verhaal={{ breed: stappen, smal: stappenSmal }} label="Hoe vaak de VVD hetzelfde stemde als PRO, en daarvoor GroenLinks en PvdA" stapHoogte="60vh" tijdlijn /></GrafiekVlak>
           <Data>
             Bron: open data van de Tweede Kamer, eigen berekening (<Link href="/methodiek">methodiek</Link>). Hetzelfde stemmen: van de
             stemmingen waarin beide fracties voor of tegen stemden, het deel waarin ze dezelfde kant kozen. Alle stemmingen: moties,

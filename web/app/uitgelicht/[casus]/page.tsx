@@ -1,6 +1,6 @@
 // Eén uitgelichte stemming op een eigen pagina (besluit Niels B16): de scroll graphic, de datum, het zaaknummer met
 // een link naar tweedekamer.nl, en de uitslag zoals de bron hem noteert. Statisch gebouwd voor elke casus.
-import { GrafiekKader, GrafiekKop } from "@/components/deel/GrafiekKader";
+import { GrafiekKader, GrafiekVlak } from "@/components/deel/GrafiekKader";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -63,8 +63,8 @@ export default async function CasusPagina({ params }: Props) {
       </section>
 
       <GrafiekKader grafiek="stemming" zoek={{ casus: u.slug }} titel={u.vraag} vergroot={false} id="stemming" className={s.graphic}>
-        <GrafiekKop><HoofdstukKop titel={u.titel} /></GrafiekKop>
-        <ScrollVerhaal verhaal={u.verhaal()} label={`De stemming: ${u.titel}`} hoogteSmal={u.hoogteSmal} stapHoogte="45vh" tijdlijn />
+        <HoofdstukKop titel={u.titel} />
+        <GrafiekVlak><ScrollVerhaal verhaal={u.verhaal()} label={`De stemming: ${u.titel}`} hoogteSmal={u.hoogteSmal} stapHoogte="45vh" tijdlijn /></GrafiekVlak>
         <Data>
           Stemming over zaak <a href={zoekLink(u.zaak)}>{u.zaak}</a>, hoofdelijk, {datums}. Uitslag in de bron:{" "}
           {u.besluitTekst.join("; ")}. Kleuren zijn een eigen palet, geen partijkleuren.

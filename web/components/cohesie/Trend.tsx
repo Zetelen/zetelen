@@ -8,6 +8,7 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { DREMPEL, type Punt, beginTekst, eindTekst, kortTekst, samenvatting, uitvalTekst } from "@/lib/trend";
+import { GrafiekVlak } from "@/components/deel/GrafiekKader";
 import { URL_GEWIJZIGD } from "@/lib/deel";
 import { vloeiendPad } from "@/lib/vloeiend";
 import s from "./trend.module.css";
@@ -119,6 +120,7 @@ export function Trend({ a, b, keuzes, punten, extra, eerder, kabinetten, vast = 
         </ul>
       )}
 
+      <GrafiekVlak>
       <svg viewBox={`0 0 ${B} ${H}`} className={s.grafiek} role="img"
         aria-label={`Hoe vaak ${a} en ${b} hetzelfde stemden, per half jaar sinds ${alle[0].slice(0, 4)}`}>
         {vlakken.map((k) => (
@@ -153,6 +155,7 @@ export function Trend({ a, b, keuzes, punten, extra, eerder, kabinetten, vast = 
           </circle>
         ))}
       </svg>
+      </GrafiekVlak>
 
       {!vast && <fieldset className={s.schuif}>
         <legend>Periode</legend>

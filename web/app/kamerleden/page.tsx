@@ -1,7 +1,7 @@
 // Kamerleden (concept, component zetelwerk): wat dienen Kamerleden en fracties zelf in, en wat wordt aangenomen?
 // Moties en amendementen apart. Per fractie, dan per Kamerlid van die fractie, dan de stukken van een Kamerlid.
 // Bewust geen ranglijst over de hele Kamer: kabinet en oppositie zijn niet te vergelijken (zie het plan).
-import { GrafiekKader, GrafiekKop } from "@/components/deel/GrafiekKader";
+import { GrafiekKader, GrafiekVlak } from "@/components/deel/GrafiekKader";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -109,26 +109,26 @@ export default async function Kamerleden({ searchParams }: Props) {
       ) : (
         <>
           <GrafiekKader grafiek="kamerleden" id="fracties" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
-            <GrafiekKop><Label>{periode.naam} · {meervoud} per fractie</Label></GrafiekKop>
+            <Label>{periode.naam} · {meervoud} per fractie</Label>
             <Data>Kabinet en oppositie hebben een andere rol: vergelijk binnen de eigen kant. Kies een fractie voor haar Kamerleden.</Data>
             <nav className={s.pillen} aria-label="Weergave">
               <Link href={`${keuzeLink({ weergave: "" })}#fracties`} aria-current={!spreiding ? "true" : undefined} scroll={false}>Tabel</Link>
               <Link href={`${keuzeLink({ weergave: "spreiding" })}#fracties`} aria-current={spreiding ? "true" : undefined} scroll={false}>Spreidingsdiagram</Link>
             </nav>
+            <GrafiekVlak>
             {spreiding ? (
               <Spreiding label={`${meervoud} per fractie: ingediend tegenover aandeel aangenomen`} xLabel={`${meervoud} ingediend`}
                 punten={rijen.filter((r) => r.ingediend >= MINIMUM).map((r) => ({ key: r.fractie, label: r.afkorting, x: r.ingediend, y: (100 * r.aangenomen) / r.ingediend, rol: r.rol, href: `${link({ fractie: r.afkorting })}#leden` }))} />
             ) : (
               <FractieTabel rijen={rijen} stuk={stuk} actief={fractie} hrefVoor={(afk) => `${link({ fractie: afk })}#leden`} />
             )}
+            </GrafiekVlak>
           </GrafiekKader>
 
           {/* Ranglijst over de hele Kamer, op uitkomst en per rol (besluit Niels B2, 26 oktober 2026) */}
           <GrafiekKader grafiek="ranglijst" id="ranglijst" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
-            <GrafiekKop>
-              <Label>{periode.naam} · ranglijst</Label>
-              <SectieKop>Wie krijgt het vaakst iets aangenomen?</SectieKop>
-            </GrafiekKop>
+            <Label>{periode.naam} · ranglijst</Label>
+            <SectieKop>Wie krijgt het vaakst iets aangenomen?</SectieKop>
             <Tekst>
               {stuk === "Wetsvoorstel"
                 ? <>Een initiatiefwet is een wetsvoorstel dat Kamerleden zelf schrijven. Dat zijn er weinig per Kamerlid, dus hier geen
@@ -160,6 +160,7 @@ export default async function Kamerleden({ searchParams }: Props) {
                 <Link href={`${keuzeLink({ weergave: "spreiding" })}#ranglijst`} aria-current={spreiding ? "true" : undefined} scroll={false}>Spreidingsdiagram</Link>
               </nav>
             )}
+            <GrafiekVlak>
             {plekken.length === 0 ? (
               <Tekst>Geen Kamerleden met minstens {minimum} {meervoud} in deze periode.</Tekst>
             ) : spreiding && stuk !== "Wetsvoorstel" ? (
@@ -177,6 +178,7 @@ export default async function Kamerleden({ searchParams }: Props) {
                 )}
               </>
             )}
+            </GrafiekVlak>
           </GrafiekKader>
 
           <section id="leden" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>

@@ -1,6 +1,6 @@
 // Tegen het advies in (besluit Niels B18, 26 oktober 2026): moties die het kabinet ontraadde en die de Kamer toch
 // aannam. In het format van Uitgelicht. Statisch: gegevens in content/ontraden (pipeline/ontraden.py).
-import { GrafiekKader, GrafiekKop } from "@/components/deel/GrafiekKader";
+import { GrafiekKader, GrafiekVlak } from "@/components/deel/GrafiekKader";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Inhoud } from "@/components/Kader";
@@ -79,8 +79,8 @@ export default function TegenHetAdviesIn() {
         </Tekst>
       </section>
       <GrafiekKader grafiek="ontraden" vergroot={false} id="oordeel" className={s.graphic}>
-        <GrafiekKop><HoofdstukKop titel="Het oordeel van het kabinet" /></GrafiekKop>
-        <ScrollVerhaal verhaal={{ breed: stappen }} label="Moties naar het oordeel van het kabinet en de uitslag" stapHoogte="60vh" tijdlijn />
+        <HoofdstukKop titel="Het oordeel van het kabinet" />
+        <GrafiekVlak><ScrollVerhaal verhaal={{ breed: stappen }} label="Moties naar het oordeel van het kabinet en de uitslag" stapHoogte="60vh" tijdlijn /></GrafiekVlak>
         <Data>
           Bron: <a href={SITE.bron}>open data van de Tweede Kamer</a>, het oordeel van het kabinet (Kabinetsappreciatie) bij elke motie die
           vanaf 1 april 2019 is ingediend. Ontraden telt ook &quot;ontraden, tenzij gewijzigd&quot;. Anders: onder meer overbodig, ontijdig,

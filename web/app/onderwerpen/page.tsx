@@ -3,7 +3,7 @@
 // per terrein); met een tweede fractie een balk per terrein, met de cohesie over alle stemmingen als referentie.
 // Verdieping: tik op een terrein en de dossiers klappen eronder uit, tik op een dossier voor de stemmingen
 // (sinds 26 oktober 2026 in de lijst zelf, verzoek Niels). Bovenaan graphic 2 als opening. Keuzes staan in de URL.
-import { GrafiekKader, GrafiekKop } from "@/components/deel/GrafiekKader";
+import { GrafiekKader, GrafiekVlak } from "@/components/deel/GrafiekKader";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Fragment, Suspense } from "react";
@@ -127,9 +127,9 @@ export default async function Onderwerpen({ searchParams }: Props) {
 
       {/* Graphic 2 als opening: één stemming ontleed (verzoek Niels, 26 oktober 2026) */}
       <GrafiekKader grafiek="stemming" zoek={{ casus: "motie-eerdmans" }} vergroot={false} id="een-stemming" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
-        <GrafiekKop><HoofdstukKop titel="Eerst één stemming van dichtbij" /></GrafiekKop>
+        <HoofdstukKop titel="Eerst één stemming van dichtbij" />
         <Tekst><a href="#zelf">Sla het verhaal over en kies zelf ↓</a></Tekst>
-        <ScrollVerhaal verhaal={{ breed: stemVerhaal(false), smal: stemVerhaal(true) }} label="De stemming over de motie-Eerdmans" hoogteSmal={1080} stapHoogte="45vh" tijdlijn />
+        <GrafiekVlak><ScrollVerhaal verhaal={{ breed: stemVerhaal(false), smal: stemVerhaal(true) }} label="De stemming over de motie-Eerdmans" hoogteSmal={1080} stapHoogte="45vh" tijdlijn /></GrafiekVlak>
         <Data>
           Stemming over zaak {stemming.zaak}, hoofdelijk, {dagMaandJaar(stemming.datum)}. Kleuren zijn een eigen palet, geen
           partijkleuren. <Link href="/uitgelicht">Meer stemmingen ontleed</Link>
@@ -180,7 +180,6 @@ export default async function Onderwerpen({ searchParams }: Props) {
             <strong>{gekozen.afkorting} en {met.afkorting}</strong>
             <span>Op welke onderwerpen stemmen ze hetzelfde? · {periode.naam}</span>
           </div>
-          <GrafiekKop />
           {u && (
             <Tekst>
               Het vaakst eens bij {u.hoog.terrein} ({procent(u.hoog.cohesie)}), het minst bij {u.laag.terrein} ({procent(u.laag.cohesie)}).
@@ -191,6 +190,7 @@ export default async function Onderwerpen({ searchParams }: Props) {
             <Link href={`/onderwerpen${query({ ...paarQuery, ...(terrein ? { terrein } : {}) })}#vergelijking`} scroll={false} aria-current={!spreiding || undefined} className={s.weergaveKnop}>Balken</Link>
             <Link href={`/onderwerpen${query({ ...paarQuery, weergave: "spreiding", ...(terrein ? { terrein } : {}) })}#vergelijking`} scroll={false} aria-current={spreiding || undefined} className={s.weergaveKnop}>Spreiding</Link>
           </div>
+          <GrafiekVlak>
           {spreiding ? (
             <>
               <p className={s.toelichting}>
@@ -211,6 +211,7 @@ export default async function Onderwerpen({ searchParams }: Props) {
             uitklap={terrein ? uitklapTerrein : null} />
           </>
           )}
+          </GrafiekVlak>
           <Data><Link href={`/onderwerpen${query({ fractie: gekozen.afkorting })}`}>Terug naar alle fracties</Link></Data>
         </GrafiekKader>
       ) : (
@@ -220,7 +221,6 @@ export default async function Onderwerpen({ searchParams }: Props) {
             <strong>{gekozen.afkorting}</strong>
             <span>Met welke fracties stemt {gekozen.afkorting} het vaakst hetzelfde? · {periode.naam}</span>
           </div>
-          <GrafiekKop />
           {/* De leeswijzer staat boven de visual, ingeklapt (feedback Niels K1, 27 oktober 2026) */}
           <Inklapbaar titel="Hoe werkt deze kaart?" dicht>
             <p className={s.toelichting}>
@@ -229,6 +229,7 @@ export default async function Onderwerpen({ searchParams }: Props) {
               stemmingen samen (een terrein onder de 25, een dossier onder de 5).
             </p>
           </Inklapbaar>
+          <GrafiekVlak>
           <div className={`${s.kaartKader} ${s.alleenBreed}`}>
             <table className={s.kaart}>
               <caption className="verborgen">Hoe vaak {gekozen.afkorting} hetzelfde stemde als elke andere fractie, per beleidsterrein, in procenten</caption>
@@ -300,6 +301,7 @@ export default async function Onderwerpen({ searchParams }: Props) {
               fracties={zaal.filter((f) => f.id !== gekozen.id).map((f) => ({ id: f.id, afkorting: f.afkorting }))}
               hrefMet={(afk) => `/onderwerpen${query({ fractie: gekozen.afkorting, met: afk })}`} />
           </div>
+          </GrafiekVlak>
         </GrafiekKader>
       )}
 

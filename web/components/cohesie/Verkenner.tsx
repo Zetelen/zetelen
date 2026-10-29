@@ -1,6 +1,7 @@
 "use client";
 // Cohesie-verkenner (component cohesie-pagina, E2-S3 tot en met E2-S5): zaal, boog en matrix
 // van dezelfde cijfers. De keuze van fractie en weergave staat in de URL, net als periode en variant.
+import { GrafiekKnoppen } from "@/components/deel/GrafiekKader";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
@@ -57,6 +58,8 @@ export function Verkenner({ fracties, paren, periodeNaam }: VerkennerProps) {
             </button>
           ))}
         </div>
+        {/* Vergroten en delen rechts in de balk boven de grafiek (Niels, 29 oktober 2026) */}
+        <GrafiekKnoppen inBalk />
       </div>
 
       {/* Voor schermlezers: wat er gekozen is en wat de muis aanwijst */}

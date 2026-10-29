@@ -18,7 +18,8 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   if (!isGrafiek(g)) return {};
   const zoek = await schoonZoek(g, await searchParams);
   const titel = titelMetData(g, zoek) ?? titelVan(g, zoek), plaatje = plaatjeVan(g, zoek);
-  const beschrijving = `${BRON}. Bekijk de grafiek en kies zelf een partij of periode.`;
+  // Minstens 100 tekens: LinkedIn waarschuwt bij een kortere beschrijving (Post Inspector, 29 oktober 2026)
+  const beschrijving = `${BRON}, op basis van open data van de Tweede Kamer. Bekijk de grafiek en kies zelf een partij of periode.`;
   return {
     title: titel,
     description: beschrijving,

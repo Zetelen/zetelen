@@ -1,6 +1,7 @@
 "use client";
-// Omhulsel van een grafiek (verzoek Niels, 29 oktober 2026): rechtsboven altijd dezelfde knoppen, Vergroot en Deel, en
-// een volledig-schermweergave. Vergroten zet hetzelfde blok over de hele pagina, zodat keuzes in de grafiek (een
+// Omhulsel van een grafiek (verzoek Niels, 29 oktober 2026): in de rechterbovenhoek van de grafiek zelf twee iconen,
+// vergroten en delen (GrafiekVlak), en een volledig-schermweergave. Eerst stonden de knoppen naast de kop; op de
+// telefoon werd dat een losse regel die nergens bij hoorde (Niels, 29 oktober 2026). Vergroten zet hetzelfde blok over de hele pagina, zodat keuzes in de grafiek (een
 // schuif, een gekozen fractie) blijven staan. Klik op de grafiek zelf vergroot ook, behalve op een knop of link.
 // Sluiten met de knop, Escape of de terugknop van de browser. Scrollverhalen krijgen geen Vergroot (besluit Niels).
 import { type CSSProperties, type MouseEvent, type ReactNode, createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
@@ -53,7 +54,9 @@ export function GrafiekKader({ grafiek, zoek, titel, vergroot = true, id, classN
   }, [vol, zet]);
   const klik = (e: MouseEvent) => {
     if (!vergroot || vol || window.getSelection()?.toString()) return;
-    if ((e.target as Element).closest(NIET_VERGROTEN)) return;
+    const doel = e.target as Element;
+    // Alleen een klik op de grafiek zelf, niet op de kop of de tekst eromheen
+    if (doel.closest(NIET_VERGROTEN) || !doel.closest("[data-vlak], svg")) return;
     zet(true);
   };
   return (
@@ -67,26 +70,40 @@ export function GrafiekKader({ grafiek, zoek, titel, vergroot = true, id, classN
   );
 }
 
-// De kop van een grafiek met de knoppen ernaast; zonder kop alleen de knoppen, rechts uitgelijnd
-export function GrafiekKop({ children }: { children?: ReactNode }) {
+// De grafiek zelf, met de iconen in de rechterbovenhoek; boven de grafiek blijft een smalle strook vrij, zodat de
+// iconen niet over labels of waarden vallen
+export function GrafiekVlak({ children }: { children: ReactNode }) {
   return (
-    <div className={s.kopRij}>
-      {children && <div className={s.kopTekst}>{children}</div>}
+    <div className={s.vlak} data-vlak>
       <GrafiekKnoppen />
+      {children}
     </div>
   );
 }
 
-export function GrafiekKnoppen() {
+const Icoon = ({ d }: { d: string }) => (
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d={d} /></svg>
+);
+export const VERGROOT = "M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5";
+const SLUIT = "M6 6l12 12M18 6L6 18";
+
+// Ook los te gebruiken in een bestaande balk boven de grafiek (de verkenner: naast Zaal, Boog en Tabel)
+export function GrafiekKnoppen({ inBalk = false }: { inBalk?: boolean }) {
   const k = useContext(KaderContext);
   if (!k) return null;
   return (
-    <div className={s.knoppen} data-knoppen>
+    <div className={inBalk ? `${s.knoppen} ${s.inBalk}` : s.knoppen} data-knoppen>
       {k.vergroot && !k.vol && (
-        <button type="button" className={s.knop} onClick={() => k.zet(true)} aria-label="Toon de grafiek op volledig scherm">⤢</button>
+        <button type="button" className={s.icoon} onClick={() => k.zet(true)} aria-label="Toon de grafiek op volledig scherm" title="Volledig scherm">
+          <Icoon d={VERGROOT} />
+        </button>
       )}
-      <DeelKnop grafiek={k.grafiek} zoek={k.zoek} titel={k.titel} />
-      {k.vol && <button type="button" className={s.knop} onClick={() => k.zet(false)} aria-label="Sluit volledig scherm">✕</button>}
+      <DeelKnop grafiek={k.grafiek} zoek={k.zoek} titel={k.titel} icoon />
+      {k.vol && (
+        <button type="button" className={s.icoon} onClick={() => k.zet(false)} aria-label="Sluit volledig scherm" title="Sluiten">
+          <Icoon d={SLUIT} />
+        </button>
+      )}
     </div>
   );
 }

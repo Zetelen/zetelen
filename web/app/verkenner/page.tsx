@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 import { Bronregel } from "@/components/cohesie/Bronregel";
-import { GrafiekKader, GrafiekKop } from "@/components/deel/GrafiekKader";
+import { GrafiekKader } from "@/components/deel/GrafiekKader";
 import { Inhoud, LegeStaat } from "@/components/Kader";
 import { PeriodeKeuze } from "@/components/cohesie/PeriodeKeuze";
 import { Verkenner } from "@/components/cohesie/Verkenner";
@@ -82,7 +82,6 @@ export default async function VerkennerPagina({ searchParams }: Props) {
         </Inklapbaar>
       <div id="zaal" className={s.indeling} style={{ scrollMarginTop: 80 }}>
         <GrafiekKader grafiek="verkenner" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
-          {periode && fracties?.length && kaart && <GrafiekKop />}
           {!lijst.length ? (
             <LegeStaat label="Niet bereikbaar" titel="De cijfers konden niet worden geladen"
               uitleg="De gegevens zijn nu waarschijnlijk niet bereikbaar. Probeer het over een paar minuten opnieuw." />
@@ -102,11 +101,9 @@ export default async function VerkennerPagina({ searchParams }: Props) {
       </div>
       {trend && (
         <GrafiekKader grafiek="trend" id="door-de-jaren" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
-          <GrafiekKop>
-            <Label>Door de jaren</Label>
-            {/* Zonder "sinds 2010": de periode kies je zelf met de schuif (Niels, 29 oktober 2026) */}
-            <SectieKop>Hoe vaak stemden {trend.a.naam} en {trend.b.naam} hetzelfde?</SectieKop>
-          </GrafiekKop>
+          <Label>Door de jaren</Label>
+          {/* Zonder "sinds 2010": de periode kies je zelf met de schuif (Niels, 29 oktober 2026) */}
+          <SectieKop>Hoe vaak stemden {trend.a.naam} en {trend.b.naam} hetzelfde?</SectieKop>
           <Suspense>
             <Trend a={trend.a.naam} b={trend.b.naam} keuzes={trend.keuzes} punten={punten(trend.hoofd, jaren)}
               extra={trend.extra.map((e) => ({ naam: e.naam, punten: punten(e.rijen, jaren) }))}

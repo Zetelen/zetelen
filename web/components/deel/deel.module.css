@@ -42,46 +42,71 @@
   border: 1px solid var(--lijn);
   border-radius: var(--hoek-paneel);
 }
-/* Omhulsel van een grafiek: de kop met rechts de knoppen Vergroot en Deel (Niels, 29 oktober 2026) */
+/* Omhulsel van een grafiek: twee iconen in de rechterbovenhoek van de grafiek (Niels, 29 oktober 2026) */
 .kader {
   position: relative;
   min-width: 0;
 }
-.kopRij {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: var(--r-3);
-}
-.kopTekst {
-  flex: 1;
+.vlak {
+  position: relative;
   min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--r-4);
+  padding-top: 40px;
 }
 .knoppen {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 3;
   display: flex;
   align-items: center;
-  gap: var(--r-2);
-  flex-shrink: 0;
+  gap: var(--r-1);
+}
+/* In een bestaande balk (de verkenner) staan de iconen gewoon in de rij, rechts */
+.knoppen.inBalk {
+  position: relative;
   margin-left: auto;
 }
-.knoppen {
-  position: relative;
+.icoon {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: var(--hoek-klein);
+  border: 1px solid var(--lijn);
+  background: var(--nacht-900);
+  color: var(--tekst-zacht);
+  cursor: pointer;
 }
-/* "Link gekopieerd" onder de knoppen, zonder de kop te verschuiven */
+.icoon:hover {
+  color: var(--tekst);
+  border-color: var(--koper);
+}
+.icoon:focus-visible {
+  outline: 2px solid var(--koper);
+  outline-offset: 2px;
+}
+/* "Link gekopieerd" onder de iconen */
 .knoppen .melding {
   position: absolute;
   top: calc(100% + 4px);
   right: 0;
   white-space: nowrap;
-  z-index: 2;
 }
-.kader[data-vergroot] svg {
+.knoppen .melding:empty {
+  display: none;
+}
+.knoppen .deel {
+  position: relative;
+}
+.kader[data-vergroot] .vlak svg {
   cursor: zoom-in;
 }
-/* Volledig scherm: hetzelfde blok over de hele pagina, boven de vaste kop van de site */
+.kader[data-vergroot] .knoppen svg {
+  cursor: pointer;
+}
+/* Volledig scherm: hetzelfde blok over de hele pagina, boven de vaste kop van de site; de iconen vast rechtsboven */
 .kader[data-vol] {
   position: fixed;
   inset: 0;
@@ -93,25 +118,23 @@
   display: flex;
   flex-direction: column;
   gap: var(--r-4);
-  padding: var(--r-5) var(--pagina-marge) var(--r-7);
+  padding: var(--r-7) var(--pagina-marge) var(--r-7);
   background: var(--nacht-950);
   --kop-zicht: 0px;
 }
-.kader[data-vol] svg {
+.kader[data-vol] .knoppen {
+  position: fixed;
+  top: var(--r-3);
+  right: var(--r-3);
+}
+.kader[data-vol] .vlak {
+  padding-top: 0;
+}
+.kader[data-vol] .vlak svg {
   max-height: calc(100dvh - 120px);
 }
 @media (max-width: 640px) {
-  /* Op de telefoon de knoppen boven de kop, rechts: naast de kop bleef er voor de tekst te weinig breedte over */
-  .kopRij {
-    flex-direction: column-reverse;
-    align-items: stretch;
-    gap: var(--r-2);
-  }
   .kader[data-vol] {
-    padding: var(--r-3) var(--r-4) var(--r-6);
-  }
-  .knoppen .knop {
-    padding: 0 var(--r-3);
-    font-size: 14px;
+    padding: var(--r-7) var(--r-4) var(--r-6);
   }
 }

@@ -1,7 +1,7 @@
 // Hoe lang duurt een wet? (feedback Niels, 26 oktober 2026: het wetgevingsproces als reis, in het format van
 // Uitgelicht). Drie wetten als reis met haltes, daarna alle wetsvoorstellen sinds 2010, en twee interpretaties.
 // Statisch: de gegevens staan in content/wetten (pipeline/wet_reis.py).
-import { GrafiekKader, GrafiekKop } from "@/components/deel/GrafiekKader";
+import { GrafiekKader, GrafiekVlak } from "@/components/deel/GrafiekKader";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Inhoud } from "@/components/Kader";
@@ -68,8 +68,8 @@ export default function HoeLang() {
         </Tekst>
       </section>
       <GrafiekKader grafiek="wetten" vergroot={false} id="reizen" className={s.graphic}>
-        <GrafiekKop><HoofdstukKop titel="Drie wetten gevolgd" /></GrafiekKop>
-        <ScrollVerhaal verhaal={{ breed: stappen }} label="Hoe lang duurt een wet: drie reizen en alle wetsvoorstellen" stapHoogte="60vh" tijdlijn />
+        <HoofdstukKop titel="Drie wetten gevolgd" />
+        <GrafiekVlak><ScrollVerhaal verhaal={{ breed: stappen }} label="Hoe lang duurt een wet: drie reizen en alle wetsvoorstellen" stapHoogte="60vh" tijdlijn /></GrafiekVlak>
         <Data>
           Bron: <a href={SITE.bron}>open data van de Tweede Kamer</a>. Haltes uit de documenten bij elk wetsvoorstel (zaken {A.nummer},{" "}
           {B.nummer} en {C.nummer}). Doorlooptijd: van de indiening tot het besluit in de Tweede Kamer (een stemming of een hamerstuk);
