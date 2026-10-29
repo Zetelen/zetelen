@@ -1,5 +1,5 @@
-// Privacyverklaring (E7-S4). CONCEPT: Niels beoordeelt de tekst; de keuze voor analytics staat nog open.
-// Niet in het menu en niet in de sitemap tot Niels akkoord geeft.
+// Privacyverklaring (E7-S4). Tekst goedgekeurd door Niels op 29 oktober 2026 (S6), met de snelle vraag en het delen
+// van de uitslag van Stemgenoten erbij. Bereikbaar via de footer; niet in het menu en niet in de zoekmachines.
 import type { Metadata } from "next";
 import { Inhoud } from "@/components/Kader";
 import { HeroKop, Label, SectieKop, Tekst } from "@/components/Typografie";
@@ -16,7 +16,7 @@ export default function Privacy() {
         <HeroKop>Welke gegevens verwerkt Zetelen?</HeroKop>
         <Tekst>
           Zetelen heeft geen accounts en plaatst geen cookies. Opvattingen van bezoekers bewaren we niet, behalve wat je
-          zelf invult in de vragenlijst. Wat je kiest in de
+          zelf invult in de vragenlijst of bij de snelle vraag onderaan een pagina. Wat je kiest in de
           verkenner of de coalitiebouwer, staat alleen in de link in je browser.
         </Tekst>
       </section>
@@ -43,6 +43,11 @@ export default function Privacy() {
           browsergegevens. Een e-mailadres alleen als je dat zelf invult, en dan alleen om je te kunnen antwoorden. Alleen
           de maker kan de antwoorden lezen. Na 12 maanden worden ze automatisch verwijderd. Invullen is vrijwillig.
         </Tekst>
+        <Tekst>
+          Onderaan elke pagina staat ook een snelle vraag: was deze pagina duidelijk? Je antwoord (ja, een beetje of nee), een
+          toelichting als je die invult, het adres van de pagina en het tijdstip gaan naar dezelfde database. Geen
+          e-mailadres, geen naam, geen IP-adres. Ook dit wordt na 12 maanden automatisch verwijderd.
+        </Tekst>
       </section>
       <section style={sectie}>
         <SectieKop>Stemgenoten</SectieKop>
@@ -50,6 +55,10 @@ export default function Privacy() {
           Bij Stemgenoten geef je je mening over echte stemmingen. Een politieke mening is een bijzonder persoonsgegeven, dus
           die blijft bij jou: de uitslag wordt in je eigen browser berekend. Je antwoorden worden niet verstuurd, niet opgeslagen
           en niet gemeten. Sluit je de pagina, dan zijn ze weg.
+        </Tekst>
+        <Tekst>
+          Deel je je uitslag als link, dan staan alleen de percentages per partij in die link, en hoeveel stellingen je
+          beantwoordde. Je antwoorden zelf staan er niet in. Wie de link opent, ziet die percentages.
         </Tekst>
       </section>
       <section style={sectie}>
