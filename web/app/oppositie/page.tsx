@@ -74,11 +74,11 @@ export default async function Oppositie() {
           van de pagina tussen kop en grafiek (Niels, 28 oktober 2026) */}
       <GrafiekKader grafiek="oppositie-jaren" vergroot={false} id="moties-per-jaar" className={u.graphic}>
         <HoofdstukKop nummer="1" titel="Steeds meer moties" />
-        <GrafiekVlak><ScrollVerhaal verhaal={{ breed: zonderKop(hoofdstukJaren(jaren, ditJaar)) }} label="Moties per jaar" tijdlijn stapHoogte="60vh" /></GrafiekVlak>
+        <GrafiekVlak><ScrollVerhaal verhaal={{ breed: zonderKop(hoofdstukJaren(jaren, ditJaar)) }} label="Moties per jaar" titel="Steeds meer moties" tijdlijn stapHoogte="60vh" /></GrafiekVlak>
       </GrafiekKader>
       <GrafiekKader grafiek="oppositie-kabinetten" zoek={{ stuk: "Motie" }} vergroot={false} id="per-kabinet" className={u.graphic}>
         <HoofdstukKop nummer="2" titel="Per kabinet" />
-        <GrafiekVlak><ScrollVerhaal verhaal={{ breed: zonderKop(hoofdstukKabinetten(perioden, KABINETTEN, "Motie", minderheid)) }} label="Moties per kabinet" tijdlijn stapHoogte="60vh" /></GrafiekVlak>
+        <GrafiekVlak><ScrollVerhaal verhaal={{ breed: zonderKop(hoofdstukKabinetten(perioden, KABINETTEN, "Motie", minderheid)) }} label="Moties per kabinet" titel="Moties per kabinet" tijdlijn stapHoogte="60vh" /></GrafiekVlak>
       </GrafiekKader>
       <GrafiekKader grafiek="oppositie-spreiding" vergroot={false} id="tegenstemmen" className={u.graphic}>
         <HoofdstukKop nummer="4" titel="Tegenstemmen en zelf iets binnenhalen" />
@@ -90,7 +90,7 @@ export default async function Oppositie() {
       </GrafiekKader>
       <GrafiekKader grafiek="oppositie-kabinetten" zoek={{ stuk: "Amendement" }} vergroot={false} id="amendementen" className={u.graphic}>
         <HoofdstukKop nummer="6" titel="Wetten aanpassen met amendementen" />
-        <GrafiekVlak><ScrollVerhaal verhaal={{ breed: zonderKop(hoofdstukKabinetten(perioden, KABINETTEN, "Amendement", minderheid)) }} label="Amendementen per kabinet" tijdlijn stapHoogte="60vh" /></GrafiekVlak>
+        <GrafiekVlak><ScrollVerhaal verhaal={{ breed: zonderKop(hoofdstukKabinetten(perioden, KABINETTEN, "Amendement", minderheid)) }} label="Amendementen per kabinet" titel="Wetten aanpassen met amendementen" tijdlijn stapHoogte="60vh" /></GrafiekVlak>
       </GrafiekKader>
 
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", maxWidth: 860 }}>

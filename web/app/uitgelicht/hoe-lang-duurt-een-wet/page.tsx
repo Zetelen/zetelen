@@ -69,7 +69,7 @@ export default function HoeLang() {
       </section>
       <GrafiekKader grafiek="wetten" vergroot={false} id="reizen" className={s.graphic}>
         <HoofdstukKop titel="Drie wetten gevolgd" />
-        <GrafiekVlak><ScrollVerhaal verhaal={{ breed: stappen }} label="Hoe lang duurt een wet: drie reizen en alle wetsvoorstellen" stapHoogte="60vh" tijdlijn /></GrafiekVlak>
+        <GrafiekVlak><ScrollVerhaal verhaal={{ breed: stappen }} label="Hoe lang duurt een wet: drie reizen en alle wetsvoorstellen" titel="Drie wetten gevolgd" stapHoogte="60vh" tijdlijn /></GrafiekVlak>
         <Data>
           Bron: <a href={SITE.bron}>open data van de Tweede Kamer</a>. Haltes uit de documenten bij elk wetsvoorstel (zaken {A.nummer},{" "}
           {B.nummer} en {C.nummer}). Doorlooptijd: van de indiening tot het besluit in de Tweede Kamer (een stemming of een hamerstuk);

@@ -129,7 +129,7 @@ export default async function Onderwerpen({ searchParams }: Props) {
       <GrafiekKader grafiek="stemming" zoek={{ casus: "motie-eerdmans" }} vergroot={false} id="een-stemming" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
         <HoofdstukKop titel="Eerst één stemming van dichtbij" />
         <Tekst><a href="#zelf">Sla het verhaal over en kies zelf ↓</a></Tekst>
-        <GrafiekVlak><ScrollVerhaal verhaal={{ breed: stemVerhaal(false), smal: stemVerhaal(true) }} label="De stemming over de motie-Eerdmans" hoogteSmal={1080} stapHoogte="45vh" tijdlijn /></GrafiekVlak>
+        <GrafiekVlak><ScrollVerhaal verhaal={{ breed: stemVerhaal(false), smal: stemVerhaal(true) }} label="De stemming over de motie-Eerdmans" titel="Eén stemming van dichtbij" hoogteSmal={1080} stapHoogte="45vh" tijdlijn /></GrafiekVlak>
         <Data>
           Stemming over zaak {stemming.zaak}, hoofdelijk, {dagMaandJaar(stemming.datum)}. Kleuren zijn een eigen palet, geen
           partijkleuren. <Link href="/uitgelicht">Meer stemmingen ontleed</Link>

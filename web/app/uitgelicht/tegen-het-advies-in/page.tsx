@@ -80,7 +80,7 @@ export default function TegenHetAdviesIn() {
       </section>
       <GrafiekKader grafiek="ontraden" vergroot={false} id="oordeel" className={s.graphic}>
         <HoofdstukKop titel="Het oordeel van het kabinet" />
-        <GrafiekVlak><ScrollVerhaal verhaal={{ breed: stappen }} label="Moties naar het oordeel van het kabinet en de uitslag" stapHoogte="60vh" tijdlijn /></GrafiekVlak>
+        <GrafiekVlak><ScrollVerhaal verhaal={{ breed: stappen }} label="Moties naar het oordeel van het kabinet en de uitslag" titel="Het oordeel van het kabinet" stapHoogte="60vh" tijdlijn /></GrafiekVlak>
         <Data>
           Bron: <a href={SITE.bron}>open data van de Tweede Kamer</a>, het oordeel van het kabinet (Kabinetsappreciatie) bij elke motie die
           vanaf 1 april 2019 is ingediend. Ontraden telt ook &quot;ontraden, tenzij gewijzigd&quot;. Anders: onder meer overbodig, ontijdig,

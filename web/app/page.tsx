@@ -157,7 +157,7 @@ export default async function Voorpagina() {
         <HoofdstukKop titel="Hoe kwam deze Kamer tot stand?" id="verhaal" />
         <Tekst><a href="#na-verhaal">Sla het verhaal over ↓</a></Tekst>
         {d ? (
-          <ScrollVerhaal verhaal={{ breed: zonderKop(zaalVerhaal(d)) }} label="De zaal van de Tweede Kamer" tijdlijn stapHoogte="70vh" />
+          <ScrollVerhaal verhaal={{ breed: zonderKop(zaalVerhaal(d)) }} label="De zaal van de Tweede Kamer" titel="Hoe kwam deze Kamer tot stand?" tijdlijn stapHoogte="70vh" />
         ) : (
           <Tekst>Het verhaal kon niet worden geladen. Probeer het over een paar minuten opnieuw, of ga direct naar de verkenner.</Tekst>
         )}

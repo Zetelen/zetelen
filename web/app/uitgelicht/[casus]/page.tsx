@@ -64,7 +64,7 @@ export default async function CasusPagina({ params }: Props) {
 
       <GrafiekKader grafiek="stemming" zoek={{ casus: u.slug }} titel={u.vraag} vergroot={false} id="stemming" className={s.graphic}>
         <HoofdstukKop titel={u.titel} />
-        <GrafiekVlak><ScrollVerhaal verhaal={u.verhaal()} label={`De stemming: ${u.titel}`} hoogteSmal={u.hoogteSmal} stapHoogte="45vh" tijdlijn /></GrafiekVlak>
+        <GrafiekVlak><ScrollVerhaal verhaal={u.verhaal()} label={`De stemming: ${u.titel}`} titel={u.titel} hoogteSmal={u.hoogteSmal} stapHoogte="45vh" tijdlijn /></GrafiekVlak>
         <Data>
           Stemming over zaak <a href={zoekLink(u.zaak)}>{u.zaak}</a>, hoofdelijk, {datums}. Uitslag in de bron:{" "}
           {u.besluitTekst.join("; ")}. Kleuren zijn een eigen palet, geen partijkleuren.
