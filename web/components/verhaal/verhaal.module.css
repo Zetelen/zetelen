@@ -281,7 +281,7 @@
   }
 }
 /* Telefoon en tablet: kaarten over de tekening. Een volle schermhoogte per stap, zodat er steeds maar één kaart in
-   beeld is; een kaart vervaagt zodra hij over de tekening schuift (--zicht, gezet in ScrollVerhaal.tsx). */
+   beeld is. */
 @media (max-width: 900px) {
   .verhaal .kaart,
   .verhaal[data-tijdlijn="true"] .kaart {
@@ -292,22 +292,52 @@
   .verhaal[data-breed="true"] .kaart {
     min-height: max(var(--stap, 100vh), 75svh);
   }
-  .verhaal:not([data-breed="true"]) .kaart > div {
-    opacity: calc(0.8 * var(--zicht, 1));
-    transition: opacity 250ms;
-  }
-  .verhaal:not([data-breed="true"]) .kaart[data-actief="true"] > div {
-    opacity: var(--zicht, 1);
-  }
-  /* De tekening ligt boven de kaarten, met een dichte achtergrond: een kaart schuift eronder door in plaats van
-     erover, zodat tekst en tekening niet door elkaar lopen (feedback nr. 6, 28 oktober 2026). De figuur vangt geen
-     klikken; er staat niets klikbaars in. */
+  /* De kaarten schuiven over de tekening (verzoek Niels, 29 oktober 2026; daarvoor eronder door). Een dichte
+     achtergrond houdt tekst en tekening uit elkaar (feedback nr. 6, 28 oktober 2026). De figuur vangt geen klikken;
+     er staat niets klikbaars in. */
   .verhaal:not([data-breed="true"]) .figuur {
-    z-index: 1;
     pointer-events: none;
   }
-  .verhaal:not([data-breed="true"]) .svg {
-    background: var(--nacht-950);
+  .verhaal:not([data-breed="true"]) .kaarten {
+    z-index: 2;
+  }
+  /* Dicht en niet doorzichtig: een vervagende kaart over de tekening liet tekst en lijnen door elkaar lopen */
+  .verhaal:not([data-breed="true"]) .kaart > div,
+  .verhaal:not([data-breed="true"]) .kaart[data-actief="true"] > div {
+    background: var(--nacht-800);
+    opacity: 1;
+  }
+  /* Vaste titel bovenin: waar het verhaal over gaat en het lopende hoofdstuk */
+  .vasteKop {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: var(--r-3) 0;
+    border-bottom: 1px solid var(--lijn);
+    font-family: var(--serif);
+    font-size: 19px;
+    line-height: 1.2;
+    color: var(--tekst);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .vasteTitel {
+    color: var(--koper);
+  }
+  .verhaal:not([data-breed="true"]) .figuur:has(.vasteKop) {
+    padding-top: max(8vh, 56px);
+  }
+}
+/* Waar de kop wegschuift bij omlaag scrollen (Navigatie.tsx): de tekening blijft op dezelfde plek staan en schuift
+   niet mee als de kop terugkomt; de kop valt dan over de vaste titel (feedback Niels, 29 oktober 2026: "de
+   lijngrafiek verspringt telkens") */
+@media (max-width: 760px) {
+  .verhaal:not([data-breed="true"]) .figuur {
+    top: 0;
+    transition: none;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -357,6 +387,12 @@
 }
 .verhaal[data-breed="true"] .kaart {
   position: relative;
+}
+/* De vaste titel bestaat alleen op telefoon en tablet (zie hierboven) */
+@media (min-width: 901px) {
+  .vasteKop {
+    display: none;
+  }
 }
 /* Groot label: de legenda onder de x-as (feedback Niels K2) */
 .label[data-groot="ja"] {

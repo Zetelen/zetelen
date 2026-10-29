@@ -188,3 +188,15 @@ export function maandJaar(datum: string): string {
 export function dagMaandJaar(datum: string): string {
   return new Date(datum).toLocaleDateString("nl-NL", { day: "numeric", month: "long", year: "numeric", timeZone: "Europe/Amsterdam" });
 }
+
+// Stappen die een uitsnede delen: de stap zelf, of de reeks opeenvolgende stappen met dezelfde as (een benoemde,
+// zachte lijn die in elke stap terugkomt, zoals de rasterlijnen van een lijngrafiek). Zo verspringen de assen niet
+// bij elke stap (feedback Niels, 29 oktober 2026: "de lijngrafiek verspringt telkens").
+export function uitsnedeGroep(stappen: Stap[], i: number): Stap[] {
+  const assen = (st: Stap) => new Set((st.paden ?? []).filter((p) => p.zacht && p.naam).map((p) => p.naam!));
+  const deelt = (a: Stap, b: Stap) => { const x = assen(a); return [...assen(b)].some((n) => x.has(n)); };
+  let van = i, tot = i;
+  while (van > 0 && deelt(stappen[van - 1], stappen[van])) van--;
+  while (tot < stappen.length - 1 && deelt(stappen[tot], stappen[tot + 1])) tot++;
+  return stappen.slice(van, tot + 1);
+}

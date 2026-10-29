@@ -97,7 +97,7 @@ export default async function VvdEnPro() {
       {stappen && (
         <GrafiekKader grafiek="vvd-en-pro" vergroot={false} id="ranglijst" className={s.graphic}>
           <HoofdstukKop titel="VVD en PRO, van 2010 tot nu" />
-          <GrafiekVlak><ScrollVerhaal verhaal={{ breed: stappen, smal: stappenSmal }} label="Hoe vaak de VVD hetzelfde stemde als PRO, en daarvoor GroenLinks en PvdA" stapHoogte="60vh" tijdlijn /></GrafiekVlak>
+          <GrafiekVlak><ScrollVerhaal verhaal={{ breed: stappen, smal: stappenSmal }} label="Hoe vaak de VVD hetzelfde stemde als PRO, en daarvoor GroenLinks en PvdA" stapHoogte="60vh" tijdlijn titel="VVD en PRO" /></GrafiekVlak>
           <Data>
             Bron: open data van de Tweede Kamer, eigen berekening (<Link href="/methodiek">methodiek</Link>). Hetzelfde stemmen: van de
             stemmingen waarin beide fracties voor of tegen stemden, het deel waarin ze dezelfde kant kozen. Alle stemmingen: moties,

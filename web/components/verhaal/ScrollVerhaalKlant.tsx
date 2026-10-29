@@ -7,7 +7,7 @@ import Link from "next/link";
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 import type { Stap } from "@/lib/verhaal";
 import { type GepaktVerhaal, pakUit } from "@/lib/verhaalPak";
-import { KORT } from "@/lib/verhaal";
+import { KORT, uitsnedeGroep } from "@/lib/verhaal";
 import { MIDDEN } from "@/lib/zaal";
 import s from "./verhaal.module.css";
 
@@ -19,6 +19,7 @@ export type Props = {
   stapHoogte?: string; // scrollafstand per stap
   tijdlijn?: boolean; // kaarten links als tijdlijn, tekening rechts (op brede schermen)
   breed?: boolean; // tekening over de volle breedte, kaarten eronder (feedback Niels K2, 26 oktober 2026)
+  titel?: string; // telefoon en tablet: vaste titel boven de tekening, met het lopende hoofdstuk erachter
 };
 
 // De omvang van alles wat in een van de stappen staat: stippen, labels (geschat op hun lengte), kaders en paden niet
@@ -47,7 +48,7 @@ function sleutel(basis: string, i: number, alle: string[]): string {
   return `${basis}#${alle.slice(0, i).filter((x) => x === basis).length}`;
 }
 
-export function ScrollVerhaalKlant({ gepakt, label, hoogteSmal = 555, breedteSmal, stapHoogte = "100vh", tijdlijn = false, breed = false }: Props) {
+export function ScrollVerhaalKlant({ gepakt, label, hoogteSmal = 555, breedteSmal, stapHoogte = "100vh", tijdlijn = false, breed = false, titel }: Props) {
   const verhaal = useMemo(() => pakUit(gepakt), [gepakt]);
   const [smal, setSmal] = useState(false);
   const [actief, setActief] = useState(0);
@@ -64,7 +65,8 @@ export function ScrollVerhaalKlant({ gepakt, label, hoogteSmal = 555, breedteSma
 
   // Actieve stap. Breed scherm: de kaart waarvan de tekst het dichtst bij het midden van het scherm staat.
   // Telefoon en tablet (kaarten over de tekening): een stap wisselt zodra de volgende kaart onderin binnenkomt, en
-  // een kaart vervaagt zodra hij over de tekening schuift. Zo gebeurt elke verandering in een vrij beeld (feedback
+  // een kaart vervaagt zodra hij over de tekening schuift (alleen nog bij breed; zonder breed schuift een dichte kaart
+  // over de tekening, verzoek Niels 29 oktober 2026). Zo gebeurt elke verandering in een vrij beeld (feedback
   // Niels, 26 oktober 2026: op de telefoon schoof de tekst over de veranderende tekening).
   // Rekenen bij het scrollen, hooguit een keer per beeldje (requestAnimationFrame).
   useEffect(() => {
@@ -119,8 +121,9 @@ export function ScrollVerhaalKlant({ gepakt, label, hoogteSmal = 555, breedteSma
     addEventListener("resize", meet);
     return () => removeEventListener("resize", meet);
   }, []);
-  // Per stap een eigen uitsnede, die in 600 ms meebeweegt naar de volgende (anders maakt de hoogste stap alles klein)
-  const doel = smal && !breedteSmal ? omvang([stap]) : null;
+  // Per stap een eigen uitsnede, die in 600 ms meebeweegt naar de volgende (anders maakt de hoogste stap alles klein);
+  // stappen met dezelfde as delen er een
+  const doel = smal && !breedteSmal ? omvang(uitsnedeGroep(stappen, Math.min(actief, stappen.length - 1))) : null;
   const [passend, setPassend] = useState<Box | null>(null);
   const huidig = useRef<Box | null>(null);
   useEffect(() => {
@@ -145,12 +148,22 @@ export function ScrollVerhaalKlant({ gepakt, label, hoogteSmal = 555, breedteSma
   // Lettermaat in eenheden van de tekening, zo dat een label op het scherm minstens 11 pixels is (en nooit kleiner dan nu)
   const letter = smal ? Math.max(15, Math.min(30, 11 * eenheid)) : 15;
   // Breed: de titel van het lopende hoofdstuk staat boven de tekening, niet eronder (feedback Niels K2, 26 oktober 2026)
-  const kop = breed ? stappen.slice(0, actief + 1).map((st) => st.hoofdstuk).filter(Boolean).pop() : undefined;
+  const hoofdstuk = stappen.slice(0, actief + 1).map((st) => st.hoofdstuk).filter(Boolean).pop();
+  const kop = breed ? hoofdstuk : undefined;
 
   return (
     <div className={s.verhaal} data-tijdlijn={tijdlijn && !breed} data-breed={breed} style={{ "--stap": stapHoogte } as CSSProperties}>
       <div className={s.figuur}>
         {kop && <div className={s.figuurKop} aria-hidden="true">{kop}</div>}
+        {/* Telefoon en tablet: waar het verhaal over gaat en het lopende hoofdstuk blijven in beeld (verzoek Niels,
+            29 oktober 2026); de CSS toont dit alleen op een smal scherm */}
+        {!breed && (titel || hoofdstuk) && (
+          <div className={s.vasteKop} aria-hidden="true">
+            {titel && <span className={s.vasteTitel}>{titel}</span>}
+            {titel && hoofdstuk && " · "}
+            {hoofdstuk}
+          </div>
+        )}
         <svg ref={tekening} viewBox={viewBox} style={{ "--letter": `${letter}px` } as CSSProperties} className={s.svg} role="img" aria-label={`${label}: ${stap.datum}. ${stap.tekst}`}>
           {/* Sleutels naar de inhoud, niet naar de stap: een as of lijn die in de volgende stap terugkomt blijft staan
               en flitst niet opnieuw in (feedback Niels K2, 26 oktober 2026) */}
