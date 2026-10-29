@@ -6,6 +6,7 @@ import snel from "@/content/wetten/2020Z17945.json";
 import gewoon from "@/content/wetten/2018Z15488.json";
 import lang from "@/content/wetten/2020Z11768.json";
 import { laatstBijgewerkt } from "@/lib/api";
+import { halfjaarTekst } from "@/lib/deel";
 import { cohesieIn, fractiesIn, keuzeUitUrl, perioden, procent } from "@/lib/cohesie";
 import { schaalkleur } from "@/lib/kleur";
 import { MINIMUM_UITERSTEN, cohesiePerTerrein, paarPerTerrein, stemmingenPerTerrein } from "@/lib/onderwerpen";
@@ -88,8 +89,14 @@ export async function trendPlaatje(zoek: Zoek) {
   const fracties = periode ? await fractiesIn(soort, periode.naam) : null;
   const trend = fracties ? await laadTrend(fracties, zoek.fractie, zoek.met, variant, opvolgers.opvolgers as Opvolger[]) : null;
   if (!trend) return <Kader kop="Wie stemt met wie" titel="Hoe vaak stemden twee partijen hetzelfde?" regel="" stand={stand}><Melding tekst="De cijfers laden nu niet" /></Kader>;
-  const jaren = halveJaren(new Date());
+  // Dezelfde periode als op de pagina: van= en tot= uit de link, anders de laatste tien jaar
+  const alle = halveJaren(new Date());
+  const plek = (k: string) => alle.findIndex((h) => h.slice(0, 7) === zoek[k]);
+  const van = plek("van") >= 0 ? plek("van") : Math.max(0, alle.length - 20);
+  const tot = Math.max(van, plek("tot") >= 0 ? plek("tot") : alle.length - 1);
+  const jaren = alle.slice(van, tot + 1);
   const reeks = punten(trend.hoofd, jaren);
+  const stap = jaren.length / 2 > 8 ? 4 : jaren.length / 2 > 4 ? 2 : 1;
   const B = 1000, H = 250, sx = (i: number) => 40 + (i / Math.max(1, jaren.length - 1)) * (B - 60), sy = (c: number) => 10 + (1 - c / 100) * (H - 40);
   const pad = (ps: Array<{ cohesie: number | null }>) => {
     let d = "", nieuw = true;
@@ -98,8 +105,8 @@ export async function trendPlaatje(zoek: Zoek) {
   };
   const laatste = [...reeks].reverse().find((p) => p.cohesie != null);
   return (
-    <Kader kop="Wie stemt met wie" titel={`Hoe vaak stemden ${trend.a.naam} en ${trend.b.naam} hetzelfde, sinds 2010?`} stand={stand}
-      regel={`Per half jaar · ${variant === "alle" ? "alle stemmingen" : "alleen verdeelde stemmingen"}${laatste ? ` · laatst ${rond(laatste.cohesie)}` : ""}`}>
+    <Kader kop="Wie stemt met wie" titel={`Hoe vaak stemden ${trend.a.naam} en ${trend.b.naam} hetzelfde?`} stand={stand}
+      regel={`Per half jaar, ${halfjaarTekst(jaren[0])} tot en met ${tot === alle.length - 1 ? "nu" : halfjaarTekst(jaren[jaren.length - 1], true)} · ${variant === "alle" ? "alle stemmingen" : "alleen verdeelde stemmingen"}${laatste ? ` · laatst ${rond(laatste.cohesie)}` : ""}`}>
       {/* next/og tekent geen tekst in een svg: de aslabels staan er als losse blokken overheen */}
       <div style={{ display: "flex", position: "relative", width: B, height: H }}>
         <svg width={B} height={H} viewBox={`0 0 ${B} ${H}`}>
@@ -108,7 +115,7 @@ export async function trendPlaatje(zoek: Zoek) {
           <path d={pad(reeks)} fill="none" stroke={KLEUR.goud} strokeWidth={5} strokeLinejoin="round" strokeLinecap="round" />
         </svg>
         {[0, 50, 100].map((c) => <div key={`t${c}`} style={{ display: "flex", position: "absolute", left: 0, top: sy(c) - 11, fontSize: 18, color: KLEUR.zacht }}>{`${c}%`}</div>)}
-        {jaren.map((j, i) => (j.endsWith("01-01") && Number(j.slice(0, 4)) % 4 === 2
+        {jaren.map((j, i) => (j.endsWith("01-01") && Number(j.slice(0, 4)) % stap === 0
           ? <div key={j} style={{ display: "flex", position: "absolute", left: sx(i) - 22, top: H - 24, fontSize: 18, color: KLEUR.zacht }}>{j.slice(0, 4)}</div> : null))}
       </div>
     </Kader>

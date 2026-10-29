@@ -1,6 +1,6 @@
 // Tests voor de deellinks per grafiek (lib/deel.ts)
 import { describe, expect, it } from "vitest";
-import { deellinkVan, doelVan, isGrafiek, plaatjeVan, schoneUitslag, titelVan, zoekVan } from "../lib/deel";
+import { deellinkVan, doelVan, halfjaarTekst, isGrafiek, plaatjeVan, schoneUitslag, titelVan, zoekVan } from "../lib/deel";
 
 describe("deellinks", () => {
   it("neemt alleen de parameters van de grafiek mee, in vaste volgorde", () => {
@@ -20,6 +20,15 @@ describe("deellinks", () => {
     expect(titelVan("verkenner", { fractie: "PVV", periode: "Rutte IV", soort: "kabinet" })).toBe("Met wie stemt PVV het vaakst mee? (kabinet-Rutte IV)");
     expect(titelVan("verkenner", { periode: "2025-", soort: "kamerperiode" })).toBe("Met wie stemt een partij het vaakst mee? (Kamer 2025-)");
     expect(titelVan("vvd-en-pro", {})).toBe("Hoe vaak stemmen VVD en PRO hetzelfde?");
+  });
+  it("neemt de periode van Door de jaren mee in link en titel", () => {
+    const zoek = { fractie: "VVD", met: "D66", van: "2011-01", tot: "2023-07" };
+    expect(doelVan("trend", zoek)).toBe("/verkenner?fractie=VVD&met=D66&van=2011-01&tot=2023-07#door-de-jaren");
+    expect(titelVan("trend", zoek)).toBe("Hoe vaak stemden VVD en D66 hetzelfde, van 2011 tot en met 2023?");
+    expect(titelVan("trend", { fractie: "VVD", met: "D66" })).toBe("Hoe vaak stemden VVD en D66 hetzelfde, in de laatste tien jaar?");
+    expect(halfjaarTekst("2023-07", true)).toBe("december 2023");
+    expect(halfjaarTekst("2011-01")).toBe("januari 2011");
+    expect(halfjaarTekst("2023-07-01", true)).toBe("december 2023");
   });
   it("kent alleen bekende grafieken", () => {
     expect(isGrafiek("verkenner")).toBe(true);

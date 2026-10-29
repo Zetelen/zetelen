@@ -21,7 +21,7 @@ import { cohesiePerTerrein, paarPerTerrein, uitersten } from "@/lib/onderwerpen"
 import type { Stap } from "@/lib/verhaal";
 import { bredeSteunPerKabinet, kabinetNu, kabinetspartners, laadVerhaal, samenwerking, zaalVerhaal } from "@/lib/voorpagina";
 import { BredeSteun } from "@/components/BredeSteun";
-import { DeelKnop } from "@/components/deel/DeelKnop";
+import { GrafiekKader, GrafiekKop } from "@/components/deel/GrafiekKader";
 import { jaarWerk, periodeWerk } from "@/lib/zetelwerk";
 import s from "./voorpagina.module.css";
 import uitgelicht from "@/components/verhaal/uitgelicht.module.css";
@@ -117,15 +117,14 @@ export default async function Voorpagina() {
           rechts={{ titel: "Of: eens zijn over een motie zegt weinig", tekst: "Over een verzoek om een onderzoek of een brief is de Kamer het snel eens. Waar het om geld en koers gaat, bij de begroting en de grote wetten, staan kabinet en oppositie nog steeds vaak tegenover elkaar." }}
         />
         {perPeriode && perPeriode.length > 0 && (
-          <div id="brede-steun" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
-            <Label>Aangenomen met stemmen van kabinet én oppositie, per kabinet</Label>
+          <GrafiekKader grafiek="brede-steun" id="brede-steun" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
+            <GrafiekKop><Label>Aangenomen met stemmen van kabinet én oppositie, per kabinet</Label></GrafiekKop>
             <BredeSteun rijen={bredeSteunPerKabinet(perPeriode)} />
             <Data>
               Deel van alle ingediende moties en amendementen per kabinet dat werd aangenomen met stemmen voor van ten minste één
               fractie uit het kabinet en één uit de oppositie, naast de indieners. Gedoogsteun telt als kabinet.
             </Data>
-            <DeelKnop grafiek="brede-steun" />
-          </div>
+          </GrafiekKader>
         )}
         <Tekst>
           Op sommige onderwerpen, zoals asiel, gaan fracties juist verder uit elkaar dan gemiddeld. Zoek zelf waar ze elkaar vinden,
@@ -166,21 +165,21 @@ export default async function Voorpagina() {
       <div id="na-verhaal" style={{ scrollMarginTop: 80 }} />
 
       {partners && paar && u && kabinet && (
-        <section className={s.hoofdstuk} style={{ maxWidth: "none" }}>
-          <HoofdstukKop nummer="3" titel="Zijn kabinetspartijen het overal over eens?" />
+        // Gedeeld als het paar op Onderwerpen: daar staat dezelfde grafiek met alle keuzes
+        <GrafiekKader grafiek="onderwerpen" zoek={{ soort: "kabinet", periode: kabinet.naam, fractie: partners.a.afkorting, met: partners.b.afkorting }}
+          className={s.hoofdstuk} style={{ maxWidth: "none" }}>
+          <GrafiekKop><HoofdstukKop nummer="3" titel="Zijn kabinetspartijen het overal over eens?" /></GrafiekKop>
           <Tekst>
             {partners.a.afkorting} en {partners.b.afkorting} zijn de grootste partijen van kabinet-{kabinet.naam}
             {partners.totaal != null ? ` en stemmen in ${procent(partners.totaal)} van de stemmingen hetzelfde` : ""}. Per onderwerp
             verschilt dat: het vaakst eens bij {u.hoog.terrein} ({procent(u.hoog.cohesie)}), het minst bij {u.laag.terrein} ({procent(u.laag.cohesie)}).
           </Tekst>
           <TerreinBalken lijst={paar} totaal={partners.totaal} label={`Cohesie van ${partners.a.afkorting} en ${partners.b.afkorting} per beleidsterrein`} />
-          {/* Gedeeld als het paar op Onderwerpen: daar staat dezelfde grafiek met alle keuzes */}
-          <DeelKnop grafiek="onderwerpen" zoek={{ soort: "kabinet", periode: kabinet.naam, fractie: partners.a.afkorting, met: partners.b.afkorting }} />
           <Link href={`/onderwerpen?soort=kabinet&periode=${encodeURIComponent(kabinet.naam)}&fractie=${encodeURIComponent(partners.a.afkorting)}&met=${encodeURIComponent(partners.b.afkorting)}`}
             className={knopKlasse}>
             Vergelijk zelf twee fracties per onderwerp
           </Link>
-        </section>
+        </GrafiekKader>
       )}
 
       <section className={s.hoofdstuk}>
@@ -205,8 +204,8 @@ export default async function Voorpagina() {
         const max = Math.max(...perJaar.map((x) => x.totaal));
         const eerste = perJaar[0], laatste = perJaar.filter((x) => x.jaar < new Date().getFullYear()).pop() ?? perJaar[perJaar.length - 1];
         return (
-          <section className={s.hoofdstuk}>
-            <HoofdstukKop nummer="5" titel="Wat kan de oppositie?" />
+          <GrafiekKader grafiek="oppositie-jaren" className={s.hoofdstuk}>
+            <GrafiekKop><HoofdstukKop nummer="5" titel="Wat kan de oppositie?" /></GrafiekKop>
             <Tekst>
               Het belangrijkste middel van de oppositie is de motie: een verzoek van de Kamer aan het kabinet. In {eerste.jaar} stemde de Kamer over {eerste.totaal.toLocaleString("nl-NL")} moties, in {laatste.jaar} over{" "}
               {laatste.totaal.toLocaleString("nl-NL")}. Het grootste deel komt van de oppositie. Maar hoeveel haalt het, en verandert dat
@@ -220,9 +219,8 @@ export default async function Voorpagina() {
                 </span>
               ))}
             </div>
-            <DeelKnop grafiek="oppositie-jaren" />
             <Link href="/oppositie" className={knopKlasse}>Naar Oppositie</Link>
-          </section>
+          </GrafiekKader>
         );
       })()}
 

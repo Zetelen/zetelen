@@ -6,6 +6,8 @@ type Zoek = Record<string, string | string[] | undefined> | URLSearchParams;
 type Waarden = Record<string, string>;
 
 export const BRON = "Bron: Zetelen.nl";
+// Een grafiek die zelf de URL aanpast zonder te navigeren (Trend), meldt dat met dit event aan GrafiekKader
+export const URL_GEWIJZIGD = "zetelen:url";
 
 type Definitie = {
   pad: string | ((w: Waarden) => string);
@@ -17,6 +19,12 @@ type Definitie = {
 };
 
 const periodeTekst = (w: Waarden) => (w.periode ? (w.soort === "kamerperiode" ? ` (Kamer ${w.periode})` : ` (kabinet-${w.periode})`) : "");
+// De periode van Door de jaren (van= en tot=, een half jaar als 2011-01 of 2011-07); zonder keuze de laatste tien jaar,
+// zoals op de pagina. Werkt ook met een volledige datum (2011-07-01)
+export const halfjaarTekst = (h: string, eind = false) =>
+  `${h.slice(5, 7) === "07" ? (eind ? "december" : "juli") : eind ? "juni" : "januari"} ${h.slice(0, 4)}`;
+const tijdvak = (w: Waarden) =>
+  w.van && w.tot ? `van ${w.van.slice(0, 4)} tot en met ${w.tot.slice(0, 4)}` : w.van ? `sinds ${w.van.slice(0, 4)}` : w.tot ? `tot en met ${w.tot.slice(0, 4)}` : "in de laatste tien jaar";
 const stukWoord = (w: Waarden) => (w.stuk === "Amendement" ? "amendementen" : w.stuk === "Wetsvoorstel" ? "initiatiefwetten" : "moties");
 
 export const GRAFIEKEN = {
@@ -25,8 +33,8 @@ export const GRAFIEKEN = {
     titel: (w) => `Met wie stemt ${w.fractie ?? "een partij"} het vaakst mee?${periodeTekst(w)}`,
   },
   trend: {
-    pad: "/verkenner", anker: "door-de-jaren", parameters: ["soort", "periode", "variant", "fractie", "met"],
-    titel: (w) => (w.fractie && w.met ? `Hoe vaak stemden ${w.fractie} en ${w.met} hetzelfde, sinds 2010?` : "Hoe vaak stemden twee partijen hetzelfde, sinds 2010?"),
+    pad: "/verkenner", anker: "door-de-jaren", parameters: ["soort", "periode", "variant", "fractie", "met", "van", "tot"],
+    titel: (w) => (w.fractie && w.met ? `Hoe vaak stemden ${w.fractie} en ${w.met} hetzelfde, ${tijdvak(w)}?` : `Hoe vaak stemden twee partijen hetzelfde, ${tijdvak(w)}?`),
   },
   "vvd-en-pro": { pad: "/uitgelicht/vvd-en-pro", anker: "ranglijst", parameters: [], titel: () => "Hoe vaak stemmen VVD en PRO hetzelfde?" },
   "brede-steun": { pad: "/", anker: "brede-steun", parameters: [], titel: () => "Hoe vaak stemmen kabinet en oppositie samen?" },

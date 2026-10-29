@@ -1,7 +1,7 @@
 // Hoe lang duurt een wet? (feedback Niels, 26 oktober 2026: het wetgevingsproces als reis, in het format van
 // Uitgelicht). Drie wetten als reis met haltes, daarna alle wetsvoorstellen sinds 2010, en twee interpretaties.
 // Statisch: de gegevens staan in content/wetten (pipeline/wet_reis.py).
-import { DeelKnop } from "@/components/deel/DeelKnop";
+import { GrafiekKader, GrafiekKop } from "@/components/deel/GrafiekKader";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Inhoud } from "@/components/Kader";
@@ -67,9 +67,8 @@ export default function HoeLang() {
           Drie wetten als reis, en daarna alle wetsvoorstellen sinds 2010.
         </Tekst>
       </section>
-      <section id="reizen" className={s.graphic}>
-        <HoofdstukKop titel="Drie wetten gevolgd" />
-        <DeelKnop grafiek="wetten" />
+      <GrafiekKader grafiek="wetten" vergroot={false} id="reizen" className={s.graphic}>
+        <GrafiekKop><HoofdstukKop titel="Drie wetten gevolgd" /></GrafiekKop>
         <ScrollVerhaal verhaal={{ breed: stappen }} label="Hoe lang duurt een wet: drie reizen en alle wetsvoorstellen" stapHoogte="60vh" tijdlijn />
         <Data>
           Bron: <a href={SITE.bron}>open data van de Tweede Kamer</a>. Haltes uit de documenten bij elk wetsvoorstel (zaken {A.nummer},{" "}
@@ -78,7 +77,7 @@ export default function HoeLang() {
           gehad. Geen besluit: nog in behandeling, ingetrokken of vervallen.
         </Data>
         <Data><Link href="/methodiek">Hoe we tellen</Link></Data>
-      </section>
+      </GrafiekKader>
     </Inhoud>
   );
 }

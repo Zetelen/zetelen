@@ -1,4 +1,4 @@
-/* Knop "Deel" bij een grafiek: klein en rustig, rechts boven of onder de grafiek */
+/* Knop "Deel" bij een grafiek: klein en rustig, rechtsboven de grafiek (GrafiekKader) */
 .deel {
   display: inline-flex;
   align-items: center;
@@ -41,4 +41,77 @@
   height: auto;
   border: 1px solid var(--lijn);
   border-radius: var(--hoek-paneel);
+}
+/* Omhulsel van een grafiek: de kop met rechts de knoppen Vergroot en Deel (Niels, 29 oktober 2026) */
+.kader {
+  position: relative;
+  min-width: 0;
+}
+.kopRij {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--r-3);
+}
+.kopTekst {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-4);
+}
+.knoppen {
+  display: flex;
+  align-items: center;
+  gap: var(--r-2);
+  flex-shrink: 0;
+  margin-left: auto;
+}
+.knoppen {
+  position: relative;
+}
+/* "Link gekopieerd" onder de knoppen, zonder de kop te verschuiven */
+.knoppen .melding {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  white-space: nowrap;
+  z-index: 2;
+}
+.kader[data-vergroot] svg {
+  cursor: zoom-in;
+}
+/* Volledig scherm: hetzelfde blok over de hele pagina, boven de vaste kop van de site */
+.kader[data-vol] {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  max-width: none;
+  margin: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-4);
+  padding: var(--r-5) var(--pagina-marge) var(--r-7);
+  background: var(--nacht-950);
+  --kop-zicht: 0px;
+}
+.kader[data-vol] svg {
+  max-height: calc(100dvh - 120px);
+}
+@media (max-width: 640px) {
+  /* Op de telefoon de knoppen boven de kop, rechts: naast de kop bleef er voor de tekst te weinig breedte over */
+  .kopRij {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: var(--r-2);
+  }
+  .kader[data-vol] {
+    padding: var(--r-3) var(--r-4) var(--r-6);
+  }
+  .knoppen .knop {
+    padding: 0 var(--r-3);
+    font-size: 14px;
+  }
 }

@@ -1,6 +1,6 @@
 // Eén uitgelichte stemming op een eigen pagina (besluit Niels B16): de scroll graphic, de datum, het zaaknummer met
 // een link naar tweedekamer.nl, en de uitslag zoals de bron hem noteert. Statisch gebouwd voor elke casus.
-import { DeelKnop } from "@/components/deel/DeelKnop";
+import { GrafiekKader, GrafiekKop } from "@/components/deel/GrafiekKader";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -62,16 +62,15 @@ export default async function CasusPagina({ params }: Props) {
         </Inklapbaar>
       </section>
 
-      <section id="stemming" className={s.graphic}>
-        <HoofdstukKop titel={u.titel} />
-        <DeelKnop grafiek="stemming" zoek={{ casus: u.slug }} titel={u.vraag} />
+      <GrafiekKader grafiek="stemming" zoek={{ casus: u.slug }} titel={u.vraag} vergroot={false} id="stemming" className={s.graphic}>
+        <GrafiekKop><HoofdstukKop titel={u.titel} /></GrafiekKop>
         <ScrollVerhaal verhaal={u.verhaal()} label={`De stemming: ${u.titel}`} hoogteSmal={u.hoogteSmal} stapHoogte="45vh" tijdlijn />
         <Data>
           Stemming over zaak <a href={zoekLink(u.zaak)}>{u.zaak}</a>, hoofdelijk, {datums}. Uitslag in de bron:{" "}
           {u.besluitTekst.join("; ")}. Kleuren zijn een eigen palet, geen partijkleuren.
         </Data>
         <Data>Onderwerp in de bron: {u.onderwerp.trim()}</Data>
-      </section>
+      </GrafiekKader>
 
       <nav className={s.verder} aria-label="Andere uitgelichte stemmingen">
         {vorige ? <Link href={`/uitgelicht/${vorige.slug}`}>← {vorige.titel}</Link> : <span />}

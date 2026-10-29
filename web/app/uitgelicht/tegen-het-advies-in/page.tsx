@@ -1,6 +1,6 @@
 // Tegen het advies in (besluit Niels B18, 26 oktober 2026): moties die het kabinet ontraadde en die de Kamer toch
 // aannam. In het format van Uitgelicht. Statisch: gegevens in content/ontraden (pipeline/ontraden.py).
-import { DeelKnop } from "@/components/deel/DeelKnop";
+import { GrafiekKader, GrafiekKop } from "@/components/deel/GrafiekKader";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Inhoud } from "@/components/Kader";
@@ -78,9 +78,8 @@ export default function TegenHetAdviesIn() {
           meerderheid een motie aan die het kabinet ontraadde. Hoe vaak gebeurt dat, en wie zit erachter?
         </Tekst>
       </section>
-      <section id="oordeel" className={s.graphic}>
-        <HoofdstukKop titel="Het oordeel van het kabinet" />
-        <DeelKnop grafiek="ontraden" />
+      <GrafiekKader grafiek="ontraden" vergroot={false} id="oordeel" className={s.graphic}>
+        <GrafiekKop><HoofdstukKop titel="Het oordeel van het kabinet" /></GrafiekKop>
         <ScrollVerhaal verhaal={{ breed: stappen }} label="Moties naar het oordeel van het kabinet en de uitslag" stapHoogte="60vh" tijdlijn />
         <Data>
           Bron: <a href={SITE.bron}>open data van de Tweede Kamer</a>, het oordeel van het kabinet (Kabinetsappreciatie) bij elke motie die
@@ -89,7 +88,7 @@ export default function TegenHetAdviesIn() {
           indiener op de dag van indiening; gedoogsteun telt als kabinet. Moties zonder stemming (aangehouden of ingetrokken) tellen niet mee.
         </Data>
         <Data><Link href="/methodiek">Hoe we tellen</Link></Data>
-      </section>
+      </GrafiekKader>
     </Inhoud>
   );
 }

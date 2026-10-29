@@ -1,7 +1,7 @@
 // Kamerleden (concept, component zetelwerk): wat dienen Kamerleden en fracties zelf in, en wat wordt aangenomen?
 // Moties en amendementen apart. Per fractie, dan per Kamerlid van die fractie, dan de stukken van een Kamerlid.
 // Bewust geen ranglijst over de hele Kamer: kabinet en oppositie zijn niet te vergelijken (zie het plan).
-import { DeelKnop } from "@/components/deel/DeelKnop";
+import { GrafiekKader, GrafiekKop } from "@/components/deel/GrafiekKader";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -108,8 +108,8 @@ export default async function Kamerleden({ searchParams }: Props) {
         <LegeStaat label="Niet bereikbaar" titel="De gegevens laden nu niet" uitleg="Probeer het over een paar minuten opnieuw." />
       ) : (
         <>
-          <section id="fracties" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
-            <Label>{periode.naam} · {meervoud} per fractie</Label>
+          <GrafiekKader grafiek="kamerleden" id="fracties" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
+            <GrafiekKop><Label>{periode.naam} · {meervoud} per fractie</Label></GrafiekKop>
             <Data>Kabinet en oppositie hebben een andere rol: vergelijk binnen de eigen kant. Kies een fractie voor haar Kamerleden.</Data>
             <nav className={s.pillen} aria-label="Weergave">
               <Link href={`${keuzeLink({ weergave: "" })}#fracties`} aria-current={!spreiding ? "true" : undefined} scroll={false}>Tabel</Link>
@@ -121,13 +121,14 @@ export default async function Kamerleden({ searchParams }: Props) {
             ) : (
               <FractieTabel rijen={rijen} stuk={stuk} actief={fractie} hrefVoor={(afk) => `${link({ fractie: afk })}#leden`} />
             )}
-            <DeelKnop grafiek="kamerleden" />
-          </section>
+          </GrafiekKader>
 
           {/* Ranglijst over de hele Kamer, op uitkomst en per rol (besluit Niels B2, 26 oktober 2026) */}
-          <section id="ranglijst" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
-            <Label>{periode.naam} · ranglijst</Label>
-            <SectieKop>Wie krijgt het vaakst iets aangenomen?</SectieKop>
+          <GrafiekKader grafiek="ranglijst" id="ranglijst" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
+            <GrafiekKop>
+              <Label>{periode.naam} · ranglijst</Label>
+              <SectieKop>Wie krijgt het vaakst iets aangenomen?</SectieKop>
+            </GrafiekKop>
             <Tekst>
               {stuk === "Wetsvoorstel"
                 ? <>Een initiatiefwet is een wetsvoorstel dat Kamerleden zelf schrijven. Dat zijn er weinig per Kamerlid, dus hier geen
@@ -176,8 +177,7 @@ export default async function Kamerleden({ searchParams }: Props) {
                 )}
               </>
             )}
-            <DeelKnop grafiek="ranglijst" />
-          </section>
+          </GrafiekKader>
 
           <section id="leden" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
             <Label>{q ? `Gezocht op "${q}"` : fractie ? `De Kamerleden van ${fractie}` : "Zoek een Kamerlid"}</Label>

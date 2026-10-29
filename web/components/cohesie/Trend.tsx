@@ -1,12 +1,14 @@
 "use client";
 // Door de jaren (verzoek Niels, 27 oktober 2026): hoe vaak twee fracties hetzelfde stemden, per half jaar sinds 2010,
-// met de kabinetten als vlakken op de achtergrond. Met een schuif kies je de periode; het totaal en de toelichting
-// over wat uitvalt rekenen mee. De tweede fractie staat in de URL (met=), de periode alleen in de pagina.
+// met de kabinetten als vlakken op de achtergrond. Met een schuif kies je de periode; de as loopt dan alleen over die
+// periode, en het totaal en de toelichting over wat uitvalt rekenen mee (Niels, 29 oktober 2026: filteren, niet dimmen).
+// De tweede fractie en de periode staan in de URL (met=, van= en tot=), zodat een deellink dezelfde periode toont.
 // Bij een fusie (content/fractie-opvolgers.json) staan de voorgangers als dunne lijnen ernaast; die tellen niet mee in
 // het totaal (verzoek Niels, 28 oktober 2026).
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { DREMPEL, type Punt, beginTekst, eindTekst, kortTekst, samenvatting, uitvalTekst } from "@/lib/trend";
+import { URL_GEWIJZIGD } from "@/lib/deel";
 import { vloeiendPad } from "@/lib/vloeiend";
 import s from "./trend.module.css";
 
@@ -14,6 +16,8 @@ type Kabinet = { naam: string; begin: string; einde: string | null };
 type Extra = { naam: string; punten: Punt[] };
 const TINTEN = ["#7fb7c9", "#e57f93", "#a08fe0", "#6fbf8e"]; // uit het palet van de scroll graphics (lib/verhaal.ts)
 const STANDAARD = 20; // de laatste tien jaar (opmerking van een bezoeker: een Kamerperiode is arbitrair)
+// Een half jaar in de URL als jaar en beginmaand, bijvoorbeeld 2011-01
+const inUrl = (halfjaar: string) => halfjaar.slice(0, 7);
 
 // vast: alleen de grafiek, zonder keuzelijst, totaal en schuif, met een eigen uitleg (op een uitgelichte pagina);
 // alles: standaard de hele periode
@@ -22,8 +26,27 @@ export function Trend({ a, b, keuzes, punten, extra, eerder, kabinetten, vast = 
 }) {
   const router = useRouter(), pad = usePathname(), zoek = useSearchParams();
   const n = punten.length;
-  const [van, setVan] = useState(alles ? 0 : Math.max(0, n - STANDAARD));
-  const [tot, setTot] = useState(n - 1);
+  const alle = punten.map((p) => p.halfjaar);
+  const standaardVan = alles ? 0 : Math.max(0, n - STANDAARD);
+  const uitUrl = (k: string, anders: number) => {
+    const i = vast ? -1 : alle.findIndex((h) => inUrl(h) === zoek.get(k));
+    return i >= 0 ? i : anders;
+  };
+  const [van, setVanState] = useState(() => uitUrl("van", standaardVan));
+  const [tot, setTotState] = useState(() => Math.max(uitUrl("tot", n - 1), uitUrl("van", standaardVan)));
+  // De periode in de adresbalk, zonder de pagina opnieuw te laden; de standaard laat de URL schoon
+  const zetPeriode = (v: number, t: number) => {
+    setVanState(v);
+    setTotState(t);
+    if (vast) return;
+    const q = new URLSearchParams(window.location.search);
+    if (v === standaardVan) q.delete("van"); else q.set("van", inUrl(alle[v]));
+    if (t === n - 1) q.delete("tot"); else q.set("tot", inUrl(alle[t]));
+    const rest = q.toString();
+    // De markering van volledig scherm (GrafiekKader) blijft staan; Next.js vult zijn eigen gegevens zelf aan
+    window.history.replaceState({ zetelenVol: window.history.state?.zetelenVol }, "", `${pad}${rest ? `?${rest}` : ""}${window.location.hash}`);
+    window.dispatchEvent(new Event(URL_GEWIJZIGD));
+  };
   // Op een smal scherm een eigen maatvoering: anders krimpt de brede tekening tot onleesbare letters
   const [smal, setSmal] = useState(false);
   useEffect(() => {
@@ -34,7 +57,6 @@ export function Trend({ a, b, keuzes, punten, extra, eerder, kabinetten, vast = 
     return () => m.removeEventListener("change", zet);
   }, []);
   const sv = samenvatting(punten, van, tot);
-  const alle = punten.map((p) => p.halfjaar);
   const uitval = uitvalTekst(a, b, sv, alle);
   // Het laatste halve jaar loopt nog: dan "tot nu" in plaats van "tot en met december"
   const totTekst = tot === n - 1 ? "tot nu" : `tot en met ${eindTekst(alle[tot])}`;
@@ -45,13 +67,15 @@ export function Trend({ a, b, keuzes, punten, extra, eerder, kabinetten, vast = 
     router.replace(`${pad}?${q.toString()}#door-de-jaren`, { scroll: false });
   };
 
-  // Tekening: een maand is de eenheid; een half jaar beslaat zes maanden, het punt staat in het midden
+  // Tekening: een maand is de eenheid; een half jaar beslaat zes maanden, het punt staat in het midden. De as loopt
+  // van het eerste tot het laatste gekozen halve jaar
   const B = smal ? 360 : 760, H = smal ? 260 : 290, L = 40, R = 8, T = 34, O = 30;
-  const maanden = n * 6;
+  const maanden = (tot - van + 1) * 6;
   const x = (m: number) => L + (m / maanden) * (B - L - R);
-  const maandVan = (iso: string) => (Number(iso.slice(0, 4)) - Number(alle[0].slice(0, 4))) * 12 + Number(iso.slice(5, 7)) - 1 + (Number(iso.slice(8, 10)) - 1) / 31;
+  const maandVan = (iso: string) => (Number(iso.slice(0, 4)) - Number(alle[van].slice(0, 4))) * 12 + Number(iso.slice(5, 7)) - Number(alle[van].slice(5, 7)) + (Number(iso.slice(8, 10)) - 1) / 31;
   const y = (v: number) => T + ((100 - v) / 100) * (H - T - O);
-  const px = (i: number) => x(i * 6 + 3);
+  const px = (i: number) => x((i - van) * 6 + 3);
+  const binnen = (i: number) => i >= van && i <= tot;
   // Lijnstukken tussen opeenvolgende halve jaren met een percentage; een gat waar er geen is
   const stukkenVan = (reeks: Punt[]) => {
     const uit: Punt[][] = [];
@@ -65,11 +89,13 @@ export function Trend({ a, b, keuzes, punten, extra, eerder, kabinetten, vast = 
   };
   // Vloeiend, zonder over de punten heen te schieten (lib/vloeiend.ts)
   const lijnPad = (st: Punt[]) => vloeiendPad(st.map((p) => [px(alle.indexOf(p.halfjaar)), y(p.cohesie!)]));
-  const stukken = stukkenVan(punten);
+  const stukken = stukkenVan(punten.slice(van, tot + 1));
   const vlakken = kabinetten
-    .map((k) => ({ ...k, m0: Math.max(0, maandVan(k.begin)), m1: Math.min(maanden, k.einde ? maandVan(k.einde) : maanden) }))
+    .map((k, nr) => ({ ...k, nr, m0: Math.max(0, maandVan(k.begin)), m1: Math.min(maanden, k.einde ? maandVan(k.einde) : maanden) }))
     .filter((k) => k.m1 > k.m0);
-  const jaarLabels = alle.map((h, i) => ({ h, i })).filter(({ h }) => h.slice(5, 7) === "01" && Number(h.slice(0, 4)) % (smal ? 4 : 2) === 0);
+  // Bij een korte periode elk jaar een label, bij een lange om de twee of vier jaar
+  const jaarStap = (tot - van + 1) / 2 > 12 ? (smal ? 4 : 2) : (tot - van + 1) / 2 > 6 ? (smal ? 2 : 1) : 1;
+  const jaarLabels = alle.map((h, i) => ({ h, i })).filter(({ h, i }) => binnen(i) && h.slice(5, 7) === "01" && Number(h.slice(0, 4)) % jaarStap === 0);
 
   return (
     <div className={s.trend}>
@@ -95,10 +121,12 @@ export function Trend({ a, b, keuzes, punten, extra, eerder, kabinetten, vast = 
 
       <svg viewBox={`0 0 ${B} ${H}`} className={s.grafiek} role="img"
         aria-label={`Hoe vaak ${a} en ${b} hetzelfde stemden, per half jaar sinds ${alle[0].slice(0, 4)}`}>
-        {vlakken.map((k, i) => (
+        {vlakken.map((k) => (
           <g key={k.naam}>
-            <rect x={x(k.m0)} y={T} width={x(k.m1) - x(k.m0)} height={H - T - O} className={i % 2 ? s.vlakB : s.vlakA} />
-            {x(k.m1) - x(k.m0) > (smal ? 40 : 46) && <text x={x(k.m0) + 4} y={T - 8} className={s.kabinet}>{k.naam}</text>}
+            {/* De kleur wisselt per kabinet in de hele reeks, zodat een kabinet bij elke periode dezelfde kleur houdt */}
+            <rect x={x(k.m0)} y={T} width={x(k.m1) - x(k.m0)} height={H - T - O} className={k.nr % 2 ? s.vlakB : s.vlakA} />
+            {/* Alleen een naam als die past: ongeveer 7 punten per letter */}
+            {x(k.m1) - x(k.m0) > k.naam.length * 7 + 8 && <text x={x(k.m0) + 4} y={T - 8} className={s.kabinet}>{k.naam}</text>}
           </g>
         ))}
         {[0, 25, 50, 75, 100].map((v) => (
@@ -107,11 +135,11 @@ export function Trend({ a, b, keuzes, punten, extra, eerder, kabinetten, vast = 
             <text x={L - 6} y={y(v) + 4} textAnchor="end" className={s.as}>{v}%</text>
           </g>
         ))}
-        {jaarLabels.map(({ h, i }) => <text key={h} x={x(i * 6)} y={H - 10} textAnchor="middle" className={s.as}>{h.slice(0, 4)}</text>)}
+        {jaarLabels.map(({ h, i }) => <text key={h} x={x((i - van) * 6)} y={H - 10} textAnchor="middle" className={s.as}>{h.slice(0, 4)}</text>)}
         {extra.map((e, j) => (
           <g key={e.naam}>
-            {stukkenVan(e.punten).map((st) => <path key={st[0].halfjaar} d={lijnPad(st)} className={s.lijnExtra} style={{ stroke: TINTEN[j % TINTEN.length] }} />)}
-            {e.punten.map((p, i) => p.cohesie != null && (
+            {stukkenVan(e.punten.slice(van, tot + 1)).map((st) => <path key={st[0].halfjaar} d={lijnPad(st)} className={s.lijnExtra} style={{ stroke: TINTEN[j % TINTEN.length] }} />)}
+            {e.punten.map((p, i) => binnen(i) && p.cohesie != null && (
               <circle key={p.halfjaar} cx={px(i)} cy={y(p.cohesie)} r={smal ? 1.8 : 2.5} style={{ fill: TINTEN[j % TINTEN.length] }}>
                 <title>{`${e.naam}, ${beginTekst(p.halfjaar)} tot en met ${eindTekst(p.halfjaar)}: ${Math.round(p.cohesie)}% van ${p.gezamenlijk} stemmingen`}</title>
               </circle>
@@ -119,14 +147,11 @@ export function Trend({ a, b, keuzes, punten, extra, eerder, kabinetten, vast = 
           </g>
         ))}
         {stukken.map((st) => <path key={st[0].halfjaar} d={lijnPad(st)} className={s.lijn} />)}
-        {punten.map((p, i) => p.cohesie != null && (
-          <circle key={p.halfjaar} cx={px(i)} cy={y(p.cohesie)} r={smal ? 2.5 : 3.5} className={i >= van && i <= tot ? s.punt : s.puntUit}>
+        {punten.map((p, i) => binnen(i) && p.cohesie != null && (
+          <circle key={p.halfjaar} cx={px(i)} cy={y(p.cohesie)} r={smal ? 2.5 : 3.5} className={s.punt}>
             <title>{`${beginTekst(p.halfjaar)} tot en met ${eindTekst(p.halfjaar)}: ${Math.round(p.cohesie)}% van ${p.gezamenlijk} stemmingen`}</title>
           </circle>
         ))}
-        {/* Buiten de gekozen periode gedimd */}
-        {van > 0 && <rect x={L} y={T} width={x(van * 6) - L} height={H - T - O} className={s.buiten} />}
-        {tot < n - 1 && <rect x={x((tot + 1) * 6)} y={T} width={x(maanden) - x((tot + 1) * 6)} height={H - T - O} className={s.buiten} />}
       </svg>
 
       {!vast && <fieldset className={s.schuif}>
@@ -134,17 +159,17 @@ export function Trend({ a, b, keuzes, punten, extra, eerder, kabinetten, vast = 
         <label>
           <span>Van <strong>{beginTekst(alle[van])}</strong></span>
           <input type="range" min={0} max={n - 1} value={van} aria-valuetext={beginTekst(alle[van])}
-            onChange={(e) => { const v = Number(e.target.value); setVan(Math.min(v, tot)); }} />
+            onChange={(e) => zetPeriode(Math.min(Number(e.target.value), tot), tot)} />
         </label>
         <label>
           <span>Tot en met <strong>{tot === n - 1 ? "nu" : eindTekst(alle[tot])}</strong></span>
           <input type="range" min={0} max={n - 1} value={tot} aria-valuetext={eindTekst(alle[tot])}
-            onChange={(e) => { const v = Number(e.target.value); setTot(Math.max(v, van)); }} />
+            onChange={(e) => zetPeriode(van, Math.max(Number(e.target.value), van))} />
         </label>
         <div className={s.snel}>
-          <button type="button" onClick={() => { setVan(Math.max(0, n - STANDAARD)); setTot(n - 1); }}>Laatste tien jaar</button>
-          <button type="button" onClick={() => { setVan(Math.max(0, n - 10)); setTot(n - 1); }}>Laatste vijf jaar</button>
-          <button type="button" onClick={() => { setVan(0); setTot(n - 1); }}>Alles sinds {kortTekst(alle[0])}</button>
+          <button type="button" onClick={() => zetPeriode(Math.max(0, n - STANDAARD), n - 1)}>Laatste tien jaar</button>
+          <button type="button" onClick={() => zetPeriode(Math.max(0, n - 10), n - 1)}>Laatste vijf jaar</button>
+          <button type="button" onClick={() => zetPeriode(0, n - 1)}>Alles sinds {kortTekst(alle[0])}</button>
         </div>
       </fieldset>}
 

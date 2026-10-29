@@ -2,7 +2,7 @@
 // 25 oktober 2026; label "concept" weg bij de livegang op 27 oktober 2026 (besluit Niels).
 // Standaard alleen verdeelde stemmingen (schakelaar naar alle stemmingen). Deelplaatje per combinatie via
 // /coalitie/plaatje.
-import { DeelKnop } from "@/components/deel/DeelKnop";
+import { GrafiekKader, GrafiekKop } from "@/components/deel/GrafiekKader";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { CoalitieBouwer } from "@/components/coalitie/CoalitieBouwer";
@@ -88,14 +88,14 @@ export default async function Coalitie({ searchParams }: Props) {
       {!periode || !fracties?.length || !kaart ? (
         <LegeStaat label="Geen stemmingen" titel="In deze periode zijn geen stemmingen" uitleg="Kies een andere periode en tel opnieuw." />
       ) : (
-        <div id="bouwer" style={{ scrollMarginTop: 80 }}>
+        <GrafiekKader grafiek="coalitie" id="bouwer" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
+          <GrafiekKop />
           <Suspense>
             <CoalitieBouwer fracties={ordenFracties(fracties, kaart)} soort={soort} periode={periode.naam} alleenVerdeeld={variant === "verdeeld"} />
           </Suspense>
-        </div>
+          <Bronregel toelichting={`${periode.naam} · eigen berekening, zie de methodiek`} />
+        </GrafiekKader>
       )}
-      {periode && <Bronregel toelichting={`${periode.naam} · eigen berekening, zie de methodiek`} />}
-      {periode && <DeelKnop grafiek="coalitie" />}
     </Inhoud>
   );
 }

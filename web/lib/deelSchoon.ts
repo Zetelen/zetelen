@@ -10,6 +10,9 @@ const VAST: Record<string, string[]> = {
   soort: ["kabinet", "kamerperiode"], variant: ["alle", "verdeeld"], stuk: ["Motie", "Amendement", "Wetsvoorstel"], rol: ["kabinet", "oppositie"],
 };
 
+// Een half jaar uit Door de jaren: 2010-01 tot en met het lopende jaar, beginmaand januari of juli
+const halfjaar = (v: string) => /^\d{4}-(01|07)$/.test(v) && Number(v.slice(0, 4)) >= 2010 && Number(v.slice(0, 4)) <= new Date().getFullYear();
+
 export async function schoonZoek(g: Grafiek, zoek: Zoek): Promise<Record<string, string>> {
   const w = waardenVan(g, zoek);
   if (!Object.keys(w).length) return {};
@@ -22,6 +25,7 @@ export async function schoonZoek(g: Grafiek, zoek: Zoek): Promise<Record<string,
     else if (k === "periode") { if (lijst.some((p) => p.naam === v)) uit[k] = v; }
     else if (k === "casus") { if (UITGELICHT.some((u) => u.slug === v)) uit[k] = v; }
     else if (k === "u") { const u = schoneUitslag(v, partijen); if (u) uit[k] = u; }
+    else if (k === "van" || k === "tot") { if (halfjaar(v)) uit[k] = v; }
     else if (k === "b" || k === "n") { if (geheel(v, 1, 200)) uit[k] = String(Number(v)); }
     else if (VAST[k]?.includes(v)) uit[k] = v;
   }

@@ -3,7 +3,7 @@
 // per terrein); met een tweede fractie een balk per terrein, met de cohesie over alle stemmingen als referentie.
 // Verdieping: tik op een terrein en de dossiers klappen eronder uit, tik op een dossier voor de stemmingen
 // (sinds 26 oktober 2026 in de lijst zelf, verzoek Niels). Bovenaan graphic 2 als opening. Keuzes staan in de URL.
-import { DeelKnop } from "@/components/deel/DeelKnop";
+import { GrafiekKader, GrafiekKop } from "@/components/deel/GrafiekKader";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Fragment, Suspense } from "react";
@@ -126,16 +126,15 @@ export default async function Onderwerpen({ searchParams }: Props) {
       </section>
 
       {/* Graphic 2 als opening: één stemming ontleed (verzoek Niels, 26 oktober 2026) */}
-      <section id="een-stemming" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
-        <HoofdstukKop titel="Eerst één stemming van dichtbij" />
-        <DeelKnop grafiek="stemming" zoek={{ casus: "motie-eerdmans" }} />
+      <GrafiekKader grafiek="stemming" zoek={{ casus: "motie-eerdmans" }} vergroot={false} id="een-stemming" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
+        <GrafiekKop><HoofdstukKop titel="Eerst één stemming van dichtbij" /></GrafiekKop>
         <Tekst><a href="#zelf">Sla het verhaal over en kies zelf ↓</a></Tekst>
         <ScrollVerhaal verhaal={{ breed: stemVerhaal(false), smal: stemVerhaal(true) }} label="De stemming over de motie-Eerdmans" hoogteSmal={1080} stapHoogte="45vh" tijdlijn />
         <Data>
           Stemming over zaak {stemming.zaak}, hoofdelijk, {dagMaandJaar(stemming.datum)}. Kleuren zijn een eigen palet, geen
           partijkleuren. <Link href="/uitgelicht">Meer stemmingen ontleed</Link>
         </Data>
-      </section>
+      </GrafiekKader>
 
       {/* Nu jij als duidelijke uitnodiging (feedback Niels K1, 26 oktober 2026) */}
       <section id="zelf" className={s.nuJij}>
@@ -174,13 +173,14 @@ export default async function Onderwerpen({ searchParams }: Props) {
       {!periode || !gekozen || !perTerrein ? (
         <LegeStaat label="Niet bereikbaar" titel="De onderwerpen laden nu niet" uitleg="Probeer het over een paar minuten nog eens." />
       ) : met && paar ? (
-        <section id="vergelijking" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
+        <GrafiekKader grafiek="onderwerpen" id="vergelijking" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
           {filters}
           {/* Vaste kop: welke fracties je bekijkt, blijft staan tijdens het scrollen (feedback Niels K1, 27 oktober 2026) */}
           <div className={s.vasteKop}>
             <strong>{gekozen.afkorting} en {met.afkorting}</strong>
             <span>Op welke onderwerpen stemmen ze hetzelfde? · {periode.naam}</span>
           </div>
+          <GrafiekKop />
           {u && (
             <Tekst>
               Het vaakst eens bij {u.hoog.terrein} ({procent(u.hoog.cohesie)}), het minst bij {u.laag.terrein} ({procent(u.laag.cohesie)}).
@@ -211,16 +211,16 @@ export default async function Onderwerpen({ searchParams }: Props) {
             uitklap={terrein ? uitklapTerrein : null} />
           </>
           )}
-          <DeelKnop grafiek="onderwerpen" />
           <Data><Link href={`/onderwerpen${query({ fractie: gekozen.afkorting })}`}>Terug naar alle fracties</Link></Data>
-        </section>
+        </GrafiekKader>
       ) : (
-        <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
+        <GrafiekKader grafiek="onderwerpen" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
           {filters}
           <div className={s.vasteKop}>
             <strong>{gekozen.afkorting}</strong>
             <span>Met welke fracties stemt {gekozen.afkorting} het vaakst hetzelfde? · {periode.naam}</span>
           </div>
+          <GrafiekKop />
           {/* De leeswijzer staat boven de visual, ingeklapt (feedback Niels K1, 27 oktober 2026) */}
           <Inklapbaar titel="Hoe werkt deze kaart?" dicht>
             <p className={s.toelichting}>
@@ -300,8 +300,7 @@ export default async function Onderwerpen({ searchParams }: Props) {
               fracties={zaal.filter((f) => f.id !== gekozen.id).map((f) => ({ id: f.id, afkorting: f.afkorting }))}
               hrefMet={(afk) => `/onderwerpen${query({ fractie: gekozen.afkorting, met: afk })}`} />
           </div>
-          <DeelKnop grafiek="onderwerpen" />
-        </section>
+        </GrafiekKader>
       )}
 
       <Bronregel toelichting={`Beleidsterrein via het Kamerstukdossier: een trefwoord in de titel, anders de vaste commissie die het dossier het vaakst behandelt. Een stemming bij meer dossiers telt bij elk terrein mee. ${variant === "alle" ? "Alle stemmingen" : "Alleen verdeelde stemmingen"}.`} />

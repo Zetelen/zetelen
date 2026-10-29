@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 import { Bronregel } from "@/components/cohesie/Bronregel";
-import { DeelKnop } from "@/components/deel/DeelKnop";
+import { GrafiekKader, GrafiekKop } from "@/components/deel/GrafiekKader";
 import { Inhoud, LegeStaat } from "@/components/Kader";
 import { PeriodeKeuze } from "@/components/cohesie/PeriodeKeuze";
 import { Verkenner } from "@/components/cohesie/Verkenner";
@@ -81,7 +81,8 @@ export default async function VerkennerPagina({ searchParams }: Props) {
           </Tekst>
         </Inklapbaar>
       <div id="zaal" className={s.indeling} style={{ scrollMarginTop: 80 }}>
-        <div style={{ minWidth: 0 }}>
+        <GrafiekKader grafiek="verkenner" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
+          {periode && fracties?.length && kaart && <GrafiekKop />}
           {!lijst.length ? (
             <LegeStaat label="Niet bereikbaar" titel="De cijfers konden niet worden geladen"
               uitleg="De gegevens zijn nu waarschijnlijk niet bereikbaar. Probeer het over een paar minuten opnieuw." />
@@ -95,17 +96,17 @@ export default async function VerkennerPagina({ searchParams }: Props) {
             </Suspense>
           )}
           {periode && fracties?.length && kaart && (
-            <>
-              <Bronregel toelichting={`${periode.naam} · ${variant === "alle" ? "alle stemmingen" : "alleen verdeelde stemmingen"}`} />
-              <DeelKnop grafiek="verkenner" />
-            </>
+            <Bronregel toelichting={`${periode.naam} · ${variant === "alle" ? "alle stemmingen" : "alleen verdeelde stemmingen"}`} />
           )}
-        </div>
+        </GrafiekKader>
       </div>
       {trend && (
-        <section id="door-de-jaren" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
-          <Label>Door de jaren</Label>
-          <SectieKop>Hoe vaak stemden {trend.a.naam} en {trend.b.naam} hetzelfde, sinds 2010?</SectieKop>
+        <GrafiekKader grafiek="trend" id="door-de-jaren" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
+          <GrafiekKop>
+            <Label>Door de jaren</Label>
+            {/* Zonder "sinds 2010": de periode kies je zelf met de schuif (Niels, 29 oktober 2026) */}
+            <SectieKop>Hoe vaak stemden {trend.a.naam} en {trend.b.naam} hetzelfde?</SectieKop>
+          </GrafiekKop>
           <Suspense>
             <Trend a={trend.a.naam} b={trend.b.naam} keuzes={trend.keuzes} punten={punten(trend.hoofd, jaren)}
               extra={trend.extra.map((e) => ({ naam: e.naam, punten: punten(e.rijen, jaren) }))}
@@ -113,8 +114,7 @@ export default async function VerkennerPagina({ searchParams }: Props) {
               kabinetten={lijst.filter((p) => p.soort === "kabinet").sort((x, y) => x.begin.localeCompare(y.begin))} />
           </Suspense>
           <Bronregel toelichting={`Per half jaar · ${variant === "alle" ? "alle stemmingen" : "alleen verdeelde stemmingen"}`} />
-          <DeelKnop grafiek="trend" />
-        </section>
+        </GrafiekKader>
       )}
       {/* Lezing 3 (B4): bij een fractie die in het kabinet zit, de lijn met elke kabinetspartner door de kabinetten */}
       {soort === "kabinet" && periode && fractieKeuze && (
