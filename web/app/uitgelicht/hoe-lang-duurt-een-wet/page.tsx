@@ -76,7 +76,7 @@ export default function HoeLang() {
           de Eerste Kamer komt daarna en telt hier niet mee. Alleen wetsvoorstellen tot en met 2022: latere hebben nog niet de tijd
           gehad. Geen besluit: nog in behandeling, ingetrokken of vervallen.
         </Data>
-        <Data><Link href="/methodiek">Hoe we tellen</Link></Data>
+        <Data><Link href="/methodiek">Hoe Zetelen telt</Link></Data>
       </GrafiekKader>
     </Inhoud>
   );

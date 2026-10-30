@@ -159,7 +159,7 @@ export default async function Onderwerpen({ searchParams }: Props) {
             titel (asiel, wonen, digitaal), en anders via de vaste commissie die het dossier het vaakst behandelt. Hoort een
             stemming bij meer dossiers, dan telt ze bij elk terrein mee. Lichter betekent vaker hetzelfde gestemd. Gestreept:
             minder dan 25 stemmingen samen, dus geen oordeel. Een kabinet loopt tot het volgende is beëdigd; de demissionaire tijd
-            telt dus mee. <Link href="/methodiek#onderwerpen">Benieuwd hoe we indelen?</Link>
+            telt dus mee. <Link href="/methodiek#onderwerpen">Hoe Zetelen indeelt</Link>
           </Tekst>
         </Inklapbaar>
       </section>

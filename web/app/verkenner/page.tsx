@@ -77,7 +77,7 @@ export default async function VerkennerPagina({ searchParams }: Props) {
           </Tekst>
           <Tekst>
             Zaal, boog of tabel: dezelfde cijfers, drie manieren van kijken. De tabel is het preciest.{" "}
-            <Link href="/methodiek#cohesie">Benieuwd hoe we tellen?</Link>
+            <Link href="/methodiek#cohesie">Hoe Zetelen telt</Link>
           </Tekst>
         </Inklapbaar>
       <div id="zaal" className={s.indeling} style={{ scrollMarginTop: 80 }}>

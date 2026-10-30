@@ -83,7 +83,7 @@ export default async function Kamerleden({ searchParams }: Props) {
             Ingediend: het Kamerlid of de fractie staat als indiener op het stuk. Mede ingediend: als medeindiener. Aangenomen: de
             uitslag die de Kamer vaststelde. Brede steun: aangenomen met stemmen van een kabinets- én een
             oppositiefractie die zelf niet indienden. Onder de 10 stukken geen percentage. Een aangenomen motie is een verzoek aan
-            het kabinet: of het ook gebeurt, staat niet in de data. <Link href="/methodiek#zetelwerk">Benieuwd hoe we tellen?</Link>
+            het kabinet: of het ook gebeurt, staat niet in de data. <Link href="/methodiek#zetelwerk">Hoe Zetelen telt</Link>
           </Tekst>
         </Inklapbaar>
         <div className={o.alleenBreed}>

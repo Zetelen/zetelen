@@ -39,7 +39,7 @@ export const CASUSSEN: Casus[] = [
   {
     slug: "studievoorschot", titel: "Stoppen met het woord studievoorschot", vraag: "Wat gebeurt er als de stemmen staken?", data: studievoorschot as unknown as CasusData,
     // Uit de tekst van de motie (Kamerstuk 35 000 VIII, nr. 56), nagelezen op 26 oktober 2026
-    omschrijving: "Een motie bij de begroting van Onderwijs vraagt de regering het woord studievoorschot niet meer te gebruiken: volgens de indieners is voor studenten niet duidelijk dat het om een lening gaat. Ook vraagt ze om op de site van DUO te melden: geld lenen kost geld.",
+    omschrijving: "Een motie bij de begroting van Onderwijs vraagt de regering het woord studievoorschot niet meer te gebruiken. Volgens de indieners zien studenten niet dat het om een lening gaat. Ook vraagt de motie om op de site van DUO te melden: geld lenen kost geld.",
   },
   {
     slug: "behandelvoorbehoud-defensie", titel: "Behandelvoorbehoud bij een Europees defensievoorstel", vraag: "Wil de Kamer meekijken in Brussel?", data: defensie as unknown as CasusData,

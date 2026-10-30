@@ -93,7 +93,7 @@ export function hoofdstukJaren(rijen: JaarWerk[], ditJaar: number): Stap[] {
     },
     {
       datum: "wie dient in?",
-      tekst: `Het overgrote deel komt van de oppositie: in ${laatsteVol} ${pct(opp(laatsteVol).ingediend, totaal(laatsteVol))}% van alle moties. Kabinetspartijen hebben hun wensen al in het regeerakkoord staan.`,
+      tekst: `Het overgrote deel komt van de oppositie: in ${laatsteVol} ${pct(opp(laatsteVol).ingediend, totaal(laatsteVol))}% van alle moties. Kabinetspartijen hebben hun wensen vaak al in het regeerakkoord staan.`,
       stippen: bouw("rol"), labels: [...labels, ...legenda()],
       balken: [
         { label: "oppositie", waarde: pct(opp(laatsteVol).ingediend, totaal(laatsteVol)), max: 100, tekst: `${pct(opp(laatsteVol).ingediend, totaal(laatsteVol))}%`, tint: ROL_TINT.oppositie },
@@ -182,7 +182,7 @@ export function hoofdstukKabinetten(rijen: PeriodeWerk[], kabinetten: string[], 
             tekst: `Onder ${minderheid.map((k) => `kabinet-${k}`).join(" en ")}, zonder eigen meerderheid of met gedoogsteun, haalde gemiddeld ${gem(minderheid)}% van de oppositiemoties het, onder de meerderheidskabinetten ${gem(meerderheid)}%.` },
           ...interpretaties({ stippen: bouw("aangenomen"), labels: [...labels, ...legenda()] },
             "Meer invloed. De oppositie krijgt meer binnen als het kabinet haar steun nodig heeft.",
-            "Moties die het kabinet toch al wilde. Een kabinet zonder meerderheid laat zich graag steunen op punten waar het het al mee eens was."),
+            "Moties die het kabinet toch al wilde. Een kabinet zonder meerderheid kan steun zoeken op punten waar het het al mee eens was. Welke moties dat zijn, staat niet in de data."),
         ]),
   ];
 }
@@ -314,7 +314,7 @@ export function hoofdstukSpreiding(rijen: Array<FractieWerk & { periode: string 
   });
   const laatste = stappen[stappen.length - 1];
   stappen.push(...interpretaties(laatste,
-    "Dwarsliggen. Wie vaak tegen stemt en zelf weinig binnenhaalt, ligt dwars.",
+    "Buiten de meerderheid. Wie vaak tegen stemt en zelf weinig binnenhaalt, heeft weinig invloed.",
     "Rol, geen houding. Tegenstemmen is wat een meerderheid doet met moties die ze niet wil. Kijk naar de lijnen: fracties verschuiven zodra ze gaan regeren, of ermee ophouden."));
   return stappen;
 }

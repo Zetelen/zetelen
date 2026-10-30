@@ -27,9 +27,9 @@ export default function Methodiek() {
       }} />
       <section style={sectie}>
         <Label>Methodiek</Label>
-        <HeroKop>Hoe tellen we?</HeroKop>
+        <HeroKop>Hoe telt Zetelen?</HeroKop>
         <Tekst>
-          Hieronder staat elke maat van de site: wat hij meet, de formule in woorden, de keuzes die we maakten en wat hij
+          Hieronder staat elke maat van de site: wat hij meet, de formule in woorden, welke keuzes erin zitten en wat hij
           niet zegt. Wil je zelf narekenen? De code en de SQL staan op <a href={SITE.broncode}>GitHub</a>.
         </Tekst>
       </section>
@@ -60,7 +60,7 @@ export default function Methodiek() {
           goedgekeurd. Ze garandeert ook niet dat de brondata foutloos is.
         </Tekst>
         <Tekst>
-          Elke nacht haalt een script de wijzigingen op en rekent alles opnieuw uit. We tellen de stemmingen vanaf 2010.
+          Elke nacht haalt een script de wijzigingen op en rekent alles opnieuw uit. De telling begint in 2010.
           Verwijderde records en stemmingen zonder vergaderdatum tellen niet mee.
         </Tekst>
       </section>

@@ -59,7 +59,7 @@ export default async function Fracties({ searchParams }: Props) {
         {metRollen && (
           <Data>
             Kabinet-{periode.naam} begon met {kabinetZetels} van de 150 zetels{kabinetZetels < 76 ? ", als minderheidskabinet" : ""}.
-            Deze samenstelling kijken we nog na.
+            Deze samenstelling wordt nog nagekeken.
           </Data>
         )}
       </section>

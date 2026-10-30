@@ -18,7 +18,7 @@ export default function Wijzigingen() {
         </Tekst>
       </section>
       {WIJZIGINGEN.length === 0 ? (
-        <Tekst>Er zijn nog geen correcties. We blijven natellen.</Tekst>
+        <Tekst>Er zijn nog geen correcties. Het natellen gaat door.</Tekst>
       ) : (
         <ol style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
           {WIJZIGINGEN.map((w) => (

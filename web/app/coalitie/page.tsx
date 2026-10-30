@@ -75,7 +75,7 @@ export default async function Coalitie({ searchParams }: Props) {
           Eensgezind: alle fracties in je groep stemden hetzelfde, allemaal voor of allemaal tegen. Meegestemd: een andere fractie
           koos dezelfde kant. Beslissend: de groep had een meerderheid, en zonder die fractie niet meer. De zetels tellen zoals ze
           waren op het moment van de stemming. Standaard tellen alleen verdeelde stemmingen mee: er stemden fracties voor en tegen.{" "}
-          <a href="/methodiek#coalitie">Benieuwd hoe we tellen?</a>
+          <a href="/methodiek#coalitie">Hoe Zetelen telt</a>
         </Tekst>
       </Inklapbaar>
       <Kaart>

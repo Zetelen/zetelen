@@ -12,7 +12,7 @@ export const MATEN: Maat[] = [
     formule:
       "het aantal gezamenlijke stemmingen met dezelfde stem, gedeeld door het aantal gezamenlijke stemmingen, maal 100. Bij minder dan 25 gezamenlijke stemmingen geen percentage, maar \"te weinig stemmingen\".",
     keuzes: [
-      "We tellen per kabinet en per Kamerperiode. Een kabinet loopt tot het volgende is beëdigd: de demissionaire tijd telt mee bij het kabinet waar die uit voortkomt.",
+      "De telling loopt per kabinet en per Kamerperiode. Een kabinet loopt tot het volgende is beëdigd: de demissionaire tijd telt mee bij het kabinet waar die uit voortkomt.",
       "Er zijn twee varianten: alle stemmingen, en alleen de stemmingen waarover de Kamer verdeeld was (minstens één fractie voor en één tegen). Per kabinet is 7 tot 17 procent van de stemmingen unaniem. De tweede variant laat die weg.",
       "Meldt een fractie zelf dat een stem een vergissing was, dan telt die stem niet mee. De bron zegt namelijk niet wat de fractie wel bedoelde.",
       "Is het bij een hoofdelijke stemming binnen de fractie gelijk op, dan is er geen fractiestem.",
@@ -65,7 +65,7 @@ export const MATEN: Maat[] = [
     id: "zetelwerk",
     naam: "Zetelwerk: ingediend, aangenomen en brede steun",
     definitie:
-      "Zetelwerk is wat Kamerleden en fracties zelf op tafel leggen: moties (een verzoek aan het kabinet), amendementen (een wijziging van een wet) en initiatiefwetten (een wetsvoorstel dat Kamerleden zelf schrijven). We tellen wie een stuk indiende, of het werd aangenomen, en met wiens steun. De drie soorten tellen we altijd apart.",
+      "Zetelwerk is wat Kamerleden en fracties zelf op tafel leggen: moties (een verzoek aan het kabinet), amendementen (een wijziging van een wet) en initiatiefwetten (een wetsvoorstel dat Kamerleden zelf schrijven). Zetelen telt wie een stuk indiende, of het werd aangenomen en met wiens steun. De drie soorten tellen altijd apart.",
     formule:
       "ingediend: het aantal stukken met het Kamerlid of de fractie als indiener. Aangenomen: de uitslag die de Kamer vaststelde; noemt de bron geen uitslag, dan meer zetels voor dan tegen. Brede steun: aangenomen met stemmen voor van minstens een kabinets- en een oppositiefractie die zelf geen indiener of medeindiener was. Onder 10 ingediende stukken geen percentage.",
     keuzes: [

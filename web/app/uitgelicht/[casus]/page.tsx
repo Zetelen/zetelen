@@ -52,7 +52,7 @@ export default async function CasusPagina({ params }: Props) {
         <Inklapbaar titel="Waarom deze stemmingen?" dicht>
           <Tekst>
             Het zijn allemaal hoofdelijke stemmingen: elk Kamerlid stemt apart, en de bron legt elke stem vast. Bij gewoon
-            handopsteken telt de fractie als één stem. We kozen ze met de hand, op spreiding: over de jaren en kabinetten,
+            handopsteken telt de fractie als één stem. Ze zijn met de hand gekozen, op spreiding: over de jaren en kabinetten,
             ingediend door fracties van links, midden en rechts, uit kabinet en oppositie. Een andere keuze had net zo goed gekund.
           </Tekst>
           <Lezingen

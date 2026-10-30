@@ -113,7 +113,7 @@ export default async function Voorpagina() {
         )}
         {/* De twee lezingen direct bij de cijfers, naast elkaar (tekst akkoord Niels, 26 oktober 2026) */}
         <Lezingen
-          links={{ titel: "Er wordt meer samengewerkt dan het lijkt", tekst: "Achter de ruzie in het debat stemmen kabinet en oppositie vaak samen, en dat is sinds 2010 flink toegenomen." }}
+          links={{ titel: "Er wordt meer samengewerkt dan het lijkt", tekst: "In het debat staan ze tegenover elkaar, bij de stemming vaak niet. En dat samen stemmen is sinds 2010 flink toegenomen." }}
           rechts={{ titel: "Of: eens zijn over een motie zegt weinig", tekst: "Over een verzoek om een onderzoek of een brief is de Kamer het snel eens. Waar het om geld en koers gaat, bij de begroting en de grote wetten, staan kabinet en oppositie nog steeds vaak tegenover elkaar." }}
         />
         {perPeriode && perPeriode.length > 0 && (
@@ -121,8 +121,8 @@ export default async function Voorpagina() {
             <Label>Aangenomen met stemmen van kabinet én oppositie, per kabinet</Label>
             <GrafiekVlak><BredeSteun rijen={bredeSteunPerKabinet(perPeriode)} /></GrafiekVlak>
             <Data>
-              Deel van alle ingediende moties en amendementen per kabinet dat werd aangenomen met stemmen voor van ten minste één
-              fractie uit het kabinet en één uit de oppositie, naast de indieners. Gedoogsteun telt als kabinet.
+              Deel van alle ingediende moties en amendementen per kabinet dat werd aangenomen met stemmen van kabinet én oppositie.
+              Naast de indieners stemde minstens één fractie uit elk kamp voor. Gedoogsteun telt als kabinet.
             </Data>
           </GrafiekKader>
         )}

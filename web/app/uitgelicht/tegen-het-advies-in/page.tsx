@@ -87,7 +87,7 @@ export default function TegenHetAdviesIn() {
           verzocht aan te houden, of geen oordeel. Uitslag: de laatste stemming over de motie. Kabinet en oppositie: de fractie van de
           indiener op de dag van indiening; gedoogsteun telt als kabinet. Moties zonder stemming (aangehouden of ingetrokken) tellen niet mee.
         </Data>
-        <Data><Link href="/methodiek">Hoe we tellen</Link></Data>
+        <Data><Link href="/methodiek">Hoe Zetelen telt</Link></Data>
       </GrafiekKader>
     </Inhoud>
   );

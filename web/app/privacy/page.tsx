@@ -15,7 +15,7 @@ export default function Privacy() {
         <Label>Privacy</Label>
         <HeroKop>Welke gegevens verwerkt Zetelen?</HeroKop>
         <Tekst>
-          Zetelen heeft geen accounts en plaatst geen cookies. Opvattingen van bezoekers bewaren we niet, behalve wat je
+          Zetelen heeft geen accounts en plaatst geen cookies. Zetelen bewaart geen opvattingen van bezoekers, behalve wat je
           zelf invult in de vragenlijst of bij de snelle vraag onderaan een pagina. Wat je kiest in de
           verkenner of de coalitiebouwer, staat alleen in de link in je browser.
         </Tekst>
@@ -39,7 +39,7 @@ export default function Privacy() {
         <SectieKop>Feedback</SectieKop>
         <Tekst>
           In de testperiode staat er een eigen vragenlijst op de site. Je antwoorden gaan naar de database van Zetelen, niet
-          naar een andere dienst. We slaan alleen je antwoorden en het tijdstip op: geen naam, geen IP-adres, geen
+          naar een andere dienst. Zetelen slaat alleen je antwoorden en het tijdstip op: geen naam, geen IP-adres, geen
           browsergegevens. Een e-mailadres alleen als je dat zelf invult, en dan alleen om je te kunnen antwoorden. Alleen
           de maker kan de antwoorden lezen. Na 12 maanden worden ze automatisch verwijderd. Invullen is vrijwillig.
         </Tekst>
@@ -66,8 +66,8 @@ export default function Privacy() {
         <Tekst>
           Van Kamerleden gebruikt Zetelen alleen naam, fractie en stemgedrag uit de open data van de Tweede Kamer. Geen
           geboortedatum, woonplaats of andere persoonsgegevens. Het gaat om openbare stemmingen en stukken uit een openbare bron.
-          Daarom blijven ze staan, ook als een Kamerlid vraagt ze weg te halen. Klopt er iets niet, dan herstellen we het
-          binnen 5 werkdagen en melden we het in het wijzigingslog. Vragen of een verzoek? Mail{" "}
+          Daarom blijven ze staan, ook als een Kamerlid vraagt ze weg te halen. Klopt er iets niet, dan herstel ik het
+          binnen 5 werkdagen en meld ik het in het wijzigingslog. Vragen of een verzoek? Mail{" "}
           <a href={`mailto:${SITE.contact}`}>{SITE.contact}</a>.
         </Tekst>
       </section>

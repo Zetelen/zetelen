@@ -19,7 +19,7 @@ export default function Feedback() {
         <HeroKop>Wat vind je ervan?</HeroKop>
         <Tekst>
           Zetelen is net online. Elf korte vragen, alles is vrijwillig: sla over wat je niet wilt beantwoorden.
-          Je naam is niet nodig. Hoe we met je antwoorden omgaan, staat bij <Link href="/privacy">privacy</Link>.
+          Je naam is niet nodig. Wat er met je antwoorden gebeurt, staat bij <Link href="/privacy">privacy</Link>.
         </Tekst>
       </section>
       <FeedbackFormulier />
