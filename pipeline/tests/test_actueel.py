@@ -95,3 +95,14 @@ def test_zetelsom_vindt_kleinste_aanvulling_tot_meerderheid():
     assert z["meerderheid"] == 76 and z["ref"] == 66 and z["samen"] == 81
     # Kabinet + JA21 is 75: JA21 is nodig plus een van de twee kleine fracties, welke maakt niet uit
     assert z["kleinsteMeerderheid"] == [["JA21", "BBB"], ["JA21", "SGP"]]
+
+
+def test_alle_vraagt_een_vaste_volgorde_en_leest_door_tot_de_laatste_pagina():
+    gevraagd = []
+
+    def lezer(pad):
+        gevraagd.append(pad)
+        return [{}] * (1000 if len(gevraagd) < 3 else 5)
+    assert len(ac.alle("stemming_dossier?kabinet=eq.Jetten", "besluit,dossier", lezer)) == 2005
+    assert all("&order=besluit,dossier&" in p for p in gevraagd)
+    assert [p.split("offset=")[1] for p in gevraagd] == ["0", "1000", "2000"]

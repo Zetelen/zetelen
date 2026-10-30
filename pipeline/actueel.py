@@ -65,10 +65,13 @@ def api(pad: str) -> list:
     return json.loads(uit.stdout)
 
 
-def alle(pad: str, lezer=api) -> list:
+def alle(pad: str, volgorde: str, lezer=api) -> list:
+    """Alle rijen, per 1000. Zonder vaste volgorde levert de database elke pagina in een andere volgorde, en vallen er
+    rijen weg of komen ze dubbel (de eerste versie van de blok-analyse miste zo 732 van de 4.138 besluiten); volgorde is
+    daarom verplicht en moet de rij eenduidig vastleggen."""
     rijen, vanaf = [], 0
     while True:
-        deel = lezer(f"{pad}&limit=1000&offset={vanaf}")
+        deel = lezer(f"{pad}&order={volgorde}&limit=1000&offset={vanaf}")
         rijen.extend(deel)
         if len(deel) < 1000:
             return rijen
@@ -211,7 +214,7 @@ def main(argv=None):
     groep, ref = a.groep.split(","), a.tegen.split(",")
     vergelijk = [x for x in a.vergelijk.split(",") if x]
 
-    fr = alle(f"fractie_periode?periodesoort=eq.kabinet&periode=eq.{a.kabinet}&select=fractie,afkorting,zetels,in_zaal")
+    fr = alle(f"fractie_periode?periodesoort=eq.kabinet&periode=eq.{a.kabinet}&select=fractie,afkorting,zetels,in_zaal", "fractie")
     zaal = {r["afkorting"]: r for r in fr if r["in_zaal"]}
     ontbreekt = [x for x in groep + ref + vergelijk if x not in zaal]
     if ontbreekt:
@@ -221,8 +224,9 @@ def main(argv=None):
     zetels = {x: zaal[x]["zetels"] for x in zaal}
 
     coh = alle(f"cohesie?periodesoort=eq.kabinet&periode=eq.{a.kabinet}&variant=eq.verdeeld"
-               "&select=fractie_afkorting,andere_fractie_afkorting,gezamenlijk,cohesie")
-    rijen = alle(f"stemming_dossier?kabinet=eq.{a.kabinet}&select=besluit,datum,zaak_nummer,zaak_soort,onderwerp,uitslag,verdeeld,stemmen")
+               "&select=fractie_afkorting,andere_fractie_afkorting,gezamenlijk,cohesie", "fractie,andere_fractie")
+    rijen = alle(f"stemming_dossier?kabinet=eq.{a.kabinet}&select=besluit,datum,zaak_nummer,zaak_soort,onderwerp,uitslag,verdeeld,stemmen",
+                 "besluit,dossier")
     besluiten = list({r["besluit"]: r for r in rijen}.values())  # een besluit staat er per dossier
     G, R = [ids[x] for x in groep], [ids[x] for x in ref]
 

@@ -13,8 +13,8 @@
  ],
  "stand": "2026-10-27",
  "gemaakt": "2026-10-30",
- "besluiten": 3406,
- "verdeeld": 3182,
+ "besluiten": 4138,
+ "verdeeld": 3820,
  "hechtheid": {
   "paren": [
    {
@@ -126,81 +126,81 @@
   "parenTotaal": 91
  },
  "meegaan": {
-  "basis": 2616,
+  "basis": 3188,
   "fracties": [
    {
     "afkorting": "JA21",
-    "gestemd": 2611,
-    "mee": 1727,
-    "pct": 66.1
+    "gestemd": 3182,
+    "mee": 2145,
+    "pct": 67.4
    },
    {
     "afkorting": "BBB",
-    "gestemd": 2607,
-    "mee": 1579,
-    "pct": 60.6
+    "gestemd": 3178,
+    "mee": 1915,
+    "pct": 60.3
    },
    {
     "afkorting": "SGP",
-    "gestemd": 2613,
-    "mee": 1938,
-    "pct": 74.2
+    "gestemd": 3185,
+    "mee": 2342,
+    "pct": 73.5
    },
    {
     "afkorting": "PRO",
-    "gestemd": 2614,
-    "mee": 1837,
-    "pct": 70.3
+    "gestemd": 3186,
+    "mee": 2157,
+    "pct": 67.7
    },
    {
     "afkorting": "PVV",
-    "gestemd": 2614,
-    "mee": 1154,
-    "pct": 44.1
+    "gestemd": 3184,
+    "mee": 1399,
+    "pct": 43.9
    }
   ],
   "groep": {
-   "eensgezind": 1625,
-   "mee": 1225,
-   "pct": 75.4
+   "eensgezind": 1942,
+   "mee": 1479,
+   "pct": 76.2
   }
  },
  "samen": [
   {
    "naam": "tegen+groep",
-   "gestemd": 3146,
-   "samen": 1225,
-   "pct": 38.9
+   "gestemd": 3781,
+   "samen": 1479,
+   "pct": 39.1
   },
   {
    "naam": "tegen+JA21",
-   "gestemd": 3163,
-   "samen": 1727,
-   "pct": 54.6
+   "gestemd": 3799,
+   "samen": 2145,
+   "pct": 56.5
   },
   {
    "naam": "tegen+BBB",
-   "gestemd": 3158,
-   "samen": 1579,
-   "pct": 50.0
+   "gestemd": 3794,
+   "samen": 1915,
+   "pct": 50.5
   },
   {
    "naam": "tegen+SGP",
-   "gestemd": 3161,
-   "samen": 1938,
-   "pct": 61.3
+   "gestemd": 3798,
+   "samen": 2342,
+   "pct": 61.7
   },
   {
    "naam": "tegen+PRO",
-   "gestemd": 3165,
-   "samen": 1837,
-   "pct": 58.0
+   "gestemd": 3802,
+   "samen": 2157,
+   "pct": 56.7
   },
   {
    "naam": "tegen+PVV",
-   "gestemd": 3166,
-   "samen": 1154,
-   "pct": 36.4
+   "gestemd": 3801,
+   "samen": 1399,
+   "pct": 36.8
   }
  ],
  "botspunten": {
@@ -208,9 +208,9 @@
    {
     "thema": "Stikstof",
     "patroon": "stikstof|kritische depositie|natura 2000|rekenkundige ondergrens|aerius|kdw",
-    "verdeeld": 38,
-    "beide": 28,
-    "tegenover": 25,
+    "verdeeld": 39,
+    "beide": 29,
+    "tegenover": 26,
     "stemmingen": [
      {
       "besluit": "ede63630-ace9-41f9-9e99-61f2d0704321",
@@ -376,6 +376,17 @@
       "groep": null,
       "ref": null,
       "stand": "verdeeld"
+     },
+     {
+      "besluit": "65358d7a-b8c3-4ef6-80d1-92e671a48d0c",
+      "datum": "2026-06-02",
+      "zaakNummer": "2026Z11305",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Wiersma over juridische belemmeringen wegnemen en werkbare regels creëren voor projecten in en nabij Natura 2000-gebieden ",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
      },
      {
       "besluit": "e6189873-af81-42fd-b5f2-f90092fab191",
@@ -787,10 +798,43 @@
    {
     "thema": "Abortus, embryo, draagmoeder",
     "patroon": "abortus|draagmoeder|zwangerschapsafbreking|embryo",
-    "verdeeld": 9,
+    "verdeeld": 12,
     "beide": 3,
     "tegenover": 3,
     "stemmingen": [
+     {
+      "besluit": "0002070a-63dc-4e8e-a8c0-e81eacad230a",
+      "datum": "2026-06-02",
+      "zaakNummer": "2026Z10184",
+      "soort": "Amendement",
+      "onderwerp": "Gewijzigd amendement van het lid Claassen ter vervanging van nr. 17 over modelembryo's onderbrengen onder de Wlz met behoud van kernverboden",
+      "uitslag": "Verworpen.",
+      "groep": null,
+      "ref": "Tegen",
+      "stand": "verdeeld"
+     },
+     {
+      "besluit": "8da3cb4b-a267-496a-a815-0269bd896dfc",
+      "datum": "2026-06-02",
+      "zaakNummer": "2026Z08881",
+      "soort": "Amendement",
+      "onderwerp": "Gewijzigd amendement van de leden Diederik van Dijk en Bikker ter vervanging van nr. 10 over een verbod op het gebruiken van bij zwangerschapsafbreking verkregen materiaal",
+      "uitslag": "Verworpen. (48-95)",
+      "groep": null,
+      "ref": "Tegen",
+      "stand": "verdeeld"
+     },
+     {
+      "besluit": "99306983-cd0d-4e47-83e6-99699d4cf2be",
+      "datum": "2026-06-02",
+      "zaakNummer": "2025Z00250",
+      "soort": "Wetgeving",
+      "onderwerp": "Wijziging van de Embryowet naar aanleiding van de derde wetsevaluatie",
+      "uitslag": "Aangenomen. (95-48)",
+      "groep": null,
+      "ref": "Voor",
+      "stand": "verdeeld"
+     },
      {
       "besluit": "d86f4cb2-1ff8-4cd3-9df8-39edf0b88177",
       "datum": "2026-06-02",
@@ -894,9 +938,9 @@
    }
   ],
   "alles": {
-   "beide": 1625,
-   "tegenover": 400,
-   "pct": 24.6
+   "beide": 1942,
+   "tegenover": 463,
+   "pct": 23.8
   }
  },
  "zetelsom": {
