@@ -63,7 +63,7 @@ Verwacht: het core-model met stemmingen op fractieniveau.
 - De verversing bouwt na `core` ook `analyses` opnieuw op
 - `db/controles/steekproef_cohesie.sql`: query voor de handmatige nacontrole
 
-Interface naar `cohesie-pagina`: `api.cohesie` met `periodesoort`, `periode`, `variant` (`alle`, `verdeeld`), `fractie`, `fractie_afkorting`, `andere_fractie`, `andere_fractie_afkorting`, `gezamenlijk`, `gelijk`, `cohesie` (leeg bij te weinig data) en `te_weinig_data`. Let op: de Data API geeft standaard maximaal 1.000 rijen per verzoek; de site moet dus per periode en variant opvragen.
+Interface naar `cohesie-pagina`: `api.fractie_periode` (per periode en fractie: zetels, stemmingen, eerste en laatste stemming, in_zaal; toegevoegd 24 oktober 2026 door `cohesie-pagina`, migratie 009) en `api.cohesie` met `periodesoort`, `periode`, `variant` (`alle`, `verdeeld`), `fractie`, `fractie_afkorting`, `andere_fractie`, `andere_fractie_afkorting`, `gezamenlijk`, `gelijk`, `cohesie` (leeg bij te weinig data) en `te_weinig_data`. Let op: de Data API geeft standaard maximaal 1.000 rijen per verzoek; de site moet dus per periode en variant opvragen.
 
 ## Getest (24 oktober 2026)
 

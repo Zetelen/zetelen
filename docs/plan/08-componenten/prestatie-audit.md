@@ -1,6 +1,6 @@
 # Component: prestatie-audit
 
-Status: niet gestart (22 oktober 2026)
+Status: tweede meting gedaan (26 oktober 2026): prestaties 90 tot 91 op Oppositiewerk, Kamerleden en de voorpagina; toegankelijkheid 96 opgelost (contrast van de gedimde tekstkaarten). Opnieuw meten voor de livegang
 Eerst lezen: `_conventies.md`, `_overzicht.md`
 
 ## Doel
@@ -37,6 +37,21 @@ Verwacht: een volledig werkende R1-site.
 
 - De drempel van 90 is een voorstel van Claude, niet door Niels besloten
 - Controleer ook de matrix-tabelweergave voor schermlezers
+
+## Eerste meting (24 oktober 2026)
+
+Lighthouse 12 op https://zetelen.vercel.app (prestatie / toegankelijkheid / best practices / SEO):
+
+| Pagina | Mobiel | Desktop |
+|---|---|---|
+| Voorpagina | 90 / 100 / 100 / 63 | 100 / 100 / 100 / 63 |
+| Verkenner, zaal | 91 / 100 / 100 / 63 | 100 / 100 / 100 / 63 |
+| Verkenner, tabel | 92 / 100 / 100 / 63 | 100 / 100 / 100 / 63 |
+
+- SEO 63 komt alleen door "niet indexeren" (`LIVE = false`); bij de livegang opnieuw meten
+- Zwakste punt mobiel: grootste zichtbare element na 3,6 seconden op de voorpagina (de kop in Newsreader)
+- Toetsenbord: in de verkenner bereikt Tab eerst "naar de inhoud", dan de periodekeuze, varianten, weergaven en de fracties; Enter kiest een fractie, zet die in de URL en meldt de keuze aan schermlezers. Focusrand koper, 2 px
+- Niet gedaan: een test met een echte schermlezer
 
 ## Schatting
 

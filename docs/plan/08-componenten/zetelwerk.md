@@ -109,6 +109,8 @@ Grove schatting: 12 tot 20 uur werk aan mijn kant. Voor Niels: het nakijken van 
 
 ## Vragen aan Niels
 
+Beantwoord op 25 oktober 2026: akkoord met alle vier voorstellen.
+
 1. Akkoord met de definities 1 tot en met 8? Vooral: gedoogsteun telt als kabinet (4), en de laatste stemming over een zaak telt (3).
 2. Telt een motie met meerdere indieners voor elk van hen volledig (voorstel), of naar rato?
 3. De periode-eenheid op de oppositiepagina: per kabinet (voorstel, past bij de rest van de site) of per jaar?
