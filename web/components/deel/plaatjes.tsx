@@ -17,7 +17,8 @@ export const KLEUR = { achter: "#070B18", vlak: "#0B1226", tekst: "#E8ECF5", zac
 export const rond = (c: number | null) => (c == null ? "" : `${Math.round(c)}%`);
 
 // Vaste opbouw: kop, titel, regel eronder, de grafiek, en onderaan de bron met de stand van de data
-export function Kader({ kop, titel, regel, stand, children }: { kop: string; titel: string; regel: string; stand: Date | null; children: ReactNode }) {
+// stand: het moment van de laatste verversing; een momentopname (Actueel) geeft de dag zelf als tekst
+export function Kader({ kop, titel, regel, stand, children }: { kop: string; titel: string; regel: string; stand: Date | string | null; children: ReactNode }) {
   return (
     <div style={{ width: "100%", height: "100%", background: KLEUR.achter, color: KLEUR.tekst, display: "flex", flexDirection: "column", padding: "52px 64px", gap: 14 }}>
       <div style={{ display: "flex", fontSize: 22, letterSpacing: 6, color: KLEUR.koper }}>{`ZETELEN · ${kop.toUpperCase()}`}</div>
@@ -25,7 +26,7 @@ export function Kader({ kop, titel, regel, stand, children }: { kop: string; tit
       <div style={{ display: "flex", fontSize: 24, color: KLEUR.zacht }}>{regel}</div>
       <div style={{ display: "flex", flex: 1, minHeight: 0, marginTop: 10, overflow: "hidden" }}>{children}</div>
       <div style={{ display: "flex", fontSize: 20, color: KLEUR.zacht }}>
-        {`${BRON}, op basis van open data van de Tweede Kamer · stand ${stand ? datumTekst(stand) : "onbekend"}`}
+        {`${BRON}, op basis van open data van de Tweede Kamer · stand ${typeof stand === "string" ? stand : stand ? datumTekst(stand) : "onbekend"}`}
       </div>
     </div>
   );

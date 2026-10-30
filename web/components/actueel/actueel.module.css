@@ -1,0 +1,253 @@
+/* Actueel: vier vaste grafieken (components/actueel/Blokken.tsx) */
+.blokken {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-7);
+  max-width: 860px;
+}
+.blok {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-4);
+  padding-top: var(--r-5);
+  border-top: 1px solid var(--lijn);
+}
+.vraag {
+  font-family: var(--mono);
+  font-size: var(--tekst-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--koper);
+  margin: 0;
+}
+.blokKop {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(26px, 3vw, 36px);
+  line-height: 1.12;
+  margin: 0;
+}
+.slot {
+  font-family: var(--serif);
+  font-size: clamp(24px, 2.6vw, 32px);
+  line-height: 1.2;
+  max-width: 860px;
+  margin: 0;
+}
+
+/* Blok 1: matrix */
+.schuif {
+  overflow-x: auto;
+}
+.matrix {
+  border-collapse: separate;
+  border-spacing: 4px;
+}
+.matrix th {
+  font-family: var(--mono);
+  font-size: var(--tekst-data);
+  font-weight: 400;
+  color: var(--tekst-zacht);
+  padding: 0 6px;
+  text-align: left;
+}
+.matrix thead th {
+  text-align: center;
+}
+@media (max-width: 560px) {
+  .matrix {
+    border-spacing: 2px;
+  }
+  .matrix td > span {
+    min-width: 46px;
+    min-height: 36px;
+  }
+}
+
+/* Blok 2: stippen */
+.stippen {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-2);
+}
+.stippen li {
+  display: grid;
+  grid-template-columns: 56px 1fr 48px;
+  align-items: center;
+  gap: var(--r-3);
+}
+.naam {
+  font-family: var(--mono);
+  font-size: var(--tekst-data);
+  color: var(--tekst-zacht);
+}
+.inGroep .naam,
+.inGroep .getal {
+  color: var(--koper);
+}
+.as {
+  position: relative;
+  height: 20px;
+  border-bottom: 1px solid var(--lijn);
+}
+.streep {
+  position: absolute;
+  top: 4px;
+  bottom: 0;
+  border-left: 1px solid var(--lijn);
+}
+.stip {
+  position: absolute;
+  top: 3px;
+  width: 14px;
+  height: 14px;
+  margin-left: -7px;
+  border-radius: 50%;
+  background: var(--tekst-zacht);
+  border: 2px solid var(--nacht-950);
+}
+.inGroep .stip {
+  background: var(--koper);
+}
+.getal {
+  font-family: var(--mono);
+  font-size: var(--tekst-data);
+  text-align: right;
+}
+.asLabels .as {
+  border: 0;
+  height: 14px;
+}
+.asLabels .as span {
+  position: absolute;
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--tekst-zacht);
+}
+
+/* Blok 3: vierkantjes */
+.botsen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-3);
+}
+.legenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--r-4);
+  margin: 0;
+  font-family: var(--mono);
+  font-size: var(--tekst-data);
+  color: var(--tekst-zacht);
+}
+.legenda > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.thema {
+  display: grid;
+  grid-template-columns: minmax(120px, 200px) 1fr auto;
+  align-items: center;
+  gap: var(--r-3);
+}
+.thema .naam {
+  font-family: var(--sans);
+  font-size: 15px;
+  color: var(--tekst);
+}
+.vakken {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.vak {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+}
+.tegen {
+  background: var(--koper);
+}
+.samen {
+  background: transparent;
+  border: 1.5px solid var(--lijn-licht);
+}
+a.vak:hover,
+a.vak:focus-visible {
+  outline: 2px solid var(--goud);
+  outline-offset: 1px;
+}
+@media (max-width: 560px) {
+  .thema {
+    grid-template-columns: 1fr auto;
+  }
+  .thema .naam {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Blok 4: zetelbalk */
+.zetels {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-2);
+}
+.balk {
+  position: relative;
+  display: flex;
+  height: 44px;
+  background: var(--nacht-900);
+  border: 1px solid var(--lijn);
+  border-radius: var(--hoek-klein);
+}
+.balk > span:not(.meerderheid) {
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: var(--mono);
+  font-size: var(--tekst-data);
+  border-right: 2px solid var(--nacht-950);
+}
+.ref {
+  background: var(--lijn-licht);
+  color: var(--nacht-950);
+}
+.nodig {
+  background: var(--koper);
+  color: var(--nacht-950);
+}
+.keuze {
+  background: repeating-linear-gradient(45deg, var(--koper) 0 3px, var(--nacht-800) 3px 6px);
+}
+.over {
+  background: var(--nacht-700);
+}
+.meerderheid {
+  position: absolute;
+  z-index: 1;
+  top: -8px;
+  bottom: -8px;
+  border-left: 3px solid var(--goud);
+}
+.balkLabels > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.balkLabels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--r-4);
+  margin: 0;
+  font-family: var(--mono);
+  font-size: var(--tekst-data);
+  color: var(--tekst-zacht);
+}

@@ -2,6 +2,7 @@
 // ververst één keer per dag. De keuzes uit de link zijn gecontroleerd (lib/deelSchoon.ts).
 import type { ReactElement } from "react";
 import { ImageResponse } from "next/og";
+import { actueelPlaatje } from "@/components/actueel/plaatje";
 import { bredeSteunPlaatje, verkennerPlaatje, vvdProPlaatje } from "@/components/deel/plaatjes";
 import {
   kamerledenPlaatje, onderwerpenPlaatje, ontradenPlaatje, oppositieJarenPlaatje, oppositieKabinettenPlaatje, oppositieSpreidingPlaatje,
@@ -15,7 +16,7 @@ const PLAATJES: Record<Exclude<Grafiek, "coalitie">, (zoek: Record<string, strin
   verkenner: verkennerPlaatje, trend: trendPlaatje, "vvd-en-pro": vvdProPlaatje, "brede-steun": bredeSteunPlaatje,
   stemgenoten: stemgenotenPlaatje, onderwerpen: onderwerpenPlaatje, stemming: stemmingPlaatje, kamerleden: kamerledenPlaatje,
   ranglijst: ranglijstPlaatje, "oppositie-jaren": oppositieJarenPlaatje, "oppositie-kabinetten": oppositieKabinettenPlaatje,
-  "oppositie-spreiding": oppositieSpreidingPlaatje, ontraden: ontradenPlaatje, wetten: wettenPlaatje,
+  "oppositie-spreiding": oppositieSpreidingPlaatje, ontraden: ontradenPlaatje, wetten: wettenPlaatje, actueel: actueelPlaatje,
 };
 
 export async function GET(verzoek: Request, { params }: { params: Promise<{ grafiek: string }> }) {

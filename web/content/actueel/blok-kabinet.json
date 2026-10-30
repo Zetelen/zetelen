@@ -1,0 +1,926 @@
+{
+ "slug": "blok-kabinet",
+ "kabinet": "Jetten",
+ "groep": [
+  "JA21",
+  "BBB",
+  "SGP"
+ ],
+ "tegen": [
+  "D66",
+  "VVD",
+  "CDA"
+ ],
+ "stand": "2026-10-27",
+ "gemaakt": "2026-10-30",
+ "besluiten": 3406,
+ "verdeeld": 3182,
+ "hechtheid": {
+  "paren": [
+   {
+    "a": "JA21",
+    "b": "BBB",
+    "cohesie": 74.9,
+    "gezamenlijk": 3803,
+    "plek": 16
+   },
+   {
+    "a": "JA21",
+    "b": "SGP",
+    "cohesie": 76.0,
+    "gezamenlijk": 3807,
+    "plek": 12
+   },
+   {
+    "a": "JA21",
+    "b": "D66",
+    "cohesie": 59.0,
+    "gezamenlijk": 3810,
+    "plek": 48
+   },
+   {
+    "a": "JA21",
+    "b": "VVD",
+    "cohesie": 70.7,
+    "gezamenlijk": 3810,
+    "plek": 26
+   },
+   {
+    "a": "JA21",
+    "b": "CDA",
+    "cohesie": 64.9,
+    "gezamenlijk": 3807,
+    "plek": 35
+   },
+   {
+    "a": "BBB",
+    "b": "SGP",
+    "cohesie": 75.4,
+    "gezamenlijk": 3802,
+    "plek": 14
+   },
+   {
+    "a": "BBB",
+    "b": "D66",
+    "cohesie": 54.1,
+    "gezamenlijk": 3805,
+    "plek": 54
+   },
+   {
+    "a": "BBB",
+    "b": "VVD",
+    "cohesie": 63.3,
+    "gezamenlijk": 3805,
+    "plek": 39
+   },
+   {
+    "a": "BBB",
+    "b": "CDA",
+    "cohesie": 59.3,
+    "gezamenlijk": 3802,
+    "plek": 45
+   },
+   {
+    "a": "SGP",
+    "b": "D66",
+    "cohesie": 65.8,
+    "gezamenlijk": 3809,
+    "plek": 33
+   },
+   {
+    "a": "SGP",
+    "b": "VVD",
+    "cohesie": 73.7,
+    "gezamenlijk": 3809,
+    "plek": 19
+   },
+   {
+    "a": "SGP",
+    "b": "CDA",
+    "cohesie": 71.2,
+    "gezamenlijk": 3806,
+    "plek": 25
+   },
+   {
+    "a": "D66",
+    "b": "VVD",
+    "cohesie": 85.3,
+    "gezamenlijk": 3812,
+    "plek": 3
+   },
+   {
+    "a": "D66",
+    "b": "CDA",
+    "cohesie": 91.0,
+    "gezamenlijk": 3809,
+    "plek": 2
+   },
+   {
+    "a": "VVD",
+    "b": "CDA",
+    "cohesie": 91.2,
+    "gezamenlijk": 3809,
+    "plek": 1
+   }
+  ],
+  "parenTotaal": 91
+ },
+ "meegaan": {
+  "basis": 2616,
+  "fracties": [
+   {
+    "afkorting": "JA21",
+    "gestemd": 2611,
+    "mee": 1727,
+    "pct": 66.1
+   },
+   {
+    "afkorting": "BBB",
+    "gestemd": 2607,
+    "mee": 1579,
+    "pct": 60.6
+   },
+   {
+    "afkorting": "SGP",
+    "gestemd": 2613,
+    "mee": 1938,
+    "pct": 74.2
+   },
+   {
+    "afkorting": "PRO",
+    "gestemd": 2614,
+    "mee": 1837,
+    "pct": 70.3
+   },
+   {
+    "afkorting": "PVV",
+    "gestemd": 2614,
+    "mee": 1154,
+    "pct": 44.1
+   }
+  ],
+  "groep": {
+   "eensgezind": 1625,
+   "mee": 1225,
+   "pct": 75.4
+  }
+ },
+ "samen": [
+  {
+   "naam": "tegen+groep",
+   "gestemd": 3146,
+   "samen": 1225,
+   "pct": 38.9
+  },
+  {
+   "naam": "tegen+JA21",
+   "gestemd": 3163,
+   "samen": 1727,
+   "pct": 54.6
+  },
+  {
+   "naam": "tegen+BBB",
+   "gestemd": 3158,
+   "samen": 1579,
+   "pct": 50.0
+  },
+  {
+   "naam": "tegen+SGP",
+   "gestemd": 3161,
+   "samen": 1938,
+   "pct": 61.3
+  },
+  {
+   "naam": "tegen+PRO",
+   "gestemd": 3165,
+   "samen": 1837,
+   "pct": 58.0
+  },
+  {
+   "naam": "tegen+PVV",
+   "gestemd": 3166,
+   "samen": 1154,
+   "pct": 36.4
+  }
+ ],
+ "botspunten": {
+  "themas": [
+   {
+    "thema": "Stikstof",
+    "patroon": "stikstof|kritische depositie|natura 2000|rekenkundige ondergrens|aerius|kdw",
+    "verdeeld": 38,
+    "beide": 28,
+    "tegenover": 25,
+    "stemmingen": [
+     {
+      "besluit": "ede63630-ace9-41f9-9e99-61f2d0704321",
+      "datum": "2026-02-26",
+      "zaakNummer": "2026Z03862",
+      "soort": "Motie",
+      "onderwerp": "Motie van de leden Vermeer en Van der Plas over bij de aanpak van de stikstofcrisis niet overgaan tot gedwongen bedrijfsbeëindiging of het intrekken van vergunningen",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "8febbc6d-a99a-4abd-89a1-54496c8fadaa",
+      "datum": "2026-03-03",
+      "zaakNummer": "2026Z02879",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Teunissen over Natura 2000-gebieden uitsluiten als potentiële locaties voor grote kerncentrales en SMR's ",
+      "uitslag": "Aangenomen.",
+      "groep": "Tegen",
+      "ref": "Voor",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "028c95c3-d2cf-4e0c-893c-946b065f7229",
+      "datum": "2026-03-24",
+      "zaakNummer": "2026Z05317",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Koorevaar over de vrijwillige beëindigingsregeling zodanig vormgeven dat bij de toekenning van middelen nadrukkelijk wordt gestuurd op maximale stikstofreductie en natuurwinst ",
+      "uitslag": "Aangenomen.",
+      "groep": null,
+      "ref": "Voor",
+      "stand": "verdeeld"
+     },
+     {
+      "besluit": "0cc7173d-6b76-4c07-ae40-ab4453409f54",
+      "datum": "2026-03-24",
+      "zaakNummer": "2026Z05528",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Van der Plas over de rekenkundige ondergrens uiterlijk voor het zomerreces 2026 invoeren",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "139ce1f2-b34f-4b51-9926-752e2f7abbd0",
+      "datum": "2026-03-24",
+      "zaakNummer": "2026Z05508",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Goudzwaard over geen nieuwe Natura 2000-gebieden aanwijzen in Nederland ",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "58227021-2052-4050-a2e2-0a14d0b6b45a",
+      "datum": "2026-03-24",
+      "zaakNummer": "2026Z05488",
+      "soort": "Motie",
+      "onderwerp": "Motie van de leden Bromet en Ouwehand over dierwaardigheid nadrukkelijk betrekken bij de stikstofaanpak",
+      "uitslag": "Aangenomen.",
+      "groep": null,
+      "ref": "Voor",
+      "stand": "verdeeld"
+     },
+     {
+      "besluit": "c363a1de-8832-4924-a52d-4bdf0e1fde54",
+      "datum": "2026-03-24",
+      "zaakNummer": "2026Z05839",
+      "soort": "Motie",
+      "onderwerp": "Gewijzigde motie van het lid Bromet over de voorstellen van VNO-NCW, Bouwend Nederland, Natuurmonumenten en Natuur & Milieu mee laten wegen in de nationale stikstofaanpak (t.v.v. 36800-XIV-33)",
+      "uitslag": "Aangenomen.",
+      "groep": "Tegen",
+      "ref": "Voor",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "d303efe3-7717-44c5-8f54-1f1d952bf378",
+      "datum": "2026-03-24",
+      "zaakNummer": "2026Z05319",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Van der Plas over uitspreken dat stikstofreductie niet gelijkgesteld kan worden aan natuurherstel",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "a8f49f6d-f498-4944-a4ff-38869c6014cf",
+      "datum": "2026-03-26",
+      "zaakNummer": "2026Z06225",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Van der Plas over in Europees verband pleiten voor meer ruimte voor het gebruik van dierlijke mest binnen de bestaande stikstofgebruiksnormen",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "d3862ff1-e4d4-4a37-a650-4c2b0397b7b9",
+      "datum": "2026-03-31",
+      "zaakNummer": "2026Z06176",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Keijzer over circa 1 miljard van het budget voor Oekraïne, asiel, stikstofbeleid, klimaat en defensie inzetten voor verlaging van de brandstofaccijns ",
+      "uitslag": "Verworpen.",
+      "groep": null,
+      "ref": "Tegen",
+      "stand": "verdeeld"
+     },
+     {
+      "besluit": "23eba86f-f15c-471b-9052-f658ffb5fbdd",
+      "datum": "2026-04-21",
+      "zaakNummer": "2026Z07787",
+      "soort": "Motie",
+      "onderwerp": "Motie van de leden Boon en Chris Jansen over alle stikstofregels schrappen ",
+      "uitslag": "Verworpen.",
+      "groep": null,
+      "ref": "Tegen",
+      "stand": "verdeeld"
+     },
+     {
+      "besluit": "acc4e794-cd90-4145-b7f3-a98cc91c1f2c",
+      "datum": "2026-04-21",
+      "zaakNummer": "2026Z07805",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Ten Hove over een uitzondering voor stikstofregels voor de uitbreiding van Defensielocaties",
+      "uitslag": "Verworpen.",
+      "groep": null,
+      "ref": "Tegen",
+      "stand": "verdeeld"
+     },
+     {
+      "besluit": "4d4d3db1-4b82-4159-b786-3cf7310c33a5",
+      "datum": "2026-05-19",
+      "zaakNummer": "2026Z09677",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Beckerman over vergunningsprocedures voor luchtvaartprojecten waarbij de Staat partij is niet voortzetten zolang er onvoldoende stikstofruimte beschikbaar is voor woningbouw en de legalisatie van PAS-melders ",
+      "uitslag": "Verworpen.",
+      "groep": null,
+      "ref": "Tegen",
+      "stand": "verdeeld"
+     },
+     {
+      "besluit": "dd1381ef-149a-406c-8066-51b9be417c80",
+      "datum": "2026-05-19",
+      "zaakNummer": "2026Z09669",
+      "soort": "Motie",
+      "onderwerp": "Motie van de leden Van der Plas en Wiersma over voor PAS-melders even voortvarend als voor Lelystad Airport de beschikbare en benodigde stikstofruimte inzichtelijk maken",
+      "uitslag": "Aangenomen.",
+      "groep": "Voor",
+      "ref": "Voor",
+      "stand": "samen"
+     },
+     {
+      "besluit": "ebad7550-ad29-436d-8ce6-2e2960ebef78",
+      "datum": "2026-05-19",
+      "zaakNummer": "2026Z09665",
+      "soort": "Motie",
+      "onderwerp": "Motie van de leden Kröger en Grinwis over een belangenafweging over de inzet van schaarse vrijkomende stikstofruimte met prioriteit voor woningbouw en PAS-melders ",
+      "uitslag": "Aangenomen.",
+      "groep": null,
+      "ref": null,
+      "stand": "verdeeld"
+     },
+     {
+      "besluit": "e6189873-af81-42fd-b5f2-f90092fab191",
+      "datum": "2026-06-11",
+      "zaakNummer": "2026Z12808",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Vermeer over rond Natura 2000-gebieden uitsluitend proportionele maatregelen treffen met een wetenschappelijke onderbouwing ",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "c3b5ac3e-5604-451b-8943-6f9db4439e79",
+      "datum": "2026-06-23",
+      "zaakNummer": "2026Z13253",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Wiersma c.s. over het wetsvoorstel om de op de KDW gebaseerde omgevingswaarden uit de wet te halen gelijktijdig met het stikstofpakket aanhangig maken bij de Tweede Kamer ",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "a2769876-6b3e-4a68-a3fd-f69a0c99200c",
+      "datum": "2026-06-30",
+      "zaakNummer": "2026Z14559",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Claassen over geen nieuwe Natura 2000-gebieden of Vogelrichtlijngebieden aanwijzen zonder voorafgaande instemming van de Kamer ",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "20e21e93-7e65-4ecf-96f0-9b9f861ef798",
+      "datum": "2026-07-02",
+      "zaakNummer": "2026Z15345",
+      "soort": "Motie",
+      "onderwerp": "Motie van de leden Goudzwaard en Grinwis over een juridische grondslag voor activiteiten en investeringen die per saldo leiden tot een daling van de stikstofdepositie ",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "22553917-7831-43f9-a9d1-63d46b06c1e3",
+      "datum": "2026-07-02",
+      "zaakNummer": "2026Z15321",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Van der Plas over de kritische depositiewaarde niet langer leidend laten zijn bij vergunningverlening ",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "2b24fc5b-5cdb-45f6-9a00-5070be212758",
+      "datum": "2026-07-02",
+      "zaakNummer": "2026Z15320",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Van der Plas over een rekenkundige ondergrens van 1 mol invoeren bij de AERIUS-actualisatie in oktober ",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "35d391c0-2b4f-492e-b0a8-97e7a243aa41",
+      "datum": "2026-07-02",
+      "zaakNummer": "2026Z15342",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Keijzer over de gevolgen van het stikstofpakket voor de financierbaarheid van bedrijven in kaart brengen ",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "5bce5757-8b2b-4475-b111-58b5fe8a98e5",
+      "datum": "2026-07-02",
+      "zaakNummer": "2026Z15343",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Keijzer over vereenvoudiging van wet- en regelgeving als uitgangspunt voor het stikstofbeleid ",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "5ce5967a-cc67-480c-8f73-287a9f75d211",
+      "datum": "2026-07-02",
+      "zaakNummer": "2026Z15332",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Dassen over ook strategieën voor plantaardige eiwitten, stikstofbindende gewassen en innovaties zoals kweekvlees meenemen ",
+      "uitslag": "Aangenomen.",
+      "groep": "Tegen",
+      "ref": "Voor",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "5ff955a6-e95d-44af-ae41-a63089f638a7",
+      "datum": "2026-07-02",
+      "zaakNummer": "2026Z15336",
+      "soort": "Motie",
+      "onderwerp": "Motie van de leden Heutink en Van der Plas over geen generieke korting op productierechten als het stikstofpakket niet is geborgd ",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "8d9bcb18-e8c6-4ce5-8ca6-be5c19fe7681",
+      "datum": "2026-07-02",
+      "zaakNummer": "2026Z15329",
+      "soort": "Motie",
+      "onderwerp": "Motie van de leden Bromet en Dassen over de juridische houdbaarheid van de voorgenomen zonering rondom stikstofgevoelige Natura 2000-gebieden ",
+      "uitslag": "Aangenomen.",
+      "groep": "Tegen",
+      "ref": "Voor",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "8e243e3f-3844-4fdb-acdd-af1a26196ff1",
+      "datum": "2026-07-02",
+      "zaakNummer": "2026Z15341",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Keijzer over maatregelen voor bredere beleidsdoelen uit het stikstofpakket halen",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "ab971c38-707e-48f9-8388-737240a9a22e",
+      "datum": "2026-07-02",
+      "zaakNummer": "2026Z15261",
+      "soort": "Motie",
+      "onderwerp": "Gewijzigde motie van het lid Boomsma c.s. over bij de volgende AERIUS-update een verhoging van de rekenkundige ondergrens doorvoeren (t.v.v. 33576-490)",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "5941f170-0e35-4cdd-9886-786dc599fe2d",
+      "datum": "2026-09-08",
+      "zaakNummer": "2026Z17627",
+      "soort": "Motie",
+      "onderwerp": "Motie van de leden Van der Plas en Ten Hove over het netto-effect van de wolf op de Nederlandse biodiversiteit en Natura 2000-doelen laten onderzoeken ",
+      "uitslag": "Aangenomen.",
+      "groep": "Voor",
+      "ref": "Voor",
+      "stand": "samen"
+     },
+     {
+      "besluit": "0e99133d-01df-46c7-8282-07cb2c22ce92",
+      "datum": "2026-09-17",
+      "zaakNummer": "2026Z19122",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Dekker over alle stikstofregels afschaffen zodat er weer gebouwd, geboerd en geleefd kan worden",
+      "uitslag": "Verworpen.",
+      "groep": null,
+      "ref": "Tegen",
+      "stand": "verdeeld"
+     },
+     {
+      "besluit": "9b38d686-d5de-427c-b542-e09631ea9b94",
+      "datum": "2026-09-17",
+      "zaakNummer": "2026Z19145",
+      "soort": "Motie",
+      "onderwerp": "Motie van de leden Vermeer en Van der Plas over uiterlijk bij de actualisatie van AERIUS in oktober 2026 een rekenkundige ondergrens van 1 mol per hectare per jaar doorvoeren",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "f016a5a6-85ed-4ce3-ad6c-2274e4a717ef",
+      "datum": "2026-09-17",
+      "zaakNummer": "2026Z19131",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Teunissen over de oproep voor een actieplan ‘Meer Plantaardige Voeding’ meenemen in de verdere uitwerking van het stikstofpakket en de voedselstrategie",
+      "uitslag": "Aangenomen.",
+      "groep": "Tegen",
+      "ref": null,
+      "stand": "verdeeld"
+     },
+     {
+      "besluit": "cb748751-066b-4f9c-afc2-f28151ab3a02",
+      "datum": "2026-09-22",
+      "zaakNummer": "2026Z19479",
+      "soort": "Motie",
+      "onderwerp": "Gewijzigde motie van het lid Van der Plas over zones beperken tot maximaal 250 meter rond aantoonbaar stikstofoverbelaste hexagonen of stikstofgevoelige habitats (t.v.v. 35334-457)",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "11cf6eed-82cd-4c77-a813-2c34f9e195a6",
+      "datum": "2026-10-06",
+      "zaakNummer": "2026Z20454",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Van der Plas over bij de actualisering van het AERIUS-model de rekenkundige ondergrens verhogen naar 1 mol ",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "380f3e11-337a-4f48-abd7-df34698be6c6",
+      "datum": "2026-10-06",
+      "zaakNummer": "2026Z20430",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Van der Plas over het voorzorgsbeginsel binnen Natura 2000 helder afbakenen",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "594ad64e-6e81-4d85-a438-78cc7633b3b9",
+      "datum": "2026-10-06",
+      "zaakNummer": "2026Z20565",
+      "soort": "Motie",
+      "onderwerp": "Gewijzigde motie van het lid Boomsma over uiterlijk 31 maart 2027 per habitattype inzichtelijk maken in welke Natura 2000-gebieden de herstel- en uitbreindingsopgave tot en met 2030 wordt gerealiseerd (t.v.v. 33576-560)",
+      "uitslag": "Aangenomen.",
+      "groep": "Voor",
+      "ref": "Voor",
+      "stand": "samen"
+     },
+     {
+      "besluit": "73e93117-e1b2-4dc8-a8ed-c1903cb712b7",
+      "datum": "2026-10-06",
+      "zaakNummer": "2026Z20455",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Van der Plas over de maatschappelijke en sociaal-economische gevolgen voor de landbouw en het platteland expliciet meewegen bij de uitwerking van het stikstofbeleid ",
+      "uitslag": "Verworpen.",
+      "groep": null,
+      "ref": "Tegen",
+      "stand": "verdeeld"
+     },
+     {
+      "besluit": "15c9ec90-08cd-4437-92f5-82d3f4efbc6d",
+      "datum": "2026-10-13",
+      "zaakNummer": "2026Z21655",
+      "soort": "Motie",
+      "onderwerp": "Motie van de leden Ten Hove en Keijzer over de rekenkundige ondergrens verhogen naar 1 mol per hectare",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     }
+    ]
+   },
+   {
+    "thema": "Asielopvang en spreidingswet",
+    "patroon": "spreidingswet|asielopvang|opvang van asiel|asielzoekers (te )?opvangen|opvang van asielzoekers",
+    "verdeeld": 13,
+    "beide": 9,
+    "tegenover": 9,
+    "stemmingen": [
+     {
+      "besluit": "2788193f-0356-400d-b447-72ec8f44bee9",
+      "datum": "2026-02-26",
+      "zaakNummer": "2026Z03840",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid De Vos over richtlijnen uitwerken waarbij de kosten voor voeding in asielopvang in redelijke verhouding staan tot vergelijkbare publieke voorzieningen",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "6a0ea4f1-b90f-4ac7-a2ca-c55656c0ebc2",
+      "datum": "2026-02-26",
+      "zaakNummer": "2026Z03869",
+      "soort": "Motie",
+      "onderwerp": "Motie van de leden Dassen en Bikker over opties in kaart brengen waarbij de extra middelen voor ontwikkelingssamenwerking daadwerkelijk worden ingezet voor internationale ontwikkelingsdoelen en de extra kosten voor eerstejaars asielopvang elders worden gedekt",
+      "uitslag": "Verworpen.",
+      "groep": null,
+      "ref": "Tegen",
+      "stand": "verdeeld"
+     },
+     {
+      "besluit": "dd586c70-99ad-4720-84e9-34917f4e3c32",
+      "datum": "2026-03-31",
+      "zaakNummer": "2026Z05534",
+      "soort": "Amendement",
+      "onderwerp": "Amendement van de leden Vondeling en Wilders over het intrekken van de Wet gemeentelijke taak mogelijk maken asielopvangvoorzieningen",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "ff509200-d38f-4a44-8750-6d9e682f9918",
+      "datum": "2026-05-12",
+      "zaakNummer": "2026Z08940",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Eerdmans over maatregelen om de asielinstroom en de kosten van asielopvang terug te dringen",
+      "uitslag": "Aangenomen.",
+      "groep": "Voor",
+      "ref": null,
+      "stand": "verdeeld"
+     },
+     {
+      "besluit": "d40e08d1-d30c-423c-9360-353c1ba3d3be",
+      "datum": "2026-06-18",
+      "zaakNummer": "2026Z08772",
+      "soort": "Amendement",
+      "onderwerp": "Amendement van de leden Keijzer en Markuszower over middelen die bestemd zijn voor asielopvang inzetten voor een accijnsverlaging op brandstof",
+      "uitslag": "Verworpen.",
+      "groep": null,
+      "ref": "Tegen",
+      "stand": "verdeeld"
+     },
+     {
+      "besluit": "3d2fcad7-e44e-4249-ae58-2f29eb816a43",
+      "datum": "2026-06-23",
+      "zaakNummer": "2026Z13456",
+      "soort": "Motie",
+      "onderwerp": "Motie van de leden Ceulemans en Diederik van Dijk over uitspreken dat het aan de gemeenten zelf is of ze asielopvang willen ",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "730aae63-0837-4b7e-adb7-0f22344d8ff2",
+      "datum": "2026-06-23",
+      "zaakNummer": "2026Z13459",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Vondeling over de Spreidingswet intrekken ",
+      "uitslag": "Verworpen (45-100).",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "8a5fac47-ad1e-43e0-9078-590f93a150e9",
+      "datum": "2026-06-23",
+      "zaakNummer": "2026Z13467",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Russcher over bij welke gemiddelde wekelijkse asielinstroom de regering voornemens is de Spreidingswet op te schorten of in te trekken ",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "cf6680d8-36a4-4fe6-bc24-b7eec0764a3a",
+      "datum": "2026-06-23",
+      "zaakNummer": "2026Z13457",
+      "soort": "Motie",
+      "onderwerp": "Motie van de leden Ceulemans en Diederik van Dijk over concrete voorwaarden formuleren voor het intrekken van de Spreidingswet",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "fece7210-a620-43ce-888e-595efa2b320b",
+      "datum": "2026-06-23",
+      "zaakNummer": "2026Z13452",
+      "soort": "Motie",
+      "onderwerp": "Motie van de leden Ceulemans en Diederik van Dijk over de Spreidingswet intrekken ",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "afa2a8b8-05a1-4d33-b71f-03d5aa17d18b",
+      "datum": "2026-09-17",
+      "zaakNummer": "2026Z19161",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Keijzer over een pas op de plaats maken met de uitvoering van de spreidingswet tot het moment waarop afspraken gemaakt zijn met de meerderheid van de Tweede Kamer",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "47a653f9-c1aa-4396-afed-eabe7e284c27",
+      "datum": "2026-10-13",
+      "zaakNummer": "2026Z21502",
+      "soort": "Motie",
+      "onderwerp": "Motie van de leden Vermeer en Van der Plas over de bestaande opvang van Oekraïense ontheemden nadrukkelijk meewegen bij de verdeling van asielopvang onder de Spreidingswet",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "555d7892-67d4-4b32-b5ec-8870a14c83fc",
+      "datum": "2026-10-13",
+      "zaakNummer": "2026Z21489",
+      "soort": "Motie",
+      "onderwerp": "Motie van de leden Vondeling en Wilders over totale steun aan alle gemeenten die de opvang van asielzoekers weigeren ",
+      "uitslag": "Verworpen.",
+      "groep": null,
+      "ref": "Tegen",
+      "stand": "verdeeld"
+     }
+    ]
+   },
+   {
+    "thema": "Abortus, embryo, draagmoeder",
+    "patroon": "abortus|draagmoeder|zwangerschapsafbreking|embryo",
+    "verdeeld": 9,
+    "beide": 3,
+    "tegenover": 3,
+    "stemmingen": [
+     {
+      "besluit": "d86f4cb2-1ff8-4cd3-9df8-39edf0b88177",
+      "datum": "2026-06-02",
+      "zaakNummer": "2026Z08882",
+      "soort": "Amendement",
+      "onderwerp": "Gewijzigd amendement van de leden Diederik van Dijk en Bikker ter vervanging van nr. 11 over een verbod op het tot stand brengen van een embryo met IVG-geslachtscellen voor reproductieve doeleinden",
+      "uitslag": "Verworpen. (48-95)",
+      "groep": null,
+      "ref": "Tegen",
+      "stand": "verdeeld"
+     },
+     {
+      "besluit": "ee12c14f-66c0-40ef-a616-c27095202707",
+      "datum": "2026-06-02",
+      "zaakNummer": "2026Z07871",
+      "soort": "Amendement",
+      "onderwerp": "Amendement van het lid Diederik van Dijk over een onderscheid tussen embryo's en embryoachtige entiteiten",
+      "uitslag": "Verworpen. (48-95)",
+      "groep": null,
+      "ref": "Tegen",
+      "stand": "verdeeld"
+     },
+     {
+      "besluit": "f7a92313-659d-4066-9fdf-86c2a9862fb4",
+      "datum": "2026-06-02",
+      "zaakNummer": "2026Z10363",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Vliegenthart over de Embryowet binnen twee jaar evalueren en daarbij expliciet de toekomstbestendigheid meenemen ",
+      "uitslag": "Aangenomen.",
+      "groep": null,
+      "ref": "Voor",
+      "stand": "verdeeld"
+     },
+     {
+      "besluit": "82c2a55c-f5d1-4db3-abf6-13d4a4340b62",
+      "datum": "2026-10-06",
+      "zaakNummer": "2026Z20242",
+      "soort": "Motie",
+      "onderwerp": "Motie van de leden Diederik van Dijk en Bikker over waarborgen dat contractuele afspraken waar draagmoeders op terugkomen nooit mogen leiden tot feitelijke dwang of scheiding van moeder en kind",
+      "uitslag": "Verworpen.",
+      "groep": null,
+      "ref": "Tegen",
+      "stand": "verdeeld"
+     },
+     {
+      "besluit": "9e23d9da-8587-4356-9717-452bd456a227",
+      "datum": "2026-10-06",
+      "zaakNummer": "2026Z20841",
+      "soort": "Motie",
+      "onderwerp": "Motie van de leden Kröger en Vliegenthart over de beschikbaarheid van abortuszorg en noodanticonceptie waarborgen in conflictgebieden ",
+      "uitslag": "Aangenomen.",
+      "groep": null,
+      "ref": "Voor",
+      "stand": "verdeeld"
+     },
+     {
+      "besluit": "a889171b-546c-4176-82ce-b537c9881ff4",
+      "datum": "2026-10-06",
+      "zaakNummer": "2026Z19546",
+      "soort": "Amendement",
+      "onderwerp": "Amendement van de leden Faber en Diederik van Dijk over expliciteren dat ook commercieel draagmoederschap tussen particulieren verboden is",
+      "uitslag": "Verworpen.",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "1a2cf652-52f5-4b89-b7d8-3555d866b3bb",
+      "datum": "2026-10-27",
+      "zaakNummer": "2026Z22471",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Vliegenthart c.s. over pal voor het recht op en de toegang tot abortus staan",
+      "uitslag": "Aangenomen. (78-68)",
+      "groep": "Tegen",
+      "ref": null,
+      "stand": "verdeeld"
+     },
+     {
+      "besluit": "721c8571-14ec-4884-93c4-b28a7bfc836c",
+      "datum": "2026-10-27",
+      "zaakNummer": "2026Z22489",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Diederik van Dijk over afkeuring uitspreken over het beleid van de regering inzake de pilot die abortussen vanaf 22 weken zwangerschap bij gezonde kindjes toegankelijker maakt ",
+      "uitslag": "Verworpen. (40-106)",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     },
+     {
+      "besluit": "bd5ac4d5-9e37-4f28-8a78-a9d0021c6f2e",
+      "datum": "2026-10-27",
+      "zaakNummer": "2026Z22495",
+      "soort": "Motie",
+      "onderwerp": "Motie van het lid Bikker over stoppen met de verruiming rondom het zonder medische indicatie abortus uitvoeren bij 22 of 23 weken zwangerschap ",
+      "uitslag": "Verworpen. (50-96)",
+      "groep": "Voor",
+      "ref": "Tegen",
+      "stand": "tegen"
+     }
+    ]
+   }
+  ],
+  "alles": {
+   "beide": 1625,
+   "tegenover": 400,
+   "pct": 24.6
+  }
+ },
+ "zetelsom": {
+  "meerderheid": 76,
+  "zetels": {
+   "D66": 26,
+   "VVD": 22,
+   "CDA": 18,
+   "JA21": 9,
+   "BBB": 3,
+   "SGP": 3
+  },
+  "ref": 66,
+  "groep": 15,
+  "samen": 81,
+  "kleinsteMeerderheid": [
+   [
+    "JA21",
+    "BBB"
+   ],
+   [
+    "JA21",
+    "SGP"
+   ]
+  ]
+ }
+}

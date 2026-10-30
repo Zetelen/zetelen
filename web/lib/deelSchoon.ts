@@ -3,6 +3,7 @@
 // partijen, perioden en stemmingen die bestaan, en vaste waarden voor de rest, gaan mee.
 import { alleFracties, perioden } from "./cohesie";
 import { type Grafiek, geheel, schoneUitslag, waardenVan } from "./deel";
+import { schoonActueel, titelActueel } from "./actueel";
 import { UITGELICHT } from "./uitgelichtLijst";
 
 type Zoek = Record<string, string | string[] | undefined> | URLSearchParams;
@@ -16,6 +17,8 @@ const halfjaar = (v: string) => /^\d{4}-(01|07)$/.test(v) && Number(v.slice(0, 4
 export async function schoonZoek(g: Grafiek, zoek: Zoek): Promise<Record<string, string>> {
   const w = waardenVan(g, zoek);
   if (!Object.keys(w).length) return {};
+  // Actueel: alleen een bestaand stuk en een blok daarvan; daarvoor is geen database nodig
+  if (g === "actueel") return schoonActueel(w);
   const [lijst, alle] = await Promise.all([perioden(), alleFracties()]);
   const partijen = new Set((alle ?? []).map((f) => f.afkorting));
   const uit: Record<string, string> = {};
@@ -35,5 +38,6 @@ export async function schoonZoek(g: Grafiek, zoek: Zoek): Promise<Record<string,
 // Titel met de gegevens van de site erbij: bij een uitgelichte stemming de vraag van die stemming
 export function titelMetData(g: Grafiek, zoek: Record<string, string>): string | null {
   if (g === "stemming") return UITGELICHT.find((u) => u.slug === zoek.casus)?.vraag ?? null;
+  if (g === "actueel") return titelActueel(zoek);
   return null;
 }

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { alleFracties, slug } from "@/lib/cohesie";
 import { PAGINAS, siteUrl } from "@/lib/site";
+import { STUKKEN } from "@/lib/actueel";
 import { UITGELICHT } from "@/lib/uitgelichtLijst";
 
 // Vaste pagina's plus de detailpagina's per fractie en per uitgelichte stemming (SEO-audit 26 oktober).
@@ -16,5 +17,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: url("/uitgelicht/hoe-lang-duurt-een-wet") },
     { url: url("/uitgelicht/tegen-het-advies-in") },
     { url: url("/uitgelicht/vvd-en-pro") },
+    ...STUKKEN.map((x) => ({ url: url(`/actueel/${x.slug}`) })),
   ];
 }

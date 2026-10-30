@@ -69,6 +69,8 @@ export const GRAFIEKEN = {
   "oppositie-spreiding": { pad: "/oppositie", anker: "tegenstemmen", parameters: [], titel: () => "Tegenstemmen en zelf iets binnenhalen" },
   ontraden: { pad: "/uitgelicht/tegen-het-advies-in", anker: "oordeel", parameters: [], titel: () => "Moties die het kabinet ontraadde" },
   wetten: { pad: "/uitgelicht/hoe-lang-duurt-een-wet", anker: "reizen", parameters: [], titel: () => "Hoe lang duurt een wet?" },
+  // Actueel: elk blok van een stuk is een eigen deellink; de titel is de kop van het blok (lib/deelSchoon.ts, titelMetData)
+  actueel: { pad: (w) => `/actueel/${w.stuk ?? ""}`, anker: (w) => w.blok ?? "", parameters: ["stuk", "blok"], doorgeven: false, titel: () => "Actueel" },
 } satisfies Record<string, Definitie>;
 
 export type Grafiek = keyof typeof GRAFIEKEN;

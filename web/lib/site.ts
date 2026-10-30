@@ -30,4 +30,4 @@ export function siteUrl(): URL {
 
 // Publieke pagina's, voor de sitemap. /uitgelicht staat er niet in: die stuurt door naar de nieuwste stemming, en
 // de stemmingen zelf staan in de sitemap (app/sitemap.ts)
-export const PAGINAS = ["/", "/verkenner", "/onderwerpen", "/coalitie", "/oppositie", "/fracties", ...(KAMERLEDEN ? ["/kamerleden"] : []), "/stemgenoten", "/methodiek", "/wijzigingen", "/over"];
+export const PAGINAS = ["/", "/verkenner", "/onderwerpen", "/coalitie", "/oppositie", "/fracties", ...(KAMERLEDEN ? ["/kamerleden"] : []), "/stemgenoten", "/actueel", "/methodiek", "/wijzigingen", "/over"];

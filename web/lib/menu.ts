@@ -16,6 +16,7 @@ export const MENU: MenuGroep[] = [
   {
     naam: "Verhalen",
     items: [
+      { href: "/actueel", tekst: "Actueel", regel: "Het nieuws naast de stemmingen: wat de Kamer tot nu toe deed." },
       { href: "/uitgelicht", tekst: "Uitgelicht", regel: "Stemmingen van dichtbij: wie stemde wat, en hoe krap was het." },
       { href: "/oppositie", tekst: "Oppositie", regel: "Wat kun je als je niet regeert? Moties en amendementen sinds 2010." },
     ],
