@@ -1,6 +1,6 @@
 // De vier grafieken van een Actueel-stuk (lib/actueel.ts). Server-componenten zonder interactie: elke grafiek
 // toont alle getallen ook als tekst, kleur is nooit de enige drager.
-import { type ActueelData, aantal, datumTekst, procent, vierkantjes } from "@/lib/actueel";
+import { type ActueelData, aantal, datumTekst, opDrieThemas, perThema, procent, vierkantjes } from "@/lib/actueel";
 import { zoekLink } from "@/lib/uitgelicht";
 import s from "./actueel.module.css";
 
@@ -26,23 +26,25 @@ export function Meegaan({ d }: { d: ActueelData }) {
 
 // Blok 2: per thema een vierkantje per stemming waarop beide groepen eensgezind waren; elk vierkantje linkt naar de bron
 export function Botspunten({ d }: { d: ActueelData }) {
-  const drie = d.botspunten.themas;
-  const beide = drie.reduce((n, t) => n + t.beide, 0), tegen = drie.reduce((n, t) => n + t.tegenover, 0);
-  // Eerst het contrast, zoals in de video: alle onderwerpen tegenover de drie thema's
-  const balken = [
-    { label: "Alle onderwerpen", pct: d.botspunten.alles.pct ?? 0, drie: false },
-    { label: "Stikstof, asiel en abortus", pct: (100 * tegen) / beide, drie: true },
-  ];
+  // Eerst de omkering, zoals in de video: per partij hoe vaak mee op de drie thema's, de streep bij alle onderwerpen
+  const alles = perThema(d, "Alles")!;
   return (
     <div className={s.botsen}>
       <div className={s.contrast}>
-        {balken.map((b) => (
-          <div key={b.label} className={s.contrastRij}>
-            <span className={s.naam}>{b.label}</span>
-            <span className={s.cel}><span className={`${s.vul} ${b.drie ? "" : s.vulZacht}`} style={{ width: `${b.pct}%` }} /></span>
-            <span className={s.getal}>{procent(b.pct)}</span>
-          </div>
-        ))}
+        <p className={s.legenda}><span>Mee met het kabinet op stikstof, asiel en abortus</span><span><span className={s.streepUitleg} aria-hidden="true" /> over alle onderwerpen</span></p>
+        {opDrieThemas(d).map((f) => {
+          const gem = alles.fracties.find((x) => x.afkorting === f.afkorting)!.pct ?? 0;
+          return (
+            <div key={f.afkorting} className={s.contrastRij}>
+              <span className={s.naam}>{f.afkorting}</span>
+              <span className={s.cel}>
+                <span className={s.vul} style={{ width: `${f.pct ?? 0}%` }} />
+                <span className={s.streep} style={{ left: `${gem}%` }} title={`Over alle onderwerpen ${procent(gem)}`} />
+              </span>
+              <span className={s.getal}>{procent(f.pct)}</span>
+            </div>
+          );
+        })}
       </div>
       <p className={s.legenda}>
         <span><span className={`${s.vak} ${s.tegen}`} aria-hidden="true" /> tegenover elkaar</span>

@@ -2,7 +2,7 @@
 // scène, eerst in grote woorden, dan de grafiek die het bewijst, dan stilstand om te lezen:
 //   1. aanleiding: het blok stelt eisen;
 //   2. hoe vaak mee: JA21, BBB en SGP per stuk in 60 tot 74%, PRO als oppositiepartij ter vergelijking;
-//   3. behalve precies daar: 24% tegenover elkaar over alles, 93% op stikstof, asiel en abortus;
+//   3. behalve precies daar: op stikstof, asiel en abortus per partij 12 tot 32% mee, met het gemiddelde over alles ernaast;
 //   4. bij abortus valt het blok uiteen: per fractie hoe vaak mee met het kabinet, met het gemiddelde ernaast;
 //   5. de conclusie, expliciet in twee zinnen (de slotzin van het stuk), en een eindkaart die naar de site verwijst.
 // Geen bewering over wie nodig is: de Eerste Kamer staat niet in de data (feedback Niels). Getallen uit
@@ -11,7 +11,7 @@
 // Op de maat van de huismuziek: 44 seconden. Geen partijkleuren, geen namen van personen.
 import type { ReactNode } from "react";
 import { AbsoluteFill, Audio, Sequence, interpolate, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
-import { type ActueelData, datumTekst, mee, perThema, procent, stukVan, vierkantjes } from "../../../web/lib/actueel";
+import { type ActueelData, datumTekst, mee, opDrieThemas, perThema, procent, stukVan, vierkantjes } from "../../../web/lib/actueel";
 import { Banner, Woorden } from "../flits";
 import { FRAUNCES, Zaal150 } from "../merk";
 import { Achtergrond, Label, Tekst, useVeer, zacht } from "../onderdelen";
@@ -120,28 +120,40 @@ function Meestal({ d }: { d: ActueelData }) {
   );
 }
 
-// Scène 3: behalve precies op de drie thema's; het contrast als twee balken, de aantallen per thema eronder
+// Scène 3: behalve precies daar; dezelfde maat als scène 2, maar op de drie thema's, met een streep bij het eigen
+// gemiddelde over alles (zelfde beeld als scène 4)
 function Behalve({ d }: { d: ActueelData }) {
   const frame = useCurrentFrame();
   const m = useMaat();
-  const drie = d.botspunten.themas;
-  const beide = drie.reduce((n, t) => n + t.beide, 0), tegen = drie.reduce((n, t) => n + t.tegenover, 0);
-  const KORT: Record<string, string> = { "Asielopvang en spreidingswet": "Asiel", "Abortus, embryo, draagmoeder": "Abortus" };
-  const HOOG = m.lang ? 64 : 48;
+  const drie = opDrieThemas(d).sort((a, b) => (b.pct ?? 0) - (a.pct ?? 0));
+  const alles = perThema(d, "Alles")!;
+  const pcts = drie.map((f) => f.pct ?? 0);
+  const HOOG = m.lang ? 70 : 52;
+  const streep = interpolate(frame, [130, 145], [0, 1], zacht);
   return (
-    <Vlak voet={<Voet bij={240}>Alleen stemmingen waarop kabinet en blok allebei eensgezind stemden.</Voet>}>
-      <Kop label="Behalve precies daar" kop={`Op hun eisen stonden ze ${tegen} van de ${beide} keer tegenover elkaar`} />
-      <div style={{ display: "flex", flexDirection: "column", gap: m.lang ? 34 : 20, marginTop: m.lang ? 20 : 6 }}>
-        <Balk bij={60} pct={d.botspunten.alles.pct ?? 0} label="Alle onderwerpen" waarde={procent(d.botspunten.alles.pct)} kleur={K.lijnLicht} hoog={HOOG} />
-        <Balk bij={110} pct={(100 * tegen) / beide} label="Stikstof, asiel en abortus" waarde={procent((100 * tegen) / beide)} kleur={K.koper} hoog={HOOG} />
-      </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: m.lang ? 10 : 0 }}>
-        {drie.map((t, i) => (
-          <div key={t.thema} style={{ display: "flex", justifyContent: "space-between", fontFamily: LETTER.mono, fontSize: m.tekst - 4, color: K.zacht,
-            opacity: interpolate(frame, [170 + i * 12, 182 + i * 12], [0, 1], zacht) }}>
-            <span>{KORT[t.thema] ?? t.thema}</span><span>{t.tegenover} van {t.beide} tegenover elkaar</span>
-          </div>
-        ))}
+    <Vlak voet={<Voet bij={190}>{`Stemmingen over stikstof, asiel en abortus waarop het kabinet eensgezind stemde: ${drie[0].gestemd}.`}</Voet>}>
+      <Kop label="Behalve precies daar" kop={`Op hun eigen eisen draait het om: ${Math.round(Math.min(...pcts))} tot ${procent(Math.max(...pcts))} mee`} />
+      <div style={{ display: "flex", flexDirection: "column", gap: m.lang ? 40 : 22, marginTop: 10 }}>
+        {drie.map((f, i) => {
+          const gem = alles.fracties.find((x) => x.afkorting === f.afkorting)!;
+          const s = interpolate(frame, [50 + i * 20, 80 + i * 20], [0, 1], uitloop);
+          return (
+            <div key={f.afkorting} style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", fontFamily: LETTER.mono, fontSize: m.tekst + 6 }}>
+                <span style={{ color: K.koper }}>{f.afkorting}</span>
+                <span style={{ color: K.tekst, opacity: Math.min(1, s * 2) }}>{procent(f.pct)} mee</span>
+              </div>
+              <div style={{ position: "relative", height: HOOG, borderRadius: 8, background: K.nacht800 }}>
+                <div style={{ height: "100%", width: `${(f.pct ?? 0) * s}%`, background: K.koper, borderRadius: 8 }} />
+                <div style={{ position: "absolute", left: `${gem.pct ?? 0}%`, top: -10, bottom: -10, borderLeft: `4px solid ${K.goud}`, opacity: streep }} />
+              </div>
+            </div>
+          );
+        })}
+        <div style={{ display: "flex", alignItems: "center", gap: 14, fontFamily: LETTER.sans, fontSize: m.tekst - 4, color: K.zacht, opacity: streep }}>
+          <span style={{ display: "inline-block", width: 0, height: 34, borderLeft: `4px solid ${K.goud}` }} />
+          Streep: over alle onderwerpen, zoals in het vorige beeld
+        </div>
       </div>
     </Vlak>
   );

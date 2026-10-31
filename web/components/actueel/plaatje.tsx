@@ -1,7 +1,7 @@
 // Deelplaatje per blok van een Actueel-stuk (1200 x 630, next/og). Dezelfde vier grafieken als op de pagina, in de
 // stijl van de andere deelplaatjes (components/deel/plaatjes.tsx). Alleen flex-opmaak: next/og kent geen tabellen.
 import { Kader, KLEUR, Melding, rond } from "@/components/deel/plaatjes";
-import { type ActueelData, datumTekst, stukVan, vierkantjes } from "@/lib/actueel";
+import { type ActueelData, datumTekst, opDrieThemas, perThema as themaVan, stukVan } from "@/lib/actueel";
 
 const Rij = ({ children, hoogte }: { children: React.ReactNode; hoogte?: number }) =>
   <div style={{ display: "flex", alignItems: "center", gap: 16, ...(hoogte ? { height: hoogte } : {}) }}>{children}</div>;
@@ -53,34 +53,21 @@ function meegaan(d: ActueelData) {
 }
 
 function botspunten(d: ActueelData) {
-  const drie = d.botspunten.themas;
-  const pct = (100 * drie.reduce((n, t) => n + t.tegenover, 0)) / drie.reduce((n, t) => n + t.beide, 0);
-  // Eerst het contrast, zoals op de pagina en in de video
-  const balken = [{ label: "Alle onderwerpen", pct: d.botspunten.alles.pct ?? 0, kleur: KLEUR.zacht }, { label: "Stikstof, asiel en abortus", pct, kleur: KLEUR.koper }];
+  // Eerst de omkering, zoals op de pagina en in de video: per partij mee op de drie thema's, goud: over alles
+  const alles = themaVan(d, "Alles")!;
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 10, flex: 1, justifyContent: "center" }}>
-      {balken.map((b) => (
-        <Rij key={b.label}>
-          <div style={{ display: "flex", width: 330, fontSize: 24 }}>{b.label}</div>
-          <div style={{ display: "flex", width: 560, height: 26, background: KLEUR.vlak, borderRadius: 6 }}>
-            <div style={{ display: "flex", width: (560 * b.pct) / 100, background: b.kleur, borderRadius: 6 }} />
+    <div style={{ display: "flex", flexDirection: "column", gap: 26, flex: 1, justifyContent: "center" }}>
+      {opDrieThemas(d).map((f) => (
+        <Rij key={f.afkorting}>
+          <div style={{ display: "flex", width: 330, fontSize: 28, color: KLEUR.koper }}>{f.afkorting}</div>
+          <div style={{ display: "flex", position: "relative", width: 560, height: 44, background: KLEUR.vlak, borderRadius: 6 }}>
+            <div style={{ display: "flex", width: (560 * (f.pct ?? 0)) / 100, background: KLEUR.koper, borderRadius: 6 }} />
+            <div style={{ display: "flex", position: "absolute", left: (560 * (alles.fracties.find((x) => x.afkorting === f.afkorting)!.pct ?? 0)) / 100, top: -6, width: 4, height: 56, background: KLEUR.goud }} />
           </div>
-          <div style={{ display: "flex", fontSize: 24, color: b.kleur }}>{rond(b.pct)}</div>
+          <div style={{ display: "flex", fontSize: 28 }}>{rond(f.pct)}</div>
         </Rij>
       ))}
-      {d.botspunten.themas.map((t) => (
-        <Rij key={t.thema}>
-          <div style={{ display: "flex", width: 330, fontSize: 24 }}>{KORT[t.thema] ?? t.thema}</div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 4, width: 560 }}>
-            {vierkantjes(t).map((x) => (
-              <div key={x.besluit} style={{ display: "flex", width: 18, height: 18, borderRadius: 4,
-                background: x.stand === "tegen" ? KLEUR.koper : KLEUR.achter, border: `2px solid ${x.stand === "tegen" ? KLEUR.koper : "#566AA6"}` }} />
-            ))}
-          </div>
-          <div style={{ display: "flex", fontSize: 24 }}>{`${t.tegenover} van ${t.beide}`}</div>
-        </Rij>
-      ))}
-      <div style={{ display: "flex", fontSize: 20, color: KLEUR.zacht }}>Koper: tegenover elkaar · open: zelfde kant</div>
+      <div style={{ display: "flex", fontSize: 20, color: KLEUR.zacht }}>Balk: mee met het eensgezinde kabinet op de drie thema's · goud: over alle onderwerpen</div>
     </div>
   );
 }

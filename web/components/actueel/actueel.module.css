@@ -184,8 +184,16 @@
   font-size: 15px;
   color: var(--tekst);
 }
-.vulZacht {
-  background: var(--tekst-zacht);
+.streep {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  border-left: 3px solid var(--goud);
+}
+.streepUitleg {
+  display: inline-block;
+  height: 14px;
+  border-left: 3px solid var(--goud);
 }
 /* Smal scherm: label en getal boven de balk, de balk over de volle breedte */
 @media (max-width: 560px) {
