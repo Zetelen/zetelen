@@ -1,7 +1,7 @@
 // Explainer bij een Actueel-stuk (besluit Niels, 30 oktober 2026; verhaal herzien dezelfde dag). Eén boodschap per
 // scène, eerst in grote woorden, dan de grafiek die het bewijst, dan stilstand om te lezen:
 //   1. aanleiding: het blok stelt eisen;
-//   2. meestal dezelfde kant: als beide eensgezind stemden, in 76% van de keren;
+//   2. hoe vaak mee: JA21, BBB en SGP per stuk in 60 tot 74%, PRO als oppositiepartij ter vergelijking;
 //   3. behalve precies daar: 24% tegenover elkaar over alles, 93% op stikstof, asiel en abortus;
 //   4. bij abortus valt het blok uiteen: per fractie hoe vaak mee met het kabinet, met het gemiddelde ernaast;
 //   5. de conclusie, expliciet in twee zinnen (de slotzin van het stuk), en een eindkaart die naar de site verwijst.
@@ -11,8 +11,8 @@
 // Op de maat van de huismuziek: 44 seconden. Geen partijkleuren, geen namen van personen.
 import type { ReactNode } from "react";
 import { AbsoluteFill, Audio, Sequence, interpolate, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
-import { type ActueelData, aantal, datumTekst, perThema, procent, stukVan, vierkantjes } from "../../../web/lib/actueel";
-import { Banner, Sprong, Woorden, ZWAAR } from "../flits";
+import { type ActueelData, datumTekst, mee, perThema, procent, stukVan, vierkantjes } from "../../../web/lib/actueel";
+import { Banner, Woorden } from "../flits";
 import { FRAUNCES, Zaal150 } from "../merk";
 import { Achtergrond, Label, Tekst, useVeer, zacht } from "../onderdelen";
 import { K, LETTER, VEILIG } from "../stijl";
@@ -101,17 +101,21 @@ function Opening() {
   );
 }
 
-// Scène 2: meestal dezelfde kant
+// Scène 2: per partij hoe vaak mee met het eensgezinde kabinet, met de oppositiepartij PRO ter vergelijking (zoals blok 1
+// op de site; het blok als geheel, 76%, is een andere maat en staat alleen in de tekst op de site)
 function Meestal({ d }: { d: ActueelData }) {
   const m = useMaat();
-  const g = d.meegaan.groep;
+  const blok = d.groep.map((a) => mee(d, a)!).sort((a, b) => (b.pct ?? 0) - (a.pct ?? 0));
+  const pro = mee(d, "PRO")!;
+  const pcts = blok.map((f) => f.pct ?? 0);
+  const HOOG = m.lang ? 48 : 36;
   return (
-    <Vlak voet={<Voet bij={130}>{`${aantal(g.mee)} van de ${aantal(g.eensgezind)} stemmingen waarop kabinet en blok allebei eensgezind stemden.`}</Voet>}>
-      <Kop label="Als beide eensgezind stemden" kop="Meestal staan kabinet en blok aan dezelfde kant" />
-      <div style={{ fontFamily: ZWAAR, fontWeight: 800, fontSize: m.lang ? 260 : 190, lineHeight: 1, color: K.goud, marginTop: 10 }}>
-        <Sprong van={0} naar={Math.round(g.pct ?? 0)} bij={50} />%
+    <Vlak voet={<Voet bij={140}>Stemmingen waarop het kabinet eensgezind stemde. PRO is een oppositiepartij, ter vergelijking.</Voet>}>
+      <Kop label="Hoe vaak mee met het kabinet" kop={`${d.groep.join(", ").replace(/, ([^,]*)$/, " en $1")} gingen in ${Math.round(Math.min(...pcts))} tot ${procent(Math.max(...pcts))} mee`} />
+      <div style={{ display: "flex", flexDirection: "column", gap: m.lang ? 28 : 16, marginTop: m.lang ? 20 : 6 }}>
+        {blok.map((f, i) => <Balk key={f.afkorting} bij={45 + i * 15} pct={f.pct ?? 0} label={f.afkorting} waarde={procent(f.pct)} kleur={K.koper} hoog={HOOG} />)}
+        <Balk bij={105} pct={pro.pct ?? 0} label="PRO, oppositie" waarde={procent(pro.pct)} kleur={K.lijnLicht} hoog={HOOG} />
       </div>
-      <Balk bij={70} pct={g.pct ?? 0} label="Dezelfde kant" waarde={procent(g.pct)} kleur={K.goud} hoog={m.lang ? 56 : 44} />
     </Vlak>
   );
 }
