@@ -75,7 +75,7 @@ function blokTegenKabinet(d: ActueelData): Stuk {
     aanleiding: "JA21, BBB en SGP stuurden het kabinet op 29 oktober 2026 een gezamenlijk eisenpakket, in ruil voor steun aan het belastingplan. Het gaat onder meer over lastenverlichting, stikstof, asiel, draagmoederschap en abortus. Of het kabinet daarop ingaat, is politiek. Wat wel te meten is: hoe deze zes partijen tot nu toe in de Kamer stemden.",
     blokken: [
       {
-        id: "mee", vraag: "Stemt het blok mee?", kop: `${opsomming(d.groep)} gingen in ${Math.round(Math.min(...blokPct))} tot ${procent(Math.max(...blokPct))} mee met het kabinet, de oppositiepartij PRO in ${procent(pro.pct)}`,
+        id: "mee", vraag: "Stemt het blok mee?", kop: `${opsomming(d.groep)} stemden in ${Math.round(Math.min(...blokPct))} tot ${procent(Math.max(...blokPct))} van de stemmingen mee met het kabinet, de oppositiepartij PRO in ${procent(pro.pct)}`,
         tekst: [
           `Op ${aantal(d.meegaan.basis)} verdeelde stemmingen kozen ${kabinet} alle drie dezelfde kant. Was het blok daarbij ook eensgezind (${aantal(g.eensgezind)} keer), dan koos het ${aantal(g.mee)} keer dezelfde kant als het kabinet, in ${procent(g.pct)}.`,
           `Per partij ging de SGP het vaakst mee, in ${procent(sgp.pct)}. Daarna volgen JA21 (${procent(ja21.pct)}) en BBB (${procent(bbb.pct)}). PRO hoort niet bij het blok en komt op ${procent(pro.pct)}, ongeveer zo vaak als JA21.`,

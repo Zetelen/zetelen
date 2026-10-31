@@ -110,8 +110,8 @@ function Meestal({ d }: { d: ActueelData }) {
   const pcts = blok.map((f) => f.pct ?? 0);
   const HOOG = m.lang ? 48 : 36;
   return (
-    <Vlak voet={<Voet bij={140}>Stemmingen waarop het kabinet eensgezind stemde. PRO is een oppositiepartij, ter vergelijking.</Voet>}>
-      <Kop label="Hoe vaak mee met het kabinet" kop={`${d.groep.join(", ").replace(/, ([^,]*)$/, " en $1")} gingen in ${Math.round(Math.min(...pcts))} tot ${procent(Math.max(...pcts))} mee`} />
+    <Vlak voet={<Voet bij={140}>PRO is een oppositiepartij, ter vergelijking.</Voet>}>
+      <Kop label="Als het kabinet eensgezind stemde" kop={`${d.groep.join(", ").replace(/, ([^,]*)$/, " en $1")} stemden in ${Math.round(Math.min(...pcts))} tot ${procent(Math.max(...pcts))} van de stemmingen mee met het kabinet`} />
       <div style={{ display: "flex", flexDirection: "column", gap: m.lang ? 28 : 16, marginTop: m.lang ? 20 : 6 }}>
         {blok.map((f, i) => <Balk key={f.afkorting} bij={45 + i * 15} pct={f.pct ?? 0} label={f.afkorting} waarde={procent(f.pct)} kleur={K.koper} hoog={HOOG} />)}
         <Balk bij={105} pct={pro.pct ?? 0} label="PRO, oppositie" waarde={procent(pro.pct)} kleur={K.lijnLicht} hoog={HOOG} />
