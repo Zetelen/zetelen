@@ -26,8 +26,24 @@ export function Meegaan({ d }: { d: ActueelData }) {
 
 // Blok 2: per thema een vierkantje per stemming waarop beide groepen eensgezind waren; elk vierkantje linkt naar de bron
 export function Botspunten({ d }: { d: ActueelData }) {
+  const drie = d.botspunten.themas;
+  const beide = drie.reduce((n, t) => n + t.beide, 0), tegen = drie.reduce((n, t) => n + t.tegenover, 0);
+  // Eerst het contrast, zoals in de video: alle onderwerpen tegenover de drie thema's
+  const balken = [
+    { label: "Alle onderwerpen", pct: d.botspunten.alles.pct ?? 0, drie: false },
+    { label: "Stikstof, asiel en abortus", pct: (100 * tegen) / beide, drie: true },
+  ];
   return (
     <div className={s.botsen}>
+      <div className={s.contrast}>
+        {balken.map((b) => (
+          <div key={b.label} className={s.contrastRij}>
+            <span className={s.naam}>{b.label}</span>
+            <span className={s.cel}><span className={`${s.vul} ${b.drie ? "" : s.vulZacht}`} style={{ width: `${b.pct}%` }} /></span>
+            <span className={s.getal}>{procent(b.pct)}</span>
+          </div>
+        ))}
+      </div>
       <p className={s.legenda}>
         <span><span className={`${s.vak} ${s.tegen}`} aria-hidden="true" /> tegenover elkaar</span>
         <span><span className={`${s.vak} ${s.samen}`} aria-hidden="true" /> zelfde kant</span>

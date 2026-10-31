@@ -61,29 +61,31 @@ function blokTegenKabinet(d: ActueelData): Stuk {
   const beideDrie = drie.reduce((n, t) => n + t.beide, 0), tegenDrie = drie.reduce((n, t) => n + t.tegenover, 0);
   const motiesDrie = drie.flatMap(vierkantjes).filter((x) => x.soort === "Motie").length;
   const g = d.meegaan.groep;
+  const pctDrie = (100 * tegenDrie) / beideDrie;
+  const blokPct = [sgp, ja21, bbb].map((f) => f.pct ?? 0);
   const abortusBlok = perThema(d, "Abortus, embryo, draagmoeder")!;
   const kabinet = opsomming(d.tegen), blok = opsomming(d.groep);
 
   return {
     slug: d.slug, datum: d.gemaakt, label: "Actueel · JA21, BBB en SGP",
-    kop: "Het blok stemt meestal met het kabinet mee, behalve waar zijn eisen over gaan",
+    kop: "Het blok stelt eisen waar het kabinet tot nu toe bijna altijd de andere kant koos",
     beschrijving: `${blok} stellen samen eisen aan het kabinet-${d.kabinet}. Hoe vaak stemt het blok mee met ${kabinet}, waar botst het, en is het blok wel één blok?`,
     ziet: `Hoe ${blok} stemden tegenover ${kabinet}, onder kabinet-${d.kabinet} tot en met ${datumTekst(d.stand)}.`,
-    opvalt: `Als kabinet en blok allebei eensgezind stemden, kozen ze ${aantal(g.mee)} van de ${aantal(g.eensgezind)} keer dezelfde kant. Op stikstof, asiel en abortus stonden ze ${tegenDrie} van de ${beideDrie} keer tegenover elkaar. Bij abortus is het blok zelf verdeeld.`,
+    opvalt: `Op stikstof, asiel en abortus stonden kabinet en blok ${tegenDrie} van de ${beideDrie} keer tegenover elkaar, over alle onderwerpen in ${procent(d.botspunten.alles.pct)} van de stemmingen. Bij abortus stemde het blok maar ${pAbortus.groepEensgezind} van de ${pAbortus.verdeeld} keer eensgezind. Verder gaat het blok vaak mee: de partijen per stuk in ${Math.round(Math.min(...blokPct))} tot ${procent(Math.max(...blokPct))}, de oppositiepartij PRO in ${procent(pro.pct)}.`,
     aanleiding: "JA21, BBB en SGP stuurden het kabinet op 29 oktober 2026 een gezamenlijk eisenpakket, in ruil voor steun aan het belastingplan. Het gaat onder meer over lastenverlichting, stikstof, asiel, draagmoederschap en abortus. Of het kabinet daarop ingaat, is politiek. Wat wel te meten is: hoe deze zes partijen tot nu toe in de Kamer stemden.",
     blokken: [
       {
-        id: "mee", vraag: "Stemt het blok mee?", kop: `Als kabinet en blok allebei eensgezind stemden, kozen ze in ${procent(g.pct)} dezelfde kant`,
+        id: "mee", vraag: "Stemt het blok mee?", kop: `${opsomming(d.groep)} gingen in ${Math.round(Math.min(...blokPct))} tot ${procent(Math.max(...blokPct))} mee met het kabinet, de oppositiepartij PRO in ${procent(pro.pct)}`,
         tekst: [
-          `Op ${aantal(d.meegaan.basis)} verdeelde stemmingen kozen ${kabinet} alle drie dezelfde kant. Was het blok daarbij ook eensgezind (${aantal(g.eensgezind)} keer), dan koos het ${aantal(g.mee)} keer dezelfde kant als het kabinet.`,
+          `Op ${aantal(d.meegaan.basis)} verdeelde stemmingen kozen ${kabinet} alle drie dezelfde kant. Was het blok daarbij ook eensgezind (${aantal(g.eensgezind)} keer), dan koos het ${aantal(g.mee)} keer dezelfde kant als het kabinet, in ${procent(g.pct)}.`,
           `Per partij ging de SGP het vaakst mee, in ${procent(sgp.pct)}. Daarna volgen JA21 (${procent(ja21.pct)}) en BBB (${procent(bbb.pct)}). PRO hoort niet bij het blok en komt op ${procent(pro.pct)}, ongeveer zo vaak als JA21.`,
         ],
         data: "Per fractie alleen de stemmingen waarop die fractie zelf stemde. PRO: GroenLinks-PvdA en PRO samen, als één lijn.",
       },
       {
-        id: "wringt", vraag: "Waar wringt het?", kop: `Op stikstof, asiel en abortus stonden ze ${tegenDrie} van de ${beideDrie} keer tegenover elkaar`,
+        id: "wringt", vraag: "Waar wringt het?", kop: `Op stikstof, asiel en abortus stonden ze in ${procent(pctDrie)} tegenover elkaar, over alles in ${procent(d.botspunten.alles.pct)}`,
         tekst: [
-          `Over alle onderwerpen stonden kabinet en blok in ${procent(d.botspunten.alles.pct)} van die stemmingen tegenover elkaar. Op stikstof was dat ${stik.tegenover} van de ${stik.beide} keer, op asielopvang en de spreidingswet ${asiel.tegenover} van de ${asiel.beide}, op abortus ${abortus.tegenover} van de ${abortus.beide}.`,
+          `Op de drie thema's samen stonden kabinet en blok ${tegenDrie} van de ${beideDrie} keer tegenover elkaar. Over alle onderwerpen was dat ${aantal(d.botspunten.alles.tegenover)} van de ${aantal(d.botspunten.alles.beide)} keer. Op stikstof was dat ${stik.tegenover} van de ${stik.beide} keer, op asielopvang en de spreidingswet ${asiel.tegenover} van de ${asiel.beide}, op abortus ${abortus.tegenover} van de ${abortus.beide}.`,
           `Op stikstof en asiel zijn beide groepen hechter dan gemiddeld. Het blok stemde daar ${pStik.groepEensgezind} van de ${pStik.verdeeld} en ${pAsiel.groepEensgezind} van de ${pAsiel.verdeeld} keer eensgezind, tegen ${procent((100 * pAlles.groepEensgezind) / pAlles.verdeeld)} over alle stemmingen. Het kabinet was eensgezind op ${pStik.refEensgezind} van de ${pStik.verdeeld} en ${pAsiel.refEensgezind} van de ${pAsiel.verdeeld}.`,
         ],
         data: "Een vierkantje is één verdeelde stemming waarin kabinet en blok allebei eensgezind stemden, gekozen op trefwoorden in het onderwerp. Klik voor de stemming op tweedekamer.nl.",

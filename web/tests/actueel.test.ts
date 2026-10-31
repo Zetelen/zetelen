@@ -16,7 +16,7 @@ describe("Actueel: blok tegenover kabinet", () => {
   it("noemt de getallen uit de data, niet uit het hoofd", () => {
     const drie = d.botspunten.themas;
     expect(stuk.opvalt).toContain(`${drie.reduce((n, t) => n + t.tegenover, 0)} van de ${drie.reduce((n, t) => n + t.beide, 0)} keer tegenover elkaar`);
-    expect(stuk.opvalt).toContain(`${aantal(d.meegaan.groep.mee)} van de ${aantal(d.meegaan.groep.eensgezind)} keer dezelfde kant`);
+    expect(stuk.blokken[0].tekst[0]).toContain(`(${aantal(d.meegaan.groep.eensgezind)} keer), dan koos het ${aantal(d.meegaan.groep.mee)} keer dezelfde kant als het kabinet, in ${procent(d.meegaan.groep.pct)}`);
     expect(thema(d, "Stikstof")!.tegenover).toBe(26);
     for (const a of ["SGP", "PRO", "JA21", "BBB"]) expect(alleTekst).toContain(procent(mee(d, a)!.pct));
     expect(alleTekst).toContain(`${d.zetelsom.ref} zetels`);
@@ -35,6 +35,12 @@ describe("Actueel: blok tegenover kabinet", () => {
     expect(stuk.slot).toContain("38 van de 41 keer de andere kant");
     expect(stuk.slot).toContain(`${ab.groepEensgezind} van de ${ab.verdeeld} keer eensgezind`);
     expect(stuk.slot.split(/(?<=\.) /)).toHaveLength(2);
+  });
+  it("zet het contrast en de conclusie voorop, zoals in de video", () => {
+    expect(stuk.kop).toBe("Het blok stelt eisen waar het kabinet tot nu toe bijna altijd de andere kant koos");
+    expect(stuk.opvalt.startsWith("Op stikstof, asiel en abortus stonden kabinet en blok 38 van de 41 keer tegenover elkaar")).toBe(true);
+    expect(stuk.blokken[1].kop).toBe(`Op stikstof, asiel en abortus stonden ze in 93% tegenover elkaar, over alles in ${procent(d.botspunten.alles.pct)}`);
+    expect(stuk.blokken[0].kop).toContain(`PRO in ${procent(mee(d, "PRO")!.pct)}`);
   });
   it("zegt niet wie nodig is, want de Eerste Kamer staat niet in de data", () => {
     expect(alleTekst).not.toMatch(/heeft het kabinet \w+ nodig|te groot|niet nodig/);

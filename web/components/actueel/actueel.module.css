@@ -166,6 +166,38 @@
   flex-direction: column;
   gap: var(--r-3);
 }
+/* Blok 2: het contrast boven de vierkantjes, twee balken */
+.contrast {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-2);
+  margin-bottom: var(--r-2);
+}
+.contrastRij {
+  display: grid;
+  grid-template-columns: minmax(120px, 200px) 1fr 48px;
+  align-items: center;
+  gap: var(--r-3);
+}
+.contrastRij .naam {
+  font-family: var(--sans);
+  font-size: 15px;
+  color: var(--tekst);
+}
+.vulZacht {
+  background: var(--tekst-zacht);
+}
+/* Smal scherm: label en getal boven de balk, de balk over de volle breedte */
+@media (max-width: 560px) {
+  .contrastRij {
+    grid-template-columns: 1fr 48px;
+    row-gap: 6px;
+  }
+  .contrastRij .cel {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+}
 .legenda {
   display: flex;
   flex-wrap: wrap;

@@ -6,8 +6,9 @@ import { type ActueelData, datumTekst, stukVan, vierkantjes } from "@/lib/actuee
 const Rij = ({ children, hoogte }: { children: React.ReactNode; hoogte?: number }) =>
   <div style={{ display: "flex", alignItems: "center", gap: 16, ...(hoogte ? { height: hoogte } : {}) }}>{children}</div>;
 
+const KORT: Record<string, string> = { "Asielopvang en spreidingswet": "Asiel", "Abortus, embryo, draagmoeder": "Abortus" };
+
 function perThema(d: ActueelData) {
-  const KORT: Record<string, string> = { "Asielopvang en spreidingswet": "Asiel", "Abortus, embryo, draagmoeder": "Abortus" };
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 10, flex: 1, justifyContent: "center" }}>
       <Rij><div style={{ display: "flex", width: 90 }} />{d.perThema.map((t) => <div key={t.thema} style={{ display: "flex", width: 220, justifyContent: "center", fontSize: 22, color: KLEUR.zacht }}>{KORT[t.thema] ?? t.thema}</div>)}</Rij>
@@ -52,14 +53,27 @@ function meegaan(d: ActueelData) {
 }
 
 function botspunten(d: ActueelData) {
+  const drie = d.botspunten.themas;
+  const pct = (100 * drie.reduce((n, t) => n + t.tegenover, 0)) / drie.reduce((n, t) => n + t.beide, 0);
+  // Eerst het contrast, zoals op de pagina en in de video
+  const balken = [{ label: "Alle onderwerpen", pct: d.botspunten.alles.pct ?? 0, kleur: KLEUR.zacht }, { label: "Stikstof, asiel en abortus", pct, kleur: KLEUR.koper }];
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 22, flex: 1, justifyContent: "center" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 10, flex: 1, justifyContent: "center" }}>
+      {balken.map((b) => (
+        <Rij key={b.label}>
+          <div style={{ display: "flex", width: 330, fontSize: 24 }}>{b.label}</div>
+          <div style={{ display: "flex", width: 560, height: 26, background: KLEUR.vlak, borderRadius: 6 }}>
+            <div style={{ display: "flex", width: (560 * b.pct) / 100, background: b.kleur, borderRadius: 6 }} />
+          </div>
+          <div style={{ display: "flex", fontSize: 24, color: b.kleur }}>{rond(b.pct)}</div>
+        </Rij>
+      ))}
       {d.botspunten.themas.map((t) => (
         <Rij key={t.thema}>
-          <div style={{ display: "flex", width: 330, fontSize: 24 }}>{t.thema}</div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 5, width: 560 }}>
+          <div style={{ display: "flex", width: 330, fontSize: 24 }}>{KORT[t.thema] ?? t.thema}</div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 4, width: 560 }}>
             {vierkantjes(t).map((x) => (
-              <div key={x.besluit} style={{ display: "flex", width: 22, height: 22, borderRadius: 4,
+              <div key={x.besluit} style={{ display: "flex", width: 18, height: 18, borderRadius: 4,
                 background: x.stand === "tegen" ? KLEUR.koper : KLEUR.achter, border: `2px solid ${x.stand === "tegen" ? KLEUR.koper : "#566AA6"}` }} />
             ))}
           </div>
