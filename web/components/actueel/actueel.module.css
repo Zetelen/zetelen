@@ -1,4 +1,4 @@
-/* Actueel: vier vaste grafieken (components/actueel/Blokken.tsx) */
+/* Actueel: vier grafieken (components/actueel/Blokken.tsx) */
 .blokken {
   display: flex;
   flex-direction: column;
@@ -35,15 +35,17 @@
   margin: 0;
 }
 
-/* Blok 1: matrix */
+/* Blok 3: per thema */
 .schuif {
   overflow-x: auto;
 }
-.matrix {
+.perThema {
   border-collapse: separate;
   border-spacing: 4px;
+  width: 100%;
+  max-width: 640px;
 }
-.matrix th {
+.perThema th {
   font-family: var(--mono);
   font-size: var(--tekst-data);
   font-weight: 400;
@@ -51,20 +53,49 @@
   padding: 0 6px;
   text-align: left;
 }
-.matrix thead th {
+.perThema thead th {
   text-align: center;
 }
+.cel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 64px;
+  height: 40px;
+  border-radius: var(--hoek-klein);
+  background: var(--nacht-900);
+  border: 1px solid var(--lijn);
+  overflow: hidden;
+}
+.vul {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: var(--koper);
+  opacity: 0.45;
+}
+.celTekst {
+  position: relative;
+  font-family: var(--mono);
+  font-size: var(--tekst-data);
+  white-space: nowrap;
+}
 @media (max-width: 560px) {
-  .matrix {
+  .perThema {
     border-spacing: 2px;
   }
-  .matrix td > span {
-    min-width: 46px;
-    min-height: 36px;
+  .cel {
+    min-width: 56px;
+    height: 36px;
+  }
+  .celTekst {
+    font-size: 12px;
   }
 }
 
-/* Blok 2: stippen */
+/* Blok 1: stippen */
 .stippen {
   list-style: none;
   margin: 0;
@@ -129,7 +160,7 @@
   color: var(--tekst-zacht);
 }
 
-/* Blok 3: vierkantjes */
+/* Blok 2: vierkantjes */
 .botsen {
   display: flex;
   flex-direction: column;
@@ -220,15 +251,9 @@ a.vak:focus-visible {
   background: var(--lijn-licht);
   color: var(--nacht-950);
 }
-.nodig {
+.blok4 {
   background: var(--koper);
   color: var(--nacht-950);
-}
-.keuze {
-  background: repeating-linear-gradient(45deg, var(--koper) 0 3px, var(--nacht-800) 3px 6px);
-}
-.over {
-  background: var(--nacht-700);
 }
 .meerderheid {
   position: absolute;

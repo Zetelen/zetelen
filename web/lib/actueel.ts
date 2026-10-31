@@ -1,6 +1,7 @@
-// Actueel (besluit Niels, 30 oktober 2026): een stuk bij het nieuws in vier vaste blokken, geen scrollverhaal. Elk blok
-// beantwoordt één vraag (hoe hecht is de groep, gaat ze mee, waar wringt het, telt het op) met een kop die de conclusie
-// is, één grafiek en een regel met de marge. Dezelfde blokken zijn de deelplaatjes en de scènes van de video.
+// Actueel (besluit Niels, 30 oktober 2026): een stuk bij het nieuws in vier blokken, geen scrollverhaal. Elk blok
+// beantwoordt één vraag met een kop die de conclusie is, één grafiek en een regel met de marge. De vragen volgen het
+// verhaal van het stuk (herzien met Niels op 30 oktober: eerst het contrast, dan waar het blok zelf verdeeld is; geen
+// bewering over wie nodig is, want de Eerste Kamer staat niet in de data). Dezelfde blokken zijn de deelplaatjes en de scènes van de video.
 // De getallen komen uit web/content/actueel/<slug>.json (pipeline/actueel.py), vastgelegd op de dag van publicatie:
 // een actueel stuk is een momentopname, met de stand erbij. De zinnen staan hieronder en lezen hun getallen uit dat
 // bestand; de tests controleren dat elke zin klopt met de data.
@@ -22,6 +23,8 @@ export type ActueelData = {
     themas: Array<{ thema: string; patroon: string; verdeeld: number; beide: number; tegenover: number; stemmingen: Stemming[] }>;
     alles: { beide: number; tegenover: number; pct: number | null };
   };
+  perThema: Array<{ thema: string; verdeeld: number; groepEensgezind: number; refEensgezind: number;
+    fracties: Array<{ afkorting: string; gestemd: number; mee: number; pct: number | null }> }>;
   zetelsom: { meerderheid: number; zetels: Record<string, number>; ref: number; groep: number; samen: number; kleinsteMeerderheid: string[][] };
 };
 
@@ -44,64 +47,62 @@ export const paar = (d: ActueelData, a: string, b: string) =>
 export const mee = (d: ActueelData, afk: string) => d.meegaan.fracties.find((f) => f.afkorting === afk);
 export const thema = (d: ActueelData, naam: string) => d.botspunten.themas.find((t) => t.thema === naam);
 // Alleen de stemmingen waarop beide groepen eensgezind waren: die staan als vierkantjes in blok 3
+export const perThema = (d: ActueelData, naam: string) => d.perThema.find((t) => t.thema === naam);
 export const vierkantjes = (t: ActueelData["botspunten"]["themas"][number]) => t.stemmingen.filter((s) => s.stand !== "verdeeld");
 
 function blokTegenKabinet(d: ActueelData): Stuk {
-  const binnen = (l: string[]) => l.flatMap((a, i) => l.slice(i + 1).map((b) => paar(d, a, b)!));
-  const blok = binnen(d.groep), kab = binnen(d.tegen);
-  const kruis = d.groep.flatMap((a) => d.tegen.map((b) => paar(d, a, b)!)).sort((x, y) => y.cohesie - x.cohesie);
-  const bereik = (l: typeof blok) => [Math.min(...l.map((p) => p.cohesie)), Math.max(...l.map((p) => p.cohesie))];
-  const [bMin, bMax] = bereik(blok), [kMin, kMax] = bereik(kab);
-  const plekken = blok.map((p) => p.plek).sort((x, y) => x - y);
-  const hoog = kruis[0], laag = kruis[kruis.length - 1];
   const [sgp, pro, ja21, bbb] = ["SGP", "PRO", "JA21", "BBB"].map((a) => mee(d, a)!);
   const stik = thema(d, "Stikstof")!, asiel = thema(d, "Asielopvang en spreidingswet")!, abortus = thema(d, "Abortus, embryo, draagmoeder")!;
+  const pAlles = perThema(d, "Alles")!, pStik = perThema(d, "Stikstof")!, pAsiel = perThema(d, "Asielopvang en spreidingswet")!;
+  const pAbortus = perThema(d, "Abortus, embryo, draagmoeder")!;
+  const fr = (t: typeof pAlles, a: string) => t.fracties.find((f) => f.afkorting === a)!;
   const z = d.zetelsom;
-  const kort = z.meerderheid - z.ref;
-  const metJa21 = z.ref + z.zetels.JA21;
-  const kleintjes = z.kleinsteMeerderheid.map((c) => c.find((a) => a !== "JA21")!);
   const drie = [stik, asiel, abortus];
   const beideDrie = drie.reduce((n, t) => n + t.beide, 0), tegenDrie = drie.reduce((n, t) => n + t.tegenover, 0);
   const motiesDrie = drie.flatMap(vierkantjes).filter((x) => x.soort === "Motie").length;
-  const abortusBlokVerdeeld = abortus.stemmingen.filter((x) => !x.groep).length;
+  const g = d.meegaan.groep;
+  const abortusBlok = perThema(d, "Abortus, embryo, draagmoeder")!;
+  const kabinet = opsomming(d.tegen), blok = opsomming(d.groep);
 
   return {
     slug: d.slug, datum: d.gemaakt, label: "Actueel · JA21, BBB en SGP",
-    kop: `Op stikstof stonden blok en kabinet ${stik.tegenover} van de ${stik.beide} keer tegenover elkaar`,
-    beschrijving: "JA21, BBB en SGP stellen samen eisen aan het kabinet-Jetten. Hoe hecht is dat blok, hoe vaak stemt het mee met D66, VVD en CDA, en waar botst het?",
-    ziet: `Hoe JA21, BBB en SGP stemden tegenover D66, VVD en CDA, onder kabinet-${d.kabinet} tot en met ${datumTekst(d.stand)}.`,
-    opvalt: `Op stikstof stonden blok en kabinet ${stik.tegenover} van de ${stik.beide} keer tegenover elkaar. Over alle stemmingen waarin beide groepen eensgezind stemden, was dat ${aantal(d.botspunten.alles.tegenover)} van de ${aantal(d.botspunten.alles.beide)} keer.`,
+    kop: "Het blok stemt meestal met het kabinet mee, behalve waar zijn eisen over gaan",
+    beschrijving: `${blok} stellen samen eisen aan het kabinet-${d.kabinet}. Hoe vaak stemt het blok mee met ${kabinet}, waar botst het, en is het blok wel één blok?`,
+    ziet: `Hoe ${blok} stemden tegenover ${kabinet}, onder kabinet-${d.kabinet} tot en met ${datumTekst(d.stand)}.`,
+    opvalt: `Als kabinet en blok allebei eensgezind stemden, kozen ze ${aantal(g.mee)} van de ${aantal(g.eensgezind)} keer dezelfde kant. Op stikstof, asiel en abortus stonden ze ${tegenDrie} van de ${beideDrie} keer tegenover elkaar. Bij abortus is het blok zelf verdeeld.`,
     aanleiding: "JA21, BBB en SGP stuurden het kabinet op 29 oktober 2026 een gezamenlijk eisenpakket, in ruil voor steun aan het belastingplan. Het gaat onder meer over lastenverlichting, stikstof, asiel, draagmoederschap en abortus. Of het kabinet daarop ingaat, is politiek. Wat wel te meten is: hoe deze zes partijen tot nu toe in de Kamer stemden.",
     blokken: [
       {
-        id: "hecht", vraag: "Hoe hecht is de groep?", kop: "Het blok is hecht, het kabinet hechter",
+        id: "mee", vraag: "Stemt het blok mee?", kop: `Als kabinet en blok allebei eensgezind stemden, kozen ze in ${procent(g.pct)} dezelfde kant`,
         tekst: [
-          `JA21, BBB en SGP kozen onderling in ${procent(bMin)} tot ${procent(bMax)} van de verdeelde stemmingen dezelfde kant. Daarmee staan ze op plek ${plekken[0]} tot ${plekken[plekken.length - 1]} van de ${d.hechtheid.parenTotaal} paren. De drie kabinetspartijen halen ${procent(kMin)} tot ${procent(kMax)}.`,
-          `Tussen blok en kabinet ligt het lager: van ${procent(hoog.cohesie)} (${hoog.a} en ${hoog.b}) tot ${procent(laag.cohesie)} (${laag.a} en ${laag.b}).`,
-        ],
-        data: `Cohesie onder kabinet-${d.kabinet}: van de verdeelde stemmingen waarin beide fracties voor of tegen stemden, het deel waarin ze dezelfde kant kozen. Verdeeld: niet alle fracties stemden hetzelfde. Plek onder alle paren van fracties met minstens 3 zetels.`,
-      },
-      {
-        id: "mee", vraag: "Gaat de groep mee?", kop: "Als het kabinet eensgezind stemt, gaat PRO net zo vaak mee als JA21",
-        tekst: [
-          `Op ${aantal(d.meegaan.basis)} verdeelde stemmingen kozen D66, VVD en CDA alle drie dezelfde kant. De SGP ging daarin het vaakst mee, in ${procent(sgp.pct)}. PRO (${procent(pro.pct)}) en JA21 (${procent(ja21.pct)}) volgen vlak na elkaar, BBB komt op ${procent(bbb.pct)}.`,
-          `Was het blok zelf eensgezind, dan ging het in ${procent(d.meegaan.groep.pct)} van die stemmingen mee met het kabinet.`,
+          `Op ${aantal(d.meegaan.basis)} verdeelde stemmingen kozen ${kabinet} alle drie dezelfde kant. Was het blok daarbij ook eensgezind (${aantal(g.eensgezind)} keer), dan koos het ${aantal(g.mee)} keer dezelfde kant als het kabinet.`,
+          `Per partij ging de SGP het vaakst mee, in ${procent(sgp.pct)}. Daarna volgen JA21 (${procent(ja21.pct)}) en BBB (${procent(bbb.pct)}). PRO hoort niet bij het blok en komt op ${procent(pro.pct)}, ongeveer zo vaak als JA21.`,
         ],
         data: "Per fractie alleen de stemmingen waarop die fractie zelf stemde. PRO: GroenLinks-PvdA en PRO samen, als één lijn.",
       },
       {
         id: "wringt", vraag: "Waar wringt het?", kop: `Op stikstof, asiel en abortus stonden ze ${tegenDrie} van de ${beideDrie} keer tegenover elkaar`,
         tekst: [
-          `Als kabinet en blok allebei eensgezind stemden, stonden ze in ${procent(d.botspunten.alles.pct)} van de stemmingen tegenover elkaar. Op stikstof was dat ${stik.tegenover} van de ${stik.beide} keer, op asielopvang en de spreidingswet ${asiel.tegenover} van de ${asiel.beide}, op abortus ${abortus.tegenover} van de ${abortus.beide}.`,
-          `Bij abortus is het blok minder eensgezind dan het lijkt: op ${abortusBlokVerdeeld} van de ${abortus.verdeeld} verdeelde stemmingen stemde het niet als één blok. Bij twee hoofdelijke stemmingen op 27 oktober was JA21 zelf verdeeld, telkens 6 leden tegen 3. Zetelen telt de kant van de meerderheid van een fractie.`,
+          `Over alle onderwerpen stonden kabinet en blok in ${procent(d.botspunten.alles.pct)} van die stemmingen tegenover elkaar. Op stikstof was dat ${stik.tegenover} van de ${stik.beide} keer, op asielopvang en de spreidingswet ${asiel.tegenover} van de ${asiel.beide}, op abortus ${abortus.tegenover} van de ${abortus.beide}.`,
+          `Op stikstof en asiel zijn beide groepen hechter dan gemiddeld. Het blok stemde daar ${pStik.groepEensgezind} van de ${pStik.verdeeld} en ${pAsiel.groepEensgezind} van de ${pAsiel.verdeeld} keer eensgezind, tegen ${procent((100 * pAlles.groepEensgezind) / pAlles.verdeeld)} over alle stemmingen. Het kabinet was eensgezind op ${pStik.refEensgezind} van de ${pStik.verdeeld} en ${pAsiel.refEensgezind} van de ${pAsiel.verdeeld}.`,
         ],
         data: "Een vierkantje is één verdeelde stemming waarin kabinet en blok allebei eensgezind stemden, gekozen op trefwoorden in het onderwerp. Klik voor de stemming op tweedekamer.nl.",
       },
       {
-        id: "telt", vraag: "Telt het op?", kop: `Binnen het blok heeft het kabinet JA21 nodig, en ${kleintjes.length > 1 ? "een van de twee kleine" : kleintjes[0]}`,
+        id: "abortus", vraag: "Is het blok één blok?", kop: "Bij abortus valt het blok uiteen",
         tekst: [
-          `D66, VVD en CDA hebben ${z.ref} zetels, ${kort} te weinig voor een meerderheid. Met JA21 erbij is het ${metJa21}. Dan is ${opsomming(kleintjes).replace(" en ", " of ")} genoeg, met elk ${z.zetels[kleintjes[0]]} zetels.`,
-          `Het blok telt ${z.groep} zetels. Lid Keijzer (1 zetel) is een eigen fractie en hoort er niet bij. Het kabinet kan ook steun zoeken bij andere fracties, en de Eerste Kamer telt hier niet mee.`,
+          `Op de ${pAbortus.verdeeld} verdeelde stemmingen over abortus, embryo's en draagmoederschap stemde het blok ${pAbortus.groepEensgezind} keer eensgezind. JA21 ging ${fr(pAbortus, "JA21").mee} van de ${fr(pAbortus, "JA21").gestemd} keer mee met het eensgezinde kabinet, ongeveer zoals over alle stemmingen (${procent(fr(pAlles, "JA21").pct)}). De SGP deed dat ${fr(pAbortus, "SGP").mee} keer, BBB ${fr(pAbortus, "BBB").mee} keer.`,
+          // Uit de controle tegen de bron (30 oktober 2026): JA21 was bij alle zeven hoofdelijke stemmingen over dit thema
+          // verdeeld; vier van de zeven keer meegaan rusten op een meerderheid van 5 tegen 4
+          "Ook JA21 is hier niet eensgezind: bij alle zeven hoofdelijke stemmingen over dit thema stemden de leden verschillend, vier keer met 5 tegen 4. Zetelen telt de kant van de meerderheid van een fractie. Het gaat om kleine aantallen: één stemming verschuift het beeld al.",
+        ],
+        data: `Per fractie en thema: van de verdeelde stemmingen waarop ${kabinet} eensgezind stemden en de fractie zelf stemde, hoe vaak ze dezelfde kant koos. Thema's op trefwoorden in het onderwerp.`,
+      },
+      {
+        id: "telt", vraag: "Hoeveel zetels?", kop: `Samen hebben kabinet en blok ${z.samen} zetels in de Tweede Kamer`,
+        tekst: [
+          `${kabinet} hebben ${z.ref} zetels, ${z.meerderheid - z.ref} te weinig voor een meerderheid. ${d.groep.map((a) => `${a} (${z.zetels[a]})`).join(", ").replace(/, ([^,]*)$/, " en $1")} hebben er samen ${z.groep}. Lid Keijzer (1 zetel) is een eigen fractie en hoort er niet bij.`,
+          "Een wet moet ook door de Eerste Kamer, en die staat niet in Zetelen. Welke partijen het kabinet daar nodig heeft, is hier dus niet te zien.",
         ],
         data: `Zetels in de zaal onder kabinet-${d.kabinet}. Meerderheid: ${z.meerderheid} van de 150.`,
       },
@@ -110,7 +111,7 @@ function blokTegenKabinet(d: ActueelData): Stuk {
       links: { titel: "Een breekpunt", tekst: "Op deze dossiers stemden de kabinetsfracties tot nu toe bijna steeds anders dan het blok, als beide groepen eensgezind stemden. Een gewoonte van samen stemmen is er hier niet." },
       rechts: { titel: "Ruimte voor een ruil", tekst: `Het gaat om ${beideDrie} van de ${aantal(d.verdeeld)} verdeelde stemmingen, ${motiesDrie} daarvan moties: verzoeken, geen wetten. Een akkoord kan juist op zulke punten een ruil zijn. Of dat gebeurt, staat niet in de data.` },
     },
-    slot: "Voor de rekensom is het blok één partij te groot.",
+    slot: `Wil het kabinet op de eisen ingaan, dan moet het opschuiven waar het tot nu toe ${tegenDrie} van de ${beideDrie} keer de andere kant koos. Bij abortus is niet duidelijk welke kant het blok wil: het stemde daar maar ${abortusBlok.groepEensgezind} van de ${abortusBlok.verdeeld} keer eensgezind.`,
     data: d,
   };
 }

@@ -1,9 +1,9 @@
-// Een Actueel-stuk in vier vaste blokken (lib/actueel.ts, components/actueel/Blokken.tsx). De getallen staan vast op
+// Een Actueel-stuk in vier blokken (lib/actueel.ts, components/actueel/Blokken.tsx). De getallen staan vast op
 // de dag van publicatie; de kop van elk blok is de conclusie, de regel eronder de marge.
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Botspunten, Hechtheid, Meegaan, Zetelsom } from "@/components/actueel/Blokken";
+import { Botspunten, Meegaan, PerThema, Zetelsom } from "@/components/actueel/Blokken";
 import { Inhoud } from "@/components/Kader";
 import { GrafiekKader, GrafiekVlak } from "@/components/deel/GrafiekKader";
 import { Kern, Lezingen } from "@/components/Onderdelen";
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ stuk: str
   return { title: x.kop, description: x.beschrijving, alternates: { canonical: `/actueel/${x.slug}` } };
 }
 
-const GRAFIEK: Record<string, (p: { d: ActueelData }) => React.ReactNode> = { hecht: Hechtheid, mee: Meegaan, wringt: Botspunten, telt: Zetelsom };
+const GRAFIEK: Record<string, (p: { d: ActueelData }) => React.ReactNode> = { mee: Meegaan, wringt: Botspunten, abortus: PerThema, telt: Zetelsom };
 
 export default async function ActueelStuk({ params }: { params: Promise<{ stuk: string }> }) {
   const x = stukVan((await params).stuk);

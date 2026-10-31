@@ -16,6 +16,11 @@ vaste blokken, en dit script levert voor elk blok de getallen:
    waarop beide groepen eensgezind waren, en hoe vaak ze tegenover elkaar stonden.
 4. Telt het op: zetels per fractie en de meerderheid.
 
+Daarnaast per thema (en over alles, als vergelijking): hoe vaak de groep en de andere
+groep elk eensgezind stemden, en per fractie uit de groep hoe vaak ze meeging met de
+eensgezinde andere groep (toegevoegd 30 oktober 2026: bij abortus bleek het blok
+geen blok).
+
 Regels voor het tellen:
 - Een fractie die onder een nieuwe naam doorgaat (naamswijziging in
   web/content/fractie-opvolgers.json, zoals GroenLinks-PvdA naar PRO) telt als één
@@ -178,6 +183,20 @@ def botspunten(besluiten: list, themas: dict, groep: list, ref: list) -> dict:
     return {"themas": uit, "alles": {"beide": len(beide), "tegenover": t, "pct": pct(t, len(beide))}}
 
 
+def per_thema(besluiten: list, themas: dict, fracties: dict, groep: list, ref: list) -> list:
+    """Per thema, en eerst over alle verdeelde stemmingen: hoe vaak groep en ref elk eensgezind waren, en per fractie
+    uit de groep hoe vaak ze meeging met de eensgezinde ref (zoals meegaan). fracties: afkorting naar id-lijst."""
+    uit = []
+    for naam, patroon in {"Alles": None, **themas}.items():
+        p = re.compile(patroon, re.I) if patroon else None
+        sel = [b for b in besluiten if b["verdeeld"] and (p is None or p.search(b["onderwerp"] or ""))]
+        uit.append({"thema": naam, "verdeeld": len(sel),
+                    "groepEensgezind": sum(1 for b in sel if kant(b["stemmen"], groep)),
+                    "refEensgezind": sum(1 for b in sel if kant(b["stemmen"], ref)),
+                    "fracties": meegaan(sel, ref, fracties, groep)["fracties"]})
+    return uit
+
+
 def zetelsom(zetels: dict, groep: list, ref: list) -> dict:
     meerderheid = ZETELS_TOTAAL // 2 + 1
     som = lambda fr: sum(zetels.get(a, 0) for a in fr)  # noqa: E731
@@ -238,6 +257,7 @@ def main(argv=None):
         "meegaan": meegaan(besluiten, R, {x: ids[x] for x in groep + vergelijk}, G),
         "samen": samen(besluiten, {"tegen+groep": R + G, **{f"tegen+{x}": R + [ids[x]] for x in groep + vergelijk}}),
         "botspunten": botspunten(besluiten, dict(a.thema), G, R),
+        "perThema": per_thema(besluiten, dict(a.thema), {x: ids[x] for x in groep}, G, R),
         "zetelsom": zetelsom(zetels, groep, ref),
     }
     a.uitvoer.mkdir(parents=True, exist_ok=True)
@@ -258,6 +278,9 @@ def main(argv=None):
         print(f"  {t['thema']}: {t['verdeeld']} verdeeld, beide eensgezind {t['beide']}, tegenover {t['tegenover']}")
     al = uit["botspunten"]["alles"]
     print(f"  alles: beide eensgezind {al['beide']}, tegenover {al['tegenover']} ({al['pct']}%)")
+    for t in uit["perThema"]:
+        mee_tekst = ", ".join(f"{f['afkorting']} {f['mee']}/{f['gestemd']}" for f in t["fracties"])
+        print(f"  {t['thema']}: groep eensgezind {t['groepEensgezind']}, {'+'.join(ref)} eensgezind {t['refEensgezind']} van {t['verdeeld']}; mee {mee_tekst}")
     z = uit["zetelsom"]
     print(f"  zetels {'+'.join(ref)} {z['ref']}, groep {z['groep']}, kleinste meerderheid met {z['kleinsteMeerderheid']}")
     print(f"Geschreven: {pad.relative_to(WORTEL) if pad.is_relative_to(WORTEL) else pad}")

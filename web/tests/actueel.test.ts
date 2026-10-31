@@ -1,7 +1,7 @@
 // Tests voor Actueel (lib/actueel.ts): de zinnen moeten kloppen met de vastgelegde cijfers, en de deellinks per blok
 // mogen alleen bestaande stukken en blokken doorlaten.
 import { describe, expect, it } from "vitest";
-import { STUKKEN, datumTekst, mee, procent, schoonActueel, stukVan, thema, titelActueel, vierkantjes } from "../lib/actueel";
+import { STUKKEN, aantal, datumTekst, mee, perThema, procent, schoonActueel, stukVan, thema, titelActueel, vierkantjes } from "../lib/actueel";
 import { doelVan, deellinkVan } from "../lib/deel";
 
 const stuk = stukVan("blok-kabinet")!;
@@ -10,19 +10,38 @@ const alleTekst = [stuk.kop, stuk.ziet, stuk.opvalt, stuk.aanleiding, ...stuk.bl
   stuk.lezingen!.links.tekst, stuk.lezingen!.rechts.tekst, stuk.slot].join("\n");
 
 describe("Actueel: blok tegenover kabinet", () => {
-  it("heeft de vier vaste blokken in vaste volgorde", () => {
-    expect(stuk.blokken.map((b) => b.id)).toEqual(["hecht", "mee", "wringt", "telt"]);
+  it("heeft de vier blokken in de volgorde van het verhaal", () => {
+    expect(stuk.blokken.map((b) => b.id)).toEqual(["mee", "wringt", "abortus", "telt"]);
   });
   it("noemt de getallen uit de data, niet uit het hoofd", () => {
-    const stik = thema(d, "Stikstof")!;
-    expect(stuk.kop).toContain(`${stik.tegenover} van de ${stik.beide}`);
+    const drie = d.botspunten.themas;
+    expect(stuk.opvalt).toContain(`${drie.reduce((n, t) => n + t.tegenover, 0)} van de ${drie.reduce((n, t) => n + t.beide, 0)} keer tegenover elkaar`);
+    expect(stuk.opvalt).toContain(`${aantal(d.meegaan.groep.mee)} van de ${aantal(d.meegaan.groep.eensgezind)} keer dezelfde kant`);
+    expect(thema(d, "Stikstof")!.tegenover).toBe(26);
     for (const a of ["SGP", "PRO", "JA21", "BBB"]) expect(alleTekst).toContain(procent(mee(d, a)!.pct));
     expect(alleTekst).toContain(`${d.zetelsom.ref} zetels`);
-    expect(alleTekst).toContain(`Het blok telt ${d.zetelsom.groep} zetels`);
+    expect(stuk.blokken[3].kop).toContain(`${d.zetelsom.samen} zetels`);
   });
-  it("zegt bij de zetels dat BBB en SGP allebei kunnen, niet alleen een van de twee", () => {
-    expect(d.zetelsom.kleinsteMeerderheid).toEqual([["JA21", "BBB"], ["JA21", "SGP"]]);
-    expect(alleTekst).toContain("BBB of SGP");
+  it("noemt bij abortus de aantallen per fractie uit de data", () => {
+    const ab = perThema(d, "Abortus, embryo, draagmoeder")!;
+    const f = (a: string) => ab.fracties.find((x) => x.afkorting === a)!;
+    const tekst = stuk.blokken[2].tekst.join(" ");
+    expect(tekst).toContain(`stemde het blok ${ab.groepEensgezind} keer eensgezind`);
+    expect(tekst).toContain(`JA21 ging ${f("JA21").mee} van de ${f("JA21").gestemd} keer mee`);
+    expect(tekst).toContain(`De SGP deed dat ${f("SGP").mee} keer, BBB ${f("BBB").mee} keer`);
+  });
+  it("trekt in de slotzin de conclusie met de getallen uit de data, in twee zinnen voor de video", () => {
+    const ab = perThema(d, "Abortus, embryo, draagmoeder")!;
+    expect(stuk.slot).toContain("38 van de 41 keer de andere kant");
+    expect(stuk.slot).toContain(`${ab.groepEensgezind} van de ${ab.verdeeld} keer eensgezind`);
+    expect(stuk.slot.split(/(?<=\.) /)).toHaveLength(2);
+  });
+  it("zegt niet wie nodig is, want de Eerste Kamer staat niet in de data", () => {
+    expect(alleTekst).not.toMatch(/heeft het kabinet \w+ nodig|te groot|niet nodig/);
+    expect(alleTekst).toContain("Eerste Kamer");
+  });
+  it("heeft per thema eerst alle stemmingen als vergelijking", () => {
+    expect(d.perThema.map((t) => t.thema)).toEqual(["Alles", ...d.botspunten.themas.map((t) => t.thema)]);
   });
   it("telt in blok 3 alleen stemmingen waarop beide groepen eensgezind waren", () => {
     for (const t of d.botspunten.themas) {
@@ -53,6 +72,6 @@ describe("Actueel: delen per blok", () => {
     expect(schoonActueel({ stuk: "bestaat-niet", blok: "telt" })).toEqual({});
   });
   it("gebruikt de kop van het blok als titel", () => {
-    expect(titelActueel({ stuk: "blok-kabinet", blok: "hecht" })).toBe("Het blok is hecht, het kabinet hechter");
+    expect(titelActueel({ stuk: "blok-kabinet", blok: "abortus" })).toBe("Bij abortus valt het blok uiteen");
   });
 });

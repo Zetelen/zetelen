@@ -943,6 +943,112 @@
    "pct": 23.8
   }
  },
+ "perThema": [
+  {
+   "thema": "Alles",
+   "verdeeld": 3820,
+   "groepEensgezind": 2397,
+   "refEensgezind": 3188,
+   "fracties": [
+    {
+     "afkorting": "JA21",
+     "gestemd": 3182,
+     "mee": 2145,
+     "pct": 67.4
+    },
+    {
+     "afkorting": "BBB",
+     "gestemd": 3178,
+     "mee": 1915,
+     "pct": 60.3
+    },
+    {
+     "afkorting": "SGP",
+     "gestemd": 3185,
+     "mee": 2342,
+     "pct": 73.5
+    }
+   ]
+  },
+  {
+   "thema": "Stikstof",
+   "verdeeld": 39,
+   "groepEensgezind": 30,
+   "refEensgezind": 37,
+   "fracties": [
+    {
+     "afkorting": "JA21",
+     "gestemd": 37,
+     "mee": 10,
+     "pct": 27.0
+    },
+    {
+     "afkorting": "BBB",
+     "gestemd": 37,
+     "mee": 4,
+     "pct": 10.8
+    },
+    {
+     "afkorting": "SGP",
+     "gestemd": 37,
+     "mee": 8,
+     "pct": 21.6
+    }
+   ]
+  },
+  {
+   "thema": "Asielopvang en spreidingswet",
+   "verdeeld": 13,
+   "groepEensgezind": 10,
+   "refEensgezind": 12,
+   "fracties": [
+    {
+     "afkorting": "JA21",
+     "gestemd": 12,
+     "mee": 2,
+     "pct": 16.7
+    },
+    {
+     "afkorting": "BBB",
+     "gestemd": 12,
+     "mee": 1,
+     "pct": 8.3
+    },
+    {
+     "afkorting": "SGP",
+     "gestemd": 12,
+     "mee": 2,
+     "pct": 16.7
+    }
+   ]
+  },
+  {
+   "thema": "Abortus, embryo, draagmoeder",
+   "verdeeld": 12,
+   "groepEensgezind": 4,
+   "refEensgezind": 11,
+   "fracties": [
+    {
+     "afkorting": "JA21",
+     "gestemd": 11,
+     "mee": 7,
+     "pct": 63.6
+    },
+    {
+     "afkorting": "BBB",
+     "gestemd": 11,
+     "mee": 2,
+     "pct": 18.2
+    },
+    {
+     "afkorting": "SGP",
+     "gestemd": 11,
+     "mee": 1,
+     "pct": 9.1
+    }
+   ]
+  }
+ ],
  "zetelsom": {
   "meerderheid": 76,
   "zetels": {

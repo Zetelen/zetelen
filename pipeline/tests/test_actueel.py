@@ -77,6 +77,22 @@ def test_botspunten_per_thema_tegenover_samen_of_verdeeld():
     assert uit["alles"] == {"beide": 3, "tegenover": 2, "pct": 66.7}
 
 
+def test_per_thema_eensgezind_en_meegaan_per_fractie_met_alles_eerst():
+    besluiten = [
+        b({"g1": "Voor", "g2": "Voor", "k": "Tegen"}, onderwerp="Motie over abortus", besluit="1"),
+        b({"g1": "Tegen", "g2": "Voor", "k": "Tegen"}, onderwerp="Motie over abortuszorg", besluit="2"),
+        b({"g1": "Tegen", "g2": "Voor", "k": "Tegen"}, onderwerp="Motie over abortus", besluit="3", verdeeld=False),
+        b({"g1": "Voor", "g2": "Voor", "k": "Voor"}, onderwerp="Over iets anders", besluit="4"),
+    ]
+    uit = ac.per_thema(besluiten, {"Abortus": "abortus"}, {"G1": ["g1"], "G2": ["g2"]}, [["g1"], ["g2"]], [["k"]])
+    assert [t["thema"] for t in uit] == ["Alles", "Abortus"]
+    alles, ab = uit
+    assert (alles["verdeeld"], alles["groepEensgezind"], alles["refEensgezind"]) == (3, 2, 3)
+    assert (ab["verdeeld"], ab["groepEensgezind"], ab["refEensgezind"]) == (2, 1, 2)
+    per = {f["afkorting"]: (f["mee"], f["gestemd"]) for f in ab["fracties"]}
+    assert per == {"G1": (1, 2), "G2": (0, 2)}
+
+
 def test_hechtheid_plek_onder_paren_van_fracties_met_genoeg_zetels():
     coh = [
         {"fractie_afkorting": "A", "andere_fractie_afkorting": "B", "cohesie": 90.0, "gezamenlijk": 10},
