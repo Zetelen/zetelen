@@ -7,7 +7,7 @@ export const MENU: MenuGroep[] = [
   {
     naam: "Zoek zelf",
     items: [
-      { href: "/verkenner", tekst: "Wie stemt met wie", regel: "Hoe vaak twee fracties dezelfde kant kozen, per kabinet of Kamerperiode." },
+      { href: "/verkenner", tekst: "Wie stemt met wie", regel: "Hoe vaak twee fracties dezelfde kant kozen, per kabinet en door de jaren." },
       { href: "/onderwerpen", tekst: "Per onderwerp", regel: "Waar fracties het eens en oneens zijn, per beleidsterrein." },
       { href: "/coalitie", tekst: "Coalitie", regel: "Stel een groep fracties samen en zie of die een meerderheid haalde." },
       { href: "/stemgenoten", tekst: "Stemgenoten", regel: "Kies je kant bij echte stemmingen en zie welke fracties net zo stemden." },

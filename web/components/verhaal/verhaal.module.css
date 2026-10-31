@@ -46,6 +46,10 @@
 .kaart[data-actief="true"] > div {
   opacity: 1;
 }
+/* Slot: lege ruimte na de laatste kaart, de tekening blijft in de laatste stand staan (31 oktober 2026) */
+.slotStap {
+  height: 80svh;
+}
 .datum {
   display: block;
   margin-bottom: 6px;
@@ -301,11 +305,14 @@
   .verhaal:not([data-breed="true"]) .kaarten {
     z-index: 2;
   }
-  /* Dicht en niet doorzichtig: een vervagende kaart over de tekening liet tekst en lijnen door elkaar lopen */
+  /* Dicht en niet doorzichtig: een vervagende kaart over de tekening liet tekst en lijnen door elkaar lopen. Sinds
+     31 oktober 2026 vervaagt de kaart wel zodra hij de tekening in schuift (--zicht, ScrollVerhaalKlant), zodat de
+     grafiek vrij blijft (feedback Niels: "je sleept je tekstvak over de grafiek") */
   .verhaal:not([data-breed="true"]) .kaart > div,
   .verhaal:not([data-breed="true"]) .kaart[data-actief="true"] > div {
     background: var(--nacht-800);
-    opacity: 1;
+    opacity: var(--zicht, 1);
+    transition: opacity 150ms;
   }
   /* Vaste titel bovenin: waar het verhaal over gaat en het lopende hoofdstuk */
   .vasteKop {
@@ -338,6 +345,27 @@
   .verhaal:not([data-breed="true"]) .figuur {
     top: 0;
     transition: none;
+  }
+  /* De tekening begint altijd onder de kop, ook als die net terugkomt: anders viel de kop over de bovenste regels
+     (feedback Niels, 31 oktober 2026). De kop en de vaste titel staan daarmee boven de tekening, niet erover. */
+  .verhaal:not([data-breed="true"]) .figuur,
+  .verhaal:not([data-breed="true"]) .figuur:has(.vasteKop) {
+    align-items: center;
+    padding-top: calc(var(--kop-hoogte, 60px) + 56px);
+    padding-bottom: 36svh;
+  }
+  .verhaal:not([data-breed="true"]) .vasteKop {
+    top: var(--kop-hoogte, 60px);
+  }
+  /* De grafiek in het midden van het bovenste deel, de kaarten in het onderste. Kortere stappen, zodat de volgende
+     kaart binnenkomt zodra de vorige de grafiek in schuift en vervaagt: onderin staat zo bijna altijd tekst */
+  .verhaal:not([data-breed="true"]) .svg {
+    max-height: calc(64svh - var(--kop-hoogte, 60px) - 56px);
+  }
+  .verhaal:not([data-breed="true"]) .kaart,
+  .verhaal[data-tijdlijn="true"]:not([data-breed="true"]) .kaart {
+    min-height: 50svh;
+    padding-bottom: 4svh;
   }
 }
 @media (prefers-reduced-motion: reduce) {

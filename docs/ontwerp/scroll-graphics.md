@@ -65,6 +65,13 @@ De fracties verlaten de zaal en schuiven naar een kaart waarop afstand betekent 
 - Geen partijkleuren (besluit R1): koper voor het kabinet of de kant die we uitlichten, goud voor de uitzondering, de rest neutraal.
 - Prestaties: geen invloed op het laden van de pagina (geen data uit de browser; de cijfers komen mee in de HTML van de server).
 
+### Vaste regels voor elke scroll graphic (Niels, 31 oktober 2026)
+
+Deze regels zitten in het gedeelde onderdeel (`components/verhaal/ScrollVerhaalKlant.tsx` en `verhaal.module.css`), dus elk nieuw scrollverhaal krijgt ze vanzelf.
+
+- **Eindigen met de hele grafiek.** Na de laatste kaart volgt een lege stap (`slotStap`, 80svh). De tekening blijft in de laatste stand staan, zonder tekstvak erover, voordat de pagina verdergaat.
+- **Telefoon: grafiek boven, kaart onder.** De tekening staat in het bovenste deel, onder de kop en de vaste titel (ruimte via `--kop-hoogte`, ook als de kop weg is). De kaarten komen onderin binnen en vervagen zodra ze de tekening in schuiven (`--zicht`, over 100 pixels). Een stap is een half scherm, zodat de volgende kaart binnenkomt als de vorige verdwijnt.
+
 ## Open punten
 
 1. Graphic 2 op mobiel: de blokken staan op smalle schermen onder elkaar (in de schets). De stippen blijven klein; in de echte bouw testen op een telefoon.

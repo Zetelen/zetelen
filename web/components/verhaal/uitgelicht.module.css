@@ -37,6 +37,15 @@
 .item span {
   color: var(--tekst-zacht);
 }
+/* Inleiding en keuzelijst bovenaan, met een lijn naar het stuk zelf (31 oktober 2026) */
+.inleiding {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-3);
+  padding-bottom: var(--r-5);
+  margin-bottom: var(--r-3);
+  border-bottom: 1px solid var(--lijn);
+}
 .verder {
   display: flex;
   flex-wrap: wrap;

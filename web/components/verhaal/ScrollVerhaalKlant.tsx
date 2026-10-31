@@ -67,7 +67,9 @@ export function ScrollVerhaalKlant({ gepakt, label, hoogteSmal = 555, breedteSma
   // Telefoon en tablet (kaarten over de tekening): een stap wisselt zodra de volgende kaart onderin binnenkomt, en
   // een kaart vervaagt zodra hij over de tekening schuift (alleen nog bij breed; zonder breed schuift een dichte kaart
   // over de tekening, verzoek Niels 29 oktober 2026). Zo gebeurt elke verandering in een vrij beeld (feedback
-  // Niels, 26 oktober 2026: op de telefoon schoof de tekst over de veranderende tekening).
+  // Niels, 26 oktober 2026: op de telefoon schoof de tekst over de veranderende tekening). Sinds 31 oktober 2026
+  // vervaagt ook zonder breed een kaart zodra hij de tekening in schuift (feedback Niels: de kaart sleepte over de
+  // grafiek), zie verhaal.module.css.
   // Rekenen bij het scrollen, hooguit een keer per beeldje (requestAnimationFrame).
   useEffect(() => {
     let wacht = false;
@@ -85,7 +87,9 @@ export function ScrollVerhaalKlant({ gepakt, label, hoogteSmal = 555, breedteSma
           if (r.top < innerHeight * 0.85) beste = i;
           // Zichtbaar onder de tekening; vervaagt pas over de 180 pixels erboven (later en trager dan eerst: feedback
           // Niels K2, 27 oktober 2026)
-          k.style.setProperty("--zicht", String(Math.min(1, Math.max(0, (r.top - (onder - 180)) / 180))));
+          // Zonder breed (kaart over de tekening, telefoon) sneller weg: 100 pixels (31 oktober 2026)
+          const zone = breed ? 180 : 100;
+          k.style.setProperty("--zicht", String(Math.min(1, Math.max(0, (r.top - (onder - zone)) / zone))));
         });
       } else {
         const leeslijn = innerHeight * 0.5;
@@ -213,6 +217,9 @@ export function ScrollVerhaalKlant({ gepakt, label, hoogteSmal = 555, breedteSma
             </div>
           </li>
         ))}
+        {/* Slot: na de laatste kaart een lege stap, zodat het verhaal eindigt met de hele tekening in beeld en niet
+            met een tekstvak erover (feedback Niels, 31 oktober 2026; vaste regel voor elke scroll graphic) */}
+        <li className={s.slotStap} aria-hidden="true" />
       </ol>
     </div>
   );

@@ -54,6 +54,8 @@ export default async function VerkennerPagina({ searchParams }: Props) {
         {/* Kern van de pagina (K11, 27 oktober 2026) */}
         <Kern ziet="Per fractie hoe vaak elke andere fractie dezelfde kant koos. Kies een fractie, een periode en zaal, boog of tabel."
           opvalt={periode && fracties && kaart ? verkennerOpvalt(soort, periode.naam, fracties, kaart) : null} />
+        {/* De trend staat ver onderaan; deze link maakt hem vindbaar (feedback Niels, 31 oktober 2026) */}
+        {trend && <a href="#door-de-jaren" style={{ alignSelf: "flex-start" }}>Door de jaren: twee fracties over tijd ↓</a>}
         <div className={o.alleenBreed}>
           <PeriodeKeuze perioden={lijst} soort={soort} periode={periode?.naam ?? null} variant={variant} />
         </div>

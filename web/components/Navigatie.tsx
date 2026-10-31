@@ -55,7 +55,12 @@ export function Navigatie() {
 
   const zichtbaar = open || !verborgen;
   useEffect(() => {
-    const zet = () => document.documentElement.style.setProperty("--kop-zicht", zichtbaar ? `${kop.current?.offsetHeight ?? 0}px` : "0px");
+    const zet = () => {
+      const h = kop.current?.offsetHeight ?? 0;
+      document.documentElement.style.setProperty("--kop-zicht", zichtbaar ? `${h}px` : "0px");
+      // De volle hoogte, ook als de kop weg is: een scroll graphic op de telefoon houdt die ruimte vrij (Niels, 31 oktober 2026)
+      document.documentElement.style.setProperty("--kop-hoogte", `${h}px`);
+    };
     zet();
     const waarnemer = new ResizeObserver(zet);
     if (kop.current) waarnemer.observe(kop.current);
