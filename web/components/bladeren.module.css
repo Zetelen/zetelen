@@ -1,0 +1,107 @@
+/* Bladeren: op een groot scherm onder elkaar, op de telefoon naast elkaar met vegen (1 november 2026) */
+.bladeren {
+  display: contents;
+}
+.balk {
+  display: none;
+}
+.baan {
+  display: contents;
+}
+.blad {
+  display: contents;
+}
+@media (max-width: 760px) {
+  .bladeren {
+    display: block;
+    scroll-margin-top: var(--kop-hoogte, 60px);
+  }
+  /* Streepjes en teller blijven bovenin staan, onder de kop als die in beeld is */
+  .balk {
+    display: flex;
+    flex-direction: column;
+    gap: var(--r-2);
+    position: sticky;
+    top: var(--kop-zicht, 0px);
+    z-index: 5;
+    padding: var(--r-2) 0;
+    background: var(--nacht-950);
+    transition: top 220ms ease;
+  }
+  .streepjes {
+    display: flex;
+    gap: 4px;
+  }
+  .streepjes > span {
+    flex: 1;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--nacht-700);
+    background-image: linear-gradient(var(--koper), var(--koper));
+    background-repeat: no-repeat;
+    background-size: 0 100%;
+    transition: background-size 300ms ease;
+  }
+  .streepjes > span[data-af] {
+    background-size: 100% 100%;
+  }
+  .knoppen {
+    display: flex;
+    align-items: center;
+    gap: var(--r-3);
+  }
+  .teller {
+    flex: 1;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--tekst-zacht);
+  }
+  .knop {
+    width: 48px;
+    height: 40px;
+    border-radius: var(--hoek-pil);
+    border: 1px solid var(--lijn-licht);
+    background: transparent;
+    color: var(--tekst);
+    font-size: 20px;
+    cursor: pointer;
+  }
+  .knop:last-child {
+    border-color: var(--koper);
+    background: var(--koper);
+    color: var(--nacht-950);
+  }
+  .knop:disabled {
+    opacity: 0.35;
+  }
+  .baan {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--r-5);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    overflow-y: hidden;
+    transition: height 250ms ease;
+  }
+  .baan::-webkit-scrollbar {
+    display: none;
+  }
+  .blad {
+    display: flex;
+    flex-direction: column;
+    gap: var(--r-4);
+    flex: 0 0 100%;
+    min-width: 0;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .streepjes > span,
+  .balk {
+    transition: none;
+  }
+}

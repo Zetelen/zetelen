@@ -316,3 +316,17 @@ a.vak:focus-visible {
   font-size: var(--tekst-data);
   color: var(--tekst-zacht);
 }
+
+/* De conclusie: op een groot scherm los onder de blokken, op de telefoon een eigen deel om naartoe te vegen */
+.slotDeel {
+  display: contents;
+}
+@media (max-width: 760px) {
+  .slotDeel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--r-5);
+    padding-top: var(--r-5);
+    border-top: 1px solid var(--lijn);
+  }
+}

@@ -3,6 +3,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Bladeren } from "@/components/Bladeren";
 import { Botspunten, Meegaan, PerThema, Zetelsom } from "@/components/actueel/Blokken";
 import { Inhoud } from "@/components/Kader";
 import { GrafiekKader, GrafiekVlak } from "@/components/deel/GrafiekKader";
@@ -36,6 +37,8 @@ export default async function ActueelStuk({ params }: { params: Promise<{ stuk: 
       </section>
 
       <div className={s.blokken}>
+        {/* Telefoon: de blokken en de conclusie als delen om door te vegen (1 november 2026) */}
+        <Bladeren label={x.kop}>
         {x.blokken.map((b, i) => {
           const Grafiek = GRAFIEK[b.id];
           return (
@@ -48,8 +51,11 @@ export default async function ActueelStuk({ params }: { params: Promise<{ stuk: 
             </GrafiekKader>
           );
         })}
-        {x.lezingen && <Lezingen links={x.lezingen.links} rechts={x.lezingen.rechts} />}
-        <p className={s.slot}>{x.slot}</p>
+        <section className={s.slotDeel} aria-label="De conclusie">
+          {x.lezingen && <Lezingen links={x.lezingen.links} rechts={x.lezingen.rechts} />}
+          <p className={s.slot}>{x.slot}</p>
+        </section>
+        </Bladeren>
         <Data>
           Bron: open data van de Tweede Kamer, eigen berekening (<Link href="/methodiek">methodiek</Link>). Stand van de
           data: {datumTekst(x.data.stand)}. {x.data.verdeeld.toLocaleString("nl-NL")} verdeelde stemmingen onder
