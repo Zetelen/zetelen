@@ -13,6 +13,7 @@ import Link from "next/link";
 import { Inhoud, knopKlasse } from "@/components/Kader";
 import { Bronregel } from "@/components/cohesie/Bronregel";
 import { HoofdstukKop, Lezingen } from "@/components/Onderdelen";
+import { Tabbladen } from "@/components/Tabbladen";
 import { Data, HeroKop, Label, SectieKop, Tekst } from "@/components/Typografie";
 import { TerreinBalken } from "@/components/onderwerpen/TerreinBalken";
 import { ScrollVerhaal } from "@/components/verhaal/ScrollVerhaal";
@@ -83,6 +84,9 @@ export default async function Voorpagina() {
         </div>
       </section>
 
+      {/* Telefoon: de hoofdstukken als tabbladen, een tegelijk (1 november 2026); op een groter scherm onder elkaar */}
+      <Tabbladen label="Hoofdstukken" delen={[
+      { naam: "Wat opvalt", inhoud: <>
       <section className={s.opening}>
         <Label>Wat opvalt</Label>
         <SectieKop>Hoe vaak stemmen kabinet en oppositie samen?</SectieKop>
@@ -149,22 +153,25 @@ export default async function Voorpagina() {
           {VERDER.map((t) => <Link key={t.href} href={t.href}>{t.titel}</Link>)}
         </nav>
       </section>
+      </> },
 
-      {/* Kop, link en verhaal als één blok, zodat de grote ruimte tussen de blokken van de pagina er niet tussen valt.
+      /* Kop, link en verhaal als één blok, zodat de grote ruimte tussen de blokken van de pagina er niet tussen valt.
           De kop was "Maar eerst: hoe zijn we hier gekomen?"; sinds het overzicht ervoor staat, klopte "maar eerst" niet
-          meer (Niels, 28 oktober 2026; voorstel uit K14) */}
+          meer (Niels, 28 oktober 2026; voorstel uit K14) */
+      { naam: "De zaal", inhoud: <>
       <section className={uitgelicht.graphic}>
         <HoofdstukKop titel="Hoe kwam deze Kamer tot stand?" id="verhaal" />
         <Tekst><a href="#na-verhaal">Sla het verhaal over ↓</a></Tekst>
         {d ? (
-          <ScrollVerhaal verhaal={{ breed: zonderKop(zaalVerhaal(d)) }} label="De zaal van de Tweede Kamer" titel="Hoe kwam deze Kamer tot stand?" tijdlijn stapHoogte="70vh" />
+          <ScrollVerhaal verhaal={{ breed: zonderKop(zaalVerhaal(d)) }} label="De zaal van de Tweede Kamer" titel="Hoe kwam deze Kamer tot stand?" tijdlijn tikken stapHoogte="70vh" />
         ) : (
           <Tekst>Het verhaal kon niet worden geladen. Probeer het over een paar minuten opnieuw, of ga direct naar de verkenner.</Tekst>
         )}
       </section>
       <div id="na-verhaal" style={{ scrollMarginTop: 80 }} />
+      </> },
 
-      {partners && paar && u && kabinet && (
+      partners && paar && u && kabinet && { naam: "Kabinet", inhoud: (
         // Gedeeld als het paar op Onderwerpen: daar staat dezelfde grafiek met alle keuzes
         <GrafiekKader grafiek="onderwerpen" zoek={{ soort: "kabinet", periode: kabinet.naam, fractie: partners.a.afkorting, met: partners.b.afkorting }}
           className={s.hoofdstuk} style={{ maxWidth: "none" }}>
@@ -182,8 +189,9 @@ export default async function Voorpagina() {
             Vergelijk zelf twee fracties per onderwerp
           </Link>
         </GrafiekKader>
-      )}
+      ) },
 
+      { naam: "Coalitie", inhoud: (
       <section className={s.hoofdstuk}>
         <HoofdstukKop nummer="4" titel="Stel zelf een coalitie samen" />
         <Tekst>
@@ -195,8 +203,9 @@ export default async function Voorpagina() {
         </Tekst>
         <Link href="/coalitie" className={knopKlasse}>Naar Coalitie</Link>
       </section>
+      ) },
 
-      {jaren && jaren.length > 0 && (() => {
+      jaren && jaren.length > 0 && { naam: "Oppositie", inhoud: (() => {
         // Hoofdstuk 5: de andere kant. Het kabinet heeft de oppositie nodig; wat kan de oppositie zelf?
         const moties = jaren.filter((r) => r.soort === "Motie");
         const perJaar = [...new Set(moties.map((r) => r.jaar))].sort().map((j) => ({
@@ -226,7 +235,8 @@ export default async function Voorpagina() {
             <Link href="/oppositie" className={knopKlasse}>Naar Oppositie</Link>
           </GrafiekKader>
         );
-      })()}
+      })() },
+      ]} />
 
       {/* Het overzicht staat sinds K11 bovenaan; onderaan alleen de weg terug */}
       <nav className={s.verder} aria-label="Terug naar het overzicht">

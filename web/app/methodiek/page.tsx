@@ -1,10 +1,11 @@
 // Methodiek (component methodiek-betrouwbaarheid, E3-S3): per maat de definitie, formule in woorden,
 // bron en beperking. Tekst gebaseerd op docs/plan/definitie-cohesie.md (goedgekeurd door Niels).
+import { UitklapSectie } from "@/components/UitklapSectie";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { JsonLd, MAKER } from "@/components/JsonLd";
 import { Inhoud } from "@/components/Kader";
-import { Data, HeroKop, Label, SectieKop, Tekst } from "@/components/Typografie";
+import { Data, HeroKop, Label, Tekst } from "@/components/Typografie";
 import { MATEN } from "@/lib/maten";
 import { DOMEIN, SITE } from "@/lib/site";
 
@@ -35,9 +36,8 @@ export default function Methodiek() {
       </section>
 
       {MATEN.map((m) => (
-        <section key={m.id} id={m.id} style={sectie}>
-          <Label>Maat</Label>
-          <SectieKop>{m.naam}</SectieKop>
+        // Telefoon: alleen de kop, die je openklapt (1 november 2026)
+        <UitklapSectie key={m.id} id={m.id} label="Maat" titel={m.naam} style={sectie}>
           <Tekst>{m.definitie}</Tekst>
           <Data>Formule: {m.formule}</Data>
           <Label>Keuzes</Label>
@@ -48,12 +48,10 @@ export default function Methodiek() {
           <ul style={{ margin: 0, paddingLeft: "1.2em", display: "flex", flexDirection: "column", gap: 8, color: "var(--tekst-zacht)", maxWidth: "68ch" }}>
             {m.beperkingen.map((k) => <li key={k}>{k}</li>)}
           </ul>
-        </section>
+        </UitklapSectie>
       ))}
 
-      <section id="data" style={sectie}>
-        <Label>Bron</Label>
-        <SectieKop>De data</SectieKop>
+      <UitklapSectie id="data" label="Bron" titel="De data" style={sectie}>
         <Tekst>
           Alle cijfers komen uit de <a href={SITE.bron}>open data van de Tweede Kamer</a>. Iedereen mag die vrij gebruiken,
           onder de publiek-domeinverklaring CC0. De Tweede Kamer is niet betrokken bij deze site en heeft de analyses niet
@@ -63,11 +61,9 @@ export default function Methodiek() {
           Elke nacht haalt een script de wijzigingen op en rekent alles opnieuw uit. De telling begint in 2010.
           Verwijderde records en stemmingen zonder vergaderdatum tellen niet mee.
         </Tekst>
-      </section>
+      </UitklapSectie>
 
-      <section id="controles" style={sectie}>
-        <Label>Betrouwbaarheid</Label>
-        <SectieKop>Controles</SectieKop>
+      <UitklapSectie id="controles" label="Betrouwbaarheid" titel="Controles" style={sectie}>
         <Tekst>
           Na elke verversing controleert het script onder meer of geen stemming meer dan 150 zetels telt, en of de uitslag
           volgens de stemmen past bij de officiële uitslag. Bij een handvol van de ruim 60.000 besluiten past die niet. In
@@ -79,7 +75,7 @@ export default function Methodiek() {
           <a href={`${SITE.broncode}/issues`}>GitHub</a>. Je krijgt binnen 5 werkdagen antwoord. Correcties staan in het{" "}
           <Link href="/wijzigingen">wijzigingslog</Link>.
         </Tekst>
-      </section>
+      </UitklapSectie>
     </Inhoud>
   );
 }

@@ -265,3 +265,52 @@
     row-gap: var(--r-3);
   }
 }
+
+/* Uitklapsectie: op een groot scherm een gewone kop, op de telefoon een kop die je openklapt (1 november 2026) */
+.uitklapSectie > summary {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-4);
+  margin-bottom: var(--r-4);
+}
+.uitklapSectie > summary::-webkit-details-marker {
+  display: none;
+}
+@media (max-width: 760px) {
+  .uitklapSectie {
+    border-bottom: 1px solid var(--lijn);
+    padding-bottom: var(--r-3);
+  }
+  .uitklapSectie > summary {
+    position: relative;
+    gap: var(--r-1);
+    margin-bottom: 0;
+    padding-right: 36px;
+    cursor: pointer;
+  }
+  .uitklapSectie[open] > summary {
+    margin-bottom: var(--r-4);
+  }
+  .uitklapSectie > summary::after {
+    content: "";
+    position: absolute;
+    right: 8px;
+    bottom: 14px;
+    width: 10px;
+    height: 10px;
+    border-right: 2px solid var(--koper);
+    border-bottom: 2px solid var(--koper);
+    transform: rotate(45deg);
+    transition: transform 0.15s;
+  }
+  .uitklapSectie[open] > summary::after {
+    transform: translateY(4px) rotate(-135deg);
+  }
+}
+@media (max-width: 760px) {
+  /* Dichte koppen dicht op elkaar, als een inhoudsopgave: de grote ruimte tussen de blokken van de pagina valt weg */
+  section:has(> .uitklapSectie) + section:has(> .uitklapSectie) {
+    margin-top: calc(var(--r-3) - var(--r-8));
+  }
+}

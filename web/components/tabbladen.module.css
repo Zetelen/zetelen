@@ -1,0 +1,81 @@
+/* Tabbladen: op een groot scherm onzichtbaar (alles onder elkaar), op de telefoon een rij bovenin en een deel
+   tegelijk (1 november 2026) */
+.tabbladen,
+.paneel {
+  display: contents;
+}
+.rij {
+  display: none;
+}
+@media (max-width: 760px) {
+  .tabbladen {
+    display: flex;
+    flex-direction: column;
+    gap: var(--r-5);
+    scroll-margin-top: var(--kop-zicht, 0px);
+  }
+  /* De rij blijft bovenin staan, onder de kop als die in beeld is; past hij niet, dan schuift hij opzij */
+  .rij {
+    display: flex;
+    gap: var(--r-2);
+    position: sticky;
+    top: var(--kop-zicht, 0px);
+    z-index: 6;
+    margin: 0 calc(-1 * var(--pagina-marge));
+    padding: var(--r-2) var(--pagina-marge);
+    overflow-x: auto;
+    scrollbar-width: none;
+    background: var(--nacht-950);
+    border-bottom: 1px solid var(--lijn);
+    transition: top 220ms ease;
+  }
+  .rij::-webkit-scrollbar {
+    display: none;
+  }
+  .tab {
+    flex: 0 0 auto;
+    min-height: 40px;
+    padding: 0 var(--r-4);
+    border-radius: var(--hoek-pil);
+    border: 1px solid var(--lijn-licht);
+    background: transparent;
+    color: var(--tekst-zacht);
+    font: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .tab[aria-selected="true"] {
+    border-color: var(--koper);
+    background: var(--koper);
+    color: var(--nacht-950);
+  }
+  .paneel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--r-8);
+    min-width: 0;
+    animation: paneelVerder 280ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .paneel[data-richting="terug"] {
+    animation-name: paneelTerug;
+  }
+  .paneel[data-actief="false"] {
+    display: none;
+  }
+}
+@keyframes paneelVerder {
+  from { opacity: 0; transform: translateX(28px); }
+}
+@keyframes paneelTerug {
+  from { opacity: 0; transform: translateX(-28px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .paneel,
+  .paneel[data-richting="terug"] {
+    animation: none;
+  }
+  .rij {
+    transition: none;
+  }
+}

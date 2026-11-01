@@ -78,6 +78,14 @@ Op de telefoon (tot 760 pixels breed) werkt een verhaal met `tikken` als stories
 
 Reden: het eindeloze scrollen vermoeit op de telefoon. Zelfde gedachte voor interactieve stukken (Stemgenoten): op de telefoon een volledig scherm met de knoppen onderin bij de duim, en een uitslag die op een scherm past (eerst vijf, de rest achter een knop).
 
+De vier patronen voor de telefoon (tot 760 pixels; op een groter scherm verandert niets):
+
+1. **Verhaal in stappen** (`ScrollVerhaal` met `tikken`): Uitgelicht, Oppositie, Onderwerpen, de zaal op de voorpagina.
+2. **Kaart op volle hoogte**: Stemgenoten.
+3. **Tabbladen** (`components/Tabbladen.tsx`): voorpagina, Kamerleden, Fracties. Alle inhoud staat in de HTML; een link naar een anker opent het juiste tabblad; opzij vegen wisselt, behalve in iets dat zelf opzij schuift. De kern (wat opvalt) staat altijd op het eerste tabblad.
+4. **Bladeren** (`components/Bladeren.tsx`): de blokken van een Actueel-stuk naast elkaar, met de conclusie als laatste deel.
+5. **Uitklappen** (`components/UitklapSectie.tsx`): Methodiek; een link naar een anker klapt die sectie open. Over blijft zoals het is (drie schermen, lopende tekst).
+
 ## Open punten
 
 1. Graphic 2 op mobiel: de blokken staan op smalle schermen onder elkaar (in de schets). De stippen blijven klein; in de echte bouw testen op een telefoon.

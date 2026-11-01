@@ -5,6 +5,7 @@ import { GrafiekKader, GrafiekVlak } from "@/components/deel/GrafiekKader";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Tabbladen } from "@/components/Tabbladen";
 import { Suspense } from "react";
 import { Bronregel } from "@/components/cohesie/Bronregel";
 import { PeriodeKeuze } from "@/components/cohesie/PeriodeKeuze";
@@ -107,7 +108,9 @@ export default async function Kamerleden({ searchParams }: Props) {
       {!periode || !fracties ? (
         <LegeStaat label="Niet bereikbaar" titel="De gegevens laden nu niet" uitleg="Probeer het over een paar minuten opnieuw." />
       ) : (
-        <>
+        // Telefoon: per fractie, ranglijst en zoeken als tabbladen (1 november 2026); op een groter scherm onder elkaar
+        <Tabbladen label="Delen van de pagina" delen={[
+          { naam: "Per fractie", inhoud: (
           <GrafiekKader grafiek="kamerleden" id="fracties" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
             <Label>{periode.naam} · {meervoud} per fractie</Label>
             <Data>Kabinet en oppositie hebben een andere rol: vergelijk binnen de eigen kant. Kies een fractie voor haar Kamerleden.</Data>
@@ -124,8 +127,10 @@ export default async function Kamerleden({ searchParams }: Props) {
             )}
             </GrafiekVlak>
           </GrafiekKader>
+          ) },
 
-          {/* Ranglijst over de hele Kamer, op uitkomst en per rol (besluit Niels B2, 26 oktober 2026) */}
+          // Ranglijst over de hele Kamer, op uitkomst en per rol (besluit Niels B2, 26 oktober 2026)
+          { naam: "Ranglijst", inhoud: (
           <GrafiekKader grafiek="ranglijst" id="ranglijst" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
             <Label>{periode.naam} · ranglijst</Label>
             <SectieKop>Wie krijgt het vaakst iets aangenomen?</SectieKop>
@@ -180,7 +185,9 @@ export default async function Kamerleden({ searchParams }: Props) {
             )}
             </GrafiekVlak>
           </GrafiekKader>
+          ) },
 
+          { naam: "Zoek een Kamerlid", inhoud: <>
           <section id="leden" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
             <Label>{q ? `Gezocht op "${q}"` : fractie ? `De Kamerleden van ${fractie}` : "Zoek een Kamerlid"}</Label>
             <form className={s.zoek} action="/kamerleden" method="get">
@@ -221,7 +228,8 @@ export default async function Kamerleden({ searchParams }: Props) {
               {stukken.length > 100 && <Data>De 100 nieuwste van {getal(stukken.length)}.</Data>}
             </section>
           )}
-        </>
+          </> },
+        ]} />
       )}
       <Bronregel toelichting="Indieners uit de open data van de Tweede Kamer; de uitslag is die van de Kamer. Moties, amendementen en initiatiefwetten apart; bij een initiatiefwet telt de eindstemming in de Tweede Kamer." />
     </Inhoud>

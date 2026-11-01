@@ -1,6 +1,7 @@
 // Fracties per periode (component cohesie-pagina, herzien op feedback van Niels, 24 oktober 2026):
 // een bullet chart op volgorde van zetels bij het begin van de periode, met per fractie kabinet,
 // gedoogsteun of oppositie, en wie tijdens de periode naar een andere fractie overstapte.
+import { Tabbladen } from "@/components/Tabbladen";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PeriodeKeuze } from "@/components/cohesie/PeriodeKeuze";
@@ -64,6 +65,9 @@ export default async function Fracties({ searchParams }: Props) {
         )}
       </section>
 
+      {/* Telefoon: de fracties nu, nieuw en alle sinds 2010 als tabbladen (1 november 2026) */}
+      <Tabbladen label="Delen van de pagina" delen={[
+      { naam: `Bij ${periode.naam}`, inhoud: (
       <ol className={s.bullets} aria-label={`Fracties bij het begin van ${periode.naam}, op volgorde van zetels`}>
         {rijen.map(({ fractie: f, zetels, gebleven, delen }) => {
           const rol = rollen.get(f.afkorting);
@@ -92,8 +96,9 @@ export default async function Fracties({ searchParams }: Props) {
           );
         })}
       </ol>
+      ) },
 
-      {nieuw.length > 0 && (
+      nieuw.length > 0 && { naam: "Nieuw", inhoud: (
         <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-3)" }}>
           <Label>Nieuw in de Kamer tijdens {periode.naam}</Label>
           <ul className={s.kolommen}>
@@ -106,8 +111,9 @@ export default async function Fracties({ searchParams }: Props) {
             ))}
           </ul>
         </section>
-      )}
+      ) },
 
+      { naam: "Alle sinds 2010", inhoud: (
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-3)" }}>
         <Label>Alle fracties sinds 2010</Label>
         <ul className={s.kolommen}>
@@ -116,6 +122,8 @@ export default async function Fracties({ searchParams }: Props) {
           ))}
         </ul>
       </section>
+      ) },
+      ]} />
     </Inhoud>
   );
 }
