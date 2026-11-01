@@ -568,3 +568,146 @@
   font-size: 14px;
   text-align: right;
 }
+
+/* Tikken in plaats van scrollen op de telefoon (verzoek Niels, 31 oktober 2026: "het eindeloze scrollen vermoeit").
+   Het verhaal is een scherm hoog: streepjes bovenin, de tekening, de tekst van de stap en de knoppen onderin. Een
+   tik rechts of vegen naar links is de volgende stap, een tik links of vegen naar rechts de vorige. */
+.tik {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-2);
+  height: calc(100svh - var(--kop-hoogte, 60px));
+  scroll-margin-top: var(--kop-hoogte, 60px);
+  padding: var(--r-2) 0 max(var(--r-2), env(safe-area-inset-bottom));
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  touch-action: pan-y;
+}
+.streepjes {
+  display: flex;
+  gap: 4px;
+}
+.streepjes > span {
+  flex: 1;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--nacht-700);
+  background-image: linear-gradient(var(--koper), var(--koper));
+  background-repeat: no-repeat;
+  background-size: 0 100%;
+  transition: background-size 300ms ease;
+}
+.streepjes > span[data-af] {
+  background-size: 100% 100%;
+}
+.tikKop {
+  padding-bottom: var(--r-2);
+  border-bottom: 1px solid var(--lijn);
+  font-family: var(--serif);
+  font-size: 19px;
+  line-height: 1.2;
+  color: var(--tekst);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tikFiguur {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tikFiguur .svg {
+  width: 100%;
+  height: 100%;
+  max-height: none;
+}
+.tikTekstVlak {
+  flex: 0 1 auto;
+  max-height: 46%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.tikTekst {
+  padding: var(--r-3) var(--r-4);
+  border-radius: var(--hoek-paneel);
+  background: var(--nacht-800);
+  border: 1px solid var(--lijn);
+  font-size: 16px;
+  line-height: 1.5;
+  animation: tikVerder 320ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.tikTekst[data-richting="terug"] {
+  animation-name: tikTerug;
+}
+@keyframes tikVerder {
+  from { opacity: 0; transform: translateX(36px); }
+}
+@keyframes tikTerug {
+  from { opacity: 0; transform: translateX(-36px); }
+}
+.tikTekst[data-lezing] {
+  border-left: 4px solid var(--koper);
+  font-family: var(--serif);
+  font-size: 19px;
+  line-height: 1.4;
+}
+.tikTekst .hoofdstuk {
+  font-size: 22px;
+  margin-bottom: var(--r-2);
+}
+.tikSlot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--r-4);
+}
+.tikKnoppen {
+  display: flex;
+  align-items: center;
+  gap: var(--r-3);
+}
+.tikTeller {
+  flex: 1;
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--tekst-zacht);
+}
+.tikKnop {
+  width: 48px;
+  height: 44px;
+  border-radius: var(--hoek-pil);
+  border: 1px solid var(--lijn-licht);
+  background: transparent;
+  color: var(--tekst);
+  font-size: 20px;
+  cursor: pointer;
+}
+.tikKnop:last-child {
+  border-color: var(--koper);
+  background: var(--koper);
+  color: var(--nacht-950);
+}
+.tikKnop:disabled {
+  opacity: 0.35;
+}
+.tikLink {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--koper);
+  font: inherit;
+  font-size: 15px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tikTekst,
+  .tikTekst[data-richting="terug"] {
+    animation: verschijn 200ms both;
+  }
+  .streepjes > span {
+    transition: none;
+  }
+}

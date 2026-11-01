@@ -72,6 +72,12 @@ Deze regels zitten in het gedeelde onderdeel (`components/verhaal/ScrollVerhaalK
 - **Eindigen met de hele grafiek.** Na de laatste kaart volgt een lege stap (`slotStap`, 80svh). De tekening blijft in de laatste stand staan, zonder tekstvak erover, voordat de pagina verdergaat.
 - **Telefoon: grafiek boven, kaart onder.** De tekening staat in het bovenste deel, onder de kop en de vaste titel (ruimte via `--kop-hoogte`, ook als de kop weg is). De kaarten komen onderin binnen en vervagen zodra ze de tekening in schuiven (`--zicht`, over 100 pixels). Een stap is een half scherm, zodat de volgende kaart binnenkomt als de vorige verdwijnt.
 
+### Telefoon: tikken in plaats van scrollen (Niels, 1 november 2026)
+
+Op de telefoon (tot 760 pixels breed) werkt een verhaal met `tikken` als stories: een scherm hoog, streepjes bovenin, de tekening, de tekst van de stap en onderin vorige, volgende en "Naar het eind". Rechts tikken of naar links vegen is verder, links tikken of naar rechts vegen terug. De tekening beweegt naar de nieuwe stand zoals bij scrollen; de tekst schuift opzij binnen (bij terug van links). Na de laatste stap volgt "Het hele beeld": de tekening zonder tekst, met "Opnieuw bekijken" en "Verder lezen". Op tablet en desktop blijft het scrollen. Bij "minder beweging" alleen vervagen.
+
+Reden: het eindeloze scrollen vermoeit op de telefoon. Zelfde gedachte voor interactieve stukken (Stemgenoten): op de telefoon een volledig scherm met de knoppen onderin bij de duim, en een uitslag die op een scherm past (eerst vijf, de rest achter een knop).
+
 ## Open punten
 
 1. Graphic 2 op mobiel: de blokken staan op smalle schermen onder elkaar (in de schets). De stippen blijven klein; in de echte bouw testen op een telefoon.

@@ -4,7 +4,7 @@
 // stippen naar hun plek in die stap. Alleen kijken, geen klikken. Plekken rekent de server uit (lib/verhaal.ts) en
 // stuurt ze ingepakt mee (lib/verhaalPak.ts, via ScrollVerhaal.tsx); hier worden ze uitgepakt.
 import Link from "next/link";
-import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react";
+import { type CSSProperties, type MouseEvent, useEffect, useMemo, useRef, useState } from "react";
 import type { Stap } from "@/lib/verhaal";
 import { type GepaktVerhaal, pakUit } from "@/lib/verhaalPak";
 import { KORT, uitsnedeGroep } from "@/lib/verhaal";
@@ -20,6 +20,7 @@ export type Props = {
   tijdlijn?: boolean; // kaarten links als tijdlijn, tekening rechts (op brede schermen)
   breed?: boolean; // tekening over de volle breedte, kaarten eronder (feedback Niels K2, 26 oktober 2026)
   titel?: string; // telefoon en tablet: vaste titel boven de tekening, met het lopende hoofdstuk erachter
+  tikken?: boolean; // telefoon: stap voor stap tikken in plaats van scrollen (proef op Uitgelicht, 31 oktober 2026)
 };
 
 // De omvang van alles wat in een van de stappen staat: stippen, labels (geschat op hun lengte), kaders en paden niet
@@ -48,20 +49,28 @@ function sleutel(basis: string, i: number, alle: string[]): string {
   return `${basis}#${alle.slice(0, i).filter((x) => x === basis).length}`;
 }
 
-export function ScrollVerhaalKlant({ gepakt, label, hoogteSmal = 555, breedteSmal, stapHoogte = "100vh", tijdlijn = false, breed = false, titel }: Props) {
+export function ScrollVerhaalKlant({ gepakt, label, hoogteSmal = 555, breedteSmal, stapHoogte = "100vh", tijdlijn = false, breed = false, titel, tikken = false }: Props) {
   const verhaal = useMemo(() => pakUit(gepakt), [gepakt]);
   const [smal, setSmal] = useState(false);
+  const [telefoon, setTelefoon] = useState(false);
   const [actief, setActief] = useState(0);
+  const [richting, setRichting] = useState<"verder" | "terug">("verder");
   const lijst = useRef<HTMLOListElement>(null);
   const tekening = useRef<SVGSVGElement>(null);
+  const buiten = useRef<HTMLDivElement>(null);
+  const veeg = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
-    const m = matchMedia("(max-width: 640px)");
-    const kies = () => setSmal(m.matches);
+    const m = matchMedia("(max-width: 640px)"), t = matchMedia("(max-width: 760px)");
+    const kies = () => { setSmal(m.matches); setTelefoon(t.matches); };
     kies();
     m.addEventListener("change", kies);
-    return () => m.removeEventListener("change", kies);
+    t.addEventListener("change", kies);
+    return () => { m.removeEventListener("change", kies); t.removeEventListener("change", kies); };
   }, []);
+  // Tikken: op de telefoon kiest een tik de stap, niet het scrollen (verzoek Niels, 31 oktober 2026: het eindeloze
+  // scrollen vermoeit). Na de laatste kaart komt nog een stap met de hele tekening zonder tekst erover.
+  const tik = tikken && telefoon;
 
   // Actieve stap. Breed scherm: de kaart waarvan de tekst het dichtst bij het midden van het scherm staat.
   // Telefoon en tablet (kaarten over de tekening): een stap wisselt zodra de volgende kaart onderin binnenkomt, en
@@ -103,14 +112,15 @@ export function ScrollVerhaalKlant({ gepakt, label, hoogteSmal = 555, breedteSma
       setActief(beste);
     };
     const bijScroll = () => { if (!wacht) { wacht = true; requestAnimationFrame(kies); } };
+    if (tik) return;
     kies();
     addEventListener("scroll", bijScroll, { passive: true });
     addEventListener("resize", bijScroll);
     return () => { removeEventListener("scroll", bijScroll); removeEventListener("resize", bijScroll); };
-  }, [breed]);
+  }, [breed, tik]);
 
   const stappen: Stap[] = smal && verhaal.smal ? verhaal.smal : verhaal.breed;
-  const stap = stappen[actief] ?? stappen[0];
+  const stap = stappen[Math.min(actief, stappen.length - 1)] ?? stappen[0];
   // Alle stippen die ooit voorkomen, zodat een stip die verdwijnt kan uitfaden
   const alle = [...new Set(stappen.flatMap((st) => st.stippen.map((p) => p.key)))];
   const hier = new Map(stap.stippen.map((p) => [p.key, p]));
@@ -128,6 +138,7 @@ export function ScrollVerhaalKlant({ gepakt, label, hoogteSmal = 555, breedteSma
   // Per stap een eigen uitsnede, die in 600 ms meebeweegt naar de volgende (anders maakt de hoogste stap alles klein);
   // stappen met dezelfde as delen er een
   const doel = smal && !breedteSmal ? omvang(uitsnedeGroep(stappen, Math.min(actief, stappen.length - 1))) : null;
+  // Stippen en lijnen bewegen bij tikken net zo als bij scrollen; de uitsnede ook
   const [passend, setPassend] = useState<Box | null>(null);
   const huidig = useRef<Box | null>(null);
   useEffect(() => {
@@ -154,6 +165,112 @@ export function ScrollVerhaalKlant({ gepakt, label, hoogteSmal = 555, breedteSma
   // Breed: de titel van het lopende hoofdstuk staat boven de tekening, niet eronder (feedback Niels K2, 26 oktober 2026)
   const hoofdstuk = stappen.slice(0, actief + 1).map((st) => st.hoofdstuk).filter(Boolean).pop();
   const kop = breed ? hoofdstuk : undefined;
+  const svgTekening = (
+    <svg ref={tekening} viewBox={viewBox} style={{ "--letter": `${letter}px` } as CSSProperties} className={s.svg} role="img" aria-label={`${label}: ${stap.datum}. ${stap.tekst}`}>
+      {/* Sleutels naar de inhoud, niet naar de stap: een as of lijn die in de volgende stap terugkomt blijft staan
+          en flitst niet opnieuw in (feedback Niels K2, 26 oktober 2026) */}
+      <g aria-hidden="true">
+        {stap.paden?.map((p, i) => (
+          <path key={p.naam ?? sleutel(`p${p.d}${p.tint}${p.streep}`, i, stap.paden!.map((q) => `p${q.d}${q.tint}${q.streep}`))} d={p.d} className={s.pad} data-zacht={p.zacht ? "ja" : undefined}
+            style={{ stroke: p.tint, strokeWidth: p.breedte, strokeDasharray: p.streep ? "4 6" : undefined, transform: p.verschuif }} />
+        ))}
+      </g>
+      {alle.map((k) => {
+        const p = hier.get(k);
+        return (
+          // Lege kenmerken weggelaten: de CSS kijkt alleen naar een ingevulde kleur en naar data-weg="ja"
+          <circle key={k} r={p?.r ?? 10.5} className={s.stip} data-kleur={p?.kleur || undefined} data-weg={p ? undefined : "ja"}
+            style={{ fill: p?.kleur === "hol" ? "var(--nacht-950)" : p?.tint, stroke: p?.kleur === "hol" ? p.tint : undefined,
+              transform: p ? `translate(${p.x}px, ${p.y}px)` : `translate(${MIDDEN.x}px, ${MIDDEN.y}px)`, transitionDelay: p?.wacht ? `${p.wacht}ms` : undefined }} />
+        );
+      })}
+      <g aria-hidden="true">
+        {stap.kaders?.map((k, i) => (
+          <rect key={sleutel(`k${k.x},${k.y},${k.b},${k.h}`, i, stap.kaders!.map((q) => `k${q.x},${q.y},${q.b},${q.h}`))} x={k.x} y={k.y} width={k.b} height={k.h} rx={8} className={s.kader} style={k.tint ? { stroke: k.tint } : undefined} />
+        ))}
+        {stap.labels.map((l, i) => (
+          <text key={sleutel(`l${l.tekst}${l.x},${l.y}`, i, stap.labels.map((q) => `l${q.tekst}${q.x},${q.y}`))} x={l.x} y={l.y} textAnchor={l.anchor} className={s.label} data-halo={l.halo ? "ja" : undefined}
+            data-zacht={l.zacht ? "ja" : undefined} data-groot={l.groot ? "ja" : undefined} style={l.tint ? { fill: l.tint } : undefined}>
+            {l.tekst}{l.waarde ? <tspan className={s.waarde}> {l.waarde}</tspan> : null}
+          </text>
+        ))}
+        {stap.groot && (
+          <>
+            <text x={MIDDEN.x} y={MIDDEN.y - 40} className={s.groot}>{stap.groot}</text>
+            <text x={MIDDEN.x} y={MIDDEN.y - 8} className={s.klein}>{stap.klein}</text>
+          </>
+        )}
+      </g>
+    </svg>
+  );
+
+  if (tik) {
+    const n = verhaal.breed.length; // stappen 0..n-1 met een kaart, n is het slot
+    const naar = (i: number) => {
+      const j = Math.max(0, Math.min(n, i));
+      if (j === actief) return;
+      setRichting(j > actief ? "verder" : "terug");
+      setActief(j);
+      // Staat het verhaal niet precies in beeld, dan eerst daarheen
+      const r = buiten.current?.getBoundingClientRect();
+      const kopH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--kop-hoogte")) || 60;
+      if (r && Math.abs(r.top - kopH) > 8) buiten.current?.scrollIntoView({ block: "start", behavior: "smooth" });
+    };
+    // Tik rechts of in het midden: verder; tik op het linkerderde: terug. Links en knoppen doen hun eigen werk.
+    const bijTik = (e: MouseEvent<HTMLDivElement>) => {
+      if ((e.target as HTMLElement).closest("a, button")) return;
+      const r = e.currentTarget.getBoundingClientRect();
+      naar(e.clientX - r.left < r.width / 3 ? actief - 1 : actief + 1);
+    };
+    // Vegen: naar links is verder, naar rechts terug
+    const st = verhaal.breed[actief];
+    return (
+      <div ref={buiten} className={s.tik} tabIndex={0} role="group" aria-roledescription="verhaal in stappen" aria-label={label}
+        onClick={bijTik}
+        onKeyDown={(e) => { if (e.key === "ArrowRight") naar(actief + 1); if (e.key === "ArrowLeft") naar(actief - 1); }}
+        onTouchStart={(e) => { veeg.current.x = e.touches[0].clientX; veeg.current.y = e.touches[0].clientY; }}
+        onTouchEnd={(e) => {
+          const dx = e.changedTouches[0].clientX - veeg.current.x, dy = e.changedTouches[0].clientY - veeg.current.y;
+          if (Math.abs(dx) > 50 && Math.abs(dx) > 1.5 * Math.abs(dy)) { e.preventDefault(); naar(actief + (dx < 0 ? 1 : -1)); }
+        }}>
+        <div className={s.streepjes} aria-hidden="true">
+          {Array.from({ length: n + 1 }, (_, i) => <span key={i} data-af={i <= actief || undefined} />)}
+        </div>
+        {(titel || hoofdstuk) && (
+          <div className={s.tikKop}>
+            {titel && <span className={s.vasteTitel}>{titel}</span>}
+            {titel && hoofdstuk && " · "}
+            {hoofdstuk}
+          </div>
+        )}
+        <div className={s.tikFiguur}>{svgTekening}</div>
+        <div className={s.tikTekstVlak} aria-live="polite">
+          {st ? (
+            <div key={actief} className={s.tikTekst} data-richting={richting} data-lezing={st.lezing}>
+              <KaartInhoud st={st} />
+            </div>
+          ) : (
+            <div key="slot" className={s.tikTekst} data-richting={richting}>
+              <span className={s.datum}>Het hele beeld</span>
+              <div className={s.tikSlot}>
+                <button type="button" className={s.tikLink} onClick={() => naar(0)}>Opnieuw bekijken</button>
+                <button type="button" className={s.tikLink} onClick={() => {
+                  const r = buiten.current?.getBoundingClientRect();
+                  if (r) scrollBy({ top: r.bottom - 60, behavior: "smooth" });
+                }}>Verder lezen ↓</button>
+              </div>
+            </div>
+          )}
+        </div>
+        <div className={s.tikKnoppen}>
+          <button type="button" className={s.tikKnop} onClick={() => naar(actief - 1)} disabled={actief === 0} aria-label="Vorige stap">←</button>
+          <span className={s.tikTeller}>{actief < n ? `${actief + 1} van ${n}` : "Einde"}</span>
+          {actief < n - 1 && <button type="button" className={s.tikLink} onClick={() => naar(n)}>Naar het eind</button>}
+          <button type="button" className={s.tikKnop} onClick={() => naar(actief + 1)} disabled={actief === n} aria-label="Volgende stap">→</button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={s.verhaal} data-tijdlijn={tijdlijn && !breed} data-breed={breed} style={{ "--stap": stapHoogte } as CSSProperties}>
@@ -168,52 +285,13 @@ export function ScrollVerhaalKlant({ gepakt, label, hoogteSmal = 555, breedteSma
             {hoofdstuk}
           </div>
         )}
-        <svg ref={tekening} viewBox={viewBox} style={{ "--letter": `${letter}px` } as CSSProperties} className={s.svg} role="img" aria-label={`${label}: ${stap.datum}. ${stap.tekst}`}>
-          {/* Sleutels naar de inhoud, niet naar de stap: een as of lijn die in de volgende stap terugkomt blijft staan
-              en flitst niet opnieuw in (feedback Niels K2, 26 oktober 2026) */}
-          <g aria-hidden="true">
-            {stap.paden?.map((p, i) => (
-              <path key={p.naam ?? sleutel(`p${p.d}${p.tint}${p.streep}`, i, stap.paden!.map((q) => `p${q.d}${q.tint}${q.streep}`))} d={p.d} className={s.pad} data-zacht={p.zacht ? "ja" : undefined}
-                style={{ stroke: p.tint, strokeWidth: p.breedte, strokeDasharray: p.streep ? "4 6" : undefined, transform: p.verschuif }} />
-            ))}
-          </g>
-          {alle.map((k) => {
-            const p = hier.get(k);
-            return (
-              // Lege kenmerken weggelaten: de CSS kijkt alleen naar een ingevulde kleur en naar data-weg="ja"
-              <circle key={k} r={p?.r ?? 10.5} className={s.stip} data-kleur={p?.kleur || undefined} data-weg={p ? undefined : "ja"}
-                style={{ fill: p?.kleur === "hol" ? "var(--nacht-950)" : p?.tint, stroke: p?.kleur === "hol" ? p.tint : undefined,
-                  transform: p ? `translate(${p.x}px, ${p.y}px)` : `translate(${MIDDEN.x}px, ${MIDDEN.y}px)`, transitionDelay: p?.wacht ? `${p.wacht}ms` : undefined }} />
-            );
-          })}
-          <g aria-hidden="true">
-            {stap.kaders?.map((k, i) => (
-              <rect key={sleutel(`k${k.x},${k.y},${k.b},${k.h}`, i, stap.kaders!.map((q) => `k${q.x},${q.y},${q.b},${q.h}`))} x={k.x} y={k.y} width={k.b} height={k.h} rx={8} className={s.kader} style={k.tint ? { stroke: k.tint } : undefined} />
-            ))}
-            {stap.labels.map((l, i) => (
-              <text key={sleutel(`l${l.tekst}${l.x},${l.y}`, i, stap.labels.map((q) => `l${q.tekst}${q.x},${q.y}`))} x={l.x} y={l.y} textAnchor={l.anchor} className={s.label} data-halo={l.halo ? "ja" : undefined}
-                data-zacht={l.zacht ? "ja" : undefined} data-groot={l.groot ? "ja" : undefined} style={l.tint ? { fill: l.tint } : undefined}>
-                {l.tekst}{l.waarde ? <tspan className={s.waarde}> {l.waarde}</tspan> : null}
-              </text>
-            ))}
-            {stap.groot && (
-              <>
-                <text x={MIDDEN.x} y={MIDDEN.y - 40} className={s.groot}>{stap.groot}</text>
-                <text x={MIDDEN.x} y={MIDDEN.y - 8} className={s.klein}>{stap.klein}</text>
-              </>
-            )}
-          </g>
-        </svg>
+        {svgTekening}
       </div>
       <ol className={s.kaarten} ref={lijst}>
         {verhaal.breed.map((st, i) => (
           <li key={i} data-stap={i} className={s.kaart} data-actief={i === actief}>
             <div data-lezing={st.lezing}>
-              {st.hoofdstuk && <span className={s.hoofdstuk}>{st.hoofdstuk}</span>}
-              {st.lezing ? <span className={s.lezingKop}>{st.datum} · {st.lezing} van 2</span> : <span className={s.datum}>{st.datum}</span>}
-              <Beeld stap={st} />
-              {st.kort !== undefined ? <><span className="verborgen">{st.tekst}</span>{st.kort}</> : st.tekst}
-              {st.link && <Link href={st.link.href} className={s.verder}>{st.link.tekst} →</Link>}
+              <KaartInhoud st={st} />
             </div>
           </li>
         ))}
@@ -222,6 +300,19 @@ export function ScrollVerhaalKlant({ gepakt, label, hoogteSmal = 555, breedteSma
         <li className={s.slotStap} aria-hidden="true" />
       </ol>
     </div>
+  );
+}
+
+// De inhoud van een tekstkaart, bij scrollen en bij tikken dezelfde
+function KaartInhoud({ st }: { st: Stap }) {
+  return (
+    <>
+      {st.hoofdstuk && <span className={s.hoofdstuk}>{st.hoofdstuk}</span>}
+      {st.lezing ? <span className={s.lezingKop}>{st.datum} · {st.lezing} van 2</span> : <span className={s.datum}>{st.datum}</span>}
+      <Beeld stap={st} />
+      {st.kort !== undefined ? <><span className="verborgen">{st.tekst}</span>{st.kort}</> : st.tekst}
+      {st.link && <Link href={st.link.href} className={s.verder}>{st.link.tekst} →</Link>}
+    </>
   );
 }
 

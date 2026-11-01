@@ -387,3 +387,102 @@
   border-top: 1px solid var(--lijn);
   border-bottom: 1px solid var(--lijn);
 }
+/* Telefoon als app (verzoek Niels, 31 oktober 2026): de verwachting en de stellingen vullen het hele scherm, met een
+   eigen balk bovenin en de knoppen onderin bij je duim. De uitslag toont eerst vijf fracties, het overzicht per
+   stemming staat achter een knop. */
+.alleenTelefoon {
+  display: none;
+}
+@media (max-width: 760px) {
+  .alleenTelefoon {
+    display: inline-flex;
+    align-items: center;
+  }
+  .fracties:not([data-alle]) > li:nth-child(n + 6) {
+    display: none;
+  }
+  .overzicht:not([data-open]) {
+    display: none;
+  }
+  .scherm {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    background: var(--nacht-950);
+    padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+  }
+  .schermKop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--r-2) var(--r-4);
+    border-bottom: 1px solid var(--lijn);
+    font-family: var(--serif);
+    font-size: 19px;
+    color: var(--tekst);
+  }
+  .sluit {
+    width: 44px;
+    height: 44px;
+    margin-right: -10px;
+    border: 0;
+    background: none;
+    color: var(--tekst);
+    font-size: 30px;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .scherm .kaart {
+    flex: 1;
+    min-height: 0;
+    max-width: none;
+    overflow-y: auto;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    padding: var(--r-4);
+    animation: kaartVerder 300ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .scherm .kaart[data-richting="terug"] {
+    animation-name: kaartTerug;
+  }
+  .scherm .stelling {
+    font-size: 28px;
+  }
+  /* De knoppen onderin: Eens en Oneens naast elkaar, Geen mening eronder over de volle breedte */
+  .scherm .knoppen {
+    margin-top: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--r-2);
+  }
+  .scherm .knoppen button {
+    padding: 0 var(--r-2);
+  }
+  .scherm .neutraal {
+    grid-column: 1 / -1;
+  }
+  .scherm .onder {
+    justify-content: space-between;
+  }
+  .scherm .keuzes + .onder {
+    margin-top: auto;
+  }
+  .scherm .keuzes + .onder .hoofdknop {
+    flex: 1;
+  }
+}
+@keyframes kaartVerder {
+  from { opacity: 0; transform: translateX(36px); }
+}
+@keyframes kaartTerug {
+  from { opacity: 0; transform: translateX(-36px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scherm .kaart,
+  .scherm .kaart[data-richting="terug"] {
+    animation: none;
+  }
+}

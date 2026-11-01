@@ -8,7 +8,7 @@
 // uitkomst als vast label en de zetels als balk.
 import { DeelKnop } from "../deel/DeelKnop";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 import { deelPlaatje } from "./plaatje";
 import s from "./stemgenoten.module.css";
 
@@ -75,11 +75,43 @@ export function Stemgenoten({ stellingen: eerste, extra = [], fracties, rollen }
   const [antwoorden, setAntwoorden] = useState<Record<string, Antwoord>>({});
   const [verwacht, setVerwacht] = useState<string[]>([]);
   const [delen, setDelen] = useState<"" | "bezig" | "gedownload" | "fout">("");
+  const [alle, setAlle] = useState(false); // telefoon: alle fracties in de uitslag in plaats van de eerste vijf
+  const [overzicht, setOverzicht] = useState(false); // telefoon: "Hoe stemde de Kamer?" uitgeklapt
+  const [telefoon, setTelefoon] = useState(false);
+  const [richting, setRichting] = useState<"verder" | "terug">("verder");
   const n = stellingen.length;
   const kader = useRef<HTMLDivElement>(null);
-  // Na een keuze naar het begin van de kaart, niet naar de bovenkant van de pagina
-  const naarKaart = () => requestAnimationFrame(() => kader.current?.scrollIntoView({ block: "start", behavior: "smooth" }));
-  const naar = (i: number) => { setStap(i); naarKaart(); };
+  useEffect(() => {
+    const m = matchMedia("(max-width: 760px)");
+    const kies = () => setTelefoon(m.matches);
+    kies();
+    m.addEventListener("change", kies);
+    return () => m.removeEventListener("change", kies);
+  }, []);
+  // Telefoon: de verwachting en de stellingen vullen het hele scherm, zonder pagina eromheen en met de knoppen
+  // onderin bij je duim (verzoek Niels, 31 oktober 2026: het moet voelen als een app)
+  const scherm = telefoon && stap >= -1 && stap < n;
+  useEffect(() => {
+    if (!scherm) return;
+    const oud = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = oud; };
+  }, [scherm]);
+  // Na een keuze naar het begin van de kaart, niet naar de bovenkant van de pagina. Even wachten: na het volle scherm
+  // moet de pagina eerst weer kunnen scrollen.
+  const naarKaart = () => setTimeout(() => kader.current?.scrollIntoView({ block: "start", behavior: "smooth" }), 50);
+  const naar = (i: number) => { setRichting(i < stap ? "terug" : "verder"); setStap(i); naarKaart(); };
+  // Op het volle scherm: een eigen balk met sluiten; sluiten bewaart de antwoorden
+  const omhul = (kaart: ReactNode) => !scherm ? kaart : (
+    <div className={s.scherm} role="dialog" aria-modal="true" aria-label="Stemgenoten"
+      onKeyDown={(e) => { if (e.key === "Escape") naar(-2); }}>
+      <div className={s.schermKop}>
+        <span>Stemgenoten</span>
+        <button type="button" className={s.sluit} onClick={() => naar(-2)} aria-label="Sluiten">×</button>
+      </div>
+      {kaart}
+    </div>
+  );
   const kies = (a: Antwoord | null) => {
     const st = stellingen[stap];
     setAntwoorden((x) => { const y = { ...x }; if (a) y[st.besluit] = a; else delete y[st.besluit]; return y; });
@@ -109,8 +141,8 @@ export function Stemgenoten({ stellingen: eerste, extra = [], fracties, rollen }
 
   if (stap === -1) {
     const wissel = (f: string) => setVerwacht((v) => (v.includes(f) ? v.filter((x) => x !== f) : [...v, f]));
-    return (
-      <div className={s.kaart} ref={kader} style={{ scrollMarginTop: 90 }}>
+    return omhul(
+      <div className={s.kaart} ref={kader} style={{ scrollMarginTop: 90 }} key="verwachting" data-richting={richting}>
         <p className={s.label}>Eerst je verwachting</p>
         <h2 className={s.stelling}>Welke partijen stemmen volgens jou zoals jij?</h2>
         <p className={s.klein}>Tik er een paar aan. In de uitslag zie je ze terug in een eigen kleur. Je kunt dit ook overslaan.</p>
@@ -129,8 +161,8 @@ export function Stemgenoten({ stellingen: eerste, extra = [], fracties, rollen }
   if (stap < n) {
     const st = stellingen[stap];
     const huidig = antwoorden[st.besluit];
-    return (
-      <div className={s.kaart} ref={kader} style={{ scrollMarginTop: 90 }}>
+    return omhul(
+      <div className={s.kaart} ref={kader} style={{ scrollMarginTop: 90 }} key={st.besluit} data-richting={richting}>
         <div className={s.voortgang} aria-label={`Stelling ${stap + 1} van ${n}`}>
           <span style={{ width: `${(100 * stap) / n}%` }} />
         </div>
@@ -196,7 +228,7 @@ export function Stemgenoten({ stellingen: eerste, extra = [], fracties, rollen }
         {beantwoord < MINIMUM ? (
           <p className={s.tekst}>Kies bij minstens {MINIMUM} stellingen een kant om een uitslag te zien.</p>
         ) : (
-          <ol className={s.fracties}>
+          <ol className={s.fracties} data-alle={alle || undefined}>
             {met.map((u) => {
               const anders = verschillen(stellingen, antwoorden, u.fractie);
               return (
@@ -235,6 +267,10 @@ export function Stemgenoten({ stellingen: eerste, extra = [], fracties, rollen }
             })}
           </ol>
         )}
+        {/* Telefoon: eerst de vijf fracties die het vaakst stemden zoals jij, zodat de uitslag op een scherm past */}
+        {beantwoord >= MINIMUM && met.length > 5 && !alle && (
+          <button type="button" className={`${s.link} ${s.alleenTelefoon}`} onClick={() => setAlle(true)}>Toon alle {met.length} fracties</button>
+        )}
         {zonder.length > 0 && beantwoord >= MINIMUM && (
           <p className={s.klein}>Te weinig gemeenschappelijke stellingen voor een percentage: {zonder.map((u) => u.fractie).join(", ")}.</p>
         )}
@@ -264,7 +300,13 @@ export function Stemgenoten({ stellingen: eerste, extra = [], fracties, rollen }
       </div>
 
       <h2 className={s.kop}>Hoe stemde de Kamer?</h2>
-      <ol className={s.overzicht}>
+      {/* Telefoon: het overzicht per stemming achter een knop; op een groter scherm altijd open */}
+      {!overzicht && (
+        <button type="button" className={`${s.hoofdknop} ${s.alleenTelefoon}`} onClick={() => setOverzicht(true)}>
+          Bekijk alle {n} stemmingen
+        </button>
+      )}
+      <ol className={s.overzicht} data-open={overzicht || undefined}>
         {stellingen.map((st) => {
           const a = antwoorden[st.besluit];
           const kant = (k: string) => Object.entries(st.stemmen).filter(([, v]) => v === k).map(([f]) => f).sort((x, y) => (fracties[y] ?? 0) - (fracties[x] ?? 0));
