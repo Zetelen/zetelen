@@ -73,8 +73,11 @@ export default async function Voorpagina() {
         {/* Een kop die zegt wat de site is, in plaats van een vraag met een strekking (feedback van bezoekers, besluit Niels
             28 oktober 2026). De cijfers staan daaronder, direct met de twee lezingen. */}
         <HeroKop>Wie stemt met wie in de Tweede Kamer?</HeroKop>
+        {/* Eerst de boodschap, dan wat de site doet, dan de uitnodiging (feedback Niels, 2 november 2026) */}
         <Tekst>
-          Alle stemmingen sinds 2010, per fractie, per onderwerp en per kabinet. Zoek zelf, of lees eerst wat opvalt.
+          Een debat laat zien wat een partij wil. De stemming laat zien wat ze doet. Zetelen zet alle stemmingen sinds 2010
+          naast elkaar: wie met wie meestemt, op welk onderwerp en onder welk kabinet. Begin bij een partij, een onderwerp of
+          een coalitie die je zelf samenstelt.
         </Tekst>
         <nav className={s.cta} aria-label="Zoek zelf">
           <Link href="/verkenner" className={s.ctaHoofd}>Wie stemt met wie?</Link>

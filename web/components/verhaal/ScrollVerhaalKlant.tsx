@@ -5,6 +5,7 @@
 // stuurt ze ingepakt mee (lib/verhaalPak.ts, via ScrollVerhaal.tsx); hier worden ze uitgepakt.
 import Link from "next/link";
 import { type CSSProperties, type MouseEvent, useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import type { Stap } from "@/lib/verhaal";
 import { type GepaktVerhaal, pakUit } from "@/lib/verhaalPak";
 import { KORT, uitsnedeGroep } from "@/lib/verhaal";
@@ -55,6 +56,7 @@ export function ScrollVerhaalKlant({ gepakt, label, hoogteSmal = 555, breedteSma
   const [telefoon, setTelefoon] = useState(false);
   const [actief, setActief] = useState(0);
   const [richting, setRichting] = useState<"verder" | "terug">("verder");
+  const [open, setOpen] = useState(false);
   const lijst = useRef<HTMLOListElement>(null);
   const tekening = useRef<SVGSVGElement>(null);
   const buiten = useRef<HTMLDivElement>(null);
@@ -71,6 +73,19 @@ export function ScrollVerhaalKlant({ gepakt, label, hoogteSmal = 555, breedteSma
   // Tikken: op de telefoon kiest een tik de stap, niet het scrollen (verzoek Niels, 31 oktober 2026: het eindeloze
   // scrollen vermoeit). Na de laatste kaart komt nog een stap met de hele tekening zonder tekst erover.
   const tik = tikken && telefoon;
+  // Het verhaal opent op het volle scherm (verzoek Niels, 2 november 2026): op de pagina scrol je, in het verhaal tik
+  // je. Zolang het open is, scrolt de pagina eronder niet mee.
+  const scherm = tik && open;
+  // Bij het overschakelen naar tikken begint het verhaal vooraan: de scrollstand kan al een latere stap hebben gekozen
+  useEffect(() => { if (tik) setActief(0); }, [tik]);
+  useEffect(() => {
+    if (!scherm) return;
+    const oud = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const toets = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    addEventListener("keydown", toets);
+    return () => { document.body.style.overflow = oud; removeEventListener("keydown", toets); };
+  }, [scherm]);
 
   // Actieve stap. Breed scherm: de kaart waarvan de tekst het dichtst bij het midden van het scherm staat.
   // Telefoon en tablet (kaarten over de tekening): een stap wisselt zodra de volgende kaart onderin binnenkomt, en
@@ -134,7 +149,8 @@ export function ScrollVerhaalKlant({ gepakt, label, hoogteSmal = 555, breedteSma
     meet();
     addEventListener("resize", meet);
     return () => removeEventListener("resize", meet);
-  }, []);
+    // Opnieuw meten als de tekening van de pagina naar het volle scherm verhuist of terug
+  }, [open]);
   // Per stap een eigen uitsnede, die in 600 ms meebeweegt naar de volgende (anders maakt de hoogste stap alles klein);
   // stappen met dezelfde as delen er een
   const doel = smal && !breedteSmal ? omvang(uitsnedeGroep(stappen, Math.min(actief, stappen.length - 1))) : null;
@@ -205,70 +221,84 @@ export function ScrollVerhaalKlant({ gepakt, label, hoogteSmal = 555, breedteSma
   );
 
   if (tik) {
-    const n = verhaal.breed.length; // stappen 0..n-1 met een kaart, n is het slot
+    const n = verhaal.breed.length; // stappen 0..n-1 met een kaart; n is de eindstand zonder kaart
     const naar = (i: number) => {
-      const j = Math.max(0, Math.min(n, i));
+      // Verder na de laatste kaart: terug op de pagina, met de tekening in de eindstand
+      if (i >= n) { setRichting("verder"); setActief(n); setOpen(false); return; }
+      const j = Math.max(0, i);
       if (j === actief) return;
       setRichting(j > actief ? "verder" : "terug");
       setActief(j);
-      // Staat het verhaal niet precies in beeld, dan eerst daarheen
-      const r = buiten.current?.getBoundingClientRect();
-      const kopH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--kop-hoogte")) || 60;
-      if (r && Math.abs(r.top - kopH) > 8) buiten.current?.scrollIntoView({ block: "start", behavior: "smooth" });
     };
+    const openen = () => { setRichting("verder"); setActief(actief >= n ? 0 : actief); setOpen(true); };
     // Tik rechts of in het midden: verder; tik op het linkerderde: terug. Links en knoppen doen hun eigen werk.
     const bijTik = (e: MouseEvent<HTMLDivElement>) => {
       if ((e.target as HTMLElement).closest("a, button")) return;
       const r = e.currentTarget.getBoundingClientRect();
       naar(e.clientX - r.left < r.width / 3 ? actief - 1 : actief + 1);
     };
-    // Vegen: naar links is verder, naar rechts terug
-    const st = verhaal.breed[actief];
-    return (
-      <div ref={buiten} className={s.tik} tabIndex={0} role="group" aria-roledescription="verhaal in stappen" aria-label={label}
-        onClick={bijTik}
-        onKeyDown={(e) => { if (e.key === "ArrowRight") naar(actief + 1); if (e.key === "ArrowLeft") naar(actief - 1); }}
-        onTouchStart={(e) => { veeg.current.x = e.touches[0].clientX; veeg.current.y = e.touches[0].clientY; }}
-        onTouchEnd={(e) => {
-          const dx = e.changedTouches[0].clientX - veeg.current.x, dy = e.changedTouches[0].clientY - veeg.current.y;
-          if (Math.abs(dx) > 50 && Math.abs(dx) > 1.5 * Math.abs(dy)) { e.preventDefault(); naar(actief + (dx < 0 ? 1 : -1)); }
-        }}>
-        <div className={s.streepjes} aria-hidden="true">
-          {Array.from({ length: n + 1 }, (_, i) => <span key={i} data-af={i <= actief || undefined} />)}
-        </div>
-        {(titel || hoofdstuk) && (
-          <div className={s.tikKop}>
-            {titel && <span className={s.vasteTitel}>{titel}</span>}
-            {titel && hoofdstuk && " · "}
-            {hoofdstuk}
-          </div>
-        )}
-        <div className={s.tikFiguur}>{svgTekening}</div>
-        <div className={s.tikTekstVlak} aria-live="polite">
-          {st ? (
-            <div key={actief} className={s.tikTekst} data-richting={richting} data-lezing={st.lezing}>
-              <KaartInhoud st={st} />
-            </div>
-          ) : (
-            <div key="slot" className={s.tikTekst} data-richting={richting}>
-              <span className={s.datum}>Het hele beeld</span>
-              <div className={s.tikSlot}>
-                <button type="button" className={s.tikLink} onClick={() => naar(0)}>Opnieuw bekijken</button>
-                <button type="button" className={s.tikLink} onClick={() => {
-                  const r = buiten.current?.getBoundingClientRect();
-                  if (r) scrollBy({ top: r.bottom - 60, behavior: "smooth" });
-                }}>Verder lezen ↓</button>
-              </div>
-            </div>
-          )}
-        </div>
-        <div className={s.tikKnoppen}>
-          <button type="button" className={s.tikKnop} onClick={() => naar(actief - 1)} disabled={actief === 0} aria-label="Vorige stap">←</button>
-          <span className={s.tikTeller}>{actief < n ? `${actief + 1} van ${n}` : "Einde"}</span>
-          {actief < n - 1 && <button type="button" className={s.tikLink} onClick={() => naar(n)}>Naar het eind</button>}
-          <button type="button" className={s.tikKnop} onClick={() => naar(actief + 1)} disabled={actief === n} aria-label="Volgende stap">→</button>
-        </div>
+    const kopRegel = (titel || hoofdstuk) && (
+      <>
+        {titel && <span className={s.vasteTitel}>{titel}</span>}
+        {titel && hoofdstuk && " · "}
+        {hoofdstuk}
+      </>
+    );
+    // Op de pagina: de tekening in de huidige stand met een knop om het verhaal te openen
+    const voorproef = (
+      <div ref={buiten} className={s.tikVoorproef}>
+        {titel && <div className={s.tikKop}><span className={s.vasteTitel}>{titel}</span></div>}
+        <button type="button" className={s.tikVoorproefFiguur} onClick={openen} aria-label={`${label}: bekijk in ${n} stappen`}>
+          {!scherm && svgTekening}
+        </button>
+        <button type="button" className={s.tikOpen} onClick={openen}>
+          {actief === 0 ? `Bekijk in ${n} stappen` : actief >= n ? "Opnieuw bekijken" : `Verder kijken, stap ${actief + 1} van ${n}`}
+        </button>
       </div>
+    );
+    if (!scherm) return voorproef;
+    return (
+      <>
+        {voorproef}
+        {createPortal(
+          <div className={s.tik} role="dialog" aria-modal="true" aria-roledescription="verhaal in stappen" aria-label={label}
+            onClick={bijTik}
+            onKeyDown={(e) => { if (e.key === "ArrowRight") naar(actief + 1); if (e.key === "ArrowLeft") naar(actief - 1); }}
+            onTouchStart={(e) => { veeg.current.x = e.touches[0].clientX; veeg.current.y = e.touches[0].clientY; }}
+            onTouchEnd={(e) => {
+              // Vegen: naar links is verder, naar rechts terug
+              const dx = e.changedTouches[0].clientX - veeg.current.x, dy = e.changedTouches[0].clientY - veeg.current.y;
+              if (Math.abs(dx) > 50 && Math.abs(dx) > 1.5 * Math.abs(dy)) { e.preventDefault(); naar(actief + (dx < 0 ? 1 : -1)); }
+            }}>
+            <div className={s.tikBalk}>
+              <div className={s.tikKop}>{kopRegel}</div>
+              <button type="button" className={s.tikSluit} onClick={() => setOpen(false)} aria-label="Sluiten" autoFocus>×</button>
+            </div>
+            <div className={s.streepjes} aria-hidden="true">
+              {Array.from({ length: n }, (_, i) => <span key={i} data-af={i <= actief || undefined} />)}
+            </div>
+            <div className={s.tikFiguur}>{svgTekening}</div>
+            {/* Alle kaarten in dezelfde cel: het vlak is zo hoog als de langste kaart, zodat de tekening niet
+                verspringt als een kaart korter of langer is (feedback Niels, 2 november 2026) */}
+            <div className={s.tikTekstVlak} aria-live="polite">
+              {verhaal.breed.map((st, i) => (
+                <div key={i === actief ? `a${i}` : i} className={s.tikTekst} data-richting={richting} data-lezing={st.lezing}
+                  data-zichtbaar={i === actief || undefined} aria-hidden={i !== actief || undefined}>
+                  <KaartInhoud st={st} />
+                </div>
+              ))}
+            </div>
+            <div className={s.tikKnoppen}>
+              <button type="button" className={s.tikKnop} onClick={() => naar(actief - 1)} disabled={actief === 0} aria-label="Vorige stap">←</button>
+              <span className={s.tikTeller}>{actief + 1} van {n}</span>
+              <button type="button" className={s.tikKnop} onClick={() => naar(actief + 1)} aria-label={actief === n - 1 ? "Klaar, terug naar de pagina" : "Volgende stap"}>
+                {actief === n - 1 ? "Klaar" : "→"}
+              </button>
+            </div>
+          </div>,
+          document.body,
+        )}
+      </>
     );
   }
 

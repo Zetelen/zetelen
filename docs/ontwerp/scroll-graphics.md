@@ -74,13 +74,15 @@ Deze regels zitten in het gedeelde onderdeel (`components/verhaal/ScrollVerhaalK
 
 ### Telefoon: tikken in plaats van scrollen (Niels, 1 november 2026)
 
-Op de telefoon (tot 760 pixels breed) werkt een verhaal met `tikken` als stories: een scherm hoog, streepjes bovenin, de tekening, de tekst van de stap en onderin vorige, volgende en "Naar het eind". Rechts tikken of naar links vegen is verder, links tikken of naar rechts vegen terug. De tekening beweegt naar de nieuwe stand zoals bij scrollen; de tekst schuift opzij binnen (bij terug van links). Na de laatste stap volgt "Het hele beeld": de tekening zonder tekst, met "Opnieuw bekijken" en "Verder lezen". Op tablet en desktop blijft het scrollen. Bij "minder beweging" alleen vervagen.
+Op de telefoon (tot 760 pixels breed) staat een verhaal met `tikken` op de pagina als voorproef: de titel, de tekening in de huidige stand en een knop "Bekijk in N stappen" (daarna "Verder kijken, stap x van N" of "Opnieuw bekijken"). Die knop opent het verhaal op het volle scherm (sinds 2 november 2026, feedback Niels: in de pagina paste het net niet onder de adresbalk en kon je nog doorscrollen terwijl je moest tikken). Op het volle scherm: bovenin titel en hoofdstuk met ×, streepjes, de tekening, de tekst van de stap en onderin vorige en volgende. De pagina eronder scrolt niet. Rechts tikken of naar links vegen is verder, links tikken of naar rechts vegen terug; × of Escape sluit. Na de laatste kaart ("Klaar") sta je weer op de pagina met de tekening in de eindstand.
+
+De tekening staat stil: het tekstvlak is zo hoog als de langste kaart (alle kaarten in dezelfde rastercel), zodat een korte of lange kaart de tekening niet verschuift. De stippen bewegen naar de nieuwe stand zoals bij scrollen; de tekst schuift opzij binnen (bij terug van links). Het scherm is `100svh` hoog, zodat de knoppen niet onder de adresbalk van Safari vallen. Op tablet en desktop blijft het scrollen. Bij "minder beweging" alleen vervagen.
 
 Reden: het eindeloze scrollen vermoeit op de telefoon. Zelfde gedachte voor interactieve stukken (Stemgenoten): op de telefoon een volledig scherm met de knoppen onderin bij de duim, en een uitslag die op een scherm past (eerst vijf, de rest achter een knop).
 
 De vier patronen voor de telefoon (tot 760 pixels; op een groter scherm verandert niets):
 
-1. **Verhaal in stappen** (`ScrollVerhaal` met `tikken`): Uitgelicht, Oppositie, Onderwerpen, de zaal op de voorpagina.
+1. **Verhaal in stappen op het volle scherm** (`ScrollVerhaal` met `tikken`): Uitgelicht, Oppositie, Onderwerpen, de zaal op de voorpagina.
 2. **Kaart op volle hoogte**: Stemgenoten.
 3. **Tabbladen** (`components/Tabbladen.tsx`): voorpagina, Kamerleden, Fracties. Alle inhoud staat in de HTML; een link naar een anker opent het juiste tabblad; opzij vegen wisselt, behalve in iets dat zelf opzij schuift. De kern (wat opvalt) staat altijd op het eerste tabblad.
 4. **Bladeren** (`components/Bladeren.tsx`): de blokken van een Actueel-stuk naast elkaar, met de conclusie als laatste deel.

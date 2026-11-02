@@ -3,7 +3,8 @@
 import type { BredeSteun as Rij } from "@/lib/voorpagina";
 import s from "./bredeSteun.module.css";
 
-const B = 720, H = 300, L = 44, O = 40, T = 24;
+// Geen y-as: de waarde staat op elke staaf (feedback Niels, 2 november 2026); alleen de nullijn blijft als basis
+const B = 720, H = 300, L = 8, O = 40, T = 24;
 
 export function BredeSteun({ rijen }: { rijen: Rij[] }) {
   const max = 60;
@@ -14,12 +15,7 @@ export function BredeSteun({ rijen }: { rijen: Rij[] }) {
     <figure className={s.figuur}>
       <svg viewBox={`0 0 ${B} ${H}`} role="img"
         aria-label={`Aangenomen met stemmen van kabinet én oppositie, als deel van alles wat is ingediend, per kabinet: ${rijen.map((r) => `${r.kabinet} moties ${pct(r.moties)}, amendementen ${pct(r.amendementen)}`).join("; ")}`}>
-        {[0, 20, 40, 60].map((p) => (
-          <g key={p}>
-            <line x1={L} x2={B} y1={sy(p)} y2={sy(p)} className={s.lijn} />
-            <text x={L - 8} y={sy(p) + 4} textAnchor="end" className={s.as}>{p}%</text>
-          </g>
-        ))}
+        <line x1={L} x2={B} y1={sy(0)} y2={sy(0)} className={s.lijn} />
         {rijen.map((r, i) => {
           const x = Math.round(L + i * groep + groep / 2);
           return (
