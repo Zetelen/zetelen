@@ -120,6 +120,29 @@ def test_bewaartermijn(conn):
     assert als_anon(conn, "select beheer.ruim_feedback_op()") == "InsufficientPrivilege"
 
 
+# Klikteller (migratie 029)
+
+def test_anon_kan_klik_melden_maar_niet_lezen(conn):
+    assert als_anon(conn, "select api.stuur_klik('klik', 'bs-12', 'vvd-en-pro', 'mobiel', 'NL')") == [("ontvangen",)]
+    assert als_anon(conn, "select * from beheer.klik") == "InsufficientPrivilege"
+    assert als_anon(conn, "insert into beheer.klik (soort, via) values ('klik', 'bs-1')") == "InsufficientPrivilege"
+    assert conn.execute("select soort, via, grafiek, apparaat, land from beheer.klik").fetchall() == [("klik", "bs-12", "vvd-en-pro", "mobiel", "NL")]
+
+
+def test_klik_ongeldige_invoer_wordt_geweigerd(conn):
+    assert als_anon(conn, "select api.stuur_klik('klik', 'bs-1', proef => true)") == [("proef",)]
+    assert conn.execute("select count(*) from beheer.klik").fetchone()[0] == 0
+    for fout in ["'kijk', 'bs-1'", "'klik', 'x-1'", "'klik', 'bs-1', 'Grafiek!'", "'klik', 'bs-1', null, 'telefoon'", "'klik', 'bs-1', null, null, 'nl'"]:
+        assert als_anon(conn, f"select api.stuur_klik({fout})") == "InvalidParameterValue"
+
+
+def test_klik_bewaartermijn(conn):
+    conn.execute("insert into beheer.klik (op, soort, via) values (now() - interval '13 months', 'klik', 'bs-1'), (now(), 'klik', 'bs-2')")
+    assert conn.execute("select beheer.ruim_klik_op()").fetchone()[0] == 1
+    assert conn.execute("select via from beheer.klik").fetchall() == [("bs-2",)]
+    assert als_anon(conn, "select beheer.ruim_klik_op()") == "InsufficientPrivilege"
+
+
 def test_andere_functie_voor_anon_wordt_gevonden(conn):
     conn.execute("create function api.test_lek() returns int language sql as 'select 1'")
     gevonden = overtredingen(conn)

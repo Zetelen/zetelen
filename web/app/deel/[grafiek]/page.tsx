@@ -9,6 +9,7 @@ import { Label, SectieKop, Tekst } from "@/components/Typografie";
 import { Doorsturen } from "@/components/deel/Doorsturen";
 import { BRON, deellinkVan, doelVan, isGrafiek, plaatjeVan, titelVan } from "@/lib/deel";
 import { schoonZoek, titelMetData } from "@/lib/deelSchoon";
+import { metVia, schoneVia } from "@/lib/klik";
 import s from "@/components/deel/deel.module.css";
 
 type Props = { params: Promise<{ grafiek: string }>; searchParams: Promise<Record<string, string | string[] | undefined>> };
@@ -32,12 +33,15 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
 export default async function Deellink({ params, searchParams }: Props) {
   const g = (await params).grafiek;
   if (!isGrafiek(g)) notFound();
-  const zoek = await schoonZoek(g, await searchParams);
-  const doel = doelVan(g, zoek);
+  const ruw = await searchParams;
+  const zoek = await schoonZoek(g, ruw);
+  // Klikteller (lib/klik.ts): de via-code van een post gaat mee naar de grafiek, buiten de keuzes om
+  const via = schoneVia(ruw.via);
+  const doel = metVia(doelVan(g, zoek), via);
   const titel = titelMetData(g, zoek) ?? titelVan(g, zoek);
   return (
     <Inhoud>
-      <Doorsturen naar={doel} />
+      <Doorsturen naar={doel} via={via} grafiek={g} />
       <section className={s.tussen}>
         <Label>Gedeeld van Zetelen</Label>
         <SectieKop niveau={1}>{titel}</SectieKop>

@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { DM_Mono, Fraunces, Hanken_Grotesk, Newsreader } from "next/font/google";
 import type { ReactNode } from "react";
 import { FeedbackBalk } from "@/components/FeedbackBalk";
+import { KlikBlijft } from "@/components/deel/KlikBlijft";
 import { SnelleFeedback } from "@/components/SnelleFeedback";
 import { JsonLd, MAKER } from "@/components/JsonLd";
 import { Navigatie, Voet } from "@/components/Kader";
@@ -53,6 +54,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <SnelleFeedback />
         <Voet ververst={ververst} />
         {/* Bezoekersstatistieken zonder cookies (besluit Niels B5, 26 oktober 2026); telt pas als Niels het in Vercel aanzet */}
+        <KlikBlijft />
         <Analytics />
       </body>
     </html>

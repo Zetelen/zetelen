@@ -18,9 +18,10 @@ from verbindingstest import uitleg
 # De schema's van dit project; de schema's die Supabase zelf beheert (auth, storage, ...) vallen erbuiten
 EIGEN = "('public', 'api', 'core', 'raw', 'beheer', 'analyses')"
 BEZOEKERS = "('anon', 'authenticated')"
-# De enige functie die bezoekers mogen uitvoeren: het feedbackformulier (migratie 021, besluit Niels B13).
-# Ze moet security definer zijn met een vast search_path; anders is het alsnog een overtreding.
-TOEGESTANE_FUNCTIES = "('api.stuur_feedback')"
+# De enige functies die bezoekers mogen uitvoeren: het feedbackformulier (migratie 021, besluit Niels B13) en de
+# klikteller voor social (migratie 029, K17). Ze moeten security definer zijn met een vast search_path; anders is
+# het alsnog een overtreding.
+TOEGESTANE_FUNCTIES = "('api.stuur_feedback', 'api.stuur_klik')"
 
 CONTROLES = [
     (

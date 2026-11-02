@@ -185,6 +185,9 @@ def ververs_alles(conn, meta, haal=http_json, base=BASE, pauze=PAUZE, terug_tot=
         # Bewaartermijn feedback (migratie 021): ouder dan 12 maanden weg
         weg = conn.execute("select beheer.ruim_feedback_op()").fetchone()[0]
         print(f"Feedback ouder dan 12 maanden verwijderd: {getal(weg)}")
+        # Bewaartermijn klikteller (migratie 029): ouder dan 12 maanden weg
+        weg = conn.execute("select beheer.ruim_klik_op()").fetchone()[0]
+        print(f"Klikken ouder dan 12 maanden verwijderd: {getal(weg)}")
     except Exception as e:
         try:
             eind_log(conn, run_id, "mislukt", fout=type(e).__name__)
