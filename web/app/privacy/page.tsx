@@ -34,6 +34,12 @@ export default function Privacy() {
           Geteld wordt welke pagina&apos;s bezocht worden, met land, browser en type apparaat. Er wordt geen profiel van je
           gemaakt, en een bezoek is na een dag niet meer aan een eerder bezoek te koppelen.
         </Tekst>
+        <Tekst>
+          Klik je op een link in een bericht van Zetelen op sociale media, dan staat er een korte code in die link, zoals
+          bs-12. Zetelen telt dan dat er via dat bericht is geklikt, en een keer of je daarna verder kijkt op de site.
+          Bewaard worden alleen het tijdstip, die code, de grafiek, het soort apparaat (mobiel, tablet of desktop) en het
+          land. Geen IP-adres, geen browsergegevens, geen cookie. Na 12 maanden wordt het automatisch verwijderd.
+        </Tekst>
       </section>
       <section style={sectie}>
         <SectieKop>Feedback</SectieKop>

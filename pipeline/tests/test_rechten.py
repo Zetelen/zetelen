@@ -153,3 +153,23 @@ def test_toegestane_functie_zonder_security_definer_wordt_gevonden(conn):
     conn.execute("alter function api.stuur_feedback(text, jsonb, boolean) security invoker")
     gevonden = overtredingen(conn)
     assert any("api.stuur_feedback" in o for lijst in gevonden.values() for o in lijst)
+
+
+# Leesgebruiker voor het klikrapport (migratie 030)
+
+def test_rapport_leest_alleen_klik(conn):
+    import psycopg
+
+    conn.execute("insert into beheer.klik (soort, via) values ('klik', 'bs-3')")
+    conn.execute("set role rapport")
+    try:
+        assert conn.execute("select via from beheer.klik").fetchall() == [("bs-3",)]
+        for sql in ["select * from beheer.feedback", "insert into beheer.klik (soort, via) values ('klik', 'bs-4')",
+                    "delete from beheer.klik"]:
+            try:
+                conn.execute(sql)
+                raise AssertionError(f"rapport mocht: {sql}")
+            except psycopg.errors.InsufficientPrivilege:
+                pass
+    finally:
+        conn.execute("reset role")
