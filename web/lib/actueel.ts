@@ -6,6 +6,7 @@
 // een actueel stuk is een momentopname, met de stand erbij. De zinnen staan hieronder en lezen hun getallen uit dat
 // bestand; de tests controleren dat elke zin klopt met de data.
 import blokKabinet from "../content/actueel/blok-kabinet.json";
+import kabinetCu50Plus from "../content/actueel/kabinet-cu-50plus.json";
 
 export type Stemming = {
   besluit: string; datum: string; zaakNummer: string | null; soort: string | null; onderwerp: string | null;
@@ -26,6 +27,11 @@ export type ActueelData = {
   perThema: Array<{ thema: string; verdeeld: number; groepEensgezind: number; refEensgezind: number;
     fracties: Array<{ afkorting: string; gestemd: number; mee: number; pct: number | null }> }>;
   zetelsom: { meerderheid: number; zetels: Record<string, number>; ref: number; groep: number; samen: number; kleinsteMeerderheid: string[][] };
+  // Optioneel, alleen in stukken die erom vragen (pipeline/actueel.py met --stap en --doorslag, 4 november 2026)
+  gemiddelden?: Array<{ naam: string; fracties: string[]; paren: number; gemiddelde: number; laagste: number; hoogste: number }>;
+  perFractie?: Array<{ afkorting: string; gemiddelde: number }>;
+  paren?: Array<{ a: string; b: string; cohesie: number; gezamenlijk: number }>;
+  doorslag?: { extra: string; kern: string[]; eensgezind: number; nietGestemd: number; gestemd: number; mee: number; tegen: number; nodig: number; kostte: number; krap: number };
 };
 
 export type Blok = { id: string; vraag: string; kop: string; tekst: string[]; data: string };
@@ -127,7 +133,87 @@ function blokTegenKabinet(d: ActueelData): Stuk {
   };
 }
 
-export const STUKKEN: Stuk[] = [blokTegenKabinet(blokKabinet as ActueelData)];
+// Stuk 2 (4 november 2026, idee Niels uit de vault): het kabinet met ChristenUnie, 50PLUS en de Groep Markuszower.
+// Neutraal geformuleerd: de cijfers gaan over stemgedrag, niet over hoe logisch een combinatie is.
+export const gemiddelde = (d: ActueelData, naam: string) => d.gemiddelden!.find((g) => g.naam === naam)!;
+export const perFractieGemiddelde = (d: ActueelData, afk: string) => d.perFractie!.find((f) => f.afkorting === afk)!.gemiddelde;
+export const paarCohesie = (d: ActueelData, a: string, b: string) => {
+  const p = d.paren!.find((x) => (x.a === a && x.b === b) || (x.a === b && x.b === a));
+  if (!p) throw new Error(`Geen paar ${a} en ${b}`);
+  return p.cohesie;
+};
+const vanTot = (l: number[]) => `${Math.round(Math.min(...l))} tot ${procent(Math.max(...l))}`;
+
+function kabinetMetSteun(d: ActueelData): Stuk {
+  const M = "Groep Markuszower", CU = "ChristenUnie", PLUS = "50PLUS";
+  const kabinet = opsomming(d.tegen);
+  const vijf = [...d.tegen, CU, PLUS];
+  const [g3, g5, g6] = ["kabinet", "met-cu-50plus", "met-markuszower"].map((n) => gemiddelde(d, n));
+  const cu = mee(d, CU)!, plus = mee(d, PLUS)!, mk = mee(d, M)!, pvv = mee(d, "PVV")!;
+  const z = d.zetelsom, ds = d.doorslag!;
+  const zVijf = z.ref + z.zetels[CU] + z.zetels[PLUS];
+  const mkMetKabinet = d.tegen.map((a) => paarCohesie(d, M, a));
+  const cuPlusMetKabinet = d.tegen.flatMap((a) => [paarCohesie(d, CU, a), paarCohesie(d, PLUS, a)]);
+  // Smal en telbaar: bleef de uitslag dezelfde als de zetels van de Groep Markuszower niet meetelden? Voor de uitslag tellen
+  // alle fracties mee (de vijf plus iedereen die dezelfde kant koos), niet alleen de vijf.
+  const zonderHaar = ds.nodig === 0 ? "bleef de uitslag ook zonder haar zetels dezelfde" : `was de uitslag zonder haar zetels in ${aantal(ds.nodig)} van de ${aantal(ds.mee)} gevallen niet dezelfde geweest`;
+  const afwijkMk = procent(100 - (mk.pct ?? 0)), afwijkCu = procent(100 - (cu.pct ?? 0)), afwijkPlus = procent(100 - (plus.pct ?? 0));
+
+  return {
+    slug: d.slug, datum: d.gemaakt, label: "Actueel · Kabinet, ChristenUnie, 50PLUS en Groep Markuszower",
+    kop: "ChristenUnie en 50PLUS stemmen vaker mee met het kabinet dan de Groep Markuszower",
+    beschrijving: `Hoe vaak stemmen ${kabinet} met ${CU} en ${PLUS} hetzelfde, en wat verandert er als de ${M} erbij komt?`,
+    ziet: `Hoe vaak ${opsomming(vijf)} dezelfde kant kozen, en wat de ${M} daaraan verandert, onder kabinet-${d.kabinet} tot en met ${datumTekst(d.stand)}.`,
+    opvalt: `Het gemiddelde van de cohesie tussen alle paren is ${procent(g3.gemiddelde)} bij het kabinet, ${procent(g5.gemiddelde)} met ${CU} en ${PLUS} erbij en ${procent(g6.gemiddelde)} met ook de ${M}. Als het kabinet eensgezind stemde, ging ${CU} in ${procent(cu.pct)} van de stemmingen mee, ${PLUS} in ${procent(plus.pct)} en de ${M} in ${procent(mk.pct)}.`,
+    aanleiding: `Eerst het kabinet met ${CU} en ${PLUS}: samen ${zVijf} zetels, ${z.meerderheid - zVijf} te weinig voor een meerderheid. Dan de ${M} erbij: ${z.samen} zetels. Dit stuk meet hoe vaak deze partijen tot nu toe dezelfde kant kozen, eerst zonder en dan met de ${M}. Het is een rekenvoorbeeld, geen verwachting. De cijfers gaan over stemgedrag, niet over inhoud of afspraken.`,
+    blokken: [
+      {
+        id: "hecht", vraag: "Hoe vaak stemmen ze hetzelfde?",
+        kop: `Het gemiddelde zakt van ${procent(g3.gemiddelde)} bij het kabinet naar ${procent(g5.gemiddelde)} met ${CU} en ${PLUS}, en naar ${procent(g6.gemiddelde)} met de ${M}`,
+        tekst: [
+          `Cohesie is het percentage gezamenlijke verdeelde stemmingen waarop twee fracties dezelfde kant kozen. Het gemiddelde is het gemiddelde over alle paren in de groep: ${g3.paren} bij het kabinet, ${g5.paren} met ${CU} en ${PLUS}, ${g6.paren} met de ${M}.`,
+          `${CU} en ${PLUS} halen met de drie kabinetspartijen ${vanTot(cuPlusMetKabinet)}. De ${M} haalt met dezelfde drie ${vanTot(mkMetKabinet)}. Per partij is de cohesie met de rest van de zes het laagst bij de ${M} (${procent(perFractieGemiddelde(d, M))}), tegen ${procent(perFractieGemiddelde(d, CU))} bij ${CU} en ${procent(perFractieGemiddelde(d, PLUS))} bij ${PLUS}. De volgorde van de drie stappen is een keuze: bij een andere volgorde verschuift de daling per stap.`,
+        ],
+        data: "Alleen verdeelde stemmingen, zoals overal op Zetelen. Gemiddelde: ongewogen gemiddelde over alle paren in de groep. Elk paar rust op ongeveer 3.900 gezamenlijke stemmingen.",
+      },
+      {
+        id: "stappen", vraag: "Stemmen ze mee met het kabinet?",
+        kop: `Als het kabinet eensgezind stemde, ging ${CU} in ${procent(cu.pct)} van de stemmingen mee en ${PLUS} in ${procent(plus.pct)}; de ${M}, die erbij komt, in ${procent(mk.pct)}`,
+        tekst: [
+          `Op ${aantal(d.meegaan.basis)} verdeelde stemmingen kozen ${kabinet} alle drie dezelfde kant. ${CU} koos op ${aantal(cu.mee)} van de ${aantal(cu.gestemd)} stemmingen waarop ze stemde dezelfde kant, ${PLUS} op ${aantal(plus.mee)} van de ${aantal(plus.gestemd)}.`,
+          `De ${M}, die erbij komt, koos op ${aantal(mk.mee)} van de ${aantal(mk.gestemd)} stemmingen waarop ze stemde dezelfde kant, ${procent(mk.pct)}. Ter vergelijking ging de PVV in ${procent(pvv.pct)} van de stemmingen mee.`,
+        ],
+        data: "Per fractie alleen de stemmingen waarop die fractie zelf stemde.",
+      },
+      {
+        id: "telt", vraag: "Hoeveel zetels?",
+        kop: `Het kabinet, ${CU} en ${PLUS} hebben samen ${zVijf} zetels, met de ${M} ${z.samen}`,
+        tekst: [
+          `De meerderheid is ${z.meerderheid} van de 150. ${kabinet} hebben ${z.ref} zetels. ${CU} (${z.zetels[CU]}) en ${PLUS} (${z.zetels[PLUS]}) brengen dat op ${zVijf}, ${z.meerderheid - zVijf} te weinig. De ${M} heeft ${z.zetels[M]} zetels. ${CU} en de ${M} samen brengen het kabinet op ${z.ref + z.zetels[CU] + z.zetels[M]}.`,
+          "Een wet moet ook door de Eerste Kamer, en die staat niet in Zetelen. Welke partijen het kabinet daar nodig heeft, is hier dus niet te zien.",
+        ],
+        data: `Zetels in de zaal onder kabinet-${d.kabinet}. Meerderheid: ${z.meerderheid} van de 150.`,
+      },
+      {
+        id: "steun", vraag: "Veranderden haar zetels de uitslag?",
+        kop: `Waar de ${M} met de vijf partijen meestemde, ${zonderHaar}`,
+        tekst: [
+          `Op ${aantal(ds.eensgezind)} verdeelde stemmingen kozen ${opsomming(vijf)} dezelfde kant. De ${M} stemde op ${aantal(ds.gestemd)} daarvan (${ds.nietGestemd} keer niet) en koos ${aantal(ds.mee)} keer dezelfde kant en ${aantal(ds.tegen)} keer de andere.`,
+          `Van de ${aantal(ds.mee)} keer dat ze dezelfde kant koos, ${zonderHaar}. Voor de uitslag tellen alle fracties mee, niet alleen de vijf. Van de ${aantal(ds.tegen)} keer dat ze de andere kant koos, was de uitslag ${ds.kostte} keer anders geweest als haar ${z.zetels[M]} zetels bij de vijf partijen hadden gestaan. In ${ds.krap} van de ${aantal(ds.gestemd)} stemmingen was het verschil tussen beide kanten kleiner dan ${2 * z.zetels[M]} zetels, twee keer haar zetels.`,
+        ],
+        data: "Zetels per fractie in de periode, niet het aantal op de dag zelf. Bij hoofdelijke stemmingen telt de kant van de meerderheid van een fractie. Gelijk aantal zetels telt als geen meerderheid. De uitslag is hier de kant met de meeste zetels van de fracties die stemden.",
+      },
+    ],
+    lezingen: {
+      links: { titel: `${CU} en ${PLUS} kozen in ${procent(cu.pct)} en ${procent(plus.pct)} van de gevallen dezelfde kant als het eensgezinde kabinet`, tekst: `${CU} en ${PLUS} kozen in ${procent(cu.pct)} en ${procent(plus.pct)} van de stemmingen dezelfde kant als het eensgezinde kabinet, de PVV in ${procent(pvv.pct)}. In de overige gevallen (${afwijkCu} en ${afwijkPlus}) kozen ze een andere kant.` },
+      rechts: { titel: `De ${M} koos vaker dan ${CU} en ${PLUS} een andere kant dan het eensgezinde kabinet`, tekst: `De ${M} koos in ${afwijkMk} van de stemmingen een andere kant dan het eensgezinde kabinet, tegen ${afwijkCu} bij ${CU} en ${afwijkPlus} bij ${PLUS}. Waar ze met de vijf partijen (${opsomming(vijf)}) meestemde, ${zonderHaar}. Of dat in een nieuwe verhouding anders uitpakt, staat niet in de data.` },
+    },
+    slot: `${CU} en ${PLUS} kozen in ${procent(cu.pct)} en ${procent(plus.pct)} van de gevallen dezelfde kant als het eensgezinde kabinet. De ${M} deed dat in ${procent(mk.pct)} van de gevallen; het gemiddelde van de zes is ${procent(g6.gemiddelde)}, van de vijf zonder haar ${procent(g5.gemiddelde)}.`,
+    data: d,
+  };
+}
+
+export const STUKKEN: Stuk[] = [blokTegenKabinet(blokKabinet as ActueelData), kabinetMetSteun(kabinetCu50Plus as ActueelData)];
 export const stukVan = (slug: string) => STUKKEN.find((s) => s.slug === slug);
 
 // Deellinks (lib/deelSchoon.ts): alleen een bestaand stuk en een blok daarvan gaan mee; de titel is de kop van het blok

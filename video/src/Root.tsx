@@ -11,6 +11,7 @@ import { DUUR_TIJDLIJN, Tijdlijn } from "./videos/Tijdlijn";
 import { Weegschaal, duurWeegschaal } from "./videos/Weegschaal";
 import { DUUR_VVD_PRO, VvdEnPro } from "./videos/VvdEnPro";
 import { Actueel, DUUR_ACTUEEL } from "./videos/Actueel";
+import { ActueelSteun, DUUR_ACTUEEL_STEUN } from "./videos/ActueelSteun";
 import { Banner, Deel, Icoon, Profiel, Woordmerk } from "./merk";
 
 // Welke variant bij welke casus past
@@ -46,6 +47,9 @@ export function Root() {
       {/* Actueel: de vier blokken van het stuk als explainer, in 9:16 en 4:5 (30 oktober 2026) */}
       <Composition id="Actueel-blok-kabinet" component={Actueel} defaultProps={{ slug: "blok-kabinet" }} durationInFrames={DUUR_ACTUEEL} fps={FPS} width={BREED} height={HOOG} />
       <Composition id="Actueel-blok-kabinet-4x5" component={Actueel} defaultProps={{ slug: "blok-kabinet" }} durationInFrames={DUUR_ACTUEEL} fps={FPS} width={1080} height={1350} />
+      {/* Actueel: kabinet met ChristenUnie, 50PLUS en Groep Markuszower (4 november 2026) */}
+      <Composition id="Actueel-kabinet-cu-50plus" component={ActueelSteun} defaultProps={{ slug: "kabinet-cu-50plus" }} durationInFrames={DUUR_ACTUEEL_STEUN} fps={FPS} width={BREED} height={HOOG} />
+      <Composition id="Actueel-kabinet-cu-50plus-4x5" component={ActueelSteun} defaultProps={{ slug: "kabinet-cu-50plus" }} durationInFrames={DUUR_ACTUEEL_STEUN} fps={FPS} width={1080} height={1350} />
       {/* Merk (28 oktober 2026): stilstaande beelden voor profielfoto, banners en woordmerk */}
       <Composition id="Merk-profiel" component={Profiel} durationInFrames={1} fps={FPS} width={1080} height={1080} />
       <Composition id="Merk-banner-linkedin" component={Banner} durationInFrames={1} fps={FPS} width={1584} height={396} />

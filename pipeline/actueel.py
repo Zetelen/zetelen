@@ -210,6 +210,105 @@ def zetelsom(zetels: dict, groep: list, ref: list) -> dict:
             "ref": som(ref), "groep": som(groep), "samen": som(ref) + som(groep), "kleinsteMeerderheid": nodig}
 
 
+def paren_cohesie(cohesie: list) -> dict:
+    """Cohesie per paar uit api.cohesie (variant verdeeld), zonder de grens van MIN_ZETELS die hechtheid() voor de
+    ranglijst gebruikt: kleine fracties (50PLUS heeft 2 zetels) horen hier wel bij."""
+    return {frozenset((r["fractie_afkorting"], r["andere_fractie_afkorting"])): r for r in cohesie if r["cohesie"] is not None}
+
+
+def gemiddelden(cohesie: list, stappen: dict) -> list:
+    """Per stap (een groep fracties) het ongewogen gemiddelde van de cohesie van alle paren in die groep, en de laagste en
+    hoogste. Een stap met een paar zonder cijfer is een fout: een gemiddelde over minder paren is niet vergelijkbaar."""
+    paren = paren_cohesie(cohesie)
+    uit = []
+    for naam, fracties in stappen.items():
+        rijen = []
+        for a, b in combinations(fracties, 2):
+            r = paren.get(frozenset((a, b)))
+            if r is None:
+                raise ValueError(f"Geen cohesie voor {a} en {b}")
+            rijen.append(r["cohesie"])
+        uit.append({"naam": naam, "fracties": fracties, "paren": len(rijen),
+                    "gemiddelde": round(sum(rijen) / len(rijen), 1), "laagste": min(rijen), "hoogste": max(rijen)})
+    return uit
+
+
+def alle_paren(cohesie: list, fracties: list) -> list:
+    """Cohesie en aantal gezamenlijke stemmingen van elk paar in de groep, in de volgorde van fracties."""
+    paren = paren_cohesie(cohesie)
+    uit = []
+    for a, b in combinations(fracties, 2):
+        r = paren.get(frozenset((a, b)))
+        if r is None:
+            raise ValueError(f"Geen cohesie voor {a} en {b}")
+        uit.append({"a": a, "b": b, "cohesie": r["cohesie"], "gezamenlijk": r["gezamenlijk"]})
+    return uit
+
+
+def per_fractie_gemiddelde(cohesie: list, fracties: list) -> list:
+    """Per fractie het ongewogen gemiddelde van de cohesie met de andere fracties in de groep, van laag naar hoog."""
+    paren = paren_cohesie(cohesie)
+    uit = []
+    for a in fracties:
+        waarden = []
+        for b in fracties:
+            if a == b:
+                continue
+            r = paren.get(frozenset((a, b)))
+            if r is None:
+                raise ValueError(f"Geen cohesie voor {a} en {b}")
+            waarden.append(r["cohesie"])
+        uit.append({"afkorting": a, "gemiddelde": round(sum(waarden) / len(waarden), 1)})
+    return sorted(uit, key=lambda x: x["gemiddelde"])
+
+
+def zetels_per_kant(stemmen: dict, zaal: list) -> dict:
+    """Zetels die Voor en Tegen stemden. zaal: lijst van (id-lijst, zetels) voor elke fractie in de zaal. Een fractie die
+    niet stemde of niet deelnam, telt voor geen van beide kanten."""
+    som = {"Voor": 0, "Tegen": 0}
+    for ids_, z in zaal:
+        s = stem(stemmen, ids_)
+        if s in som:
+            som[s] += z
+    return som
+
+
+def doorslag(besluiten: list, kern: list, extra: list, extra_zetels: int, zaal: list) -> dict:
+    """Op verdeelde stemmingen waarop de hele kern dezelfde kant koos en de extra fractie ook stemde: hoe vaak stemde die
+    fractie mee, en hoe vaak waren haar zetels nodig?
+    - nodig: de extra fractie stemde mee, de kant van de kern had mét haar zetels een meerderheid van de zetels die stemden
+      en zonder haar niet (gelijk telt als geen meerderheid);
+    - kostte: de extra fractie stemde tegen de kern, de kant van de kern had geen meerderheid, en had die wel gehad als de
+      zetels van de extra fractie aan haar kant hadden gestaan;
+    - krap: het verschil tussen beide kanten was kleiner dan twee keer de zetels van de extra fractie, dus een omslag van
+      die fractie kon de uitslag keren.
+    De rekening gebruikt de zetels per fractie in de periode (zaal), niet het exacte aantal op de dag; ze komt bij 3.900
+    van de 3.907 verdeelde stemmingen onder Jetten uit op dezelfde uitslag als de bron.
+    kern is een lijst met id-lijsten (zoals kant()), extra een id-lijst (zoals stem())."""
+    eens = [(b, kant(b["stemmen"], kern)) for b in besluiten if b["verdeeld"]]
+    eens = [(b, k) for b, k in eens if k]
+    uit = {"eensgezind": len(eens), "nietGestemd": 0, "gestemd": 0, "mee": 0, "tegen": 0, "nodig": 0, "kostte": 0, "krap": 0}
+    for b, k in eens:
+        s = stem(b["stemmen"], extra)
+        if s not in STEMKANTEN:
+            uit["nietGestemd"] += 1
+            continue
+        z = zetels_per_kant(b["stemmen"], zaal)
+        andere = "Tegen" if k == "Voor" else "Voor"
+        uit["gestemd"] += 1
+        if s == k:
+            uit["mee"] += 1
+            if z[k] > z[andere] and z[k] - extra_zetels <= z[andere]:
+                uit["nodig"] += 1
+        else:
+            uit["tegen"] += 1
+            if z[k] <= z[andere] and z[k] + extra_zetels > z[andere] - extra_zetels:
+                uit["kostte"] += 1
+        if abs(z[k] - z[andere]) < 2 * extra_zetels:
+            uit["krap"] += 1
+    return uit
+
+
 # ---------- hoofdprogramma ----------
 
 def thema(tekst: str) -> tuple:
@@ -220,6 +319,15 @@ def thema(tekst: str) -> tuple:
     return naam.strip(), patroon.strip()
 
 
+def naam_lijst(tekst: str) -> tuple:
+    """Naam=A,B,C voor --stap en --doorslag."""
+    naam, _, lijst = tekst.partition("=")
+    fracties = [x.strip() for x in lijst.split(",") if x.strip()]
+    if not naam or not fracties:
+        raise argparse.ArgumentTypeError("als Naam=Fractie1,Fractie2")
+    return naam.strip(), fracties
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("slug")
@@ -228,6 +336,10 @@ def main(argv=None):
     ap.add_argument("--tegen", required=True, help="afkortingen van de andere groep, meestal het kabinet")
     ap.add_argument("--vergelijk", default="", help="extra fracties in blok 2")
     ap.add_argument("--thema", type=thema, action="append", default=[])
+    ap.add_argument("--stap", type=naam_lijst, action="append", default=[],
+                    help="Naam=A,B,C: gemiddelde cohesie van alle paren in die groep (optioneel, herhaalbaar)")
+    ap.add_argument("--doorslag", type=naam_lijst, default=None,
+                    help="Naam=A,B,C: hoe vaak fractie Naam meestemt als A,B,C eensgezind zijn, en wie wint (optioneel)")
     ap.add_argument("--uitvoer", type=Path, default=UITVOER)
     a = ap.parse_args(argv)
     groep, ref = a.groep.split(","), a.tegen.split(",")
@@ -260,6 +372,20 @@ def main(argv=None):
         "perThema": per_thema(besluiten, dict(a.thema), {x: ids[x] for x in groep}, G, R),
         "zetelsom": zetelsom(zetels, groep, ref),
     }
+    # Optionele blokken (toegevoegd 4 november 2026): alleen aanwezig als erom gevraagd is, zodat bestaande stukken gelijk blijven
+    if a.stap:
+        uit["gemiddelden"] = gemiddelden(coh, dict(a.stap))
+        alle_fracties = list(dict.fromkeys(f for _, fr_ in a.stap for f in fr_))
+        uit["perFractie"] = per_fractie_gemiddelde(coh, alle_fracties)
+        uit["paren"] = alle_paren(coh, alle_fracties)
+    if a.doorslag:
+        extra_naam, kern_namen = a.doorslag
+        onbekend = [x for x in [extra_naam] + kern_namen if x not in ids]
+        if onbekend:
+            sys.exit(f"Niet in de zaal onder {a.kabinet}: {', '.join(onbekend)}")
+        uit["doorslag"] = {"extra": extra_naam, "kern": kern_namen,
+                           **doorslag(besluiten, [ids[x] for x in kern_namen], ids[extra_naam], zetels[extra_naam],
+                                      [(ids[x], zetels[x]) for x in zaal])}
     a.uitvoer.mkdir(parents=True, exist_ok=True)
     pad = a.uitvoer / f"{a.slug}.json"
     pad.write_text(json.dumps(uit, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
@@ -281,6 +407,14 @@ def main(argv=None):
     for t in uit["perThema"]:
         mee_tekst = ", ".join(f"{f['afkorting']} {f['mee']}/{f['gestemd']}" for f in t["fracties"])
         print(f"  {t['thema']}: groep eensgezind {t['groepEensgezind']}, {'+'.join(ref)} eensgezind {t['refEensgezind']} van {t['verdeeld']}; mee {mee_tekst}")
+    for g in uit.get("gemiddelden", []):
+        print(f"  gemiddelde cohesie {g['naam']}: {g['gemiddelde']} over {g['paren']} paren ({g['laagste']} tot {g['hoogste']})")
+    for g in uit.get("perFractie", []):
+        print(f"    {g['afkorting']}: {g['gemiddelde']} met de rest van de groep")
+    if "doorslag" in uit:
+        d_ = uit["doorslag"]
+        print(f"  doorslag {d_['extra']}: kern eensgezind {d_['eensgezind']}, gestemd {d_['gestemd']} (niet gestemd {d_['nietGestemd']}), "
+              f"mee {d_['mee']} waarvan nodig {d_['nodig']}, tegen {d_['tegen']} waarvan kostte {d_['kostte']}, krap {d_['krap']}")
     z = uit["zetelsom"]
     print(f"  zetels {'+'.join(ref)} {z['ref']}, groep {z['groep']}, kleinste meerderheid met {z['kleinsteMeerderheid']}")
     print(f"Geschreven: {pad.relative_to(WORTEL) if pad.is_relative_to(WORTEL) else pad}")

@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Bladeren } from "@/components/Bladeren";
-import { Botspunten, Meegaan, PerThema, Zetelsom } from "@/components/actueel/Blokken";
+import { Botspunten, Doorslag, Hechtheid, Meegaan, MeegaanStappen, PerThema, Zetelsom } from "@/components/actueel/Blokken";
 import { Inhoud } from "@/components/Kader";
 import { GrafiekKader, GrafiekVlak } from "@/components/deel/GrafiekKader";
 import { Kern, Lezingen } from "@/components/Onderdelen";
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ stuk: str
   return { title: x.kop, description: x.beschrijving, alternates: { canonical: `/actueel/${x.slug}` } };
 }
 
-const GRAFIEK: Record<string, (p: { d: ActueelData }) => React.ReactNode> = { mee: Meegaan, wringt: Botspunten, abortus: PerThema, telt: Zetelsom };
+const GRAFIEK: Record<string, (p: { d: ActueelData }) => React.ReactNode> = { mee: Meegaan, wringt: Botspunten, abortus: PerThema, telt: Zetelsom, hecht: Hechtheid, stappen: MeegaanStappen, steun: Doorslag };
 
 export default async function ActueelStuk({ params }: { params: Promise<{ stuk: string }> }) {
   const x = stukVan((await params).stuk);
@@ -60,7 +60,7 @@ export default async function ActueelStuk({ params }: { params: Promise<{ stuk: 
           Bron: open data van de Tweede Kamer, eigen berekening (<Link href="/methodiek">methodiek</Link>). Stand van de
           data: {datumTekst(x.data.stand)}. {x.data.verdeeld.toLocaleString("nl-NL")} verdeelde stemmingen onder
           kabinet-{x.data.kabinet}. Zelf verder kijken:{" "}
-          <Link href={`/coalitie?soort=kabinet&periode=${x.data.kabinet}&groep=${[...x.data.tegen, ...x.data.groep].join(",")}`}>deze zes in de coalitiebouwer</Link>.
+          <Link href={`/coalitie?soort=kabinet&periode=${x.data.kabinet}&groep=${[...x.data.tegen, ...x.data.groep].map(encodeURIComponent).join(",")}`}>deze zes in de coalitiebouwer</Link>.
         </Data>
       </div>
     </Inhoud>

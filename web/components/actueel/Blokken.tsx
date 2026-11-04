@@ -1,6 +1,6 @@
 // De vier grafieken van een Actueel-stuk (lib/actueel.ts). Server-componenten zonder interactie: elke grafiek
 // toont alle getallen ook als tekst, kleur is nooit de enige drager.
-import { type ActueelData, aantal, datumTekst, opDrieThemas, perThema, procent, vierkantjes } from "@/lib/actueel";
+import { type ActueelData, aantal, datumTekst, gemiddelde, opDrieThemas, paarCohesie, perThema, procent, vierkantjes } from "@/lib/actueel";
 import { zoekLink } from "@/lib/uitgelicht";
 import s from "./actueel.module.css";
 
@@ -122,6 +122,121 @@ export function Zetelsom({ d }: { d: ActueelData }) {
         <span>Samen {z.samen}</span>
         <span>Streep: {z.meerderheid} zetels</span>
       </p>
+    </div>
+  );
+}
+
+// Stuk "kabinet-cu-50plus", blok 1: de gemiddelde cohesie van de groep in drie stappen, daaronder de cohesie van elk paar
+const KORT_NAAM: Record<string, string> = { ChristenUnie: "CU", "Groep Markuszower": "Markuszower" };
+const STAPPEN: Array<[string, string]> = [["kabinet", "Kabinet"], ["met-cu-50plus", "Plus ChristenUnie en 50PLUS"], ["met-markuszower", "Plus Groep Markuszower"]];
+export function Hechtheid({ d }: { d: ActueelData }) {
+  const zes = gemiddelde(d, "met-markuszower").fracties;
+  return (
+    <div className={s.botsen}>
+      <div className={s.contrast}>
+        <p className={s.legenda}><span>Gemiddelde cohesie van alle paren in de groep</span></p>
+        {STAPPEN.map(([id, naam]) => {
+          const g = gemiddelde(d, id);
+          return (
+            <div key={id} className={s.contrastRij}>
+              <span className={s.naam}>{naam}</span>
+              <span className={s.cel}>
+                <span className={s.vul} style={{ width: `${g.gemiddelde}%` }} />
+              </span>
+              <span className={s.getal}>{procent(g.gemiddelde)}<span className="verborgen"> over {g.paren} paren, van {procent(g.laagste)} tot {procent(g.hoogste)}</span></span>
+            </div>
+          );
+        })}
+      </div>
+      <div className={s.schuif}>
+        <table className={s.perThema}>
+          <caption className="verborgen">Cohesie per paar: het percentage gezamenlijke verdeelde stemmingen met dezelfde kant</caption>
+          <thead>
+            <tr><td />{zes.map((b) => <th key={b} scope="col">{KORT_NAAM[b] ?? b}</th>)}</tr>
+          </thead>
+          <tbody>
+            {zes.map((a) => (
+              <tr key={a}>
+                <th scope="row">{KORT_NAAM[a] ?? a}</th>
+                {zes.map((b) => {
+                  if (a === b) return <td key={b} />;
+                  const c = paarCohesie(d, a, b);
+                  return (
+                    <td key={b}>
+                      <span className={s.cel}>
+                        <span className={s.vul} style={{ width: `${c}%` }} aria-hidden="true" />
+                        <span className={s.celTekst}>{procent(c)}</span>
+                      </span>
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+// Stuk "kabinet-cu-50plus", blok 4: wat de steun van een extra fractie tot nu toe uitmaakte, in vier regels met aantallen
+export function Doorslag({ d }: { d: ActueelData }) {
+  const x = d.doorslag!;
+  const rijen: Array<{ naam: string; deel: number; geheel: number }> = [
+    { naam: `${x.extra} stemde mee`, deel: x.mee, geheel: x.gestemd },
+    { naam: "Uitslag ook zonder haar zetels dezelfde", deel: x.mee - x.nodig, geheel: x.mee },
+    { naam: "Uitslag anders met haar zetels aan de kant van de vijf", deel: x.kostte, geheel: x.tegen },
+    { naam: "Krappe uitslag (verschil kleiner dan twee keer haar zetels)", deel: x.krap, geheel: x.gestemd },
+  ];
+  return (
+    <div className={`${s.contrast} ${s.breedGetal}`}>
+      <p className={s.legenda}><span>Stemmingen waarop {x.kern.join(", ")} dezelfde kant kozen en de {x.extra} stemde</span></p>
+      {rijen.map((r) => (
+        <div key={r.naam} className={s.contrastRij}>
+          <span className={s.naam}>{r.naam}</span>
+          <span className={s.cel}>
+            <span className={s.vul} style={{ width: `${r.geheel ? (100 * r.deel) / r.geheel : 0}%` }} />
+          </span>
+          <span className={s.getal}>{aantal(r.deel)} van {aantal(r.geheel)}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// Stuk "kabinet-cu-50plus", blok 2: hoe vaak mee met het eensgezinde kabinet, in de stappen van het stuk: eerst het blok
+// (de fracties van de groep behalve de extra fractie), dan de extra fractie erbij, dan de vergelijking
+export function MeegaanStappen({ d }: { d: ActueelData }) {
+  const extra = d.doorslag!.extra;
+  const per = (afk: string) => d.meegaan.fracties.find((f) => f.afkorting === afk)!;
+  const groepen: Array<[string, string[]]> = [
+    [`Eerst: ${d.groep.filter((a) => a !== extra).join(" en ")} bij het kabinet`, d.groep.filter((a) => a !== extra)],
+    [`Erbij: de ${extra}`, [extra]],
+    ["Ter vergelijking", d.meegaan.fracties.map((f) => f.afkorting).filter((a) => !d.groep.includes(a))],
+  ];
+  return (
+    <div className={s.botsen}>
+      {groepen.map(([label, fr], i) => (
+        <div key={label}>
+          <p className={s.legenda}><span>{label}</span></p>
+          <ol className={s.stippen} aria-label={label}>
+            {fr.map((a) => {
+              const f = per(a);
+              return (
+                <li key={a} className={d.groep.includes(a) ? s.inGroep : undefined}>
+                  <span className={s.naam}>{a}</span>
+                  <span className={s.as} aria-hidden="true">
+                    {[25, 50, 75].map((x) => <span key={x} className={s.streep} style={{ left: `${x}%` }} />)}
+                    <span className={s.stip} style={{ left: `${f.pct ?? 0}%` }} />
+                  </span>
+                  <span className={s.getal}>{procent(f.pct)}<span className="verborgen"> mee, {aantal(f.mee)} van {aantal(f.gestemd)}</span></span>
+                </li>
+              );
+            })}
+            {i === groepen.length - 1 && <li className={s.asLabels} aria-hidden="true"><span /><span className={s.as}><span style={{ left: 0 }}>0%</span><span style={{ left: "50%" }}>50%</span><span style={{ left: "100%" }}>100%</span></span><span /></li>}
+          </ol>
+        </div>
+      ))}
     </div>
   );
 }

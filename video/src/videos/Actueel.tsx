@@ -24,7 +24,7 @@ export const DUUR_ACTUEEL = 1320;
 const uitloop = { ...zacht, easing: (t: number) => 1 - (1 - t) ** 3 };
 
 // Formaat: 9:16 houdt de veilige zone van sociale media aan, 4:5 heeft die niet en is lager
-function useMaat() {
+export function useMaat() {
   const { height } = useVideoConfig();
   const lang = height > 1500;
   return {
@@ -37,7 +37,7 @@ function useMaat() {
 }
 
 // Achtergrond, merk en een kolom tussen de veilige randen, verticaal in het midden; de marge direct onder de grafiek
-function Vlak({ children, voet, binnenhof = 0 }: { children: ReactNode; voet?: ReactNode; binnenhof?: number }) {
+export function Vlak({ children, voet, binnenhof = 0 }: { children: ReactNode; voet?: ReactNode; binnenhof?: number }) {
   const m = useMaat();
   return (
     <AbsoluteFill>
@@ -54,14 +54,14 @@ function Vlak({ children, voet, binnenhof = 0 }: { children: ReactNode; voet?: R
 }
 
 // Marge onder een scène: één korte regel, verschijnt na de grafiek
-function Voet({ bij, children }: { bij: number; children: ReactNode }) {
+export function Voet({ bij, children }: { bij: number; children: ReactNode }) {
   const m = useMaat();
   const z = interpolate(useCurrentFrame(), [bij, bij + 12], [0, 1], zacht);
   return <Tekst grootte={m.tekst - 6} style={{ color: K.zacht, opacity: z, lineHeight: 1.4 }}>{children}</Tekst>;
 }
 
 // Kop van een scène: een label en de boodschap in grote woorden
-function Kop({ label, kop, bij = 4 }: { label: string; kop: string; bij?: number }) {
+export function Kop({ label, kop, bij = 4 }: { label: string; kop: string; bij?: number }) {
   const m = useMaat();
   return (
     <>
@@ -72,14 +72,14 @@ function Kop({ label, kop, bij = 4 }: { label: string; kop: string; bij?: number
 }
 
 // Een balk die vanaf een frame vol loopt tot een percentage, met label links en waarde rechts
-function Balk({ bij, pct, label, waarde, kleur, hoog }: { bij: number; pct: number; label: string; waarde: string; kleur: string; hoog: number }) {
+export function Balk({ bij, pct, label, waarde, kleur, hoog }: { bij: number; pct: number; label: string; waarde: string; kleur: string; hoog: number }) {
   const m = useMaat();
   const s = interpolate(useCurrentFrame(), [bij, bij + 30], [0, 1], uitloop);
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 10, opacity: Math.min(1, s * 3) }}>
       <div style={{ display: "flex", justifyContent: "space-between", fontFamily: LETTER.sans, fontSize: m.tekst, color: K.tekst }}>
         <span>{label}</span>
-        <span style={{ fontFamily: LETTER.mono, color: kleur }}>{waarde}</span>
+        <span style={{ fontFamily: LETTER.mono, color: kleur, whiteSpace: "nowrap", marginLeft: 16 }}>{waarde}</span>
       </div>
       <div style={{ height: hoog, borderRadius: 8, background: K.nacht800, overflow: "hidden" }}>
         <div style={{ height: "100%", width: `${pct * s}%`, background: kleur }} />
@@ -196,7 +196,7 @@ function Abortus({ d }: { d: ActueelData }) {
 }
 
 // Scène 5: de conclusie, de slotzin van het stuk in twee delen
-function Conclusie({ slot }: { slot: string }) {
+export function Conclusie({ slot }: { slot: string }) {
   const m = useMaat();
   const [eerste, tweede] = slot.split(/(?<=\.) /);
   return (
@@ -208,7 +208,7 @@ function Conclusie({ slot }: { slot: string }) {
 }
 
 // Eindkaart met het merk; de bron, de stand van de data en de marge onderaan
-function Eind({ slug, bron, marge }: { slug: string; bron: string; marge: string }) {
+export function Eind({ slug, bron, marge }: { slug: string; bron: string; marge: string }) {
   const m = useMaat();
   const z = useVeer(0, 20);
   return (

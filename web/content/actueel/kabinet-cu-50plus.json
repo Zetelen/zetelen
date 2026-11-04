@@ -1,0 +1,394 @@
+{
+ "slug": "kabinet-cu-50plus",
+ "kabinet": "Jetten",
+ "groep": [
+  "ChristenUnie",
+  "50PLUS",
+  "Groep Markuszower"
+ ],
+ "tegen": [
+  "D66",
+  "VVD",
+  "CDA"
+ ],
+ "stand": "2026-11-03",
+ "gemaakt": "2026-11-04",
+ "besluiten": 4230,
+ "verdeeld": 3907,
+ "hechtheid": {
+  "paren": [
+   {
+    "a": "ChristenUnie",
+    "b": "Groep Markuszower",
+    "cohesie": 55.1,
+    "gezamenlijk": 3876,
+    "plek": 52
+   },
+   {
+    "a": "ChristenUnie",
+    "b": "D66",
+    "cohesie": 73.9,
+    "gezamenlijk": 3889,
+    "plek": 18
+   },
+   {
+    "a": "ChristenUnie",
+    "b": "VVD",
+    "cohesie": 74.6,
+    "gezamenlijk": 3889,
+    "plek": 17
+   },
+   {
+    "a": "ChristenUnie",
+    "b": "CDA",
+    "cohesie": 77.3,
+    "gezamenlijk": 3886,
+    "plek": 9
+   },
+   {
+    "a": "Groep Markuszower",
+    "b": "D66",
+    "cohesie": 45.7,
+    "gezamenlijk": 3886,
+    "plek": 67
+   },
+   {
+    "a": "Groep Markuszower",
+    "b": "VVD",
+    "cohesie": 56.8,
+    "gezamenlijk": 3886,
+    "plek": 50
+   },
+   {
+    "a": "Groep Markuszower",
+    "b": "CDA",
+    "cohesie": 51.4,
+    "gezamenlijk": 3883,
+    "plek": 60
+   },
+   {
+    "a": "D66",
+    "b": "VVD",
+    "cohesie": 85.1,
+    "gezamenlijk": 3899,
+    "plek": 3
+   },
+   {
+    "a": "D66",
+    "b": "CDA",
+    "cohesie": 91.0,
+    "gezamenlijk": 3896,
+    "plek": 2
+   },
+   {
+    "a": "VVD",
+    "b": "CDA",
+    "cohesie": 91.1,
+    "gezamenlijk": 3896,
+    "plek": 1
+   }
+  ],
+  "parenTotaal": 91
+ },
+ "meegaan": {
+  "basis": 3255,
+  "fracties": [
+   {
+    "afkorting": "ChristenUnie",
+    "gestemd": 3244,
+    "mee": 2559,
+    "pct": 78.9
+   },
+   {
+    "afkorting": "50PLUS",
+    "gestemd": 3245,
+    "mee": 2433,
+    "pct": 75.0
+   },
+   {
+    "afkorting": "Groep Markuszower",
+    "gestemd": 3239,
+    "mee": 1663,
+    "pct": 51.3
+   },
+   {
+    "afkorting": "PVV",
+    "gestemd": 3251,
+    "mee": 1430,
+    "pct": 44.0
+   }
+  ],
+  "groep": {
+   "eensgezind": 1414,
+   "mee": 1187,
+   "pct": 83.9
+  }
+ },
+ "samen": [
+  {
+   "naam": "tegen+groep",
+   "gestemd": 3849,
+   "samen": 1187,
+   "pct": 30.8
+  },
+  {
+   "naam": "tegen+ChristenUnie",
+   "gestemd": 3878,
+   "samen": 2559,
+   "pct": 66.0
+  },
+  {
+   "naam": "tegen+50PLUS",
+   "gestemd": 3880,
+   "samen": 2433,
+   "pct": 62.7
+  },
+  {
+   "naam": "tegen+Groep Markuszower",
+   "gestemd": 3875,
+   "samen": 1663,
+   "pct": 42.9
+  },
+  {
+   "naam": "tegen+PVV",
+   "gestemd": 3887,
+   "samen": 1430,
+   "pct": 36.8
+  }
+ ],
+ "botspunten": {
+  "themas": [],
+  "alles": {
+   "beide": 1414,
+   "tegenover": 227,
+   "pct": 16.1
+  }
+ },
+ "perThema": [
+  {
+   "thema": "Alles",
+   "verdeeld": 3907,
+   "groepEensgezind": 1708,
+   "refEensgezind": 3255,
+   "fracties": [
+    {
+     "afkorting": "ChristenUnie",
+     "gestemd": 3244,
+     "mee": 2559,
+     "pct": 78.9
+    },
+    {
+     "afkorting": "50PLUS",
+     "gestemd": 3245,
+     "mee": 2433,
+     "pct": 75.0
+    },
+    {
+     "afkorting": "Groep Markuszower",
+     "gestemd": 3239,
+     "mee": 1663,
+     "pct": 51.3
+    }
+   ]
+  }
+ ],
+ "zetelsom": {
+  "meerderheid": 76,
+  "zetels": {
+   "D66": 26,
+   "VVD": 22,
+   "CDA": 18,
+   "ChristenUnie": 3,
+   "50PLUS": 2,
+   "Groep Markuszower": 7
+  },
+  "ref": 66,
+  "groep": 12,
+  "samen": 78,
+  "kleinsteMeerderheid": [
+   [
+    "ChristenUnie",
+    "Groep Markuszower"
+   ]
+  ]
+ },
+ "gemiddelden": [
+  {
+   "naam": "kabinet",
+   "fracties": [
+    "D66",
+    "VVD",
+    "CDA"
+   ],
+   "paren": 3,
+   "gemiddelde": 89.1,
+   "laagste": 85.1,
+   "hoogste": 91.1
+  },
+  {
+   "naam": "met-cu-50plus",
+   "fracties": [
+    "D66",
+    "VVD",
+    "CDA",
+    "ChristenUnie",
+    "50PLUS"
+   ],
+   "paren": 10,
+   "gemiddelde": 78.6,
+   "laagste": 70.7,
+   "hoogste": 91.1
+  },
+  {
+   "naam": "met-markuszower",
+   "fracties": [
+    "D66",
+    "VVD",
+    "CDA",
+    "ChristenUnie",
+    "50PLUS",
+    "Groep Markuszower"
+   ],
+   "paren": 15,
+   "gemiddelde": 70.0,
+   "laagste": 45.7,
+   "hoogste": 91.1
+  }
+ ],
+ "perFractie": [
+  {
+   "afkorting": "Groep Markuszower",
+   "gemiddelde": 52.8
+  },
+  {
+   "afkorting": "50PLUS",
+   "gemiddelde": 69.7
+  },
+  {
+   "afkorting": "ChristenUnie",
+   "gemiddelde": 71.8
+  },
+  {
+   "afkorting": "D66",
+   "gemiddelde": 73.3
+  },
+  {
+   "afkorting": "VVD",
+   "gemiddelde": 75.9
+  },
+  {
+   "afkorting": "CDA",
+   "gemiddelde": 76.7
+  }
+ ],
+ "paren": [
+  {
+   "a": "D66",
+   "b": "VVD",
+   "cohesie": 85.1,
+   "gezamenlijk": 3899
+  },
+  {
+   "a": "D66",
+   "b": "CDA",
+   "cohesie": 91.0,
+   "gezamenlijk": 3896
+  },
+  {
+   "a": "D66",
+   "b": "ChristenUnie",
+   "cohesie": 73.9,
+   "gezamenlijk": 3889
+  },
+  {
+   "a": "D66",
+   "b": "50PLUS",
+   "cohesie": 70.7,
+   "gezamenlijk": 3891
+  },
+  {
+   "a": "D66",
+   "b": "Groep Markuszower",
+   "cohesie": 45.7,
+   "gezamenlijk": 3886
+  },
+  {
+   "a": "VVD",
+   "b": "CDA",
+   "cohesie": 91.1,
+   "gezamenlijk": 3896
+  },
+  {
+   "a": "VVD",
+   "b": "ChristenUnie",
+   "cohesie": 74.6,
+   "gezamenlijk": 3889
+  },
+  {
+   "a": "VVD",
+   "b": "50PLUS",
+   "cohesie": 71.8,
+   "gezamenlijk": 3891
+  },
+  {
+   "a": "VVD",
+   "b": "Groep Markuszower",
+   "cohesie": 56.8,
+   "gezamenlijk": 3886
+  },
+  {
+   "a": "CDA",
+   "b": "ChristenUnie",
+   "cohesie": 77.3,
+   "gezamenlijk": 3886
+  },
+  {
+   "a": "CDA",
+   "b": "50PLUS",
+   "cohesie": 72.6,
+   "gezamenlijk": 3888
+  },
+  {
+   "a": "CDA",
+   "b": "Groep Markuszower",
+   "cohesie": 51.4,
+   "gezamenlijk": 3883
+  },
+  {
+   "a": "ChristenUnie",
+   "b": "50PLUS",
+   "cohesie": 78.3,
+   "gezamenlijk": 3881
+  },
+  {
+   "a": "ChristenUnie",
+   "b": "Groep Markuszower",
+   "cohesie": 55.1,
+   "gezamenlijk": 3876
+  },
+  {
+   "a": "50PLUS",
+   "b": "Groep Markuszower",
+   "cohesie": 55.0,
+   "gezamenlijk": 3878
+  }
+ ],
+ "doorslag": {
+  "extra": "Groep Markuszower",
+  "kern": [
+   "D66",
+   "VVD",
+   "CDA",
+   "ChristenUnie",
+   "50PLUS"
+  ],
+  "eensgezind": 2151,
+  "nietGestemd": 11,
+  "gestemd": 2140,
+  "mee": 1187,
+  "tegen": 953,
+  "nodig": 0,
+  "kostte": 2,
+  "krap": 4
+ }
+}

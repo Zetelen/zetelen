@@ -1,7 +1,7 @@
 // Deelplaatje per blok van een Actueel-stuk (1200 x 630, next/og). Dezelfde vier grafieken als op de pagina, in de
 // stijl van de andere deelplaatjes (components/deel/plaatjes.tsx). Alleen flex-opmaak: next/og kent geen tabellen.
 import { Kader, KLEUR, Melding, rond } from "@/components/deel/plaatjes";
-import { type ActueelData, datumTekst, opDrieThemas, perThema as themaVan, stukVan } from "@/lib/actueel";
+import { type ActueelData, aantal, datumTekst, gemiddelde, opDrieThemas, perThema as themaVan, stukVan } from "@/lib/actueel";
 
 const Rij = ({ children, hoogte }: { children: React.ReactNode; hoogte?: number }) =>
   <div style={{ display: "flex", alignItems: "center", gap: 16, ...(hoogte ? { height: hoogte } : {}) }}>{children}</div>;
@@ -92,13 +92,85 @@ function zetelsom(d: ActueelData) {
   );
 }
 
-const GRAFIEK: Record<string, (d: ActueelData) => React.ReactElement> = { mee: meegaan, wringt: botspunten, abortus: perThema, telt: zetelsom };
+// Stuk "kabinet-cu-50plus": het gemiddelde in drie stappen, en daaronder per partij de cohesie met de rest van de zes
+function hecht(d: ActueelData) {
+  const BREED = 560;
+  const stappen: Array<[string, string]> = [["kabinet", "Kabinet"], ["met-cu-50plus", "Plus ChristenUnie, 50PLUS"], ["met-markuszower", "Plus Groep Markuszower"]];
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 22, flex: 1, justifyContent: "center" }}>
+      {stappen.map(([id, naam]) => {
+        const g = gemiddelde(d, id);
+        return (
+          <Rij key={id}>
+            <div style={{ display: "flex", width: 330, fontSize: 26, color: KLEUR.koper }}>{naam}</div>
+            <div style={{ display: "flex", width: BREED, height: 44, background: KLEUR.vlak, borderRadius: 6 }}>
+              <div style={{ display: "flex", width: (BREED * g.gemiddelde) / 100, background: KLEUR.koper, borderRadius: 6 }} />
+            </div>
+            <div style={{ display: "flex", fontSize: 28 }}>{rond(g.gemiddelde)}</div>
+          </Rij>
+        );
+      })}
+      <div style={{ display: "flex", fontSize: 20, color: KLEUR.zacht }}>Gemiddelde cohesie van alle paren in de groep</div>
+    </div>
+  );
+}
+
+function steun(d: ActueelData) {
+  const x = d.doorslag!, BREED = 280;
+  const rijen: Array<[string, number, number]> = [
+    [`${x.extra} stemde mee met de vijf`, x.mee, x.gestemd],
+    ["Uitslag ook zonder haar zetels dezelfde", x.mee - x.nodig, x.mee],
+    ["Uitslag anders met haar zetels aan de kant van de vijf", x.kostte, x.tegen],
+    [`Krappe uitslag (verschil kleiner dan ${2 * d.zetelsom.zetels[x.extra]} zetels)`, x.krap, x.gestemd],
+  ];
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 12, flex: 1, justifyContent: "center" }}>
+      {rijen.map(([naam, deel, geheel]) => (
+        <Rij key={naam} hoogte={40}>
+          <div style={{ display: "flex", width: 590, fontSize: 21, color: KLEUR.koper, whiteSpace: "nowrap" }}>{naam}</div>
+          <div style={{ display: "flex", width: BREED, height: 32, background: KLEUR.vlak, borderRadius: 6 }}>
+            <div style={{ display: "flex", width: geheel ? Math.max((BREED * deel) / geheel, deel ? 3 : 0) : 0, background: KLEUR.koper, borderRadius: 6 }} />
+          </div>
+          <div style={{ display: "flex", fontSize: 21, whiteSpace: "nowrap" }}>{`${aantal(deel)} van ${aantal(geheel)}`}</div>
+        </Rij>
+      ))}
+    </div>
+  );
+}
+
+// Stuk "kabinet-cu-50plus", blok 2: eerst het blok, dan de extra fractie erbij, dan de vergelijking, in vaste volgorde
+function stappen(d: ActueelData) {
+  const extra = d.doorslag!.extra, BREED = 700;
+  const blok = d.groep.filter((a) => a !== extra), rest = d.meegaan.fracties.map((f) => f.afkorting).filter((a) => !d.groep.includes(a));
+  const rijen: Array<[string, boolean]> = [...blok.map((a): [string, boolean] => [a, true]), [extra, true], ...rest.map((a): [string, boolean] => [a, false])];
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 4, flex: 1, justifyContent: "center" }}>
+      {rijen.map(([a, inGroep], i) => {
+        const f = d.meegaan.fracties.find((x) => x.afkorting === a)!;
+        const kleur = inGroep ? KLEUR.koper : KLEUR.tekst;
+        // Een streep tussen het blok, de extra fractie en de vergelijking
+        const scheiding = i === blok.length || i === blok.length + 1;
+        return (
+          <Rij key={a} hoogte={34}>
+            <div style={{ display: "flex", width: 250, fontSize: 22, color: kleur, borderTop: scheiding ? `1px solid ${KLEUR.lijn}` : "1px solid transparent", paddingTop: 2 }}>{inGroep ? a : `${a} (ter vergelijking)`}</div>
+            <div style={{ display: "flex", position: "relative", width: BREED, height: 22, borderBottom: `2px solid ${KLEUR.lijn}` }}>
+              <div style={{ display: "flex", position: "absolute", left: (BREED * (f.pct ?? 0)) / 100 - 11, top: 0, width: 22, height: 22, borderRadius: 11, background: inGroep ? KLEUR.koper : KLEUR.zacht }} />
+            </div>
+            <div style={{ display: "flex", fontSize: 22, color: kleur }}>{rond(f.pct)}</div>
+          </Rij>
+        );
+      })}
+    </div>
+  );
+}
+
+const GRAFIEK: Record<string, (d: ActueelData) => React.ReactElement> = { mee: meegaan, wringt: botspunten, abortus: perThema, telt: zetelsom, hecht, stappen, steun };
 
 export async function actueelPlaatje(zoek: Record<string, string>) {
   const x = stukVan(zoek.stuk ?? "");
   if (!x) return <Kader kop="Actueel" titel="Het nieuws, naast de stemmingen" regel="" stand={null}><Melding tekst="Dit stuk bestaat niet" /></Kader>;
   const b = x.blokken.find((y) => y.id === zoek.blok);
   const stand = datumTekst(x.data.stand);
-  if (!b) return <Kader kop="Actueel" titel={x.kop} regel={x.label.replace("Actueel · ", "")} stand={stand}>{botspunten(x.data)}</Kader>;
+  if (!b) return <Kader kop="Actueel" titel={x.kop} regel={x.label.replace("Actueel · ", "")} stand={stand}>{GRAFIEK[x.slug === "blok-kabinet" ? "wringt" : x.blokken[0].id](x.data)}</Kader>;
   return <Kader kop="Actueel" titel={b.kop} regel={`${b.vraag} · kabinet-${x.data.kabinet}`} stand={stand}>{GRAFIEK[b.id](x.data)}</Kader>;
 }

@@ -330,3 +330,16 @@ a.vak:focus-visible {
     border-top: 1px solid var(--lijn);
   }
 }
+
+/* Doorslag (stuk kabinet-cu-50plus): het getal is "1.187 van 2.140" en past niet in 48px */
+.breedGetal .contrastRij {
+  grid-template-columns: minmax(160px, 260px) 1fr 120px;
+}
+.breedGetal .getal {
+  white-space: nowrap;
+}
+@media (max-width: 560px) {
+  .breedGetal .contrastRij {
+    grid-template-columns: 1fr auto;
+  }
+}
