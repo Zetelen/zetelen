@@ -165,7 +165,9 @@ function kabinetMetSteun(d: ActueelData): Stuk {
     beschrijving: `Hoe vaak stemmen ${kabinet} met ${CU} en ${PLUS} hetzelfde, en wat verandert er als de ${M} erbij komt?`,
     ziet: `Hoe vaak ${opsomming(vijf)} dezelfde kant kozen, en wat de ${M} daaraan verandert, onder kabinet-${d.kabinet} tot en met ${datumTekst(d.stand)}.`,
     opvalt: `Het gemiddelde van de cohesie tussen alle paren is ${procent(g3.gemiddelde)} bij het kabinet, ${procent(g5.gemiddelde)} met ${CU} en ${PLUS} erbij en ${procent(g6.gemiddelde)} met ook de ${M}. Als het kabinet eensgezind stemde, ging ${CU} in ${procent(cu.pct)} van de stemmingen mee, ${PLUS} in ${procent(plus.pct)} en de ${M} in ${procent(mk.pct)}.`,
-    aanleiding: `Eerst het kabinet met ${CU} en ${PLUS}: samen ${zVijf} zetels, ${z.meerderheid - zVijf} te weinig voor een meerderheid. Dan de ${M} erbij: ${z.samen} zetels. Dit stuk meet hoe vaak deze partijen tot nu toe dezelfde kant kozen, eerst zonder en dan met de ${M}. Het is een rekenvoorbeeld, geen verwachting. De cijfers gaan over stemgedrag, niet over inhoud of afspraken.`,
+    // Bron van de aanleiding: NOS, "Kabinet praat morgen met verschillende oppositie-combinaties" (nos.nl/artikel/2637182) en
+    // "Geen deal met oppositie over belastingplan" (nos.nl/artikel/2637476), eind oktober 2026. De zetelsommen zijn eigen rekenwerk.
+    aanleiding: `Eind oktober 2026 sprak het kabinet met verschillende combinaties van oppositiepartijen over steun voor het belastingplan, onder meer met ${CU} en ${PLUS}. Er was toen geen deal (NOS, 29 en 31 oktober 2026: nos.nl/artikel/2637182 en nos.nl/artikel/2637476). Het kabinet haalt met die twee ${zVijf} zetels, ${z.meerderheid - zVijf} te weinig voor een meerderheid, en met de ${M} erbij ${z.samen} (zetels volgens tweedekamer.nl, eigen optelling). Dit stuk meet hoe vaak deze partijen tot nu toe dezelfde kant kozen, eerst zonder en dan met de ${M}. De cijfers gaan over stemgedrag, niet over inhoud of afspraken.`,
     blokken: [
       {
         id: "hecht", vraag: "Hoe vaak stemmen ze hetzelfde?",

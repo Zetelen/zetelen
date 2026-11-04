@@ -76,8 +76,11 @@ describe("Actueel: kabinet met ChristenUnie, 50PLUS en Groep Markuszower", () =>
   it("noemt de Eerste Kamer en doet geen uitspraak over inhoudelijke aansluiting", () => {
     expect(alleTekst).toContain("Eerste Kamer");
     expect(alleTekst).not.toMatch(/\b(vreemd|onlogisch|past niet|hoort niet|past bij)\b/i);
-    expect(stuk.aanleiding).toContain("rekenvoorbeeld, geen verwachting");
-    expect(stuk.aanleiding).not.toMatch(/denkbare combinatie|op de achtergrond/);
+    // De aanleiding noemt de bron (NOS) en dat er toen geen deal was, en doet geen uitspraak over rollen of verwachtingen
+    expect(stuk.aanleiding).toContain("Er was toen geen deal (NOS, 29 en 31 oktober 2026: nos.nl/artikel/2637182 en nos.nl/artikel/2637476)");
+    expect(stuk.aanleiding).toContain("(zetels volgens tweedekamer.nl, eigen optelling)");
+    expect(stuk.aanleiding).toContain(`${d.zetelsom.ref + d.zetelsom.zetels.ChristenUnie + d.zetelsom.zetels["50PLUS"]} zetels, ${d.zetelsom.meerderheid - (d.zetelsom.ref + d.zetelsom.zetels.ChristenUnie + d.zetelsom.zetels["50PLUS"])} te weinig`);
+    expect(stuk.aanleiding).not.toMatch(/denkbare combinatie|op de achtergrond|gedoog|onderhandelpartner|verwacht(ing)? dat/);
   });
   it("noemt in de lezingen de afwijking als complement van het meegaan, met de getallen uit de data", () => {
     const f = (a: string) => procent(100 - mee(d, a)!.pct!);
