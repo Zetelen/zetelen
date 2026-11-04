@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+# Poort vóór elke push: geen push met code, data of tekst zonder goedkeuring van de feitencontrole en zonder groene tests.
+# De goedkeuring is .git/feitencontrole/<sha>.ok en wordt alleen geschreven door de skill feitencontrole
+# (.claude/skills/feitencontrole/SKILL.md), na twee onafhankelijke controlerondes. Nooit met de hand aanmaken,
+# nooit pushen met --no-verify.
+# Pushes die alleen docs/ of .github/ raken, hoeven niet door de controle.
+set -u
+cd "$(git rev-parse --show-toplevel)" || exit 1
+GOED="$(git rev-parse --git-common-dir)/feitencontrole"
+NUL=0000000000000000000000000000000000000000
+CONTROLEREN=0
+
+while read -r lokaal_ref lokaal_sha remote_ref remote_sha; do
+  [ "$lokaal_sha" = "$NUL" ] && continue  # een branch verwijderen hoeft niet gecontroleerd
+
+  # Basis voor de vergelijking: wat de remote al heeft, of bij een nieuwe branch origin/main
+  if [ "$remote_sha" = "$NUL" ]; then
+    basis="$(git rev-parse --verify -q origin/main || true)"
+  else
+    basis="$remote_sha"
+  fi
+
+  if [ -n "$basis" ]; then
+    geraakt="$(git diff --name-only "$basis" "$lokaal_sha" | grep -v -E '^(docs/|\.github/)' || true)"
+    [ -z "$geraakt" ] && continue  # alleen docs of workflows: geen controle nodig
+  fi
+
+  CONTROLEREN=1
+  if [ ! -f "$GOED/$lokaal_sha.ok" ]; then
+    echo ""
+    echo "Push gestopt: commit ${lokaal_sha:0:7} ($lokaal_ref) is nog niet door de feitencontrole gegaan."
+    echo "Laat Claude eerst de skill 'feitencontrole' draaien. Die controleert elke nieuwe of gewijzigde"
+    echo "bewering in twee onafhankelijke rondes en keurt pas daarna goed."
+    echo "Niet omzeilen met --no-verify."
+    echo ""
+    exit 1
+  fi
+done
+
+[ "$CONTROLEREN" = "0" ] && exit 0
+
+echo "Feitencontrole goedgekeurd. Tests draaien..."
+LOG="${TMPDIR:-/tmp}"
+if ! (cd web && npx vitest run >"$LOG/zetelen-pre-push-vitest.log" 2>&1); then
+  echo "Push gestopt: de webtests falen. Zie $LOG/zetelen-pre-push-vitest.log"
+  exit 1
+fi
+if ! uv run --with-requirements pipeline/requirements.txt --with-requirements pipeline/requirements-dev.txt \
+    pytest pipeline -q >"$LOG/zetelen-pre-push-pytest.log" 2>&1; then
+  echo "Push gestopt: de pipeline-tests falen. Zie $LOG/zetelen-pre-push-pytest.log"
+  exit 1
+fi
+echo "Tests groen. Push gaat door."

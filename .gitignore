@@ -20,8 +20,10 @@ web/next-env.d.ts
 .DS_Store
 
 # Editor en lokale hulpmiddelen: werkruimte-instellingen kunnen verbindingsgegevens bevatten
+# Uitzondering: de skills in .claude/skills/ (werkafspraken, geen instellingen) horen bij de repo
 .vscode/
-.claude/
+.claude/*
+!.claude/skills/
 
 # Video: gerenderde bestanden
 video/out/
