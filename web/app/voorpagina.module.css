@@ -31,7 +31,7 @@
 }
 .concept {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--tekst-label);
   color: var(--koper);
 }
 .hoofdstuk {
@@ -115,7 +115,6 @@
   align-items: center;
   background:
     radial-gradient(ellipse 34% 62% at 68% 54%, rgba(208, 138, 85, 0.34), rgba(208, 138, 85, 0) 72%),
-    radial-gradient(ellipse 90% 60% at 60% 100%, rgba(62, 124, 177, 0.18), rgba(62, 124, 177, 0) 70%),
     var(--nacht-950);
   overflow: hidden;
 }

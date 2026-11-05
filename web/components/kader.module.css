@@ -17,7 +17,6 @@
   top: 0;
   z-index: 50;
   background: color-mix(in srgb, var(--nacht-950) 94%, transparent);
-  backdrop-filter: blur(6px);
   border-bottom: 1px solid var(--lijn);
   transition: transform 220ms ease;
 }
@@ -169,7 +168,7 @@
     display: block;
     font-size: var(--tekst-label);
     font-weight: 600;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--koper);
   }

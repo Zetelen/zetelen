@@ -38,7 +38,7 @@
 }
 .tabel thead th {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--tekst-label);
   font-weight: 400;
   color: var(--tekst-zacht);
 }
@@ -62,7 +62,7 @@
   padding: 1px 8px;
   border-radius: var(--hoek-pil);
   border: 1px solid var(--lijn);
-  font-size: 11px;
+  font-size: var(--tekst-label);
   font-family: var(--mono);
   color: var(--tekst-zacht);
 }
@@ -161,7 +161,7 @@
     display: inline-block;
     min-width: 170px;
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: var(--tekst-label);
     color: var(--tekst-zacht);
   }
 }

@@ -20,9 +20,13 @@ export function Tekst({ children }: { children: ReactNode }) {
   return <p className={s.tekst}>{children}</p>;
 }
 
-// Rubriekslabel: kleine kapitalen in koper
+// Rubriekslabel: kleine kapitalen in koper. Een tekst van meer dan 28 tekens leest slecht in hoofdletters
+// en gaat daarom in zinsvorm, in dezelfde kleur en hetzelfde gewicht (unslop-audit U1, 5 november 2026)
+const LANG_LABEL = 28;
+
 export function Label({ children }: { children: ReactNode }) {
-  return <span className={s.label}>{children}</span>;
+  const lang = typeof children === "string" && children.length > LANG_LABEL;
+  return <span className={lang ? `${s.label} ${s.labelZin}` : s.label}>{children}</span>;
 }
 
 // Datalabel en bronvermelding in DM Mono

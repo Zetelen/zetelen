@@ -67,8 +67,8 @@
 }
 .tabel th {
   font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.12em;
+  font-size: var(--tekst-label);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--tekst-zacht);
 }
@@ -225,7 +225,7 @@
 .kern dt {
   font-size: var(--tekst-label);
   font-weight: 600;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--koper);
 }

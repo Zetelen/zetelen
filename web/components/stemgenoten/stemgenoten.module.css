@@ -14,7 +14,7 @@
   font-family: var(--sans);
   font-size: 13px;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--koper);
 }
@@ -199,7 +199,7 @@
   padding: 1px 7px;
   border: 1px solid var(--lijn-licht);
   border-radius: var(--hoek-pil);
-  font-size: 11px;
+  font-size: var(--tekst-label);
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -299,7 +299,7 @@
   border-radius: var(--hoek-pil);
   background: var(--goud);
   color: var(--nacht-950);
-  font-weight: 700;
+  font-weight: 600;
 }
 .uitkomst {
   display: flex;
@@ -317,7 +317,7 @@
   padding: 2px 12px;
   border-radius: var(--hoek-pil);
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
 }
 .pil[data-uitslag="aangenomen"] {
   background: color-mix(in srgb, #6fbf8e 22%, transparent);

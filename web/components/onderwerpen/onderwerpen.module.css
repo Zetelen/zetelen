@@ -21,7 +21,7 @@
 }
 .aantal {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--tekst-label);
   color: var(--tekst-zacht);
 }
 .baan {
@@ -82,7 +82,7 @@
 }
 .kaart thead th {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--tekst-label);
   writing-mode: vertical-rl;
   transform: rotate(180deg);
   text-align: left;

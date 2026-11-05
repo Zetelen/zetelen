@@ -46,7 +46,7 @@
 }
 .kabinet {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--tekst-label);
   fill: var(--tekst-zacht);
 }
 .raster {
@@ -79,7 +79,7 @@
   margin-bottom: var(--r-2);
   font-size: var(--tekst-label);
   font-weight: 600;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--koper);
 }

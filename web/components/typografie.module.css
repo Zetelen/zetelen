@@ -24,9 +24,14 @@
 .label {
   font-size: var(--tekst-label);
   font-weight: 600;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--koper);
+}
+/* Lange labels in zinsvorm: zelfde kleur en gewicht, gewone spatiëring */
+.labelZin {
+  letter-spacing: 0.02em;
+  text-transform: none;
 }
 .data {
   font-family: var(--mono);
