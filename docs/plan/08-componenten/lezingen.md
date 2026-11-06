@@ -1,6 +1,6 @@
 # Component: lezingen
 
-Status: niet gestart (22 oktober 2026)
+Status: in bouw (26 oktober 2026). Kandidaten in `../lezingen-kandidaten.md`; proefpagina https://zetelen.vercel.app/lezingen (niet in het menu, niet geindexeerd) met vier lezingen op echte data. Vaste lezingen staan op de voorpagina en Oppositiewerk. Wacht op de keuze van Niels; daarna de dynamische lezingen in de tools
 Eerst lezen: `_conventies.md`, `_overzicht.md`, `../01-idee.md` (sectie "Duiding: twee lezingen"), `cohesie-analyse.md`, `cohesie-pagina.md`
 
 ## Doel

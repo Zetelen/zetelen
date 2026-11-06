@@ -1,6 +1,6 @@
 # Component: datakwaliteit
 
-Status: gebouwd en getest (24 oktober 2026). Open: de steekproef van 10 besluiten tegen de officiele uitslagen (Niels) en de 8 afwijkende uitslagen bekijken
+Status: gebouwd en getest (24 oktober 2026). Open: de steekproef van 10 uitslagen en de nacontrole van cohesie, beide als kliktabel klaargezet in `../te-beoordelen.md` (26 oktober 2026), en de 8 afwijkende uitslagen bekijken. De extra rijen bij Agendapunt en Besluit zijn verklaard (zie `ingest.md`)
 Eerst lezen: `_conventies.md`, `_overzicht.md`, `../05-techniek.md`
 
 ## Doel
