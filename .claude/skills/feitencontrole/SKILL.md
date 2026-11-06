@@ -81,7 +81,7 @@ De agents herrekenen uit een bron buiten onze eigen code, nooit met onze eigen r
      misleidende bewering, dan is dat een echt signaal: oplossen en weer herhalen. Vindt hij alleen kleine punten,
      dan gaat de push door.
    - **Onzekere, tegenspraak-, neutraliteits-, "niet na te gaan"- en "klein"-vondsten** blokkeren niet. Oplossen mag,
-     maar hoeft niet: ze gaan als open punt in het .ok-bestand en als notitie in `Beoordelen/Zetelen` in de vault, met
+     maar hoeft niet: ze gaan als open punt in het .ok-bestand en als notitie in `Zetelen/Beoordelen` in de vault, met
      een veld `Feedback::` voor Niels. Een bewering die niet na te gaan is, staat op de site als onzeker gemarkeerd of
      is eruit. Een neutraliteitsvondst over een tekst die Niels zelf schreef, leg je aan hem voor in plaats van hem aan
      te passen.
