@@ -1,0 +1,134 @@
+/* Actueel-stuk akkoord-belastingplan (components/actueel/AkkoordBlokken.tsx). Bouwt voort op actueel.module.css. */
+
+/* Blok 1 en 4: een balk over de hele Kamer, per fractie een blokje zo breed als haar zetels */
+.stemming {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-2);
+}
+.kamerRij {
+  display: grid;
+  grid-template-columns: minmax(96px, 140px) 1fr;
+  align-items: center;
+  gap: var(--r-3);
+}
+.kamerRij .label {
+  font-family: var(--mono);
+  font-size: var(--tekst-data);
+  color: var(--tekst-zacht);
+}
+.kamer {
+  position: relative;
+  display: flex;
+  height: 36px;
+  background: var(--nacht-900);
+  border: 1px solid var(--lijn);
+  border-radius: var(--hoek-klein);
+}
+.kamer > span:not(.grens) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: var(--mono);
+  font-size: 11px;
+  border-right: 2px solid var(--nacht-950);
+}
+.vier {
+  background: var(--koper);
+  color: var(--nacht-950);
+}
+.kabinet {
+  background: var(--lijn-licht);
+  color: var(--nacht-950);
+}
+.anders {
+  background: transparent;
+  color: var(--tekst-zacht);
+  box-shadow: inset 0 0 0 1px var(--lijn);
+}
+.grens {
+  position: absolute;
+  z-index: 1;
+  top: -6px;
+  bottom: -6px;
+  border-left: 3px solid var(--goud);
+}
+.vakje {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+}
+.lijst {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: var(--tekst-data);
+  color: var(--tekst-zacht);
+}
+@media (max-width: 560px) {
+  .kamerRij {
+    grid-template-columns: 1fr;
+    row-gap: 4px;
+  }
+}
+
+/* Blok 5: voor en na als twee stippen met een lijn ertussen */
+.halter {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-2);
+}
+.halter li {
+  display: grid;
+  grid-template-columns: minmax(96px, 140px) 1fr 88px;
+  align-items: center;
+  gap: var(--r-3);
+}
+.lijntje {
+  position: absolute;
+  top: 9px;
+  height: 2px;
+  background: var(--koper);
+}
+.leeg {
+  position: absolute;
+  top: 3px;
+  width: 14px;
+  height: 14px;
+  margin-left: -7px;
+  border-radius: 50%;
+  background: var(--nacht-950);
+  border: 2px solid var(--tekst-zacht);
+}
+.vol {
+  position: absolute;
+  top: 3px;
+  width: 14px;
+  height: 14px;
+  margin-left: -7px;
+  border-radius: 50%;
+  background: var(--koper);
+  border: 2px solid var(--nacht-950);
+}
+.halter .getal {
+  white-space: nowrap;
+}
+.link {
+  font-family: var(--mono);
+  font-size: var(--tekst-data);
+}
+@media (max-width: 560px) {
+  .halter li {
+    grid-template-columns: 1fr 72px;
+    row-gap: 4px;
+  }
+  .halter li > :nth-child(2) {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+}

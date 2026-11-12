@@ -1,11 +1,11 @@
 // Tests voor Actueel (lib/actueel.ts): de zinnen moeten kloppen met de vastgelegde cijfers, en de deellinks per blok
 // mogen alleen bestaande stukken en blokken doorlaten.
 import { describe, expect, it } from "vitest";
-import { STUKKEN, aantal, datumTekst, mee, opDrieThemas, perThema, procent, schoonActueel, stukVan, thema, titelActueel, vierkantjes } from "../lib/actueel";
+import { type ActueelData, STUKKEN, aantal, datumTekst, mee, opDrieThemas, perThema, procent, schoonActueel, stukVan, thema, titelActueel, vierkantjes } from "../lib/actueel";
 import { doelVan, deellinkVan } from "../lib/deel";
 
 const stuk = stukVan("blok-kabinet")!;
-const d = stuk.data;
+const d = stuk.data as ActueelData;
 const alleTekst = [stuk.kop, stuk.ziet, stuk.opvalt, stuk.aanleiding, ...stuk.blokken.flatMap((b) => [b.kop, ...b.tekst, b.data]),
   stuk.lezingen!.links.tekst, stuk.lezingen!.rechts.tekst, stuk.slot].join("\n");
 

@@ -1,7 +1,8 @@
 // Deelplaatje per blok van een Actueel-stuk (1200 x 630, next/og). Dezelfde vier grafieken als op de pagina, in de
 // stijl van de andere deelplaatjes (components/deel/plaatjes.tsx). Alleen flex-opmaak: next/og kent geen tabellen.
 import { Kader, KLEUR, Melding, rond } from "@/components/deel/plaatjes";
-import { type ActueelData, aantal, datumTekst, gemiddelde, opDrieThemas, perThema as themaVan, stukVan } from "@/lib/actueel";
+import { type ActueelData, type Stuk, aantal, datumTekst, gemiddelde, isAkkoord, opDrieThemas, perThema as themaVan, stukVan } from "@/lib/actueel";
+import { AKKOORD_PLAATJE } from "./akkoordPlaatje";
 
 const Rij = ({ children, hoogte }: { children: React.ReactNode; hoogte?: number }) =>
   <div style={{ display: "flex", alignItems: "center", gap: 16, ...(hoogte ? { height: hoogte } : {}) }}>{children}</div>;
@@ -165,12 +166,15 @@ function stappen(d: ActueelData) {
 }
 
 const GRAFIEK: Record<string, (d: ActueelData) => React.ReactElement> = { mee: meegaan, wringt: botspunten, abortus: perThema, telt: zetelsom, hecht, stappen, steun };
+// Stuk akkoord-belastingplan heeft eigen data en eigen grafieken (akkoordPlaatje.tsx)
+const grafiek = (d: Stuk["data"], id: string) => (isAkkoord(d) ? AKKOORD_PLAATJE[id](d) : GRAFIEK[id](d));
 
 export async function actueelPlaatje(zoek: Record<string, string>) {
   const x = stukVan(zoek.stuk ?? "");
   if (!x) return <Kader kop="Actueel" titel="Het nieuws, naast de stemmingen" regel="" stand={null}><Melding tekst="Dit stuk bestaat niet" /></Kader>;
   const b = x.blokken.find((y) => y.id === zoek.blok);
-  const stand = datumTekst(x.data.stand);
-  if (!b) return <Kader kop="Actueel" titel={x.kop} regel={x.label.replace("Actueel · ", "")} stand={stand}>{GRAFIEK[x.slug === "blok-kabinet" ? "wringt" : x.blokken[0].id](x.data)}</Kader>;
-  return <Kader kop="Actueel" titel={b.kop} regel={`${b.vraag} · kabinet-${x.data.kabinet}`} stand={stand}>{GRAFIEK[b.id](x.data)}</Kader>;
+  // De uitslag van het akkoordstuk is van later dan de stand van de rest van de data
+  const stand = datumTekst(isAkkoord(x.data) && (b ?? x.blokken[0]).id === "uitslag" && x.data.uitslag ? x.data.uitslag.stemmingen[0].datum : x.data.stand);
+  if (!b) return <Kader kop="Actueel" titel={x.kop} regel={x.label.replace("Actueel · ", "")} stand={stand}>{grafiek(x.data, x.slug === "blok-kabinet" ? "wringt" : x.blokken[0].id)}</Kader>;
+  return <Kader kop="Actueel" titel={b.kop} regel={`${b.vraag} · kabinet-${x.data.kabinet}`} stand={stand}>{grafiek(x.data, b.id)}</Kader>;
 }

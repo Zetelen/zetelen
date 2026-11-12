@@ -5,11 +5,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Bladeren } from "@/components/Bladeren";
 import { Botspunten, Doorslag, Hechtheid, Meegaan, MeegaanStappen, PerThema, Zetelsom } from "@/components/actueel/Blokken";
+import { Buiten, Kamers, Partners, Toen, Uitslag } from "@/components/actueel/AkkoordBlokken";
 import { Inhoud } from "@/components/Kader";
 import { GrafiekKader, GrafiekVlak } from "@/components/deel/GrafiekKader";
 import { Kern, Lezingen } from "@/components/Onderdelen";
 import { Data, HeroKop, Label, Tekst } from "@/components/Typografie";
-import { type ActueelData, STUKKEN, datumTekst, stukVan } from "@/lib/actueel";
+import { type ActueelData, type AkkoordData, type Stuk, STUKKEN, datumTekst, isAkkoord, stukVan } from "@/lib/actueel";
 import u from "@/components/verhaal/uitgelicht.module.css";
 import s from "@/components/actueel/actueel.module.css";
 
@@ -23,6 +24,16 @@ export async function generateMetadata({ params }: { params: Promise<{ stuk: str
 }
 
 const GRAFIEK: Record<string, (p: { d: ActueelData }) => React.ReactNode> = { mee: Meegaan, wringt: Botspunten, abortus: PerThema, telt: Zetelsom, hecht: Hechtheid, stappen: MeegaanStappen, steun: Doorslag };
+// Stuk akkoord-belastingplan (11 november 2026): eigen data, eigen grafieken
+const AKKOORD: Record<string, (p: { d: AkkoordData }) => React.ReactNode> = { uitslag: Uitslag, partners: Partners, buiten: Buiten, kamers: Kamers, toen: Toen };
+function Grafiek({ d, id }: { d: Stuk["data"]; id: string }) {
+  if (isAkkoord(d)) {
+    const G = AKKOORD[id];
+    return <G d={d} />;
+  }
+  const G = GRAFIEK[id];
+  return <G d={d} />;
+}
 
 export default async function ActueelStuk({ params }: { params: Promise<{ stuk: string }> }) {
   const x = stukVan((await params).stuk);
@@ -40,13 +51,12 @@ export default async function ActueelStuk({ params }: { params: Promise<{ stuk: 
         {/* Telefoon: de blokken en de conclusie als delen om door te vegen (1 november 2026) */}
         <Bladeren label={x.kop}>
         {x.blokken.map((b, i) => {
-          const Grafiek = GRAFIEK[b.id];
           return (
             <GrafiekKader key={b.id} grafiek="actueel" zoek={{ stuk: x.slug, blok: b.id }} titel={b.kop} id={b.id} className={s.blok}>
               <p className={s.vraag}>{i + 1} · {b.vraag}</p>
               <h2 className={s.blokKop}>{b.kop}</h2>
               {b.tekst.map((t) => <Tekst key={t}>{t}</Tekst>)}
-              <GrafiekVlak><Grafiek d={x.data} /></GrafiekVlak>
+              <GrafiekVlak><Grafiek d={x.data} id={b.id} /></GrafiekVlak>
               <Data>{b.data}</Data>
             </GrafiekKader>
           );
@@ -60,7 +70,7 @@ export default async function ActueelStuk({ params }: { params: Promise<{ stuk: 
           Bron: open data van de Tweede Kamer, eigen berekening (<Link href="/methodiek">methodiek</Link>). Stand van de
           data: {datumTekst(x.data.stand)}. {x.data.verdeeld.toLocaleString("nl-NL")} verdeelde stemmingen onder
           kabinet-{x.data.kabinet}. Zelf verder kijken:{" "}
-          <Link href={`/coalitie?soort=kabinet&periode=${x.data.kabinet}&groep=${[...x.data.tegen, ...x.data.groep].map(encodeURIComponent).join(",")}`}>deze zes in de coalitiebouwer</Link>.
+          <Link href={`/coalitie?soort=kabinet&periode=${x.data.kabinet}&groep=${(x.bouwer?.fracties ?? [...x.data.tegen, ...x.data.groep]).map(encodeURIComponent).join(",")}`}>{x.bouwer?.tekst ?? "deze zes in de coalitiebouwer"}</Link>.
         </Data>
       </div>
     </Inhoud>

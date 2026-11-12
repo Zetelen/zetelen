@@ -1,0 +1,1142 @@
+{
+ "slug": "akkoord-belastingplan",
+ "soort": "akkoord",
+ "kabinet": "Jetten",
+ "groep": [
+  "D66",
+  "CDA",
+  "PRO",
+  "Volt"
+ ],
+ "tegen": [
+  "D66",
+  "VVD",
+  "CDA"
+ ],
+ "stand": "2026-11-10",
+ "gemaakt": "2026-11-11",
+ "besluiten": 4309,
+ "verdeeld": 3984,
+ "partners": {
+  "paren": [
+   {
+    "kabinetspartij": "D66",
+    "partner": "PRO",
+    "afkorting": "PRO",
+    "cohesie": 71.7,
+    "gezamenlijk": 3977,
+    "gelijk": 2850
+   },
+   {
+    "kabinetspartij": "CDA",
+    "partner": "SGP",
+    "afkorting": "SGP",
+    "cohesie": 71.5,
+    "gezamenlijk": 3970,
+    "gelijk": 2840
+   },
+   {
+    "kabinetspartij": "VVD",
+    "partner": "JA21",
+    "afkorting": "JA21",
+    "cohesie": 70.7,
+    "gezamenlijk": 3972,
+    "gelijk": 2808
+   }
+  ],
+  "perKabinetspartij": {
+   "D66": [
+    {
+     "afkorting": "ChristenUnie",
+     "cohesie": 74.1,
+     "gezamenlijk": 3966,
+     "gelijk": 2940
+    },
+    {
+     "afkorting": "PRO",
+     "cohesie": 71.7,
+     "gezamenlijk": 3977,
+     "gelijk": 2850
+    },
+    {
+     "afkorting": "SGP",
+     "cohesie": 66.1,
+     "gezamenlijk": 3973,
+     "gelijk": 2626
+    },
+    {
+     "afkorting": "DENK",
+     "cohesie": 64.7,
+     "gezamenlijk": 3977,
+     "gelijk": 2575
+    },
+    {
+     "afkorting": "SP",
+     "cohesie": 60.7,
+     "gezamenlijk": 3971,
+     "gelijk": 2409
+    },
+    {
+     "afkorting": "PvdD",
+     "cohesie": 60.1,
+     "gezamenlijk": 3970,
+     "gelijk": 2387
+    },
+    {
+     "afkorting": "JA21",
+     "cohesie": 59.4,
+     "gezamenlijk": 3973,
+     "gelijk": 2358
+    },
+    {
+     "afkorting": "BBB",
+     "cohesie": 54.3,
+     "gezamenlijk": 3969,
+     "gelijk": 2154
+    },
+    {
+     "afkorting": "Groep Markuszower",
+     "cohesie": 45.6,
+     "gezamenlijk": 3962,
+     "gelijk": 1806
+    },
+    {
+     "afkorting": "PVV",
+     "cohesie": 40.4,
+     "gezamenlijk": 3974,
+     "gelijk": 1607
+    },
+    {
+     "afkorting": "FVD",
+     "cohesie": 38.3,
+     "gezamenlijk": 3977,
+     "gelijk": 1524
+    }
+   ],
+   "VVD": [
+    {
+     "afkorting": "ChristenUnie",
+     "cohesie": 74.7,
+     "gezamenlijk": 3965,
+     "gelijk": 2961
+    },
+    {
+     "afkorting": "SGP",
+     "cohesie": 73.9,
+     "gezamenlijk": 3972,
+     "gelijk": 2934
+    },
+    {
+     "afkorting": "JA21",
+     "cohesie": 70.7,
+     "gezamenlijk": 3972,
+     "gelijk": 2808
+    },
+    {
+     "afkorting": "BBB",
+     "cohesie": 63.3,
+     "gezamenlijk": 3968,
+     "gelijk": 2513
+    },
+    {
+     "afkorting": "PRO",
+     "cohesie": 58.9,
+     "gezamenlijk": 3976,
+     "gelijk": 2343
+    },
+    {
+     "afkorting": "Groep Markuszower",
+     "cohesie": 56.6,
+     "gezamenlijk": 3961,
+     "gelijk": 2240
+    },
+    {
+     "afkorting": "DENK",
+     "cohesie": 55.2,
+     "gezamenlijk": 3976,
+     "gelijk": 2194
+    },
+    {
+     "afkorting": "SP",
+     "cohesie": 50.4,
+     "gezamenlijk": 3970,
+     "gelijk": 1999
+    },
+    {
+     "afkorting": "PVV",
+     "cohesie": 49.3,
+     "gezamenlijk": 3973,
+     "gelijk": 1960
+    },
+    {
+     "afkorting": "PvdD",
+     "cohesie": 47.6,
+     "gezamenlijk": 3969,
+     "gelijk": 1891
+    },
+    {
+     "afkorting": "FVD",
+     "cohesie": 45.8,
+     "gezamenlijk": 3976,
+     "gelijk": 1822
+    }
+   ],
+   "CDA": [
+    {
+     "afkorting": "ChristenUnie",
+     "cohesie": 77.4,
+     "gezamenlijk": 3963,
+     "gelijk": 3068
+    },
+    {
+     "afkorting": "SGP",
+     "cohesie": 71.5,
+     "gezamenlijk": 3970,
+     "gelijk": 2840
+    },
+    {
+     "afkorting": "JA21",
+     "cohesie": 65.1,
+     "gezamenlijk": 3970,
+     "gelijk": 2583
+    },
+    {
+     "afkorting": "PRO",
+     "cohesie": 64.9,
+     "gezamenlijk": 3974,
+     "gelijk": 2579
+    },
+    {
+     "afkorting": "BBB",
+     "cohesie": 59.5,
+     "gezamenlijk": 3966,
+     "gelijk": 2358
+    },
+    {
+     "afkorting": "DENK",
+     "cohesie": 59.5,
+     "gezamenlijk": 3974,
+     "gelijk": 2366
+    },
+    {
+     "afkorting": "SP",
+     "cohesie": 55.3,
+     "gezamenlijk": 3968,
+     "gelijk": 2195
+    },
+    {
+     "afkorting": "PvdD",
+     "cohesie": 53.2,
+     "gezamenlijk": 3967,
+     "gelijk": 2112
+    },
+    {
+     "afkorting": "Groep Markuszower",
+     "cohesie": 51.2,
+     "gezamenlijk": 3959,
+     "gelijk": 2028
+    },
+    {
+     "afkorting": "PVV",
+     "cohesie": 45.4,
+     "gezamenlijk": 3971,
+     "gelijk": 1801
+    },
+    {
+     "afkorting": "FVD",
+     "cohesie": 42.3,
+     "gezamenlijk": 3974,
+     "gelijk": 1680
+    }
+   ]
+  },
+  "binnen": [
+   {
+    "a": "D66",
+    "b": "VVD",
+    "cohesie": 85.3,
+    "gezamenlijk": 3975,
+    "gelijk": 3389
+   },
+   {
+    "a": "D66",
+    "b": "CDA",
+    "cohesie": 91.1,
+    "gezamenlijk": 3973,
+    "gelijk": 3620
+   },
+   {
+    "a": "VVD",
+    "b": "CDA",
+    "cohesie": 91.1,
+    "gezamenlijk": 3972,
+    "gelijk": 3620
+   }
+  ],
+  "meegaan": {
+   "basis": 3324,
+   "fracties": [
+    {
+     "afkorting": "PRO",
+     "gestemd": 3322,
+     "mee": 2257,
+     "pct": 67.9
+    },
+    {
+     "afkorting": "Volt",
+     "gestemd": 3311,
+     "mee": 2415,
+     "pct": 72.9
+    },
+    {
+     "afkorting": "JA21",
+     "gestemd": 3317,
+     "mee": 2243,
+     "pct": 67.6
+    }
+   ]
+  },
+  "minZetels": 3
+ },
+ "buiten": {
+  "kabinetten": [
+   {
+    "kabinet": "Rutte I",
+    "van": "2010-10-27",
+    "tot": "2012-04-19",
+    "verdeeld": 4535,
+    "keer": 1542,
+    "pct": 34.0,
+    "partijen": [
+     {
+      "afkorting": "PVV",
+      "rol": "gedoogsteun",
+      "basis": 4535,
+      "keer": 853,
+      "won": 623,
+      "pct": 18.8
+     },
+     {
+      "afkorting": "CDA",
+      "rol": "kabinet",
+      "basis": 4535,
+      "keer": 439,
+      "won": 95,
+      "pct": 9.7
+     },
+     {
+      "afkorting": "VVD",
+      "rol": "kabinet",
+      "basis": 4535,
+      "keer": 250,
+      "won": 221,
+      "pct": 5.5
+     }
+    ],
+    "gedoog": true,
+    "eindeLaatstePartij": "2012-04-21"
+   },
+   {
+    "kabinet": "Rutte III",
+    "van": "2017-11-02",
+    "tot": "2021-12-21",
+    "verdeeld": 14075,
+    "keer": 2311,
+    "pct": 16.4,
+    "partijen": [
+     {
+      "afkorting": "VVD",
+      "rol": "kabinet",
+      "basis": 14075,
+      "keer": 1090,
+      "won": 1036,
+      "pct": 7.7
+     },
+     {
+      "afkorting": "D66",
+      "rol": "kabinet",
+      "basis": 14075,
+      "keer": 734,
+      "won": 569,
+      "pct": 5.2
+     },
+     {
+      "afkorting": "ChristenUnie",
+      "rol": "kabinet",
+      "basis": 14075,
+      "keer": 358,
+      "won": 307,
+      "pct": 2.5
+     },
+     {
+      "afkorting": "CDA",
+      "rol": "kabinet",
+      "basis": 14075,
+      "keer": 129,
+      "won": 112,
+      "pct": 0.9
+     }
+    ],
+    "gedoog": false,
+    "eindeLaatstePartij": null
+   },
+   {
+    "kabinet": "Rutte IV",
+    "van": "2022-01-19",
+    "tot": "2024-06-27",
+    "verdeeld": 8994,
+    "keer": 1781,
+    "pct": 19.8,
+    "partijen": [
+     {
+      "afkorting": "D66",
+      "rol": "kabinet",
+      "basis": 8994,
+      "keer": 696,
+      "won": 584,
+      "pct": 7.7
+     },
+     {
+      "afkorting": "VVD",
+      "rol": "kabinet",
+      "basis": 8994,
+      "keer": 545,
+      "won": 427,
+      "pct": 6.1
+     },
+     {
+      "afkorting": "ChristenUnie",
+      "rol": "kabinet",
+      "basis": 8994,
+      "keer": 309,
+      "won": 264,
+      "pct": 3.4
+     },
+     {
+      "afkorting": "CDA",
+      "rol": "kabinet",
+      "basis": 8994,
+      "keer": 231,
+      "won": 204,
+      "pct": 2.6
+     }
+    ],
+    "gedoog": false,
+    "eindeLaatstePartij": null
+   },
+   {
+    "kabinet": "Schoof",
+    "van": "2024-07-04",
+    "tot": "2025-07-10",
+    "verdeeld": 4544,
+    "keer": 1476,
+    "pct": 32.5,
+    "partijen": [
+     {
+      "afkorting": "PVV",
+      "rol": "kabinet",
+      "basis": 3565,
+      "keer": 524,
+      "won": 454,
+      "pct": 14.7
+     },
+     {
+      "afkorting": "Nieuw Sociaal Contract",
+      "rol": "kabinet",
+      "basis": 4544,
+      "keer": 463,
+      "won": 269,
+      "pct": 10.2
+     },
+     {
+      "afkorting": "BBB",
+      "rol": "kabinet",
+      "basis": 4544,
+      "keer": 245,
+      "won": 219,
+      "pct": 5.4
+     },
+     {
+      "afkorting": "VVD",
+      "rol": "kabinet",
+      "basis": 4544,
+      "keer": 244,
+      "won": 200,
+      "pct": 5.4
+     }
+    ],
+    "gedoog": false,
+    "eindeLaatstePartij": "2025-08-22"
+   },
+   {
+    "kabinet": "Jetten",
+    "van": "2026-02-26",
+    "tot": "2026-11-10",
+    "verdeeld": 3984,
+    "keer": 644,
+    "pct": 16.2,
+    "partijen": [
+     {
+      "afkorting": "D66",
+      "rol": "kabinet",
+      "basis": 3984,
+      "keer": 293,
+      "won": 251,
+      "pct": 7.4
+     },
+     {
+      "afkorting": "VVD",
+      "rol": "kabinet",
+      "basis": 3984,
+      "keer": 291,
+      "won": 238,
+      "pct": 7.3
+     },
+     {
+      "afkorting": "CDA",
+      "rol": "kabinet",
+      "basis": 3984,
+      "keer": 60,
+      "won": 50,
+      "pct": 1.5
+     }
+    ],
+    "gedoog": false,
+    "eindeLaatstePartij": null
+   }
+  ],
+  "belastingplan": [
+   {
+    "zaak": "2011Z23226",
+    "datum": "2011-11-17",
+    "buiten": "PVV",
+    "rest": [
+     "CDA",
+     "VVD"
+    ],
+    "kabinet": "Rutte I"
+   },
+   {
+    "zaak": "2018Z21124",
+    "datum": "2018-11-15",
+    "buiten": "VVD",
+    "rest": [
+     "CDA",
+     "ChristenUnie",
+     "D66"
+    ],
+    "kabinet": "Rutte III"
+   },
+   {
+    "zaak": "2021Z19871",
+    "datum": "2021-11-11",
+    "buiten": "VVD",
+    "rest": [
+     "CDA",
+     "ChristenUnie",
+     "D66"
+    ],
+    "kabinet": "Rutte III"
+   },
+   {
+    "zaak": "2023Z18023",
+    "datum": "2023-10-26",
+    "buiten": "D66",
+    "rest": [
+     "CDA",
+     "ChristenUnie",
+     "VVD"
+    ],
+    "kabinet": "Rutte IV"
+   },
+   {
+    "zaak": "2023Z18252",
+    "datum": "2023-10-26",
+    "buiten": "VVD",
+    "rest": [
+     "CDA",
+     "ChristenUnie",
+     "D66"
+    ],
+    "kabinet": "Rutte IV"
+   },
+   {
+    "zaak": "2023Z18253",
+    "datum": "2023-10-26",
+    "buiten": "VVD",
+    "rest": [
+     "CDA",
+     "ChristenUnie",
+     "D66"
+    ],
+    "kabinet": "Rutte IV"
+   },
+   {
+    "zaak": "2023Z18280",
+    "datum": "2023-10-26",
+    "buiten": "VVD",
+    "rest": [
+     "CDA",
+     "ChristenUnie",
+     "D66"
+    ],
+    "kabinet": "Rutte IV"
+   },
+   {
+    "zaak": "2023Z18297",
+    "datum": "2023-10-26",
+    "buiten": "VVD",
+    "rest": [
+     "CDA",
+     "ChristenUnie",
+     "D66"
+    ],
+    "kabinet": "Rutte IV"
+   },
+   {
+    "zaak": "2023Z18328",
+    "datum": "2023-10-26",
+    "buiten": "D66",
+    "rest": [
+     "CDA",
+     "ChristenUnie",
+     "VVD"
+    ],
+    "kabinet": "Rutte IV"
+   },
+   {
+    "zaak": "2023Z18388",
+    "datum": "2023-10-26",
+    "buiten": "VVD",
+    "rest": [
+     "CDA",
+     "ChristenUnie",
+     "D66"
+    ],
+    "kabinet": "Rutte IV"
+   },
+   {
+    "zaak": "2023Z18444",
+    "datum": "2023-10-26",
+    "buiten": "ChristenUnie",
+    "rest": [
+     "CDA",
+     "D66",
+     "VVD"
+    ],
+    "kabinet": "Rutte IV"
+   },
+   {
+    "zaak": "2024Z17838",
+    "datum": "2024-11-14",
+    "buiten": "PVV",
+    "rest": [
+     "BBB",
+     "Nieuw Sociaal Contract",
+     "VVD"
+    ],
+    "kabinet": "Schoof"
+   }
+  ],
+  "precedent": {
+   "zaak": "2018Z21124",
+   "datum": "2018-11-15",
+   "buiten": "VVD",
+   "rest": [
+    "CDA",
+    "ChristenUnie",
+    "D66"
+   ],
+   "kabinet": "Rutte III",
+   "onderwerp": "de differentiatie van de OZB-tarieven",
+   "uitslag": "Aangenomen."
+  }
+ },
+ "kader": {
+  "eindstemmingen": 23,
+  "metCoalitieTegen": 0,
+  "eerste": "2010-11-18",
+  "laatste": "2025-11-27",
+  "lijst": [
+   {
+    "zaak": "2010Z13231",
+    "datum": "2010-11-18",
+    "kabinet": "Rutte I",
+    "uitslag": "Aangenomen",
+    "coalitieTegen": []
+   },
+   {
+    "zaak": "2011Z18006",
+    "datum": "2011-11-17",
+    "kabinet": "Rutte I",
+    "uitslag": "Aangenomen",
+    "coalitieTegen": []
+   },
+   {
+    "zaak": "2012Z15958",
+    "datum": "2012-11-20",
+    "kabinet": "Rutte II",
+    "uitslag": "Aangenomen",
+    "coalitieTegen": []
+   },
+   {
+    "zaak": "2013Z17577",
+    "datum": "2013-11-19",
+    "kabinet": "Rutte II",
+    "uitslag": "Aangenomen.",
+    "coalitieTegen": []
+   },
+   {
+    "zaak": "2014Z00799",
+    "datum": "2014-03-06",
+    "kabinet": "Rutte II",
+    "uitslag": "Aangenomen.",
+    "coalitieTegen": []
+   },
+   {
+    "zaak": "2014Z15823",
+    "datum": "2014-11-13",
+    "kabinet": "Rutte II",
+    "uitslag": "Aangenomen.",
+    "coalitieTegen": []
+   },
+   {
+    "zaak": "2015Z16496",
+    "datum": "2015-11-18",
+    "kabinet": "Rutte II",
+    "uitslag": "Aangenomen.",
+    "coalitieTegen": []
+   },
+   {
+    "zaak": "2015Z24110",
+    "datum": "2015-12-16",
+    "kabinet": "Rutte II",
+    "uitslag": "Aangenomen.",
+    "coalitieTegen": []
+   },
+   {
+    "zaak": "2016Z16937",
+    "datum": "2016-11-17",
+    "kabinet": "Rutte II",
+    "uitslag": "Aangenomen.",
+    "coalitieTegen": []
+   },
+   {
+    "zaak": "2017Z12310",
+    "datum": "2017-11-23",
+    "kabinet": "Rutte III",
+    "uitslag": "Aangenomen.",
+    "coalitieTegen": []
+   },
+   {
+    "zaak": "2018Z16281",
+    "datum": "2018-11-15",
+    "kabinet": "Rutte III",
+    "uitslag": "Aangenomen.",
+    "coalitieTegen": []
+   },
+   {
+    "zaak": "2019Z17359",
+    "datum": "2019-11-14",
+    "kabinet": "Rutte III",
+    "uitslag": "Aangenomen.",
+    "coalitieTegen": []
+   },
+   {
+    "zaak": "2020Z16391",
+    "datum": "2020-11-12",
+    "kabinet": "Rutte III",
+    "uitslag": "Aangenomen.",
+    "coalitieTegen": []
+   },
+   {
+    "zaak": "2020Z23904",
+    "datum": "2020-12-10",
+    "kabinet": "Rutte III",
+    "uitslag": "Aangenomen.",
+    "coalitieTegen": []
+   },
+   {
+    "zaak": "2021Z16036",
+    "datum": "2021-11-11",
+    "kabinet": "Rutte III",
+    "uitslag": "Aangenomen.",
+    "coalitieTegen": []
+   },
+   {
+    "zaak": "2022Z17304",
+    "datum": "2022-11-10",
+    "kabinet": "Rutte IV",
+    "uitslag": "Aangenomen.",
+    "coalitieTegen": []
+   },
+   {
+    "zaak": "2023Z15439",
+    "datum": "2023-10-26",
+    "kabinet": "Rutte IV",
+    "uitslag": "Aangenomen.",
+    "coalitieTegen": []
+   },
+   {
+    "zaak": "2023Z15444",
+    "datum": "2023-10-26",
+    "kabinet": "Rutte IV",
+    "uitslag": "Aangenomen.",
+    "coalitieTegen": []
+   },
+   {
+    "zaak": "2024Z13666",
+    "datum": "2024-11-14",
+    "kabinet": "Schoof",
+    "uitslag": "Aangenomen.",
+    "coalitieTegen": []
+   },
+   {
+    "zaak": "2024Z13674",
+    "datum": "2024-11-14",
+    "kabinet": "Schoof",
+    "uitslag": "Aangenomen.",
+    "coalitieTegen": []
+   },
+   {
+    "zaak": "2024Z21114",
+    "datum": "2024-12-17",
+    "kabinet": "Schoof",
+    "uitslag": "Aangenomen.",
+    "coalitieTegen": []
+   },
+   {
+    "zaak": "2025Z16927",
+    "datum": "2025-10-02",
+    "kabinet": "Schoof",
+    "uitslag": "Aangenomen.",
+    "coalitieTegen": []
+   },
+   {
+    "zaak": "2025Z16924",
+    "datum": "2025-11-27",
+    "kabinet": "Schoof",
+    "uitslag": "Aangenomen.",
+    "coalitieTegen": []
+   }
+  ]
+ },
+ "kamers": {
+  "tk": {
+   "meerderheid": 76,
+   "zetels": {
+    "D66": 26,
+    "BBB": 3,
+    "CDA": 18,
+    "PVV": 19,
+    "Lid Keijzer": 1,
+    "VVD": 22,
+    "SGP": 3,
+    "Groep Markuszower": 7,
+    "50PLUS": 2,
+    "SP": 3,
+    "Volt": 1,
+    "PvdD": 3,
+    "PRO": 20,
+    "ChristenUnie": 3,
+    "DENK": 3,
+    "FVD": 7,
+    "JA21": 9
+   }
+  },
+  "ek": {
+   "bron": "eerstekamer.nl/fracties",
+   "geraadpleegd": "2026-11-11",
+   "zetels": {
+    "PRO": 14,
+    "BBB": 11,
+    "VVD": 9,
+    "D66": 7,
+    "CDA": 6,
+    "PVV": 4,
+    "SP": 3,
+    "ChristenUnie": 3,
+    "FVD": 3,
+    "PvdD": 2,
+    "JA21": 2,
+    "Volt": 2,
+    "SGP": 2,
+    "50PLUS": 1,
+    "OPNL": 1
+   },
+   "eenmansfracties": 5,
+   "meerderheid": 38,
+   "totaal": 75
+  },
+  "vier": [
+   "D66",
+   "CDA",
+   "PRO",
+   "Volt"
+  ],
+  "buiten": "VVD",
+  "kabinet": {
+   "fracties": [
+    "D66",
+    "VVD",
+    "CDA"
+   ],
+   "tk": 66,
+   "ek": 22,
+   "gestemd": 3968,
+   "eensgezind": 3324,
+   "pct": 83.8
+  },
+  "vierMaat": {
+   "gestemd": 3956,
+   "eensgezind": 2399,
+   "pct": 60.6
+  },
+  "routes": [
+   {
+    "zonder": "D66",
+    "start": [
+     "VVD",
+     "CDA"
+    ],
+    "extra": [
+     "Groep Markuszower",
+     "JA21",
+     "PVV",
+     "SGP"
+    ],
+    "tk": 78,
+    "combinaties": 562,
+    "gestemd": 3935,
+    "eensgezind": 1179,
+    "pct": 30.0,
+    "ek": 23
+   },
+   {
+    "zonder": "VVD",
+    "start": [
+     "D66",
+     "CDA"
+    ],
+    "extra": [
+     "50PLUS",
+     "ChristenUnie",
+     "DENK",
+     "PRO",
+     "SP",
+     "Volt"
+    ],
+    "tk": 76,
+    "combinaties": 414,
+    "gestemd": 3919,
+    "eensgezind": 1423,
+    "pct": 36.3,
+    "ek": 36
+   },
+   {
+    "zonder": "CDA",
+    "start": [
+     "D66",
+     "VVD"
+    ],
+    "extra": [
+     "50PLUS",
+     "ChristenUnie",
+     "DENK",
+     "PRO"
+    ],
+    "tk": 76,
+    "combinaties": 325,
+    "gestemd": 3944,
+    "eensgezind": 1547,
+    "pct": 39.2,
+    "ek": 34
+   }
+  ]
+ },
+ "toen": {
+  "2013": {
+   "kabinet": "Rutte II",
+   "ref": [
+    "VVD",
+    "PvdA"
+   ],
+   "akkoord": "2013-10-11",
+   "tot": "2014-10-10",
+   "partners": [
+    "D66",
+    "ChristenUnie",
+    "SGP"
+   ],
+   "anderen": [
+    "CDA",
+    "GL",
+    "SP",
+    "PVV"
+   ],
+   "voor": {
+    "van": "2012-11-05",
+    "tot": "2013-10-10",
+    "basis": 1991,
+    "fracties": [
+     {
+      "afkorting": "D66",
+      "gestemd": 1990,
+      "mee": 1320,
+      "pct": 66.3
+     },
+     {
+      "afkorting": "ChristenUnie",
+      "gestemd": 1990,
+      "mee": 1091,
+      "pct": 54.8
+     },
+     {
+      "afkorting": "SGP",
+      "gestemd": 1991,
+      "mee": 1389,
+      "pct": 69.8
+     },
+     {
+      "afkorting": "CDA",
+      "gestemd": 1990,
+      "mee": 1409,
+      "pct": 70.8
+     },
+     {
+      "afkorting": "GL",
+      "gestemd": 1985,
+      "mee": 884,
+      "pct": 44.5
+     },
+     {
+      "afkorting": "SP",
+      "gestemd": 1987,
+      "mee": 669,
+      "pct": 33.7
+     },
+     {
+      "afkorting": "PVV",
+      "gestemd": 1990,
+      "mee": 926,
+      "pct": 46.5
+     }
+    ]
+   },
+   "na": {
+    "van": "2013-10-11",
+    "tot": "2014-10-10",
+    "basis": 2026,
+    "fracties": [
+     {
+      "afkorting": "D66",
+      "gestemd": 2025,
+      "mee": 1556,
+      "pct": 76.8
+     },
+     {
+      "afkorting": "ChristenUnie",
+      "gestemd": 2024,
+      "mee": 1417,
+      "pct": 70.0
+     },
+     {
+      "afkorting": "SGP",
+      "gestemd": 2026,
+      "mee": 1595,
+      "pct": 78.7
+     },
+     {
+      "afkorting": "CDA",
+      "gestemd": 2026,
+      "mee": 1438,
+      "pct": 71.0
+     },
+     {
+      "afkorting": "GL",
+      "gestemd": 2023,
+      "mee": 972,
+      "pct": 48.0
+     },
+     {
+      "afkorting": "SP",
+      "gestemd": 2025,
+      "mee": 766,
+      "pct": 37.8
+     },
+     {
+      "afkorting": "PVV",
+      "gestemd": 2024,
+      "mee": 873,
+      "pct": 43.1
+     }
+    ]
+   }
+  },
+  "2012": {
+   "kabinet": "Rutte I",
+   "ref": [
+    "VVD",
+    "CDA"
+   ],
+   "akkoord": "2012-04-26",
+   "partij": "PVV",
+   "partners": [
+    "D66",
+    "GroenLinks",
+    "ChristenUnie"
+   ],
+   "eindeGedoog": "2012-04-21",
+   "voor": {
+    "van": "2010-10-14",
+    "tot": "2012-04-20",
+    "basis": 3841,
+    "fracties": [
+     {
+      "afkorting": "PVV",
+      "gestemd": 3841,
+      "mee": 2988,
+      "pct": 77.8
+     }
+    ]
+   },
+   "na": {
+    "van": "2012-04-26",
+    "tot": "2012-11-05",
+    "basis": 733,
+    "fracties": [
+     {
+      "afkorting": "PVV",
+      "gestemd": 732,
+      "mee": 401,
+      "pct": 54.8
+     }
+    ]
+   }
+  },
+  "nu": {
+   "kabinet": "Jetten",
+   "ref": [
+    "D66",
+    "VVD",
+    "CDA"
+   ],
+   "fracties": [
+    {
+     "afkorting": "PRO",
+     "gestemd": 3322,
+     "mee": 2257,
+     "pct": 67.9
+    },
+    {
+     "afkorting": "Volt",
+     "gestemd": 3311,
+     "mee": 2415,
+     "pct": 72.9
+    }
+   ],
+   "basis": 3324
+  }
+ },
+ "uitslag": null
+}

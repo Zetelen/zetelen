@@ -1,11 +1,11 @@
 // Tests voor het Actueel-stuk "kabinet-cu-50plus" (lib/actueel.ts): de zinnen moeten kloppen met de vastgelegde cijfers,
 // en de tekst moet neutraal blijven: de cijfers gaan over stemgedrag, niet over hoe logisch een combinatie is.
 import { describe, expect, it } from "vitest";
-import { aantal, gemiddelde, mee, paarCohesie, perFractieGemiddelde, procent, schoonActueel, stukVan, titelActueel } from "../lib/actueel";
+import { type ActueelData, aantal, gemiddelde, mee, paarCohesie, perFractieGemiddelde, procent, schoonActueel, stukVan, titelActueel } from "../lib/actueel";
 import { deellinkVan, doelVan } from "../lib/deel";
 
 const stuk = stukVan("kabinet-cu-50plus")!;
-const d = stuk.data;
+const d = stuk.data as ActueelData;
 const M = "Groep Markuszower";
 const alleTekst = [stuk.kop, stuk.beschrijving, stuk.ziet, stuk.opvalt, stuk.aanleiding, ...stuk.blokken.flatMap((b) => [b.vraag, b.kop, ...b.tekst, b.data]),
   stuk.lezingen!.links.titel, stuk.lezingen!.links.tekst, stuk.lezingen!.rechts.titel, stuk.lezingen!.rechts.tekst, stuk.slot].join("\n");
