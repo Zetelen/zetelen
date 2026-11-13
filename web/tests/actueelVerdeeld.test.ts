@@ -98,8 +98,8 @@ describe("Actueel: hoe vaak stemde de coalitie verdeeld", () => {
     for (const n of ["zonder", "zonderSteun", "zonderAkkoord", "zonderBeide"] as const) expect(g[n].fracties).not.toContain("VVD");
     expect(["zonder", "zonderSteun", "zonderAkkoord"].every((n) => g[n as "zonder"].tk < z.tk.meerderheid)).toBe(true);
     expect(g.zonderBeide.tk).toBeGreaterThanOrEqual(z.tk.meerderheid);
-    expect(b.kop).toBe(`Zonder de VVD hebben D66 en CDA ${g.zonder.tk} zetels, met PRO en Volt ${g.zonderAkkoord.tk}: nog geen meerderheid`);
-    expect(b.tekst[0]).toBe(`D66 en CDA hebben samen ${g.zonder.tk} zetels in de Tweede Kamer. Met PRO en Volt, de partners van het akkoord over het Belastingplan, komen ze op ${g.zonderAkkoord.tk}; met ChristenUnie, 50PLUS en de Groep Markuszower, met wie het kabinet eind oktober sprak zonder afspraak (zie het stuk over het kabinet met ChristenUnie en 50PLUS), op ${g.zonderSteun.tk}. Alle zeven samen hebben er ${g.zonderBeide.tk}; een meerderheid is 76. Deze groepen zijn gekozen, niet afgeleid uit de stemming over het Belastingplan: hoe elke fractie daar stemde, staat nog niet in de open data.`);
+    expect(b.kop).toBe(`Zonder de VVD hebben D66 en CDA ${g.zonder.tk} zetels, met PRO en Volt ${g.zonderAkkoord.tk}; een meerderheid is 76`);
+    expect(b.tekst[0]).toBe(`D66 en CDA hebben samen ${g.zonder.tk} zetels in de Tweede Kamer. Met PRO en Volt, de partners van het akkoord over het Belastingplan, komen ze op ${g.zonderAkkoord.tk}; met ChristenUnie, 50PLUS en de Groep Markuszower op ${g.zonderSteun.tk}; dat zijn de drie fracties uit het stuk over het kabinet met ChristenUnie en 50PLUS. Met de eerste twee sprak het kabinet eind oktober, zonder afspraak. Alle zeven samen hebben er ${g.zonderBeide.tk}; een meerderheid is 76. Deze groepen zijn gekozen, niet afgeleid uit de stemming over het Belastingplan: hoe elke fractie daar stemde, staat nog niet in de open data.`);
     expect(b.tekst[1]).toContain(`D66 en CDA in ${procent(g.zonder.pct)} van de verdeelde stemmingen, met PRO en Volt in ${procent(g.zonderAkkoord.pct)}`);
     expect(b.tekst[1]).toContain(`alle zeven in ${procent(g.zonderBeide.pct)}`);
     expect(b.tekst[1]).toContain(`Het kabinet van D66, VVD en CDA stemde in ${procent(g.kabinet.pct)} eensgezind`);
@@ -115,7 +115,7 @@ describe("Actueel: hoe vaak stemde de coalitie verdeeld", () => {
   it("noemt de meerderheid zonder de VVD uit akkoord-belastingplan, zodat de twee stukken niet botsen", () => {
     const route = ak.kamers.routes.find((r) => r.zonder === "VVD")!;
     const t = blok("zonder").tekst.join(" ");
-    expect(t).toContain(`uit het stuk over het Belastingplan, telt ${route.start.length + route.extra.length} fracties en ${route.tk} zetels en stemde in ${procent(route.pct)} eensgezind`);
+    expect(t).toContain(`uit het stuk over het Belastingplan, is D66 en CDA met 50PLUS, ChristenUnie, DENK, PRO, SP en Volt: acht fracties, ${route.tk} zetels, in ${procent(route.pct)} eensgezind.`);
     expect(stuk.opvalt).toContain(`ze stemden in ${procent(d.zonder.groepen.zonder.pct)} van de verdeelde stemmingen eensgezind`);
     expect(blok("zonder").data).toContain("staat in het stuk over het Belastingplan");
   });
