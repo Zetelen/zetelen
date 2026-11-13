@@ -20,6 +20,7 @@ import { ordenFracties } from "@/lib/ordening";
 import { snelkeuzes } from "@/lib/coalitie";
 import kabinetCu50Plus from "@/content/actueel/kabinet-cu-50plus.json";
 import blokKabinet from "@/content/actueel/blok-kabinet.json";
+import akkoordBelastingplan from "@/content/actueel/akkoord-belastingplan.json";
 import coalitieVerdeeld from "@/content/actueel/coalitie-verdeeld.json";
 import o from "@/components/onderwerpen/onderwerpen.module.css";
 
@@ -63,8 +64,10 @@ export default async function Coalitie({ searchParams }: Props) {
   const zonder = huidig && coalitieVerdeeld.kabinet === huidig.naam ? coalitieVerdeeld.buiten : "";
   // JA21, BBB en SGP uit het Actueel-stuk blok-kabinet (snelkeuze op verzoek van Niels, 13 november 2026)
   const blok = huidig && blokKabinet.kabinet === huidig.naam ? blokKabinet.groep : [];
-  const zaalHuidig = huidig?.naam === periode?.naam && soort === "kabinet" && fracties ? fracties.filter((f) => f.inZaal).map((f) => f.afkorting) : [...kabinet, ...steun, ...blok];
-  const snel = huidig && kabinet.length ? { periode: huidig.naam, keuzes: snelkeuzes(kabinet, steun, zonder, zaalHuidig, blok) } : undefined;
+  // D66, CDA, PRO en Volt: de partijen van het akkoord uit het Actueel-stuk akkoord-belastingplan
+  const akkoord = huidig && akkoordBelastingplan.kabinet === huidig.naam ? akkoordBelastingplan.kamers.vier : [];
+  const zaalHuidig = huidig?.naam === periode?.naam && soort === "kabinet" && fracties ? fracties.filter((f) => f.inZaal).map((f) => f.afkorting) : [...kabinet, ...steun, ...blok, ...akkoord];
+  const snel = huidig && kabinet.length ? { periode: huidig.naam, keuzes: snelkeuzes(kabinet, steun, zonder, zaalHuidig, blok, akkoord) } : undefined;
   return (
     <Inhoud>
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>

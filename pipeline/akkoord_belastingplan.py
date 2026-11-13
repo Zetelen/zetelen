@@ -498,13 +498,25 @@ def plan_van(b: dict, kabinetten: list, coalitie: list) -> dict | None:
     plan = {"plan": PLAN_TITEL.search(z["Titel"]).group(1), "zaak": z["Nummer"], "datum": datum, "kabinet": kab,
             "coalitie": leden, "uitslag": b["BesluitTekst"], "aangenomen": winnaar(b["BesluitTekst"]) == "Voor",
             "hoofdelijk": hoofdelijk}
-    if hoofdelijk or not stemmen:
-        # Stemmen per lid: zonder telling per fractie. De uitslag komt dan uit de besluittekst, bijvoorbeeld "(76-74)".
+    if hoofdelijk:
         m = TELLING.search(b["BesluitTekst"] or "")
         if not m:
             raise ValueError(f"Geen telling in de besluittekst van {z['Nummer']}: {b['BesluitTekst']!r}")
-        return {**plan, "voor": int(m.group(1)), "tegen": int(m.group(2)), "tegenFracties": None, "coalitieTegen": None}
-    if any(s["Persoon_Id"] for s in stemmen):
+        if not stemmen:
+            # Nog geen stemmen per lid in de open data: de uitslag uit de besluittekst, bijvoorbeeld "(76-74)"
+            return {**plan, "voor": int(m.group(1)), "tegen": int(m.group(2)), "tegenFracties": None, "coalitieTegen": None}
+        # Stemmen per lid: per fractie de kant van de meerderheid van de leden, met de fractiegrootte. Stemde een fractie
+        # verdeeld, dan klopt de som niet met de besluittekst en stopt het script.
+        per = fractiestemmen(stemmen)
+        naam_van = {s["Fractie_Id"]: s["ActorFractie"] for s in stemmen}
+        stemmen = [{"Soort": soort, "ActorFractie": naam_van[fid], "FractieGrootte": grootte, "Persoon_Id": None}
+                   for fid, (soort, grootte) in per.items()]
+        som = (sum(s["FractieGrootte"] for s in stemmen if s["Soort"] == "Voor"), sum(s["FractieGrootte"] for s in stemmen if s["Soort"] == "Tegen"))
+        if som != (int(m.group(1)), int(m.group(2))):
+            raise ValueError(f"{z['Nummer']}: per fractie {som[0]}-{som[1]}, besluit {m.group(1)}-{m.group(2)}: tel per lid na")
+    elif not stemmen:
+        raise ValueError(f"Geen stemmen bij {z['Nummer']}")
+    elif any(s["Persoon_Id"] for s in stemmen):
         raise ValueError(f"Stemming per lid bij handopsteken in {z['Nummer']}: kijk met de hand")
     naam = lambda s: ODATA_NAAM.get(s["ActorFractie"], s["ActorFractie"])  # noqa: E731
     gevonden = {naam(s) for s in stemmen}

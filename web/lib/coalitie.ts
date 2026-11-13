@@ -108,14 +108,16 @@ export const zonderElk = (groep: Array<{ afkorting: string; zetels: number }>, m
 // zonder één kabinetspartij. Plus het kabinet met JA21, BBB en SGP uit het stuk blok-kabinet (Niels, 13 november 2026).
 // Een snelkeuze met een fractie die niet in de zaal zit, valt weg.
 export type Snelkeuze = { id: string; naam: string; groep: string[] };
-export function snelkeuzes(kabinet: string[], steun: string[], zonder: string, zaal: string[], blok: string[] = []): Snelkeuze[] {
+// En de partijen van het akkoord over het Belastingplan 2027 (akkoord-belastingplan, kamers.vier; Niels, 13 november).
+export function snelkeuzes(kabinet: string[], steun: string[], zonder: string, zaal: string[], blok: string[] = [], akkoord: string[] = []): Snelkeuze[] {
   const lijstTekst = (l: string[]) => l.join(", ").replace(/, ([^,]*)$/, " en $1");
   const lijst: Snelkeuze[] = [
     { id: "kabinet", naam: "Huidig kabinet", groep: kabinet },
     { id: "met-steun", naam: `Kabinet + ${lijstTekst(steun)}`, groep: [...kabinet, ...steun.filter((a) => !kabinet.includes(a))] },
     { id: "met-blok", naam: `Kabinet + ${lijstTekst(blok)}`, groep: [...kabinet, ...blok.filter((a) => !kabinet.includes(a))] },
+    { id: "akkoord", naam: `${lijstTekst(akkoord.filter((a) => kabinet.includes(a)))} + ${lijstTekst(akkoord.filter((a) => !kabinet.includes(a)))}`, groep: akkoord },
     { id: `zonder-${zonder.toLowerCase()}`, naam: `${kabinet.filter((a) => a !== zonder).join(" en ")} (zonder de ${zonder})`, groep: kabinet.filter((a) => a !== zonder) },
   ];
-  const zinvol = (k: Snelkeuze) => (k.id === "met-steun" ? steun.length > 0 : k.id === "met-blok" ? blok.length > 0 : k.id === "kabinet" || kabinet.includes(zonder));
+  const zinvol = (k: Snelkeuze) => (k.id === "met-steun" ? steun.length > 0 : k.id === "met-blok" ? blok.length > 0 : k.id === "akkoord" ? akkoord.some((a) => kabinet.includes(a)) && akkoord.some((a) => !kabinet.includes(a)) : k.id === "kabinet" || kabinet.includes(zonder));
   return lijst.filter((k) => zinvol(k) && k.groep.length > 0 && k.groep.every((a) => zaal.includes(a)));
 }

@@ -27,13 +27,14 @@ describe("keuze bij snel tikken (3a)", () => {
 });
 
 describe("snelkeuzes (3c)", () => {
-  const zaal = ["D66", "VVD", "CDA", "ChristenUnie", "50PLUS", "Groep Markuszower", "PRO", "JA21", "BBB", "SGP"];
-  const k = snelkeuzes(["D66", "VVD", "CDA"], ["ChristenUnie", "50PLUS", "Groep Markuszower"], "VVD", zaal, ["JA21", "BBB", "SGP"]);
+  const zaal = ["D66", "VVD", "CDA", "ChristenUnie", "50PLUS", "Groep Markuszower", "PRO", "Volt", "JA21", "BBB", "SGP"];
+  const k = snelkeuzes(["D66", "VVD", "CDA"], ["ChristenUnie", "50PLUS", "Groep Markuszower"], "VVD", zaal, ["JA21", "BBB", "SGP"], ["D66", "CDA", "PRO", "Volt"]);
   it("geeft het kabinet, het kabinet met de drie partijen en het kabinet zonder de VVD", () => {
     expect(k.map((x) => [x.id, x.naam, x.groep.join(",")])).toEqual([
       ["kabinet", "Huidig kabinet", "D66,VVD,CDA"],
       ["met-steun", "Kabinet + ChristenUnie, 50PLUS en Groep Markuszower", "D66,VVD,CDA,ChristenUnie,50PLUS,Groep Markuszower"],
       ["met-blok", "Kabinet + JA21, BBB en SGP", "D66,VVD,CDA,JA21,BBB,SGP"],
+      ["akkoord", "D66 en CDA + PRO en Volt", "D66,CDA,PRO,Volt"],
       ["zonder-vvd", "D66 en CDA (zonder de VVD)", "D66,CDA"],
     ]);
   });
@@ -50,6 +51,15 @@ describe("snelkeuzes (3c)", () => {
     expect(deellinkVan("coalitie", { soort: "kabinet", periode: "Jetten", groep: g.join(",") }))
       .toBe("/deel/coalitie?soort=kabinet&periode=Jetten&groep=D66%2CVVD%2CCDA%2CJA21%2CBBB%2CSGP");
     expect(snelkeuzes(["D66", "VVD", "CDA"], [], "VVD", zaal).map((x) => x.id)).not.toContain("met-blok");
+  });
+  it("akkoord: D66, CDA, PRO en Volt uit akkoord-belastingplan, 65 zetels, eigen deellink", async () => {
+    const ak = (await import("../content/actueel/akkoord-belastingplan.json")).default;
+    expect(ak.kamers.vier).toEqual(["D66", "CDA", "PRO", "Volt"]);
+    const g = k.find((x) => x.id === "akkoord")!.groep;
+    expect(g.reduce((n, a) => n + (ak.kamers.tk.zetels as Record<string, number>)[a], 0)).toBe(65);
+    expect(deellinkVan("coalitie", { soort: "kabinet", periode: "Jetten", groep: g.join(",") }))
+      .toBe("/deel/coalitie?soort=kabinet&periode=Jetten&groep=D66%2CCDA%2CPRO%2CVolt");
+    expect(snelkeuzes(["D66", "VVD", "CDA"], [], "VVD", zaal).map((x) => x.id)).not.toContain("akkoord");
   });
   it("heeft per snelkeuze een eigen deellink naar dezelfde groep", () => {
     const zonder = k.find((x) => x.id === "zonder-vvd")!;

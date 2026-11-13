@@ -1138,7 +1138,240 @@
    "basis": 3324
   }
  },
- "uitslag": null,
+ "uitslag": {
+  "bron": "open data van de Tweede Kamer (OData)",
+  "opgehaald": "2026-11-13",
+  "stemmingen": [
+   {
+    "rol": "amendement",
+    "zaak": "2026Z24909",
+    "datum": "2026-11-12",
+    "uitslag": "Aangenomen.",
+    "aangenomen": true,
+    "hoofdelijk": false,
+    "voor": 79,
+    "tegen": 71,
+    "fracties": [
+     {
+      "afkorting": "D66",
+      "stem": "Voor",
+      "zetels": 26,
+      "kabinet": true
+     },
+     {
+      "afkorting": "VVD",
+      "stem": "Tegen",
+      "zetels": 22,
+      "kabinet": true
+     },
+     {
+      "afkorting": "PRO",
+      "stem": "Voor",
+      "zetels": 20,
+      "kabinet": false
+     },
+     {
+      "afkorting": "PVV",
+      "stem": "Tegen",
+      "zetels": 19,
+      "kabinet": false
+     },
+     {
+      "afkorting": "CDA",
+      "stem": "Voor",
+      "zetels": 18,
+      "kabinet": true
+     },
+     {
+      "afkorting": "JA21",
+      "stem": "Tegen",
+      "zetels": 9,
+      "kabinet": false
+     },
+     {
+      "afkorting": "FVD",
+      "stem": "Tegen",
+      "zetels": 7,
+      "kabinet": false
+     },
+     {
+      "afkorting": "Groep Markuszower",
+      "stem": "Tegen",
+      "zetels": 7,
+      "kabinet": false
+     },
+     {
+      "afkorting": "BBB",
+      "stem": "Tegen",
+      "zetels": 3,
+      "kabinet": false
+     },
+     {
+      "afkorting": "ChristenUnie",
+      "stem": "Voor",
+      "zetels": 3,
+      "kabinet": false
+     },
+     {
+      "afkorting": "DENK",
+      "stem": "Voor",
+      "zetels": 3,
+      "kabinet": false
+     },
+     {
+      "afkorting": "PvdD",
+      "stem": "Voor",
+      "zetels": 3,
+      "kabinet": false
+     },
+     {
+      "afkorting": "SGP",
+      "stem": "Tegen",
+      "zetels": 3,
+      "kabinet": false
+     },
+     {
+      "afkorting": "SP",
+      "stem": "Voor",
+      "zetels": 3,
+      "kabinet": false
+     },
+     {
+      "afkorting": "50PLUS",
+      "stem": "Voor",
+      "zetels": 2,
+      "kabinet": false
+     },
+     {
+      "afkorting": "Lid Keijzer",
+      "stem": "Tegen",
+      "zetels": 1,
+      "kabinet": false
+     },
+     {
+      "afkorting": "Volt",
+      "stem": "Voor",
+      "zetels": 1,
+      "kabinet": false
+     }
+    ]
+   },
+   {
+    "rol": "wet",
+    "zaak": "2026Z18819",
+    "datum": "2026-11-12",
+    "uitslag": "Aangenomen (76-74).",
+    "aangenomen": true,
+    "hoofdelijk": true,
+    "voor": 76,
+    "tegen": 74,
+    "fracties": [
+     {
+      "afkorting": "D66",
+      "stem": "Voor",
+      "zetels": 26,
+      "kabinet": true
+     },
+     {
+      "afkorting": "VVD",
+      "stem": "Tegen",
+      "zetels": 22,
+      "kabinet": true
+     },
+     {
+      "afkorting": "PRO",
+      "stem": "Voor",
+      "zetels": 20,
+      "kabinet": false
+     },
+     {
+      "afkorting": "PVV",
+      "stem": "Tegen",
+      "zetels": 19,
+      "kabinet": false
+     },
+     {
+      "afkorting": "CDA",
+      "stem": "Voor",
+      "zetels": 18,
+      "kabinet": true
+     },
+     {
+      "afkorting": "JA21",
+      "stem": "Tegen",
+      "zetels": 9,
+      "kabinet": false
+     },
+     {
+      "afkorting": "FVD",
+      "stem": "Tegen",
+      "zetels": 7,
+      "kabinet": false
+     },
+     {
+      "afkorting": "Groep Markuszower",
+      "stem": "Tegen",
+      "zetels": 7,
+      "kabinet": false
+     },
+     {
+      "afkorting": "BBB",
+      "stem": "Tegen",
+      "zetels": 3,
+      "kabinet": false
+     },
+     {
+      "afkorting": "ChristenUnie",
+      "stem": "Voor",
+      "zetels": 3,
+      "kabinet": false
+     },
+     {
+      "afkorting": "DENK",
+      "stem": "Voor",
+      "zetels": 3,
+      "kabinet": false
+     },
+     {
+      "afkorting": "PvdD",
+      "stem": "Voor",
+      "zetels": 3,
+      "kabinet": false
+     },
+     {
+      "afkorting": "SGP",
+      "stem": "Tegen",
+      "zetels": 3,
+      "kabinet": false
+     },
+     {
+      "afkorting": "SP",
+      "stem": "Tegen",
+      "zetels": 3,
+      "kabinet": false
+     },
+     {
+      "afkorting": "50PLUS",
+      "stem": "Voor",
+      "zetels": 2,
+      "kabinet": false
+     },
+     {
+      "afkorting": "Lid Keijzer",
+      "stem": "Tegen",
+      "zetels": 1,
+      "kabinet": false
+     },
+     {
+      "afkorting": "Volt",
+      "stem": "Voor",
+      "zetels": 1,
+      "kabinet": false
+     }
+    ]
+   }
+  ]
+ },
  "plannen": {
   "bron": "open data van de Tweede Kamer (OData)",
   "opgehaald": "2026-11-13",
@@ -1801,8 +2034,47 @@
     "hoofdelijk": true,
     "voor": 76,
     "tegen": 74,
-    "tegenFracties": null,
-    "coalitieTegen": null
+    "tegenFracties": [
+     {
+      "fractie": "VVD",
+      "zetels": 22
+     },
+     {
+      "fractie": "PVV",
+      "zetels": 19
+     },
+     {
+      "fractie": "JA21",
+      "zetels": 9
+     },
+     {
+      "fractie": "FVD",
+      "zetels": 7
+     },
+     {
+      "fractie": "Groep Markuszower",
+      "zetels": 7
+     },
+     {
+      "fractie": "BBB",
+      "zetels": 3
+     },
+     {
+      "fractie": "SGP",
+      "zetels": 3
+     },
+     {
+      "fractie": "SP",
+      "zetels": 3
+     },
+     {
+      "fractie": "Keijzer",
+      "zetels": 1
+     }
+    ],
+    "coalitieTegen": [
+     "VVD"
+    ]
    }
   ]
  }

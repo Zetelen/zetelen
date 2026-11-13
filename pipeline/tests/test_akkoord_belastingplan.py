@@ -172,3 +172,16 @@ def test_stemming_stopt_als_de_som_per_fractie_afwijkt_van_de_besluittekst():
         ak.stemming(b, "wet", {"a": "A", "b": "B"}, {}, [])
     b["stemmen"] = {"a": ("Voor", 76), "b": ("Tegen", 74)}
     assert ak.stemming(b, "wet", {"a": "A", "b": "B"}, {}, [])["voor"] == 76
+
+
+def test_hoofdelijk_met_stemmen_telt_per_fractie_en_controleert_de_besluittekst():
+    import pytest
+    rij = lambda f, n, soort, g: {"ActorFractie": f, "FractieGrootte": g, "Soort": soort, "Fractie_Id": f, "Persoon_Id": n}  # noqa: E731
+    stemmen = [rij("A", f"a{i}", "Voor", 3) for i in range(3)] + [rij("B", f"b{i}", "Tegen", 2) for i in range(2)]
+    b = besluit(titel="x (Belastingplan 2027)", datum="2026-11-12", soort="Hoofdelijk", tekst="Aangenomen (3-2).", stemmen=[])
+    b["Stemming"] = stemmen
+    p = ak.plan_van(b, KABINETTEN, [])
+    assert (p["voor"], p["tegen"], [f["fractie"] for f in p["tegenFracties"]]) == (3, 2, ["B"])
+    b["BesluitTekst"] = "Aangenomen (4-1)."
+    with pytest.raises(ValueError):
+        ak.plan_van(b, KABINETTEN, [])
