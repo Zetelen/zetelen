@@ -6,11 +6,12 @@ import { notFound } from "next/navigation";
 import { Bladeren } from "@/components/Bladeren";
 import { Botspunten, Doorslag, Hechtheid, Meegaan, MeegaanStappen, PerThema, Zetelsom } from "@/components/actueel/Blokken";
 import { Buiten, Kamers, Partners, Plannen, Toen, Uitslag } from "@/components/actueel/AkkoordBlokken";
+import { Maanden, Zonder } from "@/components/actueel/VerdeeldBlokken";
 import { Inhoud } from "@/components/Kader";
 import { GrafiekKader, GrafiekVlak } from "@/components/deel/GrafiekKader";
 import { Kern, Lezingen } from "@/components/Onderdelen";
 import { Data, HeroKop, Label, Tekst } from "@/components/Typografie";
-import { type ActueelData, type AkkoordData, type Stuk, STUKKEN, datumTekst, isAkkoord, stukVan } from "@/lib/actueel";
+import { type ActueelData, type AkkoordData, type Stuk, type VerdeeldData, STUKKEN, datumTekst, isAkkoord, isVerdeeld, stukVan } from "@/lib/actueel";
 import u from "@/components/verhaal/uitgelicht.module.css";
 import s from "@/components/actueel/actueel.module.css";
 
@@ -26,9 +27,15 @@ export async function generateMetadata({ params }: { params: Promise<{ stuk: str
 const GRAFIEK: Record<string, (p: { d: ActueelData }) => React.ReactNode> = { mee: Meegaan, wringt: Botspunten, abortus: PerThema, telt: Zetelsom, hecht: Hechtheid, stappen: MeegaanStappen, steun: Doorslag };
 // Stuk akkoord-belastingplan (11 november 2026): eigen data, eigen grafieken
 const AKKOORD: Record<string, (p: { d: AkkoordData }) => React.ReactNode> = { uitslag: Uitslag, plannen: Plannen, partners: Partners, buiten: Buiten, kamers: Kamers, toen: Toen };
+// Stuk coalitie-verdeeld (13 november 2026): eigen data, eigen grafieken
+const VERDEELD: Record<string, (p: { d: VerdeeldData }) => React.ReactNode> = { maanden: Maanden, zonder: Zonder };
 function Grafiek({ d, id }: { d: Stuk["data"]; id: string }) {
   if (isAkkoord(d)) {
     const G = AKKOORD[id];
+    return <G d={d} />;
+  }
+  if (isVerdeeld(d)) {
+    const G = VERDEELD[id];
     return <G d={d} />;
   }
   const G = GRAFIEK[id];
@@ -45,6 +52,7 @@ export default async function ActueelStuk({ params }: { params: Promise<{ stuk: 
         <HeroKop>{x.kop}</HeroKop>
         <Kern ziet={x.ziet} opvalt={x.opvalt} />
         <Tekst>{x.aanleiding}</Tekst>
+        {x.verwijzing && <Tekst><Link href={x.verwijzing.href}>{x.verwijzing.tekst}</Link></Tekst>}
       </section>
 
       <div className={s.blokken}>

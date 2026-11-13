@@ -1,0 +1,347 @@
+{
+ "slug": "coalitie-verdeeld",
+ "soort": "verdeeld",
+ "kabinet": "Jetten",
+ "begin": "2026-02-23",
+ "buiten": "VVD",
+ "groep": [
+  "D66",
+  "CDA"
+ ],
+ "tegen": [
+  "D66",
+  "VVD",
+  "CDA"
+ ],
+ "steun": [
+  "ChristenUnie",
+  "50PLUS",
+  "Groep Markuszower"
+ ],
+ "partners": [
+  "PRO",
+  "Volt"
+ ],
+ "stand": "2026-11-10",
+ "gemaakt": "2026-11-13",
+ "besluiten": 4309,
+ "verdeeld": 3984,
+ "maanden": [
+  {
+   "maand": "2026-02",
+   "van": "2026-02-26",
+   "tot": "2026-02-26",
+   "verdeeld": 43,
+   "alleen": {
+    "D66": 3,
+    "VVD": 5,
+    "CDA": 0
+   },
+   "eensgezind": 35
+  },
+  {
+   "maand": "2026-03",
+   "van": "2026-03-03",
+   "tot": "2026-03-31",
+   "verdeeld": 742,
+   "alleen": {
+    "D66": 54,
+    "VVD": 47,
+    "CDA": 14
+   },
+   "eensgezind": 626
+  },
+  {
+   "maand": "2026-04",
+   "van": "2026-04-02",
+   "tot": "2026-04-23",
+   "verdeeld": 501,
+   "alleen": {
+    "D66": 42,
+    "VVD": 43,
+    "CDA": 7
+   },
+   "eensgezind": 408
+  },
+  {
+   "maand": "2026-05",
+   "van": "2026-05-12",
+   "tot": "2026-05-27",
+   "verdeeld": 263,
+   "alleen": {
+    "D66": 23,
+    "VVD": 19,
+    "CDA": 6
+   },
+   "eensgezind": 214
+  },
+  {
+   "maand": "2026-06",
+   "van": "2026-06-02",
+   "tot": "2026-06-30",
+   "verdeeld": 941,
+   "alleen": {
+    "D66": 50,
+    "VVD": 70,
+    "CDA": 15
+   },
+   "eensgezind": 801
+  },
+  {
+   "maand": "2026-07",
+   "van": "2026-07-02",
+   "tot": "2026-07-02",
+   "verdeeld": 274,
+   "alleen": {
+    "D66": 13,
+    "VVD": 21,
+    "CDA": 1
+   },
+   "eensgezind": 237
+  },
+  {
+   "maand": "2026-08",
+   "van": null,
+   "tot": null,
+   "verdeeld": 0,
+   "alleen": {
+    "D66": 0,
+    "VVD": 0,
+    "CDA": 0
+   },
+   "eensgezind": 0
+  },
+  {
+   "maand": "2026-09",
+   "van": "2026-09-03",
+   "tot": "2026-09-30",
+   "verdeeld": 435,
+   "alleen": {
+    "D66": 37,
+    "VVD": 28,
+    "CDA": 4
+   },
+   "eensgezind": 365
+  },
+  {
+   "maand": "2026-10",
+   "van": "2026-10-06",
+   "tot": "2026-10-27",
+   "verdeeld": 621,
+   "alleen": {
+    "D66": 61,
+    "VVD": 42,
+    "CDA": 12
+   },
+   "eensgezind": 502
+  },
+  {
+   "maand": "2026-11",
+   "van": "2026-11-03",
+   "tot": "2026-11-10",
+   "verdeeld": 164,
+   "alleen": {
+    "D66": 10,
+    "VVD": 15,
+    "CDA": 1
+   },
+   "eensgezind": 136
+  }
+ ],
+ "totaal": {
+  "verdeeld": 3984,
+  "alleen": {
+   "D66": 293,
+   "VVD": 290,
+   "CDA": 60
+  },
+  "won": {
+   "D66": 251,
+   "VVD": 237,
+   "CDA": 50
+  }
+ },
+ "controle": {
+  "stuk": "akkoord-belastingplan",
+  "stand": "2026-11-10",
+  "verdeeld": 3984,
+  "alleen": {
+   "D66": 293,
+   "VVD": 290,
+   "CDA": 60
+  }
+ },
+ "zonder": {
+  "tk": {
+   "meerderheid": 76,
+   "zetels": {
+    "D66": 26,
+    "BBB": 3,
+    "CDA": 18,
+    "PVV": 19,
+    "Lid Keijzer": 1,
+    "VVD": 22,
+    "SGP": 3,
+    "Groep Markuszower": 7,
+    "50PLUS": 2,
+    "SP": 3,
+    "Volt": 1,
+    "PvdD": 3,
+    "PRO": 20,
+    "ChristenUnie": 3,
+    "DENK": 3,
+    "FVD": 7,
+    "JA21": 9
+   }
+  },
+  "ek": {
+   "bron": "eerstekamer.nl/fracties",
+   "geraadpleegd": "2026-11-11",
+   "zetels": {
+    "PRO": 14,
+    "BBB": 11,
+    "VVD": 9,
+    "D66": 7,
+    "CDA": 6,
+    "PVV": 4,
+    "SP": 3,
+    "ChristenUnie": 3,
+    "FVD": 3,
+    "PvdD": 2,
+    "JA21": 2,
+    "Volt": 2,
+    "SGP": 2,
+    "50PLUS": 1,
+    "OPNL": 1
+   },
+   "eenmansfracties": 5,
+   "meerderheid": 38,
+   "totaal": 75
+  },
+  "groepen": {
+   "kabinet": {
+    "fracties": [
+     "D66",
+     "VVD",
+     "CDA"
+    ],
+    "tk": 66,
+    "ek": 22,
+    "gestemd": 3967,
+    "eensgezind": 3324,
+    "pct": 83.8,
+    "laagstePaar": {
+     "a": "D66",
+     "b": "VVD",
+     "cohesie": 85.3,
+     "gezamenlijk": 3974,
+     "gelijk": 3389
+    }
+   },
+   "kabinetSteun": {
+    "fracties": [
+     "D66",
+     "VVD",
+     "CDA",
+     "ChristenUnie",
+     "50PLUS",
+     "Groep Markuszower"
+    ],
+    "tk": 78,
+    "ek": 26,
+    "gestemd": 3923,
+    "eensgezind": 1210,
+    "pct": 30.8,
+    "laagstePaar": {
+     "a": "D66",
+     "b": "Groep Markuszower",
+     "cohesie": 45.6,
+     "gezamenlijk": 3962,
+     "gelijk": 1806
+    }
+   },
+   "zonder": {
+    "fracties": [
+     "D66",
+     "CDA"
+    ],
+    "tk": 44,
+    "ek": 13,
+    "gestemd": 3973,
+    "eensgezind": 3620,
+    "pct": 91.1,
+    "laagstePaar": {
+     "a": "D66",
+     "b": "CDA",
+     "cohesie": 91.1,
+     "gezamenlijk": 3973,
+     "gelijk": 3620
+    }
+   },
+   "zonderSteun": {
+    "fracties": [
+     "D66",
+     "CDA",
+     "ChristenUnie",
+     "50PLUS",
+     "Groep Markuszower"
+    ],
+    "tk": 56,
+    "ek": 17,
+    "gestemd": 3929,
+    "eensgezind": 1247,
+    "pct": 31.7,
+    "laagstePaar": {
+     "a": "D66",
+     "b": "Groep Markuszower",
+     "cohesie": 45.6,
+     "gezamenlijk": 3962,
+     "gelijk": 1806
+    }
+   },
+   "zonderAkkoord": {
+    "fracties": [
+     "D66",
+     "CDA",
+     "PRO",
+     "Volt"
+    ],
+    "tk": 65,
+    "ek": 29,
+    "gestemd": 3956,
+    "eensgezind": 2399,
+    "pct": 60.6,
+    "laagstePaar": {
+     "a": "CDA",
+     "b": "PRO",
+     "cohesie": 64.9,
+     "gezamenlijk": 3974,
+     "gelijk": 2579
+    }
+   },
+   "zonderBeide": {
+    "fracties": [
+     "D66",
+     "CDA",
+     "PRO",
+     "Volt",
+     "ChristenUnie",
+     "50PLUS",
+     "Groep Markuszower"
+    ],
+    "tk": 77,
+    "ek": 33,
+    "gestemd": 3912,
+    "eensgezind": 816,
+    "pct": 20.9,
+    "laagstePaar": {
+     "a": "PRO",
+     "b": "Groep Markuszower",
+     "cohesie": 34.0,
+     "gezamenlijk": 3963,
+     "gelijk": 1346
+    }
+   }
+  }
+ }
+}

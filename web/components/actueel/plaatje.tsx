@@ -1,8 +1,9 @@
 // Deelplaatje per blok van een Actueel-stuk (1200 x 630, next/og). Dezelfde vier grafieken als op de pagina, in de
 // stijl van de andere deelplaatjes (components/deel/plaatjes.tsx). Alleen flex-opmaak: next/og kent geen tabellen.
 import { Kader, KLEUR, Melding, rond } from "@/components/deel/plaatjes";
-import { type ActueelData, type Stuk, aantal, datumTekst, gemiddelde, isAkkoord, opDrieThemas, perThema as themaVan, stukVan } from "@/lib/actueel";
+import { type ActueelData, type Stuk, aantal, datumTekst, gemiddelde, isAkkoord, isVerdeeld, opDrieThemas, perThema as themaVan, stukVan } from "@/lib/actueel";
 import { AKKOORD_PLAATJE } from "./akkoordPlaatje";
+import { VERDEELD_PLAATJE } from "./verdeeldPlaatje";
 
 const Rij = ({ children, hoogte }: { children: React.ReactNode; hoogte?: number }) =>
   <div style={{ display: "flex", alignItems: "center", gap: 16, ...(hoogte ? { height: hoogte } : {}) }}>{children}</div>;
@@ -167,7 +168,8 @@ function stappen(d: ActueelData) {
 
 const GRAFIEK: Record<string, (d: ActueelData) => React.ReactElement> = { mee: meegaan, wringt: botspunten, abortus: perThema, telt: zetelsom, hecht, stappen, steun };
 // Stuk akkoord-belastingplan heeft eigen data en eigen grafieken (akkoordPlaatje.tsx)
-const grafiek = (d: Stuk["data"], id: string) => (isAkkoord(d) ? AKKOORD_PLAATJE[id](d) : GRAFIEK[id](d));
+// Stuk coalitie-verdeeld ook (verdeeldPlaatje.tsx)
+const grafiek = (d: Stuk["data"], id: string) => (isAkkoord(d) ? AKKOORD_PLAATJE[id](d) : isVerdeeld(d) ? VERDEELD_PLAATJE[id](d) : GRAFIEK[id](d));
 
 export async function actueelPlaatje(zoek: Record<string, string>) {
   const x = stukVan(zoek.stuk ?? "");

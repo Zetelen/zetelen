@@ -8,6 +8,7 @@
 import blokKabinet from "../content/actueel/blok-kabinet.json";
 import kabinetCu50Plus from "../content/actueel/kabinet-cu-50plus.json";
 import akkoordBelastingplanJson from "../content/actueel/akkoord-belastingplan.json";
+import coalitieVerdeeldJson from "../content/actueel/coalitie-verdeeld.json";
 
 export type Stemming = {
   besluit: string; datum: string; zaakNummer: string | null; soort: string | null; onderwerp: string | null;
@@ -89,7 +90,9 @@ export type Blok = { id: string; vraag: string; kop: string; tekst: string[]; da
 export type Stuk = {
   slug: string; datum: string; label: string; kop: string; beschrijving: string; ziet: string; opvalt: string;
   aanleiding: string; blokken: Blok[]; lezingen?: { links: { titel: string; tekst: string }; rechts: { titel: string; tekst: string } };
-  slot: string; data: ActueelData | AkkoordData;
+  slot: string; data: ActueelData | AkkoordData | VerdeeldData;
+  // Link onder de aanleiding naar een stuk waar dit stuk op voortbouwt
+  verwijzing?: { href: string; tekst: string };
   // Link onder het stuk naar de coalitiebouwer; zonder dit veld: de groep en de andere groep samen ("deze zes")
   bouwer?: { fracties: string[]; tekst: string };
 };
@@ -513,11 +516,156 @@ export function akkoordBelastingplan(d: AkkoordData): Stuk & { data: AkkoordData
 
 export const AKKOORD_BELASTINGPLAN = akkoordBelastingplan(akkoordBelastingplanJson as unknown as AkkoordData);
 
+// Stuk 4 (13 november 2026): hoe vaak stond één kabinetspartij per maand alleen, en is er zonder de VVD een meerderheid
+// die ook samen stemde? Bouwt voort op akkoord-belastingplan (de aanleiding verwijst ernaar) en herhaalt daar niets uit:
+// geen hechtste meerderheid over alle fracties (blok "kamers"), wel een paar benoemde groepen. Cijfers uit
+// pipeline/coalitie_verdeeld.py; "alleen staan" is daar dezelfde functie als in blok "buiten", per maand gefilterd.
+type Groep = { fracties: string[]; tk: number; ek: number; laagstePaar: null | ({ a: string; b: string } & Cohesie) } & Kans;
+export type Maand = { maand: string; van: string | null; tot: string | null; verdeeld: number; alleen: Record<string, number>; eensgezind: number };
+export type GroepNaam = "kabinet" | "kabinetSteun" | "zonder" | "zonderSteun" | "zonderAkkoord" | "zonderBeide";
+export type VerdeeldData = {
+  slug: string; soort: "verdeeld"; kabinet: string; begin: string; buiten: string; groep: string[]; tegen: string[];
+  steun: string[]; partners: string[]; stand: string; gemaakt: string; besluiten: number; verdeeld: number;
+  maanden: Maand[];
+  totaal: { verdeeld: number; alleen: Record<string, number>; won: Record<string, number> };
+  // Dezelfde telling tot en met de stand van akkoord-belastingplan, om de twee stukken naast elkaar te leggen
+  controle: { stuk: string; stand: string; verdeeld: number; alleen: Record<string, number> };
+  zonder: {
+    tk: { meerderheid: number; zetels: Record<string, number> };
+    ek: { bron: string; geraadpleegd: string; zetels: Record<string, number>; eenmansfracties: number; meerderheid: number; totaal: number };
+    groepen: Record<GroepNaam, Groep>;
+  };
+};
+export const isVerdeeld = (d: Stuk["data"]): d is VerdeeldData => (d as VerdeeldData).soort === "verdeeld";
+
+export const maandTekst = (m: string) => `${MAANDEN[Number(m.slice(5, 7)) - 1]} ${m.slice(0, 4)}`;
+const KORT = ["jan", "feb", "mrt", "apr", "mei", "jun", "jul", "aug", "sep", "okt", "nov", "dec"];
+export const maandKort = (m: string) => `${KORT[Number(m.slice(5, 7)) - 1]} ${m.slice(2, 4)}`;
+// Aandeel van de verdeelde stemmingen in een maand waarop de partij alleen stond; null in een maand zonder stemmingen
+export const maandPct = (m: Maand, a: string) => (m.verdeeld ? (100 * m.alleen[a]) / m.verdeeld : null);
+export const metStemmingen = (d: VerdeeldData) => d.maanden.filter((m) => m.verdeeld > 0);
+export const bereik = (d: VerdeeldData, a: string) => {
+  const p = metStemmingen(d).map((m) => maandPct(m, a)!);
+  return { min: Math.min(...p), max: Math.max(...p) };
+};
+// Schaal van de maandgrafiek: het hoogste maandaandeel, naar boven afgerond op 5 procent
+export const schaalMaanden = (d: VerdeeldData) =>
+  Math.ceil(Math.max(...d.maanden.flatMap((m) => d.tegen.map((x) => maandPct(m, x) ?? 0))) / 5) * 5;
+// Korte naam van een groep in de grafiek en het plaatje
+export const groepNaam = (d: VerdeeldData, n: GroepNaam) => {
+  const kort = (l: string[]) => l.map((x) => x.replace(/^Groep /, "Gr. ")).join(", ");
+  return { kabinet: `Kabinet: ${kort(d.tegen)}`, kabinetSteun: `Kabinet + ${kort(d.steun)}`, zonder: kort(d.groep),
+    zonderAkkoord: `${kort(d.groep)} + ${kort(d.partners)}`, zonderSteun: `${kort(d.groep)} + ${kort(d.steun)}`,
+    zonderBeide: `${kort(d.groep)} + ${kort([...d.partners, ...d.steun])}` }[n];
+};
+// De kabinetspartijen buiten de VVD, op volgorde van hoe vaak ze alleen stonden (D66, dan CDA)
+export const anderen = (d: VerdeeldData) => d.tegen.filter((a) => a !== d.buiten).sort((a, b) => d.totaal.alleen[b] - d.totaal.alleen[a]);
+// Link naar de coalitiebouwer met de snelkeuze "Kabinet zonder VVD"
+export const zonderLink = (d: VerdeeldData) => `/coalitie?soort=kabinet&periode=${encodeURIComponent(d.kabinet)}&groep=${d.groep.map(encodeURIComponent).join(",")}`;
+// Waar de som tot de stand van akkoord-belastingplan afwijkt van blok "buiten" daar: alleen door een bijgewerkte bron
+export const afwijkingAkkoord = (d: VerdeeldData, ak: AkkoordData) => {
+  const j = buitenVan(ak, d.kabinet);
+  return d.tegen.flatMap((a) => {
+    const daar = j.partijen.find((p) => p.afkorting === a)!.keer;
+    return daar === d.controle.alleen[a] ? [] : [{ afkorting: a, hier: d.controle.alleen[a], daar }];
+  });
+};
+// Stond de VVD over de hele periode vaker alleen dan D66? Binnen 1 procentpunt van de verdeelde stemmingen: "ongeveer even vaak"
+export const vergelijking = (d: VerdeeldData) => {
+  const [ander] = anderen(d), t = d.totaal;
+  const verschil = (100 * (t.alleen[d.buiten] - t.alleen[ander])) / t.verdeeld;
+  return Math.abs(verschil) < 1 ? "ongeveer even vaak alleen als" : verschil > 0 ? "vaker alleen dan" : "minder vaak alleen dan";
+};
+const hoofd = (t: string) => t[0].toUpperCase() + t.slice(1);
+const WOORD = ["nul", "één", "twee", "drie", "vier", "vijf", "zes", "zeven", "acht", "negen", "tien"];
+const woord = (n: number) => WOORD[n] ?? aantal(n);
+// "de Groep Markuszower" in een opsomming, zoals in het stuk over het kabinet met ChristenUnie en 50PLUS
+const metDe = (a: string) => (a.startsWith("Groep ") ? `de ${a}` : a);
+const lijstMetDe = (l: string[]) => opsomming(l.map(metDe));
+
+function blokMaanden(d: VerdeeldData, ak: AkkoordData): Blok {
+  const B = d.buiten, [ander, derde] = anderen(d), t = d.totaal;
+  const mnd = metStemmingen(d), leeg = d.maanden.filter((m) => m.verdeeld === 0);
+  const eerste = d.maanden[0], laatste = d.maanden[d.maanden.length - 1];
+  const vanTotPct = (b: { min: number; max: number }) => `${Math.round(b.min)} tot ${procent(b.max)}`;
+  const vergelijk = vergelijking(d);
+  const vaker = mnd.filter((m) => m.alleen[B] > m.alleen[ander]).length, minder = mnd.filter((m) => m.alleen[B] < m.alleen[ander]).length;
+  const even = mnd.length - vaker - minder;
+  const kleinst = [...mnd].sort((x, y) => x.verdeeld - y.verdeeld)[0], grootst = [...mnd].sort((x, y) => y.verdeeld - x.verdeeld)[0];
+  const tegenover = (a: string) => opsomming(d.tegen.filter((x) => x !== a));
+  const reces = leeg.length
+    ? ` In ${opsomming(leeg.map((m) => maandTekst(m.maand)))} was er geen stemming${leeg.every((m) => ["07", "08"].includes(m.maand.slice(5, 7))) ? " (zomerreces)" : ""}.` : "";
+  const af = afwijkingAkkoord(d, ak), c = d.controle;
+  const controleZin = af.length === 0
+    ? `Tot en met ${datumTekst(c.stand)}, de stand van het stuk over het Belastingplan, zijn de aantallen gelijk aan blok "alleen staan" daar.`
+    : `Tot en met ${datumTekst(c.stand)}, de stand van het stuk over het Belastingplan, telt dit stuk ${opsomming(af.map((x) => `${deNaam(x.afkorting)} ${aantal(x.hier)} keer in plaats van ${aantal(x.daar)}`))}: de bron is sindsdien bijgewerkt.`;
+  return {
+    id: "maanden", vraag: "Hoe vaak stemde de coalitie verdeeld?",
+    kop: `Sinds ${maandTekst(eerste.maand)} stond ${deNaam(B)} ${vergelijk} ${ander}, per maand in ${vanTotPct(bereik(d, B))} van de verdeelde stemmingen`,
+    tekst: [
+      `Op ${aantal(t.verdeeld)} verdeelde stemmingen tot en met ${datumTekst(d.stand)} stond ${deNaam(B)} ${aantal(t.alleen[B])} keer alleen tegenover ${tegenover(B)}: die twee stemden allebei en kozen dezelfde kant, ${deNaam(B)} de andere. ${ander} stond ${aantal(t.alleen[ander])} keer alleen tegenover ${tegenover(ander)}, ${deNaam(derde)} ${aantal(t.alleen[derde])} keer.`,
+      `Per maand stond ${ander} in ${vanTotPct(bereik(d, ander))} van de verdeelde stemmingen alleen, ${deNaam(derde)} in ${vanTotPct(bereik(d, derde))}. In ${vaker} van de ${mnd.length} maanden met stemmingen stond ${deNaam(B)} vaker alleen dan ${ander}, in ${minder} minder vaak${even ? `, in ${even} even vaak` : ""}.`,
+      `Een maand is een kleine eenheid: ${maandTekst(kleinst.maand)} telde ${aantal(kleinst.verdeeld)} verdeelde stemmingen, ${maandTekst(grootst.maand)} ${aantal(grootst.verdeeld)}. In de kleinste maand verschuift één stemming het aandeel al ${(100 / kleinst.verdeeld).toLocaleString("nl-NL", { maximumFractionDigits: 1 })} procentpunt.${reces} ${hoofd(maandTekst(laatste.maand))} loopt tot en met ${datumTekst(d.stand)}.`,
+    ],
+    data: `Alleen staan: op een verdeelde stemming stemden de twee andere kabinetspartijen allebei voor of allebei tegen en kozen ze dezelfde kant, en koos deze partij de andere kant. Een partij die niet stemde, telt niet mee, net als een stem die de Kamer als vergissing heeft aangemerkt. Noemer: alle verdeelde stemmingen in de maand (minstens één fractie voor en één tegen). Kalendermaanden op de datum van de stemming, vanaf ${datumTekst(d.begin)}, de start van kabinet-${d.kabinet}. Dezelfde telling als "alleen staan" in het stuk over het Belastingplan, nu per maand. ${controleZin}`,
+  };
+}
+
+function blokZonder(d: VerdeeldData): Blok {
+  const B = d.buiten, z = d.zonder, g = z.groepen;
+  const zb = g.zonderBeide, n = zb.fracties.length, lp = zb.laagstePaar!;
+  const geenEk = zb.fracties.filter((a) => !z.ek.zetels[a]);
+  const meer = zb.tk >= z.tk.meerderheid;
+  return {
+    id: "zonder", vraag: `Is er een meerderheid zonder de ${B}?`,
+    kop: meer
+      ? `Zonder de ${B} komen ${woord(n)} fracties samen op ${zb.tk} zetels; die ${woord(n)} stemden in ${procent(zb.pct)} van de stemmingen eensgezind`
+      : `Zonder de ${B} komen ${woord(n)} fracties samen op ${zb.tk} zetels, geen meerderheid`,
+    tekst: [
+      `${opsomming(d.groep)} hebben samen ${g.zonder.tk} zetels in de Tweede Kamer. Met ${opsomming(d.partners)}, de partners van het akkoord over het Belastingplan, komen ze op ${g.zonderAkkoord.tk}; met ${lijstMetDe(d.steun)} op ${g.zonderSteun.tk}. Alle ${woord(n)} samen hebben er ${zb.tk}; een meerderheid is ${z.tk.meerderheid}.`,
+      `Hoe vaak stemden die groepen eensgezind? ${opsomming(d.groep)} in ${procent(g.zonder.pct)} van de verdeelde stemmingen, met ${opsomming(d.partners)} in ${procent(g.zonderAkkoord.pct)}, met ${lijstMetDe(d.steun)} in ${procent(g.zonderSteun.pct)}, alle ${woord(n)} in ${procent(zb.pct)}. Het kabinet van ${opsomming(d.tegen)} stemde in ${procent(g.kabinet.pct)} eensgezind, met ${lijstMetDe(d.steun)} erbij in ${procent(g.kabinetSteun.pct)}. Binnen de groep van ${woord(n)} kozen ${metDe(lp.a)} en ${metDe(lp.b)} het minst vaak dezelfde kant: in ${procent(lp.cohesie)} van hun gezamenlijke verdeelde stemmingen.`,
+      `In de Eerste Kamer hebben de ${woord(n)} ${zb.ek} van de ${z.ek.totaal} zetels; een meerderheid is ${z.ek.meerderheid}.${geenEk.length ? ` ${lijstMetDe(geenEk).replace(/^de /, "De ")} ${geenEk.length > 1 ? "hebben" : "heeft"} daar geen zetels.` : ""} Dit is een rekensom op zetels: Zetelen heeft geen stemmingen van de Eerste Kamer.`,
+    ],
+    data: `Eensgezind: op een verdeelde stemming stemden alle fracties uit de groep voor of tegen en kozen ze dezelfde kant; alleen stemmingen waarop alle fracties uit de groep stemden. Paar: cohesie zoals op de rest van de site, op verdeelde stemmingen waarop beide stemden. Tweede Kamer: zetels in de zaal onder kabinet-${d.kabinet}, meerderheid ${z.tk.meerderheid} van de 150. Eerste Kamer: ${z.ek.bron}, geraadpleegd op ${datumTekst(z.ek.geraadpleegd)}, meerderheid ${z.ek.meerderheid} van de ${z.ek.totaal}. PRO: GroenLinks-PvdA en PRO samen, als één lijn. Welke meerderheid zonder de ${B} over alle fracties het vaakst eensgezind stemde, staat in het stuk over het Belastingplan.`,
+  };
+}
+
+export function coalitieVerdeeld(d: VerdeeldData, ak: AkkoordData): Stuk & { data: VerdeeldData } {
+  const B = d.buiten, [ander] = anderen(d), t = d.totaal, zb = d.zonder.groepen.zonderBeide;
+  const pl = plannenVan(ak), wet = stemmingVan(ak, "wet");
+  const nu = pl?.nu;
+  const vvdStem = wet && nu && wet.zaak === nu.zaak ? stemWoord(wet, B) : nu?.coalitieTegen ? (nu.coalitieTegen.includes(B) ? "Tegen" : "Voor") : undefined;
+  const uitslag = nu
+    ? `Het Belastingplan ${nu.plan} ging op ${datumTekst(nu.datum)} met ${nu.voor} tegen ${nu.tegen} door de Tweede Kamer.${vvdStem ? ` ${deNaam(B, true)} stemde ${vvdStem === "Tegen" ? "tegen" : "voor"}.` : ""} `
+    : "";
+  const bm = blokMaanden(d, ak), bz = blokZonder(d);
+  return {
+    slug: d.slug, datum: d.gemaakt, label: `Actueel · Kabinet-${d.kabinet}`,
+    kop: `Sinds ${maandTekst(d.maanden[0].maand)} stond ${deNaam(B)} ${vergelijking(d)} ${ander}`,
+    beschrijving: `Per maand hoe vaak ${deNaam(B)} de andere kant koos dan ${opsomming(d.groep)}, en of er zonder ${deNaam(B)} een meerderheid is die ook samen stemde.`,
+    ziet: `Per maand hoe vaak één kabinetspartij de andere kant koos dan de twee andere, en hoe vaak groepen zonder ${deNaam(B)} eensgezind stemden, onder kabinet-${d.kabinet} tot en met ${datumTekst(d.stand)}.`,
+    opvalt: `${deNaam(B, true)} stond per maand in ${Math.round(bereik(d, B).min)} tot ${procent(bereik(d, B).max)} van de verdeelde stemmingen alleen, ${ander} in ${Math.round(bereik(d, ander).min)} tot ${procent(bereik(d, ander).max)}. Zonder ${deNaam(B)} hebben ${lijstMetDe(zb.fracties)} samen ${zb.tk} zetels; ze stemden in ${procent(zb.pct)} van de stemmingen eensgezind.`,
+    // Het stuk over het Belastingplan staat er al: de uitslag, de 19 Belastingplannen, de partners, alleen staan, de
+    // zetels en toen. Dit stuk herhaalt dat niet en verwijst ernaar (link onder de aanleiding).
+    aanleiding: `${uitslag}Het stuk over het Belastingplan zet die uitslag naast de eerdere Belastingplannen, de partners van de kabinetspartijen in de oppositie, hoe vaak één kabinetspartij alleen stond, de zetels in beide Kamers en wat een akkoord eerder deed. Dit stuk gaat op twee vragen verder: hoe vaak stond één kabinetspartij per maand alleen, en is er zonder ${deNaam(B)} een meerderheid die in de praktijk ook samen stemde?`,
+    verwijzing: { href: `/actueel/${ak.slug}`, tekst: "Lees eerst het stuk over het Belastingplan" },
+    blokken: [bm, bz],
+    slot: `De cijfers laten zien hoe er gestemd is: ${deNaam(B)} stond ${aantal(t.alleen[B])} keer alleen tegenover ${opsomming(d.groep)}, ${ander} ${aantal(t.alleen[ander])} keer tegenover de twee andere. Of het kabinet valt, voorspellen ze niet.`,
+    data: d,
+    bouwer: { fracties: d.groep, tekst: `het kabinet zonder ${deNaam(B)} in de coalitiebouwer` },
+  };
+}
+
+export const COALITIE_VERDEELD = coalitieVerdeeld(coalitieVerdeeldJson as unknown as VerdeeldData, akkoordBelastingplanJson as unknown as AkkoordData);
+
+// Pas op de site als de uitslag in de data staat (pipeline/akkoord_belastingplan.py uitslag). Op een preview van Vercel
+// staat het er al eerder, zodat Niels het kan lezen voordat het live gaat. Coalitie-verdeeld verwijst naar dat stuk en
+// staat er daarom precies tegelijk.
+const AKKOORD_ZICHTBAAR = !!(akkoordBelastingplanJson as unknown as AkkoordData).uitslag || process.env.VERCEL_ENV === "preview";
+
 export const STUKKEN: Stuk[] = [
   blokTegenKabinet(blokKabinet as ActueelData), kabinetMetSteun(kabinetCu50Plus as ActueelData),
-  // Pas op de site als de uitslag in de data staat (pipeline/akkoord_belastingplan.py uitslag). Op een preview van Vercel
-  // staat het er al eerder, zodat Niels het kan lezen voordat het live gaat.
-  ...((akkoordBelastingplanJson as unknown as AkkoordData).uitslag || process.env.VERCEL_ENV === "preview" ? [AKKOORD_BELASTINGPLAN] : []),
+  ...(AKKOORD_ZICHTBAAR ? [AKKOORD_BELASTINGPLAN, COALITIE_VERDEELD] : []),
 ];
 export const stukVan = (slug: string) => STUKKEN.find((s) => s.slug === slug);
 

@@ -54,11 +54,30 @@ export const MATEN: Maat[] = [
       "Standaard tellen alleen verdeelde stemmingen (minstens een fractie voor en een tegen). Met een schakelaar kies je alle stemmingen (besluit 25 oktober 2026).",
       "De zetels zijn die van het moment van de stemming. Bij een hoofdelijke stemming tellen de leden die echt stemden: wie afwezig is, helpt geen meerderheid.",
       "De partners staan op volgorde: eerst beslissend, dan meegestemd.",
+      "Heeft de groep zelf een meerderheid, dan is geen andere fractie beslissend. Dan telt de bouwer ook hoe vaak de groep verdeeld stemde (alle fracties uit de groep stemden voor of tegen, maar niet allemaal hetzelfde), en per fractie hoeveel zetels er zonder haar overblijven (zetels in de zaal in de periode).",
     ],
     beperkingen: [
       "Dit is terugkijken op echte stemmingen. Het is geen voorspelling en geen advies over een samenwerking.",
       "Elke stemming telt even zwaar, of het nu gaat om een wet of om een procedurele motie.",
       "Een fractie die vaak meestemt, deed dat niet per se om dezelfde reden als de groep.",
+    ],
+  },
+  {
+    id: "alleen-staan",
+    naam: "Alleen staan: hoe vaak koos één coalitiepartij de andere kant?",
+    definitie:
+      "Een coalitiepartij staat alleen op een verdeelde stemming als alle andere coalitiepartijen stemden, allemaal voor of allemaal tegen, en zij de andere kant koos. Te zien in de Actueel-stukken over het Belastingplan 2027 en over het kabinet-Jetten, daar ook per kalendermaand.",
+    formule:
+      "het aantal verdeelde stemmingen waarop de partij alleen stond, gedeeld door het aantal verdeelde stemmingen in de periode (of de maand), maal 100.",
+    keuzes: [
+      "Alleen verdeelde stemmingen: minstens één fractie voor en één tegen.",
+      "Een partij die niet stemde, staat niet alleen, en maakt de rest ook niet eensgezind. Een stem die de Kamer als vergissing heeft aangemerkt, telt niet mee.",
+      "Alleen stemmingen met minstens drie partijen in de coalitie; een gedoogpartner telt mee. Bij twee partijen zou elke verdeelde stem van één van beide alleen staan zijn.",
+      "Per maand: de kalendermaand van de datum van de stemming. De eerste maand begint op de dag dat het kabinet begon.",
+    ],
+    beperkingen: [
+      "Een maand met weinig stemmingen geeft een onrustig aandeel: één stemming verschuift het dan al een paar procentpunt.",
+      "Alleen staan zegt niet waarom een partij de andere kant koos, en ook niet of het om een wet of een procedurele motie ging.",
     ],
   },
   {
