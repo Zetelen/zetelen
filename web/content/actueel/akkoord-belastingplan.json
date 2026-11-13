@@ -14,7 +14,7 @@
   "CDA"
  ],
  "stand": "2026-11-10",
- "gemaakt": "2026-11-11",
+ "gemaakt": "2026-11-13",
  "besluiten": 4309,
  "verdeeld": 3984,
  "partners": {
@@ -40,7 +40,7 @@
     "partner": "JA21",
     "afkorting": "JA21",
     "cohesie": 70.7,
-    "gezamenlijk": 3972,
+    "gezamenlijk": 3971,
     "gelijk": 2808
    }
   ],
@@ -117,67 +117,67 @@
     {
      "afkorting": "ChristenUnie",
      "cohesie": 74.7,
-     "gezamenlijk": 3965,
+     "gezamenlijk": 3964,
      "gelijk": 2961
     },
     {
      "afkorting": "SGP",
      "cohesie": 73.9,
-     "gezamenlijk": 3972,
+     "gezamenlijk": 3971,
      "gelijk": 2934
     },
     {
      "afkorting": "JA21",
      "cohesie": 70.7,
-     "gezamenlijk": 3972,
+     "gezamenlijk": 3971,
      "gelijk": 2808
     },
     {
      "afkorting": "BBB",
      "cohesie": 63.3,
-     "gezamenlijk": 3968,
+     "gezamenlijk": 3967,
      "gelijk": 2513
     },
     {
      "afkorting": "PRO",
      "cohesie": 58.9,
-     "gezamenlijk": 3976,
-     "gelijk": 2343
+     "gezamenlijk": 3975,
+     "gelijk": 2342
     },
     {
      "afkorting": "Groep Markuszower",
      "cohesie": 56.6,
-     "gezamenlijk": 3961,
+     "gezamenlijk": 3960,
      "gelijk": 2240
     },
     {
      "afkorting": "DENK",
      "cohesie": 55.2,
-     "gezamenlijk": 3976,
-     "gelijk": 2194
+     "gezamenlijk": 3975,
+     "gelijk": 2193
     },
     {
      "afkorting": "SP",
-     "cohesie": 50.4,
-     "gezamenlijk": 3970,
-     "gelijk": 1999
+     "cohesie": 50.3,
+     "gezamenlijk": 3969,
+     "gelijk": 1998
     },
     {
      "afkorting": "PVV",
      "cohesie": 49.3,
-     "gezamenlijk": 3973,
+     "gezamenlijk": 3972,
      "gelijk": 1960
     },
     {
      "afkorting": "PvdD",
      "cohesie": 47.6,
-     "gezamenlijk": 3969,
-     "gelijk": 1891
+     "gezamenlijk": 3968,
+     "gelijk": 1890
     },
     {
      "afkorting": "FVD",
      "cohesie": 45.8,
-     "gezamenlijk": 3976,
+     "gezamenlijk": 3975,
      "gelijk": 1822
     }
    ],
@@ -255,7 +255,7 @@
     "a": "D66",
     "b": "VVD",
     "cohesie": 85.3,
-    "gezamenlijk": 3975,
+    "gezamenlijk": 3974,
     "gelijk": 3389
    },
    {
@@ -268,8 +268,8 @@
    {
     "a": "VVD",
     "b": "CDA",
-    "cohesie": 91.1,
-    "gezamenlijk": 3972,
+    "cohesie": 91.2,
+    "gezamenlijk": 3971,
     "gelijk": 3620
    }
   ],
@@ -473,8 +473,8 @@
     "van": "2026-02-26",
     "tot": "2026-11-10",
     "verdeeld": 3984,
-    "keer": 644,
-    "pct": 16.2,
+    "keer": 643,
+    "pct": 16.1,
     "partijen": [
      {
       "afkorting": "D66",
@@ -488,8 +488,8 @@
       "afkorting": "VVD",
       "rol": "kabinet",
       "basis": 3984,
-      "keer": 291,
-      "won": 238,
+      "keer": 290,
+      "won": 237,
       "pct": 7.3
      },
      {
@@ -883,7 +883,7 @@
    ],
    "tk": 66,
    "ek": 22,
-   "gestemd": 3968,
+   "gestemd": 3967,
    "eensgezind": 3324,
    "pct": 83.8
   },
@@ -907,7 +907,7 @@
     ],
     "tk": 78,
     "combinaties": 562,
-    "gestemd": 3935,
+    "gestemd": 3934,
     "eensgezind": 1179,
     "pct": 30.0,
     "ek": 23
@@ -947,7 +947,7 @@
     ],
     "tk": 76,
     "combinaties": 325,
-    "gestemd": 3944,
+    "gestemd": 3943,
     "eensgezind": 1547,
     "pct": 39.2,
     "ek": 34
