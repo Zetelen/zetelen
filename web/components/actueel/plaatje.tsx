@@ -174,7 +174,11 @@ export async function actueelPlaatje(zoek: Record<string, string>) {
   if (!x) return <Kader kop="Actueel" titel="Het nieuws, naast de stemmingen" regel="" stand={null}><Melding tekst="Dit stuk bestaat niet" /></Kader>;
   const b = x.blokken.find((y) => y.id === zoek.blok);
   // De uitslag van het akkoordstuk is van later dan de stand van de rest van de data
-  const stand = datumTekst(isAkkoord(x.data) && (b ?? x.blokken[0]).id === "uitslag" && x.data.uitslag ? x.data.uitslag.stemmingen[0].datum : x.data.stand);
+  const id = (b ?? x.blokken[0]).id;
+  const stand = datumTekst(!isAkkoord(x.data) ? x.data.stand
+    : id === "uitslag" && x.data.uitslag ? x.data.uitslag.stemmingen[0].datum
+    : id === "plannen" && x.data.plannen?.lijst.length ? x.data.plannen.lijst[x.data.plannen.lijst.length - 1].datum
+    : x.data.stand);
   if (!b) return <Kader kop="Actueel" titel={x.kop} regel={x.label.replace("Actueel · ", "")} stand={stand}>{grafiek(x.data, x.slug === "blok-kabinet" ? "wringt" : x.blokken[0].id)}</Kader>;
   return <Kader kop="Actueel" titel={b.kop} regel={`${b.vraag} · kabinet-${x.data.kabinet}`} stand={stand}>{grafiek(x.data, b.id)}</Kader>;
 }

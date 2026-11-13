@@ -5,7 +5,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Bladeren } from "@/components/Bladeren";
 import { Botspunten, Doorslag, Hechtheid, Meegaan, MeegaanStappen, PerThema, Zetelsom } from "@/components/actueel/Blokken";
-import { Buiten, Kamers, Partners, Toen, Uitslag } from "@/components/actueel/AkkoordBlokken";
+import { Buiten, Kamers, Partners, Plannen, Toen, Uitslag } from "@/components/actueel/AkkoordBlokken";
 import { Inhoud } from "@/components/Kader";
 import { GrafiekKader, GrafiekVlak } from "@/components/deel/GrafiekKader";
 import { Kern, Lezingen } from "@/components/Onderdelen";
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ stuk: str
 
 const GRAFIEK: Record<string, (p: { d: ActueelData }) => React.ReactNode> = { mee: Meegaan, wringt: Botspunten, abortus: PerThema, telt: Zetelsom, hecht: Hechtheid, stappen: MeegaanStappen, steun: Doorslag };
 // Stuk akkoord-belastingplan (11 november 2026): eigen data, eigen grafieken
-const AKKOORD: Record<string, (p: { d: AkkoordData }) => React.ReactNode> = { uitslag: Uitslag, partners: Partners, buiten: Buiten, kamers: Kamers, toen: Toen };
+const AKKOORD: Record<string, (p: { d: AkkoordData }) => React.ReactNode> = { uitslag: Uitslag, plannen: Plannen, partners: Partners, buiten: Buiten, kamers: Kamers, toen: Toen };
 function Grafiek({ d, id }: { d: Stuk["data"]; id: string }) {
   if (isAkkoord(d)) {
     const G = AKKOORD[id];

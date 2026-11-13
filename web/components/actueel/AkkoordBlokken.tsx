@@ -1,7 +1,7 @@
 // De vijf grafieken van het Actueel-stuk "akkoord-belastingplan" (lib/actueel.ts). Server-componenten zonder interactie,
 // in de stijl van Blokken.tsx: elke grafiek toont de getallen ook als tekst, kleur is nooit de enige drager.
 import Link from "next/link";
-import { type AkkoordData, type UitslagStemming, aantal, bouwerLink, buitenVan, ekSom, procent, stemmingVan, tkSom } from "@/lib/actueel";
+import { type AkkoordData, type UitslagStemming, aantal, bouwerLink, buitenVan, datumTekst, ekSom, plannenVan, procent, stemmingVan, tkSom } from "@/lib/actueel";
 import s from "./actueel.module.css";
 import a from "./akkoord.module.css";
 
@@ -59,6 +59,39 @@ export function Uitslag({ d }: { d: AkkoordData }) {
   );
 }
 
+// Blok "plannen": per Belastingplan een balk over de hele Kamer, voor links en tegen rechts, met de meerderheid als streep.
+// Het plan van dit stuk in koper; onder elke balk de fracties die tegen stemden.
+export function Plannen({ d }: { d: AkkoordData }) {
+  const p = plannenVan(d);
+  if (!p) return null;
+  return (
+    <div className={s.botsen}>
+      <p className={s.legenda}>
+        <span><span className={`${a.vakje} ${a.kabinet}`} aria-hidden="true" /> voor</span>
+        <span><span className={`${a.vakje} ${a.anders}`} aria-hidden="true" /> tegen</span>
+        <span><span className={a.vakje} style={{ borderLeft: "3px solid var(--goud)", borderRadius: 0 }} aria-hidden="true" /> meerderheid (76)</span>
+      </p>
+      <ol className={a.plannen} aria-label="Eindstemmingen over de Belastingplannen">
+        {p.lijst.map((x) => {
+          const nu = x === p.nu;
+          const tegen = x.tegenFracties === null ? "per fractie nog niet in de open data" : x.tegenFracties.length ? `tegen: ${x.tegenFracties.map((f) => f.fractie).join(", ")}` : "niemand tegen";
+          return (
+            <li key={x.plan} className={nu ? a.planNu : undefined}>
+              <span className={a.planJaar}>{x.plan}</span>
+              <span className={a.planBalk} role="img" aria-label={`Belastingplan ${x.plan}, ${datumTekst(x.datum)}: ${x.voor} voor, ${x.tegen} tegen${x.hoofdelijk ? ", hoofdelijk" : ""}; ${tegen}`}>
+                <span className={nu ? a.vier : a.kabinet} style={{ width: `${(100 * x.voor) / 150}%` }} />
+                <span className={a.grens} style={{ left: `${(100 * 76) / 150}%` }} aria-hidden="true" />
+              </span>
+              <span className={a.planGetal}>{x.voor}-{x.tegen}</span>
+              <span className={a.planTegen} aria-hidden="true">{x.hoofdelijk ? `hoofdelijk · ${tegen}` : tegen}</span>
+            </li>
+          );
+        })}
+      </ol>
+    </div>
+  );
+}
+
 // Blok 2: de drie paren met een partner in de oppositie, daaronder de paren binnen het kabinet
 export function Partners({ d }: { d: AkkoordData }) {
   const rij = (naam: string, pct: number, n: number, kabinet = false) => (
@@ -71,7 +104,7 @@ export function Partners({ d }: { d: AkkoordData }) {
   return (
     <div className={s.botsen}>
       <div className={s.contrast}>
-        <p className={s.legenda}><span>Kabinetspartij en partner in de oppositie: dezelfde kant</span></p>
+        <p className={s.legenda}><span>Kabinetspartij en gekozen partner in de oppositie: dezelfde kant</span></p>
         {d.partners.paren.map((p) => rij(`${p.kabinetspartij} en ${p.partner}`, p.cohesie, p.gezamenlijk))}
       </div>
       <div className={s.contrast}>

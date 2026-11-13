@@ -106,3 +106,52 @@ def test_eerste_kamer_telt_op_tot_75():
     assert sum(ek["zetels"].values()) + ek["eenmansfracties"] == ak.EK_TOTAAL
     assert ak.ek_som(ak.VIER) == 29
     assert ak.ek_som(ak.VIER + ["VVD"]) == 38
+
+
+# ---------- opdracht plannen ----------
+
+KABINETTEN = [{"naam": "Balkenende IV", "begin": "2007-02-22", "einde": "2010-10-14"}, {"naam": "Jetten", "begin": "2026-02-23", "einde": None}]
+COALITIE = [{"kabinet": "Balkenende IV", "afkorting": a, "rol": "kabinet", "van": None, "tot": t}
+            for a, t in [("CDA", None), ("PvdA", "2010-02-23"), ("ChristenUnie", None)]]
+
+
+def besluit(titel="Wijziging van enkele belastingwetten (Belastingplan 2009)", datum="2008-11-25", soort="Met handopsteken",
+            tekst="Aangenomen", stemmen=None):
+    stemmen = stemmen if stemmen is not None else [("CDA", 41, "Voor"), ("PvdA", 33, "Voor"), ("ChristenUnie", 6, "Voor"), ("SP", 25, "Tegen"), ("VVD", 21, "Tegen")]
+    return {"BesluitSoort": "Stemmen - aangenomen", "BesluitTekst": tekst, "StemmingsSoort": soort,
+            "Zaak": [{"Nummer": "2008Z1", "Titel": titel, "Soort": "Wetgeving"}],
+            "Agendapunt": {"Activiteit": {"Datum": f"{datum}T10:00:00+01:00"}},
+            "Stemming": [{"ActorFractie": a, "FractieGrootte": g, "Soort": s, "Fractie_Id": a, "Persoon_Id": None} for a, g, s in stemmen]}
+
+
+def test_plan_telt_zetels_en_coalitie_per_datum():
+    p = ak.plan_van(besluit(), KABINETTEN, COALITIE)
+    assert (p["plan"], p["kabinet"], p["voor"], p["tegen"]) == ("2009", "Balkenende IV", 80, 46)
+    assert p["coalitieTegen"] == [] and [f["fractie"] for f in p["tegenFracties"]] == ["SP", "VVD"]
+
+
+def test_plan_ziet_coalitie_tegen_en_stopt_als_een_coalitiepartij_ontbreekt():
+    p = ak.plan_van(besluit(stemmen=[("CDA", 41, "Voor"), ("PvdA", 33, "Tegen"), ("ChristenUnie", 6, "Voor")]), KABINETTEN, COALITIE)
+    assert p["coalitieTegen"] == ["PvdA"]
+    import pytest
+    with pytest.raises(ValueError):
+        ak.plan_van(besluit(stemmen=[("CDA", 41, "Voor"), ("SP", 25, "Tegen")]), KABINETTEN, COALITIE)
+
+
+def test_hoofdelijk_zonder_stemmen_neemt_de_telling_uit_de_besluittekst():
+    p = ak.plan_van(besluit(titel="x (Belastingplan 2027)", datum="2026-11-12", soort="Hoofdelijk", tekst="Aangenomen (76-74).", stemmen=[]),
+                    KABINETTEN, [])
+    assert (p["voor"], p["tegen"], p["hoofdelijk"], p["tegenFracties"], p["coalitieTegen"]) == (76, 74, True, None, None)
+
+
+def test_geen_stemming_of_geen_belastingplan_telt_niet():
+    b = besluit(); b["StemmingsSoort"] = "Zonder stemming"; b["BesluitSoort"] = "Behandelen [geen Parlisproces]"
+    assert ak.plan_van(b, KABINETTEN, COALITIE) is None
+    assert ak.plan_van(besluit(titel="Overige fiscale maatregelen 2009"), KABINETTEN, COALITIE) is None
+
+
+def test_fractiestem_bij_hoofdelijk_is_de_meerderheid_van_de_leden():
+    r = lambda f, soort, p="p": {"Fractie_Id": f, "Persoon_Id": p, "Soort": soort, "FractieGrootte": 3}  # noqa: E731
+    uit = ak.fractiestemmen([r("a", "Voor"), r("a", "Tegen"), r("a", "Voor"), r("b", "Tegen"), r("b", "Voor"),
+                             {"Fractie_Id": "c", "Persoon_Id": None, "Soort": "Tegen", "FractieGrootte": 5}])
+    assert uit == {"a": ("Voor", 3), "c": ("Tegen", 5)}  # b staat gelijk en telt niet mee

@@ -19,6 +19,12 @@ Twee opdrachten:
             Plus het kader voor blok 1: eerdere eindstemmingen over een belastingplan sinds 2010, en of een
             coalitiefractie (of gedoogpartner) daar tegen stemde.
 
+  plannen   Blok "plannen" (verzoek Niels, 13 november 2026): de eindstemming over elk Belastingplan sinds 2008, uit de
+            open data van de Tweede Kamer (OData), omdat Zetelen pas bij 2010 begint. Per plan de uitslag in zetels, de
+            fracties die tegen stemden en of een coalitiefractie (of gedoogpartner) tegen stemde, volgens api.coalitie
+            en api.kabinet. Alleen de stemming over de wet zelf (zaaksoort Wetgeving, titel eindigt op
+            "(Belastingplan JJJJ)"), geen amendementen. Schrijft alleen het onderdeel "plannen".
+
   uitslag   Blok 1: de stemming van 12 november over het amendement en het belastingplan, uit de open data van de
             Tweede Kamer (OData, enkele uren na de stemming) of uit Zetelen (na de nachtelijke verversing). Schrijft
             alleen het onderdeel "uitslag" in het bestaande bestand. Zolang dat ontbreekt, staat het stuk niet op de site.
@@ -32,10 +38,12 @@ Verbinding: SUPABASE_URL en SUPABASE_PUBLISHABLE_KEY uit de omgeving (set -a; . 
 
 Gebruik:
   python3 pipeline/akkoord_belastingplan.py cijfers [--cache /pad/naar/scratchpad/cache]
+  python3 pipeline/akkoord_belastingplan.py plannen
   python3 pipeline/akkoord_belastingplan.py uitslag --amendement 2026ZNNNNN --wet 2026Z18819 [--bron odata|zetelen]
 """
 import argparse
 import json
+import re
 import subprocess
 import sys
 import urllib.parse
@@ -352,12 +360,32 @@ def curl_json(url: str) -> dict:
 ODATA = "https://gegevensmagazijn.tweedekamer.nl/OData/v4/2.0"
 
 
+def fractiestemmen(rijen: list) -> dict:
+    """Per fractie-id (stem, zetels). Bij handopsteken is er één rij per fractie. Bij een hoofdelijke stemming is er één
+    rij per lid: dan telt de kant van de meerderheid van de leden, met de hele fractiegrootte; bij gelijke stand telt de
+    fractie niet mee (feitencontrole 13 november 2026: eerder won de laatste rij)."""
+    per = {}
+    for s in rijen:
+        if s["Soort"] in STEMKANTEN and not s.get("Vergissing"):
+            per.setdefault(s["Fractie_Id"], []).append(s)
+    uit = {}
+    for fid, rs in per.items():
+        if len(rs) == 1 and not rs[0].get("Persoon_Id"):
+            uit[fid] = (rs[0]["Soort"], rs[0].get("FractieGrootte"))
+            continue
+        voor = sum(1 for r in rs if r["Soort"] == "Voor")
+        tegen = len(rs) - voor
+        if voor != tegen:
+            uit[fid] = ("Voor" if voor > tegen else "Tegen", rs[0].get("FractieGrootte"))
+    return uit
+
+
 def uit_odata(zaken: list) -> list:
     """Per besluit met een stemming: zaak, soort, datum, uitslag, hoofdelijk, en per fractie-id (stem, zetels)."""
     filt = "Verwijderd eq false and (" + " or ".join(f"Nummer eq '{z}'" for z in zaken) + ")"
     expand = ("Besluit($filter=Verwijderd eq false and StemmingsSoort ne null;$select=BesluitTekst,StemmingsSoort;"
               "$expand=Agendapunt($select=Id;$expand=Activiteit($select=Datum)),"
-              "Stemming($filter=Verwijderd eq false;$select=Fractie_Id,Soort,FractieGrootte))")
+              "Stemming($filter=Verwijderd eq false;$select=Fractie_Id,Persoon_Id,Soort,FractieGrootte,Vergissing))")
     url = f"{ODATA}/Zaak?" + urllib.parse.urlencode({"$filter": filt, "$select": "Nummer,Soort", "$expand": expand},
                                                      quote_via=urllib.parse.quote)
     uit = []
@@ -368,8 +396,7 @@ def uit_odata(zaken: list) -> list:
                 act = (b.get("Agendapunt") or {}).get("Activiteit") or {}
                 uit.append({"zaak": z["Nummer"], "soort": z["Soort"], "datum": (act.get("Datum") or "")[:10],
                             "uitslag": b["BesluitTekst"], "hoofdelijk": b["StemmingsSoort"] != "Met handopsteken",
-                            "stemmen": {s["Fractie_Id"]: (s["Soort"], s.get("FractieGrootte")) for s in b["Stemming"]
-                                        if s["Soort"] in STEMKANTEN}})
+                            "stemmen": fractiestemmen(b["Stemming"])})
         url = d.get("@odata.nextLink")
     return uit
 
@@ -417,6 +444,89 @@ def uitslag(amendement: str, wet: str, bron: str) -> dict:
             "opgehaald": date.today().isoformat(), "stemmingen": uit}
 
 
+# ---------- opdracht plannen ----------
+
+# Fractienamen in de OData die anders heten in api.coalitie
+ODATA_NAAM = {"NSC": "Nieuw Sociaal Contract"}
+PLAN_TITEL = re.compile(r"\(Belastingplan (20\d\d)\)\s*$")
+TELLING = re.compile(r"\((\d+)-(\d+)\)")
+
+
+def odata_plannen() -> list:
+    """Alle besluiten met een stemming over een wetsvoorstel Belastingplan, met de stemmen per fractie (of per lid)."""
+    filt = ("Verwijderd eq false and StemmingsSoort ne null and "
+            "Zaak/any(z:z/Soort eq 'Wetgeving' and contains(z/Titel,'(Belastingplan 20'))")
+    expand = ("Zaak($select=Nummer,Titel,Soort),Agendapunt($select=Id;$expand=Activiteit($select=Datum)),"
+              "Stemming($filter=Verwijderd eq false;$select=Soort,ActorFractie,FractieGrootte,Fractie_Id,Persoon_Id)")
+    url = f"{ODATA}/Besluit?" + urllib.parse.urlencode({"$filter": filt, "$select": "Id,BesluitSoort,BesluitTekst,StemmingsSoort",
+                                                       "$expand": expand}, quote_via=urllib.parse.quote)
+    uit = []
+    while url:
+        d = curl_json(url)
+        uit.extend(d.get("value", []))
+        url = d.get("@odata.nextLink")
+    return uit
+
+
+def kabinet_op(kabinetten: list, datum: str) -> str:
+    for k in kabinetten:
+        if k["begin"] <= datum and (k["einde"] is None or datum < k["einde"]):
+            return k["naam"]
+    raise ValueError(f"Geen kabinet op {datum}")
+
+
+def plan_van(b: dict, kabinetten: list, coalitie: list) -> dict | None:
+    """Eén eindstemming over een Belastingplan in de vorm van het JSON-bestand; None voor een besluit zonder stemming."""
+    if b.get("StemmingsSoort") in (None, "Zonder stemming") or not str(b.get("BesluitSoort", "")).startswith("Stemmen"):
+        return None
+    zaken = [z for z in b["Zaak"] if z["Soort"] == "Wetgeving" and PLAN_TITEL.search(z["Titel"] or "")]
+    if len(zaken) != 1:
+        return None
+    z = zaken[0]
+    datum = (((b.get("Agendapunt") or {}).get("Activiteit") or {}).get("Datum") or "")[:10]
+    kab = kabinet_op(kabinetten, datum)
+    leden = coalitie_op(coalitie, kab, datum)
+    hoofdelijk = b["StemmingsSoort"] != "Met handopsteken"
+    stemmen = [s for s in b["Stemming"] if s["Soort"] in STEMKANTEN]
+    plan = {"plan": PLAN_TITEL.search(z["Titel"]).group(1), "zaak": z["Nummer"], "datum": datum, "kabinet": kab,
+            "coalitie": leden, "uitslag": b["BesluitTekst"], "aangenomen": winnaar(b["BesluitTekst"]) == "Voor",
+            "hoofdelijk": hoofdelijk}
+    if hoofdelijk or not stemmen:
+        # Stemmen per lid: zonder telling per fractie. De uitslag komt dan uit de besluittekst, bijvoorbeeld "(76-74)".
+        m = TELLING.search(b["BesluitTekst"] or "")
+        if not m:
+            raise ValueError(f"Geen telling in de besluittekst van {z['Nummer']}: {b['BesluitTekst']!r}")
+        return {**plan, "voor": int(m.group(1)), "tegen": int(m.group(2)), "tegenFracties": None, "coalitieTegen": None}
+    if any(s["Persoon_Id"] for s in stemmen):
+        raise ValueError(f"Stemming per lid bij handopsteken in {z['Nummer']}: kijk met de hand")
+    naam = lambda s: ODATA_NAAM.get(s["ActorFractie"], s["ActorFractie"])  # noqa: E731
+    gevonden = {naam(s) for s in stemmen}
+    mist = [a for a in leden if a not in gevonden]
+    if mist:
+        raise ValueError(f"Coalitiefractie {mist} niet gevonden in de stemming over {z['Nummer']}")
+    tegen = sorted((s for s in stemmen if s["Soort"] == "Tegen"), key=lambda s: (-s["FractieGrootte"], s["ActorFractie"]))
+    return {**plan, "voor": sum(s["FractieGrootte"] for s in stemmen if s["Soort"] == "Voor"),
+            "tegen": sum(s["FractieGrootte"] for s in tegen),
+            "tegenFracties": [{"fractie": s["ActorFractie"], "zetels": s["FractieGrootte"]} for s in tegen],
+            "coalitieTegen": sorted(a for a in leden if a in {naam(s) for s in tegen})}
+
+
+def plannen() -> dict:
+    kabinetten = alle("kabinet?select=naam,begin,einde", "begin")
+    coalitie = alle("coalitie?select=kabinet,afkorting,rol,van,tot", "kabinet,afkorting")
+    rijen = [p for p in (plan_van(b, kabinetten, coalitie) for b in odata_plannen()) if p]
+    per_plan = {}
+    for p in rijen:
+        if p["plan"] in per_plan:
+            sys.exit(f"Twee eindstemmingen over Belastingplan {p['plan']}: kies met de hand")
+        per_plan[p["plan"]] = p
+    lijst = sorted(per_plan.values(), key=lambda p: p["plan"])
+    jaren = [int(p["plan"]) for p in lijst]
+    if jaren != list(range(jaren[0], jaren[-1] + 1)):
+        sys.exit(f"Niet elk jaar een Belastingplan: {jaren}")
+    return {"bron": "open data van de Tweede Kamer (OData)", "opgehaald": date.today().isoformat(), "lijst": lijst}
+
+
 # ---------- hoofdprogramma ----------
 
 def main(argv=None):
@@ -424,11 +534,12 @@ def main(argv=None):
     sub = ap.add_subparsers(dest="opdracht", required=True)
     c = sub.add_parser("cijfers")
     c.add_argument("--cache", type=Path, default=None, help="map om de opgehaalde stemmingen te bewaren (buiten de repo)")
+    pl = sub.add_parser("plannen")
     u = sub.add_parser("uitslag")
     u.add_argument("--amendement", required=True)
     u.add_argument("--wet", default=WET_2027)
     u.add_argument("--bron", choices=("odata", "zetelen"), default="odata")
-    for p in (c, u):
+    for p in (c, pl, u):
         p.add_argument("--uitvoer", type=Path, default=UITVOER)
     a = ap.parse_args(argv)
     pad = a.uitvoer / f"{SLUG}.json"
@@ -437,6 +548,11 @@ def main(argv=None):
     if a.opdracht == "cijfers":
         uit = cijfers(a.cache)
         uit["uitslag"] = oud.get("uitslag")
+        uit["plannen"] = oud.get("plannen")
+    elif a.opdracht == "plannen":
+        if not oud:
+            sys.exit(f"{pad} bestaat nog niet: draai eerst 'cijfers'")
+        uit = {**oud, "plannen": plannen()}
     else:
         if not oud:
             sys.exit(f"{pad} bestaat nog niet: draai eerst 'cijfers'")
@@ -470,6 +586,10 @@ def main(argv=None):
             for f in t["voor"]["fracties"]:
                 n = next(x for x in t["na"]["fracties"] if x["afkorting"] == f["afkorting"])
                 print(f"  {j} {f['afkorting']}: {f['pct']} -> {n['pct']}")
+    elif a.opdracht == "plannen":
+        for p in uit["plannen"]["lijst"]:
+            tegen = "per lid, nog niet per fractie" if p["tegenFracties"] is None else ", ".join(f["fractie"] for f in p["tegenFracties"])
+            print(f"  {p['plan']} {p['datum']} {p['kabinet']:14} {p['voor']}-{p['tegen']} coalitie tegen: {p['coalitieTegen']} | tegen: {tegen}")
     else:
         for s in uit["uitslag"]["stemmingen"]:
             print(f"{s['rol']} {s['zaak']} {s['datum']}: {s['uitslag']} {s['voor']} voor, {s['tegen']} tegen"

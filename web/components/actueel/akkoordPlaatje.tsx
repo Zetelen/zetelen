@@ -1,7 +1,7 @@
 // Deelplaatjes (1200 x 630, next/og) voor het Actueel-stuk "akkoord-belastingplan": dezelfde vijf grafieken als op de
 // pagina (AkkoordBlokken.tsx), in de stijl van plaatje.tsx. Alleen flex-opmaak: next/og kent geen tabellen.
 import { KLEUR, rond } from "@/components/deel/plaatjes";
-import { type AkkoordData, type UitslagStemming, buitenVan, stemmingVan } from "@/lib/actueel";
+import { type AkkoordData, type UitslagStemming, buitenVan, plannenVan, stemmingVan } from "@/lib/actueel";
 
 const Rij = ({ children, hoogte }: { children: React.ReactNode; hoogte?: number }) =>
   <div style={{ display: "flex", alignItems: "center", gap: 16, ...(hoogte ? { height: hoogte } : {}) }}>{children}</div>;
@@ -38,6 +38,31 @@ function uitslag(d: AkkoordData) {
           ))}
         </div>
       ))}
+    </div>
+  );
+}
+
+// Blok "plannen": negentien smalle balken van 150 zetels, het plan van dit stuk in koper
+function plannen(d: AkkoordData) {
+  const p = plannenVan(d);
+  if (!p) return <div style={{ display: "flex" }} />;
+  const BREED = 760, H = Math.min(16, Math.floor(330 / p.lijst.length) - 4);
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 4, flex: 1, justifyContent: "center" }}>
+      {p.lijst.map((x) => {
+        const nu = x === p.nu;
+        return (
+          <Rij key={x.plan} hoogte={H + 4}>
+            <div style={{ display: "flex", width: 80, fontSize: 18, color: nu ? KLEUR.koper : KLEUR.zacht }}>{x.plan}</div>
+            <div style={{ display: "flex", position: "relative", width: BREED, height: H, background: KLEUR.achter, border: `1px solid ${KLEUR.lijn}`, borderRadius: 3 }}>
+              <div style={{ display: "flex", width: (BREED * x.voor) / 150, background: nu ? KLEUR.koper : LICHT, borderRadius: 3 }} />
+              <div style={{ display: "flex", position: "absolute", left: (BREED * 76) / 150, top: -3, width: 2, height: H + 6, background: KLEUR.goud }} />
+            </div>
+            <div style={{ display: "flex", fontSize: 18, color: nu ? KLEUR.koper : KLEUR.tekst }}>{`${x.voor}-${x.tegen}`}</div>
+          </Rij>
+        );
+      })}
+      <div style={{ display: "flex", fontSize: 18, color: KLEUR.zacht, marginTop: 6 }}>{`Zetels voor, eindstemming per Belastingplan · streep: meerderheid (76) · bron: open data van de Tweede Kamer`}</div>
     </div>
   );
 }
@@ -122,4 +147,4 @@ function toen(d: AkkoordData) {
   );
 }
 
-export const AKKOORD_PLAATJE: Record<string, (d: AkkoordData) => React.ReactElement> = { uitslag, partners, buiten, kamers, toen };
+export const AKKOORD_PLAATJE: Record<string, (d: AkkoordData) => React.ReactElement> = { uitslag, plannen, partners, buiten, kamers, toen };

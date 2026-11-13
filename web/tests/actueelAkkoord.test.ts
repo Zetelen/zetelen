@@ -36,13 +36,15 @@ const blok = (s: typeof zonder, id: string) => s.blokken.find((b) => b.id === id
 describe("Actueel: akkoord over het belastingplan", () => {
   it("staat pas op de site als de uitslag in de data staat", () => {
     expect(STUKKEN.some((s) => s.slug === "akkoord-belastingplan")).toBe(d.uitslag !== null);
-    expect(zonder.blokken.map((b) => b.id)).toEqual(["partners", "buiten", "kamers", "toen"]);
-    expect(vvdVoor.blokken.map((b) => b.id)).toEqual(["uitslag", "partners", "buiten", "kamers", "toen"]);
-    expect(AKKOORD_BELASTINGPLAN.blokken[0].id).toBe(d.uitslag ? "uitslag" : "partners");
+    expect(zonder.blokken.map((b) => b.id)).toEqual(["plannen", "partners", "buiten", "kamers", "toen"]);
+    expect(akkoordBelastingplan({ ...d, uitslag: null, plannen: null }).blokken.map((b) => b.id)).toEqual(["partners", "buiten", "kamers", "toen"]);
+    expect(vvdVoor.blokken.map((b) => b.id)).toEqual(["uitslag", "plannen", "partners", "buiten", "kamers", "toen"]);
+    expect(AKKOORD_BELASTINGPLAN.blokken[0].id).toBe(d.uitslag ? "uitslag" : "plannen");
   });
 
   it("heeft de goedgekeurde kop en label, en Volt niet in de kop", () => {
-    expect(zonder.kop).toBe("Zonder de VVD in de Tweede Kamer, met de VVD in de Eerste");
+    expect(zonder.kop).toBe("Een akkoord zonder de VVD en het krapste Belastingplan sinds 2008");
+    expect(akkoordBelastingplan({ ...d, plannen: null }).kop).toBe("Een akkoord zonder de VVD over het Belastingplan 2027");
     expect(zonder.label).toBe("Actueel · Belastingplan 2027");
     expect(zonder.kop).not.toContain("Volt");
     for (const b of vvdVoor.blokken) expect(b.kop.startsWith("Volt")).toBe(false);
@@ -50,7 +52,7 @@ describe("Actueel: akkoord over het belastingplan", () => {
 
   it("noemt in de aanleiding het amendement, de voorwaarde en de bron", () => {
     expect(zonder.aanleiding).toContain("over één amendement op het Belastingplan 2027");
-    expect(zonder.aanleiding).toContain("Wordt het amendement aangenomen, dan stemmen PRO en Volt voor het belastingplan");
+    expect(zonder.aanleiding).not.toContain("Wordt het amendement aangenomen");  // staat niet in de genoemde bronnen (feitencontrole 13 november)
     expect(zonder.aanleiding).toContain("(NOS, 11 november 2026: nos.nl/artikel/2639001 en nos.nl/liveblog/2639007)");
     expect(zonder.aanleiding).toContain("De Tweede Kamer moet er nog over stemmen.");
     expect(vvdVoor.aanleiding).toContain("De Tweede Kamer stemde op 12 november 2026 over beide.");
@@ -98,7 +100,7 @@ describe("Actueel: akkoord over het belastingplan", () => {
     const pr = d.buiten.precedent;
     expect([pr.zaak, pr.datum, pr.kabinet, pr.buiten]).toEqual(["2018Z21124", "2018-11-15", "Rutte III", "VVD"]);
     expect(d.buiten.belastingplan.some((g) => g.zaak === pr.zaak)).toBe(true);
-    expect(b.tekst[1]).toContain(`Op 15 november 2018 nam de Kamer onder Rutte III een amendement over de differentiatie van de OZB-tarieven aan met CDA, ChristenUnie en D66 voor en de VVD tegen`);
+    expect(b.tekst[1]).toContain(`Op 15 november 2018 nam de Kamer onder Rutte III een amendement over de differentiatie van de OZB-tarieven aan met de andere coalitiepartijen CDA, ChristenUnie en D66 voor en de VVD tegen`);
     expect(b.tekst[1]).toContain(`${d.buiten.belastingplan.length} keer een amendement op een belastingplan aangenomen`);
     expect(b.data).toContain("Rutte II had twee partijen");
   });
@@ -113,9 +115,9 @@ describe("Actueel: akkoord over het belastingplan", () => {
     expect(d.kamers.ek.meerderheid).toBe(38);
     expect(Object.values(d.kamers.ek.zetels).reduce((a, x) => a + x, 0) + d.kamers.ek.eenmansfracties).toBe(d.kamers.ek.totaal);
     expect(Object.values(d.kamers.tk.zetels).reduce((a, x) => a + x, 0)).toBe(150);
-    expect(b.kop).toBe("In de Eerste Kamer hebben D66, CDA, PRO en Volt 29 van de 75 zetels, met de VVD precies 38");
+    expect(b.kop).toBe("In de Eerste Kamer hebben D66, CDA, PRO en Volt 29 van de 75 zetels, 9 minder dan een meerderheid");
     expect(b.tekst[0]).toContain(`de vier ${tkSom(d, vier)} zetels, ${d.kamers.tk.meerderheid - tkSom(d, vier)} te weinig voor een meerderheid; met de VVD erbij ${tkSom(d, [...vier, "VVD"])}`);
-    expect(b.tekst[1]).toContain(`Met BBB (11) erbij zou het ook gaan: ${ekSom(d, [...vier, "BBB"])}`);
+    expect(b.tekst[1]).toContain(`met de VVD (9) komen ze op 38, met BBB (11) op ${ekSom(d, [...vier, "BBB"])}, en met een combinatie van kleinere fracties kan het ook`);
     expect(b.tekst[1]).toContain("Zetelen heeft geen stemmingen van de Eerste Kamer");
     const r = Object.fromEntries(d.kamers.routes.map((x) => [x.zonder, x]));
     for (const x of d.kamers.routes) {
@@ -156,8 +158,8 @@ describe("Actueel: akkoord over het belastingplan", () => {
     expect(a.kop).toBe(`De Kamer nam het amendement aan met ${am.voor} tegen ${am.tegen} zetels en het belastingplan met ${wv.voor} tegen ${wv.tegen}`);
     expect(t.kop).toBe(`De Kamer nam het amendement aan met ${am.voor} tegen ${am.tegen} zetels en het belastingplan met ${wt.voor} tegen ${wt.tegen}`);
     expect(a.tekst[0]).toContain("Van de kabinetspartijen stemden D66 en het CDA voor en de VVD tegen.");
-    expect(a.tekst[1]).toContain(`Alle drie de kabinetspartijen stemden voor het belastingplan. Dat past in de lijn sinds 2010: bij geen van de ${d.kader.eindstemmingen} eerdere eindstemmingen`);
-    expect(t.tekst[1]).toContain(`De VVD stemde tegen het belastingplan. Dat gebeurde sinds 2010 niet eerder: bij de ${d.kader.eindstemmingen} eerdere eindstemmingen over een belastingplan stemde nooit een coalitiefractie of gedoogpartner tegen.`);
+    expect(a.tekst[1]).toContain(`Alle drie de kabinetspartijen stemden voor het belastingplan. Dat past in de lijn sinds 2008: bij geen van de 18 eerdere eindstemmingen over een Belastingplan stemde`);
+    expect(t.tekst[1]).toContain(`De VVD stemde tegen het belastingplan. Dat gebeurde sinds 2008 niet eerder: bij de 18 eerdere eindstemmingen over een Belastingplan stemde nooit een coalitiefractie of gedoogpartner tegen.`);
     expect(t.tekst[1]).toContain("Wat het betekent voor het kabinet, staat niet in de data.");
     for (const s of [vvdVoor, vvdTegen]) expect(tekstVan(s)).not.toMatch(/\b(valt|val van|crisis|breuk|opstappen|stapt op)\b/i);
     expect(a.data).toContain("amendement 2026Z99901, wetsvoorstel 2026Z99902");
@@ -167,14 +169,40 @@ describe("Actueel: akkoord over het belastingplan", () => {
     expect(blok(verworpen, "uitslag").kop).toMatch(/^De Kamer verwierp het amendement met \d+ tegen \d+ zetels en nam het belastingplan aan met \d+ tegen \d+ zetels$/);
   });
 
+  it("blok plannen: alle Belastingplannen sinds 2008 uit de open data, met het plan van nu als laatste", () => {
+    const pl = d.plannen!.lijst;
+    expect(pl.map((x) => x.plan)).toEqual(Array.from({ length: 19 }, (_, i) => String(2009 + i)));
+    // Uitslagen zoals in de besluiten van de Kamer, nagekeken op 13 november 2026
+    expect(pl.map((x) => `${x.voor}-${x.tegen}`)).toEqual(["94-56", "115-34", "133-17", "150-0", "118-32", "103-47", "106-44", "93-57", "135-14",
+      "128-22", "83-67", "93-56", "131-19", "144-6", "130-18", "139-9", "109-41", "134-16", "76-74"]);
+    for (const x of pl.slice(0, -1)) {
+      expect(x.voor + x.tegen).toBeLessThanOrEqual(150);
+      expect(x.coalitieTegen).toEqual([]);
+      expect(x.hoofdelijk).toBe(false);
+      expect(x.tegen).toBe((x.tegenFracties ?? []).reduce((n, f) => n + f.zetels, 0));
+    }
+    expect(pl[0].coalitie).toEqual(["CDA", "ChristenUnie", "PvdA"]);
+    expect(pl.find((x) => x.plan === "2026")!.coalitie).toEqual(["BBB", "VVD"]);
+    const b = blok(zonder, "plannen");
+    expect(b.kop).toBe("Zo stemde de Kamer over 19 Belastingplannen");
+    expect(b.tekst[0]).toBe("De Kamer nam elk Belastingplan sinds het Belastingplan 2009 aan. De krapste uitslag was tot nu toe 83 tegen 67, voor het Belastingplan 2019 op 15 november 2018. Het Belastingplan 2027 nam de Kamer op 12 november 2026 aan met 76 tegen 74, krapper dan alle plannen ervoor. Over de 18 plannen ervoor stemde de Kamer bij handopsteken, per fractie; over dit plan hoofdelijk, elk Kamerlid apart.");
+    const sp = pl.slice(0, -1).filter((x) => x.tegenFracties!.some((f) => f.fractie === "SP")).length;
+    expect(b.tekst[1]).toContain(`het vaakst van de SP (${sp} van de 18 keer)`);
+    expect(b.tekst[1]).toContain("staat nog niet per fractie in de open data");
+    // Met een telling per fractie voor 2027: de zin volgt de data
+    const met = (tegen: string[]) => akkoordBelastingplan({ ...d, plannen: { ...d.plannen!, lijst: [...pl.slice(0, -1), { ...pl[18], coalitieTegen: tegen, tegenFracties: [] }] } });
+    expect(blok(met(["VVD"]), "plannen").tekst[1]).toContain("Bij het Belastingplan 2027 stemde de VVD tegen.");
+    expect(blok(met([]), "plannen").tekst[1]).toContain("Ook bij het Belastingplan 2027 stemde geen coalitiefractie tegen.");
+  });
+
   it("heeft lezingen en een slot in twee zinnen met getallen uit de data", () => {
     const j = buitenVan(d, "Jetten");
     const p = (a: string) => j.partijen.find((x) => x.afkorting === a)!;
     expect(zonder.lezingen!.links.tekst).toContain(`stonden D66 en CDA ${aantal(p("VVD").keer)} keer samen tegenover de VVD, en VVD en CDA ${aantal(p("D66").keer)} keer tegenover D66`);
-    expect(zonder.lezingen!.rechts.tekst).toContain(`Bij de ${d.kader.eindstemmingen} eerdere eindstemmingen`);
-    expect(zonder.slot).toBe("In de Tweede Kamer hebben de vier 65 zetels en in de Eerste Kamer 29, met de VVD daar precies 38. Of PRO en Volt na dit akkoord vaker meestemmen met het kabinet, zie je over een half jaar in de lijn.");
+    expect(zonder.lezingen!.rechts.tekst).toContain("Bij de 18 eerdere eindstemmingen over een Belastingplan sinds 2008 stemde geen coalitiefractie of gedoogpartner tegen.");
+    expect(zonder.slot).toBe("In de Tweede Kamer hebben de vier 65 zetels en in de Eerste Kamer 29, in beide Kamers minder dan een meerderheid. Of PRO en Volt na dit akkoord vaker meestemmen met het kabinet, zie je over een half jaar in de lijn.");
     expect(zonder.slot.split(/(?<=\.) /)).toHaveLength(2);
-    expect(zonder.opvalt).toContain(`in ${Math.round(Math.min(...d.partners.paren.map((x) => x.cohesie)))} tot ${procent(Math.max(...d.partners.paren.map((x) => x.cohesie)))} van de stemmingen`);
+    expect(zonder.opvalt).toBe("Het Belastingplan 2027 ging met 76 tegen 74, de krapste uitslag van de 19 Belastingplannen sinds 2008. In de Eerste Kamer hebben D66, CDA, PRO en Volt 29 van de 75 zetels, 9 minder dan een meerderheid.");
   });
 
   it("volgt de tone of voice: geen ik, wij, lange streepjes of decimalen met een punt", () => {

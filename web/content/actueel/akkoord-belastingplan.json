@@ -1138,5 +1138,672 @@
    "basis": 3324
   }
  },
- "uitslag": null
+ "uitslag": null,
+ "plannen": {
+  "bron": "open data van de Tweede Kamer (OData)",
+  "opgehaald": "2026-11-13",
+  "lijst": [
+   {
+    "plan": "2009",
+    "zaak": "2008Z02525",
+    "datum": "2008-11-25",
+    "kabinet": "Balkenende IV",
+    "coalitie": [
+     "CDA",
+     "ChristenUnie",
+     "PvdA"
+    ],
+    "uitslag": "Aangenomen",
+    "aangenomen": true,
+    "hoofdelijk": false,
+    "voor": 94,
+    "tegen": 56,
+    "tegenFracties": [
+     {
+      "fractie": "SP",
+      "zetels": 25
+     },
+     {
+      "fractie": "VVD",
+      "zetels": 21
+     },
+     {
+      "fractie": "PVV",
+      "zetels": 9
+     },
+     {
+      "fractie": "Verdonk",
+      "zetels": 1
+     }
+    ],
+    "coalitieTegen": []
+   },
+   {
+    "plan": "2010",
+    "zaak": "2009Z16513",
+    "datum": "2009-11-19",
+    "kabinet": "Balkenende IV",
+    "coalitie": [
+     "CDA",
+     "ChristenUnie",
+     "PvdA"
+    ],
+    "uitslag": "Aangenomen",
+    "aangenomen": true,
+    "hoofdelijk": false,
+    "voor": 115,
+    "tegen": 34,
+    "tegenFracties": [
+     {
+      "fractie": "SP",
+      "zetels": 25
+     },
+     {
+      "fractie": "PVV",
+      "zetels": 9
+     }
+    ],
+    "coalitieTegen": []
+   },
+   {
+    "plan": "2011",
+    "zaak": "2010Z13231",
+    "datum": "2010-11-18",
+    "kabinet": "Rutte I",
+    "coalitie": [
+     "CDA",
+     "PVV",
+     "VVD"
+    ],
+    "uitslag": "Aangenomen",
+    "aangenomen": true,
+    "hoofdelijk": false,
+    "voor": 133,
+    "tegen": 17,
+    "tegenFracties": [
+     {
+      "fractie": "SP",
+      "zetels": 15
+     },
+     {
+      "fractie": "PvdD",
+      "zetels": 2
+     }
+    ],
+    "coalitieTegen": []
+   },
+   {
+    "plan": "2012",
+    "zaak": "2011Z18006",
+    "datum": "2011-11-17",
+    "kabinet": "Rutte I",
+    "coalitie": [
+     "CDA",
+     "PVV",
+     "VVD"
+    ],
+    "uitslag": "Aangenomen",
+    "aangenomen": true,
+    "hoofdelijk": false,
+    "voor": 150,
+    "tegen": 0,
+    "tegenFracties": [],
+    "coalitieTegen": []
+   },
+   {
+    "plan": "2013",
+    "zaak": "2012Z15958",
+    "datum": "2012-11-20",
+    "kabinet": "Rutte II",
+    "coalitie": [
+     "PvdA",
+     "VVD"
+    ],
+    "uitslag": "Aangenomen",
+    "aangenomen": true,
+    "hoofdelijk": false,
+    "voor": 118,
+    "tegen": 32,
+    "tegenFracties": [
+     {
+      "fractie": "PVV",
+      "zetels": 15
+     },
+     {
+      "fractie": "SP",
+      "zetels": 15
+     },
+     {
+      "fractie": "PvdD",
+      "zetels": 2
+     }
+    ],
+    "coalitieTegen": []
+   },
+   {
+    "plan": "2014",
+    "zaak": "2013Z17577",
+    "datum": "2013-11-19",
+    "kabinet": "Rutte II",
+    "coalitie": [
+     "PvdA",
+     "VVD"
+    ],
+    "uitslag": "Aangenomen.",
+    "aangenomen": true,
+    "hoofdelijk": false,
+    "voor": 103,
+    "tegen": 47,
+    "tegenFracties": [
+     {
+      "fractie": "SP",
+      "zetels": 15
+     },
+     {
+      "fractie": "PVV",
+      "zetels": 14
+     },
+     {
+      "fractie": "CDA",
+      "zetels": 13
+     },
+     {
+      "fractie": "50PLUS",
+      "zetels": 2
+     },
+     {
+      "fractie": "PvdD",
+      "zetels": 2
+     },
+     {
+      "fractie": "Bontes",
+      "zetels": 1
+     }
+    ],
+    "coalitieTegen": []
+   },
+   {
+    "plan": "2015",
+    "zaak": "2014Z15823",
+    "datum": "2014-11-13",
+    "kabinet": "Rutte II",
+    "coalitie": [
+     "PvdA",
+     "VVD"
+    ],
+    "uitslag": "Aangenomen.",
+    "aangenomen": true,
+    "hoofdelijk": false,
+    "voor": 106,
+    "tegen": 44,
+    "tegenFracties": [
+     {
+      "fractie": "SP",
+      "zetels": 15
+     },
+     {
+      "fractie": "CDA",
+      "zetels": 13
+     },
+     {
+      "fractie": "PVV",
+      "zetels": 12
+     },
+     {
+      "fractie": "GrBvK",
+      "zetels": 2
+     },
+     {
+      "fractie": "50PLUS",
+      "zetels": 1
+     },
+     {
+      "fractie": "Klein",
+      "zetels": 1
+     }
+    ],
+    "coalitieTegen": []
+   },
+   {
+    "plan": "2016",
+    "zaak": "2015Z16496",
+    "datum": "2015-11-18",
+    "kabinet": "Rutte II",
+    "coalitie": [
+     "PvdA",
+     "VVD"
+    ],
+    "uitslag": "Aangenomen.",
+    "aangenomen": true,
+    "hoofdelijk": false,
+    "voor": 93,
+    "tegen": 57,
+    "tegenFracties": [
+     {
+      "fractie": "SP",
+      "zetels": 15
+     },
+     {
+      "fractie": "D66",
+      "zetels": 12
+     },
+     {
+      "fractie": "PVV",
+      "zetels": 12
+     },
+     {
+      "fractie": "ChristenUnie",
+      "zetels": 5
+     },
+     {
+      "fractie": "GroenLinks",
+      "zetels": 4
+     },
+     {
+      "fractie": "SGP",
+      "zetels": 3
+     },
+     {
+      "fractie": "GrKÖ",
+      "zetels": 2
+     },
+     {
+      "fractie": "PvdD",
+      "zetels": 2
+     },
+     {
+      "fractie": "50PLUS",
+      "zetels": 1
+     },
+     {
+      "fractie": "Klein",
+      "zetels": 1
+     }
+    ],
+    "coalitieTegen": []
+   },
+   {
+    "plan": "2017",
+    "zaak": "2016Z16937",
+    "datum": "2016-11-17",
+    "kabinet": "Rutte II",
+    "coalitie": [
+     "PvdA",
+     "VVD"
+    ],
+    "uitslag": "Aangenomen.",
+    "aangenomen": true,
+    "hoofdelijk": false,
+    "voor": 135,
+    "tegen": 14,
+    "tegenFracties": [
+     {
+      "fractie": "PVV",
+      "zetels": 12
+     },
+     {
+      "fractie": "GrBvK",
+      "zetels": 2
+     }
+    ],
+    "coalitieTegen": []
+   },
+   {
+    "plan": "2018",
+    "zaak": "2017Z12310",
+    "datum": "2017-11-23",
+    "kabinet": "Rutte III",
+    "coalitie": [
+     "CDA",
+     "ChristenUnie",
+     "D66",
+     "VVD"
+    ],
+    "uitslag": "Aangenomen.",
+    "aangenomen": true,
+    "hoofdelijk": false,
+    "voor": 128,
+    "tegen": 22,
+    "tegenFracties": [
+     {
+      "fractie": "PVV",
+      "zetels": 20
+     },
+     {
+      "fractie": "FVD",
+      "zetels": 2
+     }
+    ],
+    "coalitieTegen": []
+   },
+   {
+    "plan": "2019",
+    "zaak": "2018Z16281",
+    "datum": "2018-11-15",
+    "kabinet": "Rutte III",
+    "coalitie": [
+     "CDA",
+     "ChristenUnie",
+     "D66",
+     "VVD"
+    ],
+    "uitslag": "Aangenomen.",
+    "aangenomen": true,
+    "hoofdelijk": false,
+    "voor": 83,
+    "tegen": 67,
+    "tegenFracties": [
+     {
+      "fractie": "PVV",
+      "zetels": 20
+     },
+     {
+      "fractie": "GroenLinks",
+      "zetels": 14
+     },
+     {
+      "fractie": "SP",
+      "zetels": 14
+     },
+     {
+      "fractie": "PvdA",
+      "zetels": 9
+     },
+     {
+      "fractie": "PvdD",
+      "zetels": 5
+     },
+     {
+      "fractie": "DENK",
+      "zetels": 3
+     },
+     {
+      "fractie": "FVD",
+      "zetels": 2
+     }
+    ],
+    "coalitieTegen": []
+   },
+   {
+    "plan": "2020",
+    "zaak": "2019Z17359",
+    "datum": "2019-11-14",
+    "kabinet": "Rutte III",
+    "coalitie": [
+     "CDA",
+     "ChristenUnie",
+     "D66",
+     "VVD"
+    ],
+    "uitslag": "Aangenomen.",
+    "aangenomen": true,
+    "hoofdelijk": false,
+    "voor": 93,
+    "tegen": 56,
+    "tegenFracties": [
+     {
+      "fractie": "PVV",
+      "zetels": 19
+     },
+     {
+      "fractie": "SP",
+      "zetels": 14
+     },
+     {
+      "fractie": "PvdA",
+      "zetels": 9
+     },
+     {
+      "fractie": "50PLUS",
+      "zetels": 4
+     },
+     {
+      "fractie": "PvdD",
+      "zetels": 4
+     },
+     {
+      "fractie": "DENK",
+      "zetels": 3
+     },
+     {
+      "fractie": "FVD",
+      "zetels": 2
+     },
+     {
+      "fractie": "Van Kooten-Arissen",
+      "zetels": 1
+     }
+    ],
+    "coalitieTegen": []
+   },
+   {
+    "plan": "2021",
+    "zaak": "2020Z16391",
+    "datum": "2020-11-12",
+    "kabinet": "Rutte III",
+    "coalitie": [
+     "CDA",
+     "ChristenUnie",
+     "D66",
+     "VVD"
+    ],
+    "uitslag": "Aangenomen.",
+    "aangenomen": true,
+    "hoofdelijk": false,
+    "voor": 131,
+    "tegen": 19,
+    "tegenFracties": [
+     {
+      "fractie": "SP",
+      "zetels": 14
+     },
+     {
+      "fractie": "PvdD",
+      "zetels": 4
+     },
+     {
+      "fractie": "Van Kooten-Arissen",
+      "zetels": 1
+     }
+    ],
+    "coalitieTegen": []
+   },
+   {
+    "plan": "2022",
+    "zaak": "2021Z16036",
+    "datum": "2021-11-11",
+    "kabinet": "Rutte III",
+    "coalitie": [
+     "CDA",
+     "ChristenUnie",
+     "D66",
+     "VVD"
+    ],
+    "uitslag": "Aangenomen.",
+    "aangenomen": true,
+    "hoofdelijk": false,
+    "voor": 144,
+    "tegen": 6,
+    "tegenFracties": [
+     {
+      "fractie": "PvdD",
+      "zetels": 6
+     }
+    ],
+    "coalitieTegen": []
+   },
+   {
+    "plan": "2023",
+    "zaak": "2022Z17304",
+    "datum": "2022-11-10",
+    "kabinet": "Rutte IV",
+    "coalitie": [
+     "CDA",
+     "ChristenUnie",
+     "D66",
+     "VVD"
+    ],
+    "uitslag": "Aangenomen.",
+    "aangenomen": true,
+    "hoofdelijk": false,
+    "voor": 130,
+    "tegen": 18,
+    "tegenFracties": [
+     {
+      "fractie": "PvdD",
+      "zetels": 6
+     },
+     {
+      "fractie": "FVD",
+      "zetels": 5
+     },
+     {
+      "fractie": "Groep Van Haga",
+      "zetels": 3
+     },
+     {
+      "fractie": "JA21",
+      "zetels": 3
+     },
+     {
+      "fractie": "BIJ1",
+      "zetels": 1
+     }
+    ],
+    "coalitieTegen": []
+   },
+   {
+    "plan": "2024",
+    "zaak": "2023Z15439",
+    "datum": "2023-10-26",
+    "kabinet": "Rutte IV",
+    "coalitie": [
+     "CDA",
+     "ChristenUnie",
+     "D66",
+     "VVD"
+    ],
+    "uitslag": "Aangenomen.",
+    "aangenomen": true,
+    "hoofdelijk": false,
+    "voor": 139,
+    "tegen": 9,
+    "tegenFracties": [
+     {
+      "fractie": "FVD",
+      "zetels": 5
+     },
+     {
+      "fractie": "Groep Van Haga",
+      "zetels": 2
+     },
+     {
+      "fractie": "BIJ1",
+      "zetels": 1
+     },
+     {
+      "fractie": "JA21",
+      "zetels": 1
+     }
+    ],
+    "coalitieTegen": []
+   },
+   {
+    "plan": "2025",
+    "zaak": "2024Z13666",
+    "datum": "2024-11-14",
+    "kabinet": "Schoof",
+    "coalitie": [
+     "BBB",
+     "Nieuw Sociaal Contract",
+     "PVV",
+     "VVD"
+    ],
+    "uitslag": "Aangenomen.",
+    "aangenomen": true,
+    "hoofdelijk": false,
+    "voor": 109,
+    "tegen": 41,
+    "tegenFracties": [
+     {
+      "fractie": "GroenLinks-PvdA",
+      "zetels": 25
+     },
+     {
+      "fractie": "SP",
+      "zetels": 5
+     },
+     {
+      "fractie": "DENK",
+      "zetels": 3
+     },
+     {
+      "fractie": "FVD",
+      "zetels": 3
+     },
+     {
+      "fractie": "PvdD",
+      "zetels": 3
+     },
+     {
+      "fractie": "Volt",
+      "zetels": 2
+     }
+    ],
+    "coalitieTegen": []
+   },
+   {
+    "plan": "2026",
+    "zaak": "2025Z16924",
+    "datum": "2025-11-27",
+    "kabinet": "Schoof",
+    "coalitie": [
+     "BBB",
+     "VVD"
+    ],
+    "uitslag": "Aangenomen.",
+    "aangenomen": true,
+    "hoofdelijk": false,
+    "voor": 134,
+    "tegen": 16,
+    "tegenFracties": [
+     {
+      "fractie": "FVD",
+      "zetels": 7
+     },
+     {
+      "fractie": "DENK",
+      "zetels": 3
+     },
+     {
+      "fractie": "PvdD",
+      "zetels": 3
+     },
+     {
+      "fractie": "SP",
+      "zetels": 3
+     }
+    ],
+    "coalitieTegen": []
+   },
+   {
+    "plan": "2027",
+    "zaak": "2026Z18819",
+    "datum": "2026-11-12",
+    "kabinet": "Jetten",
+    "coalitie": [
+     "CDA",
+     "D66",
+     "VVD"
+    ],
+    "uitslag": "Aangenomen (76-74).",
+    "aangenomen": true,
+    "hoofdelijk": true,
+    "voor": 76,
+    "tegen": 74,
+    "tegenFracties": null,
+    "coalitieTegen": null
+   }
+  ]
+ }
 }
