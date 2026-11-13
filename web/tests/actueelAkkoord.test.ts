@@ -52,7 +52,8 @@ describe("Actueel: akkoord over het belastingplan", () => {
 
   it("noemt in de aanleiding het amendement, de voorwaarde en de bron", () => {
     expect(zonder.aanleiding).toContain("over één amendement op het Belastingplan 2027");
-    expect(zonder.aanleiding).not.toContain("Wordt het amendement aangenomen");  // staat niet in de genoemde bronnen (feitencontrole 13 november)
+    expect(zonder.aanleiding).toContain("PRO en Volt zeiden het belastingplan alleen te steunen als hun voorstel werd aangenomen (Hart van Nederland: ");
+    expect(zonder.aanleiding).not.toContain("Wordt het amendement aangenomen");
     expect(zonder.aanleiding).toContain("(NOS, 11 november 2026: nos.nl/artikel/2639001 en nos.nl/liveblog/2639007)");
     expect(zonder.aanleiding).toContain("De Tweede Kamer stemde op 12 november 2026 over het belastingplan; hoe elke fractie stemde, staat nog niet in de open data.");
     expect(akkoordBelastingplan({ ...d, uitslag: null, plannen: null }).aanleiding).toContain("De Tweede Kamer moet er nog over stemmen.");
@@ -199,6 +200,8 @@ describe("Actueel: akkoord over het belastingplan", () => {
   it("heeft lezingen en een slot in twee zinnen met getallen uit de data", () => {
     const j = buitenVan(d, "Jetten");
     const p = (a: string) => j.partijen.find((x) => x.afkorting === a)!;
+    expect(zonder.lezingen!.links.tekst).toContain("D66 en CDA maakten een afspraak met PRO en Volt over dit amendement. PRO en Volt dienden het in. Het kabinet ontried het.");
+    expect(zonder.lezingen!.links.tekst).not.toContain("Het kabinet zoekt");
     expect(zonder.lezingen!.links.tekst).toContain(`stonden D66 en CDA ${aantal(p("VVD").keer)} keer samen tegenover de VVD, en VVD en CDA ${aantal(p("D66").keer)} keer tegenover D66`);
     expect(zonder.lezingen!.rechts.tekst).toContain("Bij de 18 eerdere eindstemmingen over een Belastingplan sinds 2008 stemde geen coalitiefractie of gedoogpartner tegen.");
     expect(zonder.slot).toBe("In de Tweede Kamer hebben de vier 65 zetels en in de Eerste Kamer 29, in beide Kamers minder dan een meerderheid. Of PRO en Volt na dit akkoord vaker meestemmen met het kabinet, zie je over een half jaar in de lijn.");
