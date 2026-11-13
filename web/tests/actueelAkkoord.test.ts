@@ -52,7 +52,7 @@ describe("Actueel: akkoord over het belastingplan", () => {
 
   it("noemt in de aanleiding het amendement, de voorwaarde en de bron", () => {
     expect(zonder.aanleiding).toContain("over één amendement op het Belastingplan 2027");
-    expect(zonder.aanleiding).toContain("PRO en Volt zeiden het belastingplan alleen te steunen als hun voorstel werd aangenomen (Hart van Nederland: ");
+    expect(zonder.aanleiding).toContain("PRO en Volt wilden het belastingplan alleen steunen als hun voorstel werd aangenomen (Hart van Nederland: ");
     expect(zonder.aanleiding).not.toContain("Wordt het amendement aangenomen");
     expect(zonder.aanleiding).toContain("(NOS, 11 november 2026: nos.nl/artikel/2639001 en nos.nl/liveblog/2639007)");
     expect(zonder.aanleiding).toContain("De Tweede Kamer stemde op 12 november 2026 over het belastingplan; hoe elke fractie stemde, staat nog niet in de open data.");
