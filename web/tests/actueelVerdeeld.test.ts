@@ -79,8 +79,10 @@ describe("Actueel: hoe vaak stemde de coalitie verdeeld", () => {
     expect(b.tekst[2]).toContain(`${maandTekst(kleinst.maand)} telde ${aantal(kleinst.verdeeld)} verdeelde stemmingen`);
     expect(b.tekst[2]).toContain("In augustus 2026 was er geen stemming (zomerreces).");
     expect(b.tekst[2]).toContain(`november 2026 loopt tot en met ${datumTekst(d.stand)}`.replace(/^n/, "N"));
-    // Het bereik is het laagste en hoogste maandaandeel
-    for (const m of mnd) expect(maandPct(m, "VVD")!).toBeLessThanOrEqual(bereik(d, "VVD").max);
+    // Het bereik is het laagste en hoogste maandaandeel, alleen over maanden met minstens 100 verdeelde stemmingen
+    for (const m of mnd.filter((x) => x.verdeeld >= 100)) expect(maandPct(m, "VVD")!).toBeLessThanOrEqual(bereik(d, "VVD").max);
+    expect(bereik(d, "VVD").max).toBeLessThan(10);  // februari (43 stemmingen, 12%) telt niet mee
+    expect(b.data).toContain("alleen maanden met minstens 100 verdeelde stemmingen (niet: februari 2026)");
     expect(b.data).toContain("een stem die de Kamer als vergissing heeft aangemerkt");
     expect(b.data).toContain("vanaf 23 februari 2026, de start van kabinet-Jetten");
   });
@@ -96,8 +98,8 @@ describe("Actueel: hoe vaak stemde de coalitie verdeeld", () => {
     for (const n of ["zonder", "zonderSteun", "zonderAkkoord", "zonderBeide"] as const) expect(g[n].fracties).not.toContain("VVD");
     expect(["zonder", "zonderSteun", "zonderAkkoord"].every((n) => g[n as "zonder"].tk < z.tk.meerderheid)).toBe(true);
     expect(g.zonderBeide.tk).toBeGreaterThanOrEqual(z.tk.meerderheid);
-    expect(b.kop).toBe(`Zonder de VVD komen zeven fracties samen op ${g.zonderBeide.tk} zetels; die zeven stemden in ${procent(g.zonderBeide.pct)} van de stemmingen eensgezind`);
-    expect(b.tekst[0]).toBe(`D66 en CDA hebben samen ${g.zonder.tk} zetels in de Tweede Kamer. Met PRO en Volt, de partners van het akkoord over het Belastingplan, komen ze op ${g.zonderAkkoord.tk}; met ChristenUnie, 50PLUS en de Groep Markuszower op ${g.zonderSteun.tk}. Alle zeven samen hebben er ${g.zonderBeide.tk}; een meerderheid is 76.`);
+    expect(b.kop).toBe(`Zonder de VVD hebben D66 en CDA ${g.zonder.tk} zetels, met PRO en Volt ${g.zonderAkkoord.tk}: nog geen meerderheid`);
+    expect(b.tekst[0]).toBe(`D66 en CDA hebben samen ${g.zonder.tk} zetels in de Tweede Kamer. Met PRO en Volt, de partners van het akkoord over het Belastingplan, komen ze op ${g.zonderAkkoord.tk}; met ChristenUnie, 50PLUS en de Groep Markuszower, met wie het kabinet eind oktober sprak zonder afspraak (zie het stuk over het kabinet met ChristenUnie en 50PLUS), op ${g.zonderSteun.tk}. Alle zeven samen hebben er ${g.zonderBeide.tk}; een meerderheid is 76. Deze groepen zijn gekozen, niet afgeleid uit de stemming over het Belastingplan: hoe elke fractie daar stemde, staat nog niet in de open data.`);
     expect(b.tekst[1]).toContain(`D66 en CDA in ${procent(g.zonder.pct)} van de verdeelde stemmingen, met PRO en Volt in ${procent(g.zonderAkkoord.pct)}`);
     expect(b.tekst[1]).toContain(`alle zeven in ${procent(g.zonderBeide.pct)}`);
     expect(b.tekst[1]).toContain(`Het kabinet van D66, VVD en CDA stemde in ${procent(g.kabinet.pct)} eensgezind`);
@@ -110,17 +112,17 @@ describe("Actueel: hoe vaak stemde de coalitie verdeeld", () => {
     expect(b.data).toContain("eerstekamer.nl/fracties, geraadpleegd op 11 november 2026");
   });
 
-  it("herhaalt blok kamers van akkoord-belastingplan niet: geen hechtste meerderheid over alle fracties", () => {
+  it("noemt de meerderheid zonder de VVD uit akkoord-belastingplan, zodat de twee stukken niet botsen", () => {
     const route = ak.kamers.routes.find((r) => r.zonder === "VVD")!;
     const t = blok("zonder").tekst.join(" ");
-    expect(t).not.toContain("hechtste");
-    expect(t).not.toContain(procent(route.pct));
+    expect(t).toContain(`uit het stuk over het Belastingplan, telt ${route.start.length + route.extra.length} fracties en ${route.tk} zetels en stemde in ${procent(route.pct)} eensgezind`);
+    expect(stuk.opvalt).toContain(`ze stemden in ${procent(d.zonder.groepen.zonder.pct)} van de verdeelde stemmingen eensgezind`);
     expect(blok("zonder").data).toContain("staat in het stuk over het Belastingplan");
   });
 
   it("verwijst naar de coalitiebouwer met de snelkeuze kabinet zonder VVD", () => {
     expect(zonderLink(d)).toBe("/coalitie?soort=kabinet&periode=Jetten&groep=D66,CDA");
-    expect(stuk.bouwer).toEqual({ fracties: ["D66", "CDA"], tekst: "het kabinet zonder de VVD in de coalitiebouwer" });
+    expect(stuk.bouwer).toEqual({ fracties: ["D66", "CDA"], tekst: "D66 en CDA zonder de VVD in de coalitiebouwer" });
   });
 
   it("aanleiding en slot: de uitslag uit de data, verwijzing naar het eerdere stuk, geen voorspelling", () => {

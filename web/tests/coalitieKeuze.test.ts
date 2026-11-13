@@ -32,8 +32,8 @@ describe("snelkeuzes (3c)", () => {
   it("geeft het kabinet, het kabinet met de drie partijen en het kabinet zonder de VVD", () => {
     expect(k.map((x) => [x.id, x.naam, x.groep.join(",")])).toEqual([
       ["kabinet", "Huidig kabinet", "D66,VVD,CDA"],
-      ["met-steun", "Kabinet met ChristenUnie, 50PLUS en Groep Markuszower", "D66,VVD,CDA,ChristenUnie,50PLUS,Groep Markuszower"],
-      ["zonder-vvd", "Kabinet zonder VVD", "D66,CDA"],
+      ["met-steun", "Kabinet + ChristenUnie, 50PLUS en Groep Markuszower", "D66,VVD,CDA,ChristenUnie,50PLUS,Groep Markuszower"],
+      ["zonder-vvd", "D66 en CDA (zonder de VVD)", "D66,CDA"],
     ]);
   });
   it("laat een snelkeuze weg die niet kan", () => {

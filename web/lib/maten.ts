@@ -54,7 +54,7 @@ export const MATEN: Maat[] = [
       "Standaard tellen alleen verdeelde stemmingen (minstens een fractie voor en een tegen). Met een schakelaar kies je alle stemmingen (besluit 25 oktober 2026).",
       "De zetels zijn die van het moment van de stemming. Bij een hoofdelijke stemming tellen de leden die echt stemden: wie afwezig is, helpt geen meerderheid.",
       "De partners staan op volgorde: eerst beslissend, dan meegestemd.",
-      "Heeft de groep zelf een meerderheid, dan is geen andere fractie beslissend. Dan telt de bouwer ook hoe vaak de groep verdeeld stemde (alle fracties uit de groep stemden voor of tegen, maar niet allemaal hetzelfde), en per fractie hoeveel zetels er zonder haar overblijven (zetels in de zaal in de periode).",
+      "Heeft de groep zelf een meerderheid, dan is een andere fractie (bijna) nooit beslissend: alleen als de groep bij een stemming minder zetels had, bijvoorbeeld door afwezige leden bij een hoofdelijke stemming. Dan telt de bouwer ook hoe vaak de groep verdeeld stemde (alle fracties uit de groep stemden voor of tegen, maar niet allemaal hetzelfde), en per fractie hoeveel zetels er zonder haar overblijven (zetels in de zaal in de periode).",
     ],
     beperkingen: [
       "Dit is terugkijken op echte stemmingen. Het is geen voorspelling en geen advies over een samenwerking.",

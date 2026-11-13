@@ -82,7 +82,7 @@ export function Zonder({ d }: { d: VerdeeldData }) {
         })}
       </div>
       <p className={a.lijst} aria-hidden="true">Lichter: met de {d.buiten}, ter vergelijking</p>
-      <p className={a.link}><Link href={zonderLink(d)}>Het kabinet zonder de {d.buiten} in de coalitiebouwer</Link></p>
+      <p className={a.link}><Link href={zonderLink(d)}>{d.groep.join(" en ")} zonder de {d.buiten} in de coalitiebouwer</Link></p>
     </div>
   );
 }

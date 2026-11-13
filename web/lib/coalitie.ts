@@ -110,8 +110,8 @@ export type Snelkeuze = { id: string; naam: string; groep: string[] };
 export function snelkeuzes(kabinet: string[], steun: string[], zonder: string, zaal: string[]): Snelkeuze[] {
   const lijst: Snelkeuze[] = [
     { id: "kabinet", naam: "Huidig kabinet", groep: kabinet },
-    { id: "met-steun", naam: `Kabinet met ${steun.join(", ").replace(/, ([^,]*)$/, " en $1")}`, groep: [...kabinet, ...steun.filter((a) => !kabinet.includes(a))] },
-    { id: `zonder-${zonder.toLowerCase()}`, naam: `Kabinet zonder ${zonder}`, groep: kabinet.filter((a) => a !== zonder) },
+    { id: "met-steun", naam: `Kabinet + ${steun.join(", ").replace(/, ([^,]*)$/, " en $1")}`, groep: [...kabinet, ...steun.filter((a) => !kabinet.includes(a))] },
+    { id: `zonder-${zonder.toLowerCase()}`, naam: `${kabinet.filter((a) => a !== zonder).join(" en ")} (zonder de ${zonder})`, groep: kabinet.filter((a) => a !== zonder) },
   ];
   const zinvol = (k: Snelkeuze) => (k.id === "met-steun" ? steun.length > 0 : k.id === "kabinet" || kabinet.includes(zonder));
   return lijst.filter((k) => zinvol(k) && k.groep.length > 0 && k.groep.every((a) => zaal.includes(a)));
