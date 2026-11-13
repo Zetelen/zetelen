@@ -15,6 +15,12 @@ Frontend
 
 Biedt: een pagina met de zaal (hergebruikt uit `cohesie-pagina`), een keuzelijst van fracties, het totaal en het tekort of overschot ten opzichte van 76, en de rangorde van steunpartners. De keuze van fracties en periode staat in de URL.
 
+Wijziging 13 november 2026 (K18 punt 3a, 3b en 3c):
+
+- De keuze van fracties staat in eigen state van `CoalitieBouwer` en wordt daarna met `history.replaceState` in de URL gezet (zoals `Trend`, met het event `URL_GEWIJZIGD`). De URL wordt alleen gelezen bij binnenkomen en bij terug en vooruit (`popstate`). Een wissel van periode laadt de bouwer opnieuw (`key`). De groep in de vaste balk op de telefoon leest de adresbalk zelf (`GroepSamenvatting`).
+- Nieuwe prop `snel` op `CoalitieBouwer`: snelkeuzes voor het huidige kabinet (zonder einde in `api.kabinet`). Kabinetspartijen uit `api.coalitie`; de drie partijen waarmee het kabinet eind oktober 2026 sprak (ChristenUnie, 50PLUS, Groep Markuszower) uit `web/content/actueel/kabinet-cu-50plus.json` (`groep`), want ze hebben geen rol in `api.coalitie`; de partij voor "zonder" uit `web/content/actueel/coalitie-verdeeld.json` (`buiten`). Elke snelkeuze heeft een deelknop met een eigen deellink (`/deel/coalitie?...&groep=...`).
+- Bij een groep met een meerderheid: hoe vaak de groep verdeeld stemde (`verdeeldBinnen` en `gestemd` in `bereken`, `lib/coalitie.ts`) en per fractie de zetels zonder haar (`zonderElk`).
+
 Verwacht: de gegevens uit `coalitie-analyse` en de zaal en tokens uit `cohesie-pagina` en `ontwerpsysteem`.
 
 ## Afhankelijkheden

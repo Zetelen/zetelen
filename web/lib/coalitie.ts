@@ -25,6 +25,10 @@ export type Uitkomst = {
   eensgezind: number;
   meerderheid: number;
   zonderHulp: number; // meerderheid met alleen de eigen zetels
+  // Verdeeld binnen de groep (K18 punt 3b, 13 november 2026): alle fracties uit de groep stemden voor of tegen, maar
+  // niet allemaal hetzelfde. gestemd: alle fracties uit de groep stemden (eensgezind plus verdeeld)
+  verdeeldBinnen: number;
+  gestemd: number;
   partners: Partner[];
 };
 
@@ -51,13 +55,14 @@ export function bereken(m: Stemmatrix, groep: string[], zetels = zetelTabel(m), 
   const mee = new Array<number>(n).fill(0);
   const doorslag = new Array<number>(n).fill(0);
   const doorslagIn: number[][] = Array.from({ length: n }, () => []);
-  let eensgezind = 0, meerderheid = 0, zonderHulp = 0;
+  let eensgezind = 0, meerderheid = 0, zonderHulp = 0, verdeeldBinnen = 0;
   if (idx.length) {
     for (let b = 0; b < m.stemmen.length; b++) {
       const regel = m.stemmen[b];
       const stem = regel[idx[0]];
-      if (stem === "-" || idx.some((i) => regel[i] !== stem)) continue;
       if (alleenVerdeeld && !verdeeld(regel)) continue;
+      if (idx.some((i) => regel[i] === "-")) continue;
+      if (idx.some((i) => regel[i] !== stem)) { verdeeldBinnen++; continue; }
       eensgezind++;
       let voor = 0, tegen = 0, eigen = 0;
       for (let f = 0; f < n; f++) {
@@ -81,5 +86,33 @@ export function bereken(m: Stemmatrix, groep: string[], zetels = zetelTabel(m), 
     .map((fr, f) => ({ id: fr.id, afkorting: fr.afkorting, meegestemd: mee[f], beslissend: doorslag[f], aandeel: eensgezind ? (100 * mee[f]) / eensgezind : 0, beslissendIn: doorslagIn[f] }))
     .filter((p) => !groep.includes(p.id))
     .sort((a, b) => b.beslissend - a.beslissend || b.meegestemd - a.meegestemd);
-  return { eensgezind, meerderheid, zonderHulp, partners };
+  return { eensgezind, meerderheid, zonderHulp, verdeeldBinnen, gestemd: eensgezind + verdeeldBinnen, partners };
+}
+
+// De keuze van fracties (K18 punt 3a, 13 november 2026). De bouwer houdt de keuze in eigen state bij en past deze
+// functie toe als functionele update: twee tikken direct na elkaar bouwen dan op elkaar voort. Eerder kwam de keuze
+// uit de URL, en die was bij de tweede tik nog niet bijgewerkt: dan bleef alleen de tweede fractie over.
+export const wisselFractie = (groep: string[], afkorting: string): string[] =>
+  groep.includes(afkorting) ? groep.filter((a) => a !== afkorting) : [...groep, afkorting];
+// De keuze uit de URL (groep=D66,CDA), alleen bestaande fracties en zonder dubbele
+export const groepUitUrl = (waarde: string | null, bestaand: string[]): string[] =>
+  [...new Set((waarde ?? "").split(",").filter((a) => bestaand.includes(a)))];
+
+// Per fractie in een groep: hoeveel zetels er zonder haar overblijven en of dat nog een meerderheid is (K18 punt 3b)
+export const zonderElk = (groep: Array<{ afkorting: string; zetels: number }>, meerderheid: number) => {
+  const totaal = groep.reduce((n, f) => n + f.zetels, 0);
+  return groep.map((f) => ({ afkorting: f.afkorting, zetels: totaal - f.zetels, meerderheid: totaal - f.zetels >= meerderheid }));
+};
+
+// Snelkeuzes (K18 punt 3c): het huidige kabinet uit api.coalitie, met de partijen uit het stuk kabinet-cu-50plus, en
+// zonder één kabinetspartij. Een snelkeuze met een fractie die niet in de zaal zit, valt weg.
+export type Snelkeuze = { id: string; naam: string; groep: string[] };
+export function snelkeuzes(kabinet: string[], steun: string[], zonder: string, zaal: string[]): Snelkeuze[] {
+  const lijst: Snelkeuze[] = [
+    { id: "kabinet", naam: "Huidig kabinet", groep: kabinet },
+    { id: "met-steun", naam: `Kabinet met ${steun.join(", ").replace(/, ([^,]*)$/, " en $1")}`, groep: [...kabinet, ...steun.filter((a) => !kabinet.includes(a))] },
+    { id: `zonder-${zonder.toLowerCase()}`, naam: `Kabinet zonder ${zonder}`, groep: kabinet.filter((a) => a !== zonder) },
+  ];
+  const zinvol = (k: Snelkeuze) => (k.id === "met-steun" ? steun.length > 0 : k.id === "kabinet" || kabinet.includes(zonder));
+  return lijst.filter((k) => zinvol(k) && k.groep.length > 0 && k.groep.every((a) => zaal.includes(a)));
 }

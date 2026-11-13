@@ -3,12 +3,16 @@
 // op 25 oktober 2026. Zelfde bediening als de verkenner: links een bullet chart op zetels waarin je fracties aan
 // en uit zet, rechts de zaal met de groep in koper en de andere fracties naar hoe vaak ze meestemden. Daaronder
 // de partners (eerst beslissend, dan meegestemd) en per partner de stemmingen waarop die beslissend was.
-// De keuze van fracties staat in de URL; de browser rekent op de stemmatrix van de periode.
+// De keuze van fracties staat in eigen state en daarna in de URL (K18 punt 3a, 13 november 2026: eerder kwam de keuze uit
+// de URL, en twee snelle tikken verloren de eerste). De URL wordt alleen gelezen bij binnenkomen en bij terug en vooruit
+// in de browser. De browser rekent op de stemmatrix van de periode.
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { FractieInPeriode } from "@/lib/cohesie";
 import { getal, procent } from "@/lib/cohesie";
-import { DREMPEL, type Partner, type Stemmatrix, bereken, zetelTabel } from "@/lib/coalitie";
+import { DREMPEL, type Partner, type Snelkeuze, type Stemmatrix, bereken, groepUitUrl, wisselFractie, zetelTabel, zonderElk } from "@/lib/coalitie";
+import { URL_GEWIJZIGD } from "@/lib/deel";
+import { DeelKnop } from "@/components/deel/DeelKnop";
 import { schaalkleur } from "@/lib/kleur";
 import { MIDDEN, punt, sector, vakken, zetels as zetelsVan } from "@/lib/zaal";
 import { Lezingen, Schaal } from "@/components/Onderdelen";
@@ -22,14 +26,19 @@ const MEERDERHEID = 76;
 
 type Stemming = { besluit: string; datum: string; onderwerp: string | null; uitslag: string | null; zaak_nummer: string | null; zaak_soort: string | null };
 
-export function CoalitieBouwer({ fracties, soort, periode, alleenVerdeeld }: {
+// snel: de snelkeuzes (K18 punt 3c) voor het huidige kabinet; in een andere periode gaan ze naar die periode
+export function CoalitieBouwer({ fracties, soort, periode, alleenVerdeeld, snel }: {
   fracties: FractieInPeriode[]; soort: string; periode: string; alleenVerdeeld: boolean;
+  snel?: { periode: string; keuzes: Snelkeuze[] };
 }) {
   const router = useRouter();
   const pad = usePathname();
   const zoek = useSearchParams();
   const zaal = fracties.filter((f) => f.inZaal);
-  const groep = (zoek.get("groep") ?? "").split(",").map((a) => zaal.find((f) => f.afkorting === a)?.id).filter((x): x is string => !!x);
+  const inZaal = zaal.map((f) => f.afkorting);
+  // De keuze als afkortingen, in volgorde van aantikken. Alleen bij binnenkomen uit de URL
+  const [keuze, setKeuze] = useState<string[]>(() => groepUitUrl(zoek.get("groep"), inZaal));
+  const groep = keuze.map((a) => zaal.find((f) => f.afkorting === a)?.id).filter((x): x is string => !!x);
   const [matrix, setMatrix] = useState<Stemmatrix | null>(null);
   const [fout, setFout] = useState<string | null>(null);
   const [hover, setHover] = useState<string | null>(null);
@@ -67,15 +76,42 @@ export function CoalitieBouwer({ fracties, soort, periode, alleenVerdeeld }: {
   const meeRijen = mee ? mee.fracties.filter((f) => zaal.some((z) => z.afkorting === f.afkorting)).slice(0, 12) : [];
   const meesteKrap = [...meeRijen].sort((x, y) => y.krap - x.krap).slice(0, 2).map((f) => f.afkorting);
 
+  // Functionele update: een tweede tik bouwt voort op de eerste, ook als de URL nog niet is bijgewerkt
   function wissel(afkorting: string) {
-    const huidig = groep.map((id) => zaal.find((f) => f.id === id)!.afkorting);
-    const nieuw = huidig.includes(afkorting) ? huidig.filter((a) => a !== afkorting) : [...huidig, afkorting];
-    const q = new URLSearchParams(zoek.toString());
-    if (nieuw.length) q.set("groep", nieuw.join(","));
-    else q.delete("groep");
     setPartnerId(null);
-    router.replace(`${pad}?${q.toString()}`, { scroll: false });
+    setKeuze((k) => wisselFractie(k, afkorting));
   }
+  function kies(k: Snelkeuze) {
+    setPartnerId(null);
+    if (snel && snel.periode === periode && soort === "kabinet") { setKeuze(k.groep.filter((a) => inZaal.includes(a))); return; }
+    // Andere periode: naar het huidige kabinet met deze groep (de pagina laadt dan opnieuw)
+    const q = new URLSearchParams({ soort: "kabinet", periode: snel!.periode, groep: k.groep.join(",") });
+    if (!alleenVerdeeld) q.set("variant", "alle");
+    router.push(`${pad}?${q.toString()}`, { scroll: false });
+  }
+
+  // Na elke keuze de URL bijwerken, zonder te navigeren (zoals Trend): de deellink en het paneel op de telefoon lezen
+  // de adresbalk. Niet bij binnenkomen, dan staat de keuze al in de URL.
+  const binnen = useRef(true);
+  useEffect(() => {
+    if (binnen.current) { binnen.current = false; return; }
+    const q = new URLSearchParams(window.location.search);
+    if (keuze.length) q.set("groep", keuze.join(","));
+    else q.delete("groep");
+    const rest = q.toString();
+    // Een eigen state-object (zoals Trend): met de state van Next erin werkt Next useSearchParams niet bij
+    window.history.replaceState({ zetelenVol: window.history.state?.zetelenVol }, "",`${pad}${rest ? `?${rest}` : ""}${window.location.hash}`);
+    window.dispatchEvent(new Event(URL_GEWIJZIGD));
+  }, [keuze.join(",")]); // eslint-disable-line react-hooks/exhaustive-deps
+  // Terug en vooruit in de browser: de keuze uit de URL
+  useEffect(() => {
+    const terug = () => {
+      const u = groepUitUrl(new URLSearchParams(window.location.search).get("groep"), inZaal);
+      setKeuze((k) => (k.join(",") === u.join(",") ? k : u));
+    };
+    window.addEventListener("popstate", terug);
+    return () => window.removeEventListener("popstate", terug);
+  }, [inZaal.join(",")]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const kleurVan = (id: string) => {
     if (groep.includes(id)) return "var(--koper)";
@@ -89,6 +125,21 @@ export function CoalitieBouwer({ fracties, soort, periode, alleenVerdeeld }: {
         {groep.length ? `Gekozen groep: ${zetelsGroep} zetels.` : "Nog geen fracties gekozen."}
         {uitkomst ? ` De groep stemde ${uitkomst.eensgezind} keer eensgezind en had ${uitkomst.meerderheid} keer een meerderheid.` : ""}
       </p>
+      {snel && snel.keuzes.length > 0 && (
+        <div className={c.snel} role="group" aria-label={`Snelkeuze, kabinet-${snel.periode}`}>
+          <span className={c.snelLabel}>Snelkeuze{snel.periode !== periode ? ` · kabinet-${snel.periode}` : ""}</span>
+          {snel.keuzes.map((k) => {
+            const aan = snel.periode === periode && soort === "kabinet" && [...k.groep].sort().join(",") === [...keuze].sort().join(",");
+            return (
+              <span key={k.id} className={c.snelKeuze}>
+                <button type="button" className={c.snelKnop} aria-pressed={aan} onClick={() => kies(k)}>{k.naam}</button>
+                <DeelKnop grafiek="coalitie" icoon titel={`${k.naam}: halen ze samen een meerderheid?`}
+                  zoek={{ soort: "kabinet", periode: snel.periode, ...(alleenVerdeeld ? {} : { variant: "alle" }), groep: k.groep.join(",") }} />
+              </span>
+            );
+          })}
+        </div>
+      )}
       <div className={s.werkvlak}>
         <GroepPaneel zaal={zaal} groep={groep} wissel={wissel} hover={hover} setHover={setHover} perPartner={perPartner} genoeg={genoeg} />
         <div className={s.figuur}>
@@ -115,6 +166,7 @@ export function CoalitieBouwer({ fracties, soort, periode, alleenVerdeeld }: {
                 {getal(uitkomst.meerderheid)} keer ({procent((100 * uitkomst.meerderheid) / uitkomst.eensgezind)}). Op eigen kracht lukte dat{" "}
                 {getal(uitkomst.zonderHulp)} keer.
               </Tekst>
+              {tekort <= 0 && <Meerderheid uitkomst={uitkomst} leden={zaal.filter((f) => groep.includes(f.id))} alleenVerdeeld={alleenVerdeeld} />}
               <ol className={c.partners} aria-label="Partners, eerst op beslissend en dan op meegestemd">
                 {uitkomst.partners.map((p) => (
                   <li key={p.id}>
@@ -171,6 +223,33 @@ export function CoalitieBouwer({ fracties, soort, periode, alleenVerdeeld }: {
         </section>
       )}
     </div>
+  );
+}
+
+// Een groep met een meerderheid wint (bijna) altijd als ze eensgezind is, en dan is geen andere fractie beslissend (K18
+// punt 3b). Wat dan wel iets zegt: hoe vaak de groep zelf verdeeld stemde, en zonder welke fractie de meerderheid wegvalt.
+function Meerderheid({ uitkomst, leden, alleenVerdeeld }: { uitkomst: NonNullable<ReturnType<typeof bereken>>; leden: FractieInPeriode[]; alleenVerdeeld: boolean }) {
+  const zonder = zonderElk([...leden].sort((a, b) => b.zetels - a.zetels || a.afkorting.localeCompare(b.afkorting)).map((f) => ({ afkorting: f.afkorting, zetels: f.zetels })), MEERDERHEID);
+  return (
+    <section className={c.meerderheid} aria-label="Een groep met een meerderheid">
+      <Tekst>
+        Deze groep heeft een meerderheid. Op {getal(uitkomst.gestemd)} {alleenVerdeeld ? "verdeelde " : ""}stemmingen stemden alle fracties uit
+        de groep. Daarvan stemde de groep {getal(uitkomst.verdeeldBinnen)} keer verdeeld ({procent(uitkomst.gestemd ? (100 * uitkomst.verdeeldBinnen) / uitkomst.gestemd : 0)}):
+        niet alle fracties kozen dezelfde kant.
+      </Tekst>
+      {leden.length > 1 && (
+        <ol className={c.zonder} aria-label="Zetels zonder elke fractie uit de groep">
+          {zonder.map((z) => (
+            <li key={z.afkorting}>
+              <span className={c.naam}>zonder {z.afkorting}</span>
+              <span className={c.getal}><strong>{z.zetels}</strong> zetels</span>
+              <span className={c.getal} data-meerderheid={z.meerderheid}>{z.meerderheid ? "nog een meerderheid" : `geen meerderheid, ${MEERDERHEID - z.zetels} tekort`}</span>
+            </li>
+          ))}
+        </ol>
+      )}
+      <Data>Zetels in de zaal in deze periode. Verdeeld: alle fracties uit de groep stemden voor of tegen, maar niet allemaal hetzelfde.</Data>
+    </section>
   );
 }
 

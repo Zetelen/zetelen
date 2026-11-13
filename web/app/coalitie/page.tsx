@@ -6,6 +6,7 @@ import { GrafiekKader, GrafiekVlak } from "@/components/deel/GrafiekKader";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { CoalitieBouwer } from "@/components/coalitie/CoalitieBouwer";
+import { GroepSamenvatting } from "@/components/coalitie/GroepSamenvatting";
 import { Bronregel } from "@/components/cohesie/Bronregel";
 import { PeriodeKeuze } from "@/components/cohesie/PeriodeKeuze";
 import { Inhoud, LegeStaat } from "@/components/Kader";
@@ -16,6 +17,9 @@ import { Label, SectieKop, Tekst } from "@/components/Typografie";
 import { coalitieVan, cohesieIn, fractiesIn, keuzeUitUrl, perioden } from "@/lib/cohesie";
 import { coalitieOpvalt, kabinetBijStart } from "@/lib/kern";
 import { ordenFracties } from "@/lib/ordening";
+import { snelkeuzes } from "@/lib/coalitie";
+import kabinetCu50Plus from "@/content/actueel/kabinet-cu-50plus.json";
+import coalitieVerdeeld from "@/content/actueel/coalitie-verdeeld.json";
 import o from "@/components/onderwerpen/onderwerpen.module.css";
 
 type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> };
@@ -42,11 +46,22 @@ export default async function Coalitie({ searchParams }: Props) {
   const { soort, periode } = keuzeUitUrl(zoek, lijst);
   // Standaard alleen verdeelde stemmingen (besluit Niels): bij alle stemmingen wint een groep bijna altijd
   const variant = waarde(zoek, "variant") === "alle" ? "alle" : "verdeeld";
-  const groep = (waarde(zoek, "groep") ?? "").split(",").filter(Boolean);
   const [fracties, kaart] = periode ? await Promise.all([fractiesIn(soort, periode.naam), cohesieIn(soort, periode.naam, "alle")]) : [null, null];
   // Wat opvalt (K11): had het gekozen kabinet bij de start een meerderheid? Bij een Kamerperiode geen regel.
   const rollen = soort === "kabinet" && periode ? await coalitieVan(periode.naam) : null;
   const opvalt = rollen?.size && fracties && periode ? coalitieOpvalt(periode.naam, kabinetBijStart(fracties, rollen)) : null;
+  // Snelkeuzes (K18 punt 3c) voor het huidige kabinet (zonder einde). Kabinetspartijen uit api.coalitie; de partijen
+  // waarmee het kabinet eind oktober 2026 sprak uit het Actueel-stuk kabinet-cu-50plus (ze staan niet in api.coalitie,
+  // want ze hebben geen rol in het kabinet); "zonder" is de partij uit het Actueel-stuk coalitie-verdeeld.
+  const huidig = lijst.find((p) => p.soort === "kabinet" && !p.einde);
+  const huidigRollen = huidig ? (huidig.naam === periode?.naam && rollen ? rollen : await coalitieVan(huidig.naam)) : null;
+  const volgorde = kabinetCu50Plus.tegen;
+  const kabinet = huidigRollen ? [...huidigRollen.entries()].filter(([, r]) => r.rol === "kabinet" && !r.tot).map(([a]) => a)
+    .sort((a, b) => (volgorde.indexOf(a) + 1 || 99) - (volgorde.indexOf(b) + 1 || 99) || a.localeCompare(b)) : [];
+  const steun = huidig && kabinetCu50Plus.kabinet === huidig.naam ? kabinetCu50Plus.groep : [];
+  const zonder = huidig && coalitieVerdeeld.kabinet === huidig.naam ? coalitieVerdeeld.buiten : "";
+  const zaalHuidig = huidig?.naam === periode?.naam && soort === "kabinet" && fracties ? fracties.filter((f) => f.inZaal).map((f) => f.afkorting) : [...kabinet, ...steun];
+  const snel = huidig && kabinet.length ? { periode: huidig.naam, keuzes: snelkeuzes(kabinet, steun, zonder, zaalHuidig) } : undefined;
   return (
     <Inhoud>
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
@@ -65,7 +80,7 @@ export default async function Coalitie({ searchParams }: Props) {
       </section>
       {periode && (
         <Suspense>
-          <MobielPaneel samenvatting={<>{periode.naam} · {variant === "alle" ? "alle stemmingen" : "verdeelde stemmingen"}{groep.length ? <> · <strong>{groep.join(" + ")}</strong></> : ""}</>}>
+          <MobielPaneel samenvatting={<>{periode.naam} · {variant === "alle" ? "alle stemmingen" : "verdeelde stemmingen"}<GroepSamenvatting /></>}>
             <PeriodeKeuze perioden={lijst} soort={soort} periode={periode.naam} variant={variant} pad="/coalitie" />
           </MobielPaneel>
         </Suspense>
@@ -91,7 +106,8 @@ export default async function Coalitie({ searchParams }: Props) {
         <GrafiekKader grafiek="coalitie" id="bouwer" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
           <GrafiekVlak>
             <Suspense>
-              <CoalitieBouwer fracties={ordenFracties(fracties, kaart)} soort={soort} periode={periode.naam} alleenVerdeeld={variant === "verdeeld"} />
+              <CoalitieBouwer key={`${soort}|${periode.naam}`} fracties={ordenFracties(fracties, kaart)} soort={soort} periode={periode.naam}
+                alleenVerdeeld={variant === "verdeeld"} snel={snel} />
             </Suspense>
           </GrafiekVlak>
           <Bronregel toelichting={`${periode.naam} · eigen berekening, zie de methodiek`} />
