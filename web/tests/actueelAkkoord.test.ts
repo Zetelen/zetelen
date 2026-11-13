@@ -190,7 +190,7 @@ describe("Actueel: akkoord over het belastingplan", () => {
     expect(b.tekst[0]).toBe("De Kamer nam elk Belastingplan sinds het Belastingplan 2009 aan. De krapste uitslag was tot nu toe 83 tegen 67, voor het Belastingplan 2019 op 15 november 2018. Het Belastingplan 2027 nam de Kamer op 12 november 2026 aan met 76 tegen 74, krapper dan alle plannen ervoor. Over de 18 plannen ervoor stemde de Kamer bij handopsteken, per fractie; over dit plan hoofdelijk, elk Kamerlid apart.");
     const sp = pl.slice(0, -1).filter((x) => x.tegenFracties!.some((f) => f.fractie === "SP")).length;
     expect(b.tekst[1]).toContain(`het vaakst van de SP (${sp} van de 18 keer)`);
-    expect(b.tekst[1]).toContain("staat nog niet per fractie in de open data");
+    expect(b.tekst[1]).toContain("Hoe de fracties over het Belastingplan 2027 stemden, staat nog niet in de open data.");
     // Met een telling per fractie voor 2027: de zin volgt de data
     const met = (tegen: string[]) => akkoordBelastingplan({ ...d, plannen: { ...d.plannen!, lijst: [...pl.slice(0, -1), { ...pl[18], coalitieTegen: tegen, tegenFracties: [] }] } });
     expect(blok(met(["VVD"]), "plannen").tekst[1]).toContain("Bij het Belastingplan 2027 stemde de VVD tegen.");

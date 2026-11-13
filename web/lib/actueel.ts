@@ -339,7 +339,7 @@ function blokPlannen(d: AkkoordData): Blok | null {
   const wet = stemmingVan(d, "wet");
   const nuTegen = nu.coalitieTegen ?? (wet && wet.zaak === nu.zaak ? d.tegen.filter((a) => stemWoord(wet, a) === "Tegen") : null);
   const nuCoalitie = nuTegen === null
-    ? ` Hoe de fracties over het Belastingplan ${nu.plan} stemden, staat nog niet per fractie in de open data.`
+    ? ` Hoe de fracties over het Belastingplan ${nu.plan} stemden, staat nog niet in de open data.`
     : nuTegen.length === 0 ? ` Ook bij het Belastingplan ${nu.plan} stemde geen coalitiefractie tegen.`
     : ` Bij het Belastingplan ${nu.plan} stemde${nuTegen.length > 1 ? "n" : ""} ${opsomming(nuTegen.map((a) => deNaam(a)))} tegen.`;
   return {

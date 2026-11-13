@@ -425,7 +425,7 @@ def stemming(b: dict, rol: str, afk_van_id: dict, zetels: dict, kab: list) -> di
     # fractie; anders stemde een fractie verdeeld en noemt de pagina twee verschillende uitslagen
     m = TELLING.search(b["uitslag"] or "")
     if m and (voor, tegen) != (int(m.group(1)), int(m.group(2))):
-        sys.exit(f"{b['zaak']}: per fractie {voor}-{tegen}, besluit {m.group(1)}-{m.group(2)}. Een fractie stemde verdeeld: tel per lid na")
+        sys.exit(f"{b['zaak']}: per fractie {voor}-{tegen}, besluit {m.group(1)}-{m.group(2)}. De telling wijkt af (een fractie stemde verdeeld of er waren leden afwezig): tel per lid na")
     return {"rol": rol, "zaak": b["zaak"], "datum": b["datum"], "uitslag": b["uitslag"], "aangenomen": winnaar(b["uitslag"]) == "Voor",
             "hoofdelijk": b["hoofdelijk"], "voor": voor, "tegen": tegen, "fracties": fracties}
 
