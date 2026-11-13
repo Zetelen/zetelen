@@ -27,18 +27,29 @@ describe("keuze bij snel tikken (3a)", () => {
 });
 
 describe("snelkeuzes (3c)", () => {
-  const zaal = ["D66", "VVD", "CDA", "ChristenUnie", "50PLUS", "Groep Markuszower", "PRO"];
-  const k = snelkeuzes(["D66", "VVD", "CDA"], ["ChristenUnie", "50PLUS", "Groep Markuszower"], "VVD", zaal);
+  const zaal = ["D66", "VVD", "CDA", "ChristenUnie", "50PLUS", "Groep Markuszower", "PRO", "JA21", "BBB", "SGP"];
+  const k = snelkeuzes(["D66", "VVD", "CDA"], ["ChristenUnie", "50PLUS", "Groep Markuszower"], "VVD", zaal, ["JA21", "BBB", "SGP"]);
   it("geeft het kabinet, het kabinet met de drie partijen en het kabinet zonder de VVD", () => {
     expect(k.map((x) => [x.id, x.naam, x.groep.join(",")])).toEqual([
       ["kabinet", "Huidig kabinet", "D66,VVD,CDA"],
       ["met-steun", "Kabinet + ChristenUnie, 50PLUS en Groep Markuszower", "D66,VVD,CDA,ChristenUnie,50PLUS,Groep Markuszower"],
+      ["met-blok", "Kabinet + JA21, BBB en SGP", "D66,VVD,CDA,JA21,BBB,SGP"],
       ["zonder-vvd", "D66 en CDA (zonder de VVD)", "D66,CDA"],
     ]);
   });
   it("laat een snelkeuze weg die niet kan", () => {
     expect(snelkeuzes(["D66", "VVD", "CDA"], [], "", zaal).map((x) => x.id)).toEqual(["kabinet"]);
     expect(snelkeuzes(["D66", "VVD", "CDA"], ["Bestaat niet"], "VVD", zaal).map((x) => x.id)).toEqual(["kabinet", "zonder-vvd"]);
+  });
+  it("kabinet met JA21, BBB en SGP: de groep uit het stuk blok-kabinet, 81 zetels in de zaal", async () => {
+    const blok = (await import("../content/actueel/blok-kabinet.json")).default;
+    const zetels = (await import("../content/actueel/akkoord-belastingplan.json")).default.kamers.tk.zetels as Record<string, number>;
+    expect(blok.groep).toEqual(["JA21", "BBB", "SGP"]);
+    const g = k.find((x) => x.id === "met-blok")!.groep;
+    expect(g.reduce((n, a) => n + zetels[a], 0)).toBe(81);
+    expect(deellinkVan("coalitie", { soort: "kabinet", periode: "Jetten", groep: g.join(",") }))
+      .toBe("/deel/coalitie?soort=kabinet&periode=Jetten&groep=D66%2CVVD%2CCDA%2CJA21%2CBBB%2CSGP");
+    expect(snelkeuzes(["D66", "VVD", "CDA"], [], "VVD", zaal).map((x) => x.id)).not.toContain("met-blok");
   });
   it("heeft per snelkeuze een eigen deellink naar dezelfde groep", () => {
     const zonder = k.find((x) => x.id === "zonder-vvd")!;

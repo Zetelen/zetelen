@@ -105,14 +105,17 @@ export const zonderElk = (groep: Array<{ afkorting: string; zetels: number }>, m
 };
 
 // Snelkeuzes (K18 punt 3c): het huidige kabinet uit api.coalitie, met de partijen uit het stuk kabinet-cu-50plus, en
-// zonder één kabinetspartij. Een snelkeuze met een fractie die niet in de zaal zit, valt weg.
+// zonder één kabinetspartij. Plus het kabinet met JA21, BBB en SGP uit het stuk blok-kabinet (Niels, 13 november 2026).
+// Een snelkeuze met een fractie die niet in de zaal zit, valt weg.
 export type Snelkeuze = { id: string; naam: string; groep: string[] };
-export function snelkeuzes(kabinet: string[], steun: string[], zonder: string, zaal: string[]): Snelkeuze[] {
+export function snelkeuzes(kabinet: string[], steun: string[], zonder: string, zaal: string[], blok: string[] = []): Snelkeuze[] {
+  const lijstTekst = (l: string[]) => l.join(", ").replace(/, ([^,]*)$/, " en $1");
   const lijst: Snelkeuze[] = [
     { id: "kabinet", naam: "Huidig kabinet", groep: kabinet },
-    { id: "met-steun", naam: `Kabinet + ${steun.join(", ").replace(/, ([^,]*)$/, " en $1")}`, groep: [...kabinet, ...steun.filter((a) => !kabinet.includes(a))] },
+    { id: "met-steun", naam: `Kabinet + ${lijstTekst(steun)}`, groep: [...kabinet, ...steun.filter((a) => !kabinet.includes(a))] },
+    { id: "met-blok", naam: `Kabinet + ${lijstTekst(blok)}`, groep: [...kabinet, ...blok.filter((a) => !kabinet.includes(a))] },
     { id: `zonder-${zonder.toLowerCase()}`, naam: `${kabinet.filter((a) => a !== zonder).join(" en ")} (zonder de ${zonder})`, groep: kabinet.filter((a) => a !== zonder) },
   ];
-  const zinvol = (k: Snelkeuze) => (k.id === "met-steun" ? steun.length > 0 : k.id === "kabinet" || kabinet.includes(zonder));
+  const zinvol = (k: Snelkeuze) => (k.id === "met-steun" ? steun.length > 0 : k.id === "met-blok" ? blok.length > 0 : k.id === "kabinet" || kabinet.includes(zonder));
   return lijst.filter((k) => zinvol(k) && k.groep.length > 0 && k.groep.every((a) => zaal.includes(a)));
 }
