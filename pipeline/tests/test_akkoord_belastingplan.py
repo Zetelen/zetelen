@@ -185,3 +185,13 @@ def test_hoofdelijk_met_stemmen_telt_per_fractie_en_controleert_de_besluittekst(
     b["BesluitTekst"] = "Aangenomen (4-1)."
     with pytest.raises(ValueError):
         ak.plan_van(b, KABINETTEN, [])
+
+
+def test_hoofdelijk_stopt_als_een_fractie_verdeeld_stemde():
+    import pytest
+    rij = lambda f, n, soort: {"ActorFractie": f, "FractieGrootte": 3, "Soort": soort, "Fractie_Id": f, "Persoon_Id": n}  # noqa: E731
+    b = besluit(titel="x (Belastingplan 2027)", datum="2026-11-12", soort="Hoofdelijk", tekst="Aangenomen (3-3).", stemmen=[])
+    b["Stemming"] = [rij("A", "a1", "Voor"), rij("A", "a2", "Voor"), rij("A", "a3", "Tegen"),
+                     rij("B", "b1", "Tegen"), rij("B", "b2", "Tegen"), rij("B", "b3", "Voor")]
+    with pytest.raises(ValueError):
+        ak.plan_van(b, KABINETTEN, [])

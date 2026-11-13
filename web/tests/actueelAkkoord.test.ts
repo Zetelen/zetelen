@@ -1,6 +1,6 @@
 // Tests voor het Actueel-stuk "akkoord-belastingplan" (lib/actueel.ts): elke zin moet kloppen met de vastgelegde cijfers
-// uit pipeline/akkoord_belastingplan.py. Blok 1 (de uitslag van 12 november) staat nog niet in de data; de zinnen
-// daarvan worden getest met twee verzonnen uitslagen, een waarin de VVD voor het belastingplan stemt en een waarin
+// uit pipeline/akkoord_belastingplan.py. Blok 1 (de uitslag van 12 november) staat sinds 13 november in de data; de
+// zinnen worden daarnaast getest met twee verzonnen uitslagen, een waarin de VVD voor het belastingplan stemt en een waarin
 // ze tegen stemt. Die testuitslagen zijn geen voorspelling.
 import { describe, expect, it } from "vitest";
 import data from "../content/actueel/akkoord-belastingplan.json";
@@ -43,7 +43,7 @@ describe("Actueel: akkoord over het belastingplan", () => {
   });
 
   it("heeft de goedgekeurde kop en label, en Volt niet in de kop", () => {
-    expect(zonder.kop).toBe("Een akkoord zonder de VVD en het krapste Belastingplan sinds 2008");
+    expect(zonder.kop).toBe("Een akkoord zonder de VVD en het krapste van 19 Belastingplannen sinds 2008");
     expect(akkoordBelastingplan({ ...d, plannen: null }).kop).toBe("Een akkoord zonder de VVD over het Belastingplan 2027");
     expect(zonder.label).toBe("Actueel · Belastingplan 2027");
     expect(zonder.kop).not.toContain("Volt");

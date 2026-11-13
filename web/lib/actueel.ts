@@ -275,7 +275,8 @@ function kabinetMetSteun(d: ActueelData): Stuk {
 // Stuk 3 (11 november 2026, verhaal en opbouw goedgekeurd door Niels): het akkoord van D66 en CDA met PRO en Volt over
 // één amendement op het Belastingplan 2027, zonder de VVD. Vijf blokken: de uitslag van 12 november, de partners van de
 // kabinetspartijen in de oppositie, hoe vaak één kabinetspartij alleen staat, de zetels in beide Kamers, en wat een
-// akkoord eerder deed. Blok 1 bestaat pas als de uitslag in de data staat; tot die tijd staat het stuk niet in STUKKEN.
+// akkoord eerder deed. Blok 1 bestaat als de uitslag in de data staat (sinds 13 november); zonder uitslag staat het stuk
+// alleen op een preview.
 export const stemmingVan = (d: AkkoordData, rol: UitslagStemming["rol"]) => d.uitslag?.stemmingen.find((s) => s.rol === rol);
 export const metStem = (s: UitslagStemming, stem: Fractiestem["stem"]) => s.fracties.filter((f) => f.stem === stem).map((f) => f.afkorting);
 export const ekSom = (d: AkkoordData, fracties: string[]) => fracties.reduce((n, a) => n + (d.kamers.ek.zetels[a] ?? 0), 0);
@@ -352,7 +353,7 @@ function blokPlannen(d: AkkoordData): Blok | null {
       `${p.alleAangenomen ? `De Kamer nam elk Belastingplan sinds het Belastingplan ${eerder[0].plan} aan.` : ""} De krapste uitslag was tot nu toe ${k.voor} tegen ${k.tegen}, voor het Belastingplan ${k.plan} op ${datumTekst(k.datum)}. ${nuZin}${wijze}`.trim(),
       `${coalitieZin}${nuCoalitie}`,
     ],
-    data: `Bron: ${d.plannen!.bron}, opgehaald op ${datumTekst(d.plannen!.opgehaald)}. Eindstemmingen over de wetsvoorstellen met "(Belastingplan JJJJ)" in de titel, zonder amendementen en zonder de andere wetten uit het pakket, ${datumTekst(eerder[0].datum)} tot en met ${datumTekst(nu.datum)}. Het jaartal is dat van het plan; de Kamer stemt in het najaar ervoor. Zetels zoals de Kamer ze per fractie telde${nu.hoofdelijk ? `; bij de hoofdelijke stemming de telling uit het besluit` : ""}. Coalitie: kabinetspartijen en gedoogpartner op de dag van de stemming. Fractienamen zoals in de open data, ook van afgesplitste leden.`,
+    data: `Bron: ${d.plannen!.bron}, opgehaald op ${datumTekst(d.plannen!.opgehaald)}. Eindstemmingen over de wetsvoorstellen met "(Belastingplan JJJJ)" in de titel, zonder amendementen en zonder de andere wetten uit het pakket, ${datumTekst(eerder[0].datum)} tot en met ${datumTekst(nu.datum)}. Het jaartal is dat van het plan; de Kamer stemt in het najaar ervoor. Zetels zoals de Kamer ze per fractie telde${nu.hoofdelijk ? `; bij de hoofdelijke stemming ${nu.tegenFracties ? "de kant van de leden per fractie, met al haar zetels; geen fractie stemde verdeeld en de som klopt met de telling in het besluit" : "de telling uit het besluit"}` : ""}. Coalitie: kabinetspartijen en gedoogpartner op de dag van de stemming. Fractienamen zoals in de open data, ook van afgesplitste leden.`,
   };
 }
 
@@ -377,7 +378,7 @@ function blokUitslag(d: AkkoordData): Blok | null {
     : kabTegenWet.length === 0
     ? `Niet alle kabinetspartijen stemden. Bij de ${k.n} eerdere ${k.wat} sinds ${k.sinds} stemde geen coalitiefractie of gedoogpartner tegen.`
     : `${opsomming(kabTegenWet.map((a, i) => deNaam(a, i === 0)))} stemde${kabTegenWet.length > 1 ? "n" : ""} tegen het belastingplan. Dat gebeurde sinds ${k.sinds} niet eerder: bij de ${k.n} eerdere ${k.wat} stemde nooit een coalitiefractie of gedoogpartner tegen. Wat het betekent voor het kabinet, staat niet in de data.`;
-  const hoofdelijk = [am, wet].some((s) => s.hoofdelijk) ? " Bij een hoofdelijke stemming telt de kant van de meerderheid van een fractie, met al haar zetels." : "";
+  const hoofdelijk = [am, wet].some((s) => s.hoofdelijk) ? " Bij een hoofdelijke stemming telt de kant van de leden per fractie, met al haar zetels; de som klopt met de telling in het besluit." : "";
   return {
     id: "uitslag", vraag: "Wat stemde de Kamer?", kop,
     tekst: [
@@ -392,7 +393,7 @@ function blokUitslag(d: AkkoordData): Blok | null {
 function kopVan(d: AkkoordData) {
   const p = plannenVan(d);
   return p && p.nu.aangenomen && p.marge(p.nu) < p.marge(p.krapste)
-    ? `Een akkoord zonder de ${d.kamers.buiten} en het krapste Belastingplan sinds ${p.sinds}`
+    ? `Een akkoord zonder de ${d.kamers.buiten} en het krapste van ${p.lijst.length} Belastingplannen sinds ${p.sinds}`
     : `Een akkoord zonder de ${d.kamers.buiten} over het Belastingplan 2027`;
 }
 
@@ -495,7 +496,7 @@ export function akkoordBelastingplan(d: AkkoordData): Stuk & { data: AkkoordData
   return {
     slug: d.slug, datum: u ? u.opgehaald : d.gemaakt, label: "Actueel · Belastingplan 2027",
     kop: kopVan(d),
-    beschrijving: `D66 en CDA sloten een akkoord met PRO en Volt over het belastingplan, zonder de VVD. Met wie stemmen de kabinetspartijen, hoe vaak staat er één alleen, en wat tellen de zetels in beide Kamers?`,
+    beschrijving: `D66 en CDA sloten een akkoord met PRO en Volt over een amendement op het belastingplan, zonder de VVD. Met wie stemmen de kabinetspartijen, hoe vaak staat er één alleen, en wat tellen de zetels in beide Kamers?`,
     ziet: `Hoe de drie kabinetspartijen en de partijen van het akkoord stemden onder kabinet-${d.kabinet} tot en met ${datumTekst(d.stand)}${am ? `, de uitslag van ${datumTekst(am.datum)}` : ""}, eerdere kabinetten sinds ${d.buiten.kabinetten[0].van.slice(0, 4)}${pl ? ` en de eindstemmingen over de Belastingplannen sinds ${pl.sinds}` : ""}.`,
     opvalt: `${pl && pl.marge(pl.nu) < pl.marge(pl.krapste) ? `Het Belastingplan ${pl.nu.plan} ging met ${pl.nu.voor} tegen ${pl.nu.tegen}, de krapste uitslag van de ${pl.lijst.length} Belastingplannen sinds ${pl.sinds}. ` : ""}In de Eerste Kamer hebben ${vierTekst} ${ekVier} van de ${ek.totaal} zetels, ${ek.meerderheid - ekVier} minder dan een meerderheid.`,
     // Lezing links (13 november 2026, Niels): indiener PRO, mede-indiener Volt (OData ZaakActor 2026Z24909); de afspraak
@@ -632,7 +633,7 @@ function blokZonder(d: VerdeeldData, ak: AkkoordData): Blok {
       `Hoe vaak stemden die groepen eensgezind? ${opsomming(d.groep)} in ${procent(g.zonder.pct)} van de verdeelde stemmingen, met ${opsomming(d.partners)} in ${procent(g.zonderAkkoord.pct)}, met ${lijstMetDe(d.steun)} in ${procent(g.zonderSteun.pct)}, alle ${woord(n)} in ${procent(zb.pct)}. Het kabinet van ${opsomming(d.tegen)} stemde in ${procent(g.kabinet.pct)} eensgezind, met ${lijstMetDe(d.steun)} erbij in ${procent(g.kabinetSteun.pct)}. Binnen de groep van ${woord(n)} kozen ${metDe(lp.a)} en ${metDe(lp.b)} het minst vaak dezelfde kant: in ${procent(lp.cohesie)} van hun gezamenlijke verdeelde stemmingen.${hechtst ? ` De meerderheid zonder ${deNaam(B)} die over alle fracties het vaakst eensgezind stemde, uit het stuk over het Belastingplan, is ${opsomming(hechtst.start)} met ${opsomming(hechtst.extra)}: ${woord(hechtst.start.length + hechtst.extra.length)} fracties, ${hechtst.tk} zetels, in ${procent(hechtst.pct)} eensgezind.` : ""}`,
       `In de Eerste Kamer hebben de ${woord(n)} ${zb.ek} van de ${z.ek.totaal} zetels; een meerderheid is ${z.ek.meerderheid}.${geenEk.length ? ` ${lijstMetDe(geenEk).replace(/^de /, "De ")} ${geenEk.length > 1 ? "hebben" : "heeft"} daar geen zetels.` : ""} Dit is een rekensom op zetels: Zetelen heeft geen stemmingen van de Eerste Kamer.`,
     ],
-    data: `Eensgezind: op een verdeelde stemming stemden alle fracties uit de groep voor of tegen en kozen ze dezelfde kant; alleen stemmingen waarop alle fracties uit de groep stemden. Paar: cohesie zoals op de rest van de site, op verdeelde stemmingen waarop beide stemden. Tweede Kamer: zetels in de zaal onder kabinet-${d.kabinet}, meerderheid ${z.tk.meerderheid} van de 150. Eerste Kamer: ${z.ek.bron}, geraadpleegd op ${datumTekst(z.ek.geraadpleegd)}, meerderheid ${z.ek.meerderheid} van de ${z.ek.totaal}. PRO: GroenLinks-PvdA en PRO samen, als één lijn. Welke meerderheid zonder de ${B} over alle fracties het vaakst eensgezind stemde, staat in het stuk over het Belastingplan.`,
+    data: `Eensgezind: op een verdeelde stemming stemden alle fracties uit de groep voor of tegen en kozen ze dezelfde kant; alleen stemmingen waarop alle fracties uit de groep stemden. Paar: cohesie zoals op de rest van de site, op verdeelde stemmingen waarop beide stemden. Tweede Kamer: zetels in de zaal onder kabinet-${d.kabinet}, meerderheid ${z.tk.meerderheid} van de 150. Eerste Kamer: ${z.ek.bron}, geraadpleegd op ${datumTekst(z.ek.geraadpleegd)}, meerderheid ${z.ek.meerderheid} van de ${z.ek.totaal}. PRO: GroenLinks-PvdA en PRO samen, als één lijn. Welke meerderheid zonder de ${B} over alle fracties het vaakst eensgezind stemde, staat in het stuk over het Belastingplan.${wet ? ` Stemming over het Belastingplan: wetsvoorstel ${wet.zaak}, ${datumTekst(wet.datum)}, ${ak.uitslag!.bron}.` : ""}`,
   };
 }
 

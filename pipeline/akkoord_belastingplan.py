@@ -454,7 +454,7 @@ def uitslag(amendement: str, wet: str, bron: str) -> dict:
 # ---------- opdracht plannen ----------
 
 # Fractienamen in de OData die anders heten in api.coalitie
-ODATA_NAAM = {"NSC": "Nieuw Sociaal Contract"}
+ODATA_NAAM = {"NSC": "Nieuw Sociaal Contract", "Keijzer": "Lid Keijzer"}  # Lid Keijzer: de naam in api.fractie_periode
 PLAN_TITEL = re.compile(r"\(Belastingplan (20\d\d)\)\s*$")
 TELLING = re.compile(r"\((\d+)-(\d+)\)")
 
@@ -507,6 +507,11 @@ def plan_van(b: dict, kabinetten: list, coalitie: list) -> dict | None:
             return {**plan, "voor": int(m.group(1)), "tegen": int(m.group(2)), "tegenFracties": None, "coalitieTegen": None}
         # Stemmen per lid: per fractie de kant van de meerderheid van de leden, met de fractiegrootte. Stemde een fractie
         # verdeeld, dan klopt de som niet met de besluittekst en stopt het script.
+        kanten = {}
+        for s in stemmen:
+            kanten.setdefault(s["Fractie_Id"], set()).add(s["Soort"])
+        if any(len(k) > 1 for k in kanten.values()):
+            raise ValueError(f"{z['Nummer']}: een fractie stemde verdeeld: tel per lid na")
         per = fractiestemmen(stemmen)
         naam_van = {s["Fractie_Id"]: s["ActorFractie"] for s in stemmen}
         stemmen = [{"Soort": soort, "ActorFractie": naam_van[fid], "FractieGrootte": grootte, "Persoon_Id": None}
@@ -526,7 +531,7 @@ def plan_van(b: dict, kabinetten: list, coalitie: list) -> dict | None:
     tegen = sorted((s for s in stemmen if s["Soort"] == "Tegen"), key=lambda s: (-s["FractieGrootte"], s["ActorFractie"]))
     return {**plan, "voor": sum(s["FractieGrootte"] for s in stemmen if s["Soort"] == "Voor"),
             "tegen": sum(s["FractieGrootte"] for s in tegen),
-            "tegenFracties": [{"fractie": s["ActorFractie"], "zetels": s["FractieGrootte"]} for s in tegen],
+            "tegenFracties": [{"fractie": naam(s), "zetels": s["FractieGrootte"]} for s in tegen],
             "coalitieTegen": sorted(a for a in leden if a in {naam(s) for s in tegen})}
 
 
