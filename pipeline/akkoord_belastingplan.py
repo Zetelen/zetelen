@@ -370,8 +370,10 @@ def fractiestemmen(rijen: list) -> dict:
             per.setdefault(s["Fractie_Id"], []).append(s)
     uit = {}
     for fid, rs in per.items():
-        if len(rs) == 1 and not rs[0].get("Persoon_Id"):
-            uit[fid] = (rs[0]["Soort"], rs[0].get("FractieGrootte"))
+        fractierij = [r for r in rs if not r.get("Persoon_Id")]
+        if fractierij:
+            # Handopsteken: de rij van de fractie telt; rijen van afwijkende leden veranderen de fractiestem niet
+            uit[fid] = (fractierij[0]["Soort"], fractierij[0].get("FractieGrootte"))
             continue
         voor = sum(1 for r in rs if r["Soort"] == "Voor")
         tegen = len(rs) - voor
@@ -419,6 +421,11 @@ def stemming(b: dict, rol: str, afk_van_id: dict, zetels: dict, kab: list) -> di
     fracties.sort(key=lambda f: (-f["zetels"], f["afkorting"]))
     voor = sum(f["zetels"] for f in fracties if f["stem"] == "Voor")
     tegen = sum(f["zetels"] for f in fracties if f["stem"] == "Tegen")
+    # Een telling in de besluittekst (bij een hoofdelijke stemming, bijvoorbeeld "(76-74)") moet kloppen met de som per
+    # fractie; anders stemde een fractie verdeeld en noemt de pagina twee verschillende uitslagen
+    m = TELLING.search(b["uitslag"] or "")
+    if m and (voor, tegen) != (int(m.group(1)), int(m.group(2))):
+        sys.exit(f"{b['zaak']}: per fractie {voor}-{tegen}, besluit {m.group(1)}-{m.group(2)}. Een fractie stemde verdeeld: tel per lid na")
     return {"rol": rol, "zaak": b["zaak"], "datum": b["datum"], "uitslag": b["uitslag"], "aangenomen": winnaar(b["uitslag"]) == "Voor",
             "hoofdelijk": b["hoofdelijk"], "voor": voor, "tegen": tegen, "fracties": fracties}
 

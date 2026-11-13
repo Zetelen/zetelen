@@ -155,3 +155,20 @@ def test_fractiestem_bij_hoofdelijk_is_de_meerderheid_van_de_leden():
     uit = ak.fractiestemmen([r("a", "Voor"), r("a", "Tegen"), r("a", "Voor"), r("b", "Tegen"), r("b", "Voor"),
                              {"Fractie_Id": "c", "Persoon_Id": None, "Soort": "Tegen", "FractieGrootte": 5}])
     assert uit == {"a": ("Voor", 3), "c": ("Tegen", 5)}  # b staat gelijk en telt niet mee
+
+
+def test_fractiestem_bij_handopsteken_volgt_de_fractierij_ook_met_afwijkende_leden():
+    uit = ak.fractiestemmen([{"Fractie_Id": "a", "Persoon_Id": None, "Soort": "Tegen", "FractieGrootte": 33},
+                             {"Fractie_Id": "a", "Persoon_Id": "p1", "Soort": "Voor", "FractieGrootte": 33},
+                             {"Fractie_Id": "a", "Persoon_Id": "p2", "Soort": "Voor", "FractieGrootte": 33}])
+    assert uit == {"a": ("Tegen", 33)}
+
+
+def test_stemming_stopt_als_de_som_per_fractie_afwijkt_van_de_besluittekst():
+    import pytest
+    b = {"zaak": "W", "datum": "2026-11-12", "uitslag": "Aangenomen (76-74).", "hoofdelijk": True,
+         "stemmen": {"a": ("Voor", 80), "b": ("Tegen", 70)}}
+    with pytest.raises(SystemExit):
+        ak.stemming(b, "wet", {"a": "A", "b": "B"}, {}, [])
+    b["stemmen"] = {"a": ("Voor", 76), "b": ("Tegen", 74)}
+    assert ak.stemming(b, "wet", {"a": "A", "b": "B"}, {}, [])["voor"] == 76

@@ -54,7 +54,8 @@ describe("Actueel: akkoord over het belastingplan", () => {
     expect(zonder.aanleiding).toContain("over één amendement op het Belastingplan 2027");
     expect(zonder.aanleiding).not.toContain("Wordt het amendement aangenomen");  // staat niet in de genoemde bronnen (feitencontrole 13 november)
     expect(zonder.aanleiding).toContain("(NOS, 11 november 2026: nos.nl/artikel/2639001 en nos.nl/liveblog/2639007)");
-    expect(zonder.aanleiding).toContain("De Tweede Kamer moet er nog over stemmen.");
+    expect(zonder.aanleiding).toContain("De Tweede Kamer stemde op 12 november 2026 over het belastingplan; hoe elke fractie stemde, staat nog niet in de open data.");
+    expect(akkoordBelastingplan({ ...d, uitslag: null, plannen: null }).aanleiding).toContain("De Tweede Kamer moet er nog over stemmen.");
     expect(vvdVoor.aanleiding).toContain("De Tweede Kamer stemde op 12 november 2026 over beide.");
   });
 
