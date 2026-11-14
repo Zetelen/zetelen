@@ -91,3 +91,27 @@ def test_alleen_partijen_tellen_mee():
     ids = {"VVD": ["1"], "D66": ["2"], "Groep Iemand": ["3"]}
     mee, weg = dm.partijen_van([], ids)
     assert mee == ["VVD", "D66"] and weg == 1
+
+
+def test_verschil_uit_de_ruwe_breuken_niet_uit_afgeronde_cohesies(monkeypatch):
+    """Feitencontrole 14 november 2026: reken uit de breuken. 1 van 3 naar 2 van 3 is 33,3333 punt."""
+    monkeypatch.setattr(dm, "MIN_PAAR", 3)
+    voor = [b({"a": "Voor", "x": s}, "2021-01-01", besluit=str(i)) for i, s in enumerate(["Voor", "Tegen", "Tegen"])]
+    na = [b({"a": "Voor", "x": s}, "2021-02-01", besluit=str(i)) for i, s in enumerate(["Voor", "Voor", "Tegen"])]
+    v = dm.verschuivingen(voor, na, IDS, ["A", "X"], ["A"], ["X"])
+    ax = v["kabOpp"][0]
+    assert ax["verschil"] == 33.3333 and ax["voor"] == 33.3333 and ax["na"] == 66.6667
+    assert (ax["gelijkVoor"], ax["nVoor"], ax["gelijkNa"], ax["nNa"]) == (1, 3, 2, 3)
+
+
+def test_paar_telt_alleen_als_beide_die_dag_in_het_kabinet_zaten():
+    besluiten = [
+        b({"a": "Voor", "b": "Voor", "c": "Voor"}, "2025-08-01", besluit="1"),
+        b({"a": "Voor", "b": "Voor", "c": "Tegen"}, "2025-09-01", besluit="2"),  # C zit niet meer in het kabinet
+    ]
+    leden = lambda d: ["A", "B", "C"] if d < "2025-08-22" else ["A", "B"]  # noqa: E731
+    r = dm.periode_cijfers(besluiten, IDS, ["A", "B"], ["A", "B", "C"], leden)
+    ac = next(p for p in r["paren"] if (p["a"], p["b"]) == ("A", "C"))
+    ab = next(p for p in r["paren"] if (p["a"], p["b"]) == ("A", "B"))
+    assert ac["gezamenlijk"] == 1 and ab["gezamenlijk"] == 2
+    assert r["partijen"] == 3

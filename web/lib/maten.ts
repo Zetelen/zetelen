@@ -98,7 +98,7 @@ export const MATEN: Maat[] = [
     ],
     beperkingen: [
       "De mediaan vangt een agenda op die alle paren raakt, niet een onderwerp dat juist één paar raakt.",
-      "Een verschuiving zegt niet waarom een partij anders stemde: campagne, formatie of een ander onderwerp zien er in de stemmingen hetzelfde uit.",
+      "Een verschuiving zegt niet waarom een partij anders stemde: profileren, formatie of een ander onderwerp zien er in de stemmingen hetzelfde uit.",
     ],
   }] : []),
   {

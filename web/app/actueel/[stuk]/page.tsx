@@ -7,7 +7,7 @@ import { Bladeren } from "@/components/Bladeren";
 import { Botspunten, Doorslag, Hechtheid, Meegaan, MeegaanStappen, PerThema, Zetelsom } from "@/components/actueel/Blokken";
 import { Buiten, Kamers, Partners, Plannen, Toen, Uitslag } from "@/components/actueel/AkkoordBlokken";
 import { Maanden, Zonder } from "@/components/actueel/VerdeeldBlokken";
-import { Campagne, Val } from "@/components/actueel/DemissionairBlokken";
+import { Oppositie, Val } from "@/components/actueel/DemissionairBlokken";
 import { Inhoud } from "@/components/Kader";
 import { GrafiekKader, GrafiekVlak } from "@/components/deel/GrafiekKader";
 import { Kern, Lezingen } from "@/components/Onderdelen";
@@ -31,7 +31,7 @@ const AKKOORD: Record<string, (p: { d: AkkoordData }) => React.ReactNode> = { ui
 // Stuk coalitie-verdeeld (13 november 2026): eigen data, eigen grafieken
 const VERDEELD: Record<string, (p: { d: VerdeeldData }) => React.ReactNode> = { maanden: Maanden, zonder: Zonder };
 // Stuk demissionair (14 november 2026): zes kabinetten, eigen data, eigen grafieken
-const DEMISSIONAIR: Record<string, (p: { d: DemissionairData }) => React.ReactNode> = { val: Val, campagne: Campagne };
+const DEMISSIONAIR: Record<string, (p: { d: DemissionairData }) => React.ReactNode> = { val: Val, oppositie: Oppositie };
 function Grafiek({ d, id }: { d: Stuk["data"]; id: string }) {
   if (isAkkoord(d)) {
     const G = AKKOORD[id];

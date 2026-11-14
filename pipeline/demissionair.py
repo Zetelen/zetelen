@@ -12,9 +12,11 @@ Per kabinet drie periodes, geknipt op twee datums (constante KABINETTEN, met bro
   demNa       demissionair, met de nieuwe Kamer: tot de beëdiging van het volgende kabinet (api.kabinet)
 
   na de val   Per periode: hoe vaak de blijvende kabinetspartijen (die op de laatste dag nog in het kabinet zaten)
-              eensgezind stemden (maat() uit akkoord_belastingplan.py), de cohesie per paar kabinetspartijen (cohesie()),
+              eensgezind stemden (maat() uit akkoord_belastingplan.py), de cohesie per paar kabinetspartijen (cohesie(),
+              alleen op stemmingen waarop beide die dag in het kabinet zaten),
               en hoe vaak één kabinetspartij alleen stond (buiten_de_boot(), alleen bij minstens drie partijen).
-  campagne    Missionair tegenover demissionair vóór de installatie: per paar van een blijvende kabinetspartij en een
+  campagne    (sleutel in het JSON-bestand; op de site heet het blok "oppositie") Missionair tegenover demissionair
+              vóór de installatie van de nieuwe Kamer: per paar van een blijvende kabinetspartij en een
               oppositiepartij de verandering in cohesie, met als referentie voor de agenda de mediane verandering van
               alle paren (alle partijen, ook oppositie met oppositie). Ter controle dezelfde verandering op alleen moties.
   jetten      Ter vergelijking, zonder voorspelling: dezelfde maten voor kabinet-Jetten tot de stand van de data.
@@ -135,8 +137,18 @@ def is_motie(b: dict) -> bool:
     return b["zaak_soort"] == "Motie"
 
 
+# Precisie in het JSON-bestand: de site rondt één keer af, bij het tonen (feitencontrole 14 november 2026: eerst op één
+# decimaal en dan op een heel procent afronden gaf 73 waar 72 hoort)
+PRECISIE = 4
+
+
 def mediaan(lijst: list) -> float | None:
-    return round(statistics.median(lijst), 1) if lijst else None
+    return round(statistics.median(lijst), PRECISIE) if lijst else None
+
+
+def ruw(c: dict) -> float | None:
+    """De cohesie als ruwe breuk, niet de op één decimaal afgeronde waarde uit cohesie()."""
+    return 100 * c["gelijk"] / c["gezamenlijk"] if c["gezamenlijk"] else None
 
 
 def periode_cijfers(besluiten: list, ids: dict, blijvend: list, groep: list, leden_op) -> dict:
@@ -149,13 +161,17 @@ def periode_cijfers(besluiten: list, ids: dict, blijvend: list, groep: list, led
     bb = buiten_de_boot(V, ids, leden_op)
     alleen = [{"afkorting": a, **p, "pct": round(100 * p["keer"] / p["basis"], 1) if p["basis"] else None}
               for a, p in sorted(bb["per"].items(), key=lambda kv: (-kv[1]["keer"], kv[0]))]
+    # Een paar kabinetspartijen telt alleen op stemmingen waarop beide op die dag in het kabinet zaten (NSC na 22
+    # augustus 2025 niet meer)
     paren = []
     for a, b in combinations(groep, 2):
-        c = cohesie(V, ids[a], ids[b])
+        c = cohesie([x for x in V if a in leden_op(x["datum"]) and b in leden_op(x["datum"])], ids[a], ids[b])
         paren.append({"a": a, "b": b, **c})
+    # Het grootste aantal partijen uit de groep dat in deze periode tegelijk in het kabinet zat
+    meeste = max(len([a for a in groep if a in leden_op(x["datum"])]) for x in V)
     return {
         "van": min(b["datum"] for b in V), "tot": max(b["datum"] for b in V), "verdeeld": len(V), "klein": len(V) < KLEIN,
-        "moties": sum(1 for b in V if is_motie(b)),
+        "moties": sum(1 for b in V if is_motie(b)), "partijen": meeste,
         "eensgezind": maat(V, [ids[a] for a in blijvend]),
         "paren": paren,
         "alleen": {"verdeeld": bb["verdeeld"], "partijen": alleen},
@@ -173,14 +189,15 @@ def verschuivingen(voor: list, na: list, ids: dict, partijen: list, kab: list, o
         cv, cn = cohesie(Vv, ids[a], ids[b]), cohesie(Vn, ids[a], ids[b])
         if cv["gezamenlijk"] < MIN_PAAR or cn["gezamenlijk"] < MIN_PAAR:
             continue
-        verschil = round(cn["cohesie"] - cv["cohesie"], 1)
+        # Uit de ruwe breuken, niet uit afgeronde cohesies (feitencontrole 14 november 2026)
+        verschil = round(ruw(cn) - ruw(cv), PRECISIE)
         mv, mn = cohesie(Mv, ids[a], ids[b]), cohesie(Mn, ids[a], ids[b])
-        motie = round(mn["cohesie"] - mv["cohesie"], 1) if mv["gezamenlijk"] >= MIN_PAAR and mn["gezamenlijk"] >= MIN_PAAR else None
+        motie = round(ruw(mn) - ruw(mv), PRECISIE) if mv["gezamenlijk"] >= MIN_PAAR and mn["gezamenlijk"] >= MIN_PAAR else None
         alle_paren.append({"verschil": verschil, "motie": motie})
         if (a in kab) != (b in kab) and (a in opp or b in opp):
             k, o = (a, b) if a in kab else (b, a)
-            kab_opp.append({"kabinetspartij": k, "oppositie": o, "voor": cv["cohesie"], "na": cn["cohesie"],
-                            "nVoor": cv["gezamenlijk"], "nNa": cn["gezamenlijk"], "verschil": verschil, "motie": motie})
+            kab_opp.append({"kabinetspartij": k, "oppositie": o, "voor": round(ruw(cv), PRECISIE), "na": round(ruw(cn), PRECISIE),
+                            "gelijkVoor": cv["gelijk"], "gelijkNa": cn["gelijk"], "nVoor": cv["gezamenlijk"], "nNa": cn["gezamenlijk"], "verschil": verschil, "motie": motie})
     kab_opp.sort(key=lambda x: (-x["verschil"], x["kabinetspartij"], x["oppositie"]))
     met_motie = [x for x in kab_opp if x["motie"] is not None]
     return {

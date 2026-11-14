@@ -668,17 +668,21 @@ export const COALITIE_VERDEELD = coalitieVerdeeld(coalitieVerdeeldJson as unknow
 
 // Stuk 5 (14 november 2026): wat gebeurde er in de Kamer als een kabinet demissionair werd? Zes kabinetten sinds 2010,
 // elk in drie periodes (missionair, demissionair vóór de installatie van de nieuwe Kamer, demissionair met de nieuwe
-// Kamer). Twee blokken: de eensgezindheid van de blijvende kabinetspartijen, en de campagne in de Kamer: paren van een
+// Kamer). Twee blokken: de eensgezindheid van de blijvende kabinetspartijen, en vóór de nieuwe Kamer: paren van een
 // kabinetspartij en een oppositiepartij, tegen de mediane verandering van alle paren als referentie voor de agenda.
+// Percentages rekent de site uit de tellers en noemers en rondt één keer af (feitencontrole 14 november 2026).
 // Cijfers uit pipeline/demissionair.py. Het stuk kijkt terug en zegt niets over wat er met kabinet-Jetten gebeurt.
 export type DemPeriodeNaam = "missionair" | "demVoor" | "demNa";
 export const DEM_PERIODES: DemPeriodeNaam[] = ["missionair", "demVoor", "demNa"];
 export type DemPaar = { a: string; b: string; cohesie: number | null; gezamenlijk: number; gelijk: number };
 export type DemPeriode = {
-  van: string; tot: string; verdeeld: number; klein: boolean; moties: number; eensgezind: Kans; paren: DemPaar[];
+  van: string; tot: string; verdeeld: number; klein: boolean; moties: number; partijen: number; eensgezind: Kans; paren: DemPaar[];
   alleen: { verdeeld: number; partijen: Array<{ afkorting: string; basis: number; keer: number; won: number; pct: number | null }> };
 };
-export type Verschuiving = { kabinetspartij: string; oppositie: string; voor: number; na: number; nVoor: number; nNa: number; verschil: number; motie: number | null };
+export type Verschuiving = {
+  kabinetspartij: string; oppositie: string; voor: number; na: number; gelijkVoor: number; gelijkNa: number; nVoor: number; nNa: number;
+  verschil: number; motie: number | null;
+};
 export type DemKabinet = {
   kabinet: string; begin: string; einde: string; dataVanaf: string; demissionair: string; verkiezing: string; kamer: string;
   bron: Record<string, string>; partijen: string[]; blijvend: string[]; groep: string[]; vertrokken: string[];
@@ -709,6 +713,10 @@ const eenDecimaal = (x: number) => Math.abs(x).toLocaleString("nl-NL", { minimum
 export const punt = (x: number) => `${x > 0 ? "plus " : x < 0 ? "min " : ""}${eenDecimaal(x)}`;
 export const puntKort = (x: number) => `${x > 0 ? "+" : x < 0 ? "-" : ""}${eenDecimaal(x)}`;
 const groot = (p: DemPeriode | null): p is DemPeriode => !!p && !p.klein;
+// Uit de breuk, niet uit het op één decimaal afgeronde getal in het JSON-bestand: zo wordt er maar één keer afgerond
+export const breuk = (deel: number, geheel: number) => (geheel ? (100 * deel) / geheel : null);
+export const eensPct = (p: DemPeriode) => breuk(p.eensgezind.eensgezind, p.eensgezind.gestemd);
+export const paarPct = (q: DemPaar) => breuk(q.gelijk, q.gezamenlijk);
 // Kabinet in de vorm die de site elders gebruikt
 const kab = (k: { kabinet: string }) => k.kabinet;
 
@@ -718,7 +726,7 @@ export function demVergelijking(k: DemKabinet) {
   const m = k.periodes.missionair;
   const dem = (["demVoor", "demNa"] as const).filter((p) => groot(k.periodes[p]));
   if (!groot(m) || !dem.length) return null;
-  const stappen = dem.map((p) => ({ kabinet: k.kabinet, periode: p, van: m.eensgezind.pct!, naar: k.periodes[p]!.eensgezind.pct! }));
+  const stappen = dem.map((p) => ({ kabinet: k.kabinet, periode: p, van: eensPct(m)!, naar: eensPct(k.periodes[p]!)! }));
   return { stappen, lager: stappen.every((s) => s.naar < s.van) };
 }
 export const demDalingen = (d: DemissionairData) => {
@@ -742,7 +750,7 @@ export const periodeUitleg = (p: DemPeriode | null, naam: DemPeriodeNaam, w: { p
 export const periodeGetal = (p: DemPeriode | null, pct: number | null) => (!p || pct == null ? "geen" : `${Math.round(pct)}${p.klein ? "*" : ""}`);
 export const kleinePeriodes = (d: DemissionairData) =>
   d.kabinetten.flatMap((k) => DEM_PERIODES.filter((p) => k.periodes[p]?.klein).map((p) => ({ kabinet: k.kabinet, periode: p, verdeeld: k.periodes[p]!.verdeeld })));
-// Blok campagne: alleen kabinetten waar missionair en demissionair vóór de nieuwe Kamer allebei groot genoeg zijn
+// Blok oppositie: alleen kabinetten waar missionair en demissionair vóór de nieuwe Kamer allebei groot genoeg zijn
 export const campagneGroot = (d: DemissionairData) => d.kabinetten.filter((k) => k.campagne && groot(k.periodes.missionair) && groot(k.periodes.demVoor));
 export const mediaanBereik = (d: DemissionairData) => {
   const m = campagneGroot(d).map((k) => k.campagne!.mediaan!);
@@ -759,7 +767,7 @@ export const vaakstAlleen = (p: DemPeriode | null) => {
   return p.alleen.partijen.filter((x) => x.keer === max);
 };
 export const missionairBereik = (d: DemissionairData) => {
-  const m = d.kabinetten.map((k) => k.periodes.missionair).filter(groot).map((p) => p.eensgezind.pct!);
+  const m = d.kabinetten.map((k) => k.periodes.missionair).filter(groot).map((p) => eensPct(p)!);
   return { min: Math.min(...m), max: Math.max(...m), n: m.length };
 };
 
@@ -781,23 +789,31 @@ function blokVal(d: DemissionairData): Blok {
   const klein = kleinePeriodes(d);
   const zonderVoor = d.kabinetten.filter((k) => !k.periodes.demVoor);
   // Herstel: met de nieuwe Kamer hoger dan in de maanden ervoor (alleen grote periodes)
-  const herstel = d.kabinetten.filter((k) => groot(k.periodes.demVoor) && groot(k.periodes.demNa) && k.periodes.demNa.eensgezind.pct! > k.periodes.demVoor.eensgezind.pct!);
+  const herstel = d.kabinetten.filter((k) => groot(k.periodes.demVoor) && groot(k.periodes.demNa) && eensPct(k.periodes.demNa)! > eensPct(k.periodes.demVoor)!);
   const herstelZin = herstel.map((k) => {
-    const v = k.periodes.demVoor!.eensgezind.pct!, n = k.periodes.demNa!.eensgezind.pct!, m = k.periodes.missionair!.eensgezind.pct!;
+    const v = eensPct(k.periodes.demVoor!)!, n = eensPct(k.periodes.demNa!)!, m = eensPct(k.periodes.missionair!)!;
     return `Onder ${kab(k)} lag het met de nieuwe Kamer weer hoger dan in de maanden ervoor (${procent(n)} tegen ${procent(v)})${n < m ? ", maar onder het missionaire niveau" : ""}.`;
   }).join(" ");
-  // Paren in de kabinetten met drie of vier partijen: daalde elk paar, en welk paar het sterkst
+  // Paren in de kabinetten met drie of vier partijen: daalde elk paar, en welk paar het sterkst. Alleen demissionaire
+  // periodes waarin nog minstens drie partijen tegelijk in het kabinet zaten (bij Schoof met de nieuwe Kamer niet meer:
+  // toen waren het VVD en BBB), en een paar telt alleen op stemmingen waarop beide in het kabinet zaten
   const meer = d.kabinetten.filter((k) => k.groep.length >= 3);
   const paarStappen = meer.map((k) => {
     const m = k.periodes.missionair!;
-    const s = m.paren.flatMap((p) => (["demVoor", "demNa"] as const).filter((x) => groot(k.periodes[x])).flatMap((x) => {
+    const s = m.paren.flatMap((p) => (["demVoor", "demNa"] as const).filter((x) => groot(k.periodes[x]) && k.periodes[x]!.partijen >= 3).flatMap((x) => {
       const q = k.periodes[x]!.paren.find((y) => y.a === p.a && y.b === p.b)!;
-      return q.cohesie == null || p.cohesie == null ? [] : [{ a: p.a, b: p.b, periode: x, van: p.cohesie, naar: q.cohesie, n: q.gezamenlijk }];
+      const van = paarPct(p), naar = paarPct(q);
+      return van == null || naar == null || q.gezamenlijk < d.grenzen.minPaar ? [] : [{ a: p.a, b: p.b, periode: x, van, naar, n: q.gezamenlijk }];
     }));
     return { k, s, sterkst: [...s].sort((x, y) => (y.van - y.naar) - (x.van - x.naar))[0] };
   });
   const elkPaar = paarStappen.every((x) => x.s.every((y) => y.naar < y.van));
-  const paarZin = `${elkPaar ? `In de kabinetten met drie of vier partijen daalde elk paar kabinetspartijen in elke demissionaire periode die groot genoeg is.` : `In de kabinetten met drie of vier partijen daalden de meeste paren.`} Het sterkst: ${opsomming(paarStappen.map(({ k, sterkst: x }) => `onder ${kab(k)} ${kortNaam(x.a)} en ${kortNaam(x.b)}, van ${Math.round(x.van)} naar ${procent(x.naar)} (${PERIODE_TEKST[x.periode]}, ${aantal(x.n)} gezamenlijke stemmingen)`))}.`;
+  const meerNamen = opsomming(meer.map(kab));
+  const paarZin = `${elkPaar ? `In de kabinetten met drie of vier partijen, ${meerNamen}, daalde elk paar kabinetspartijen in elke demissionaire periode die groot genoeg is en waarin nog minstens drie partijen in het kabinet zaten.` : `In de kabinetten met drie of vier partijen, ${meerNamen}, daalden de meeste paren.`} Het sterkst: ${opsomming(paarStappen.map(({ k, sterkst: x }) => `onder ${kab(k)} ${kortNaam(x.a)} en ${kortNaam(x.b)}, van ${procent(x.van)} naar ${procent(x.naar)} (${PERIODE_TEKST[x.periode]}, ${aantal(x.n)} gezamenlijke stemmingen)`))}. Een paar telt alleen op stemmingen waarop beide partijen die dag in het kabinet zaten.`;
+  // Waarom blok 1 per periode minder kabinetten noemt dan de kop: welk kabinet ontbreekt, en waarom
+  const vergeleken = d.kabinetten.filter((k) => demVergelijking(k));
+  const ontbreekt = (["demVoor", "demNa"] as const).map((p) => ({ p, l: vergeleken.filter((k) => !groot(k.periodes[p])) })).filter((x) => x.l.length);
+  const ontbreektZin = ontbreekt.length ? ` De kop telt ${woord(vergeleken.length)} kabinetten; per periode zijn het er minder, omdat ${opsomming(ontbreekt.map(({ p, l }) => `${p === "demVoor" ? "vóór" : "met"} de nieuwe Kamer ${opsomming(l.map((k) => `${kab(k)} ${k.periodes[p] ? "te weinig stemmingen heeft" : "geen stemmingen heeft"}`))}`))}.` : "";
   // Wie stond het vaakst alleen, per periode, bij kabinetten waar alleen staan ook demissionair telde
   const alleenKab = d.kabinetten.filter((k) => vaakstAlleen(k.periodes.demVoor).length || vaakstAlleen(k.periodes.demNa).length);
   const alleenZin = alleenKab.map((k) => {
@@ -818,26 +834,26 @@ function blokVal(d: DemissionairData): Blok {
   });
   const zonderZin = zonderVoor.map((k) => `${kab(k)} heeft geen periode vóór de nieuwe Kamer: tussen het ontslag op ${datumTekst(k.demissionair)} en de installatie op ${datumTekst(k.kamer)} stemde de Kamer niet.`).join(" ");
   const lagerZin = (x: { n: number; lager: number }) => (x.lager === x.n ? `bij alle ${woord(x.n)}` : `bij ${woord(x.lager)} van de ${woord(x.n)}`);
-  const jp = [...j.paren].sort((a, b) => (a.cohesie ?? 0) - (b.cohesie ?? 0))[0];
+  const jp = [...j.paren].sort((a, b) => (paarPct(a) ?? 0) - (paarPct(b) ?? 0))[0];
   return {
     id: "val", vraag: "Na de val: stemde de coalitie nog samen?",
     kop: `Het sterkst daalde de eensgezindheid onder ${opsomming(top.map((x) => {
       const k = d.kabinetten.find((y) => y.kabinet === x.kabinet)!;
       const dem = (["demVoor", "demNa"] as const).filter((p) => groot(k.periodes[p]));
-      return `${x.kabinet}: van ${procent(x.van)} missionair naar ${opsomming(dem.map((p) => `${procent(k.periodes[p]!.eensgezind.pct)} ${p === "demVoor" ? "vóór de nieuwe Kamer" : "met de nieuwe Kamer"}`))}`;
+      return `${x.kabinet}: van ${procent(x.van)} missionair naar ${opsomming(dem.map((p) => `${procent(eensPct(k.periodes[p]!))} ${p === "demVoor" ? "vóór de nieuwe Kamer" : "met de nieuwe Kamer"}`))}`;
     }))}`,
     tekst: [
-      `De blijvende kabinetspartijen, die tot het eind in het kabinet zaten, stemden missionair in ${Math.round(mb.min)} tot ${procent(mb.max)} van de verdeelde stemmingen eensgezind. Demissionair vóór de nieuwe Kamer lag dat lager ${lagerZin(dl.demVoor)} kabinetten met genoeg stemmingen, met de nieuwe Kamer ${lagerZin(dl.demNa)}. ${opsomming(top.map((x) => `Onder ${x.kabinet} ging het ${PERIODE_TEKST[x.periode]} van ${procent(x.van)} naar ${procent(x.naar)}`))}. ${herstelZin}`.trim(),
+      `De blijvende kabinetspartijen, die tot het eind in het kabinet zaten, stemden missionair in ${Math.round(mb.min)} tot ${procent(mb.max)} van de verdeelde stemmingen eensgezind. Demissionair vóór de nieuwe Kamer lag dat lager ${lagerZin(dl.demVoor)} kabinetten met genoeg stemmingen, met de nieuwe Kamer ${lagerZin(dl.demNa)}.${ontbreektZin} ${opsomming(top.map((x) => `Onder ${x.kabinet} ging het ${PERIODE_TEKST[x.periode]} van ${procent(x.van)} naar ${procent(x.naar)}`))}. ${herstelZin}`.trim(),
       paarZin,
       `Wie stond het vaakst alleen tegenover de andere kabinetspartijen? ${hoofd(opsomming(alleenZin))}. Bij twee partijen telt alleen staan niet.`,
       `Kleine aantallen: ${kleinZin.join("; ")}. Die periodes staan gemarkeerd in de grafiek en tellen niet mee in de vergelijking. ${zonderZin}`.trim(),
-      `Ter vergelijking, missionair: onder kabinet-${d.jetten.kabinet} stemden ${opsomming(d.jetten.partijen)} tot en met ${datumTekst(d.jetten.stand)} in ${procent(j.eensgezind.pct)} van de ${aantal(j.eensgezind.gestemd)} verdeelde stemmingen waarop ze alle drie stemden eensgezind. Het laagste paar is ${jp.a} en ${jp.b}, met ${procent(jp.cohesie)}.`,
+      `Ter vergelijking, missionair: onder kabinet-${d.jetten.kabinet} stemden ${opsomming(d.jetten.partijen)} tot en met ${datumTekst(d.jetten.stand)} in ${procent(eensPct(j))} van de ${aantal(j.eensgezind.gestemd)} verdeelde stemmingen waarop ze alle drie stemden eensgezind. Het laagste paar is ${jp.a} en ${jp.b}, met ${procent(paarPct(jp))}.`,
     ],
     data: `Eensgezind: op een verdeelde stemming stemden alle blijvende kabinetspartijen voor of tegen en kozen ze dezelfde kant; noemer: de verdeelde stemmingen waarop ze allemaal stemden. Blijvend: de partijen die bij de laatste stemming van het kabinet nog in het kabinet zaten (${d.kabinetten.map((k) => `${kab(k)}: ${k.blijvend.map(kortNaam).join(", ")}`).join("; ")}); bij twee partijen is dat de cohesie van het paar. Hoe meer partijen, hoe minder vaak ze allemaal dezelfde kant kiezen: vergelijk een kabinet vooral met zichzelf. Periodes: missionair tot de dag van het ontslag, demissionair vóór de installatie van de nieuwe Kamer (de oude Kamer stemt door tot dan), demissionair met de nieuwe Kamer tot de beëdiging van het volgende kabinet. Ontslag en installatie: ${d.kabinetten.map((k) => `${kab(k)} ${datumTekst(k.demissionair)} en ${datumTekst(k.kamer)}`).join(", ")} (rijksoverheid.nl, parlement.com en tweedekamer.nl; per datum in pipeline/demissionair.py). Klein: minder dan ${aantal(d.grenzen.klein)} verdeelde stemmingen. Alleen staan: alle andere kabinetspartijen stemden dezelfde kant en deze partij de andere, alleen bij minstens drie partijen, met de coalitie van de dag. Een stem die de Kamer als vergissing heeft aangemerkt, telt niet mee.`,
   };
 }
 
-function blokCampagne(d: DemissionairData, ak: AkkoordData): Blok {
+function blokOppositie(d: DemissionairData, ak: AkkoordData): Blok {
   const g = campagneGroot(d), mb = mediaanBereik(d), gv = grootsteVerschuiving(d);
   const kleinKab = d.kabinetten.filter((k) => k.campagne && !g.includes(k));
   const zonder = d.kabinetten.filter((k) => !k.campagne);
@@ -853,8 +869,8 @@ function blokCampagne(d: DemissionairData, ak: AkkoordData): Blok {
   });
   const afw = g.map((k) => k.campagne!.motieAfwijking!);
   return {
-    id: "campagne", vraag: "De campagne in de Kamer: met wie stemden ze vóór de verkiezingen?",
-    kop: `Vóór de verkiezingen verschoof een paar van kabinets- en oppositiepartij tot ${eenDecimaal(gv.verschil)} procentpunt, de mediaan van alle paren tussen ${punt(mb.min)} en ${punt(mb.max)}`,
+    id: "oppositie", vraag: "Vóór de nieuwe Kamer: met welke oppositiepartijen stemden ze vaker of minder vaak?",
+    kop: `Vóór de nieuwe Kamer verschoof een paar van kabinets- en oppositiepartij tot ${eenDecimaal(gv.verschil)} procentpunt, de mediaan van alle paren tussen ${punt(mb.min)} en ${punt(mb.max)}`,
     tekst: [
       `Per paar van een blijvende kabinetspartij en een oppositiepartij: hoe vaak ze dezelfde kant kozen in de demissionaire maanden vóór de nieuwe Kamer, tegenover de missionaire tijd. In die maanden staat er ook iets anders op de agenda. Daarom staat ernaast de mediane verandering van alle paren, ook van oppositiepartijen onderling: tussen ${punt(mb.min)} en ${punt(mb.max)} procentpunt bij de ${woord(g.length)} kabinetten met genoeg stemmingen. De grootste verschuiving was ${kortNaam(gv.kabinetspartij)} en ${kortNaam(gv.oppositie)} onder ${gv.kabinet}: van ${procent(gv.voor)} naar ${procent(gv.na)} (${aantal(gv.nNa)} gezamenlijke stemmingen).`,
       ...perKab,
@@ -878,23 +894,25 @@ export function demissionair(d: DemissionairData, ak: AkkoordData): Stuk & { dat
     kop: dl.lager === dl.n
       ? `Demissionair stemden de kabinetspartijen minder vaak eensgezind, bij alle ${woord(dl.n)} kabinetten met genoeg stemmingen sinds 2010`
       : `Demissionair stemden de kabinetspartijen bij ${woord(dl.lager)} van de ${woord(dl.n)} kabinetten met genoeg stemmingen minder vaak eensgezind`,
-    beschrijving: `Wat gebeurde er in de Kamer als een kabinet demissionair werd? Hoe vaak de coalitie nog eensgezind stemde, en met welke oppositiepartijen de kabinetspartijen vóór de verkiezingen vaker of minder vaak stemden, bij ${woord(d.kabinetten.length)} kabinetten sinds 2010.`,
+    beschrijving: `Wat gebeurde er in de Kamer als een kabinet demissionair werd? Hoe vaak de coalitie nog eensgezind stemde, en met welke oppositiepartijen de kabinetspartijen vaker of minder vaak stemden voordat de nieuwe Kamer begon, bij ${woord(d.kabinetten.length)} kabinetten sinds 2010.`,
     ziet: `Hoe de kabinetspartijen stemden in drie periodes van ${woord(d.kabinetten.length)} kabinetten, van ${eerste.kabinet} tot en met ${laatste.kabinet} (${datumTekst(eerste.dataVanaf)} tot ${datumTekst(laatste.einde)}): missionair, demissionair vóór de nieuwe Kamer en demissionair met de nieuwe Kamer. Ter vergelijking kabinet-${d.jetten.kabinet} tot en met ${datumTekst(d.jetten.stand)}.`,
-    opvalt: `${opsomming(top.map((x, i) => `${i === 0 ? "Het sterkst daalde de eensgezindheid onder " : "onder "}${x.kabinet} ${PERIODE_TEKST[x.periode]}, van ${procent(x.van)} naar ${procent(x.naar)}`))}. Vóór de verkiezingen verschoof de cohesie van ${kortNaam(gv.kabinetspartij)} en ${kortNaam(gv.oppositie)} onder ${bv.kabinet} met ${punt(gv.verschil)} procentpunt, terwijl de mediane verandering van alle paren tussen ${punt(mb.min)} en ${punt(mb.max)} bleef.`,
-    aanleiding: `${uitslag}Na die stemming is er sprake van een mogelijke kabinetscrisis. Wat er dan politiek gebeurt, staat niet in de data. Wel hoe de Kamer stemde bij de ${woord(d.kabinetten.length)} kabinetten sinds 2010 die demissionair werden. Dit stuk kijkt terug en voorspelt niets.`,
+    opvalt: `${opsomming(top.map((x, i) => `${i === 0 ? "Het sterkst daalde de eensgezindheid onder " : "onder "}${x.kabinet} ${PERIODE_TEKST[x.periode]}, van ${procent(x.van)} naar ${procent(x.naar)}`))}. Vóór de nieuwe Kamer verschoof de cohesie van ${kortNaam(gv.kabinetspartij)} en ${kortNaam(gv.oppositie)} onder ${bv.kabinet} met ${punt(gv.verschil)} procentpunt, terwijl de mediane verandering van alle paren tussen ${punt(mb.min)} en ${punt(mb.max)} bleef.`,
+    // Bron van de zin over de kabinetscrisis: RD, 13 november 2026, kop "Kabinet strompelt verder, maar kabinetscrisis is
+    // nog niet opgelost": https://www.rd.nl/a/kabinet-strompelt-verder-maar-kabinetscrisis-is-nog-niet-opgelost
+    aanleiding: `${uitslag}Het RD schreef op 13 november 2026 dat de kabinetscrisis nog niet is opgelost (rd.nl/a/kabinet-strompelt-verder-maar-kabinetscrisis-is-nog-niet-opgelost). Wat er politiek gebeurt, staat niet in de data. Wel hoe de Kamer stemde bij de ${woord(d.kabinetten.length)} kabinetten sinds 2010 die demissionair werden. Dit stuk kijkt terug en voorspelt niets.`,
     verwijzing: { href: `/actueel/${ak.slug}`, tekst: "Lees het stuk over het Belastingplan" },
-    blokken: [blokVal(d), blokCampagne(d, ak)],
+    blokken: [blokVal(d), blokOppositie(d, ak)],
     lezingen: {
       links: {
-        titel: "Een eigen lijn voor de verkiezingen",
-        tekst: `Wie de cijfers leest als profileren, ziet het terug in de paren met de oppositie: vóór de verkiezingen kozen kabinetspartijen vaker de kant van de ene oppositiepartij en minder vaak die van de andere, tot ${eenDecimaal(gv.verschil)} procentpunt. Demissionair vóór de nieuwe Kamer daalde de eensgezindheid ${dl.demVoor.lager === dl.demVoor.n ? `bij alle ${woord(dl.demVoor.n)}` : `bij ${woord(dl.demVoor.lager)} van de ${woord(dl.demVoor.n)}`} kabinetten met genoeg stemmingen.`,
+        titel: "Een eigen lijn in de demissionaire tijd",
+        tekst: `Wie de cijfers leest als profileren, wijst op de paren met de oppositie: vóór de nieuwe Kamer kozen kabinetspartijen vaker de kant van de ene oppositiepartij en minder vaak die van de andere, tot ${eenDecimaal(gv.verschil)} procentpunt. Demissionair vóór de nieuwe Kamer daalde de eensgezindheid ${dl.demVoor.lager === dl.demVoor.n ? `bij alle ${woord(dl.demVoor.n)}` : `bij ${woord(dl.demVoor.lager)} van de ${woord(dl.demVoor.n)}`} kabinetten met genoeg stemmingen.`,
       },
       rechts: {
         titel: "Een andere agenda en een andere Kamer",
         tekst: `Een demissionaire Kamer stemt over andere onderwerpen, en na de installatie zit er een andere Kamer met andere fracties. De mediane verandering van alle paren bleef klein (${punt(mb.min)} tot ${punt(mb.max)}), maar die referentie vangt geen verschuiving op die juist één paar raakt. Waarom een partij anders stemde, staat niet in de data.`,
       },
     },
-    slot: `Bij ${dl.lager === dl.n ? `alle ${woord(dl.n)}` : `${woord(dl.lager)} van de ${woord(dl.n)}`} kabinetten met genoeg stemmingen stemden de kabinetspartijen demissionair minder vaak eensgezind dan ervoor. Kabinet-${d.jetten.kabinet} is missionair, met ${procent(j.eensgezind.pct)} eensgezind tot en met ${datumTekst(d.jetten.stand)}; of het demissionair wordt en wat er dan in de Kamer gebeurt, voorspellen deze cijfers niet.`,
+    slot: `Bij ${dl.lager === dl.n ? `alle ${woord(dl.n)}` : `${woord(dl.lager)} van de ${woord(dl.n)}`} kabinetten met genoeg stemmingen stemden de kabinetspartijen demissionair minder vaak eensgezind dan ervoor. Kabinet-${d.jetten.kabinet} is missionair, met ${procent(eensPct(j))} eensgezind tot en met ${datumTekst(d.jetten.stand)}; of het demissionair wordt en wat er dan in de Kamer gebeurt, voorspellen deze cijfers niet.`,
     data: d,
     bouwer: { fracties: d.jetten.partijen, tekst: `het kabinet-${d.jetten.kabinet} in de coalitiebouwer` },
   };

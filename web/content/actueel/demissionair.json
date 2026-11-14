@@ -51,6 +51,7 @@
      "verdeeld": 206,
      "klein": true,
      "moties": 153,
+     "partijen": 2,
      "eensgezind": {
       "gestemd": 206,
       "eensgezind": 170,
@@ -98,6 +99,7 @@
      "verdeeld": 395,
      "klein": false,
      "moties": 240,
+     "partijen": 2,
      "eensgezind": {
       "gestemd": 395,
       "eensgezind": 325,
@@ -123,6 +125,7 @@
      "verdeeld": 194,
      "klein": true,
      "moties": 154,
+     "partijen": 2,
      "eensgezind": {
       "gestemd": 193,
       "eensgezind": 142,
@@ -145,152 +148,180 @@
    },
    "campagne": {
     "paren": 45,
-    "mediaan": 0.9,
-    "mediaanMotie": 0.4,
+    "mediaan": 0.9633,
+    "mediaanMotie": 0.3595,
     "kabOpp": [
      {
       "kabinetspartij": "ChristenUnie",
       "oppositie": "VVD",
-      "voor": 51.0,
-      "na": 63.8,
+      "voor": 50.9709,
+      "na": 63.7975,
+      "gelijkVoor": 105,
+      "gelijkNa": 252,
       "nVoor": 206,
       "nNa": 395,
-      "verschil": 12.8,
-      "motie": 15.2
+      "verschil": 12.8266,
+      "motie": 15.1471
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "VVD",
-      "voor": 63.6,
-      "na": 71.9,
+      "voor": 63.5922,
+      "na": 71.8987,
+      "gelijkVoor": 131,
+      "gelijkNa": 284,
       "nVoor": 206,
       "nNa": 395,
-      "verschil": 8.3,
-      "motie": 10.4
+      "verschil": 8.3065,
+      "motie": 10.4657
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "GL",
-      "voor": 45.4,
-      "na": 51.6,
+      "voor": 45.3659,
+      "na": 51.6456,
+      "gelijkVoor": 93,
+      "gelijkNa": 204,
       "nVoor": 205,
       "nNa": 395,
-      "verschil": 6.2,
-      "motie": -2.0
+      "verschil": 6.2797,
+      "motie": -1.9956
      },
      {
       "kabinetspartij": "ChristenUnie",
       "oppositie": "PVV",
-      "voor": 36.1,
-      "na": 38.5,
+      "voor": 36.0976,
+      "na": 38.481,
+      "gelijkVoor": 74,
+      "gelijkNa": 152,
       "nVoor": 205,
       "nNa": 395,
-      "verschil": 2.4,
-      "motie": 8.7
+      "verschil": 2.3835,
+      "motie": 8.6404
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "SP",
-      "voor": 43.7,
-      "na": 45.3,
+      "voor": 43.6893,
+      "na": 45.3165,
+      "gelijkVoor": 90,
+      "gelijkNa": 179,
       "nVoor": 206,
       "nNa": 395,
-      "verschil": 1.6,
-      "motie": -5.4
+      "verschil": 1.6271,
+      "motie": -5.4003
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "PvdD",
-      "voor": 45.4,
-      "na": 46.3,
+      "voor": 45.3659,
+      "na": 46.3291,
+      "gelijkVoor": 93,
+      "gelijkNa": 183,
       "nVoor": 205,
       "nNa": 395,
-      "verschil": 0.9,
-      "motie": -8.4
+      "verschil": 0.9633,
+      "motie": -8.3742
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "PVV",
-      "voor": 44.9,
-      "na": 45.1,
+      "voor": 44.878,
+      "na": 45.0633,
+      "gelijkVoor": 92,
+      "gelijkNa": 178,
       "nVoor": 205,
       "nNa": 395,
-      "verschil": 0.2,
-      "motie": 4.9
+      "verschil": 0.1852,
+      "motie": 4.8465
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "D66",
-      "voor": 63.6,
-      "na": 62.3,
+      "voor": 63.5922,
+      "na": 62.341,
+      "gelijkVoor": 131,
+      "gelijkNa": 245,
       "nVoor": 206,
       "nNa": 393,
-      "verschil": -1.3,
-      "motie": -5.5
+      "verschil": -1.2513,
+      "motie": -5.5556
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "SGP",
-      "voor": 81.6,
-      "na": 79.7,
+      "voor": 81.5534,
+      "na": 79.7468,
+      "gelijkVoor": 168,
+      "gelijkNa": 315,
       "nVoor": 206,
       "nNa": 395,
-      "verschil": -1.9,
-      "motie": -0.9
+      "verschil": -1.8066,
+      "motie": -0.9232
      },
      {
       "kabinetspartij": "ChristenUnie",
       "oppositie": "SGP",
-      "voor": 80.6,
-      "na": 77.7,
+      "voor": 80.5825,
+      "na": 77.7215,
+      "gelijkVoor": 166,
+      "gelijkNa": 307,
       "nVoor": 206,
       "nNa": 395,
-      "verschil": -2.9,
-      "motie": -3.4
+      "verschil": -2.861,
+      "motie": -3.366
      },
      {
       "kabinetspartij": "ChristenUnie",
       "oppositie": "GL",
-      "voor": 60.5,
-      "na": 54.2,
+      "voor": 60.4878,
+      "na": 54.1772,
+      "gelijkVoor": 124,
+      "gelijkNa": 214,
       "nVoor": 205,
       "nNa": 395,
-      "verschil": -6.3,
-      "motie": -9.6
+      "verschil": -6.3106,
+      "motie": -9.5614
      },
      {
       "kabinetspartij": "ChristenUnie",
       "oppositie": "SP",
-      "voor": 55.3,
-      "na": 48.4,
+      "voor": 55.3398,
+      "na": 48.3544,
+      "gelijkVoor": 114,
+      "gelijkNa": 191,
       "nVoor": 206,
       "nNa": 395,
-      "verschil": -6.9,
-      "motie": -7.9
+      "verschil": -6.9854,
+      "motie": -7.9412
      },
      {
       "kabinetspartij": "ChristenUnie",
       "oppositie": "D66",
-      "voor": 71.4,
-      "na": 63.9,
+      "voor": 71.3592,
+      "na": 63.8677,
+      "gelijkVoor": 147,
+      "gelijkNa": 251,
       "nVoor": 206,
       "nNa": 393,
-      "verschil": -7.5,
-      "motie": -10.1
+      "verschil": -7.4915,
+      "motie": -10.084
      },
      {
       "kabinetspartij": "ChristenUnie",
       "oppositie": "PvdD",
       "voor": 60.0,
-      "na": 49.9,
+      "na": 49.8734,
+      "gelijkVoor": 123,
+      "gelijkNa": 197,
       "nVoor": 205,
       "nNa": 395,
-      "verschil": -10.1,
-      "motie": -12.7
+      "verschil": -10.1266,
+      "motie": -12.6961
      }
     ],
-    "mediaanKabOpp": -0.6,
-    "motieAfwijking": 2.9,
+    "mediaanKabOpp": -0.5331,
+    "motieAfwijking": 2.9217,
     "motieParen": 14,
     "perPartij": [
      {
@@ -298,22 +329,26 @@
       "stijger": {
        "kabinetspartij": "CDA",
        "oppositie": "VVD",
-       "voor": 63.6,
-       "na": 71.9,
+       "voor": 63.5922,
+       "na": 71.8987,
+       "gelijkVoor": 131,
+       "gelijkNa": 284,
        "nVoor": 206,
        "nNa": 395,
-       "verschil": 8.3,
-       "motie": 10.4
+       "verschil": 8.3065,
+       "motie": 10.4657
       },
       "daler": {
        "kabinetspartij": "CDA",
        "oppositie": "SGP",
-       "voor": 81.6,
-       "na": 79.7,
+       "voor": 81.5534,
+       "na": 79.7468,
+       "gelijkVoor": 168,
+       "gelijkNa": 315,
        "nVoor": 206,
        "nNa": 395,
-       "verschil": -1.9,
-       "motie": -0.9
+       "verschil": -1.8066,
+       "motie": -0.9232
       }
      },
      {
@@ -321,22 +356,26 @@
       "stijger": {
        "kabinetspartij": "ChristenUnie",
        "oppositie": "VVD",
-       "voor": 51.0,
-       "na": 63.8,
+       "voor": 50.9709,
+       "na": 63.7975,
+       "gelijkVoor": 105,
+       "gelijkNa": 252,
        "nVoor": 206,
        "nNa": 395,
-       "verschil": 12.8,
-       "motie": 15.2
+       "verschil": 12.8266,
+       "motie": 15.1471
       },
       "daler": {
        "kabinetspartij": "ChristenUnie",
        "oppositie": "PvdD",
        "voor": 60.0,
-       "na": 49.9,
+       "na": 49.8734,
+       "gelijkVoor": 123,
+       "gelijkNa": 197,
        "nVoor": 205,
        "nNa": 395,
-       "verschil": -10.1,
-       "motie": -12.7
+       "verschil": -10.1266,
+       "motie": -12.6961
       }
      }
     ]
@@ -383,6 +422,7 @@
      "verdeeld": 4535,
      "klein": false,
      "moties": 3672,
+     "partijen": 2,
      "eensgezind": {
       "gestemd": 4530,
       "eensgezind": 3841,
@@ -430,6 +470,7 @@
      "verdeeld": 851,
      "klein": false,
      "moties": 589,
+     "partijen": 2,
      "eensgezind": {
       "gestemd": 851,
       "eensgezind": 646,
@@ -455,6 +496,7 @@
      "verdeeld": 135,
      "klein": true,
      "moties": 91,
+     "partijen": 2,
      "eensgezind": {
       "gestemd": 135,
       "eensgezind": 93,
@@ -477,152 +519,180 @@
    },
    "campagne": {
     "paren": 45,
-    "mediaan": 2.4,
-    "mediaanMotie": 2.0,
+    "mediaan": 2.3945,
+    "mediaanMotie": 1.9872,
     "kabOpp": [
      {
       "kabinetspartij": "CDA",
       "oppositie": "GL",
-      "voor": 35.1,
-      "na": 50.9,
+      "voor": 35.1381,
+      "na": 50.9456,
+      "gelijkVoor": 1590,
+      "gelijkNa": 431,
       "nVoor": 4525,
       "nNa": 846,
-      "verschil": 15.8,
-      "motie": 18.9
+      "verschil": 15.8075,
+      "motie": 18.9356
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "D66",
-      "voor": 50.9,
-      "na": 64.7,
+      "voor": 50.9171,
+      "na": 64.7474,
+      "gelijkVoor": 2304,
+      "gelijkNa": 551,
       "nVoor": 4525,
       "nNa": 851,
-      "verschil": 13.8,
-      "motie": 16.7
+      "verschil": 13.8302,
+      "motie": 16.6988
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "D66",
-      "voor": 42.5,
-      "na": 51.9,
+      "voor": 42.5353,
+      "na": 51.9389,
+      "gelijkVoor": 1926,
+      "gelijkNa": 442,
       "nVoor": 4528,
       "nNa": 851,
-      "verschil": 9.4,
-      "motie": 9.3
+      "verschil": 9.4036,
+      "motie": 9.317
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "ChristenUnie",
-      "voor": 55.4,
-      "na": 64.2,
+      "voor": 55.3985,
+      "na": 64.2353,
+      "gelijkVoor": 2509,
+      "gelijkNa": 546,
       "nVoor": 4529,
       "nNa": 850,
-      "verschil": 8.8,
-      "motie": 15.3
+      "verschil": 8.8368,
+      "motie": 15.2239
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "GL",
-      "voor": 25.2,
-      "na": 32.9,
+      "voor": 25.2208,
+      "na": 32.8605,
+      "gelijkVoor": 1142,
+      "gelijkNa": 278,
       "nVoor": 4528,
       "nNa": 846,
-      "verschil": 7.7,
-      "motie": 8.3
+      "verschil": 7.6397,
+      "motie": 8.3571
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "PvdA",
-      "voor": 41.4,
-      "na": 48.4,
+      "voor": 41.3778,
+      "na": 48.4099,
+      "gelijkVoor": 1874,
+      "gelijkNa": 411,
       "nVoor": 4529,
       "nNa": 849,
-      "verschil": 7.0,
-      "motie": 10.5
+      "verschil": 7.0321,
+      "motie": 10.5131
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "PvdD",
-      "voor": 29.8,
-      "na": 36.7,
+      "voor": 29.8071,
+      "na": 36.6745,
+      "gelijkVoor": 1344,
+      "gelijkNa": 311,
       "nVoor": 4509,
       "nNa": 848,
-      "verschil": 6.9,
-      "motie": 9.2
+      "verschil": 6.8675,
+      "motie": 9.272
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "SP",
-      "voor": 32.6,
-      "na": 38.7,
+      "voor": 32.6044,
+      "na": 38.7059,
+      "gelijkVoor": 1476,
+      "gelijkNa": 329,
       "nVoor": 4527,
       "nNa": 850,
-      "verschil": 6.1,
-      "motie": 7.4
+      "verschil": 6.1015,
+      "motie": 7.422
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "ChristenUnie",
-      "voor": 43.3,
-      "na": 46.2,
+      "voor": 43.2701,
+      "na": 46.2353,
+      "gelijkVoor": 1961,
+      "gelijkNa": 393,
       "nVoor": 4532,
       "nNa": 850,
-      "verschil": 2.9,
-      "motie": 6.4
+      "verschil": 2.9652,
+      "motie": 6.3519
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "SP",
-      "voor": 23.5,
-      "na": 25.9,
+      "voor": 23.4879,
+      "na": 25.8824,
+      "gelijkVoor": 1064,
+      "gelijkNa": 220,
       "nVoor": 4530,
       "nNa": 850,
-      "verschil": 2.4,
-      "motie": 1.9
+      "verschil": 2.3945,
+      "motie": 1.9292
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "PvdD",
-      "voor": 20.2,
-      "na": 22.5,
+      "voor": 20.1906,
+      "na": 22.5236,
+      "gelijkVoor": 911,
+      "gelijkNa": 191,
       "nVoor": 4512,
       "nNa": 848,
-      "verschil": 2.3,
-      "motie": 3.4
+      "verschil": 2.333,
+      "motie": 3.4141
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "SGP",
-      "voor": 79.5,
-      "na": 81.0,
+      "voor": 79.4968,
+      "na": 80.9636,
+      "gelijkVoor": 3602,
+      "gelijkNa": 689,
       "nVoor": 4531,
       "nNa": 851,
-      "verschil": 1.5,
-      "motie": 1.2
+      "verschil": 1.4668,
+      "motie": 1.2502
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "PvdA",
-      "voor": 31.3,
-      "na": 30.9,
+      "voor": 31.3107,
+      "na": 30.8598,
+      "gelijkVoor": 1419,
+      "gelijkNa": 262,
       "nVoor": 4532,
       "nNa": 849,
-      "verschil": -0.4,
-      "motie": 1.2
+      "verschil": -0.4508,
+      "motie": 1.1431
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "SGP",
-      "voor": 71.0,
-      "na": 69.6,
+      "voor": 70.9528,
+      "na": 69.5652,
+      "gelijkVoor": 3217,
+      "gelijkNa": 592,
       "nVoor": 4534,
       "nNa": 851,
-      "verschil": -1.4,
-      "motie": -5.3
+      "verschil": -1.3876,
+      "motie": -5.3159
      }
     ],
-    "mediaanKabOpp": 6.5,
-    "motieAfwijking": 1.9,
+    "mediaanKabOpp": 6.4845,
+    "motieAfwijking": 1.9992,
     "motieParen": 14,
     "perPartij": [
      {
@@ -630,12 +700,14 @@
       "stijger": {
        "kabinetspartij": "CDA",
        "oppositie": "GL",
-       "voor": 35.1,
-       "na": 50.9,
+       "voor": 35.1381,
+       "na": 50.9456,
+       "gelijkVoor": 1590,
+       "gelijkNa": 431,
        "nVoor": 4525,
        "nNa": 846,
-       "verschil": 15.8,
-       "motie": 18.9
+       "verschil": 15.8075,
+       "motie": 18.9356
       },
       "daler": null
      },
@@ -644,22 +716,26 @@
       "stijger": {
        "kabinetspartij": "VVD",
        "oppositie": "D66",
-       "voor": 42.5,
-       "na": 51.9,
+       "voor": 42.5353,
+       "na": 51.9389,
+       "gelijkVoor": 1926,
+       "gelijkNa": 442,
        "nVoor": 4528,
        "nNa": 851,
-       "verschil": 9.4,
-       "motie": 9.3
+       "verschil": 9.4036,
+       "motie": 9.317
       },
       "daler": {
        "kabinetspartij": "VVD",
        "oppositie": "SGP",
-       "voor": 71.0,
-       "na": 69.6,
+       "voor": 70.9528,
+       "na": 69.5652,
+       "gelijkVoor": 3217,
+       "gelijkNa": 592,
        "nVoor": 4534,
        "nNa": 851,
-       "verschil": -1.4,
-       "motie": -5.3
+       "verschil": -1.3876,
+       "motie": -5.3159
       }
      }
     ]
@@ -701,6 +777,7 @@
      "verdeeld": 12904,
      "klein": false,
      "moties": 10150,
+     "partijen": 2,
      "eensgezind": {
       "gestemd": 12889,
       "eensgezind": 10074,
@@ -727,6 +804,7 @@
      "verdeeld": 841,
      "klein": false,
      "moties": 747,
+     "partijen": 2,
      "eensgezind": {
       "gestemd": 841,
       "eensgezind": 446,
@@ -791,6 +869,7 @@
      "verdeeld": 10467,
      "klein": false,
      "moties": 8970,
+     "partijen": 4,
      "eensgezind": {
       "gestemd": 10411,
       "eensgezind": 8182,
@@ -880,6 +959,7 @@
      "verdeeld": 612,
      "klein": false,
      "moties": 513,
+     "partijen": 4,
      "eensgezind": {
       "gestemd": 605,
       "eensgezind": 366,
@@ -969,6 +1049,7 @@
      "verdeeld": 2996,
      "klein": false,
      "moties": 2633,
+     "partijen": 4,
      "eensgezind": {
       "gestemd": 2973,
       "eensgezind": 2154,
@@ -1055,372 +1136,444 @@
    },
    "campagne": {
     "paren": 78,
-    "mediaan": 1.7,
-    "mediaanMotie": 2.1,
+    "mediaan": 1.6797,
+    "mediaanMotie": 2.0897,
     "kabOpp": [
      {
       "kabinetspartij": "ChristenUnie",
       "oppositie": "SP",
-      "voor": 49.2,
-      "na": 64.6,
+      "voor": 49.1951,
+      "na": 64.5799,
+      "gelijkVoor": 5134,
+      "gelijkNa": 392,
       "nVoor": 10436,
       "nNa": 607,
-      "verschil": 15.4,
-      "motie": 16.1
+      "verschil": 15.3848,
+      "motie": 16.0838
      },
      {
       "kabinetspartij": "ChristenUnie",
       "oppositie": "GL",
-      "voor": 56.3,
-      "na": 69.8,
+      "voor": 56.2734,
+      "na": 69.802,
+      "gelijkVoor": 5871,
+      "gelijkNa": 423,
       "nVoor": 10433,
       "nNa": 606,
-      "verschil": 13.5,
-      "motie": 14.2
+      "verschil": 13.5286,
+      "motie": 14.2137
      },
      {
       "kabinetspartij": "ChristenUnie",
       "oppositie": "PvdD",
-      "voor": 45.1,
-      "na": 58.1,
+      "voor": 45.0845,
+      "na": 58.0858,
+      "gelijkVoor": 4696,
+      "gelijkNa": 352,
       "nVoor": 10416,
       "nNa": 606,
-      "verschil": 13.0,
-      "motie": 14.0
+      "verschil": 13.0013,
+      "motie": 14.0241
      },
      {
       "kabinetspartij": "D66",
       "oppositie": "SP",
-      "voor": 50.4,
-      "na": 62.3,
+      "voor": 50.3882,
+      "na": 62.3355,
+      "gelijkVoor": 5257,
+      "gelijkNa": 379,
       "nVoor": 10433,
       "nNa": 608,
-      "verschil": 11.9,
-      "motie": 11.8
+      "verschil": 11.9473,
+      "motie": 11.8507
      },
      {
       "kabinetspartij": "D66",
       "oppositie": "PvdD",
-      "voor": 47.0,
-      "na": 57.3,
+      "voor": 46.9893,
+      "na": 57.3311,
+      "gelijkVoor": 4893,
+      "gelijkNa": 348,
       "nVoor": 10413,
       "nNa": 607,
-      "verschil": 10.3,
-      "motie": 9.6
+      "verschil": 10.3418,
+      "motie": 9.5761
      },
      {
       "kabinetspartij": "D66",
       "oppositie": "GL",
-      "voor": 59.7,
-      "na": 69.9,
+      "voor": 59.6683,
+      "na": 69.8517,
+      "gelijkVoor": 6224,
+      "gelijkNa": 424,
       "nVoor": 10431,
       "nNa": 607,
-      "verschil": 10.2,
-      "motie": 9.8
+      "verschil": 10.1834,
+      "motie": 9.8068
      },
      {
       "kabinetspartij": "ChristenUnie",
       "oppositie": "PvdA",
-      "voor": 57.6,
-      "na": 67.0,
+      "voor": 57.6112,
+      "na": 66.9951,
+      "gelijkVoor": 6010,
+      "gelijkNa": 408,
       "nVoor": 10432,
       "nNa": 609,
-      "verschil": 9.4,
-      "motie": 10.1
+      "verschil": 9.3839,
+      "motie": 10.1014
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "SP",
-      "voor": 45.4,
-      "na": 52.8,
+      "voor": 45.3823,
+      "na": 52.7961,
+      "gelijkVoor": 4742,
+      "gelijkNa": 321,
       "nVoor": 10449,
       "nNa": 608,
-      "verschil": 7.4,
-      "motie": 7.1
+      "verschil": 7.4137,
+      "motie": 7.1007
      },
      {
       "kabinetspartij": "D66",
       "oppositie": "PvdA",
-      "voor": 60.2,
-      "na": 67.2,
+      "voor": 60.1783,
+      "na": 67.2131,
+      "gelijkVoor": 6276,
+      "gelijkNa": 410,
       "nVoor": 10429,
       "nNa": 610,
-      "verschil": 7.0,
-      "motie": 6.6
+      "verschil": 7.0348,
+      "motie": 6.6086
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "GL",
-      "voor": 52.1,
-      "na": 57.5,
+      "voor": 52.0965,
+      "na": 57.4959,
+      "gelijkVoor": 5442,
+      "gelijkNa": 349,
       "nVoor": 10446,
       "nNa": 607,
-      "verschil": 5.4,
-      "motie": 6.0
+      "verschil": 5.3994,
+      "motie": 5.9684
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "SP",
-      "voor": 38.0,
-      "na": 42.5,
+      "voor": 38.0182,
+      "na": 42.459,
+      "gelijkVoor": 3971,
+      "gelijkNa": 259,
       "nVoor": 10445,
       "nNa": 610,
-      "verschil": 4.5,
-      "motie": 4.4
+      "verschil": 4.4408,
+      "motie": 4.3661
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "PvdD",
-      "voor": 41.0,
-      "na": 45.1,
+      "voor": 40.9819,
+      "na": 45.14,
+      "gelijkVoor": 4274,
+      "gelijkNa": 274,
       "nVoor": 10429,
       "nNa": 607,
-      "verschil": 4.1,
-      "motie": 4.4
+      "verschil": 4.1582,
+      "motie": 4.392
      },
      {
       "kabinetspartij": "D66",
       "oppositie": "50PLUS",
-      "voor": 61.1,
-      "na": 64.3,
+      "voor": 61.0887,
+      "na": 64.2623,
+      "gelijkVoor": 6363,
+      "gelijkNa": 392,
       "nVoor": 10416,
       "nNa": 610,
-      "verschil": 3.2,
-      "motie": 2.8
+      "verschil": 3.1736,
+      "motie": 2.799
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "GL",
-      "voor": 44.9,
-      "na": 47.8,
+      "voor": 44.9148,
+      "na": 47.7833,
+      "gelijkVoor": 4690,
+      "gelijkNa": 291,
       "nVoor": 10442,
       "nNa": 609,
-      "verschil": 2.9,
-      "motie": 3.5
+      "verschil": 2.8685,
+      "motie": 3.425
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "PvdA",
-      "voor": 53.9,
-      "na": 56.7,
+      "voor": 53.8631,
+      "na": 56.7213,
+      "gelijkVoor": 5626,
+      "gelijkNa": 346,
       "nVoor": 10445,
       "nNa": 610,
-      "verschil": 2.8,
-      "motie": 2.6
+      "verschil": 2.8582,
+      "motie": 2.6748
      },
      {
       "kabinetspartij": "ChristenUnie",
       "oppositie": "50PLUS",
-      "voor": 61.4,
-      "na": 64.0,
+      "voor": 61.4262,
+      "na": 64.0394,
+      "gelijkVoor": 6400,
+      "gelijkNa": 390,
       "nVoor": 10419,
       "nNa": 609,
-      "verschil": 2.6,
-      "motie": 4.4
+      "verschil": 2.6132,
+      "motie": 4.3872
      },
      {
       "kabinetspartij": "ChristenUnie",
       "oppositie": "DENK",
-      "voor": 52.9,
-      "na": 55.1,
+      "voor": 52.8768,
+      "na": 55.1155,
+      "gelijkVoor": 5505,
+      "gelijkNa": 334,
       "nVoor": 10411,
       "nNa": 606,
-      "verschil": 2.2,
-      "motie": 1.4
+      "verschil": 2.2387,
+      "motie": 1.4156
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "PvdD",
-      "voor": 33.6,
-      "na": 34.8,
+      "voor": 33.5731,
+      "na": 34.8112,
+      "gelijkVoor": 3500,
+      "gelijkNa": 212,
       "nVoor": 10425,
       "nNa": 609,
-      "verschil": 1.2,
-      "motie": 2.1
+      "verschil": 1.238,
+      "motie": 2.0677
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "PvdA",
-      "voor": 46.6,
-      "na": 47.5,
+      "voor": 46.643,
+      "na": 47.549,
+      "gelijkVoor": 4870,
+      "gelijkNa": 291,
       "nVoor": 10441,
       "nNa": 612,
-      "verschil": 0.9,
-      "motie": 0.8
+      "verschil": 0.906,
+      "motie": 0.7693
      },
      {
       "kabinetspartij": "D66",
       "oppositie": "DENK",
-      "voor": 53.9,
-      "na": 53.0,
+      "voor": 53.9489,
+      "na": 53.0478,
+      "gelijkVoor": 5615,
+      "gelijkNa": 322,
       "nVoor": 10408,
       "nNa": 607,
-      "verschil": -0.9,
-      "motie": -3.6
+      "verschil": -0.9011,
+      "motie": -3.6452
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "50PLUS",
-      "voor": 59.2,
-      "na": 56.9,
+      "voor": 59.2025,
+      "na": 56.8852,
+      "gelijkVoor": 6176,
+      "gelijkNa": 347,
       "nVoor": 10432,
       "nNa": 610,
-      "verschil": -2.3,
-      "motie": -1.3
+      "verschil": -2.3172,
+      "motie": -1.2603
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "50PLUS",
-      "voor": 52.7,
-      "na": 47.9,
+      "voor": 52.6851,
+      "na": 47.8758,
+      "gelijkVoor": 5494,
+      "gelijkNa": 293,
       "nVoor": 10428,
       "nNa": 612,
-      "verschil": -4.8,
-      "motie": -4.1
+      "verschil": -4.8093,
+      "motie": -4.1698
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "FVD",
-      "voor": 52.9,
-      "na": 47.9,
+      "voor": 52.8649,
+      "na": 47.9475,
+      "gelijkVoor": 5425,
+      "gelijkNa": 292,
       "nVoor": 10262,
       "nNa": 609,
-      "verschil": -5.0,
-      "motie": -5.5
+      "verschil": -4.9175,
+      "motie": -5.513
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "DENK",
-      "voor": 50.1,
-      "na": 44.2,
+      "voor": 50.1439,
+      "na": 44.1516,
+      "gelijkVoor": 5227,
+      "gelijkNa": 268,
       "nVoor": 10424,
       "nNa": 607,
-      "verschil": -5.9,
-      "motie": -8.3
+      "verschil": -5.9923,
+      "motie": -8.375
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "FVD",
-      "voor": 50.8,
-      "na": 43.5,
+      "voor": 50.8328,
+      "na": 43.4926,
+      "gelijkVoor": 5219,
+      "gelijkNa": 264,
       "nVoor": 10267,
       "nNa": 607,
-      "verschil": -7.3,
-      "motie": -8.1
+      "verschil": -7.3402,
+      "motie": -8.1156
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "PVV",
-      "voor": 45.9,
-      "na": 38.1,
+      "voor": 45.8988,
+      "na": 38.0952,
+      "gelijkVoor": 4790,
+      "gelijkNa": 232,
       "nVoor": 10436,
       "nNa": 609,
-      "verschil": -7.8,
-      "motie": -7.2
+      "verschil": -7.8036,
+      "motie": -7.2113
      },
      {
       "kabinetspartij": "ChristenUnie",
       "oppositie": "PVV",
-      "voor": 42.1,
-      "na": 34.0,
+      "voor": 42.0735,
+      "na": 33.9934,
+      "gelijkVoor": 4387,
+      "gelijkNa": 206,
       "nVoor": 10427,
       "nNa": 606,
-      "verschil": -8.1,
-      "motie": -6.2
+      "verschil": -8.0801,
+      "motie": -6.1551
      },
      {
       "kabinetspartij": "ChristenUnie",
       "oppositie": "FVD",
-      "voor": 48.5,
-      "na": 40.3,
+      "voor": 48.5029,
+      "na": 40.264,
+      "gelijkVoor": 4973,
+      "gelijkNa": 244,
       "nVoor": 10253,
       "nNa": 606,
-      "verschil": -8.2,
-      "motie": -8.1
+      "verschil": -8.2389,
+      "motie": -8.1253
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "PVV",
-      "voor": 43.4,
-      "na": 34.6,
+      "voor": 43.4387,
+      "na": 34.5964,
+      "gelijkVoor": 4535,
+      "gelijkNa": 210,
       "nVoor": 10440,
       "nNa": 607,
-      "verschil": -8.8,
-      "motie": -8.4
+      "verschil": -8.8423,
+      "motie": -8.4617
      },
      {
       "kabinetspartij": "D66",
       "oppositie": "FVD",
-      "voor": 46.1,
-      "na": 37.1,
+      "voor": 46.0683,
+      "na": 37.0675,
+      "gelijkVoor": 4722,
+      "gelijkNa": 225,
       "nVoor": 10250,
       "nNa": 607,
-      "verschil": -9.0,
-      "motie": -10.3
+      "verschil": -9.0007,
+      "motie": -10.3056
      },
      {
       "kabinetspartij": "D66",
       "oppositie": "PVV",
-      "voor": 40.0,
-      "na": 30.6,
+      "voor": 39.9751,
+      "na": 30.6425,
+      "gelijkVoor": 4167,
+      "gelijkNa": 186,
       "nVoor": 10424,
       "nNa": 607,
-      "verschil": -9.4,
-      "motie": -8.4
+      "verschil": -9.3326,
+      "motie": -8.3521
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "DENK",
-      "voor": 43.0,
-      "na": 33.5,
+      "voor": 42.9655,
+      "na": 33.4975,
+      "gelijkVoor": 4477,
+      "gelijkNa": 204,
       "nVoor": 10420,
       "nNa": 609,
-      "verschil": -9.5,
-      "motie": -11.5
+      "verschil": -9.4679,
+      "motie": -11.53
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "SGP",
-      "voor": 72.4,
-      "na": 58.7,
+      "voor": 72.4359,
+      "na": 58.6601,
+      "gelijkVoor": 7571,
+      "gelijkNa": 359,
       "nVoor": 10452,
       "nNa": 612,
-      "verschil": -13.7,
-      "motie": -14.6
+      "verschil": -13.7758,
+      "motie": -14.6176
      },
      {
       "kabinetspartij": "ChristenUnie",
       "oppositie": "SGP",
-      "voor": 77.6,
-      "na": 63.5,
+      "voor": 77.6309,
+      "na": 63.5468,
+      "gelijkVoor": 8107,
+      "gelijkNa": 387,
       "nVoor": 10443,
       "nNa": 609,
-      "verschil": -14.1,
-      "motie": -13.7
+      "verschil": -14.0842,
+      "motie": -13.671
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "SGP",
-      "voor": 78.0,
-      "na": 62.0,
+      "voor": 77.9552,
+      "na": 61.9672,
+      "gelijkVoor": 8151,
+      "gelijkNa": 378,
       "nVoor": 10456,
       "nNa": 610,
-      "verschil": -16.0,
-      "motie": -16.5
+      "verschil": -15.988,
+      "motie": -16.5037
      },
      {
       "kabinetspartij": "D66",
       "oppositie": "SGP",
-      "voor": 72.6,
-      "na": 55.7,
+      "voor": 72.5862,
+      "na": 55.7377,
+      "gelijkVoor": 7578,
+      "gelijkNa": 340,
       "nVoor": 10440,
       "nNa": 610,
-      "verschil": -16.9,
-      "motie": -16.2
+      "verschil": -16.8485,
+      "motie": -16.2791
      }
     ],
-    "mediaanKabOpp": 1.1,
-    "motieAfwijking": 0.7,
+    "mediaanKabOpp": 1.072,
+    "motieAfwijking": 0.6175,
     "motieParen": 36,
     "perPartij": [
      {
@@ -1428,22 +1581,26 @@
       "stijger": {
        "kabinetspartij": "CDA",
        "oppositie": "SP",
-       "voor": 45.4,
-       "na": 52.8,
+       "voor": 45.3823,
+       "na": 52.7961,
+       "gelijkVoor": 4742,
+       "gelijkNa": 321,
        "nVoor": 10449,
        "nNa": 608,
-       "verschil": 7.4,
-       "motie": 7.1
+       "verschil": 7.4137,
+       "motie": 7.1007
       },
       "daler": {
        "kabinetspartij": "CDA",
        "oppositie": "SGP",
-       "voor": 78.0,
-       "na": 62.0,
+       "voor": 77.9552,
+       "na": 61.9672,
+       "gelijkVoor": 8151,
+       "gelijkNa": 378,
        "nVoor": 10456,
        "nNa": 610,
-       "verschil": -16.0,
-       "motie": -16.5
+       "verschil": -15.988,
+       "motie": -16.5037
       }
      },
      {
@@ -1451,22 +1608,26 @@
       "stijger": {
        "kabinetspartij": "ChristenUnie",
        "oppositie": "SP",
-       "voor": 49.2,
-       "na": 64.6,
+       "voor": 49.1951,
+       "na": 64.5799,
+       "gelijkVoor": 5134,
+       "gelijkNa": 392,
        "nVoor": 10436,
        "nNa": 607,
-       "verschil": 15.4,
-       "motie": 16.1
+       "verschil": 15.3848,
+       "motie": 16.0838
       },
       "daler": {
        "kabinetspartij": "ChristenUnie",
        "oppositie": "SGP",
-       "voor": 77.6,
-       "na": 63.5,
+       "voor": 77.6309,
+       "na": 63.5468,
+       "gelijkVoor": 8107,
+       "gelijkNa": 387,
        "nVoor": 10443,
        "nNa": 609,
-       "verschil": -14.1,
-       "motie": -13.7
+       "verschil": -14.0842,
+       "motie": -13.671
       }
      },
      {
@@ -1474,22 +1635,26 @@
       "stijger": {
        "kabinetspartij": "D66",
        "oppositie": "SP",
-       "voor": 50.4,
-       "na": 62.3,
+       "voor": 50.3882,
+       "na": 62.3355,
+       "gelijkVoor": 5257,
+       "gelijkNa": 379,
        "nVoor": 10433,
        "nNa": 608,
-       "verschil": 11.9,
-       "motie": 11.8
+       "verschil": 11.9473,
+       "motie": 11.8507
       },
       "daler": {
        "kabinetspartij": "D66",
        "oppositie": "SGP",
-       "voor": 72.6,
-       "na": 55.7,
+       "voor": 72.5862,
+       "na": 55.7377,
+       "gelijkVoor": 7578,
+       "gelijkNa": 340,
        "nVoor": 10440,
        "nNa": 610,
-       "verschil": -16.9,
-       "motie": -16.2
+       "verschil": -16.8485,
+       "motie": -16.2791
       }
      },
      {
@@ -1497,22 +1662,26 @@
       "stijger": {
        "kabinetspartij": "VVD",
        "oppositie": "SP",
-       "voor": 38.0,
-       "na": 42.5,
+       "voor": 38.0182,
+       "na": 42.459,
+       "gelijkVoor": 3971,
+       "gelijkNa": 259,
        "nVoor": 10445,
        "nNa": 610,
-       "verschil": 4.5,
-       "motie": 4.4
+       "verschil": 4.4408,
+       "motie": 4.3661
       },
       "daler": {
        "kabinetspartij": "VVD",
        "oppositie": "SGP",
-       "voor": 72.4,
-       "na": 58.7,
+       "voor": 72.4359,
+       "na": 58.6601,
+       "gelijkVoor": 7571,
+       "gelijkNa": 359,
        "nVoor": 10452,
        "nNa": 612,
-       "verschil": -13.7,
-       "motie": -14.6
+       "verschil": -13.7758,
+       "motie": -14.6176
       }
      }
     ]
@@ -1560,6 +1729,7 @@
      "verdeeld": 6057,
      "klein": false,
      "moties": 5310,
+     "partijen": 4,
      "eensgezind": {
       "gestemd": 6016,
       "eensgezind": 4814,
@@ -1649,6 +1819,7 @@
      "verdeeld": 1016,
      "klein": false,
      "moties": 834,
+     "partijen": 4,
      "eensgezind": {
       "gestemd": 1014,
       "eensgezind": 555,
@@ -1738,6 +1909,7 @@
      "verdeeld": 1921,
      "klein": false,
      "moties": 1660,
+     "partijen": 4,
      "eensgezind": {
       "gestemd": 1911,
       "eensgezind": 992,
@@ -1824,492 +1996,588 @@
    },
    "campagne": {
     "paren": 120,
-    "mediaan": -0.2,
-    "mediaanMotie": -0.5,
+    "mediaan": -0.1873,
+    "mediaanMotie": -0.5146,
     "kabOpp": [
      {
       "kabinetspartij": "ChristenUnie",
       "oppositie": "SP",
-      "voor": 54.9,
-      "na": 66.4,
+      "voor": 54.8532,
+      "na": 66.3708,
+      "gelijkVoor": 3306,
+      "gelijkNa": 673,
       "nVoor": 6027,
       "nNa": 1014,
-      "verschil": 11.5,
-      "motie": 11.3
+      "verschil": 11.5176,
+      "motie": 11.3278
      },
      {
       "kabinetspartij": "ChristenUnie",
       "oppositie": "BIJ1",
-      "voor": 53.2,
-      "na": 64.6,
+      "voor": 53.158,
+      "na": 64.6027,
+      "gelijkVoor": 2567,
+      "gelijkNa": 626,
       "nVoor": 4829,
       "nNa": 969,
-      "verschil": 11.4,
-      "motie": 10.5
+      "verschil": 11.4447,
+      "motie": 10.5661
      },
      {
       "kabinetspartij": "D66",
       "oppositie": "Volt",
-      "voor": 68.2,
-      "na": 79.5,
+      "voor": 68.2293,
+      "na": 79.4872,
+      "gelijkVoor": 4119,
+      "gelijkNa": 806,
       "nVoor": 6037,
       "nNa": 1014,
-      "verschil": 11.3,
-      "motie": 9.8
+      "verschil": 11.2579,
+      "motie": 9.8683
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "BBB",
-      "voor": 51.9,
-      "na": 62.7,
+      "voor": 51.925,
+      "na": 62.6851,
+      "gelijkVoor": 3102,
+      "gelijkNa": 635,
       "nVoor": 5974,
       "nNa": 1013,
-      "verschil": 10.8,
-      "motie": 8.7
+      "verschil": 10.7601,
+      "motie": 8.7187
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "FVD",
-      "voor": 40.1,
-      "na": 50.7,
+      "voor": 40.1257,
+      "na": 50.6917,
+      "gelijkVoor": 2426,
+      "gelijkNa": 513,
       "nVoor": 6046,
       "nNa": 1012,
-      "verschil": 10.6,
-      "motie": 11.5
-     },
-     {
-      "kabinetspartij": "CDA",
-      "oppositie": "FVD",
-      "voor": 39.1,
-      "na": 49.3,
-      "nVoor": 6043,
-      "nNa": 1013,
-      "verschil": 10.2,
-      "motie": 10.4
+      "verschil": 10.566,
+      "motie": 11.5061
      },
      {
       "kabinetspartij": "D66",
       "oppositie": "BIJ1",
-      "voor": 56.7,
-      "na": 66.9,
+      "voor": 56.6887,
+      "na": 66.9072,
+      "gelijkVoor": 2746,
+      "gelijkNa": 649,
       "nVoor": 4844,
       "nNa": 970,
-      "verschil": 10.2,
-      "motie": 8.7
+      "verschil": 10.2185,
+      "motie": 8.6459
      },
      {
       "kabinetspartij": "D66",
       "oppositie": "PvdD",
-      "voor": 56.7,
-      "na": 66.8,
+      "voor": 56.6998,
+      "na": 66.8312,
+      "gelijkVoor": 3419,
+      "gelijkNa": 677,
       "nVoor": 6030,
       "nNa": 1013,
-      "verschil": 10.1,
-      "motie": 9.6
+      "verschil": 10.1314,
+      "motie": 9.606
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "FVD",
+      "voor": 39.1362,
+      "na": 49.2596,
+      "gelijkVoor": 2365,
+      "gelijkNa": 499,
+      "nVoor": 6043,
+      "nNa": 1013,
+      "verschil": 10.1234,
+      "motie": 10.4776
      },
      {
       "kabinetspartij": "ChristenUnie",
       "oppositie": "Volt",
-      "voor": 64.7,
-      "na": 74.3,
+      "voor": 64.6785,
+      "na": 74.3337,
+      "gelijkVoor": 3893,
+      "gelijkNa": 753,
       "nVoor": 6019,
       "nNa": 1013,
-      "verschil": 9.6,
-      "motie": 9.4
+      "verschil": 9.6551,
+      "motie": 9.3752
      },
      {
       "kabinetspartij": "ChristenUnie",
       "oppositie": "PvdD",
-      "voor": 54.6,
-      "na": 64.1,
+      "voor": 54.5908,
+      "na": 64.1304,
+      "gelijkVoor": 3282,
+      "gelijkNa": 649,
       "nVoor": 6012,
       "nNa": 1012,
-      "verschil": 9.5,
-      "motie": 9.9
+      "verschil": 9.5396,
+      "motie": 9.9336
      },
      {
       "kabinetspartij": "D66",
       "oppositie": "SP",
-      "voor": 55.4,
-      "na": 64.8,
+      "voor": 55.4012,
+      "na": 64.8276,
+      "gelijkVoor": 3349,
+      "gelijkNa": 658,
       "nVoor": 6045,
       "nNa": 1015,
-      "verschil": 9.4,
-      "motie": 9.0
+      "verschil": 9.4264,
+      "motie": 9.0163
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "PVV",
-      "voor": 42.9,
-      "na": 52.0,
+      "voor": 42.8974,
+      "na": 51.9724,
+      "gelijkVoor": 2591,
+      "gelijkNa": 527,
       "nVoor": 6040,
       "nNa": 1014,
-      "verschil": 9.1,
-      "motie": 7.2
+      "verschil": 9.075,
+      "motie": 7.1692
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "BBB",
-      "voor": 53.3,
-      "na": 62.3,
+      "voor": 53.2909,
+      "na": 62.3274,
+      "gelijkVoor": 3182,
+      "gelijkNa": 632,
       "nVoor": 5971,
       "nNa": 1014,
-      "verschil": 9.0,
-      "motie": 6.2
+      "verschil": 9.0365,
+      "motie": 6.2024
      },
      {
       "kabinetspartij": "D66",
       "oppositie": "GL",
-      "voor": 66.7,
-      "na": 75.5,
+      "voor": 66.7163,
+      "na": 75.5424,
+      "gelijkVoor": 4033,
+      "gelijkNa": 766,
       "nVoor": 6045,
       "nNa": 1014,
-      "verschil": 8.8,
-      "motie": 8.0
+      "verschil": 8.8261,
+      "motie": 8.0025
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "PVV",
-      "voor": 44.0,
-      "na": 52.8,
+      "voor": 44.0179,
+      "na": 52.8134,
+      "gelijkVoor": 2660,
+      "gelijkNa": 535,
       "nVoor": 6043,
       "nNa": 1013,
-      "verschil": 8.8,
-      "motie": 6.9
+      "verschil": 8.7956,
+      "motie": 6.8712
      },
      {
       "kabinetspartij": "D66",
       "oppositie": "PvdA",
-      "voor": 66.9,
-      "na": 75.5,
+      "voor": 66.8542,
+      "na": 75.468,
+      "gelijkVoor": 4040,
+      "gelijkNa": 766,
       "nVoor": 6043,
       "nNa": 1015,
-      "verschil": 8.6,
-      "motie": 7.8
+      "verschil": 8.6138,
+      "motie": 7.7481
      },
      {
       "kabinetspartij": "ChristenUnie",
       "oppositie": "GL",
-      "voor": 63.2,
-      "na": 70.9,
+      "voor": 63.1989,
+      "na": 70.8786,
+      "gelijkVoor": 3809,
+      "gelijkNa": 718,
       "nVoor": 6027,
       "nNa": 1013,
-      "verschil": 7.7,
-      "motie": 7.5
+      "verschil": 7.6796,
+      "motie": 7.504
      },
      {
       "kabinetspartij": "ChristenUnie",
       "oppositie": "PvdA",
-      "voor": 63.5,
-      "na": 70.8,
+      "voor": 63.4855,
+      "na": 70.8087,
+      "gelijkVoor": 3825,
+      "gelijkNa": 718,
       "nVoor": 6025,
       "nNa": 1014,
-      "verschil": 7.3,
-      "motie": 7.0
+      "verschil": 7.3232,
+      "motie": 7.0658
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "JA21",
-      "voor": 55.5,
-      "na": 62.4,
+      "voor": 55.4542,
+      "na": 62.4248,
+      "gelijkVoor": 3345,
+      "gelijkNa": 623,
       "nVoor": 6032,
       "nNa": 998,
-      "verschil": 6.9,
-      "motie": 6.6
+      "verschil": 6.9706,
+      "motie": 6.5809
      },
      {
       "kabinetspartij": "ChristenUnie",
       "oppositie": "PVV",
-      "voor": 41.2,
-      "na": 47.9,
+      "voor": 41.2224,
+      "na": 47.8776,
+      "gelijkVoor": 2482,
+      "gelijkNa": 485,
       "nVoor": 6021,
       "nNa": 1013,
-      "verschil": 6.7,
-      "motie": 5.7
+      "verschil": 6.6552,
+      "motie": 5.708
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "JA21",
-      "voor": 54.5,
-      "na": 60.6,
+      "voor": 54.5032,
+      "na": 60.5606,
+      "gelijkVoor": 3286,
+      "gelijkNa": 605,
       "nVoor": 6029,
       "nNa": 999,
-      "verschil": 6.1,
-      "motie": 5.7
+      "verschil": 6.0573,
+      "motie": 5.6354
      },
      {
       "kabinetspartij": "ChristenUnie",
       "oppositie": "DENK",
-      "voor": 61.2,
-      "na": 64.2,
+      "voor": 61.1581,
+      "na": 64.2292,
+      "gelijkVoor": 3686,
+      "gelijkNa": 650,
       "nVoor": 6027,
       "nNa": 1012,
-      "verschil": 3.0,
-      "motie": 1.2
+      "verschil": 3.0711,
+      "motie": 1.2202
      },
      {
       "kabinetspartij": "ChristenUnie",
       "oppositie": "BBB",
-      "voor": 54.2,
-      "na": 56.8,
+      "voor": 54.2416,
+      "na": 56.7621,
+      "gelijkVoor": 3229,
+      "gelijkNa": 575,
       "nVoor": 5953,
       "nNa": 1013,
-      "verschil": 2.6,
-      "motie": 0.4
+      "verschil": 2.5205,
+      "motie": 0.4749
      },
      {
       "kabinetspartij": "ChristenUnie",
       "oppositie": "FVD",
-      "voor": 36.5,
-      "na": 38.6,
+      "voor": 36.4708,
+      "na": 38.6364,
+      "gelijkVoor": 2197,
+      "gelijkNa": 391,
       "nVoor": 6024,
       "nNa": 1012,
-      "verschil": 2.1,
-      "motie": 1.9
+      "verschil": 2.1656,
+      "motie": 1.897
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "BIJ1",
-      "voor": 48.2,
-      "na": 49.3,
+      "voor": 48.2047,
+      "na": 49.2784,
+      "gelijkVoor": 2336,
+      "gelijkNa": 478,
       "nVoor": 4846,
       "nNa": 970,
-      "verschil": 1.1,
-      "motie": -0.1
+      "verschil": 1.0736,
+      "motie": -0.1025
      },
      {
       "kabinetspartij": "D66",
       "oppositie": "PVV",
-      "voor": 37.6,
-      "na": 38.6,
+      "voor": 37.6159,
+      "na": 38.5602,
+      "gelijkVoor": 2272,
+      "gelijkNa": 391,
       "nVoor": 6040,
       "nNa": 1014,
-      "verschil": 1.0,
-      "motie": 0.5
+      "verschil": 0.9443,
+      "motie": 0.5062
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "SP",
-      "voor": 49.7,
-      "na": 50.6,
+      "voor": 49.7354,
+      "na": 50.6404,
+      "gelijkVoor": 3007,
+      "gelijkNa": 514,
       "nVoor": 6046,
       "nNa": 1015,
-      "verschil": 0.9,
-      "motie": -0.9
+      "verschil": 0.905,
+      "motie": -0.8408
      },
      {
       "kabinetspartij": "D66",
       "oppositie": "FVD",
-      "voor": 33.2,
-      "na": 34.0,
+      "voor": 33.1678,
+      "na": 33.9585,
+      "gelijkVoor": 2004,
+      "gelijkNa": 344,
       "nVoor": 6042,
       "nNa": 1013,
-      "verschil": 0.8,
-      "motie": 2.1
+      "verschil": 0.7907,
+      "motie": 2.0753
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "SGP",
+      "voor": 71.951,
+      "na": 72.5838,
+      "gelijkVoor": 4348,
+      "gelijkNa": 736,
+      "nVoor": 6043,
+      "nNa": 1014,
+      "verschil": 0.6328,
+      "motie": 0.1533
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "PvdD",
-      "voor": 48.4,
-      "na": 49.0,
+      "voor": 48.4331,
+      "na": 48.9635,
+      "gelijkVoor": 2921,
+      "gelijkNa": 496,
       "nVoor": 6031,
       "nNa": 1013,
-      "verschil": 0.6,
-      "motie": -0.6
-     },
-     {
-      "kabinetspartij": "CDA",
-      "oppositie": "SGP",
-      "voor": 72.0,
-      "na": 72.6,
-      "nVoor": 6043,
-      "nNa": 1014,
-      "verschil": 0.6,
-      "motie": 0.1
+      "verschil": 0.5304,
+      "motie": -0.6706
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "Volt",
-      "voor": 59.6,
-      "na": 60.1,
+      "voor": 59.5727,
+      "na": 60.0592,
+      "gelijkVoor": 3597,
+      "gelijkNa": 609,
       "nVoor": 6038,
       "nNa": 1014,
-      "verschil": 0.5,
-      "motie": -0.5
+      "verschil": 0.4865,
+      "motie": -0.4928
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "DENK",
-      "voor": 56.6,
-      "na": 57.0,
+      "voor": 56.5663,
+      "na": 56.9595,
+      "gelijkVoor": 3420,
+      "gelijkNa": 577,
       "nVoor": 6046,
       "nNa": 1013,
-      "verschil": 0.4,
-      "motie": -1.6
+      "verschil": 0.3932,
+      "motie": -1.666
      },
      {
       "kabinetspartij": "D66",
       "oppositie": "DENK",
-      "voor": 62.1,
-      "na": 62.3,
+      "voor": 62.1175,
+      "na": 62.2902,
+      "gelijkVoor": 3755,
+      "gelijkNa": 631,
       "nVoor": 6045,
       "nNa": 1013,
-      "verschil": 0.2,
-      "motie": -0.7
+      "verschil": 0.1728,
+      "motie": -0.7694
      },
      {
       "kabinetspartij": "ChristenUnie",
       "oppositie": "SGP",
-      "voor": 71.5,
-      "na": 70.2,
+      "voor": 71.5139,
+      "na": 70.1876,
+      "gelijkVoor": 4308,
+      "gelijkNa": 711,
       "nVoor": 6024,
       "nNa": 1013,
-      "verschil": -1.3,
-      "motie": -1.7
+      "verschil": -1.3264,
+      "motie": -1.768
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "GL",
-      "voor": 57.7,
-      "na": 55.9,
+      "voor": 57.7407,
+      "na": 55.9172,
+      "gelijkVoor": 3491,
+      "gelijkNa": 567,
       "nVoor": 6046,
       "nNa": 1014,
-      "verschil": -1.8,
-      "motie": -3.1
+      "verschil": -1.8235,
+      "motie": -3.0274
      },
      {
       "kabinetspartij": "CDA",
       "oppositie": "PvdA",
-      "voor": 58.0,
-      "na": 55.9,
+      "voor": 57.9914,
+      "na": 55.8621,
+      "gelijkVoor": 3505,
+      "gelijkNa": 567,
       "nVoor": 6044,
       "nNa": 1015,
-      "verschil": -2.1,
-      "motie": -3.4
+      "verschil": -2.1293,
+      "motie": -3.4064
      },
      {
       "kabinetspartij": "ChristenUnie",
       "oppositie": "JA21",
-      "voor": 52.2,
-      "na": 49.9,
+      "voor": 52.2296,
+      "na": 49.8998,
+      "gelijkVoor": 3139,
+      "gelijkNa": 498,
       "nVoor": 6010,
       "nNa": 998,
-      "verschil": -2.3,
-      "motie": -3.4
+      "verschil": -2.3298,
+      "motie": -3.394
      },
      {
       "kabinetspartij": "D66",
       "oppositie": "BBB",
-      "voor": 49.9,
-      "na": 46.5,
+      "voor": 49.8995,
+      "na": 46.5483,
+      "gelijkVoor": 2979,
+      "gelijkNa": 472,
       "nVoor": 5970,
       "nNa": 1014,
-      "verschil": -3.4,
-      "motie": -4.5
+      "verschil": -3.3512,
+      "motie": -4.4579
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "SGP",
-      "voor": 70.5,
-      "na": 66.8,
+      "voor": 70.4929,
+      "na": 66.8312,
+      "gelijkVoor": 4262,
+      "gelijkNa": 677,
       "nVoor": 6046,
       "nNa": 1013,
-      "verschil": -3.7,
-      "motie": -3.7
+      "verschil": -3.6617,
+      "motie": -3.7029
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "BIJ1",
-      "voor": 46.0,
-      "na": 41.3,
+      "voor": 45.9872,
+      "na": 41.2797,
+      "gelijkVoor": 2229,
+      "gelijkNa": 400,
       "nVoor": 4847,
       "nNa": 969,
-      "verschil": -4.7,
-      "motie": -4.8
+      "verschil": -4.7075,
+      "motie": -4.8626
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "DENK",
-      "voor": 54.6,
-      "na": 49.8,
+      "voor": 54.6371,
+      "na": 49.8024,
+      "gelijkVoor": 3305,
+      "gelijkNa": 504,
       "nVoor": 6049,
       "nNa": 1012,
-      "verschil": -4.8,
-      "motie": -4.6
+      "verschil": -4.8348,
+      "motie": -4.5581
      },
      {
       "kabinetspartij": "D66",
       "oppositie": "JA21",
-      "voor": 47.0,
-      "na": 41.8,
+      "voor": 47.0139,
+      "na": 41.8418,
+      "gelijkVoor": 2834,
+      "gelijkNa": 418,
       "nVoor": 6028,
       "nNa": 999,
-      "verschil": -5.2,
-      "motie": -4.5
+      "verschil": -5.1721,
+      "motie": -4.5044
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "SP",
-      "voor": 48.0,
-      "na": 42.7,
+      "voor": 48.0079,
+      "na": 42.7022,
+      "gelijkVoor": 2904,
+      "gelijkNa": 433,
       "nVoor": 6049,
       "nNa": 1014,
-      "verschil": -5.3,
-      "motie": -5.6
+      "verschil": -5.3058,
+      "motie": -5.6179
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "Volt",
-      "voor": 57.3,
-      "na": 51.7,
+      "voor": 57.3084,
+      "na": 51.7275,
+      "gelijkVoor": 3462,
+      "gelijkNa": 524,
       "nVoor": 6041,
       "nNa": 1013,
-      "verschil": -5.6,
-      "motie": -5.9
+      "verschil": -5.5809,
+      "motie": -5.9387
      },
      {
       "kabinetspartij": "D66",
       "oppositie": "SGP",
-      "voor": 65.0,
-      "na": 59.2,
+      "voor": 64.995,
+      "na": 59.1716,
+      "gelijkVoor": 3927,
+      "gelijkNa": 600,
       "nVoor": 6042,
       "nNa": 1014,
-      "verschil": -5.8,
-      "motie": -4.5
+      "verschil": -5.8234,
+      "motie": -4.5532
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "PvdD",
-      "voor": 46.2,
-      "na": 40.2,
+      "voor": 46.1717,
+      "na": 40.2174,
+      "gelijkVoor": 2786,
+      "gelijkNa": 407,
       "nVoor": 6034,
       "nNa": 1012,
-      "verschil": -6.0,
-      "motie": -5.9
+      "verschil": -5.9543,
+      "motie": -5.904
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "GL",
-      "voor": 55.4,
-      "na": 47.4,
+      "voor": 55.4306,
+      "na": 47.384,
+      "gelijkVoor": 3353,
+      "gelijkNa": 480,
       "nVoor": 6049,
       "nNa": 1013,
-      "verschil": -8.0,
-      "motie": -8.2
+      "verschil": -8.0466,
+      "motie": -8.2032
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "PvdA",
-      "voor": 55.7,
-      "na": 47.3,
+      "voor": 55.6805,
+      "na": 47.3373,
+      "gelijkVoor": 3367,
+      "gelijkNa": 480,
       "nVoor": 6047,
       "nNa": 1014,
-      "verschil": -8.4,
-      "motie": -8.6
+      "verschil": -8.3432,
+      "motie": -8.5722
      }
     ],
-    "mediaanKabOpp": 1.6,
-    "motieAfwijking": 0.8,
+    "mediaanKabOpp": 1.6196,
+    "motieAfwijking": 0.8447,
     "motieParen": 48,
     "perPartij": [
      {
@@ -2317,22 +2585,26 @@
       "stijger": {
        "kabinetspartij": "CDA",
        "oppositie": "FVD",
-       "voor": 39.1,
-       "na": 49.3,
+       "voor": 39.1362,
+       "na": 49.2596,
+       "gelijkVoor": 2365,
+       "gelijkNa": 499,
        "nVoor": 6043,
        "nNa": 1013,
-       "verschil": 10.2,
-       "motie": 10.4
+       "verschil": 10.1234,
+       "motie": 10.4776
       },
       "daler": {
        "kabinetspartij": "CDA",
        "oppositie": "PvdA",
-       "voor": 58.0,
-       "na": 55.9,
+       "voor": 57.9914,
+       "na": 55.8621,
+       "gelijkVoor": 3505,
+       "gelijkNa": 567,
        "nVoor": 6044,
        "nNa": 1015,
-       "verschil": -2.1,
-       "motie": -3.4
+       "verschil": -2.1293,
+       "motie": -3.4064
       }
      },
      {
@@ -2340,22 +2612,26 @@
       "stijger": {
        "kabinetspartij": "ChristenUnie",
        "oppositie": "SP",
-       "voor": 54.9,
-       "na": 66.4,
+       "voor": 54.8532,
+       "na": 66.3708,
+       "gelijkVoor": 3306,
+       "gelijkNa": 673,
        "nVoor": 6027,
        "nNa": 1014,
-       "verschil": 11.5,
-       "motie": 11.3
+       "verschil": 11.5176,
+       "motie": 11.3278
       },
       "daler": {
        "kabinetspartij": "ChristenUnie",
        "oppositie": "JA21",
-       "voor": 52.2,
-       "na": 49.9,
+       "voor": 52.2296,
+       "na": 49.8998,
+       "gelijkVoor": 3139,
+       "gelijkNa": 498,
        "nVoor": 6010,
        "nNa": 998,
-       "verschil": -2.3,
-       "motie": -3.4
+       "verschil": -2.3298,
+       "motie": -3.394
       }
      },
      {
@@ -2363,22 +2639,26 @@
       "stijger": {
        "kabinetspartij": "D66",
        "oppositie": "Volt",
-       "voor": 68.2,
-       "na": 79.5,
+       "voor": 68.2293,
+       "na": 79.4872,
+       "gelijkVoor": 4119,
+       "gelijkNa": 806,
        "nVoor": 6037,
        "nNa": 1014,
-       "verschil": 11.3,
-       "motie": 9.8
+       "verschil": 11.2579,
+       "motie": 9.8683
       },
       "daler": {
        "kabinetspartij": "D66",
        "oppositie": "SGP",
-       "voor": 65.0,
-       "na": 59.2,
+       "voor": 64.995,
+       "na": 59.1716,
+       "gelijkVoor": 3927,
+       "gelijkNa": 600,
        "nVoor": 6042,
        "nNa": 1014,
-       "verschil": -5.8,
-       "motie": -4.5
+       "verschil": -5.8234,
+       "motie": -4.5532
       }
      },
      {
@@ -2386,22 +2666,26 @@
       "stijger": {
        "kabinetspartij": "VVD",
        "oppositie": "BBB",
-       "voor": 51.9,
-       "na": 62.7,
+       "voor": 51.925,
+       "na": 62.6851,
+       "gelijkVoor": 3102,
+       "gelijkNa": 635,
        "nVoor": 5974,
        "nNa": 1013,
-       "verschil": 10.8,
-       "motie": 8.7
+       "verschil": 10.7601,
+       "motie": 8.7187
       },
       "daler": {
        "kabinetspartij": "VVD",
        "oppositie": "PvdA",
-       "voor": 55.7,
-       "na": 47.3,
+       "voor": 55.6805,
+       "na": 47.3373,
+       "gelijkVoor": 3367,
+       "gelijkNa": 480,
        "nVoor": 6047,
        "nNa": 1014,
-       "verschil": -8.4,
-       "motie": -8.6
+       "verschil": -8.3432,
+       "motie": -8.5722
       }
      }
     ]
@@ -2451,6 +2735,7 @@
      "verdeeld": 3565,
      "klein": false,
      "moties": 3026,
+     "partijen": 3,
      "eensgezind": {
       "gestemd": 3556,
       "eensgezind": 2877,
@@ -2519,6 +2804,7 @@
      "verdeeld": 1825,
      "klein": false,
      "moties": 1565,
+     "partijen": 3,
      "eensgezind": {
       "gestemd": 1822,
       "eensgezind": 1420,
@@ -2528,9 +2814,9 @@
       {
        "a": "BBB",
        "b": "Nieuw Sociaal Contract",
-       "cohesie": 69.8,
-       "gezamenlijk": 1820,
-       "gelijk": 1271
+       "cohesie": 73.4,
+       "gezamenlijk": 975,
+       "gelijk": 716
       },
       {
        "a": "BBB",
@@ -2542,9 +2828,9 @@
       {
        "a": "Nieuw Sociaal Contract",
        "b": "VVD",
-       "cohesie": 71.4,
-       "gezamenlijk": 1821,
-       "gelijk": 1301
+       "cohesie": 77.5,
+       "gezamenlijk": 975,
+       "gelijk": 756
       }
      ],
      "alleen": {
@@ -2580,6 +2866,7 @@
      "verdeeld": 996,
      "klein": false,
      "moties": 846,
+     "partijen": 2,
      "eensgezind": {
       "gestemd": 992,
       "eensgezind": 658,
@@ -2616,232 +2903,276 @@
    },
    "campagne": {
     "paren": 105,
-    "mediaan": -0.6,
-    "mediaanMotie": 0.0,
+    "mediaan": -0.5147,
+    "mediaanMotie": -0.0122,
     "kabOpp": [
      {
       "kabinetspartij": "VVD",
       "oppositie": "JA21",
-      "voor": 70.6,
-      "na": 74.9,
+      "voor": 70.64,
+      "na": 74.9451,
+      "gelijkVoor": 2406,
+      "gelijkNa": 1364,
       "nVoor": 3406,
       "nNa": 1820,
-      "verschil": 4.3,
-      "motie": 5.8
+      "verschil": 4.305,
+      "motie": 5.7567
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "FVD",
-      "voor": 49.9,
-      "na": 53.9,
+      "voor": 49.8736,
+      "na": 53.9313,
+      "gelijkVoor": 1776,
+      "gelijkNa": 974,
       "nVoor": 3561,
       "nNa": 1806,
-      "verschil": 4.0,
-      "motie": 2.9
+      "verschil": 4.0577,
+      "motie": 2.9704
      },
      {
       "kabinetspartij": "BBB",
       "oppositie": "FVD",
-      "voor": 58.8,
-      "na": 62.7,
+      "voor": 58.8351,
+      "na": 62.7147,
+      "gelijkVoor": 2091,
+      "gelijkNa": 1132,
       "nVoor": 3554,
       "nNa": 1805,
-      "verschil": 3.9,
-      "motie": 3.4
+      "verschil": 3.8796,
+      "motie": 3.3994
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "CDA",
-      "voor": 74.7,
-      "na": 78.5,
+      "voor": 74.6558,
+      "na": 78.5165,
+      "gelijkVoor": 2657,
+      "gelijkNa": 1429,
       "nVoor": 3559,
       "nNa": 1820,
-      "verschil": 3.8,
-      "motie": 4.6
+      "verschil": 3.8607,
+      "motie": 4.6075
      },
      {
       "kabinetspartij": "BBB",
       "oppositie": "ChristenUnie",
-      "voor": 62.3,
-      "na": 65.7,
+      "voor": 62.2535,
+      "na": 65.7316,
+      "gelijkVoor": 2210,
+      "gelijkNa": 1195,
       "nVoor": 3550,
       "nNa": 1818,
-      "verschil": 3.4,
-      "motie": 4.9
+      "verschil": 3.4781,
+      "motie": 4.8746
      },
      {
       "kabinetspartij": "BBB",
       "oppositie": "SGP",
-      "voor": 74.3,
-      "na": 77.6,
+      "voor": 74.2825,
+      "na": 77.5701,
+      "gelijkVoor": 2640,
+      "gelijkNa": 1411,
       "nVoor": 3554,
       "nNa": 1819,
-      "verschil": 3.3,
-      "motie": 4.2
+      "verschil": 3.2876,
+      "motie": 4.1964
      },
      {
       "kabinetspartij": "BBB",
       "oppositie": "JA21",
-      "voor": 76.2,
-      "na": 79.4,
+      "voor": 76.2059,
+      "na": 79.3843,
+      "gelijkVoor": 2591,
+      "gelijkNa": 1444,
       "nVoor": 3400,
       "nNa": 1819,
-      "verschil": 3.2,
-      "motie": 4.5
+      "verschil": 3.1784,
+      "motie": 4.5378
      },
      {
       "kabinetspartij": "BBB",
       "oppositie": "GroenLinks-PvdA",
-      "voor": 42.9,
-      "na": 45.8,
+      "voor": 42.8571,
+      "na": 45.8288,
+      "gelijkVoor": 1524,
+      "gelijkNa": 835,
       "nVoor": 3556,
       "nNa": 1822,
-      "verschil": 2.9,
-      "motie": 3.5
+      "verschil": 2.9716,
+      "motie": 3.5718
      },
      {
       "kabinetspartij": "BBB",
       "oppositie": "Volt",
-      "voor": 45.5,
-      "na": 47.7,
+      "voor": 45.4827,
+      "na": 47.661,
+      "gelijkVoor": 1616,
+      "gelijkNa": 866,
       "nVoor": 3553,
       "nNa": 1817,
-      "verschil": 2.2,
-      "motie": 2.3
+      "verschil": 2.1783,
+      "motie": 2.2787
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "SGP",
-      "voor": 71.4,
-      "na": 73.6,
+      "voor": 71.4125,
+      "na": 73.5714,
+      "gelijkVoor": 2543,
+      "gelijkNa": 1339,
       "nVoor": 3561,
       "nNa": 1820,
-      "verschil": 2.2,
-      "motie": 3.1
+      "verschil": 2.1589,
+      "motie": 3.1278
      },
      {
       "kabinetspartij": "BBB",
       "oppositie": "PvdD",
-      "voor": 35.6,
-      "na": 37.2,
+      "voor": 35.6118,
+      "na": 37.1837,
+      "gelijkVoor": 1266,
+      "gelijkNa": 676,
       "nVoor": 3555,
       "nNa": 1818,
-      "verschil": 1.6,
-      "motie": 1.8
+      "verschil": 1.5719,
+      "motie": 1.8445
      },
      {
       "kabinetspartij": "BBB",
       "oppositie": "CDA",
-      "voor": 70.2,
-      "na": 70.9,
+      "voor": 70.2421,
+      "na": 70.9181,
+      "gelijkVoor": 2495,
+      "gelijkNa": 1290,
       "nVoor": 3552,
       "nNa": 1819,
-      "verschil": 0.7,
-      "motie": 0.5
+      "verschil": 0.676,
+      "motie": 0.5297
      },
      {
       "kabinetspartij": "BBB",
       "oppositie": "D66",
-      "voor": 53.5,
-      "na": 53.6,
+      "voor": 53.5322,
+      "na": 53.5714,
+      "gelijkVoor": 1902,
+      "gelijkNa": 975,
       "nVoor": 3553,
       "nNa": 1820,
-      "verschil": 0.1,
-      "motie": 0.6
+      "verschil": 0.0392,
+      "motie": 0.6171
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "PvdD",
-      "voor": 37.8,
-      "na": 37.7,
+      "voor": 37.8158,
+      "na": 37.6581,
+      "gelijkVoor": 1347,
+      "gelijkNa": 685,
       "nVoor": 3562,
       "nNa": 1819,
-      "verschil": -0.1,
-      "motie": 0.0
+      "verschil": -0.1578,
+      "motie": -0.0122
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "GroenLinks-PvdA",
-      "voor": 47.2,
-      "na": 46.9,
+      "voor": 47.1513,
+      "na": 46.9007,
+      "gelijkVoor": 1680,
+      "gelijkNa": 855,
       "nVoor": 3563,
       "nNa": 1823,
-      "verschil": -0.3,
-      "motie": 0.2
+      "verschil": -0.2506,
+      "motie": 0.1828
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "ChristenUnie",
-      "voor": 64.4,
-      "na": 63.9,
+      "voor": 64.352,
+      "na": 63.9362,
+      "gelijkVoor": 2289,
+      "gelijkNa": 1163,
       "nVoor": 3557,
       "nNa": 1819,
-      "verschil": -0.5,
-      "motie": 0.9
+      "verschil": -0.4158,
+      "motie": 0.9124
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "Volt",
-      "voor": 50.7,
-      "na": 49.8,
+      "voor": 50.6742,
+      "na": 49.78,
+      "gelijkVoor": 1804,
+      "gelijkNa": 905,
       "nVoor": 3560,
       "nNa": 1818,
-      "verschil": -0.9,
-      "motie": -1.1
+      "verschil": -0.8942,
+      "motie": -1.136
      },
      {
       "kabinetspartij": "BBB",
       "oppositie": "SP",
-      "voor": 43.0,
-      "na": 42.0,
+      "voor": 43.018,
+      "na": 41.978,
+      "gelijkVoor": 1528,
+      "gelijkNa": 764,
       "nVoor": 3552,
       "nNa": 1820,
-      "verschil": -1.0,
-      "motie": -0.8
+      "verschil": -1.04,
+      "motie": -0.7624
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "D66",
-      "voor": 59.5,
-      "na": 58.2,
+      "voor": 59.4944,
+      "na": 58.1549,
+      "gelijkVoor": 2118,
+      "gelijkNa": 1059,
       "nVoor": 3560,
       "nNa": 1821,
-      "verschil": -1.3,
-      "motie": -0.8
+      "verschil": -1.3395,
+      "motie": -0.8326
      },
      {
       "kabinetspartij": "BBB",
       "oppositie": "DENK",
-      "voor": 43.6,
-      "na": 42.1,
+      "voor": 43.5616,
+      "na": 42.0879,
+      "gelijkVoor": 1546,
+      "gelijkNa": 766,
       "nVoor": 3549,
       "nNa": 1820,
-      "verschil": -1.5,
-      "motie": -1.0
+      "verschil": -1.4737,
+      "motie": -1.0416
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "SP",
-      "voor": 43.2,
-      "na": 40.1,
+      "voor": 43.2303,
+      "na": 40.0879,
+      "gelijkVoor": 1539,
+      "gelijkNa": 730,
       "nVoor": 3560,
       "nNa": 1821,
-      "verschil": -3.1,
-      "motie": -3.1
+      "verschil": -3.1425,
+      "motie": -3.1603
      },
      {
       "kabinetspartij": "VVD",
       "oppositie": "DENK",
-      "voor": 43.4,
-      "na": 39.8,
+      "voor": 43.3633,
+      "na": 39.7584,
+      "gelijkVoor": 1542,
+      "gelijkNa": 724,
       "nVoor": 3556,
       "nNa": 1821,
-      "verschil": -3.6,
-      "motie": -3.8
+      "verschil": -3.605,
+      "motie": -3.8084
      }
     ],
-    "mediaanKabOpp": 1.1,
-    "motieAfwijking": 0.5,
+    "mediaanKabOpp": 1.124,
+    "motieAfwijking": 0.4935,
     "motieParen": 22,
     "perPartij": [
      {
@@ -2849,22 +3180,26 @@
       "stijger": {
        "kabinetspartij": "BBB",
        "oppositie": "FVD",
-       "voor": 58.8,
-       "na": 62.7,
+       "voor": 58.8351,
+       "na": 62.7147,
+       "gelijkVoor": 2091,
+       "gelijkNa": 1132,
        "nVoor": 3554,
        "nNa": 1805,
-       "verschil": 3.9,
-       "motie": 3.4
+       "verschil": 3.8796,
+       "motie": 3.3994
       },
       "daler": {
        "kabinetspartij": "BBB",
        "oppositie": "DENK",
-       "voor": 43.6,
-       "na": 42.1,
+       "voor": 43.5616,
+       "na": 42.0879,
+       "gelijkVoor": 1546,
+       "gelijkNa": 766,
        "nVoor": 3549,
        "nNa": 1820,
-       "verschil": -1.5,
-       "motie": -1.0
+       "verschil": -1.4737,
+       "motie": -1.0416
       }
      },
      {
@@ -2872,22 +3207,26 @@
       "stijger": {
        "kabinetspartij": "VVD",
        "oppositie": "JA21",
-       "voor": 70.6,
-       "na": 74.9,
+       "voor": 70.64,
+       "na": 74.9451,
+       "gelijkVoor": 2406,
+       "gelijkNa": 1364,
        "nVoor": 3406,
        "nNa": 1820,
-       "verschil": 4.3,
-       "motie": 5.8
+       "verschil": 4.305,
+       "motie": 5.7567
       },
       "daler": {
        "kabinetspartij": "VVD",
        "oppositie": "DENK",
-       "voor": 43.4,
-       "na": 39.8,
+       "voor": 43.3633,
+       "na": 39.7584,
+       "gelijkVoor": 1542,
+       "gelijkNa": 724,
        "nVoor": 3556,
        "nNa": 1821,
-       "verschil": -3.6,
-       "motie": -3.8
+       "verschil": -3.605,
+       "motie": -3.8084
       }
      }
     ]
@@ -2909,6 +3248,7 @@
    "verdeeld": 4063,
    "klein": false,
    "moties": 3484,
+   "partijen": 3,
    "eensgezind": {
     "gestemd": 4046,
     "eensgezind": 3386,

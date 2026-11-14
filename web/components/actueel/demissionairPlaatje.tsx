@@ -2,7 +2,7 @@
 // (DemissionairBlokken.tsx), in de stijl van verdeeldPlaatje.tsx. Alleen flex-opmaak: next/og kent geen tabellen.
 // Een kleine periode staat er doorschijnend en met een sterretje bij.
 import { KLEUR } from "@/components/deel/plaatjes";
-import { type DemPeriode, type DemPeriodeNaam, type DemissionairData, DEM_PERIODES, kortNaam, periodeGetal, puntKort, verschuivingen } from "@/lib/actueel";
+import { type DemPeriode, type DemPeriodeNaam, type DemissionairData, DEM_PERIODES, eensPct, kortNaam, periodeGetal, puntKort, verschuivingen } from "@/lib/actueel";
 
 const KORT: Record<DemPeriodeNaam, string> = { missionair: "mis.", demVoor: "vóór", demNa: "na" };
 
@@ -27,12 +27,12 @@ function val(d: DemissionairData) {
           <div key={r.naam} style={{ display: "flex", alignItems: "center", gap: 16, height: 25 }}>
             <div style={{ display: "flex", width: 210, fontSize: 19, color: KLEUR.tekst }}>{r.naam}</div>
             <div style={{ display: "flex", position: "relative", width: BREED, height: 24, borderBottom: `2px solid ${KLEUR.lijn}` }}>
-              {er.map((p) => teken(p, (BREED * r.periodes[p]!.eensgezind.pct!) / 100, r.periodes[p]!.klein))}
+              {er.map((p) => teken(p, (BREED * eensPct(r.periodes[p]!)!) / 100, r.periodes[p]!.klein))}
             </div>
             <div style={{ display: "flex", gap: 12, fontSize: 17, color: KLEUR.tekst }}>
               {DEM_PERIODES.filter((p) => p in r.periodes).map((p) => {
                 const x = r.periodes[p];
-                return <div key={p} style={{ display: "flex", color: x?.klein ? KLEUR.zacht : KLEUR.tekst }}>{`${KORT[p]} ${periodeGetal(x ?? null, x ? x.eensgezind.pct : null)}`}</div>;
+                return <div key={p} style={{ display: "flex", color: x?.klein ? KLEUR.zacht : KLEUR.tekst }}>{`${KORT[p]} ${periodeGetal(x ?? null, x ? eensPct(x) : null)}`}</div>;
               })}
             </div>
           </div>
@@ -46,7 +46,7 @@ function val(d: DemissionairData) {
 }
 
 // Per kabinet één rij: de sterkste stijger naar rechts, de sterkste daler naar links, de mediaan van alle paren als streep
-function campagne(d: DemissionairData) {
+function oppositie(d: DemissionairData) {
   const kab = d.kabinetten.filter((k) => k.campagne);
   const max = Math.ceil(Math.max(...kab.flatMap((k) => verschuivingen(k).map((v) => Math.abs(v.verschil)))) / 5) * 5;
   const BREED = 420, x = (v: number) => BREED / 2 + (BREED / 2) * (v / max);
@@ -60,7 +60,7 @@ function campagne(d: DemissionairData) {
         const laag = l.length ? l.reduce((a, b) => (b.verschil < a.verschil ? b : a)) : null;
         const tonen = [hoog && hoog.verschil > 0 ? hoog : null, laag && laag.verschil < 0 ? laag : null].filter((v) => v !== null);
         return (
-          <div key={k.kabinet} style={{ display: "flex", alignItems: "center", gap: 14, height: 22, opacity: klein ? 0.5 : 1 }}>
+          <div key={k.kabinet} style={{ display: "flex", alignItems: "center", gap: 14, height: 19, opacity: klein ? 0.5 : 1 }}>
             <div style={{ display: "flex", width: 150, fontSize: 18, color: KLEUR.tekst }}>{`${k.kabinet}${klein ? "*" : ""}`}</div>
             <div style={{ display: "flex", position: "relative", width: BREED, height: 20 }}>
               <div style={{ display: "flex", position: "absolute", left: BREED / 2, top: -2, width: 1, height: 24, background: KLEUR.lijn }} />
@@ -83,4 +83,4 @@ function campagne(d: DemissionairData) {
   );
 }
 
-export const DEMISSIONAIR_PLAATJE: Record<string, (d: DemissionairData) => React.ReactElement> = { val, campagne };
+export const DEMISSIONAIR_PLAATJE: Record<string, (d: DemissionairData) => React.ReactElement> = { val, oppositie };

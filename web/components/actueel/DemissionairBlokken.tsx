@@ -2,7 +2,7 @@
 // stijl van AkkoordBlokken.tsx en VerdeeldBlokken.tsx: elke grafiek toont de getallen ook als tekst, kleur en vorm zijn
 // nooit de enige drager. Een kleine periode (minder dan grenzen.klein verdeelde stemmingen) staat er gestippeld bij,
 // met het woord "klein".
-import { type DemKabinet, type DemPeriode, type DemPeriodeNaam, type DemissionairData, DEM_PERIODES, PERIODE_TEKST, aantal, kortNaam, periodeGetal, periodeUitleg, procent, puntKort, verschuivingen } from "@/lib/actueel";
+import { type DemKabinet, type DemPeriode, type DemPeriodeNaam, type DemissionairData, DEM_PERIODES, PERIODE_TEKST, aantal, eensPct, paarPct, kortNaam, periodeGetal, periodeUitleg, procent, puntKort, verschuivingen } from "@/lib/actueel";
 import s from "./actueel.module.css";
 import a from "./akkoord.module.css";
 import m from "./demissionair.module.css";
@@ -48,14 +48,14 @@ function Rij({ naam, periodes, waarde, sub = false }: {
   );
 }
 
-const eens = (p: DemPeriode) => ({ pct: p.eensgezind.pct, deel: p.eensgezind.eensgezind, geheel: p.eensgezind.gestemd });
+const eens = (p: DemPeriode) => ({ pct: eensPct(p), deel: p.eensgezind.eensgezind, geheel: p.eensgezind.gestemd });
 
 // Blok "val": per kabinet de eensgezindheid van de blijvende partijen in de drie periodes; bij drie of vier partijen
 // eronder (uitklapbaar) de paren; onderaan kabinet-Jetten, alleen missionair
 export function Val({ d }: { d: DemissionairData }) {
   const paarVan = (k: DemKabinet, a1: string, b1: string) => (p: DemPeriode) => {
     const x = p.paren.find((y) => y.a === a1 && y.b === b1)!;
-    return { pct: x.cohesie, deel: x.gelijk, geheel: x.gezamenlijk };
+    return { pct: paarPct(x), deel: x.gelijk, geheel: x.gezamenlijk };
   };
   return (
     <div className={s.botsen}>
@@ -87,9 +87,9 @@ export function Val({ d }: { d: DemissionairData }) {
   );
 }
 
-// Blok "campagne": per kabinet, per kabinetspartij het sterkst stijgende en dalende paar met een oppositiepartij, als
+// Blok "oppositie": per kabinet, per kabinetspartij het sterkst stijgende en dalende paar met een oppositiepartij, als
 // balk vanaf nul; de stippellijn is de mediane verandering van alle paren
-export function Campagne({ d }: { d: DemissionairData }) {
+export function Oppositie({ d }: { d: DemissionairData }) {
   const max = Math.ceil(Math.max(...d.kabinetten.filter((k) => k.campagne).flatMap((k) => verschuivingen(k).map((v) => Math.abs(v.verschil)))) / 5) * 5;
   const x = (v: number) => 50 + (50 * v) / max;
   return (
