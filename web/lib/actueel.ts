@@ -829,7 +829,7 @@ function blokVal(d: DemissionairData): Blok {
   });
   const kleinZin = d.kabinetten.filter((k) => DEM_PERIODES.some((p) => k.periodes[p]?.klein)).map((k) => {
     const delen = DEM_PERIODES.filter((p) => k.periodes[p]?.klein).map((p, i) =>
-      `${PERIODE_TEKST[p]} ${i === 0 ? "maar " : ""}${aantal(k.periodes[p]!.verdeeld)}${i === 0 ? " verdeelde stemmingen" : ""}${p === "missionair" && k.dataVanaf > k.begin ? ` (de data beginnen op ${datumTekst(k.dataVanaf)})` : ""}`);
+      `${PERIODE_TEKST[p]} ${i === 0 ? "maar " : ""}${aantal(k.periodes[p]!.verdeeld)}${i === 0 ? " verdeelde stemmingen" : ""}${p === "missionair" && k.dataVanaf > k.begin ? ` (de telling begint op ${datumTekst(k.dataVanaf)})` : ""}`);
     return `${kab(k)} telt ${opsomming(delen)}`;
   });
   const zonderZin = zonderVoor.map((k) => `${kab(k)} heeft geen periode vóór de nieuwe Kamer: tussen het ontslag op ${datumTekst(k.demissionair)} en de installatie op ${datumTekst(k.kamer)} stemde de Kamer niet.`).join(" ");
