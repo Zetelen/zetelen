@@ -138,7 +138,7 @@ describe("Actueel: demissionaire kabinetten, de zinnen", () => {
     // Afgerond vanaf de breuk: 2.154 van 2.973 (72,45) en 366 van 605 (60,496), niet vanaf 72,5 en 60,5
     expect(b.tekst[0]).toContain("Onder Rutte III lag het met de nieuwe Kamer weer hoger dan in de maanden ervoor (72% tegen 60%), maar onder het missionaire niveau.");
     // Waarom per periode vier kabinetten en in de kop vijf
-    expect(b.tekst[0]).toContain("De kop van het stuk telt vijf kabinetten; per periode zijn het er minder, omdat demissionair vóór de nieuwe Kamer Rutte II geen stemmingen heeft en met de nieuwe Kamer Rutte I te weinig stemmingen heeft.");
+    expect(b.tekst[0]).toContain("De kop van het stuk telt vijf kabinetten; per periode zijn het er minder, omdat demissionair vóór de nieuwe Kamer Rutte II geen stemmingen heeft en demissionair met de nieuwe Kamer Rutte I te weinig stemmingen heeft.");
     // Paren: met noemers
     const cuVvd = r4.demVoor!.paren.find((p) => p.a === "ChristenUnie" && p.b === "VVD")!;
     expect(b.tekst[1]).toContain(`onder Rutte IV ChristenUnie en VVD, van ${procent(paarPct(r4.missionair!.paren.find((p) => p.a === "ChristenUnie" && p.b === "VVD")!))} naar ${procent(paarPct(cuVvd))} (demissionair vóór de nieuwe Kamer, ${aantal(cuVvd.gezamenlijk)} gezamenlijke stemmingen)`);

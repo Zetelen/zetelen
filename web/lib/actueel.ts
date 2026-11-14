@@ -813,7 +813,7 @@ function blokVal(d: DemissionairData): Blok {
   // Waarom blok 1 per periode minder kabinetten noemt dan de kop: welk kabinet ontbreekt, en waarom
   const vergeleken = d.kabinetten.filter((k) => demVergelijking(k));
   const ontbreekt = (["demVoor", "demNa"] as const).map((p) => ({ p, l: vergeleken.filter((k) => !groot(k.periodes[p])) })).filter((x) => x.l.length);
-  const ontbreektZin = ontbreekt.length ? ` De kop van het stuk telt ${woord(vergeleken.length)} kabinetten; per periode zijn het er minder, omdat ${opsomming(ontbreekt.map(({ p, l }) => `${p === "demVoor" ? "vóór" : "met"} de nieuwe Kamer ${opsomming(l.map((k) => `${kab(k)} ${k.periodes[p] ? "te weinig stemmingen heeft" : "geen stemmingen heeft"}`))}`))}.` : "";
+  const ontbreektZin = ontbreekt.length ? ` De kop van het stuk telt ${woord(vergeleken.length)} kabinetten; per periode zijn het er minder, omdat ${opsomming(ontbreekt.map(({ p, l }) => `demissionair ${p === "demVoor" ? "vóór" : "met"} de nieuwe Kamer ${opsomming(l.map((k) => `${kab(k)} ${k.periodes[p] ? "te weinig stemmingen heeft" : "geen stemmingen heeft"}`))}`))}.` : "";
   // Wie stond het vaakst alleen, per periode, bij kabinetten waar alleen staan ook demissionair telde
   const alleenKab = d.kabinetten.filter((k) => vaakstAlleen(k.periodes.demVoor).length || vaakstAlleen(k.periodes.demNa).length);
   const alleenZin = alleenKab.map((k) => {
