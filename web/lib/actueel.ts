@@ -925,10 +925,9 @@ export const DEMISSIONAIR = demissionair(demissionairJson as unknown as Demissio
 // staat er daarom precies tegelijk.
 const AKKOORD_ZICHTBAAR = !!(akkoordBelastingplanJson as unknown as AkkoordData).uitslag || process.env.VERCEL_ENV === "preview";
 
-// VLAG demissionair (14 november 2026): het stuk staat alleen op een preview van Vercel, totdat Niels zegt dat het live
-// mag. Live zetten: maak DEMISSIONAIR_LIVE true. Zonder die stap staat het niet op de site, niet in de sitemap en niet
-// in de deellinks (die lezen allemaal STUKKEN).
-const DEMISSIONAIR_LIVE = false;
+// VLAG demissionair: live sinds 14 november 2026, op verzoek van Niels. Op false staat het stuk alleen op een preview
+// van Vercel, niet op de site, niet in de sitemap en niet in de deellinks (die lezen allemaal STUKKEN).
+const DEMISSIONAIR_LIVE = true;
 export const DEMISSIONAIR_ZICHTBAAR = DEMISSIONAIR_LIVE || process.env.VERCEL_ENV === "preview";
 
 export const STUKKEN: Stuk[] = [

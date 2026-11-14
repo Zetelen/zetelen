@@ -265,10 +265,10 @@ describe("Actueel: demissionaire kabinetten, tone of voice", () => {
 });
 
 describe("Actueel: demissionaire kabinetten, zichtbaarheid en delen", () => {
-  it("staat buiten een preview niet in STUKKEN, en de deellink laat het dan niet door", () => {
+  it("staat sinds 14 november ook buiten een preview in STUKKEN, met een geldige deellink", () => {
     expect(process.env.VERCEL_ENV).not.toBe("preview");
-    expect(STUKKEN.some((s) => s.slug === "demissionair")).toBe(false);
-    expect(schoonActueel({ stuk: "demissionair", blok: "val" })).toEqual({});
+    expect(STUKKEN.some((s) => s.slug === "demissionair")).toBe(true);
+    expect(schoonActueel({ stuk: "demissionair", blok: "val" })).toEqual({ stuk: "demissionair", blok: "val" });
   });
   it("staat op een preview van Vercel wel op de site, met deellinks per blok", async () => {
     vi.stubEnv("VERCEL_ENV", "preview");
