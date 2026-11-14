@@ -7,11 +7,12 @@ import { Bladeren } from "@/components/Bladeren";
 import { Botspunten, Doorslag, Hechtheid, Meegaan, MeegaanStappen, PerThema, Zetelsom } from "@/components/actueel/Blokken";
 import { Buiten, Kamers, Partners, Plannen, Toen, Uitslag } from "@/components/actueel/AkkoordBlokken";
 import { Maanden, Zonder } from "@/components/actueel/VerdeeldBlokken";
+import { Campagne, Val } from "@/components/actueel/DemissionairBlokken";
 import { Inhoud } from "@/components/Kader";
 import { GrafiekKader, GrafiekVlak } from "@/components/deel/GrafiekKader";
 import { Kern, Lezingen } from "@/components/Onderdelen";
 import { Data, HeroKop, Label, Tekst } from "@/components/Typografie";
-import { type ActueelData, type AkkoordData, type Stuk, type VerdeeldData, STUKKEN, datumTekst, isAkkoord, isVerdeeld, stukVan } from "@/lib/actueel";
+import { type ActueelData, type AkkoordData, type DemissionairData, type Stuk, type VerdeeldData, STUKKEN, datumTekst, isAkkoord, isDemissionair, isVerdeeld, stukVan } from "@/lib/actueel";
 import u from "@/components/verhaal/uitgelicht.module.css";
 import s from "@/components/actueel/actueel.module.css";
 
@@ -29,6 +30,8 @@ const GRAFIEK: Record<string, (p: { d: ActueelData }) => React.ReactNode> = { me
 const AKKOORD: Record<string, (p: { d: AkkoordData }) => React.ReactNode> = { uitslag: Uitslag, plannen: Plannen, partners: Partners, buiten: Buiten, kamers: Kamers, toen: Toen };
 // Stuk coalitie-verdeeld (13 november 2026): eigen data, eigen grafieken
 const VERDEELD: Record<string, (p: { d: VerdeeldData }) => React.ReactNode> = { maanden: Maanden, zonder: Zonder };
+// Stuk demissionair (14 november 2026): zes kabinetten, eigen data, eigen grafieken
+const DEMISSIONAIR: Record<string, (p: { d: DemissionairData }) => React.ReactNode> = { val: Val, campagne: Campagne };
 function Grafiek({ d, id }: { d: Stuk["data"]; id: string }) {
   if (isAkkoord(d)) {
     const G = AKKOORD[id];
@@ -36,6 +39,10 @@ function Grafiek({ d, id }: { d: Stuk["data"]; id: string }) {
   }
   if (isVerdeeld(d)) {
     const G = VERDEELD[id];
+    return <G d={d} />;
+  }
+  if (isDemissionair(d)) {
+    const G = DEMISSIONAIR[id];
     return <G d={d} />;
   }
   const G = GRAFIEK[id];
@@ -77,8 +84,9 @@ export default async function ActueelStuk({ params }: { params: Promise<{ stuk: 
         <Data>
           Bron: open data van de Tweede Kamer, eigen berekening (<Link href="/methodiek">methodiek</Link>). Stand van de
           data: {datumTekst(x.data.stand)}. {x.data.verdeeld.toLocaleString("nl-NL")} verdeelde stemmingen onder
-          kabinet-{x.data.kabinet}. Zelf verder kijken:{" "}
-          <Link href={`/coalitie?soort=kabinet&periode=${x.data.kabinet}&groep=${(x.bouwer?.fracties ?? [...x.data.tegen, ...x.data.groep]).map(encodeURIComponent).join(",")}`}>{x.bouwer?.tekst ?? "deze zes in de coalitiebouwer"}</Link>.
+          {/* Het stuk over demissionaire kabinetten telt zes kabinetten, de andere stukken één */}
+          {isDemissionair(x.data) ? ` ${x.data.kabinetten.length} kabinetten sinds 2010` : ` kabinet-${x.data.kabinet}`}. Zelf verder kijken:{" "}
+          <Link href={`/coalitie?soort=kabinet&periode=${x.data.kabinet}&groep=${(x.bouwer?.fracties ?? (isDemissionair(x.data) ? x.data.jetten.partijen : [...x.data.tegen, ...x.data.groep])).map(encodeURIComponent).join(",")}`}>{x.bouwer?.tekst ?? "deze zes in de coalitiebouwer"}</Link>.
         </Data>
       </div>
     </Inhoud>

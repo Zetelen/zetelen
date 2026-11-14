@@ -1,0 +1,2968 @@
+{
+ "slug": "demissionair",
+ "soort": "demissionair",
+ "kabinet": "Jetten",
+ "stand": "2026-11-12",
+ "gemaakt": "2026-11-14",
+ "grenzen": {
+  "minPaar": 100,
+  "klein": 300
+ },
+ "verdeeld": 49516,
+ "kabinetten": [
+  {
+   "kabinet": "Balkenende IV",
+   "begin": "2007-02-22",
+   "einde": "2010-10-14",
+   "dataVanaf": "2010-01-19",
+   "demissionair": "2010-02-20",
+   "verkiezing": "2010-06-09",
+   "kamer": "2010-06-17",
+   "bron": {
+    "demissionair": "https://www.rijksoverheid.nl/regering/over-de-regering/kabinetten-sinds-1945/kabinet-balkenende-iv",
+    "demissionair2": "https://www.parlement.com/id/vicvk0yn7izs/nieuws/kabinet_balkenende_iv_gevallen",
+    "verkiezing": "https://www.parlement.com/id/vib7f70ymd9f/tweede_kamerverkiezingen_2010",
+    "kamer": "https://www.parlement.com/id/vib7f70ymd9f/tweede_kamerverkiezingen_2010"
+   },
+   "partijen": [
+    "CDA",
+    "ChristenUnie",
+    "PvdA"
+   ],
+   "blijvend": [
+    "CDA",
+    "ChristenUnie"
+   ],
+   "groep": [
+    "CDA",
+    "ChristenUnie"
+   ],
+   "vertrokken": [
+    "PvdA"
+   ],
+   "vertrek": {
+    "PvdA": "2010-02-23"
+   },
+   "persoonsnaam": 1,
+   "periodes": {
+    "missionair": {
+     "van": "2010-01-19",
+     "tot": "2010-02-18",
+     "verdeeld": 206,
+     "klein": true,
+     "moties": 153,
+     "eensgezind": {
+      "gestemd": 206,
+      "eensgezind": 170,
+      "pct": 82.5
+     },
+     "paren": [
+      {
+       "a": "CDA",
+       "b": "ChristenUnie",
+       "cohesie": 82.5,
+       "gezamenlijk": 206,
+       "gelijk": 170
+      }
+     ],
+     "alleen": {
+      "verdeeld": 206,
+      "partijen": [
+       {
+        "afkorting": "CDA",
+        "basis": 206,
+        "keer": 18,
+        "won": 14,
+        "pct": 8.7
+       },
+       {
+        "afkorting": "ChristenUnie",
+        "basis": 206,
+        "keer": 18,
+        "won": 18,
+        "pct": 8.7
+       },
+       {
+        "afkorting": "PvdA",
+        "basis": 206,
+        "keer": 14,
+        "won": 9,
+        "pct": 6.8
+       }
+      ]
+     }
+    },
+    "demVoor": {
+     "van": "2010-03-09",
+     "tot": "2010-06-16",
+     "verdeeld": 395,
+     "klein": false,
+     "moties": 240,
+     "eensgezind": {
+      "gestemd": 395,
+      "eensgezind": 325,
+      "pct": 82.3
+     },
+     "paren": [
+      {
+       "a": "CDA",
+       "b": "ChristenUnie",
+       "cohesie": 82.3,
+       "gezamenlijk": 395,
+       "gelijk": 325
+      }
+     ],
+     "alleen": {
+      "verdeeld": 0,
+      "partijen": []
+     }
+    },
+    "demNa": {
+     "van": "2010-06-24",
+     "tot": "2010-10-13",
+     "verdeeld": 194,
+     "klein": true,
+     "moties": 154,
+     "eensgezind": {
+      "gestemd": 193,
+      "eensgezind": 142,
+      "pct": 73.6
+     },
+     "paren": [
+      {
+       "a": "CDA",
+       "b": "ChristenUnie",
+       "cohesie": 73.6,
+       "gezamenlijk": 193,
+       "gelijk": 142
+      }
+     ],
+     "alleen": {
+      "verdeeld": 0,
+      "partijen": []
+     }
+    }
+   },
+   "campagne": {
+    "paren": 45,
+    "mediaan": 0.9,
+    "mediaanMotie": 0.4,
+    "kabOpp": [
+     {
+      "kabinetspartij": "ChristenUnie",
+      "oppositie": "VVD",
+      "voor": 51.0,
+      "na": 63.8,
+      "nVoor": 206,
+      "nNa": 395,
+      "verschil": 12.8,
+      "motie": 15.2
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "VVD",
+      "voor": 63.6,
+      "na": 71.9,
+      "nVoor": 206,
+      "nNa": 395,
+      "verschil": 8.3,
+      "motie": 10.4
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "GL",
+      "voor": 45.4,
+      "na": 51.6,
+      "nVoor": 205,
+      "nNa": 395,
+      "verschil": 6.2,
+      "motie": -2.0
+     },
+     {
+      "kabinetspartij": "ChristenUnie",
+      "oppositie": "PVV",
+      "voor": 36.1,
+      "na": 38.5,
+      "nVoor": 205,
+      "nNa": 395,
+      "verschil": 2.4,
+      "motie": 8.7
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "SP",
+      "voor": 43.7,
+      "na": 45.3,
+      "nVoor": 206,
+      "nNa": 395,
+      "verschil": 1.6,
+      "motie": -5.4
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "PvdD",
+      "voor": 45.4,
+      "na": 46.3,
+      "nVoor": 205,
+      "nNa": 395,
+      "verschil": 0.9,
+      "motie": -8.4
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "PVV",
+      "voor": 44.9,
+      "na": 45.1,
+      "nVoor": 205,
+      "nNa": 395,
+      "verschil": 0.2,
+      "motie": 4.9
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "D66",
+      "voor": 63.6,
+      "na": 62.3,
+      "nVoor": 206,
+      "nNa": 393,
+      "verschil": -1.3,
+      "motie": -5.5
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "SGP",
+      "voor": 81.6,
+      "na": 79.7,
+      "nVoor": 206,
+      "nNa": 395,
+      "verschil": -1.9,
+      "motie": -0.9
+     },
+     {
+      "kabinetspartij": "ChristenUnie",
+      "oppositie": "SGP",
+      "voor": 80.6,
+      "na": 77.7,
+      "nVoor": 206,
+      "nNa": 395,
+      "verschil": -2.9,
+      "motie": -3.4
+     },
+     {
+      "kabinetspartij": "ChristenUnie",
+      "oppositie": "GL",
+      "voor": 60.5,
+      "na": 54.2,
+      "nVoor": 205,
+      "nNa": 395,
+      "verschil": -6.3,
+      "motie": -9.6
+     },
+     {
+      "kabinetspartij": "ChristenUnie",
+      "oppositie": "SP",
+      "voor": 55.3,
+      "na": 48.4,
+      "nVoor": 206,
+      "nNa": 395,
+      "verschil": -6.9,
+      "motie": -7.9
+     },
+     {
+      "kabinetspartij": "ChristenUnie",
+      "oppositie": "D66",
+      "voor": 71.4,
+      "na": 63.9,
+      "nVoor": 206,
+      "nNa": 393,
+      "verschil": -7.5,
+      "motie": -10.1
+     },
+     {
+      "kabinetspartij": "ChristenUnie",
+      "oppositie": "PvdD",
+      "voor": 60.0,
+      "na": 49.9,
+      "nVoor": 205,
+      "nNa": 395,
+      "verschil": -10.1,
+      "motie": -12.7
+     }
+    ],
+    "mediaanKabOpp": -0.6,
+    "motieAfwijking": 2.9,
+    "motieParen": 14,
+    "perPartij": [
+     {
+      "kabinetspartij": "CDA",
+      "stijger": {
+       "kabinetspartij": "CDA",
+       "oppositie": "VVD",
+       "voor": 63.6,
+       "na": 71.9,
+       "nVoor": 206,
+       "nNa": 395,
+       "verschil": 8.3,
+       "motie": 10.4
+      },
+      "daler": {
+       "kabinetspartij": "CDA",
+       "oppositie": "SGP",
+       "voor": 81.6,
+       "na": 79.7,
+       "nVoor": 206,
+       "nNa": 395,
+       "verschil": -1.9,
+       "motie": -0.9
+      }
+     },
+     {
+      "kabinetspartij": "ChristenUnie",
+      "stijger": {
+       "kabinetspartij": "ChristenUnie",
+       "oppositie": "VVD",
+       "voor": 51.0,
+       "na": 63.8,
+       "nVoor": 206,
+       "nNa": 395,
+       "verschil": 12.8,
+       "motie": 15.2
+      },
+      "daler": {
+       "kabinetspartij": "ChristenUnie",
+       "oppositie": "PvdD",
+       "voor": 60.0,
+       "na": 49.9,
+       "nVoor": 205,
+       "nNa": 395,
+       "verschil": -10.1,
+       "motie": -12.7
+      }
+     }
+    ]
+   }
+  },
+  {
+   "kabinet": "Rutte I",
+   "begin": "2010-10-14",
+   "einde": "2012-11-05",
+   "dataVanaf": "2010-10-27",
+   "demissionair": "2012-04-23",
+   "verkiezing": "2012-09-12",
+   "kamer": "2012-09-20",
+   "bron": {
+    "demissionair": "https://www.rijksoverheid.nl/regering/over-de-regering/kabinetten-sinds-1945/kabinet-rutte-verhagen",
+    "demissionair2": "https://www.parlement.com/id/vj1ped4lzuz8/kabinetscrisis_2012_de_catshuiscrisis",
+    "verkiezing": "https://parlement.com/tweede-kamerverkiezingen-2012",
+    "kamer": "https://parlement.com/tweede-kamerverkiezingen-2012"
+   },
+   "partijen": [
+    "CDA",
+    "PVV",
+    "VVD"
+   ],
+   "blijvend": [
+    "CDA",
+    "VVD"
+   ],
+   "groep": [
+    "CDA",
+    "VVD"
+   ],
+   "vertrokken": [
+    "PVV"
+   ],
+   "vertrek": {
+    "PVV": "2012-04-21"
+   },
+   "persoonsnaam": 2,
+   "periodes": {
+    "missionair": {
+     "van": "2010-10-27",
+     "tot": "2012-04-19",
+     "verdeeld": 4535,
+     "klein": false,
+     "moties": 3672,
+     "eensgezind": {
+      "gestemd": 4530,
+      "eensgezind": 3841,
+      "pct": 84.8
+     },
+     "paren": [
+      {
+       "a": "CDA",
+       "b": "VVD",
+       "cohesie": 84.8,
+       "gezamenlijk": 4530,
+       "gelijk": 3841
+      }
+     ],
+     "alleen": {
+      "verdeeld": 4535,
+      "partijen": [
+       {
+        "afkorting": "PVV",
+        "basis": 4535,
+        "keer": 853,
+        "won": 623,
+        "pct": 18.8
+       },
+       {
+        "afkorting": "CDA",
+        "basis": 4535,
+        "keer": 439,
+        "won": 95,
+        "pct": 9.7
+       },
+       {
+        "afkorting": "VVD",
+        "basis": 4535,
+        "keer": 250,
+        "won": 221,
+        "pct": 5.5
+       }
+      ]
+     }
+    },
+    "demVoor": {
+     "van": "2012-04-25",
+     "tot": "2012-07-05",
+     "verdeeld": 851,
+     "klein": false,
+     "moties": 589,
+     "eensgezind": {
+      "gestemd": 851,
+      "eensgezind": 646,
+      "pct": 75.9
+     },
+     "paren": [
+      {
+       "a": "CDA",
+       "b": "VVD",
+       "cohesie": 75.9,
+       "gezamenlijk": 851,
+       "gelijk": 646
+      }
+     ],
+     "alleen": {
+      "verdeeld": 0,
+      "partijen": []
+     }
+    },
+    "demNa": {
+     "van": "2012-09-20",
+     "tot": "2012-10-31",
+     "verdeeld": 135,
+     "klein": true,
+     "moties": 91,
+     "eensgezind": {
+      "gestemd": 135,
+      "eensgezind": 93,
+      "pct": 68.9
+     },
+     "paren": [
+      {
+       "a": "CDA",
+       "b": "VVD",
+       "cohesie": 68.9,
+       "gezamenlijk": 135,
+       "gelijk": 93
+      }
+     ],
+     "alleen": {
+      "verdeeld": 0,
+      "partijen": []
+     }
+    }
+   },
+   "campagne": {
+    "paren": 45,
+    "mediaan": 2.4,
+    "mediaanMotie": 2.0,
+    "kabOpp": [
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "GL",
+      "voor": 35.1,
+      "na": 50.9,
+      "nVoor": 4525,
+      "nNa": 846,
+      "verschil": 15.8,
+      "motie": 18.9
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "D66",
+      "voor": 50.9,
+      "na": 64.7,
+      "nVoor": 4525,
+      "nNa": 851,
+      "verschil": 13.8,
+      "motie": 16.7
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "D66",
+      "voor": 42.5,
+      "na": 51.9,
+      "nVoor": 4528,
+      "nNa": 851,
+      "verschil": 9.4,
+      "motie": 9.3
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "ChristenUnie",
+      "voor": 55.4,
+      "na": 64.2,
+      "nVoor": 4529,
+      "nNa": 850,
+      "verschil": 8.8,
+      "motie": 15.3
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "GL",
+      "voor": 25.2,
+      "na": 32.9,
+      "nVoor": 4528,
+      "nNa": 846,
+      "verschil": 7.7,
+      "motie": 8.3
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "PvdA",
+      "voor": 41.4,
+      "na": 48.4,
+      "nVoor": 4529,
+      "nNa": 849,
+      "verschil": 7.0,
+      "motie": 10.5
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "PvdD",
+      "voor": 29.8,
+      "na": 36.7,
+      "nVoor": 4509,
+      "nNa": 848,
+      "verschil": 6.9,
+      "motie": 9.2
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "SP",
+      "voor": 32.6,
+      "na": 38.7,
+      "nVoor": 4527,
+      "nNa": 850,
+      "verschil": 6.1,
+      "motie": 7.4
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "ChristenUnie",
+      "voor": 43.3,
+      "na": 46.2,
+      "nVoor": 4532,
+      "nNa": 850,
+      "verschil": 2.9,
+      "motie": 6.4
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "SP",
+      "voor": 23.5,
+      "na": 25.9,
+      "nVoor": 4530,
+      "nNa": 850,
+      "verschil": 2.4,
+      "motie": 1.9
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "PvdD",
+      "voor": 20.2,
+      "na": 22.5,
+      "nVoor": 4512,
+      "nNa": 848,
+      "verschil": 2.3,
+      "motie": 3.4
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "SGP",
+      "voor": 79.5,
+      "na": 81.0,
+      "nVoor": 4531,
+      "nNa": 851,
+      "verschil": 1.5,
+      "motie": 1.2
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "PvdA",
+      "voor": 31.3,
+      "na": 30.9,
+      "nVoor": 4532,
+      "nNa": 849,
+      "verschil": -0.4,
+      "motie": 1.2
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "SGP",
+      "voor": 71.0,
+      "na": 69.6,
+      "nVoor": 4534,
+      "nNa": 851,
+      "verschil": -1.4,
+      "motie": -5.3
+     }
+    ],
+    "mediaanKabOpp": 6.5,
+    "motieAfwijking": 1.9,
+    "motieParen": 14,
+    "perPartij": [
+     {
+      "kabinetspartij": "CDA",
+      "stijger": {
+       "kabinetspartij": "CDA",
+       "oppositie": "GL",
+       "voor": 35.1,
+       "na": 50.9,
+       "nVoor": 4525,
+       "nNa": 846,
+       "verschil": 15.8,
+       "motie": 18.9
+      },
+      "daler": null
+     },
+     {
+      "kabinetspartij": "VVD",
+      "stijger": {
+       "kabinetspartij": "VVD",
+       "oppositie": "D66",
+       "voor": 42.5,
+       "na": 51.9,
+       "nVoor": 4528,
+       "nNa": 851,
+       "verschil": 9.4,
+       "motie": 9.3
+      },
+      "daler": {
+       "kabinetspartij": "VVD",
+       "oppositie": "SGP",
+       "voor": 71.0,
+       "na": 69.6,
+       "nVoor": 4534,
+       "nNa": 851,
+       "verschil": -1.4,
+       "motie": -5.3
+      }
+     }
+    ]
+   }
+  },
+  {
+   "kabinet": "Rutte II",
+   "begin": "2012-11-05",
+   "einde": "2017-10-26",
+   "dataVanaf": "2012-11-14",
+   "demissionair": "2017-03-14",
+   "verkiezing": "2017-03-15",
+   "kamer": "2017-03-23",
+   "bron": {
+    "demissionair": "https://www.tweedekamer.nl/debat_en_vergadering/uitgelicht/een-demissionair-kabinet",
+    "demissionair2": "https://www.parlement.com/id/vj47glycfix9/kabinet_rutte_ii_2012_2017",
+    "verkiezing": "https://parlement.com/tweede-kamerverkiezingen-2017",
+    "kamer": "https://parlement.com/tweede-kamerverkiezingen-2017"
+   },
+   "partijen": [
+    "PvdA",
+    "VVD"
+   ],
+   "blijvend": [
+    "PvdA",
+    "VVD"
+   ],
+   "groep": [
+    "PvdA",
+    "VVD"
+   ],
+   "vertrokken": [],
+   "vertrek": {},
+   "persoonsnaam": 10,
+   "periodes": {
+    "missionair": {
+     "van": "2012-11-14",
+     "tot": "2017-02-23",
+     "verdeeld": 12904,
+     "klein": false,
+     "moties": 10150,
+     "eensgezind": {
+      "gestemd": 12889,
+      "eensgezind": 10074,
+      "pct": 78.2
+     },
+     "paren": [
+      {
+       "a": "PvdA",
+       "b": "VVD",
+       "cohesie": 78.2,
+       "gezamenlijk": 12889,
+       "gelijk": 10074
+      }
+     ],
+     "alleen": {
+      "verdeeld": 0,
+      "partijen": []
+     }
+    },
+    "demVoor": null,
+    "demNa": {
+     "van": "2017-03-23",
+     "tot": "2017-10-24",
+     "verdeeld": 841,
+     "klein": false,
+     "moties": 747,
+     "eensgezind": {
+      "gestemd": 841,
+      "eensgezind": 446,
+      "pct": 53.0
+     },
+     "paren": [
+      {
+       "a": "PvdA",
+       "b": "VVD",
+       "cohesie": 53.0,
+       "gezamenlijk": 841,
+       "gelijk": 446
+      }
+     ],
+     "alleen": {
+      "verdeeld": 0,
+      "partijen": []
+     }
+    }
+   },
+   "campagne": null
+  },
+  {
+   "kabinet": "Rutte III",
+   "begin": "2017-10-26",
+   "einde": "2022-01-10",
+   "dataVanaf": "2017-11-02",
+   "demissionair": "2021-01-15",
+   "verkiezing": "2021-03-17",
+   "kamer": "2021-03-31",
+   "bron": {
+    "demissionair": "https://www.rijksoverheid.nl/regering/over-de-regering/kabinetten-sinds-1945/kabinet-rutte-iii",
+    "verkiezing": "https://parlement.com/tweede-kamerverkiezingen-2021",
+    "kamer": "https://parlement.com/tweede-kamerverkiezingen-2021",
+    "kamer2": "https://www.tweedekamer.nl/debat_en_vergadering/uitgelicht/verkiezingen-2021-volg-het-hier"
+   },
+   "partijen": [
+    "CDA",
+    "ChristenUnie",
+    "D66",
+    "VVD"
+   ],
+   "blijvend": [
+    "CDA",
+    "ChristenUnie",
+    "D66",
+    "VVD"
+   ],
+   "groep": [
+    "CDA",
+    "ChristenUnie",
+    "D66",
+    "VVD"
+   ],
+   "vertrokken": [],
+   "vertrek": {},
+   "persoonsnaam": 7,
+   "periodes": {
+    "missionair": {
+     "van": "2017-11-02",
+     "tot": "2021-01-07",
+     "verdeeld": 10467,
+     "klein": false,
+     "moties": 8970,
+     "eensgezind": {
+      "gestemd": 10411,
+      "eensgezind": 8182,
+      "pct": 78.6
+     },
+     "paren": [
+      {
+       "a": "CDA",
+       "b": "ChristenUnie",
+       "cohesie": 92.8,
+       "gezamenlijk": 10442,
+       "gelijk": 9690
+      },
+      {
+       "a": "CDA",
+       "b": "D66",
+       "cohesie": 88.6,
+       "gezamenlijk": 10439,
+       "gelijk": 9251
+      },
+      {
+       "a": "CDA",
+       "b": "VVD",
+       "cohesie": 89.1,
+       "gezamenlijk": 10451,
+       "gelijk": 9312
+      },
+      {
+       "a": "ChristenUnie",
+       "b": "D66",
+       "cohesie": 91.2,
+       "gezamenlijk": 10426,
+       "gelijk": 9507
+      },
+      {
+       "a": "ChristenUnie",
+       "b": "VVD",
+       "cohesie": 84.7,
+       "gezamenlijk": 10439,
+       "gelijk": 8843
+      },
+      {
+       "a": "D66",
+       "b": "VVD",
+       "cohesie": 82.7,
+       "gezamenlijk": 10435,
+       "gelijk": 8625
+      }
+     ],
+     "alleen": {
+      "verdeeld": 10467,
+      "partijen": [
+       {
+        "afkorting": "VVD",
+        "basis": 10467,
+        "keer": 806,
+        "won": 775,
+        "pct": 7.7
+       },
+       {
+        "afkorting": "D66",
+        "basis": 10467,
+        "keer": 499,
+        "won": 381,
+        "pct": 4.8
+       },
+       {
+        "afkorting": "ChristenUnie",
+        "basis": 10467,
+        "keer": 174,
+        "won": 151,
+        "pct": 1.7
+       },
+       {
+        "afkorting": "CDA",
+        "basis": 10467,
+        "keer": 77,
+        "won": 67,
+        "pct": 0.7
+       }
+      ]
+     }
+    },
+    "demVoor": {
+     "van": "2021-01-20",
+     "tot": "2021-03-24",
+     "verdeeld": 612,
+     "klein": false,
+     "moties": 513,
+     "eensgezind": {
+      "gestemd": 605,
+      "eensgezind": 366,
+      "pct": 60.5
+     },
+     "paren": [
+      {
+       "a": "CDA",
+       "b": "ChristenUnie",
+       "cohesie": 81.7,
+       "gezamenlijk": 607,
+       "gelijk": 496
+      },
+      {
+       "a": "CDA",
+       "b": "D66",
+       "cohesie": 76.6,
+       "gezamenlijk": 608,
+       "gelijk": 466
+      },
+      {
+       "a": "CDA",
+       "b": "VVD",
+       "cohesie": 85.2,
+       "gezamenlijk": 610,
+       "gelijk": 520
+      },
+      {
+       "a": "ChristenUnie",
+       "b": "D66",
+       "cohesie": 81.1,
+       "gezamenlijk": 607,
+       "gelijk": 492
+      },
+      {
+       "a": "ChristenUnie",
+       "b": "VVD",
+       "cohesie": 71.3,
+       "gezamenlijk": 609,
+       "gelijk": 434
+      },
+      {
+       "a": "D66",
+       "b": "VVD",
+       "cohesie": 71.1,
+       "gezamenlijk": 610,
+       "gelijk": 434
+      }
+     ],
+     "alleen": {
+      "verdeeld": 612,
+      "partijen": [
+       {
+        "afkorting": "VVD",
+        "basis": 612,
+        "keer": 56,
+        "won": 55,
+        "pct": 9.2
+       },
+       {
+        "afkorting": "D66",
+        "basis": 612,
+        "keer": 51,
+        "won": 36,
+        "pct": 8.3
+       },
+       {
+        "afkorting": "ChristenUnie",
+        "basis": 612,
+        "keer": 37,
+        "won": 23,
+        "pct": 6.0
+       },
+       {
+        "afkorting": "CDA",
+        "basis": 612,
+        "keer": 7,
+        "won": 5,
+        "pct": 1.1
+       }
+      ]
+     }
+    },
+    "demNa": {
+     "van": "2021-04-01",
+     "tot": "2021-12-21",
+     "verdeeld": 2996,
+     "klein": false,
+     "moties": 2633,
+     "eensgezind": {
+      "gestemd": 2973,
+      "eensgezind": 2154,
+      "pct": 72.5
+     },
+     "paren": [
+      {
+       "a": "CDA",
+       "b": "ChristenUnie",
+       "cohesie": 87.7,
+       "gezamenlijk": 2981,
+       "gelijk": 2614
+      },
+      {
+       "a": "CDA",
+       "b": "D66",
+       "cohesie": 86.0,
+       "gezamenlijk": 2980,
+       "gelijk": 2562
+      },
+      {
+       "a": "CDA",
+       "b": "VVD",
+       "cohesie": 88.6,
+       "gezamenlijk": 2986,
+       "gelijk": 2645
+      },
+      {
+       "a": "ChristenUnie",
+       "b": "D66",
+       "cohesie": 86.5,
+       "gezamenlijk": 2983,
+       "gelijk": 2579
+      },
+      {
+       "a": "ChristenUnie",
+       "b": "VVD",
+       "cohesie": 81.0,
+       "gezamenlijk": 2989,
+       "gelijk": 2422
+      },
+      {
+       "a": "D66",
+       "b": "VVD",
+       "cohesie": 80.2,
+       "gezamenlijk": 2988,
+       "gelijk": 2397
+      }
+     ],
+     "alleen": {
+      "verdeeld": 2996,
+      "partijen": [
+       {
+        "afkorting": "VVD",
+        "basis": 2996,
+        "keer": 228,
+        "won": 206,
+        "pct": 7.6
+       },
+       {
+        "afkorting": "D66",
+        "basis": 2996,
+        "keer": 184,
+        "won": 152,
+        "pct": 6.1
+       },
+       {
+        "afkorting": "ChristenUnie",
+        "basis": 2996,
+        "keer": 147,
+        "won": 133,
+        "pct": 4.9
+       },
+       {
+        "afkorting": "CDA",
+        "basis": 2996,
+        "keer": 45,
+        "won": 40,
+        "pct": 1.5
+       }
+      ]
+     }
+    }
+   },
+   "campagne": {
+    "paren": 78,
+    "mediaan": 1.7,
+    "mediaanMotie": 2.1,
+    "kabOpp": [
+     {
+      "kabinetspartij": "ChristenUnie",
+      "oppositie": "SP",
+      "voor": 49.2,
+      "na": 64.6,
+      "nVoor": 10436,
+      "nNa": 607,
+      "verschil": 15.4,
+      "motie": 16.1
+     },
+     {
+      "kabinetspartij": "ChristenUnie",
+      "oppositie": "GL",
+      "voor": 56.3,
+      "na": 69.8,
+      "nVoor": 10433,
+      "nNa": 606,
+      "verschil": 13.5,
+      "motie": 14.2
+     },
+     {
+      "kabinetspartij": "ChristenUnie",
+      "oppositie": "PvdD",
+      "voor": 45.1,
+      "na": 58.1,
+      "nVoor": 10416,
+      "nNa": 606,
+      "verschil": 13.0,
+      "motie": 14.0
+     },
+     {
+      "kabinetspartij": "D66",
+      "oppositie": "SP",
+      "voor": 50.4,
+      "na": 62.3,
+      "nVoor": 10433,
+      "nNa": 608,
+      "verschil": 11.9,
+      "motie": 11.8
+     },
+     {
+      "kabinetspartij": "D66",
+      "oppositie": "PvdD",
+      "voor": 47.0,
+      "na": 57.3,
+      "nVoor": 10413,
+      "nNa": 607,
+      "verschil": 10.3,
+      "motie": 9.6
+     },
+     {
+      "kabinetspartij": "D66",
+      "oppositie": "GL",
+      "voor": 59.7,
+      "na": 69.9,
+      "nVoor": 10431,
+      "nNa": 607,
+      "verschil": 10.2,
+      "motie": 9.8
+     },
+     {
+      "kabinetspartij": "ChristenUnie",
+      "oppositie": "PvdA",
+      "voor": 57.6,
+      "na": 67.0,
+      "nVoor": 10432,
+      "nNa": 609,
+      "verschil": 9.4,
+      "motie": 10.1
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "SP",
+      "voor": 45.4,
+      "na": 52.8,
+      "nVoor": 10449,
+      "nNa": 608,
+      "verschil": 7.4,
+      "motie": 7.1
+     },
+     {
+      "kabinetspartij": "D66",
+      "oppositie": "PvdA",
+      "voor": 60.2,
+      "na": 67.2,
+      "nVoor": 10429,
+      "nNa": 610,
+      "verschil": 7.0,
+      "motie": 6.6
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "GL",
+      "voor": 52.1,
+      "na": 57.5,
+      "nVoor": 10446,
+      "nNa": 607,
+      "verschil": 5.4,
+      "motie": 6.0
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "SP",
+      "voor": 38.0,
+      "na": 42.5,
+      "nVoor": 10445,
+      "nNa": 610,
+      "verschil": 4.5,
+      "motie": 4.4
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "PvdD",
+      "voor": 41.0,
+      "na": 45.1,
+      "nVoor": 10429,
+      "nNa": 607,
+      "verschil": 4.1,
+      "motie": 4.4
+     },
+     {
+      "kabinetspartij": "D66",
+      "oppositie": "50PLUS",
+      "voor": 61.1,
+      "na": 64.3,
+      "nVoor": 10416,
+      "nNa": 610,
+      "verschil": 3.2,
+      "motie": 2.8
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "GL",
+      "voor": 44.9,
+      "na": 47.8,
+      "nVoor": 10442,
+      "nNa": 609,
+      "verschil": 2.9,
+      "motie": 3.5
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "PvdA",
+      "voor": 53.9,
+      "na": 56.7,
+      "nVoor": 10445,
+      "nNa": 610,
+      "verschil": 2.8,
+      "motie": 2.6
+     },
+     {
+      "kabinetspartij": "ChristenUnie",
+      "oppositie": "50PLUS",
+      "voor": 61.4,
+      "na": 64.0,
+      "nVoor": 10419,
+      "nNa": 609,
+      "verschil": 2.6,
+      "motie": 4.4
+     },
+     {
+      "kabinetspartij": "ChristenUnie",
+      "oppositie": "DENK",
+      "voor": 52.9,
+      "na": 55.1,
+      "nVoor": 10411,
+      "nNa": 606,
+      "verschil": 2.2,
+      "motie": 1.4
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "PvdD",
+      "voor": 33.6,
+      "na": 34.8,
+      "nVoor": 10425,
+      "nNa": 609,
+      "verschil": 1.2,
+      "motie": 2.1
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "PvdA",
+      "voor": 46.6,
+      "na": 47.5,
+      "nVoor": 10441,
+      "nNa": 612,
+      "verschil": 0.9,
+      "motie": 0.8
+     },
+     {
+      "kabinetspartij": "D66",
+      "oppositie": "DENK",
+      "voor": 53.9,
+      "na": 53.0,
+      "nVoor": 10408,
+      "nNa": 607,
+      "verschil": -0.9,
+      "motie": -3.6
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "50PLUS",
+      "voor": 59.2,
+      "na": 56.9,
+      "nVoor": 10432,
+      "nNa": 610,
+      "verschil": -2.3,
+      "motie": -1.3
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "50PLUS",
+      "voor": 52.7,
+      "na": 47.9,
+      "nVoor": 10428,
+      "nNa": 612,
+      "verschil": -4.8,
+      "motie": -4.1
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "FVD",
+      "voor": 52.9,
+      "na": 47.9,
+      "nVoor": 10262,
+      "nNa": 609,
+      "verschil": -5.0,
+      "motie": -5.5
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "DENK",
+      "voor": 50.1,
+      "na": 44.2,
+      "nVoor": 10424,
+      "nNa": 607,
+      "verschil": -5.9,
+      "motie": -8.3
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "FVD",
+      "voor": 50.8,
+      "na": 43.5,
+      "nVoor": 10267,
+      "nNa": 607,
+      "verschil": -7.3,
+      "motie": -8.1
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "PVV",
+      "voor": 45.9,
+      "na": 38.1,
+      "nVoor": 10436,
+      "nNa": 609,
+      "verschil": -7.8,
+      "motie": -7.2
+     },
+     {
+      "kabinetspartij": "ChristenUnie",
+      "oppositie": "PVV",
+      "voor": 42.1,
+      "na": 34.0,
+      "nVoor": 10427,
+      "nNa": 606,
+      "verschil": -8.1,
+      "motie": -6.2
+     },
+     {
+      "kabinetspartij": "ChristenUnie",
+      "oppositie": "FVD",
+      "voor": 48.5,
+      "na": 40.3,
+      "nVoor": 10253,
+      "nNa": 606,
+      "verschil": -8.2,
+      "motie": -8.1
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "PVV",
+      "voor": 43.4,
+      "na": 34.6,
+      "nVoor": 10440,
+      "nNa": 607,
+      "verschil": -8.8,
+      "motie": -8.4
+     },
+     {
+      "kabinetspartij": "D66",
+      "oppositie": "FVD",
+      "voor": 46.1,
+      "na": 37.1,
+      "nVoor": 10250,
+      "nNa": 607,
+      "verschil": -9.0,
+      "motie": -10.3
+     },
+     {
+      "kabinetspartij": "D66",
+      "oppositie": "PVV",
+      "voor": 40.0,
+      "na": 30.6,
+      "nVoor": 10424,
+      "nNa": 607,
+      "verschil": -9.4,
+      "motie": -8.4
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "DENK",
+      "voor": 43.0,
+      "na": 33.5,
+      "nVoor": 10420,
+      "nNa": 609,
+      "verschil": -9.5,
+      "motie": -11.5
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "SGP",
+      "voor": 72.4,
+      "na": 58.7,
+      "nVoor": 10452,
+      "nNa": 612,
+      "verschil": -13.7,
+      "motie": -14.6
+     },
+     {
+      "kabinetspartij": "ChristenUnie",
+      "oppositie": "SGP",
+      "voor": 77.6,
+      "na": 63.5,
+      "nVoor": 10443,
+      "nNa": 609,
+      "verschil": -14.1,
+      "motie": -13.7
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "SGP",
+      "voor": 78.0,
+      "na": 62.0,
+      "nVoor": 10456,
+      "nNa": 610,
+      "verschil": -16.0,
+      "motie": -16.5
+     },
+     {
+      "kabinetspartij": "D66",
+      "oppositie": "SGP",
+      "voor": 72.6,
+      "na": 55.7,
+      "nVoor": 10440,
+      "nNa": 610,
+      "verschil": -16.9,
+      "motie": -16.2
+     }
+    ],
+    "mediaanKabOpp": 1.1,
+    "motieAfwijking": 0.7,
+    "motieParen": 36,
+    "perPartij": [
+     {
+      "kabinetspartij": "CDA",
+      "stijger": {
+       "kabinetspartij": "CDA",
+       "oppositie": "SP",
+       "voor": 45.4,
+       "na": 52.8,
+       "nVoor": 10449,
+       "nNa": 608,
+       "verschil": 7.4,
+       "motie": 7.1
+      },
+      "daler": {
+       "kabinetspartij": "CDA",
+       "oppositie": "SGP",
+       "voor": 78.0,
+       "na": 62.0,
+       "nVoor": 10456,
+       "nNa": 610,
+       "verschil": -16.0,
+       "motie": -16.5
+      }
+     },
+     {
+      "kabinetspartij": "ChristenUnie",
+      "stijger": {
+       "kabinetspartij": "ChristenUnie",
+       "oppositie": "SP",
+       "voor": 49.2,
+       "na": 64.6,
+       "nVoor": 10436,
+       "nNa": 607,
+       "verschil": 15.4,
+       "motie": 16.1
+      },
+      "daler": {
+       "kabinetspartij": "ChristenUnie",
+       "oppositie": "SGP",
+       "voor": 77.6,
+       "na": 63.5,
+       "nVoor": 10443,
+       "nNa": 609,
+       "verschil": -14.1,
+       "motie": -13.7
+      }
+     },
+     {
+      "kabinetspartij": "D66",
+      "stijger": {
+       "kabinetspartij": "D66",
+       "oppositie": "SP",
+       "voor": 50.4,
+       "na": 62.3,
+       "nVoor": 10433,
+       "nNa": 608,
+       "verschil": 11.9,
+       "motie": 11.8
+      },
+      "daler": {
+       "kabinetspartij": "D66",
+       "oppositie": "SGP",
+       "voor": 72.6,
+       "na": 55.7,
+       "nVoor": 10440,
+       "nNa": 610,
+       "verschil": -16.9,
+       "motie": -16.2
+      }
+     },
+     {
+      "kabinetspartij": "VVD",
+      "stijger": {
+       "kabinetspartij": "VVD",
+       "oppositie": "SP",
+       "voor": 38.0,
+       "na": 42.5,
+       "nVoor": 10445,
+       "nNa": 610,
+       "verschil": 4.5,
+       "motie": 4.4
+      },
+      "daler": {
+       "kabinetspartij": "VVD",
+       "oppositie": "SGP",
+       "voor": 72.4,
+       "na": 58.7,
+       "nVoor": 10452,
+       "nNa": 612,
+       "verschil": -13.7,
+       "motie": -14.6
+      }
+     }
+    ]
+   }
+  },
+  {
+   "kabinet": "Rutte IV",
+   "begin": "2022-01-10",
+   "einde": "2024-07-02",
+   "dataVanaf": "2022-01-19",
+   "demissionair": "2023-07-07",
+   "verkiezing": "2023-11-22",
+   "kamer": "2023-12-06",
+   "bron": {
+    "demissionair": "https://www.rijksoverheid.nl/regering/over-de-regering/kabinetten-sinds-1945/kabinet-rutte-iv",
+    "demissionair2": "https://www.parlement.com/id/vlombyx8gxvd",
+    "verkiezing": "https://parlement.com/tweede-kamerverkiezingen-2023",
+    "kamer": "https://parlement.com/tweede-kamerverkiezingen-2023"
+   },
+   "partijen": [
+    "CDA",
+    "ChristenUnie",
+    "D66",
+    "VVD"
+   ],
+   "blijvend": [
+    "CDA",
+    "ChristenUnie",
+    "D66",
+    "VVD"
+   ],
+   "groep": [
+    "CDA",
+    "ChristenUnie",
+    "D66",
+    "VVD"
+   ],
+   "vertrokken": [],
+   "vertrek": {},
+   "persoonsnaam": 5,
+   "periodes": {
+    "missionair": {
+     "van": "2022-01-19",
+     "tot": "2023-07-06",
+     "verdeeld": 6057,
+     "klein": false,
+     "moties": 5310,
+     "eensgezind": {
+      "gestemd": 6016,
+      "eensgezind": 4814,
+      "pct": 80.0
+     },
+     "paren": [
+      {
+       "a": "CDA",
+       "b": "ChristenUnie",
+       "cohesie": 91.0,
+       "gezamenlijk": 6026,
+       "gelijk": 5485
+      },
+      {
+       "a": "CDA",
+       "b": "D66",
+       "cohesie": 86.4,
+       "gezamenlijk": 6044,
+       "gelijk": 5224
+      },
+      {
+       "a": "CDA",
+       "b": "VVD",
+       "cohesie": 91.9,
+       "gezamenlijk": 6048,
+       "gelijk": 5556
+      },
+      {
+       "a": "ChristenUnie",
+       "b": "D66",
+       "cohesie": 90.1,
+       "gezamenlijk": 6025,
+       "gelijk": 5430
+      },
+      {
+       "a": "ChristenUnie",
+       "b": "VVD",
+       "cohesie": 88.5,
+       "gezamenlijk": 6029,
+       "gelijk": 5337
+      },
+      {
+       "a": "D66",
+       "b": "VVD",
+       "cohesie": 85.5,
+       "gezamenlijk": 6047,
+       "gelijk": 5171
+      }
+     ],
+     "alleen": {
+      "verdeeld": 6057,
+      "partijen": [
+       {
+        "afkorting": "D66",
+        "basis": 6057,
+        "keer": 346,
+        "won": 283,
+        "pct": 5.7
+       },
+       {
+        "afkorting": "VVD",
+        "basis": 6057,
+        "keer": 229,
+        "won": 208,
+        "pct": 3.8
+       },
+       {
+        "afkorting": "CDA",
+        "basis": 6057,
+        "keer": 130,
+        "won": 120,
+        "pct": 2.1
+       },
+       {
+        "afkorting": "ChristenUnie",
+        "basis": 6057,
+        "keer": 123,
+        "won": 111,
+        "pct": 2.0
+       }
+      ]
+     }
+    },
+    "demVoor": {
+     "van": "2023-07-10",
+     "tot": "2023-10-26",
+     "verdeeld": 1016,
+     "klein": false,
+     "moties": 834,
+     "eensgezind": {
+      "gestemd": 1014,
+      "eensgezind": 555,
+      "pct": 54.7
+     },
+     "paren": [
+      {
+       "a": "CDA",
+       "b": "ChristenUnie",
+       "cohesie": 77.4,
+       "gezamenlijk": 1015,
+       "gelijk": 786
+      },
+      {
+       "a": "CDA",
+       "b": "D66",
+       "cohesie": 72.8,
+       "gezamenlijk": 1016,
+       "gelijk": 740
+      },
+      {
+       "a": "CDA",
+       "b": "VVD",
+       "cohesie": 82.1,
+       "gezamenlijk": 1015,
+       "gelijk": 833
+      },
+      {
+       "a": "ChristenUnie",
+       "b": "D66",
+       "cohesie": 79.7,
+       "gezamenlijk": 1015,
+       "gelijk": 809
+      },
+      {
+       "a": "ChristenUnie",
+       "b": "VVD",
+       "cohesie": 67.4,
+       "gezamenlijk": 1014,
+       "gelijk": 683
+      },
+      {
+       "a": "D66",
+       "b": "VVD",
+       "cohesie": 68.3,
+       "gezamenlijk": 1015,
+       "gelijk": 693
+      }
+     ],
+     "alleen": {
+      "verdeeld": 1016,
+      "partijen": [
+       {
+        "afkorting": "VVD",
+        "basis": 1016,
+        "keer": 104,
+        "won": 95,
+        "pct": 10.2
+       },
+       {
+        "afkorting": "D66",
+        "basis": 1016,
+        "keer": 88,
+        "won": 74,
+        "pct": 8.7
+       },
+       {
+        "afkorting": "ChristenUnie",
+        "basis": 1016,
+        "keer": 70,
+        "won": 63,
+        "pct": 6.9
+       },
+       {
+        "afkorting": "CDA",
+        "basis": 1016,
+        "keer": 30,
+        "won": 21,
+        "pct": 3.0
+       }
+      ]
+     }
+    },
+    "demNa": {
+     "van": "2023-12-07",
+     "tot": "2024-06-27",
+     "verdeeld": 1921,
+     "klein": false,
+     "moties": 1660,
+     "eensgezind": {
+      "gestemd": 1911,
+      "eensgezind": 992,
+      "pct": 51.9
+     },
+     "paren": [
+      {
+       "a": "CDA",
+       "b": "ChristenUnie",
+       "cohesie": 81.0,
+       "gezamenlijk": 1915,
+       "gelijk": 1551
+      },
+      {
+       "a": "CDA",
+       "b": "D66",
+       "cohesie": 71.6,
+       "gezamenlijk": 1912,
+       "gelijk": 1369
+      },
+      {
+       "a": "CDA",
+       "b": "VVD",
+       "cohesie": 78.4,
+       "gezamenlijk": 1917,
+       "gelijk": 1502
+      },
+      {
+       "a": "ChristenUnie",
+       "b": "D66",
+       "cohesie": 73.4,
+       "gezamenlijk": 1915,
+       "gelijk": 1406
+      },
+      {
+       "a": "ChristenUnie",
+       "b": "VVD",
+       "cohesie": 71.8,
+       "gezamenlijk": 1919,
+       "gelijk": 1377
+      },
+      {
+       "a": "D66",
+       "b": "VVD",
+       "cohesie": 66.0,
+       "gezamenlijk": 1916,
+       "gelijk": 1265
+      }
+     ],
+     "alleen": {
+      "verdeeld": 1921,
+      "partijen": [
+       {
+        "afkorting": "D66",
+        "basis": 1921,
+        "keer": 262,
+        "won": 227,
+        "pct": 13.6
+       },
+       {
+        "afkorting": "VVD",
+        "basis": 1921,
+        "keer": 212,
+        "won": 124,
+        "pct": 11.0
+       },
+       {
+        "afkorting": "ChristenUnie",
+        "basis": 1921,
+        "keer": 116,
+        "won": 90,
+        "pct": 6.0
+       },
+       {
+        "afkorting": "CDA",
+        "basis": 1921,
+        "keer": 71,
+        "won": 63,
+        "pct": 3.7
+       }
+      ]
+     }
+    }
+   },
+   "campagne": {
+    "paren": 120,
+    "mediaan": -0.2,
+    "mediaanMotie": -0.5,
+    "kabOpp": [
+     {
+      "kabinetspartij": "ChristenUnie",
+      "oppositie": "SP",
+      "voor": 54.9,
+      "na": 66.4,
+      "nVoor": 6027,
+      "nNa": 1014,
+      "verschil": 11.5,
+      "motie": 11.3
+     },
+     {
+      "kabinetspartij": "ChristenUnie",
+      "oppositie": "BIJ1",
+      "voor": 53.2,
+      "na": 64.6,
+      "nVoor": 4829,
+      "nNa": 969,
+      "verschil": 11.4,
+      "motie": 10.5
+     },
+     {
+      "kabinetspartij": "D66",
+      "oppositie": "Volt",
+      "voor": 68.2,
+      "na": 79.5,
+      "nVoor": 6037,
+      "nNa": 1014,
+      "verschil": 11.3,
+      "motie": 9.8
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "BBB",
+      "voor": 51.9,
+      "na": 62.7,
+      "nVoor": 5974,
+      "nNa": 1013,
+      "verschil": 10.8,
+      "motie": 8.7
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "FVD",
+      "voor": 40.1,
+      "na": 50.7,
+      "nVoor": 6046,
+      "nNa": 1012,
+      "verschil": 10.6,
+      "motie": 11.5
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "FVD",
+      "voor": 39.1,
+      "na": 49.3,
+      "nVoor": 6043,
+      "nNa": 1013,
+      "verschil": 10.2,
+      "motie": 10.4
+     },
+     {
+      "kabinetspartij": "D66",
+      "oppositie": "BIJ1",
+      "voor": 56.7,
+      "na": 66.9,
+      "nVoor": 4844,
+      "nNa": 970,
+      "verschil": 10.2,
+      "motie": 8.7
+     },
+     {
+      "kabinetspartij": "D66",
+      "oppositie": "PvdD",
+      "voor": 56.7,
+      "na": 66.8,
+      "nVoor": 6030,
+      "nNa": 1013,
+      "verschil": 10.1,
+      "motie": 9.6
+     },
+     {
+      "kabinetspartij": "ChristenUnie",
+      "oppositie": "Volt",
+      "voor": 64.7,
+      "na": 74.3,
+      "nVoor": 6019,
+      "nNa": 1013,
+      "verschil": 9.6,
+      "motie": 9.4
+     },
+     {
+      "kabinetspartij": "ChristenUnie",
+      "oppositie": "PvdD",
+      "voor": 54.6,
+      "na": 64.1,
+      "nVoor": 6012,
+      "nNa": 1012,
+      "verschil": 9.5,
+      "motie": 9.9
+     },
+     {
+      "kabinetspartij": "D66",
+      "oppositie": "SP",
+      "voor": 55.4,
+      "na": 64.8,
+      "nVoor": 6045,
+      "nNa": 1015,
+      "verschil": 9.4,
+      "motie": 9.0
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "PVV",
+      "voor": 42.9,
+      "na": 52.0,
+      "nVoor": 6040,
+      "nNa": 1014,
+      "verschil": 9.1,
+      "motie": 7.2
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "BBB",
+      "voor": 53.3,
+      "na": 62.3,
+      "nVoor": 5971,
+      "nNa": 1014,
+      "verschil": 9.0,
+      "motie": 6.2
+     },
+     {
+      "kabinetspartij": "D66",
+      "oppositie": "GL",
+      "voor": 66.7,
+      "na": 75.5,
+      "nVoor": 6045,
+      "nNa": 1014,
+      "verschil": 8.8,
+      "motie": 8.0
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "PVV",
+      "voor": 44.0,
+      "na": 52.8,
+      "nVoor": 6043,
+      "nNa": 1013,
+      "verschil": 8.8,
+      "motie": 6.9
+     },
+     {
+      "kabinetspartij": "D66",
+      "oppositie": "PvdA",
+      "voor": 66.9,
+      "na": 75.5,
+      "nVoor": 6043,
+      "nNa": 1015,
+      "verschil": 8.6,
+      "motie": 7.8
+     },
+     {
+      "kabinetspartij": "ChristenUnie",
+      "oppositie": "GL",
+      "voor": 63.2,
+      "na": 70.9,
+      "nVoor": 6027,
+      "nNa": 1013,
+      "verschil": 7.7,
+      "motie": 7.5
+     },
+     {
+      "kabinetspartij": "ChristenUnie",
+      "oppositie": "PvdA",
+      "voor": 63.5,
+      "na": 70.8,
+      "nVoor": 6025,
+      "nNa": 1014,
+      "verschil": 7.3,
+      "motie": 7.0
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "JA21",
+      "voor": 55.5,
+      "na": 62.4,
+      "nVoor": 6032,
+      "nNa": 998,
+      "verschil": 6.9,
+      "motie": 6.6
+     },
+     {
+      "kabinetspartij": "ChristenUnie",
+      "oppositie": "PVV",
+      "voor": 41.2,
+      "na": 47.9,
+      "nVoor": 6021,
+      "nNa": 1013,
+      "verschil": 6.7,
+      "motie": 5.7
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "JA21",
+      "voor": 54.5,
+      "na": 60.6,
+      "nVoor": 6029,
+      "nNa": 999,
+      "verschil": 6.1,
+      "motie": 5.7
+     },
+     {
+      "kabinetspartij": "ChristenUnie",
+      "oppositie": "DENK",
+      "voor": 61.2,
+      "na": 64.2,
+      "nVoor": 6027,
+      "nNa": 1012,
+      "verschil": 3.0,
+      "motie": 1.2
+     },
+     {
+      "kabinetspartij": "ChristenUnie",
+      "oppositie": "BBB",
+      "voor": 54.2,
+      "na": 56.8,
+      "nVoor": 5953,
+      "nNa": 1013,
+      "verschil": 2.6,
+      "motie": 0.4
+     },
+     {
+      "kabinetspartij": "ChristenUnie",
+      "oppositie": "FVD",
+      "voor": 36.5,
+      "na": 38.6,
+      "nVoor": 6024,
+      "nNa": 1012,
+      "verschil": 2.1,
+      "motie": 1.9
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "BIJ1",
+      "voor": 48.2,
+      "na": 49.3,
+      "nVoor": 4846,
+      "nNa": 970,
+      "verschil": 1.1,
+      "motie": -0.1
+     },
+     {
+      "kabinetspartij": "D66",
+      "oppositie": "PVV",
+      "voor": 37.6,
+      "na": 38.6,
+      "nVoor": 6040,
+      "nNa": 1014,
+      "verschil": 1.0,
+      "motie": 0.5
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "SP",
+      "voor": 49.7,
+      "na": 50.6,
+      "nVoor": 6046,
+      "nNa": 1015,
+      "verschil": 0.9,
+      "motie": -0.9
+     },
+     {
+      "kabinetspartij": "D66",
+      "oppositie": "FVD",
+      "voor": 33.2,
+      "na": 34.0,
+      "nVoor": 6042,
+      "nNa": 1013,
+      "verschil": 0.8,
+      "motie": 2.1
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "PvdD",
+      "voor": 48.4,
+      "na": 49.0,
+      "nVoor": 6031,
+      "nNa": 1013,
+      "verschil": 0.6,
+      "motie": -0.6
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "SGP",
+      "voor": 72.0,
+      "na": 72.6,
+      "nVoor": 6043,
+      "nNa": 1014,
+      "verschil": 0.6,
+      "motie": 0.1
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "Volt",
+      "voor": 59.6,
+      "na": 60.1,
+      "nVoor": 6038,
+      "nNa": 1014,
+      "verschil": 0.5,
+      "motie": -0.5
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "DENK",
+      "voor": 56.6,
+      "na": 57.0,
+      "nVoor": 6046,
+      "nNa": 1013,
+      "verschil": 0.4,
+      "motie": -1.6
+     },
+     {
+      "kabinetspartij": "D66",
+      "oppositie": "DENK",
+      "voor": 62.1,
+      "na": 62.3,
+      "nVoor": 6045,
+      "nNa": 1013,
+      "verschil": 0.2,
+      "motie": -0.7
+     },
+     {
+      "kabinetspartij": "ChristenUnie",
+      "oppositie": "SGP",
+      "voor": 71.5,
+      "na": 70.2,
+      "nVoor": 6024,
+      "nNa": 1013,
+      "verschil": -1.3,
+      "motie": -1.7
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "GL",
+      "voor": 57.7,
+      "na": 55.9,
+      "nVoor": 6046,
+      "nNa": 1014,
+      "verschil": -1.8,
+      "motie": -3.1
+     },
+     {
+      "kabinetspartij": "CDA",
+      "oppositie": "PvdA",
+      "voor": 58.0,
+      "na": 55.9,
+      "nVoor": 6044,
+      "nNa": 1015,
+      "verschil": -2.1,
+      "motie": -3.4
+     },
+     {
+      "kabinetspartij": "ChristenUnie",
+      "oppositie": "JA21",
+      "voor": 52.2,
+      "na": 49.9,
+      "nVoor": 6010,
+      "nNa": 998,
+      "verschil": -2.3,
+      "motie": -3.4
+     },
+     {
+      "kabinetspartij": "D66",
+      "oppositie": "BBB",
+      "voor": 49.9,
+      "na": 46.5,
+      "nVoor": 5970,
+      "nNa": 1014,
+      "verschil": -3.4,
+      "motie": -4.5
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "SGP",
+      "voor": 70.5,
+      "na": 66.8,
+      "nVoor": 6046,
+      "nNa": 1013,
+      "verschil": -3.7,
+      "motie": -3.7
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "BIJ1",
+      "voor": 46.0,
+      "na": 41.3,
+      "nVoor": 4847,
+      "nNa": 969,
+      "verschil": -4.7,
+      "motie": -4.8
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "DENK",
+      "voor": 54.6,
+      "na": 49.8,
+      "nVoor": 6049,
+      "nNa": 1012,
+      "verschil": -4.8,
+      "motie": -4.6
+     },
+     {
+      "kabinetspartij": "D66",
+      "oppositie": "JA21",
+      "voor": 47.0,
+      "na": 41.8,
+      "nVoor": 6028,
+      "nNa": 999,
+      "verschil": -5.2,
+      "motie": -4.5
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "SP",
+      "voor": 48.0,
+      "na": 42.7,
+      "nVoor": 6049,
+      "nNa": 1014,
+      "verschil": -5.3,
+      "motie": -5.6
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "Volt",
+      "voor": 57.3,
+      "na": 51.7,
+      "nVoor": 6041,
+      "nNa": 1013,
+      "verschil": -5.6,
+      "motie": -5.9
+     },
+     {
+      "kabinetspartij": "D66",
+      "oppositie": "SGP",
+      "voor": 65.0,
+      "na": 59.2,
+      "nVoor": 6042,
+      "nNa": 1014,
+      "verschil": -5.8,
+      "motie": -4.5
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "PvdD",
+      "voor": 46.2,
+      "na": 40.2,
+      "nVoor": 6034,
+      "nNa": 1012,
+      "verschil": -6.0,
+      "motie": -5.9
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "GL",
+      "voor": 55.4,
+      "na": 47.4,
+      "nVoor": 6049,
+      "nNa": 1013,
+      "verschil": -8.0,
+      "motie": -8.2
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "PvdA",
+      "voor": 55.7,
+      "na": 47.3,
+      "nVoor": 6047,
+      "nNa": 1014,
+      "verschil": -8.4,
+      "motie": -8.6
+     }
+    ],
+    "mediaanKabOpp": 1.6,
+    "motieAfwijking": 0.8,
+    "motieParen": 48,
+    "perPartij": [
+     {
+      "kabinetspartij": "CDA",
+      "stijger": {
+       "kabinetspartij": "CDA",
+       "oppositie": "FVD",
+       "voor": 39.1,
+       "na": 49.3,
+       "nVoor": 6043,
+       "nNa": 1013,
+       "verschil": 10.2,
+       "motie": 10.4
+      },
+      "daler": {
+       "kabinetspartij": "CDA",
+       "oppositie": "PvdA",
+       "voor": 58.0,
+       "na": 55.9,
+       "nVoor": 6044,
+       "nNa": 1015,
+       "verschil": -2.1,
+       "motie": -3.4
+      }
+     },
+     {
+      "kabinetspartij": "ChristenUnie",
+      "stijger": {
+       "kabinetspartij": "ChristenUnie",
+       "oppositie": "SP",
+       "voor": 54.9,
+       "na": 66.4,
+       "nVoor": 6027,
+       "nNa": 1014,
+       "verschil": 11.5,
+       "motie": 11.3
+      },
+      "daler": {
+       "kabinetspartij": "ChristenUnie",
+       "oppositie": "JA21",
+       "voor": 52.2,
+       "na": 49.9,
+       "nVoor": 6010,
+       "nNa": 998,
+       "verschil": -2.3,
+       "motie": -3.4
+      }
+     },
+     {
+      "kabinetspartij": "D66",
+      "stijger": {
+       "kabinetspartij": "D66",
+       "oppositie": "Volt",
+       "voor": 68.2,
+       "na": 79.5,
+       "nVoor": 6037,
+       "nNa": 1014,
+       "verschil": 11.3,
+       "motie": 9.8
+      },
+      "daler": {
+       "kabinetspartij": "D66",
+       "oppositie": "SGP",
+       "voor": 65.0,
+       "na": 59.2,
+       "nVoor": 6042,
+       "nNa": 1014,
+       "verschil": -5.8,
+       "motie": -4.5
+      }
+     },
+     {
+      "kabinetspartij": "VVD",
+      "stijger": {
+       "kabinetspartij": "VVD",
+       "oppositie": "BBB",
+       "voor": 51.9,
+       "na": 62.7,
+       "nVoor": 5974,
+       "nNa": 1013,
+       "verschil": 10.8,
+       "motie": 8.7
+      },
+      "daler": {
+       "kabinetspartij": "VVD",
+       "oppositie": "PvdA",
+       "voor": 55.7,
+       "na": 47.3,
+       "nVoor": 6047,
+       "nNa": 1014,
+       "verschil": -8.4,
+       "motie": -8.6
+      }
+     }
+    ]
+   }
+  },
+  {
+   "kabinet": "Schoof",
+   "begin": "2024-07-02",
+   "einde": "2026-02-23",
+   "dataVanaf": "2024-07-04",
+   "demissionair": "2025-06-03",
+   "verkiezing": "2025-10-29",
+   "kamer": "2025-11-12",
+   "bron": {
+    "demissionair": "https://www.rijksoverheid.nl/regering/over-de-regering/kabinetten-sinds-1945/kabinet-schoof",
+    "verkiezing": "https://parlement.com/tweede-kamerverkiezingen-2025",
+    "kamer": "https://parlement.com/tweede-kamerverkiezingen-2025"
+   },
+   "partijen": [
+    "BBB",
+    "Nieuw Sociaal Contract",
+    "PVV",
+    "VVD"
+   ],
+   "blijvend": [
+    "BBB",
+    "VVD"
+   ],
+   "groep": [
+    "BBB",
+    "Nieuw Sociaal Contract",
+    "VVD"
+   ],
+   "vertrokken": [
+    "Nieuw Sociaal Contract",
+    "PVV"
+   ],
+   "vertrek": {
+    "Nieuw Sociaal Contract": "2025-08-22",
+    "PVV": "2025-06-03"
+   },
+   "persoonsnaam": 1,
+   "periodes": {
+    "missionair": {
+     "van": "2024-07-04",
+     "tot": "2025-05-27",
+     "verdeeld": 3565,
+     "klein": false,
+     "moties": 3026,
+     "eensgezind": {
+      "gestemd": 3556,
+      "eensgezind": 2877,
+      "pct": 80.9
+     },
+     "paren": [
+      {
+       "a": "BBB",
+       "b": "Nieuw Sociaal Contract",
+       "cohesie": 77.0,
+       "gezamenlijk": 3556,
+       "gelijk": 2739
+      },
+      {
+       "a": "BBB",
+       "b": "VVD",
+       "cohesie": 80.9,
+       "gezamenlijk": 3556,
+       "gelijk": 2877
+      },
+      {
+       "a": "Nieuw Sociaal Contract",
+       "b": "VVD",
+       "cohesie": 80.0,
+       "gezamenlijk": 3563,
+       "gelijk": 2849
+      }
+     ],
+     "alleen": {
+      "verdeeld": 3565,
+      "partijen": [
+       {
+        "afkorting": "PVV",
+        "basis": 3565,
+        "keer": 524,
+        "won": 454,
+        "pct": 14.7
+       },
+       {
+        "afkorting": "Nieuw Sociaal Contract",
+        "basis": 3565,
+        "keer": 336,
+        "won": 190,
+        "pct": 9.4
+       },
+       {
+        "afkorting": "VVD",
+        "basis": 3565,
+        "keer": 152,
+        "won": 120,
+        "pct": 4.3
+       },
+       {
+        "afkorting": "BBB",
+        "basis": 3565,
+        "keer": 113,
+        "won": 113,
+        "pct": 3.2
+       }
+      ]
+     }
+    },
+    "demVoor": {
+     "van": "2025-06-03",
+     "tot": "2025-10-16",
+     "verdeeld": 1825,
+     "klein": false,
+     "moties": 1565,
+     "eensgezind": {
+      "gestemd": 1822,
+      "eensgezind": 1420,
+      "pct": 77.9
+     },
+     "paren": [
+      {
+       "a": "BBB",
+       "b": "Nieuw Sociaal Contract",
+       "cohesie": 69.8,
+       "gezamenlijk": 1820,
+       "gelijk": 1271
+      },
+      {
+       "a": "BBB",
+       "b": "VVD",
+       "cohesie": 77.9,
+       "gezamenlijk": 1822,
+       "gelijk": 1420
+      },
+      {
+       "a": "Nieuw Sociaal Contract",
+       "b": "VVD",
+       "cohesie": 71.4,
+       "gezamenlijk": 1821,
+       "gelijk": 1301
+      }
+     ],
+     "alleen": {
+      "verdeeld": 979,
+      "partijen": [
+       {
+        "afkorting": "BBB",
+        "basis": 979,
+        "keer": 132,
+        "won": 106,
+        "pct": 13.5
+       },
+       {
+        "afkorting": "Nieuw Sociaal Contract",
+        "basis": 979,
+        "keer": 127,
+        "won": 79,
+        "pct": 13.0
+       },
+       {
+        "afkorting": "VVD",
+        "basis": 979,
+        "keer": 92,
+        "won": 80,
+        "pct": 9.4
+       }
+      ]
+     }
+    },
+    "demNa": {
+     "van": "2025-11-13",
+     "tot": "2026-02-12",
+     "verdeeld": 996,
+     "klein": false,
+     "moties": 846,
+     "eensgezind": {
+      "gestemd": 992,
+      "eensgezind": 658,
+      "pct": 66.3
+     },
+     "paren": [
+      {
+       "a": "BBB",
+       "b": "Nieuw Sociaal Contract",
+       "cohesie": null,
+       "gezamenlijk": 0,
+       "gelijk": 0
+      },
+      {
+       "a": "BBB",
+       "b": "VVD",
+       "cohesie": 66.3,
+       "gezamenlijk": 992,
+       "gelijk": 658
+      },
+      {
+       "a": "Nieuw Sociaal Contract",
+       "b": "VVD",
+       "cohesie": null,
+       "gezamenlijk": 0,
+       "gelijk": 0
+      }
+     ],
+     "alleen": {
+      "verdeeld": 0,
+      "partijen": []
+     }
+    }
+   },
+   "campagne": {
+    "paren": 105,
+    "mediaan": -0.6,
+    "mediaanMotie": 0.0,
+    "kabOpp": [
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "JA21",
+      "voor": 70.6,
+      "na": 74.9,
+      "nVoor": 3406,
+      "nNa": 1820,
+      "verschil": 4.3,
+      "motie": 5.8
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "FVD",
+      "voor": 49.9,
+      "na": 53.9,
+      "nVoor": 3561,
+      "nNa": 1806,
+      "verschil": 4.0,
+      "motie": 2.9
+     },
+     {
+      "kabinetspartij": "BBB",
+      "oppositie": "FVD",
+      "voor": 58.8,
+      "na": 62.7,
+      "nVoor": 3554,
+      "nNa": 1805,
+      "verschil": 3.9,
+      "motie": 3.4
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "CDA",
+      "voor": 74.7,
+      "na": 78.5,
+      "nVoor": 3559,
+      "nNa": 1820,
+      "verschil": 3.8,
+      "motie": 4.6
+     },
+     {
+      "kabinetspartij": "BBB",
+      "oppositie": "ChristenUnie",
+      "voor": 62.3,
+      "na": 65.7,
+      "nVoor": 3550,
+      "nNa": 1818,
+      "verschil": 3.4,
+      "motie": 4.9
+     },
+     {
+      "kabinetspartij": "BBB",
+      "oppositie": "SGP",
+      "voor": 74.3,
+      "na": 77.6,
+      "nVoor": 3554,
+      "nNa": 1819,
+      "verschil": 3.3,
+      "motie": 4.2
+     },
+     {
+      "kabinetspartij": "BBB",
+      "oppositie": "JA21",
+      "voor": 76.2,
+      "na": 79.4,
+      "nVoor": 3400,
+      "nNa": 1819,
+      "verschil": 3.2,
+      "motie": 4.5
+     },
+     {
+      "kabinetspartij": "BBB",
+      "oppositie": "GroenLinks-PvdA",
+      "voor": 42.9,
+      "na": 45.8,
+      "nVoor": 3556,
+      "nNa": 1822,
+      "verschil": 2.9,
+      "motie": 3.5
+     },
+     {
+      "kabinetspartij": "BBB",
+      "oppositie": "Volt",
+      "voor": 45.5,
+      "na": 47.7,
+      "nVoor": 3553,
+      "nNa": 1817,
+      "verschil": 2.2,
+      "motie": 2.3
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "SGP",
+      "voor": 71.4,
+      "na": 73.6,
+      "nVoor": 3561,
+      "nNa": 1820,
+      "verschil": 2.2,
+      "motie": 3.1
+     },
+     {
+      "kabinetspartij": "BBB",
+      "oppositie": "PvdD",
+      "voor": 35.6,
+      "na": 37.2,
+      "nVoor": 3555,
+      "nNa": 1818,
+      "verschil": 1.6,
+      "motie": 1.8
+     },
+     {
+      "kabinetspartij": "BBB",
+      "oppositie": "CDA",
+      "voor": 70.2,
+      "na": 70.9,
+      "nVoor": 3552,
+      "nNa": 1819,
+      "verschil": 0.7,
+      "motie": 0.5
+     },
+     {
+      "kabinetspartij": "BBB",
+      "oppositie": "D66",
+      "voor": 53.5,
+      "na": 53.6,
+      "nVoor": 3553,
+      "nNa": 1820,
+      "verschil": 0.1,
+      "motie": 0.6
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "PvdD",
+      "voor": 37.8,
+      "na": 37.7,
+      "nVoor": 3562,
+      "nNa": 1819,
+      "verschil": -0.1,
+      "motie": 0.0
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "GroenLinks-PvdA",
+      "voor": 47.2,
+      "na": 46.9,
+      "nVoor": 3563,
+      "nNa": 1823,
+      "verschil": -0.3,
+      "motie": 0.2
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "ChristenUnie",
+      "voor": 64.4,
+      "na": 63.9,
+      "nVoor": 3557,
+      "nNa": 1819,
+      "verschil": -0.5,
+      "motie": 0.9
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "Volt",
+      "voor": 50.7,
+      "na": 49.8,
+      "nVoor": 3560,
+      "nNa": 1818,
+      "verschil": -0.9,
+      "motie": -1.1
+     },
+     {
+      "kabinetspartij": "BBB",
+      "oppositie": "SP",
+      "voor": 43.0,
+      "na": 42.0,
+      "nVoor": 3552,
+      "nNa": 1820,
+      "verschil": -1.0,
+      "motie": -0.8
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "D66",
+      "voor": 59.5,
+      "na": 58.2,
+      "nVoor": 3560,
+      "nNa": 1821,
+      "verschil": -1.3,
+      "motie": -0.8
+     },
+     {
+      "kabinetspartij": "BBB",
+      "oppositie": "DENK",
+      "voor": 43.6,
+      "na": 42.1,
+      "nVoor": 3549,
+      "nNa": 1820,
+      "verschil": -1.5,
+      "motie": -1.0
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "SP",
+      "voor": 43.2,
+      "na": 40.1,
+      "nVoor": 3560,
+      "nNa": 1821,
+      "verschil": -3.1,
+      "motie": -3.1
+     },
+     {
+      "kabinetspartij": "VVD",
+      "oppositie": "DENK",
+      "voor": 43.4,
+      "na": 39.8,
+      "nVoor": 3556,
+      "nNa": 1821,
+      "verschil": -3.6,
+      "motie": -3.8
+     }
+    ],
+    "mediaanKabOpp": 1.1,
+    "motieAfwijking": 0.5,
+    "motieParen": 22,
+    "perPartij": [
+     {
+      "kabinetspartij": "BBB",
+      "stijger": {
+       "kabinetspartij": "BBB",
+       "oppositie": "FVD",
+       "voor": 58.8,
+       "na": 62.7,
+       "nVoor": 3554,
+       "nNa": 1805,
+       "verschil": 3.9,
+       "motie": 3.4
+      },
+      "daler": {
+       "kabinetspartij": "BBB",
+       "oppositie": "DENK",
+       "voor": 43.6,
+       "na": 42.1,
+       "nVoor": 3549,
+       "nNa": 1820,
+       "verschil": -1.5,
+       "motie": -1.0
+      }
+     },
+     {
+      "kabinetspartij": "VVD",
+      "stijger": {
+       "kabinetspartij": "VVD",
+       "oppositie": "JA21",
+       "voor": 70.6,
+       "na": 74.9,
+       "nVoor": 3406,
+       "nNa": 1820,
+       "verschil": 4.3,
+       "motie": 5.8
+      },
+      "daler": {
+       "kabinetspartij": "VVD",
+       "oppositie": "DENK",
+       "voor": 43.4,
+       "na": 39.8,
+       "nVoor": 3556,
+       "nNa": 1821,
+       "verschil": -3.6,
+       "motie": -3.8
+      }
+     }
+    ]
+   }
+  }
+ ],
+ "jetten": {
+  "kabinet": "Jetten",
+  "begin": "2026-02-23",
+  "stand": "2026-11-12",
+  "partijen": [
+   "CDA",
+   "D66",
+   "VVD"
+  ],
+  "missionair": {
+   "van": "2026-02-26",
+   "tot": "2026-11-12",
+   "verdeeld": 4063,
+   "klein": false,
+   "moties": 3484,
+   "eensgezind": {
+    "gestemd": 4046,
+    "eensgezind": 3386,
+    "pct": 83.7
+   },
+   "paren": [
+    {
+     "a": "CDA",
+     "b": "D66",
+     "cohesie": 91.1,
+     "gezamenlijk": 4052,
+     "gelijk": 3693
+    },
+    {
+     "a": "CDA",
+     "b": "VVD",
+     "cohesie": 91.0,
+     "gezamenlijk": 4050,
+     "gelijk": 3686
+    },
+    {
+     "a": "D66",
+     "b": "VVD",
+     "cohesie": 85.2,
+     "gezamenlijk": 4053,
+     "gelijk": 3453
+    }
+   ],
+   "alleen": {
+    "verdeeld": 4063,
+    "partijen": [
+     {
+      "afkorting": "VVD",
+      "basis": 4063,
+      "keer": 301,
+      "won": 248,
+      "pct": 7.4
+     },
+     {
+      "afkorting": "D66",
+      "basis": 4063,
+      "keer": 297,
+      "won": 254,
+      "pct": 7.3
+     },
+     {
+      "afkorting": "CDA",
+      "basis": 4063,
+      "keer": 62,
+      "won": 51,
+      "pct": 1.5
+     }
+    ]
+   }
+  }
+ }
+}

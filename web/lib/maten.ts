@@ -1,6 +1,8 @@
 // De maten op de site, voor de methodiekpagina (E3-S3). Een nieuwe analyse voegt hier haar maat toe
 // voordat ze live gaat; een test controleert dat elke maat compleet is.
 // Bron van de tekst over cohesie: docs/plan/definitie-cohesie.md (goedgekeurd door Niels, 24 oktober 2026).
+import { DEMISSIONAIR_ZICHTBAAR } from "./actueel";
+
 export type Maat = { id: string; naam: string; definitie: string; formule: string; keuzes: string[]; beperkingen: string[] };
 
 export const MATEN: Maat[] = [
@@ -80,6 +82,25 @@ export const MATEN: Maat[] = [
       "Alleen staan zegt niet waarom een partij de andere kant koos, en ook niet of het om een wet of een procedurele motie ging.",
     ],
   },
+  // Alleen zichtbaar samen met het Actueel-stuk over demissionaire kabinetten (vlag in lib/actueel.ts)
+  ...(DEMISSIONAIR_ZICHTBAAR ? [{
+    id: "verschuiving",
+    naam: "Verschuiving: wie stemde demissionair anders?",
+    definitie:
+      "Voor een paar van een kabinetspartij en een oppositiepartij: de cohesie in de demissionaire maanden voor de installatie van de nieuwe Kamer, min de cohesie in de missionaire tijd van hetzelfde kabinet. Ernaast staat de mediane verandering van alle paren, ook van oppositiepartijen onderling, als referentie voor een andere agenda. Te zien in het Actueel-stuk over demissionaire kabinetten.",
+    formule:
+      "cohesie demissionair min cohesie missionair, in procentpunten; referentie: de mediaan van die verandering over alle paren met minstens 100 gezamenlijke verdeelde stemmingen in beide periodes.",
+    keuzes: [
+      "Demissionair begint op de dag dat het ontslag werd aangeboden. De periode voor de nieuwe Kamer loopt tot de installatie, want de oude Kamer stemt door tot dan.",
+      "Alleen partijen: fracties met een persoonsnaam (eenmansfracties en afsplitsingen) tellen niet mee, en partijen die uit het kabinet stapten tellen niet als oppositie.",
+      "Een periode met minder dan 300 verdeelde stemmingen heet klein. Die staat er wel, gemarkeerd, maar telt niet mee in een vergelijking.",
+      "Ter controle staat dezelfde verandering op alleen moties ernaast, zodat een andere mix van moties en wetten zichtbaar wordt.",
+    ],
+    beperkingen: [
+      "De mediaan vangt een agenda op die alle paren raakt, niet een onderwerp dat juist één paar raakt.",
+      "Een verschuiving zegt niet waarom een partij anders stemde: campagne, formatie of een ander onderwerp zien er in de stemmingen hetzelfde uit.",
+    ],
+  }] : []),
   {
     id: "zetelwerk",
     naam: "Zetelwerk: ingediend, aangenomen en brede steun",

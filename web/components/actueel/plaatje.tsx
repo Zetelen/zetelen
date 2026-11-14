@@ -1,9 +1,10 @@
 // Deelplaatje per blok van een Actueel-stuk (1200 x 630, next/og). Dezelfde vier grafieken als op de pagina, in de
 // stijl van de andere deelplaatjes (components/deel/plaatjes.tsx). Alleen flex-opmaak: next/og kent geen tabellen.
 import { Kader, KLEUR, Melding, rond } from "@/components/deel/plaatjes";
-import { type ActueelData, type Stuk, aantal, datumTekst, gemiddelde, isAkkoord, isVerdeeld, opDrieThemas, perThema as themaVan, stukVan } from "@/lib/actueel";
+import { type ActueelData, type Stuk, aantal, datumTekst, gemiddelde, isAkkoord, isDemissionair, isVerdeeld, opDrieThemas, perThema as themaVan, stukVan } from "@/lib/actueel";
 import { AKKOORD_PLAATJE } from "./akkoordPlaatje";
 import { VERDEELD_PLAATJE } from "./verdeeldPlaatje";
+import { DEMISSIONAIR_PLAATJE } from "./demissionairPlaatje";
 
 const Rij = ({ children, hoogte }: { children: React.ReactNode; hoogte?: number }) =>
   <div style={{ display: "flex", alignItems: "center", gap: 16, ...(hoogte ? { height: hoogte } : {}) }}>{children}</div>;
@@ -169,7 +170,9 @@ function stappen(d: ActueelData) {
 const GRAFIEK: Record<string, (d: ActueelData) => React.ReactElement> = { mee: meegaan, wringt: botspunten, abortus: perThema, telt: zetelsom, hecht, stappen, steun };
 // Stuk akkoord-belastingplan heeft eigen data en eigen grafieken (akkoordPlaatje.tsx)
 // Stuk coalitie-verdeeld ook (verdeeldPlaatje.tsx)
-const grafiek = (d: Stuk["data"], id: string) => (isAkkoord(d) ? AKKOORD_PLAATJE[id](d) : isVerdeeld(d) ? VERDEELD_PLAATJE[id](d) : GRAFIEK[id](d));
+// Stuk demissionair ook (demissionairPlaatje.tsx)
+const grafiek = (d: Stuk["data"], id: string) => (isAkkoord(d) ? AKKOORD_PLAATJE[id](d) : isVerdeeld(d) ? VERDEELD_PLAATJE[id](d)
+  : isDemissionair(d) ? DEMISSIONAIR_PLAATJE[id](d) : GRAFIEK[id](d));
 
 export async function actueelPlaatje(zoek: Record<string, string>) {
   const x = stukVan(zoek.stuk ?? "");
@@ -182,5 +185,5 @@ export async function actueelPlaatje(zoek: Record<string, string>) {
     : id === "plannen" && x.data.plannen?.lijst.length ? x.data.plannen.lijst[x.data.plannen.lijst.length - 1].datum
     : x.data.stand);
   if (!b) return <Kader kop="Actueel" titel={x.kop} regel={x.label.replace("Actueel · ", "")} stand={stand}>{grafiek(x.data, x.slug === "blok-kabinet" ? "wringt" : x.blokken[0].id)}</Kader>;
-  return <Kader kop="Actueel" titel={b.kop} regel={`${b.vraag} · kabinet-${x.data.kabinet}`} stand={stand}>{grafiek(x.data, b.id)}</Kader>;
+  return <Kader kop="Actueel" titel={b.kop} regel={`${b.vraag} · ${isDemissionair(x.data) ? `${x.data.kabinetten.length} kabinetten sinds 2010` : `kabinet-${x.data.kabinet}`}`} stand={stand}>{grafiek(x.data, b.id)}</Kader>;
 }
