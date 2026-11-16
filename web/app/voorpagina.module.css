@@ -243,41 +243,55 @@
   text-align: center;
 }
 
-/* Nieuw in Actueel, onder de knoppen in de hero (16 november 2026). Mobile first: één kolom, tikvlakken van minstens 44 px */
+/* Nieuw in Actueel, bovenaan de hero (16 november 2026), compacter sinds K23 B4. Mobile first. */
 .nieuw {
   display: flex;
   flex-direction: column;
-  gap: var(--r-1);
-  margin-bottom: var(--r-5);
-  padding: var(--r-2) var(--r-4);
+  gap: 2px;
+  margin-bottom: var(--r-4);
+  padding: var(--r-2) var(--r-3);
   border-left: 3px solid var(--koper);
   background: rgba(10, 16, 28, 0.6);
   border-radius: 0 6px 6px 0;
 }
+.nieuwRij {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--r-3);
+}
 .nieuwLabel {
   font-family: var(--mono);
-  font-size: 13px;
-  letter-spacing: 0.04em;
+  font-size: 12px;
+  white-space: nowrap;
   color: var(--koper);
 }
+.nieuwAlle {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  color: var(--koper);
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
 .nieuwKop {
-  display: block;
-  min-height: 44px;
-  padding-block: var(--r-1);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
   color: var(--tekst);
-  font-size: 16px;
-  line-height: 1.3;
+  font-size: 15px;
+  line-height: 1.35;
   font-weight: 600;
   text-decoration: none;
 }
 .nieuwKop:hover {
   text-decoration: underline;
 }
-.nieuwAlle {
-  display: inline-flex;
-  align-items: center;
-  min-height: 32px;
-  color: var(--koper);
-  font-size: 14px;
-  font-weight: 600;
+@media (min-width: 761px) {
+  .nieuwKop {
+    -webkit-line-clamp: unset;
+    font-size: 16px;
+  }
 }

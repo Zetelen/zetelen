@@ -9,7 +9,6 @@ import { Data, HeroKop, Label, Tekst } from "@/components/Typografie";
 import { type Rollen, type Stelling, Stemgenoten } from "@/components/stemgenoten/Stemgenoten";
 import kandidaten from "@/content/stemgenoten/kandidaten.json";
 import teksten from "@/content/stemgenoten/stellingen.json";
-import { Kern } from "@/components/Onderdelen";
 import { coalitieVan } from "@/lib/cohesie";
 
 export const metadata: Metadata = {
@@ -42,8 +41,7 @@ export default async function StemgenotenPagina() {
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", maxWidth: 860 }}>
         <Label>Stemgenoten</Label>
         <HeroKop>Met welke partij stem jij het vaakst mee?</HeroKop>
-        {/* Kern van de pagina (K11, 27 oktober 2026); geen "wat opvalt", dat zou de uitkomst verklappen */}
-        <Kern ziet={`${stellingen.length} echte stemmingen uit de Tweede Kamer. Kies je kant en zie welke fracties net zo stemden: niet op basis van beloftes, maar van wat ze echt stemden.`} />
+        {/* Geen "Wat je ziet" meer: het blok eronder zegt hetzelfde (K23 B5, akkoord Niels 16 november 2026) */}
       </section>
       <Stemgenoten stellingen={stellingen} extra={extra} fracties={kandidaten.fracties} rollen={rollen} />
       <section id="methode" style={{ display: "flex", flexDirection: "column", gap: "var(--r-3)", maxWidth: 860, scrollMarginTop: 80 }}>

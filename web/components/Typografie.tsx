@@ -2,8 +2,8 @@
 import type { ReactNode } from "react";
 import s from "./typografie.module.css";
 
-export function HeroKop({ children }: { children: ReactNode }) {
-  return <h1 className={s.hero}>{children}</h1>;
+export function HeroKop({ children, className }: { children: ReactNode; className?: string }) {
+  return <h1 className={className ? `${s.hero} ${className}` : s.hero}>{children}</h1>;
 }
 
 // Met niveau 1 is de sectiekop de H1 van een pagina zonder HeroKop: zelfde stijl, andere tag (SEO-audit 26 oktober)

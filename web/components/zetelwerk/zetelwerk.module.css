@@ -370,3 +370,11 @@
     background: var(--nacht-700);
   }
 }
+
+/* Een korte fractienaam (SP) als link was op de telefoon 19 px breed; minstens 44 bij 24 (K23 B7, WCAG 2.5.8) */
+.cNaam > a {
+  display: inline-flex;
+  align-items: center;
+  min-width: 44px;
+  min-height: 24px;
+}

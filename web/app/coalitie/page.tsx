@@ -75,14 +75,11 @@ export default async function Coalitie({ searchParams }: Props) {
   const snel = huidig && kabinet.length ? { periode: huidig.naam, keuzes: snelkeuzes(kabinet, steun, zonder, zaalHuidig, blok, akkoord) } : undefined;
   return (
     <Inhoud>
+      {/* Volgorde sinds 16 november 2026 (K23 B2 en K18 3d, akkoord Niels): de bouwer direct onder de kop en de periodekeuze,
+          de uitleg eronder. Op de telefoon begon de bouwer anders pas na bijna twee schermen tekst. */}
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
         <Label>Coalitie</Label>
         <SectieKop niveau={1}>Welke partijen halen samen een meerderheid?</SectieKop>
-        <Kern ziet="Een groep fracties die jij kiest: hoeveel zetels die heeft, en met welke andere fracties ze eerder een meerderheid haalde." opvalt={opvalt} />
-        <Tekst>
-          Nu zetel jij. Kies fracties in de lijst of in de zaal en stel een kabinet samen, fictief of niet. Je ziet hoeveel zetels het
-          heeft, en bij welke andere fracties die groep in de gekozen periode een meerderheid haalde.
-        </Tekst>
         <div className={o.alleenBreed}>
           <Suspense>
             <PeriodeKeuze perioden={lijst} soort={soort} periode={periode?.naam ?? null} variant={variant} pad="/coalitie" />
@@ -96,6 +93,26 @@ export default async function Coalitie({ searchParams }: Props) {
           </MobielPaneel>
         </Suspense>
       )}
+      {!periode || !fracties?.length || !kaart ? (
+        <LegeStaat label="Geen stemmingen" titel="In deze periode zijn geen stemmingen" uitleg="Kies een andere periode en tel opnieuw." />
+      ) : (
+        <GrafiekKader grafiek="coalitie" id="bouwer" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
+          <GrafiekVlak>
+            <Suspense>
+              <CoalitieBouwer key={`${soort}|${periode.naam}`} fracties={ordenFracties(fracties, kaart)} soort={soort} periode={periode.naam}
+                alleenVerdeeld={variant === "verdeeld"} snel={snel} />
+            </Suspense>
+          </GrafiekVlak>
+          <Bronregel toelichting={`${periode.naam} · eigen berekening, zie de methodiek`} />
+        </GrafiekKader>
+      )}
+      <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
+        <Kern ziet="Een groep fracties die jij kiest: hoeveel zetels die heeft, en met welke andere fracties ze eerder een meerderheid haalde." opvalt={opvalt} />
+        <Tekst>
+          Nu zetel jij. Kies fracties in de lijst of in de zaal en stel een kabinet samen, fictief of niet. Je ziet hoeveel zetels het
+          heeft, en bij welke andere fracties die groep in de gekozen periode een meerderheid haalde.
+        </Tekst>
+      </section>
       <Inklapbaar titel="Hoe lees je dit?">
         <Tekst>
           Eensgezind: alle fracties in je groep stemden hetzelfde, allemaal voor of allemaal tegen. Meegestemd: een andere fractie
@@ -111,19 +128,6 @@ export default async function Coalitie({ searchParams }: Props) {
           welke samenwerking goed of wenselijk is.
         </Tekst>
       </Kaart>
-      {!periode || !fracties?.length || !kaart ? (
-        <LegeStaat label="Geen stemmingen" titel="In deze periode zijn geen stemmingen" uitleg="Kies een andere periode en tel opnieuw." />
-      ) : (
-        <GrafiekKader grafiek="coalitie" id="bouwer" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
-          <GrafiekVlak>
-            <Suspense>
-              <CoalitieBouwer key={`${soort}|${periode.naam}`} fracties={ordenFracties(fracties, kaart)} soort={soort} periode={periode.naam}
-                alleenVerdeeld={variant === "verdeeld"} snel={snel} />
-            </Suspense>
-          </GrafiekVlak>
-          <Bronregel toelichting={`${periode.naam} · eigen berekening, zie de methodiek`} />
-        </GrafiekKader>
-      )}
     </Inhoud>
   );
 }

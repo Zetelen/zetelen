@@ -235,6 +235,35 @@
   line-height: 1.4;
   color: var(--tekst);
 }
+/* Wat je ziet: op de telefoon ingeklapt (K23 B1, 16 november 2026) */
+.zietSmal {
+  display: none;
+}
+.zietSmal summary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  cursor: pointer;
+  font-size: var(--tekst-label);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--koper);
+}
+.zietSmal p {
+  margin: 0 0 var(--r-2);
+}
+@media (max-width: 640px) {
+  .zietBreed {
+    display: none;
+  }
+  .zietSmal {
+    display: block;
+  }
+  .zietSmal dd {
+    margin: 0;
+  }
+}
 /* Legenda met vijf klassen (28 oktober 2026) */
 .klassen {
   list-style: none;

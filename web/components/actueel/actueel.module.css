@@ -343,3 +343,11 @@ a.vak:focus-visible {
     grid-template-columns: 1fr auto;
   }
 }
+
+/* Kop van een stuk op de telefoon: 30 px in plaats van de herokop (K23 B3, 16 november 2026) */
+@media (max-width: 640px) {
+  h1.stukKop {
+    font-size: 30px;
+    line-height: 1.12;
+  }
+}

@@ -75,9 +75,12 @@ export default async function Voorpagina() {
             /actueel. Kop en datum komen uit lib/actueel.ts, net als op /actueel zelf. */}
         {nieuwste && (
           <aside className={s.nieuw} aria-label="Nieuw in Actueel">
-            <span className={s.nieuwLabel}>Nieuw in Actueel · {datumTekst(nieuwste.datum)}</span>
+            {/* Compacter sinds K23 B4: label en de link naar alle stukken op één regel, de kop op de telefoon hooguit twee regels */}
+            <span className={s.nieuwRij}>
+              <span className={s.nieuwLabel}>Nieuw · {datumTekst(nieuwste.datum)}</span>
+              <Link href="/actueel" className={s.nieuwAlle}>Alle stukken →</Link>
+            </span>
             <Link href={`/actueel/${nieuwste.slug}`} className={s.nieuwKop}>{nieuwste.kop}</Link>
-            <Link href="/actueel" className={s.nieuwAlle}>Alle stukken in Actueel</Link>
           </aside>
         )}
         <Label><em>zetelen</em> (ww.) · stemmen, onderhandelen en meetellen in de Tweede Kamer</Label>

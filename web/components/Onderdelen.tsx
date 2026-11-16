@@ -190,13 +190,25 @@ export function Korrel() {
 }
 
 // Kern van een pagina, direct onder de kop: wat je ziet en wat opvalt, groter dan de lopende tekst (K11, 27 oktober
-// 2026). "Wat opvalt" komt uit de data (lib/kern.ts); zonder data valt die regel weg.
+// 2026). "Wat opvalt" komt uit de data (lib/kern.ts); zonder data valt die regel weg. Op de telefoon is "Wat je ziet"
+// ingeklapt (K23 B1).
 export function Kern({ ziet, opvalt }: { ziet: string; opvalt?: string | null }) {
   return (
     <dl className={s.kern}>
-      <div>
+      <div className={s.zietBreed}>
         <dt>Wat je ziet</dt>
         <dd>{ziet}</dd>
+      </div>
+      {/* Telefoon: ingeklapt, zodat er sneller iets te zien is (K23 B1, akkoord Niels 16 november 2026). Het brede
+          blok staat dan op display: none, dus een schermlezer leest de tekst maar één keer. */}
+      <div className={s.zietSmal}>
+        <dt className="verborgen">Wat je ziet</dt>
+        <dd>
+          <details>
+            <summary>Wat zie je hier?</summary>
+            <p>{ziet}</p>
+          </details>
+        </dd>
       </div>
       {opvalt && (
         <div>

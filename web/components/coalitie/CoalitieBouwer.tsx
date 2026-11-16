@@ -123,7 +123,7 @@ export function CoalitieBouwer({ fracties, soort, periode, alleenVerdeeld, snel 
     <div className={s.verkenner}>
       <p className="verborgen" aria-live="polite">
         {groep.length ? `Gekozen groep: ${zetelsGroep} zetels.` : "Nog geen fracties gekozen."}
-        {uitkomst ? ` De groep stemde ${uitkomst.eensgezind} keer eensgezind en had ${uitkomst.meerderheid} keer een meerderheid.` : ""}
+        {uitkomst ? ` De groep stemde ${uitkomst.eensgezind.toLocaleString("nl-NL")} keer eensgezind en had ${uitkomst.meerderheid.toLocaleString("nl-NL")} keer een meerderheid.` : ""}
       </p>
       {snel && snel.keuzes.length > 0 && (
         <div className={c.snel} role="group" aria-label={`Snelkeuze, kabinet-${snel.periode}`}>
@@ -131,10 +131,9 @@ export function CoalitieBouwer({ fracties, soort, periode, alleenVerdeeld, snel 
           {snel.keuzes.map((k) => {
             const aan = snel.periode === periode && soort === "kabinet" && [...k.groep].sort().join(",") === [...keuze].sort().join(",");
             return (
+              // Geen eigen deelknop meer per snelkeuze (K23 B6, 16 november 2026): de deelknop van de grafiek deelt de gekozen groep
               <span key={k.id} className={c.snelKeuze}>
                 <button type="button" className={c.snelKnop} aria-pressed={aan} onClick={() => kies(k)}>{k.naam}</button>
-                <DeelKnop grafiek="coalitie" icoon titel={`${k.naam}: halen ze samen een meerderheid?`}
-                  zoek={{ soort: "kabinet", periode: snel.periode, ...(alleenVerdeeld ? {} : { variant: "alle" }), groep: k.groep.join(",") }} />
               </span>
             );
           })}
