@@ -76,7 +76,8 @@ export default async function Coalitie({ searchParams }: Props) {
   return (
     <Inhoud>
       {/* Volgorde sinds 16 november 2026 (K23 B2 en K18 3d, akkoord Niels): de bouwer direct onder de kop en de periodekeuze,
-          direct daarna het voorbehoud (geen voorspelling, geen advies) en de leeswijzer, dan de rest van de uitleg. Op de telefoon begon de bouwer anders pas na bijna twee schermen tekst. */}
+          direct daarna de leeswijzer en de kaart met het voorbehoud, dan de rest van de uitleg. Het voorbehoud
+          staat ook in de bouwer zelf, bij de uitkomst. Op de telefoon begon de bouwer anders pas na bijna twee schermen tekst. */}
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
         <Label>Coalitie</Label>
         <SectieKop niveau={1}>Welke partijen halen samen een meerderheid?</SectieKop>

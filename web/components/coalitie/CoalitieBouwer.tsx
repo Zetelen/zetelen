@@ -153,6 +153,8 @@ export function CoalitieBouwer({ fracties, soort, periode, alleenVerdeeld, snel 
       {uitkomst && (
         <section className={c.uitkomst}>
           <Label>Bij wie haalde deze groep een meerderheid? · {periode} · {alleenVerdeeld ? "verdeelde stemmingen" : "alle stemmingen"}</Label>
+          {/* Het voorbehoud bij de uitkomst zelf (spec coalitie-pagina; feitencontrole 16 november 2026), in de woorden van de kaart */}
+          <Data>Terugkijken, geen voorspelling: zo is er gestemd. Geen advies over welke samenwerking goed of wenselijk is.</Data>
           {!genoeg ? (
             <Tekst>
               Deze groep stemde in deze periode maar {uitkomst.eensgezind} keer eensgezind. Dat zijn te weinig stemmingen om iets te
