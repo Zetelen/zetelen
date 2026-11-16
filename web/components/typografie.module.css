@@ -20,6 +20,8 @@
   font-size: var(--tekst-lopend);
   line-height: 1.6;
   color: var(--tekst-zacht);
+  /* Een lange bronlink breekt af in plaats van de pagina op de telefoon breder te maken (16 november 2026) */
+  overflow-wrap: anywhere;
 }
 .label {
   font-size: var(--tekst-label);
@@ -29,6 +31,7 @@
   color: var(--koper);
 }
 .data {
+  overflow-wrap: anywhere;
   font-family: var(--mono);
   font-size: var(--tekst-data);
   line-height: 1.5;

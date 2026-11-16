@@ -65,6 +65,9 @@
   gap: 8px;
 }
 .kaartKader {
+  /* De gekantelde kolomkoppen ontsnapten in Chrome aan het scrollvlak, waardoor de hele pagina op een tablet
+     breder werd (16 november 2026). contain: paint houdt ze binnen het vlak. */
+  contain: paint;
   overflow-x: auto;
   border: 1px solid var(--lijn);
   border-radius: var(--hoek-paneel);
