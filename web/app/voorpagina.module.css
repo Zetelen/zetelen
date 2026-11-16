@@ -256,6 +256,7 @@
 }
 .nieuwRij {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: var(--r-3);
@@ -276,10 +277,8 @@
   white-space: nowrap;
 }
 .nieuwKop {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
+  /* Niet afkappen: een halve kop zei iets anders dan de hele (feitencontrole 16 november 2026) */
+  display: block;
   color: var(--tekst);
   font-size: 15px;
   line-height: 1.35;
@@ -291,7 +290,6 @@
 }
 @media (min-width: 761px) {
   .nieuwKop {
-    -webkit-line-clamp: unset;
     font-size: 16px;
   }
 }

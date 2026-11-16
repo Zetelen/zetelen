@@ -192,16 +192,17 @@ export function Korrel() {
 // Kern van een pagina, direct onder de kop: wat je ziet en wat opvalt, groter dan de lopende tekst (K11, 27 oktober
 // 2026). "Wat opvalt" komt uit de data (lib/kern.ts); zonder data valt die regel weg. Op de telefoon is "Wat je ziet"
 // ingeklapt (K23 B1).
-export function Kern({ ziet, opvalt }: { ziet: string; opvalt?: string | null }) {
+// inklappen={false}: "Wat je ziet" blijft ook op de telefoon open, voor pagina's waar de periode alleen daar staat
+export function Kern({ ziet, opvalt, inklappen = true }: { ziet: string; opvalt?: string | null; inklappen?: boolean }) {
   return (
     <dl className={s.kern}>
-      <div className={s.zietBreed}>
+      <div className={inklappen ? s.zietBreed : undefined}>
         <dt>Wat je ziet</dt>
         <dd>{ziet}</dd>
       </div>
       {/* Telefoon: ingeklapt, zodat er sneller iets te zien is (K23 B1, akkoord Niels 16 november 2026). Het brede
           blok staat dan op display: none, dus een schermlezer leest de tekst maar één keer. */}
-      <div className={s.zietSmal}>
+      {inklappen && <div className={s.zietSmal}>
         <dt className="verborgen">Wat je ziet</dt>
         <dd>
           <details>
@@ -209,7 +210,7 @@ export function Kern({ ziet, opvalt }: { ziet: string; opvalt?: string | null })
             <p>{ziet}</p>
           </details>
         </dd>
-      </div>
+      </div>}
       {opvalt && (
         <div>
           <dt>Wat opvalt</dt>

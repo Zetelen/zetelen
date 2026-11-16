@@ -76,7 +76,7 @@ export default async function Coalitie({ searchParams }: Props) {
   return (
     <Inhoud>
       {/* Volgorde sinds 16 november 2026 (K23 B2 en K18 3d, akkoord Niels): de bouwer direct onder de kop en de periodekeuze,
-          de uitleg eronder. Op de telefoon begon de bouwer anders pas na bijna twee schermen tekst. */}
+          direct daarna het voorbehoud (geen voorspelling, geen advies) en de leeswijzer, dan de rest van de uitleg. Op de telefoon begon de bouwer anders pas na bijna twee schermen tekst. */}
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
         <Label>Coalitie</Label>
         <SectieKop niveau={1}>Welke partijen halen samen een meerderheid?</SectieKop>
@@ -106,13 +106,6 @@ export default async function Coalitie({ searchParams }: Props) {
           <Bronregel toelichting={`${periode.naam} · eigen berekening, zie de methodiek`} />
         </GrafiekKader>
       )}
-      <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
-        <Kern ziet="Een groep fracties die jij kiest: hoeveel zetels die heeft, en met welke andere fracties ze eerder een meerderheid haalde." opvalt={opvalt} />
-        <Tekst>
-          Nu zetel jij. Kies fracties in de lijst of in de zaal en stel een kabinet samen, fictief of niet. Je ziet hoeveel zetels het
-          heeft, en bij welke andere fracties die groep in de gekozen periode een meerderheid haalde.
-        </Tekst>
-      </section>
       <Inklapbaar titel="Hoe lees je dit?">
         <Tekst>
           Eensgezind: alle fracties in je groep stemden hetzelfde, allemaal voor of allemaal tegen. Meegestemd: een andere fractie
@@ -128,6 +121,13 @@ export default async function Coalitie({ searchParams }: Props) {
           welke samenwerking goed of wenselijk is.
         </Tekst>
       </Kaart>
+      <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
+        <Kern ziet="Een groep fracties die jij kiest: hoeveel zetels die heeft, en met welke andere fracties ze eerder een meerderheid haalde." opvalt={opvalt} />
+        <Tekst>
+          Nu zetel jij. Kies fracties in de lijst of in de zaal en stel een kabinet samen, fictief of niet. Je ziet hoeveel zetels het
+          heeft, en bij welke andere fracties die groep in de gekozen periode een meerderheid haalde.
+        </Tekst>
+      </section>
     </Inhoud>
   );
 }

@@ -65,7 +65,8 @@ export default async function ActueelStuk({ params }: { params: Promise<{ stuk: 
         <Label>{x.label} · {datumTekst(x.datum)}</Label>
         {/* Op de telefoon een kleinere kop: de koppen van stukken zijn lang (K23 B3, 16 november 2026) */}
         <HeroKop className={s.stukKop}>{x.kop}</HeroKop>
-        <Kern ziet={x.ziet} opvalt={x.opvalt} />
+        {/* Wat je ziet blijft open: daar staat de periode van de cijfers (feitencontrole 16 november 2026) */}
+        <Kern ziet={x.ziet} opvalt={x.opvalt} inklappen={false} />
         <Tekst>{x.aanleiding}</Tekst>
         {x.verwijzing && <Tekst><Link href={x.verwijzing.href}>{x.verwijzing.tekst}</Link></Tekst>}
       </section>
