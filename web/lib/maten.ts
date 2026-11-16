@@ -94,7 +94,7 @@ export const MATEN: Maat[] = [
       "Demissionair begint op de dag dat het ontslag werd aangeboden. De periode voor de nieuwe Kamer loopt tot de installatie, want de oude Kamer stemt door tot dan.",
       "Alleen partijen: fracties met een persoonsnaam (eenmansfracties en afsplitsingen) tellen niet mee, en partijen die uit het kabinet stapten tellen niet als oppositie.",
       "Een periode met minder dan 300 verdeelde stemmingen heet klein. Die staat er wel, gemarkeerd, maar telt niet mee in een vergelijking.",
-      "Ter controle is dezelfde verandering op alleen moties berekend, zodat een andere mix van moties en wetten zichtbaar wordt; in de verantwoording van het stuk staat hoeveel die in de mediaan afwijkt.",
+      "Ter controle is dezelfde verandering op alleen moties berekend, zodat een andere mix van moties en wetten zichtbaar wordt; in het stuk staat onder de grafiek over de oppositiepartijen (blok 2) hoeveel die in de mediaan afwijkt.",
     ],
     beperkingen: [
       "De mediaan vangt een agenda op die alle paren raakt, niet een onderwerp dat juist één paar raakt.",

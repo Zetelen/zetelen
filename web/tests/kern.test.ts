@@ -3,11 +3,12 @@ import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import type { FractieInPeriode, Rol } from "../lib/cohesie";
-import { coalitieOpvalt, fractiesOpvalt, hernoemingen, kabinetBijStart, kamerledenOpvalt, onderwerpenOpvalt, paarOpvalt, periodeTekst, verkennerOpvalt } from "../lib/kern";
+import { belastingplanOpvalt, coalitieOpvalt, fractiesOpvalt, hernoemingen, kabinetBijStart, kamerledenOpvalt, onderwerpenOpvalt, paarOpvalt, periodeTekst, verkennerOpvalt } from "../lib/kern";
 import { MENU } from "../lib/menu";
 import { PAGINAS } from "../lib/site";
 import type { CohesieKaart, Paar } from "../lib/zaal";
 import type { FractieWerk } from "../lib/zetelwerk";
+import akkoord from "../content/actueel/akkoord-belastingplan.json";
 
 const fr = (afkorting: string, zetels: number, extra: Partial<FractieInPeriode> = {}): FractieInPeriode => ({
   id: afkorting.toLowerCase(), afkorting, naam: afkorting, zetels, stemmingen: 100, eerste: "", laatste: "", inZaal: true,
@@ -118,5 +119,24 @@ describe("verkennerOpvalt bij bijna gelijke paren", () => {
       k.set(`${b}|${a}`, { cohesie: c, gezamenlijk: 100, teWeinig: false });
     }
     expect(verkennerOpvalt("kabinet", "X", fr, k)).toContain("A en B het vaakst hetzelfde (92%), A en D het minst (40%). Bijna even vaak: A en C (92%). Dat geldt");
+  });
+});
+
+// Coalitie, stand van nu (16 november 2026): het laatste Belastingplan, uit de data van het Actueel-stuk
+describe("belastingplanOpvalt", () => {
+  it("noemt de uitslag van 12 november en wie voor en tegen stemde, zonder steunpartijen", () => {
+    const plan = akkoord.plannen.lijst.at(-1)!;
+    const wet = akkoord.uitslag.stemmingen.find((x) => x.rol === "wet")!;
+    expect(belastingplanOpvalt(plan, wet.fracties)).toBe(
+      "Het Belastingplan 2027 werd op 12 november 2026 aangenomen met 76 tegen 74 stemmen (hoofdelijke stemming). Voor stemden D66, CDA en zes oppositiefracties. Kabinetspartij VVD stemde tegen.");
+    // De zes tellen op tot 76 met D66 en CDA
+    const voor = wet.fracties.filter((f) => f.stem === "Voor");
+    expect(voor.reduce((t, f) => t + f.zetels, 0)).toBe(76);
+    expect(voor.filter((f) => !f.kabinet).map((f) => f.afkorting)).not.toContain("Groep Markuszower");
+  });
+  it("zonder tegenstemmers uit het kabinet en met één oppositiefractie", () => {
+    const p = { plan: "2030", datum: "2029-11-01", voor: 80, tegen: 70, aangenomen: true, hoofdelijk: false, coalitieTegen: [] };
+    expect(belastingplanOpvalt(p, [{ afkorting: "A", stem: "Voor", kabinet: true }, { afkorting: "B", stem: "Voor", kabinet: false }, { afkorting: "C", stem: "Tegen", kabinet: false }]))
+      .toBe("Het Belastingplan 2030 werd op 1 november 2029 aangenomen met 80 tegen 70 stemmen. Voor stemden A en één oppositiefractie.");
   });
 });

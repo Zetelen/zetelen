@@ -2,7 +2,6 @@ import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { DM_Mono, Fraunces, Hanken_Grotesk, Newsreader } from "next/font/google";
 import type { ReactNode } from "react";
-import { FeedbackBalk } from "@/components/FeedbackBalk";
 import { KlikBlijft } from "@/components/deel/KlikBlijft";
 import { SnelleFeedback } from "@/components/SnelleFeedback";
 import { JsonLd, MAKER } from "@/components/JsonLd";
@@ -48,7 +47,6 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <JsonLd data={{ "@context": "https://schema.org", "@type": "WebSite", name: SITE.naam, url: DOMEIN, inLanguage: "nl", description: SITE.beschrijving, creator: MAKER }} />
         <Korrel />
         <Navigatie />
-        <FeedbackBalk />
         {children}
         {/* Snelle vraag onderaan elke pagina (28 oktober 2026) */}
         <SnelleFeedback />

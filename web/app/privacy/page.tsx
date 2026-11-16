@@ -69,12 +69,30 @@ export default function Privacy() {
       </section>
       <section style={sectie}>
         <SectieKop>Kamerleden</SectieKop>
+        {/* Beleid bij een verwijderverzoek: akkoord Niels, K21, 16 november 2026 */}
         <Tekst>
           Van Kamerleden gebruikt Zetelen alleen naam, fractie en stemgedrag uit de open data van de Tweede Kamer. Geen
-          geboortedatum, woonplaats of andere persoonsgegevens. Het gaat om openbare stemmingen en stukken uit een openbare bron.
-          Daarom blijven ze staan, ook als een Kamerlid vraagt ze weg te halen. Klopt er iets niet, dan herstel ik het
-          binnen 5 werkdagen en meld ik het in het wijzigingslog. Vragen of een verzoek? Mail{" "}
-          <a href={`mailto:${SITE.contact}`}>{SITE.contact}</a>.
+          geboortedatum, woonplaats, nevenfuncties of andere persoonsgegevens.
+        </Tekst>
+        <Tekst>
+          <strong>Waarom ze blijven staan.</strong> Hoe een Kamerlid stemt, is openbaar en hoort bij het ambt. Zetelen verwerkt
+          het om te laten zien hoe er in de Kamer gestemd wordt; dat is een gerechtvaardigd belang (artikel 6, lid 1f van de
+          AVG). Een verzoek om stemgedrag of de naam bij een stemming weg te halen, wijs ik daarom in de regel af. Ik leg dan
+          uit waarom. Dat geldt ook voor oud-Kamerleden.
+        </Tekst>
+        <Tekst>
+          <strong>Wat je wel kunt vragen.</strong> Klopt een gegeven niet, bijvoorbeeld een stem, een fractie of een naam, dan
+          herstel ik het binnen 5 werkdagen en meld ik dat in het wijzigingslog. Komt de fout uit de open data van de Kamer,
+          dan meld ik hem ook daar. Je kunt ook bezwaar maken; dan kijk ik of jouw situatie zwaarder weegt dan het belang van
+          openbaarheid, en je krijgt daarover bericht.
+        </Tekst>
+        <Tekst>
+          <strong>Hoe snel.</strong> Je krijgt binnen 5 werkdagen een reactie en binnen een maand een besluit, zoals de AVG
+          vraagt. Niet eens met het besluit? Dan kun je een klacht indienen bij de{" "}
+          <a href="https://autoriteitpersoonsgegevens.nl">Autoriteit Persoonsgegevens</a>.
+        </Tekst>
+        <Tekst>
+          Vragen of een verzoek? Mail <a href={`mailto:${SITE.contact}`}>{SITE.contact}</a>.
         </Tekst>
       </section>
     </Inhoud>

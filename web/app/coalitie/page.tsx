@@ -15,7 +15,7 @@ import { MobielPaneel } from "@/components/MobielPaneel";
 import { Kaart, Kern } from "@/components/Onderdelen";
 import { Label, SectieKop, Tekst } from "@/components/Typografie";
 import { coalitieVan, cohesieIn, fractiesIn, keuzeUitUrl, perioden } from "@/lib/cohesie";
-import { coalitieOpvalt, kabinetBijStart } from "@/lib/kern";
+import { belastingplanOpvalt, coalitieOpvalt, kabinetBijStart } from "@/lib/kern";
 import { ordenFracties } from "@/lib/ordening";
 import { snelkeuzes } from "@/lib/coalitie";
 import kabinetCu50Plus from "@/content/actueel/kabinet-cu-50plus.json";
@@ -51,7 +51,12 @@ export default async function Coalitie({ searchParams }: Props) {
   const [fracties, kaart] = periode ? await Promise.all([fractiesIn(soort, periode.naam), cohesieIn(soort, periode.naam, "alle")]) : [null, null];
   // Wat opvalt (K11): had het gekozen kabinet bij de start een meerderheid? Bij een Kamerperiode geen regel.
   const rollen = soort === "kabinet" && periode ? await coalitieVan(periode.naam) : null;
-  const opvalt = rollen?.size && fracties && periode ? coalitieOpvalt(periode.naam, kabinetBijStart(fracties, rollen)) : null;
+  const start = rollen?.size && fracties && periode ? coalitieOpvalt(periode.naam, kabinetBijStart(fracties, rollen)) : null;
+  // Bij het huidige kabinet ook de stand van nu: het laatste Belastingplan (bron: Actueel-stuk akkoord-belastingplan)
+  const plan = akkoordBelastingplan.plannen?.lijst.at(-1);
+  const wet = akkoordBelastingplan.uitslag?.stemmingen.find((x) => x.rol === "wet");
+  const nu = start && periode && !periode.einde && plan?.kabinet === periode.naam && wet ? belastingplanOpvalt(plan, wet.fracties) : null;
+  const opvalt = start && nu ? `${start} ${nu}` : start;
   // Snelkeuzes (K18 punt 3c) voor het huidige kabinet (zonder einde). Kabinetspartijen uit api.coalitie; de partijen
   // waarmee het kabinet eind oktober 2026 sprak uit het Actueel-stuk kabinet-cu-50plus (ze staan niet in api.coalitie,
   // want ze hebben geen rol in het kabinet); "zonder" is de partij uit het Actueel-stuk coalitie-verdeeld.

@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Bladeren } from "@/components/Bladeren";
+import { plaatjeVan } from "@/lib/deel";
 import { Botspunten, Doorslag, Hechtheid, Meegaan, MeegaanStappen, PerThema, Zetelsom } from "@/components/actueel/Blokken";
 import { Buiten, Kamers, Partners, Plannen, Toen, Uitslag } from "@/components/actueel/AkkoordBlokken";
 import { Maanden, Zonder } from "@/components/actueel/VerdeeldBlokken";
@@ -22,7 +23,13 @@ export const dynamicParams = false;
 export async function generateMetadata({ params }: { params: Promise<{ stuk: string }> }): Promise<Metadata> {
   const x = stukVan((await params).stuk);
   if (!x) return {};
-  return { title: x.kop, description: x.beschrijving, alternates: { canonical: `/actueel/${x.slug}` } };
+  // Eigen deelplaatje per stuk (16 november 2026): de kop en de eerste grafiek, zoals de deellink zonder blok
+  const plaatje = plaatjeVan("actueel", { stuk: x.slug });
+  return {
+    title: x.kop, description: x.beschrijving, alternates: { canonical: `/actueel/${x.slug}` },
+    openGraph: { title: x.kop, description: x.beschrijving, url: `/actueel/${x.slug}`, images: [{ url: plaatje, width: 1200, height: 630, alt: x.kop }] },
+    twitter: { card: "summary_large_image", title: x.kop, description: x.beschrijving, images: [plaatje] },
+  };
 }
 
 const GRAFIEK: Record<string, (p: { d: ActueelData }) => React.ReactNode> = { mee: Meegaan, wringt: Botspunten, abortus: PerThema, telt: Zetelsom, hecht: Hechtheid, stappen: MeegaanStappen, steun: Doorslag };

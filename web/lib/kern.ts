@@ -76,6 +76,21 @@ export function coalitieOpvalt(kabinet: string, zetels: number): string | null {
     : `Kabinet-${kabinet} begon met ${zetels} van de 150 zetels. Voor een meerderheid zijn er 76 nodig, dus het kabinet heeft stemmen van de oppositie nodig.`;
 }
 
+// Coalitie, stand van nu (16 november 2026): het laatste Belastingplan van het huidige kabinet, uit het Actueel-stuk
+// akkoord-belastingplan. Alleen wie voor en tegen stemde; over afspraken of steun zegt de zin niets.
+const MAANDEN = ["januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december"];
+const datum = (iso: string) => `${Number(iso.slice(8, 10))} ${MAANDEN[Number(iso.slice(5, 7)) - 1]} ${iso.slice(0, 4)}`;
+const lijst = (l: string[]) => (l.length < 2 ? l.join("") : `${l.slice(0, -1).join(", ")} en ${l[l.length - 1]}`);
+const WOORD = ["geen", "één", "twee", "drie", "vier", "vijf", "zes", "zeven", "acht", "negen", "tien"];
+export type PlanStemming = { plan: string; datum: string; voor: number; tegen: number; aangenomen: boolean; hoofdelijk: boolean; coalitieTegen: string[] };
+export function belastingplanOpvalt(p: PlanStemming, fracties: Array<{ afkorting: string; stem: string; kabinet: boolean }>): string {
+  const kabVoor = fracties.filter((f) => f.kabinet && f.stem === "Voor").map((f) => f.afkorting);
+  const oppVoor = fracties.filter((f) => !f.kabinet && f.stem === "Voor").length;
+  const tegen = p.coalitieTegen.length ? ` ${p.coalitieTegen.length > 1 ? "Kabinetspartijen" : "Kabinetspartij"} ${lijst(p.coalitieTegen)} stemde${p.coalitieTegen.length > 1 ? "n" : ""} tegen.` : "";
+  const opp = `${WOORD[oppVoor] ?? getal(oppVoor)} oppositiefractie${oppVoor === 1 ? "" : "s"}`;
+  return `Het Belastingplan ${p.plan} werd op ${datum(p.datum)} ${p.aangenomen ? "aangenomen" : "verworpen"} met ${p.voor} tegen ${p.tegen} stemmen${p.hoofdelijk ? " (hoofdelijke stemming)" : ""}. Voor stemden ${lijst([...kabVoor, ...(oppVoor ? [opp] : [])])}.${tegen}`;
+}
+
 // Oppositie: welk deel van de oppositiemoties werd aangenomen, nu (nog lopend), onder het vorige en onder het eerste
 // kabinet (feitencontrole 28 oktober 2026: alleen het begin van de reeks noemen was selectief)
 export function oppositieOpvalt(kabinet: string, nu: number, vorige: string, vorig: number, eerste: string, toen: number): string {

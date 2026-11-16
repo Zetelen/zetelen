@@ -24,6 +24,7 @@ import { bredeSteunPerKabinet, kabinetNu, kabinetspartners, laadVerhaal, samenwe
 import { BredeSteun } from "@/components/BredeSteun";
 import { GrafiekKader, GrafiekVlak } from "@/components/deel/GrafiekKader";
 import { jaarWerk, periodeWerk } from "@/lib/zetelwerk";
+import { STUKKEN, datumTekst } from "@/lib/actueel";
 import s from "./voorpagina.module.css";
 import uitgelicht from "@/components/verhaal/uitgelicht.module.css";
 
@@ -59,6 +60,7 @@ export default async function Voorpagina() {
   const perPeriode = await periodeWerk("kabinet");
   const samen = kabinet && perPeriode ? samenwerking(perPeriode, kabinet.naam, "Rutte I") : null;
   const getal = (n: number) => n.toLocaleString("nl-NL");
+  const nieuwste = [...STUKKEN].sort((x, y) => y.datum.localeCompare(x.datum))[0];
   // De kop "Hoe kwam deze Kamer tot stand?" staat boven het verhaal; de eerste kaart herhaalt hem niet
   const zonderKop = (stappen: Stap[]): Stap[] => stappen.map((st, i) => (i === 0 ? { ...st, hoofdstuk: undefined } : st));
   return (
@@ -69,6 +71,15 @@ export default async function Voorpagina() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/binnenhof.svg" alt="" aria-hidden="true" className={s.heroBeeld} />
         <div className={s.heroVlak}>
+        {/* Het nieuwste stuk uit Actueel in het eerste scherm (16 november 2026): buiten het menu was er geen weg naar
+            /actueel. Kop en datum komen uit lib/actueel.ts, net als op /actueel zelf. */}
+        {nieuwste && (
+          <aside className={s.nieuw} aria-label="Nieuw in Actueel">
+            <span className={s.nieuwLabel}>Nieuw in Actueel · {datumTekst(nieuwste.datum)}</span>
+            <Link href={`/actueel/${nieuwste.slug}`} className={s.nieuwKop}>{nieuwste.kop}</Link>
+            <Link href="/actueel" className={s.nieuwAlle}>Alle stukken in Actueel</Link>
+          </aside>
+        )}
         <Label><em>zetelen</em> (ww.) · stemmen, onderhandelen en meetellen in de Tweede Kamer</Label>
         {/* Een kop die zegt wat de site is, in plaats van een vraag met een strekking (feedback van bezoekers, besluit Niels
             28 oktober 2026). De cijfers staan daaronder, direct met de twee lezingen. */}
