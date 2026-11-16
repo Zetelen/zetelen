@@ -77,14 +77,15 @@ export default function Privacy() {
         <Tekst>
           <strong>Waarom ze blijven staan.</strong> Hoe een Kamerlid stemt, is openbaar en hoort bij het ambt. Zetelen verwerkt
           het om te laten zien hoe er in de Kamer gestemd wordt; dat is een gerechtvaardigd belang (artikel 6, lid 1f van de
-          AVG). Een verzoek om stemgedrag of de naam bij een stemming weg te halen, wijs ik daarom in de regel af. Ik leg dan
-          uit waarom. Dat geldt ook voor oud-Kamerleden.
+          AVG). Een verzoek om stemgedrag of de naam bij een stemming weg te halen, wijs ik daarom in de regel af: bij openbaar
+          stemgedrag weegt de openbaarheid zwaar. Ik leg dan uit waarom. Dat geldt ook voor oud-Kamerleden.
         </Tekst>
         <Tekst>
           <strong>Wat je wel kunt vragen.</strong> Klopt een gegeven niet, bijvoorbeeld een stem, een fractie of een naam, dan
           herstel ik het binnen 5 werkdagen en meld ik dat in het wijzigingslog. Komt de fout uit de open data van de Kamer,
-          dan meld ik hem ook daar. Je kunt ook bezwaar maken; dan kijk ik of jouw situatie zwaarder weegt dan het belang van
-          openbaarheid, en je krijgt daarover bericht.
+          dan meld ik hem ook daar. Je kunt ook bezwaar maken vanwege je eigen situatie. Dan stop ik met de verwerking, tenzij
+          ik dwingende redenen kan aantonen die zwaarder wegen dan jouw belangen, zoals de openbaarheid van stemgedrag. Je
+          krijgt daarover een gemotiveerd bericht.
         </Tekst>
         <Tekst>
           <strong>Hoe snel.</strong> Je krijgt binnen 5 werkdagen een reactie en binnen een maand een besluit, zoals de AVG

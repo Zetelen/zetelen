@@ -55,7 +55,7 @@ export default async function Coalitie({ searchParams }: Props) {
   // Bij het huidige kabinet ook de stand van nu: het laatste Belastingplan (bron: Actueel-stuk akkoord-belastingplan)
   const plan = akkoordBelastingplan.plannen?.lijst.at(-1);
   const wet = akkoordBelastingplan.uitslag?.stemmingen.find((x) => x.rol === "wet");
-  const nu = start && periode && !periode.einde && plan?.kabinet === periode.naam && wet ? belastingplanOpvalt(plan, wet.fracties) : null;
+  const nu = start && periode && !periode.einde && plan?.kabinet === periode.naam && wet && wet.zaak === plan.zaak ? belastingplanOpvalt(plan, wet.fracties) : null;
   const opvalt = start && nu ? `${start} ${nu}` : start;
   // Snelkeuzes (K18 punt 3c) voor het huidige kabinet (zonder einde). Kabinetspartijen uit api.coalitie; de partijen
   // waarmee het kabinet eind oktober 2026 sprak uit het Actueel-stuk kabinet-cu-50plus (ze staan niet in api.coalitie,
