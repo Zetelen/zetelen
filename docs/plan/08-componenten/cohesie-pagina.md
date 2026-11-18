@@ -1,6 +1,6 @@
 # Component: cohesie-pagina
 
-Status: niet gestart (22 oktober 2026)
+Status: gebouwd en getest (24 oktober 2026), online op https://zetelen.vercel.app/verkenner. Op 25 oktober bijgewerkt op verzoek van Niels: bullet chart als bedieningspaneel, labels in de zaal, "Zo lees je dit" inklapbaar op de telefoon. Wacht op beoordeling door Niels
 Eerst lezen: `_conventies.md`, `_overzicht.md`, `../05-techniek.md`, `ontwerpsysteem.md`, `cohesie-analyse.md`
 
 ## Doel
@@ -71,6 +71,32 @@ Verwacht:
 - Fracties worden getoond met naam en afkorting, zonder logo's of partijkleuren (besluit Niels). Fractienamen volgen de data, bijvoorbeeld Groep Markuszower en Lid Keijzer. Toon die zoals ze in de bron heten, met een korte uitleg bij een fractie die geen gevestigde partij is
 - Fracties kunnen in verschillende periodes verschillen; de matrix toont alleen de fracties van de gekozen periode
 - De grafiekbibliotheek is nog niet gekozen (D3, Observable Plot of ECharts); leg een keuze met reden voor aan Niels
+
+## Gebouwd (24 oktober 2026)
+
+Keuzes (Claude, Niels was afwezig; ter beoordeling):
+- Verkenner op `/verkenner` met drie weergaven van dezelfde cijfers: zaal, boog en tabel (matrix). De tabel is het toegankelijke alternatief
+- Zaal volgens de feedback van Niels: elke fractie een omlijnd vak met naam en percentage erbuiten, de hele fractie licht op bij hover en klik, het uitleesvak binnen het hoefijzer. Op een telefoon (smaller dan 640 px) verdwijnen de labels; de knoppen eronder tonen dan naam en percentage
+- Volgorde van de fracties uit de data (besluit Niels, 24 oktober 2026): eerste as van een klassieke schaling op 1 min cohesie; de grootste fractie staat rechts, zodat de volgorde stabiel is
+- In de zaal staan de fracties die in de laatste twee weken van de periode nog meestemden; zetels uit de fractiegrootte bij hun laatste stemming. Lege zetels bij vacatures. Fracties die halverwege stopten, staan in de tabel en in de lijst, niet in de zaal
+- Standaardkeuze: het nieuwste kabinet, alle stemmingen, de grootste fractie gekozen
+- In de URL: `soort`, `periode`, `variant`, `fractie` en `weergave`
+- Fractiepagina's op `/fracties/<afkorting>` (stabiele URL per afkorting), met een overzicht op `/fracties`
+- De leeswijzer staat naast de verkenner en linkt nu naar `docs/plan/definitie-cohesie.md` op GitHub; dat wordt de methodiekpagina (`methodiek-betrouwbaarheid`)
+
+Onderdelen: `db/migrations/009_fractie_periode.sql` (tabel `analyses.fractie_periode` en view `api.fractie_periode`), `web/lib/zaal.ts` (volgorde, zetels, vakken), `web/lib/cohesie.ts` en `web/lib/ordening.ts` (data en URL), `web/components/cohesie/` (verkenner en periodekeuze), `web/app/verkenner/`, `web/app/fracties/`.
+
+Interfacewijziging: nieuwe view `api.fractie_periode` (periodesoort, periode, fractie, afkorting, naam, zetels, stemmingen, eerste_stemming, laatste_stemming, in_zaal). Bijgewerkt in `cohesie-analyse.md`.
+
+## Getest (24 oktober 2026)
+
+- 40 Vitest-tests, waaronder: volgorde zet gelijkstemmende fracties naast elkaar en is stabiel; 150 zetels, vacatures leeg, vakken sluiten aan; keuze uit de URL met standaard en lege staat; unieke afkortingen bij dubbele fracties; de schaal wordt ook bij gesimuleerde deuteranopie en protanopie steeds lichter (Machado 2009)
+- 72 pytest-tests, waaronder zetels en "in de zaal" per periode
+- Op Supabase: in elke periode tellen de zetels in de zaal op tot 150, behalve aan het eind van Kamerperiode 2017-2021 (149) en 2021-2023 (147): vacatures of leden die niet meer stemden
+- Vergeleken met de database: de matrix toont bij Rutte III (verdeeld) 24 fracties, gelijk aan `api.fractie_periode`; VVD en CDA 88,8% over 14.047 stemmingen en PVV en SP 46,0% over 14.029, gelijk aan `api.cohesie`
+- In de browser op 1280 en 375 px: zaal, boog en tabel; op de telefoon geen horizontale scroll van de pagina (de tabel scrolt binnen haar kader, de eerste kolom blijft staan)
+- Online: verkenner, tabel, fracties, fractiepagina, 404 bij een onbekende fractie, lege staat bij een onbekende periode
+- Niet getest: met een schermlezer in de praktijk (wel: knoppen met aria-pressed, de tabel met role=table, een aria-live-tekst met de keuze)
 
 ## Schatting
 

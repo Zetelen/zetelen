@@ -1,6 +1,6 @@
 # Component: ingest
 
-Status: klaar (24 oktober 2026). De melding bij een mislukte run is getest bij `bewaking`: mails van GitHub en healthchecks komen aan
+Status: klaar (24 oktober 2026). De melding bij een mislukte run is getest bij `bewaking`: mails van GitHub en healthchecks komen aan. Gevonden op 26 oktober 2026: een verwijdering waarbij de bron de koppeling leegmaakt, komt niet door de verversing; opgelost dezelfde dag (akkoord Niels): de verversing haalt verwijderde records ook buiten het datumfilter op, en een Ververs met `terug_tot=2026-10-23` haalde de gemiste verwijderingen binnen. Zie "Extra rijen" in `../te-beoordelen.md`
 Eerst lezen: `_conventies.md`, `_overzicht.md`, `../05-techniek.md`, `docs/plan/api-check-rapport.md`
 
 ## Doel
