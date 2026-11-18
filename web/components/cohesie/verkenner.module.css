@@ -205,7 +205,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 40px;
+  min-height: var(--doel-min);
   border-radius: 4px;
   font-family: var(--mono);
   font-size: 13px;

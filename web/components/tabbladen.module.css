@@ -34,7 +34,7 @@
   }
   .tab {
     flex: 0 0 auto;
-    min-height: 40px;
+    min-height: var(--doel-min);
     padding: 0 var(--r-4);
     border-radius: var(--hoek-pil);
     border: 1px solid var(--lijn-licht);

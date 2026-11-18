@@ -7,7 +7,7 @@ import { cohesieIn, fractiesIn, keuzeUitUrl, perioden, procent } from "@/lib/coh
 import { BRON } from "@/lib/deel";
 import { plaatjeInhoud } from "@/lib/deelplaatje";
 import { schaalkleur } from "@/lib/kleur";
-import { bredeSteunPerKabinet } from "@/lib/voorpagina";
+import { bredeSteunPerKabinet, kabinetNu, laadVerhaal, samenwerking } from "@/lib/voorpagina";
 import { KABINET_NU, gemiddeldTot2024, halfjarenVvd, laadVvdPro, rangorde, zetelsIn } from "@/lib/vvdPro";
 import { TINT } from "@/lib/vvdProVerhaal";
 import { periodeWerk } from "@/lib/zetelwerk";
@@ -126,6 +126,34 @@ export async function bredeSteunPlaatje() {
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}><div style={{ display: "flex", width: 18, height: 18, background: KLEUR.koper }} />moties</div>
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}><div style={{ display: "flex", width: 18, height: 18, background: KLEUR.amendement }} />amendementen</div>
           </div>
+        </div>
+      )}
+    </Kader>
+  );
+}
+
+// De bevinding bovenaan de voorpagina (ontwerpronde fase A, punt 6, 18 november 2026): dezelfde drie getallen als de trechter
+export async function samenPlaatje() {
+  const [d, werk, stand] = await Promise.all([laadVerhaal(), periodeWerk("kabinet"), laatstBijgewerkt()]);
+  const kabinet = d ? kabinetNu(d) : null;
+  const samen = kabinet && werk ? samenwerking(werk, kabinet.naam, "Rutte I") : null;
+  const getal = (n: number) => n.toLocaleString("nl-NL");
+  const rijen = samen ? [
+    { tekst: "moties ingediend", n: samen.moties, tint: "#566AA6", inkt: KLEUR.tekst },
+    { tekst: "aangenomen", n: samen.aangenomen, tint: "#7FB7C9", inkt: KLEUR.achter },
+    { tekst: "met stemmen van kabinet én oppositie", n: samen.breed, tint: "#F2D38B", inkt: KLEUR.achter },
+  ] : [];
+  return (
+    <Kader kop="Kabinet en oppositie" titel={samen && kabinet ? `${getal(samen.breed)} van de ${getal(samen.aangenomen)} aangenomen moties onder kabinet-${kabinet.naam}` : "Hoe vaak stemmen kabinet en oppositie samen?"}
+      stand={stand} regel="kregen stemmen van ten minste één fractie uit het kabinet én één uit de oppositie">
+      {!samen ? <Melding tekst="De cijfers laden nu niet" /> : (
+        <div style={{ display: "flex", flexDirection: "column", width: "100%", gap: 12, justifyContent: "center" }}>
+          {rijen.map((r) => (
+            <div key={r.tekst} style={{ display: "flex", alignItems: "center", gap: 20 }}>
+              <div style={{ display: "flex", width: `${Math.max(14, (62 * r.n) / samen.moties)}%`, height: 52, background: r.tint, color: r.inkt, borderRadius: 6, alignItems: "center", justifyContent: "center", fontSize: 28 }}>{getal(r.n)}</div>
+              <div style={{ display: "flex", fontSize: 24, color: KLEUR.zacht }}>{r.tekst}</div>
+            </div>
+          ))}
         </div>
       )}
     </Kader>

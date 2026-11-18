@@ -48,14 +48,11 @@ export default async function VerkennerPagina({ searchParams }: Props) {
 
   return (
     <Inhoud>
+      {/* Ontwerpronde fase A, punt 3 (18 november 2026): de pagina opent met de grafiek. Kop en keuzes, dan de zaal;
+          "Hoe lees je dit?", Wat je ziet en Wat opvalt staan eronder (zoals /coalitie sinds K23 B2). */}
       <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
         <Label>Wie stemt met wie</Label>
         <SectieKop niveau={1}>Met wie stemt een partij het vaakst mee?</SectieKop>
-        {/* Kern van de pagina (K11, 27 oktober 2026) */}
-        <Kern ziet="Per fractie hoe vaak elke andere fractie dezelfde kant koos. Kies een fractie, een periode en zaal, boog of tabel."
-          opvalt={periode && fracties && kaart ? verkennerOpvalt(soort, periode.naam, fracties, kaart) : null} />
-        {/* De trend staat ver onderaan; deze link maakt hem vindbaar (feedback Niels, 31 oktober 2026) */}
-        {trend && <a href="#door-de-jaren" style={{ alignSelf: "flex-start" }}>Door de jaren: twee fracties over tijd ↓</a>}
         <div className={o.alleenBreed}>
           <PeriodeKeuze perioden={lijst} soort={soort} periode={periode?.naam ?? null} variant={variant} />
         </div>
@@ -68,20 +65,6 @@ export default async function VerkennerPagina({ searchParams }: Props) {
         </Suspense>
       )}
 
-      <Inklapbaar titel="Hoe lees je dit?" className={s.leeswijzer}>
-          <Tekst>
-            Kies een fractie in de lijst en kijk wie er meekleurt. Lichte stoelen stemden vaak hetzelfde, donkere zelden.
-            Gestreept: te weinig stemmingen samen, dus geen oordeel.
-          </Tekst>
-          <Tekst>
-            Een klein deel van de stemmingen is unaniem: iedereen voor of iedereen tegen. Wil je die niet meetellen? Kies dan
-            &quot;alleen verdeelde stemmingen&quot;.
-          </Tekst>
-          <Tekst>
-            Zaal, boog of tabel: dezelfde cijfers, drie manieren van kijken. De tabel is het preciest.{" "}
-            <Link href="/methodiek#cohesie">Hoe Zetelen telt</Link>
-          </Tekst>
-        </Inklapbaar>
       <div id="zaal" className={s.indeling} style={{ scrollMarginTop: 80 }}>
         <GrafiekKader grafiek="verkenner" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
           {!lijst.length ? (
@@ -101,6 +84,27 @@ export default async function VerkennerPagina({ searchParams }: Props) {
           )}
         </GrafiekKader>
       </div>
+      <Inklapbaar titel="Hoe lees je dit?" className={s.leeswijzer}>
+          <Tekst>
+            Kies een fractie in de lijst en kijk wie er meekleurt. Lichte stoelen stemden vaak hetzelfde, donkere zelden.
+            Gestreept: te weinig stemmingen samen, dus geen oordeel.
+          </Tekst>
+          <Tekst>
+            Een klein deel van de stemmingen is unaniem: iedereen voor of iedereen tegen. Wil je die niet meetellen? Kies dan
+            &quot;alleen verdeelde stemmingen&quot;.
+          </Tekst>
+          <Tekst>
+            Zaal, boog of tabel: dezelfde cijfers, drie manieren van kijken. De tabel is het preciest.{" "}
+            <Link href="/methodiek#cohesie">Hoe Zetelen telt</Link>
+          </Tekst>
+        </Inklapbaar>
+      <section style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
+        {/* Kern van de pagina (K11, 27 oktober 2026) */}
+        <Kern ziet="Per fractie hoe vaak elke andere fractie dezelfde kant koos. Kies een fractie, een periode en zaal, boog of tabel."
+          opvalt={periode && fracties && kaart ? verkennerOpvalt(soort, periode.naam, fracties, kaart) : null} />
+        {/* De trend staat ver onderaan; deze link maakt hem vindbaar (feedback Niels, 31 oktober 2026) */}
+        {trend && <a href="#door-de-jaren" style={{ alignSelf: "flex-start" }}>Door de jaren: twee fracties over tijd ↓</a>}
+      </section>
       {trend && (
         <GrafiekKader grafiek="trend" id="door-de-jaren" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
           <Label>Door de jaren</Label>

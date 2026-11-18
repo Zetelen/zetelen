@@ -36,8 +36,18 @@ export function CoalitieBouwer({ fracties, soort, periode, alleenVerdeeld, snel 
   const zoek = useSearchParams();
   const zaal = fracties.filter((f) => f.inZaal);
   const inZaal = zaal.map((f) => f.afkorting);
-  // De keuze als afkortingen, in volgorde van aantikken. Alleen bij binnenkomen uit de URL
-  const [keuze, setKeuze] = useState<string[]>(() => groepUitUrl(zoek.get("groep"), inZaal));
+  // De keuze als afkortingen, in volgorde van aantikken. Alleen bij binnenkomen uit de URL.
+  // Zonder groep in de URL opent de bouwer bij het huidige kabinet met "Huidig kabinet" gekozen, zodat er meteen een
+  // antwoord staat (ontwerpronde fase A, punt 3, 18 november 2026). De URL blijft dan schoon; deellinks met een groep
+  // werken als voorheen. Een lege keuze schrijft "groep=" in de URL, zodat die bij herladen leeg blijft.
+  const standaard = (): string[] => {
+    const k = snel && snel.periode === periode && soort === "kabinet" ? snel.keuzes.find((x) => x.id === "kabinet") : undefined;
+    return k ? k.groep.filter((a) => inZaal.includes(a)) : [];
+  };
+  const [keuze, setKeuze] = useState<string[]>(() => {
+    const g = zoek.get("groep");
+    return g === null ? standaard() : groepUitUrl(g, inZaal);
+  });
   const groep = keuze.map((a) => zaal.find((f) => f.afkorting === a)?.id).filter((x): x is string => !!x);
   const [matrix, setMatrix] = useState<Stemmatrix | null>(null);
   const [fout, setFout] = useState<string | null>(null);
@@ -96,8 +106,8 @@ export function CoalitieBouwer({ fracties, soort, periode, alleenVerdeeld, snel 
   useEffect(() => {
     if (binnen.current) { binnen.current = false; return; }
     const q = new URLSearchParams(window.location.search);
-    if (keuze.length) q.set("groep", keuze.join(","));
-    else q.delete("groep");
+    // Leeg blijft leeg bij herladen: anders kiest de bouwer weer het huidige kabinet
+    q.set("groep", keuze.join(","));
     const rest = q.toString();
     // Een eigen state-object (zoals Trend): met de state van Next erin werkt Next useSearchParams niet bij
     window.history.replaceState({ zetelenVol: window.history.state?.zetelenVol }, "",`${pad}${rest ? `?${rest}` : ""}${window.location.hash}`);
@@ -106,7 +116,8 @@ export function CoalitieBouwer({ fracties, soort, periode, alleenVerdeeld, snel 
   // Terug en vooruit in de browser: de keuze uit de URL
   useEffect(() => {
     const terug = () => {
-      const u = groepUitUrl(new URLSearchParams(window.location.search).get("groep"), inZaal);
+      const g = new URLSearchParams(window.location.search).get("groep");
+      const u = g === null ? standaard() : groepUitUrl(g, inZaal);
       setKeuze((k) => (k.join(",") === u.join(",") ? k : u));
     };
     window.addEventListener("popstate", terug);

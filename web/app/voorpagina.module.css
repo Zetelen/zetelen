@@ -143,8 +143,23 @@
 }
 /* Kop in het vlak kleiner dan de gewone hero-kop, zodat hij in twee regels past (ontwerp: 40 tot 66 px) */
 .heroVlak h1 {
-  font-size: clamp(40px, 4.6vw, 66px);
-  line-height: 1.04;
+  /* Kleiner sinds de bevinding in het vlak staat (ontwerpronde fase A): vraag, cijfer en trechter samen in beeld */
+  font-size: clamp(36px, 3.4vw, 50px);
+  line-height: 1.06;
+}
+/* De bevinding: een groot getal in de lopende zin */
+.bevinding {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.45;
+  color: var(--tekst);
+}
+.bevindingCijfer {
+  font-family: var(--serif);
+  font-size: 44px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--tekst);
 }
 .ctaHoofd {
   display: inline-flex;
@@ -160,25 +175,30 @@
 .ctaHoofd:hover {
   background: var(--goud);
 }
-/* Smal: beeld bovenaan, het vlak eronder in de flow over de volle breedte. Het beeld is 180 px hoog, zodat de drie
-   knoppen in het eerste scherm van een telefoon staan; bij 340 px begonnen ze net onder de rand en klikte ruim de helft
-   van de bezoekers niet door (bezoekerscijfers, akkoord Niels 28 oktober 2026) */
+/* Smal: geen tekening meer (ontwerpronde fase A, punt 7, 18 november 2026); het logo is genoeg. Het vlak staat in de
+   flow over de volle breedte, zodat vraag, cijfer en trechter samen in het eerste scherm passen (375 x 812). */
 @media (max-width: 760px) {
   .hero {
     display: block;
     min-height: 0;
-    padding: 180px 0 0;
+    padding: 0;
+    margin-top: calc(-1 * var(--r-5));
+    background: var(--nacht-950);
   }
   .heroBeeld {
-    height: 180px;
-    bottom: auto;
+    display: none;
   }
   .heroVlak {
     width: auto;
     margin: 0;
-    padding: var(--r-5) var(--pagina-marge);
-    border-left: 0;
-    border-right: 0;
+    gap: var(--r-3);
+    padding: var(--r-4) var(--pagina-marge) var(--r-5);
+    border: 0;
+    background: none;
+  }
+  .heroVlak h1 {
+    font-size: 32px;
+    line-height: 1.1;
   }
 }
 
@@ -192,6 +212,12 @@
 }
 .verder span {
   color: var(--tekst-zacht);
+}
+/* Losse links op één regel: 44 px hoog, zodat ze aantikbaar zijn (ontwerpregels Zetelen) */
+.verder a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--doel-min);
 }
 
 /* Trechter in de hero (feedback Niels K3, 27 oktober 2026): ingediend, aangenomen, met stemmen van kabinet én oppositie */
@@ -218,7 +244,7 @@
 }
 .trechterBalk {
   box-sizing: border-box;
-  min-height: 30px;
+  min-height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -228,14 +254,15 @@
   font-size: 15px;
   font-weight: 600;
   color: var(--nacht-950);
-  background: var(--koper);
+  /* Datakleuren uit de cohesieschaal; koper blijft voor markering en interactie (ontwerpronde fase A) */
+  background: var(--schaal-67);
 }
 .trechterRij[data-stap="0"] .trechterBalk {
-  background: #566aa6;
+  background: var(--lijn-licht);
   color: var(--tekst);
 }
 .trechterRij[data-stap="2"] .trechterBalk {
-  background: var(--goud);
+  background: var(--schaal-100);
 }
 .trechterTekst {
   font-size: 14px;
@@ -243,53 +270,69 @@
   text-align: center;
 }
 
-/* Nieuw in Actueel, bovenaan de hero (16 november 2026), compacter sinds K23 B4. Mobile first. */
-.nieuw {
+/* De laatste drie stukken uit Actueel, onder de bevinding (ontwerpronde fase A, 18 november 2026) */
+.actueel {
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  margin-bottom: var(--r-4);
-  padding: var(--r-2) var(--r-3);
-  border-left: 3px solid var(--koper);
-  background: rgba(10, 16, 28, 0.6);
-  border-radius: 0 6px 6px 0;
+  gap: var(--r-3);
+  max-width: 860px;
 }
-.nieuwRij {
+.actueelKop {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
   gap: var(--r-3);
 }
-.nieuwLabel {
-  font-family: var(--mono);
-  font-size: 12px;
-  white-space: nowrap;
-  color: var(--koper);
+.actueelTitel {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 26px;
 }
-.nieuwAlle {
+.actueelAlle {
   display: inline-flex;
   align-items: center;
-  min-height: 24px;
+  min-height: var(--doel-min);
   color: var(--koper);
-  font-size: 14px;
   font-weight: 600;
-  white-space: nowrap;
 }
-.nieuwKop {
-  /* Niet afkappen: een halve kop zei iets anders dan de hele (feitencontrole 16 november 2026) */
-  display: block;
+.actueelLijst {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--r-3);
+}
+@media (min-width: 900px) {
+  .actueelLijst {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.actueelStuk {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-1);
+  min-height: var(--doel-min);
+  height: 100%;
+  box-sizing: border-box;
+  padding: var(--r-3) var(--r-4);
+  border: 1px solid var(--lijn);
+  border-left: 3px solid var(--koper);
+  border-radius: 0 var(--hoek-paneel) var(--hoek-paneel) 0;
+  background: var(--nacht-900);
   color: var(--tekst);
-  font-size: 15px;
-  line-height: 1.35;
-  font-weight: 600;
   text-decoration: none;
 }
-.nieuwKop:hover {
-  text-decoration: underline;
+.actueelStuk:hover {
+  border-color: var(--koper);
 }
-@media (min-width: 761px) {
-  .nieuwKop {
-    font-size: 16px;
-  }
+.actueelDatum {
+  font-size: 13px;
+  color: var(--tekst-zacht);
+}
+.actueelStukKop {
+  font-size: 16px;
+  line-height: 1.35;
+  font-weight: 600;
 }

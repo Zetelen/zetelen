@@ -215,7 +215,7 @@ export default async function Onderwerpen({ searchParams }: Props) {
           <Data><Link href={`/onderwerpen${query({ fractie: gekozen.afkorting })}`}>Terug naar alle fracties</Link></Data>
         </GrafiekKader>
       ) : (
-        <GrafiekKader grafiek="onderwerpen" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)" }}>
+        <GrafiekKader grafiek="onderwerpen" id="zelf-fractie" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
           {filters}
           <div className={s.vasteKop}>
             <strong>{gekozen.afkorting}</strong>

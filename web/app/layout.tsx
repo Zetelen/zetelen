@@ -1,6 +1,6 @@
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
-import { DM_Mono, Fraunces, Hanken_Grotesk, Newsreader } from "next/font/google";
+import { Hanken_Grotesk, Newsreader } from "next/font/google";
 import type { ReactNode } from "react";
 import { KlikBlijft } from "@/components/deel/KlikBlijft";
 import { SnelleFeedback } from "@/components/SnelleFeedback";
@@ -26,9 +26,8 @@ const newsreader = Newsreader({
   display: "swap",
 });
 const hanken = Hanken_Grotesk({ subsets: ["latin"], variable: "--font-hanken", display: "swap" });
-const dmMono = DM_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-dm-mono", display: "swap" });
-// Alleen voor het woordmerk (merk van 28 oktober 2026), één gewicht
-const fraunces = Fraunces({ subsets: ["latin"], weight: ["600"], variable: "--font-fraunces", display: "swap" });
+// Twee lettertypen sinds de ontwerpronde van 18 november 2026: Newsreader voor koppen en het woordmerk, Hanken Grotesk
+// met tabelcijfers voor al het andere. DM Mono (labels, data) en Fraunces (woordmerk) zijn vervallen.
 
 export const metadata: Metadata = {
   metadataBase: siteUrl(),
@@ -42,7 +41,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const ververst = await laatstBijgewerkt();
   return (
-    <html lang="nl" className={`${newsreader.variable} ${hanken.variable} ${dmMono.variable} ${fraunces.variable}`}>
+    <html lang="nl" className={`${newsreader.variable} ${hanken.variable}`}>
       <body>
         <JsonLd data={{ "@context": "https://schema.org", "@type": "WebSite", name: SITE.naam, url: DOMEIN, inLanguage: "nl", description: SITE.beschrijving, creator: MAKER }} />
         <Korrel />

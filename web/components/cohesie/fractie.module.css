@@ -67,7 +67,7 @@
   grid-template-columns: minmax(90px, 160px) minmax(0, 1fr) 110px;
   gap: var(--r-3);
   align-items: center;
-  min-height: 36px;
+  min-height: var(--doel-min);
 }
 .naam {
   font-size: 15px;

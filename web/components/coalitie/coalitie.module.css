@@ -15,7 +15,7 @@
   grid-template-columns: minmax(90px, 160px) 150px minmax(0, 1fr) 130px;
   gap: var(--r-3);
   align-items: center;
-  min-height: 40px;
+  min-height: var(--doel-min);
   padding: 0 var(--r-2);
   border: 0;
   border-bottom: 1px solid var(--lijn);
@@ -112,7 +112,7 @@
   gap: 2px;
 }
 .snelKnop {
-  min-height: 36px;
+  min-height: var(--doel-min);
   padding: 0 var(--r-3);
   border: 1px solid var(--lijn-licht);
   border-radius: var(--hoek-klein);
@@ -148,7 +148,7 @@
   grid-template-columns: minmax(90px, 200px) 100px minmax(0, 1fr);
   gap: var(--r-3);
   align-items: center;
-  min-height: 36px;
+  min-height: var(--doel-min);
   padding: 0 var(--r-2);
   border-bottom: 1px solid var(--lijn);
   font-size: 15px;

@@ -14,6 +14,10 @@ describe("deellinks", () => {
     expect(plaatjeVan("verkenner", zoek)).toBe("/deel/verkenner/plaatje?periode=Jetten&fractie=D66");
     expect(doelVan("verkenner", zoek)).toBe("/verkenner?periode=Jetten&fractie=D66#zaal");
     expect(doelVan("brede-steun", {})).toBe("/#brede-steun");
+    // De bevinding bovenaan de voorpagina (ontwerpronde fase A, 18 november 2026)
+    expect(isGrafiek("samen")).toBe(true);
+    expect(doelVan("samen", {})).toBe("/#samen");
+    expect(plaatjeVan("samen", {})).toBe("/deel/samen/plaatje");
     expect(deellinkVan("vvd-en-pro", { fractie: "X" })).toBe("/deel/vvd-en-pro");
   });
   it("noemt de gekozen partij en periode in de titel", () => {

@@ -50,7 +50,7 @@
 .vlak {
   position: relative;
   min-width: 0;
-  padding-top: 40px;
+  padding-top: 48px;
 }
 .knoppen {
   position: absolute;
@@ -67,8 +67,9 @@
   margin-left: auto;
 }
 .icoon {
-  width: 36px;
-  height: 36px;
+  /* 44 px: de kleinste maat voor iets aantikbaars (ontwerpregels Zetelen, 18 november 2026; was 36) */
+  width: var(--doel-min);
+  height: var(--doel-min);
   display: inline-flex;
   align-items: center;
   justify-content: center;

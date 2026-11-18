@@ -17,6 +17,8 @@ body {
   background: var(--nacht-950);
   color: var(--tekst);
   font-family: var(--sans);
+  /* Tabelcijfers overal: getallen staan recht onder elkaar in tabellen en labels (ontwerpronde 18 november 2026) */
+  font-variant-numeric: tabular-nums lining-nums;
   font-size: var(--tekst-lopend);
   line-height: 1.6;
 }

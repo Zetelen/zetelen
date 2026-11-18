@@ -37,6 +37,8 @@ export const GRAFIEKEN = {
     titel: (w) => (w.fractie && w.met ? `Hoe vaak stemden ${w.fractie} en ${w.met} hetzelfde, ${tijdvak(w)}?` : `Hoe vaak stemden twee partijen hetzelfde, ${tijdvak(w)}?`),
   },
   "vvd-en-pro": { pad: "/uitgelicht/vvd-en-pro", anker: "ranglijst", parameters: [], titel: () => "Hoe vaak stemmen VVD en PRO hetzelfde?" },
+  // De bevinding bovenaan de voorpagina (ontwerpronde fase A, 18 november 2026)
+  samen: { pad: "/", anker: "samen", parameters: [], titel: () => "Hoe vaak stemmen kabinet en oppositie samen?" },
   "brede-steun": { pad: "/", anker: "brede-steun", parameters: [], titel: () => "Hoe vaak stemmen kabinet en oppositie samen?" },
   stemgenoten: {
     pad: "/stemgenoten", anker: "", parameters: ["u", "b", "n"], doorgeven: false,

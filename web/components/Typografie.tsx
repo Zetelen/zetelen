@@ -25,7 +25,7 @@ export function Label({ children }: { children: ReactNode }) {
   return <span className={s.label}>{children}</span>;
 }
 
-// Datalabel en bronvermelding in DM Mono
+// Datalabel en bronvermelding, in de schreefloze met tabelcijfers (tot 18 november 2026 in DM Mono)
 export function Data({ children }: { children: ReactNode }) {
   return <span className={s.data}>{children}</span>;
 }

@@ -26,7 +26,8 @@
   /* Typografie; de lettertypes zelf komen uit next/font (app/layout.tsx) */
   --serif: var(--font-newsreader), Georgia, serif;
   --sans: var(--font-hanken), system-ui, sans-serif;
-  --mono: var(--font-dm-mono), ui-monospace, monospace;
+  /* Geen schrijfmachineletter meer (ontwerpronde 18 november 2026): wat --mono gebruikt, krijgt de schreefloze met tabelcijfers */
+  --mono: var(--font-hanken), system-ui, sans-serif;
   --kop-hero: clamp(44px, 6.4vw, 96px);
   --kop-sectie: clamp(32px, 3.6vw, 48px);
   --tekst-lopend: 17px;
@@ -41,7 +42,7 @@
   --r-5: 24px;
   --r-6: 32px;
   --r-7: 48px;
-  --r-8: 72px;
+  --r-8: 64px; /* hoogstens 64 px tussen tekstvlakken (ontwerpregels Zetelen, 18 november 2026; was 72) */
   --r-9: 96px;
   --pagina-max: 1240px;
   --pagina-marge: 32px;

@@ -57,7 +57,7 @@ export function Voorbeelden() {
           <Tekst>Hoe vaak stemden twee fracties hetzelfde? Een hoog percentage betekent niet dat ze het inhoudelijk eens zijn.</Tekst>
         </Kaart>
         <Kaart>
-          <Data>Datalabel en bron · DM Mono</Data>
+          <Data>Datalabel en bron · Hanken Grotesk met tabelcijfers</Data>
           <Data>Bron: Tweede Kamer open data · Laatst ververst: 24 oktober 2026</Data>
         </Kaart>
       </section>

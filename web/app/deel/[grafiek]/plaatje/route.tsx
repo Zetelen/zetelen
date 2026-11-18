@@ -3,7 +3,7 @@
 import type { ReactElement } from "react";
 import { ImageResponse } from "next/og";
 import { actueelPlaatje } from "@/components/actueel/plaatje";
-import { bredeSteunPlaatje, verkennerPlaatje, vvdProPlaatje } from "@/components/deel/plaatjes";
+import { bredeSteunPlaatje, samenPlaatje, verkennerPlaatje, vvdProPlaatje } from "@/components/deel/plaatjes";
 import {
   kamerledenPlaatje, onderwerpenPlaatje, ontradenPlaatje, oppositieJarenPlaatje, oppositieKabinettenPlaatje, oppositieSpreidingPlaatje,
   ranglijstPlaatje, stemgenotenPlaatje, stemmingPlaatje, trendPlaatje, wettenPlaatje,
@@ -13,7 +13,7 @@ import { schoonZoek } from "@/lib/deelSchoon";
 
 // De coalitie heeft al een eigen plaatje (app/coalitie/plaatje); de deellink verwijst daarheen
 const PLAATJES: Record<Exclude<Grafiek, "coalitie">, (zoek: Record<string, string>) => Promise<ReactElement>> = {
-  verkenner: verkennerPlaatje, trend: trendPlaatje, "vvd-en-pro": vvdProPlaatje, "brede-steun": bredeSteunPlaatje,
+  verkenner: verkennerPlaatje, trend: trendPlaatje, "vvd-en-pro": vvdProPlaatje, "brede-steun": bredeSteunPlaatje, samen: samenPlaatje,
   stemgenoten: stemgenotenPlaatje, onderwerpen: onderwerpenPlaatje, stemming: stemmingPlaatje, kamerleden: kamerledenPlaatje,
   ranglijst: ranglijstPlaatje, "oppositie-jaren": oppositieJarenPlaatje, "oppositie-kabinetten": oppositieKabinettenPlaatje,
   "oppositie-spreiding": oppositieSpreidingPlaatje, ontraden: ontradenPlaatje, wetten: wettenPlaatje, actueel: actueelPlaatje,

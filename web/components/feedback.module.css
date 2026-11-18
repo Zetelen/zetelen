@@ -167,6 +167,6 @@
 }
 .snelKlein {
   margin: 0;
-  font-size: 15px;
+  font-size: 16px; /* lopende tekst minstens 16 px (ontwerpregels Zetelen, 18 november 2026) */
   color: var(--tekst-zacht);
 }

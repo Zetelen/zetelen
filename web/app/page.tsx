@@ -14,7 +14,7 @@ import { Inhoud, knopKlasse } from "@/components/Kader";
 import { Bronregel } from "@/components/cohesie/Bronregel";
 import { HoofdstukKop, Lezingen } from "@/components/Onderdelen";
 import { Tabbladen } from "@/components/Tabbladen";
-import { Data, HeroKop, Label, SectieKop, Tekst } from "@/components/Typografie";
+import { Data, HeroKop, Label, Tekst } from "@/components/Typografie";
 import { TerreinBalken } from "@/components/onderwerpen/TerreinBalken";
 import { ScrollVerhaal } from "@/components/verhaal/ScrollVerhaal";
 import { procent } from "@/lib/cohesie";
@@ -37,6 +37,11 @@ export const metadata: Metadata = {
 
 // Het overzicht na de opening: de drie vragen staan al als knoppen in de hero, dus de tegels tonen de andere
 // onderdelen en de rest staat op één regel (feedback Niels K3 en K11, 27 oktober 2026)
+const HOOFDVRAGEN = [
+  { href: "/verkenner", vraag: "Wie stemt met wie?", tekst: "Zie per kabinet welke fracties het vaakst hetzelfde stemmen." },
+  { href: "/onderwerpen", vraag: "Waar zijn ze het over eens?", tekst: "Per beleidsterrein: waar fracties elkaar vinden, en waar niet." },
+  { href: "/coalitie", vraag: "Stel zelf een coalitie samen", tekst: "Kies fracties en zie bij wie die groep een meerderheid haalde." },
+];
 const VRAGEN = [
   { href: "/stemgenoten", vraag: "Met welke partij stem jij het vaakst mee?", tekst: "Kies je kant bij echte stemmingen en zie welke fracties net zo stemden." },
   { href: "/uitgelicht", vraag: "Stemmingen van dichtbij", tekst: "Wie stemde wat, wie stemde anders dan de eigen fractie, en hoe krap was het." },
@@ -60,83 +65,113 @@ export default async function Voorpagina() {
   const perPeriode = await periodeWerk("kabinet");
   const samen = kabinet && perPeriode ? samenwerking(perPeriode, kabinet.naam, "Rutte I") : null;
   const getal = (n: number) => n.toLocaleString("nl-NL");
-  const nieuwste = [...STUKKEN].sort((x, y) => y.datum.localeCompare(x.datum))[0];
+  // De laatste drie stukken uit Actueel, nieuwste eerst (ontwerpronde fase A, 18 november 2026)
+  const nieuwste = [...STUKKEN].sort((x, y) => y.datum.localeCompare(x.datum)).slice(0, 3);
   // De kop "Hoe kwam deze Kamer tot stand?" staat boven het verhaal; de eerste kaart herhaalt hem niet
   const zonderKop = (stappen: Stap[]): Stap[] => stappen.map((st, i) => (i === 0 ? { ...st, hoofdstuk: undefined } : st));
   return (
     <Inhoud>
-      {/* Hero met de lijntekening van het Binnenhof (ontwerp Niels, public/binnenhof.svg). Het tekstvlak staat links,
-          de Ridderzaal rechts; op een telefoon staat het beeld boven het vlak. */}
+      {/* Ontwerpronde fase A (18 november 2026): het eerste scherm toont één bevinding. Een vraag, een cijfer, een zin en
+          een grafiek, met direct de twee lezingen; daaronder de laatste stukken uit Actueel en dan het gereedschap.
+          De getallen en zinnen zijn die van de trechter die sinds 27 oktober in "Wat opvalt" stond (K3), niet nieuw.
+          De tekening van het Binnenhof staat alleen nog op een breed scherm; op de telefoon is het logo genoeg. */}
       <section className={s.hero}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/binnenhof.svg" alt="" aria-hidden="true" className={s.heroBeeld} />
         <div className={s.heroVlak}>
-        {/* Het nieuwste stuk uit Actueel in het eerste scherm (16 november 2026): buiten het menu was er geen weg naar
-            /actueel. Kop en datum komen uit lib/actueel.ts, net als op /actueel zelf. */}
-        {nieuwste && (
-          <aside className={s.nieuw} aria-label="Nieuw in Actueel">
-            {/* Compacter sinds K23 B4: label en de link naar alle stukken op één regel, de kop helemaal */}
-            <span className={s.nieuwRij}>
-              <span className={s.nieuwLabel}>Nieuw · {datumTekst(nieuwste.datum)}</span>
-              <Link href="/actueel" className={s.nieuwAlle}>Alle stukken →</Link>
-            </span>
-            <Link href={`/actueel/${nieuwste.slug}`} className={s.nieuwKop}>{nieuwste.kop}</Link>
-          </aside>
-        )}
-        <Label><em>zetelen</em> (ww.) · stemmen, onderhandelen en meetellen in de Tweede Kamer</Label>
-        {/* Een kop die zegt wat de site is, in plaats van een vraag met een strekking (feedback van bezoekers, besluit Niels
-            28 oktober 2026). De cijfers staan daaronder, direct met de twee lezingen. */}
-        <HeroKop>Wie stemt met wie in de Tweede Kamer?</HeroKop>
-        {/* Eerst de boodschap, dan wat de site doet, dan de uitnodiging (feedback Niels, 2 november 2026) */}
-        <Tekst>
-          Een debat laat zien wat een partij wil. De stemming laat zien wat ze doet. Zetelen zet alle stemmingen sinds 2010
-          naast elkaar: wie met wie meestemt, op welk onderwerp en onder welk kabinet. Begin bij een partij, een onderwerp of
-          een coalitie die je zelf samenstelt.
-        </Tekst>
-        <nav className={s.cta} aria-label="Zoek zelf">
-          <Link href="/verkenner" className={s.ctaHoofd}>Wie stemt met wie?</Link>
-          <Link href="/onderwerpen" className={knopKlasse}>Waar zijn ze het over eens?</Link>
-          <Link href="/coalitie" className={knopKlasse}>Stel zelf een coalitie samen</Link>
-        </nav>
+          <Label><em>zetelen</em> · wie stemt met wie in de Tweede Kamer</Label>
+          <HeroKop>Hoe vaak stemmen kabinet en oppositie samen?</HeroKop>
+          {samen && kabinet ? (
+            <>
+              <p className={s.bevinding}>
+                <span className={s.bevindingCijfer}>{getal(samen.breed)}</span>{" "}
+                van de {getal(samen.aangenomen)} aangenomen moties onder kabinet-{kabinet.naam} kregen stemmen van ten minste
+                één fractie uit het kabinet én één uit de oppositie.
+              </p>
+              {/* De getallen als trechter (K3); de zin hierboven zegt hetzelfde voor schermlezers. Eigen anker en deelbeeld
+                  (ontwerpronde fase A, punt 6). Geen vergroten: de trechter is al op zijn grootst. */}
+              <GrafiekKader grafiek="samen" id="samen" vergroot={false} style={{ scrollMarginTop: 80 }}>
+              <GrafiekVlak>
+              <div className={s.trechter} aria-hidden="true">
+                {[
+                  { tekst: "moties ingediend", n: samen.moties },
+                  { tekst: "aangenomen", n: samen.aangenomen },
+                  { tekst: "met stemmen van kabinet én oppositie", n: samen.breed },
+                ].map((r, i) => (
+                  <div key={r.tekst} className={s.trechterRij} data-stap={i}>
+                    <span className={s.trechterBalk} style={{ width: `${Math.max(18, (100 * r.n) / samen.moties)}%` }}>{getal(r.n)}</span>
+                    <span className={s.trechterTekst}>{r.tekst}</span>
+                  </div>
+                ))}
+              </div>
+              </GrafiekVlak>
+              </GrafiekKader>
+            </>
+          ) : (
+            <Tekst>
+              Zetelen zet alle stemmingen sinds 2010 naast elkaar: wie met wie meestemt, op welk onderwerp en onder welk kabinet.
+            </Tekst>
+          )}
         </div>
+      </section>
+
+      {/* De twee lezingen direct bij het cijfer (tekst akkoord Niels, 26 oktober 2026) */}
+      <Lezingen
+        links={{ titel: "Er wordt meer samengewerkt dan het lijkt", tekst: "In het debat staan ze tegenover elkaar, bij de stemming vaak niet. En dat samen stemmen is sinds 2010 flink toegenomen." }}
+        rechts={{ titel: "Of: eens zijn over een motie zegt weinig", tekst: "Over een verzoek om een onderzoek of een brief is de Kamer het snel eens. Waar het om geld en koers gaat, bij de begroting en de grote wetten, staan kabinet en oppositie nog steeds vaak tegenover elkaar." }}
+      />
+
+      {/* De laatste drie stukken uit Actueel. Kop en datum komen uit lib/actueel.ts, net als op /actueel zelf. */}
+      {nieuwste.length > 0 && (
+        <section className={s.actueel} aria-labelledby="nieuw-in-actueel">
+          <div className={s.actueelKop}>
+            <h2 id="nieuw-in-actueel" className={s.actueelTitel}>Nieuw in Actueel</h2>
+            <Link href="/actueel" className={s.actueelAlle}>Alle stukken →</Link>
+          </div>
+          <ul className={s.actueelLijst}>
+            {nieuwste.map((st) => (
+              <li key={st.slug}>
+                <Link href={`/actueel/${st.slug}`} className={s.actueelStuk}>
+                  <span className={s.actueelDatum}>{datumTekst(st.datum)}</span>
+                  <span className={s.actueelStukKop}>{st.kop}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {/* Het gereedschap na de bevinding en de stukken. Het overzicht "Meer op Zetelen" (K11) staat hier, de drie
+          hoofdvragen als eerste tegels. */}
+      <section id="verder" className={s.hoofdstuk} style={{ maxWidth: "none", scrollMarginTop: 80 }}>
+        <HoofdstukKop titel="Zoek zelf" />
+        <Tekst>
+          Zetelen zet alle stemmingen sinds 2010 naast elkaar: wie met wie meestemt, op welk onderwerp en onder welk kabinet.
+        </Tekst>
+        <div className={s.tegels}>
+          {[...HOOFDVRAGEN, ...VRAGEN].map((t) => (
+            <Link key={t.href} href={t.href} className={s.tegel}>
+              <strong>{t.vraag}</strong>
+              <span>{t.tekst}</span>
+            </Link>
+          ))}
+        </div>
+        <nav className={s.verder} aria-label="Verder op Zetelen">
+          <span>Verder:</span>
+          {VERDER.map((t) => <Link key={t.href} href={t.href}>{t.titel}</Link>)}
+        </nav>
       </section>
 
       {/* Telefoon: de hoofdstukken als tabbladen, een tegelijk (1 november 2026); op een groter scherm onder elkaar */}
       <Tabbladen label="Hoofdstukken" delen={[
       { naam: "Wat opvalt", inhoud: <>
       <section className={s.opening}>
-        <Label>Wat opvalt</Label>
-        <SectieKop>Hoe vaak stemmen kabinet en oppositie samen?</SectieKop>
-        {samen && kabinet && (
-          <>
-            {/* De getallen als trechter (feedback Niels K3, 27 oktober 2026); de zin blijft voor schermlezers */}
-            <p className="verborgen">
-              Onder kabinet-{kabinet.naam} nam de Kamer {getal(samen.aangenomen)} van de {getal(samen.moties)} moties aan. Bij{" "}
-              {getal(samen.breed)} daarvan stemde ten minste één fractie uit het kabinet én één uit de oppositie voor.
-            </p>
-            <div className={s.trechter} aria-hidden="true">
-              <span className={s.trechterKop}>Moties onder kabinet-{kabinet.naam}</span>
-              {[
-                { tekst: "ingediend", n: samen.moties },
-                { tekst: "aangenomen", n: samen.aangenomen },
-                { tekst: "met stemmen van kabinet én oppositie", n: samen.breed },
-              ].map((r, i) => (
-                <div key={r.tekst} className={s.trechterRij} data-stap={i}>
-                  <span className={s.trechterBalk} style={{ width: `${Math.max(18, (100 * r.n) / samen.moties)}%` }}>{getal(r.n)}</span>
-                  <span className={s.trechterTekst}>{r.tekst}</span>
-                </div>
-              ))}
-            </div>
-            <Tekst>
-              De oppositie kreeg {samen.oppositieNu}% van haar moties erdoor. Onder {samen.eerste} was dat {samen.oppositieEerst}%.
-            </Tekst>
-          </>
+        <HoofdstukKop titel="Samen stemmen door de jaren" />
+        {samen && (
+          <Tekst>
+            De oppositie kreeg {samen.oppositieNu}% van haar moties erdoor. Onder {samen.eerste} was dat {samen.oppositieEerst}%.
+          </Tekst>
         )}
-        {/* De twee lezingen direct bij de cijfers, naast elkaar (tekst akkoord Niels, 26 oktober 2026) */}
-        <Lezingen
-          links={{ titel: "Er wordt meer samengewerkt dan het lijkt", tekst: "In het debat staan ze tegenover elkaar, bij de stemming vaak niet. En dat samen stemmen is sinds 2010 flink toegenomen." }}
-          rechts={{ titel: "Of: eens zijn over een motie zegt weinig", tekst: "Over een verzoek om een onderzoek of een brief is de Kamer het snel eens. Waar het om geld en koers gaat, bij de begroting en de grote wetten, staan kabinet en oppositie nog steeds vaak tegenover elkaar." }}
-        />
         {perPeriode && perPeriode.length > 0 && (
           <GrafiekKader grafiek="brede-steun" id="brede-steun" style={{ display: "flex", flexDirection: "column", gap: "var(--r-4)", scrollMarginTop: 80 }}>
             <Label>Aangenomen met stemmen van kabinet én oppositie, per kabinet</Label>
@@ -151,24 +186,6 @@ export default async function Voorpagina() {
           Op sommige onderwerpen, zoals asiel, gaan fracties juist verder uit elkaar dan gemiddeld. Zoek zelf waar ze elkaar vinden,
           en waar niet.
         </Tekst>
-      </section>
-
-      {/* Het overzicht direct na de opening, voor het scrollverhaal (K11, 27 oktober 2026): bezoekers misten het
-          overzicht, en het stond helemaal onderaan */}
-      <section id="verder" className={s.hoofdstuk} style={{ maxWidth: "none", scrollMarginTop: 80 }}>
-        <HoofdstukKop titel="Meer op Zetelen" />
-        <div className={s.tegels}>
-          {VRAGEN.map((t) => (
-            <Link key={t.href} href={t.href} className={s.tegel}>
-              <strong>{t.vraag}</strong>
-              <span>{t.tekst}</span>
-            </Link>
-          ))}
-        </div>
-        <nav className={s.verder} aria-label="Verder op Zetelen">
-          <span>Verder:</span>
-          {VERDER.map((t) => <Link key={t.href} href={t.href}>{t.titel}</Link>)}
-        </nav>
       </section>
       </> },
 
@@ -191,7 +208,7 @@ export default async function Voorpagina() {
       partners && paar && u && kabinet && { naam: "Kabinet", inhoud: (
         // Gedeeld als het paar op Onderwerpen: daar staat dezelfde grafiek met alle keuzes
         <GrafiekKader grafiek="onderwerpen" zoek={{ soort: "kabinet", periode: kabinet.naam, fractie: partners.a.afkorting, met: partners.b.afkorting }}
-          className={s.hoofdstuk} style={{ maxWidth: "none" }}>
+          id="kabinetspartijen" className={s.hoofdstuk} style={{ maxWidth: "none" }}>
           <HoofdstukKop nummer="3" titel="Zijn kabinetspartijen het overal over eens?" />
           <Tekst>
             {partners.a.afkorting} en {partners.b.afkorting} zijn de grootste partijen van kabinet-{kabinet.naam}
@@ -232,7 +249,7 @@ export default async function Voorpagina() {
         const max = Math.max(...perJaar.map((x) => x.totaal));
         const eerste = perJaar[0], laatste = perJaar.filter((x) => x.jaar < new Date().getFullYear()).pop() ?? perJaar[perJaar.length - 1];
         return (
-          <GrafiekKader grafiek="oppositie-jaren" className={s.hoofdstuk}>
+          <GrafiekKader grafiek="oppositie-jaren" id="oppositie-per-jaar" className={s.hoofdstuk}>
             <HoofdstukKop nummer="5" titel="Wat kan de oppositie?" />
             <Tekst>
               Het belangrijkste middel van de oppositie is de motie: een verzoek van de Kamer aan het kabinet. In {eerste.jaar} stemde de Kamer over {eerste.totaal.toLocaleString("nl-NL")} moties, in {laatste.jaar} over{" "}
