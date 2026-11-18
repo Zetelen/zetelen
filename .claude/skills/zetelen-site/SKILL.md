@@ -24,6 +24,7 @@ Veel bezoekers komen via Bluesky en LinkedIn op de telefoon. Daarom: **telefoon 
 - Twee lettertypen: Newsreader (koppen) en Hanken Grotesk met tabelcijfers (de rest).
 - Koper alleen voor markering en interactie, nooit als datakleur.
 - Elke grafiek een eigen anker en deelbeeld (`GrafiekKader`, `lib/deel.ts`).
+- Tekst over het kabinet: noem alleen de formele kabinetspartijen (en een formele gedoogpartner), geen steunpartijen, omdat steun verandert (besluit Niels, 18 november 2026, K18 3e). Een snelkeuze in de coalitiebouwer met steunpartijen mag: dat is een keuze van de lezer, geen bewering.
 - Geen bestaand bestand aanpassen zonder dat Niels de wijziging eerst ziet: bij ontwerp eerst voor- en na-beelden in de vault en de chat.
 
 ## 3. Terugkerende fouten
@@ -55,5 +56,7 @@ Veel bezoekers komen via Bluesky en LinkedIn op de telefoon. Daarom: **telefoon 
 Elke nieuwe keuze of feedback van Niels over het ontwerp wordt meteen een regel in `docs/ontwerp/ontwerpregels.md` of paragraaf 3 hierboven, waar het kan een meting in `telefoon.mjs`, en een regel in het wijzigingslog.
 
 ## Wijzigingslog
+
+- 18 november 2026: tekstregel over steunpartijen (K18 3e).
 
 - 18 november 2026: skill en `ontwerpregels.md` gemaakt in de ontwerpronde fase A, naar de uitgangspunten van Oorlog in kaart. `web/scripts/telefoon.mjs` overgenomen en aangepast (Zetelen-pagina's, breedte instelbaar, eerste grafiek). Nog niet goedgekeurd door Niels: zie K25 in de vault.
