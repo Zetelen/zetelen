@@ -86,7 +86,7 @@ export default async function Voorpagina() {
               <p className={s.bevinding}>
                 <span className={s.bevindingCijfer}>{getal(samen.breed)}</span>{" "}
                 van de {getal(samen.aangenomen)} aangenomen moties onder kabinet-{kabinet.naam} kregen stemmen voor van ten
-                minste één kabinetsfractie én één oppositiefractie die het stuk niet zelf had ingediend of mede had ondertekend.
+                minste één kabinetsfractie én één oppositiefractie, allebei geen indiener of medeindiener van het stuk.
               </p>
               {/* De getallen als trechter (K3); de zin hierboven zegt hetzelfde voor schermlezers. Eigen anker en deelbeeld
                   (ontwerpronde fase A, punt 6). Geen vergroten: de trechter is al op zijn grootst. */}
@@ -176,9 +176,9 @@ export default async function Voorpagina() {
         {samen && kabinet && (
           <Tekst>
             Onder kabinet-{kabinet.naam} kreeg de oppositie {samen.oppositieNu}% van haar moties erdoor. Onder {samen.eerste} was dat {samen.oppositieEerst}%.
-            {/* Context bij de vergelijking (feitencontrole 18 november 2026): de zetelverhouding verklaart een deel van het verschil */}
+            {/* De zetels naast de vergelijking, zonder te zeggen dat ze het verschil verklaren (feitencontrole 18 november 2026) */}
             {kabinet.zetels < 76 && samen.eerste === "Rutte I"
-              ? ` Kabinet-${kabinet.naam} heeft geen meerderheid (${kabinet.zetels} van de 150 zetels); Rutte I begon met gedoogsteun van de PVV met 76 zetels.`
+              ? ` Ter vergelijking: kabinet-${kabinet.naam} heeft ${kabinet.zetels} van de 150 zetels; Rutte I had bij de start in oktober 2010 samen met gedoogpartner PVV 76 zetels.`
               : ""}
           </Tekst>
         )}
