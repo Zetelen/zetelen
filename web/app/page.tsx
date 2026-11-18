@@ -129,13 +129,11 @@ export default async function Voorpagina() {
       {/* De twee lezingen direct bij het cijfer. Herschreven op 18 november 2026 (Niels, na de feitencontrole van de
           posts): het debat zit niet in de data, en voor "bij de begroting en de grote wetten staan ze vaak tegenover
           elkaar" stond geen cijfer op de site. Nu staat er alleen wat de data dragen. Geen steunpartijen (besluit Niels,
-          18 november 2026, K18 3e). */}
+          18 november 2026, K18 3e). Geen zetels als verklaring: Rutte IV had wel een meerderheid en kwam even hoog
+          (feitencontrole 18 november 2026). */}
       <Lezingen
         links={{ titel: "Er wordt vaak samen gestemd", tekst: `Bij de meeste aangenomen moties stemden een kabinetspartij en een oppositiepartij allebei voor.${breed.length > 1 && breed[0].moties != null && breed[breed.length - 1].moties != null ? ` Het deel van alle moties dat zo werd aangenomen, ging van ${procent(breed[0].moties)} onder ${breed[0].kabinet} naar ${procent(breed[breed.length - 1].moties)} onder ${breed[breed.length - 1].kabinet}.` : ""}` }}
-        rechts={{
-          titel: kabinet && kabinet.zetels < 76 ? "Of: het kabinet heeft geen meerderheid" : "Of: een motie is geen wet",
-          tekst: `${kabinet && kabinet.zetels < 76 ? `Kabinet-${kabinet.naam} heeft ${kabinet.zetels} van de 150 zetels. Voor een motie heeft het bijna altijd stemmen uit de oppositie nodig. ` : ""}Een motie is een verzoek aan het kabinet, geen wet. Over wetten en de begroting zegt dit cijfer niets.`,
-        }}
+        rechts={{ titel: "Of: een motie is geen wet", tekst: "Een aangenomen motie is een verzoek aan het kabinet. Of het ook gebeurt, staat niet in de stemmingen. Over wetten en de begroting zegt dit cijfer niets." }}
       />
 
       {/* De laatste drie stukken uit Actueel. Kop en datum komen uit lib/actueel.ts, net als op /actueel zelf. */}
