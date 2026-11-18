@@ -1,4 +1,4 @@
-// Grafiek op de voorpagina (feedback Niels K3, 26 oktober 2026): per kabinet het deel van de ingediende moties en
+// Grafiek op de voorpagina (feedback Niels K3, 26 oktober 2026): per kabinet het deel van de moties (waarover is gestemd) en
 // amendementen dat het haalde met stemmen van kabinet én oppositie. Statische tekening, geen klikken.
 import type { BredeSteun as Rij } from "@/lib/voorpagina";
 import s from "./bredeSteun.module.css";
@@ -14,7 +14,7 @@ export function BredeSteun({ rijen }: { rijen: Rij[] }) {
   return (
     <figure className={s.figuur}>
       <svg viewBox={`0 0 ${B} ${H}`} role="img"
-        aria-label={`Aangenomen met stemmen van kabinet én oppositie, als deel van alles wat is ingediend, per kabinet: ${rijen.map((r) => `${r.kabinet} moties ${pct(r.moties)}, amendementen ${pct(r.amendementen)}`).join("; ")}`}>
+        aria-label={`Aangenomen met stemmen van kabinet én oppositie, als deel van alle moties en amendementen waarover is gestemd, per kabinet: ${rijen.map((r) => `${r.kabinet} moties ${pct(r.moties)}, amendementen ${pct(r.amendementen)}`).join("; ")}`}>
         <line x1={L} x2={B} y1={sy(0)} y2={sy(0)} className={s.lijn} />
         {rijen.map((r, i) => {
           const x = Math.round(L + i * groep + groep / 2);

@@ -85,8 +85,8 @@ export default async function Voorpagina() {
             <>
               <p className={s.bevinding}>
                 <span className={s.bevindingCijfer}>{getal(samen.breed)}</span>{" "}
-                van de {getal(samen.aangenomen)} aangenomen moties onder kabinet-{kabinet.naam} kregen, naast de stemmen van de
-                indieners, stemmen voor van ten minste één kabinetsfractie én één oppositiefractie.
+                van de {getal(samen.aangenomen)} aangenomen moties onder kabinet-{kabinet.naam} kregen stemmen voor van ten
+                minste één kabinetsfractie én één oppositiefractie die het stuk niet zelf had ingediend of mede had ondertekend.
               </p>
               {/* De getallen als trechter (K3); de zin hierboven zegt hetzelfde voor schermlezers. Eigen anker en deelbeeld
                   (ontwerpronde fase A, punt 6). Geen vergroten: de trechter is al op zijn grootst. */}
@@ -176,6 +176,10 @@ export default async function Voorpagina() {
         {samen && kabinet && (
           <Tekst>
             Onder kabinet-{kabinet.naam} kreeg de oppositie {samen.oppositieNu}% van haar moties erdoor. Onder {samen.eerste} was dat {samen.oppositieEerst}%.
+            {/* Context bij de vergelijking (feitencontrole 18 november 2026): de zetelverhouding verklaart een deel van het verschil */}
+            {kabinet.zetels < 76 && samen.eerste === "Rutte I"
+              ? ` Kabinet-${kabinet.naam} heeft geen meerderheid (${kabinet.zetels} van de 150 zetels); Rutte I begon met gedoogsteun van de PVV met 76 zetels.`
+              : ""}
           </Tekst>
         )}
         {perPeriode && perPeriode.length > 0 && (
@@ -184,7 +188,7 @@ export default async function Voorpagina() {
             <GrafiekVlak><BredeSteun rijen={bredeSteunPerKabinet(perPeriode)} /></GrafiekVlak>
             <Data>
               Deel van alle moties en amendementen per kabinet waarover is gestemd, dat werd aangenomen met stemmen van kabinet én oppositie.
-              Naast de indieners stemde minstens één fractie uit elk kamp voor. Gedoogsteun telt als kabinet.
+              Naast de fracties van de indieners en medeindieners stemde minstens één fractie uit elk kamp voor. Gedoogsteun telt als kabinet.
             </Data>
           </GrafiekKader>
         )}
