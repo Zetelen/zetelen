@@ -50,7 +50,7 @@
   /* Vorm: geen schaduwen, diepte komt van de korrel en de gloed */
   --hoek-klein: 6px; /* knoppen, cellen */
   --hoek-paneel: 8px;
-  --hoek-pil: 999px;
+  --hoek-pil: 12px; /* minder rond, verzoek Niels 18 november 2026 (was 999px, een volle pil) */
   --doel-min: 44px; /* minimale hoogte van een knop */
 }
 
