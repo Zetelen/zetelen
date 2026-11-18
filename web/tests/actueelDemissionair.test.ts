@@ -101,7 +101,7 @@ describe("Actueel: demissionaire kabinetten, de zinnen", () => {
     const dl = demDalingen(d);
     expect(dl).toMatchObject({ n: 5, lager: 5 });
     // Kop in gewone woorden sinds 18 november 2026 (feedback Niels)
-    expect(stuk.kop).toBe("Na de val stemden de kabinetspartijen minder vaak gelijk, bij alle vijf kabinetten sinds 2010 met genoeg stemmingen");
+    expect(stuk.kop).toBe("Demissionair kozen de kabinetspartijen minder vaak allemaal dezelfde kant, bij alle vijf kabinetten sinds 2010 met genoeg stemmingen");
     // Balkenende IV telt niet mee: de missionaire periode is klein
     expect(demVergelijking(k("Balkenende IV"))).toBeNull();
     expect(stuk.slot).toContain("Bij alle vijf kabinetten met genoeg stemmingen stemden de kabinetspartijen demissionair minder vaak eensgezind dan ervoor.");
@@ -118,7 +118,7 @@ describe("Actueel: demissionaire kabinetten, de zinnen", () => {
     // Hoeveel paren met de oppositie 5 procentpunt of meer verschoven, zelf geteld uit de data
     const veel = (naam: string) => k(naam).campagne!.kabOpp.filter((v) => Math.abs(v.verschil) >= 5).length;
     expect([veel("Schoof"), veel("Rutte III"), k("Rutte III").campagne!.kabOpp.length]).toEqual([0, 23, 36]);
-    expect(stuk.opvalt).toContain("Met de oppositie liep het per kabinet uiteen: onder Schoof verschoof geen enkel paar 5 procentpunt of meer, onder Rutte III 23 van de 36 paren.");
+    expect(stuk.opvalt).toContain("Met de oppositie liep het per kabinet uiteen: onder Schoof verschoof geen enkel paar 5 procentpunt of meer, onder Rutte III 23 van de 36 paren. Partijen die uit het kabinet stapten, tellen daarbij niet als oppositie.");
   });
 
   it("aanleiding: de uitslag uit het stuk over het Belastingplan, neutraal, zonder voorspelling", () => {
@@ -133,7 +133,7 @@ describe("Actueel: demissionaire kabinetten, de zinnen", () => {
 
   it("blok val: de zinnen noemen de getallen uit de data", () => {
     const b = blok("val"), dl = demDalingen(d), mb = missionairBereik(d), r4 = k("Rutte IV").periodes;
-    expect(b.kop).toBe(`Bij elk kabinet met genoeg stemmingen daalde het, het sterkst onder Rutte IV: van ${procent(eensPct(r4.missionair!))} naar ${procent(eensPct(r4.demNa!))}`);
+    expect(b.kop).toBe(`Bij elk kabinet met genoeg stemmingen kozen de kabinetspartijen demissionair minder vaak allemaal dezelfde kant, het sterkst onder Rutte IV: van ${procent(eensPct(r4.missionair!))} naar ${procent(eensPct(r4.demNa!))} met de nieuwe Kamer`);
     expect(b.tekst[0]).toContain(`missionair in ${Math.round(mb.min)} tot ${procent(mb.max)} van de verdeelde stemmingen eensgezind`);
     expect(dl.demVoor).toEqual({ n: 4, lager: 4 });
     expect(dl.demNa).toEqual({ n: 4, lager: 4 });

@@ -850,9 +850,9 @@ function blokVal(d: DemissionairData): Blok {
   const lagerZin = (x: { n: number; lager: number }) => (x.lager === x.n ? `bij alle ${woord(x.n)}` : `bij ${woord(x.lager)} van de ${woord(x.n)}`);
   const jp = [...j.paren].sort((a, b) => (paarPct(a) ?? 0) - (paarPct(b) ?? 0))[0];
   return {
-    id: "val", vraag: "Na de val: stemde de coalitie nog samen?",
+    id: "val", vraag: "Demissionair: stemde de coalitie nog samen?",
     // In gewone woorden (feedback Niels, 18 november 2026); de precieze periodes staan in de grafiek en de tekst
-    kop: `${dl.lager === dl.n ? "Bij elk kabinet met genoeg stemmingen" : `Bij ${woord(dl.lager)} van de ${woord(dl.n)} kabinetten met genoeg stemmingen`} daalde het, het sterkst onder ${opsomming(top.map((x) => `${x.kabinet}: van ${procent(x.van)} naar ${procent(x.naar)}`))}`,
+    kop: `${dl.lager === dl.n ? "Bij elk kabinet met genoeg stemmingen" : `Bij ${woord(dl.lager)} van de ${woord(dl.n)} kabinetten met genoeg stemmingen`} kozen de kabinetspartijen demissionair minder vaak allemaal dezelfde kant, het sterkst onder ${opsomming(top.map((x) => `${x.kabinet}: van ${procent(x.van)} naar ${procent(x.naar)} ${x.periode === "demVoor" ? "vóór" : "met"} de nieuwe Kamer`))}`,
     tekst: [
       `De blijvende kabinetspartijen, die tot het eind in het kabinet zaten, stemden missionair in ${Math.round(mb.min)} tot ${procent(mb.max)} van de verdeelde stemmingen eensgezind. Demissionair vóór de nieuwe Kamer lag dat lager ${lagerZin(dl.demVoor)} kabinetten met genoeg stemmingen, met de nieuwe Kamer ${lagerZin(dl.demNa)}.${ontbreektZin} ${opsomming(top.map((x) => `Onder ${x.kabinet} ging het ${PERIODE_TEKST[x.periode]} van ${procent(x.van)} naar ${procent(x.naar)}`))}. ${herstelZin}`.trim(),
       paarZin,
@@ -902,12 +902,12 @@ export function demissionair(d: DemissionairData, ak: AkkoordData): Stuk & { dat
   return {
     slug: d.slug, datum: d.gemaakt, label: "Actueel · Demissionair",
     kop: dl.lager === dl.n
-      ? `Na de val stemden de kabinetspartijen minder vaak gelijk, bij alle ${woord(dl.n)} kabinetten sinds 2010 met genoeg stemmingen`
-      : `Na de val stemden de kabinetspartijen minder vaak gelijk, bij ${woord(dl.lager)} van de ${woord(dl.n)} kabinetten sinds 2010 met genoeg stemmingen`,
+      ? `Demissionair kozen de kabinetspartijen minder vaak allemaal dezelfde kant, bij alle ${woord(dl.n)} kabinetten sinds 2010 met genoeg stemmingen`
+      : `Demissionair kozen de kabinetspartijen minder vaak allemaal dezelfde kant, bij ${woord(dl.lager)} van de ${woord(dl.n)} kabinetten sinds 2010 met genoeg stemmingen`,
     beschrijving: `Wat gebeurde er in de Kamer als een kabinet demissionair werd? Hoe vaak de coalitie nog eensgezind stemde, en met welke oppositiepartijen de kabinetspartijen vaker of minder vaak stemden voordat de nieuwe Kamer begon, bij ${woord(d.kabinetten.length)} kabinetten sinds 2010.`,
     ziet: `Hoe de kabinetspartijen stemden in drie periodes van ${woord(d.kabinetten.length)} kabinetten, van ${eerste.kabinet} tot en met ${laatste.kabinet} (${datumTekst(eerste.dataVanaf)} tot ${datumTekst(laatste.einde)}): missionair, demissionair vóór de nieuwe Kamer en demissionair met de nieuwe Kamer. Ter vergelijking kabinet-${d.jetten.kabinet} tot en met ${datumTekst(d.jetten.stand)}.`,
     // Korter en zonder vaktermen (feedback Niels, 18 november 2026); de definities staan bij de grafieken
-    opvalt: `${opsomming(top.map((x, i) => `${i === 0 ? "Het sterkst onder " : "onder "}${x.kabinet}: missionair kozen de kabinetspartijen in ${procent(x.van)} van de verdeelde stemmingen allemaal dezelfde kant, ${PERIODE_TEKST[x.periode]} in ${procent(x.naar)}`))}. Met de oppositie liep het per kabinet uiteen: ${spreidingZin(d)}.`,
+    opvalt: `${opsomming(top.map((x, i) => `${i === 0 ? "Het sterkst onder " : "onder "}${x.kabinet}: missionair kozen de kabinetspartijen in ${procent(x.van)} van de verdeelde stemmingen allemaal dezelfde kant, ${PERIODE_TEKST[x.periode]} in ${procent(x.naar)}`))}. Met de oppositie liep het per kabinet uiteen: ${spreidingZin(d)}. Partijen die uit het kabinet stapten, tellen daarbij niet als oppositie.`,
     // Bron van de zin over de kabinetscrisis: RD, 13 november 2026, kop "Kabinet strompelt verder, maar kabinetscrisis is
     // nog niet opgelost": https://www.rd.nl/a/kabinet-strompelt-verder-maar-kabinetscrisis-is-nog-niet-opgelost
     aanleiding: `${uitslag}Het RD schreef op 13 november 2026 dat de kabinetscrisis nog niet is opgelost (rd.nl/a/kabinet-strompelt-verder-maar-kabinetscrisis-is-nog-niet-opgelost). Wat er politiek gebeurt, staat niet in de data. Wel hoe de Kamer stemde bij de ${woord(d.kabinetten.length)} kabinetten sinds 2010 die demissionair werden. Dit stuk kijkt terug en voorspelt niets.`,
@@ -920,7 +920,7 @@ export function demissionair(d: DemissionairData, ak: AkkoordData): Stuk & { dat
       },
       rechts: {
         titel: "Een andere agenda en een andere Kamer",
-        tekst: `Een demissionaire Kamer stemt over andere onderwerpen, en na de installatie zit er een andere Kamer met andere fracties. Over alle paren samen veranderde weinig (de mediaan lag tussen ${punt(mb.min)} en ${punt(mb.max)} procentpunt), maar dat zegt niets over een verschuiving die juist één paar raakt. Waarom een partij anders stemde, staat niet in de data.`,
+        tekst: `Een demissionaire Kamer stemt over andere onderwerpen, en na de installatie zit er een andere Kamer met andere fracties. Over alle paren samen ging het niet één kant op: de mediaan lag tussen ${punt(mb.min)} en ${punt(mb.max)} procentpunt. Dat zegt niets over een verschuiving die juist één paar raakt. Waarom een partij anders stemde, staat niet in de data.`,
       },
     },
     slot: `Bij ${dl.lager === dl.n ? `alle ${woord(dl.n)}` : `${woord(dl.lager)} van de ${woord(dl.n)}`} kabinetten met genoeg stemmingen stemden de kabinetspartijen demissionair minder vaak eensgezind dan ervoor. Kabinet-${d.jetten.kabinet} is missionair, met ${procent(eensPct(j))} eensgezind tot en met ${datumTekst(d.jetten.stand)}; of het demissionair wordt en wat er dan in de Kamer gebeurt, voorspellen deze cijfers niet.`,

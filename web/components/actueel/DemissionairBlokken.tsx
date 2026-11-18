@@ -28,7 +28,7 @@ function Balk({ periode, p, klein }: { periode: DemPeriodeNaam; p: DemPeriode | 
         <span className={m.balkSpoor} aria-hidden="true">
           {pct != null && <span className={`${m.balkVul} ${m.periode} ${p!.klein ? m.gearceerd : ""}`} data-periode={periode} style={{ width: `${pct}%` }} />}
         </span>
-        <span className={m.balkGetal}>{pct == null ? "geen" : procent(pct)}</span>
+        <span className={m.balkGetal}>{pct == null ? "" : procent(pct)}</span>
       </span>
       {/* Op een eigen regel, zodat elk spoor even breed is en de balken te vergelijken blijven */}
       {!p && <span className={m.kleinWoord}>geen stemmingen in deze periode</span>}

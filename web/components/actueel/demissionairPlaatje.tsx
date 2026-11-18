@@ -5,9 +5,9 @@
 import { KLEUR } from "@/components/deel/plaatjes";
 import { type DemPeriode, type DemPeriodeNaam, type DemissionairData, DEM_PERIODES, eensPct, kortNaam, procent, puntKort } from "@/lib/actueel";
 
-// Korte woorden voor het plaatje: "oude Kamer" is de Kamer die tot de installatie van de nieuwe doorstemt
+// Dezelfde termen als op de pagina, iets korter
 const LABEL: Record<DemPeriodeNaam, string> = {
-  missionair: "missionair", demVoor: "demissionair, oude Kamer", demNa: "demissionair, nieuwe Kamer",
+  missionair: "missionair", demVoor: "demissionair, vóór nieuwe Kamer", demNa: "demissionair, met nieuwe Kamer",
 };
 const TINT: Record<DemPeriodeNaam, string> = { missionair: "#F2D38B", demVoor: "#7FB7C9", demNa: "#3E7CB1" };
 
@@ -86,7 +86,7 @@ function oppositie(d: DemissionairData) {
         );
       })}
       <div style={{ display: "flex", fontSize: 14, color: KLEUR.zacht, marginTop: 2 }}>
-        {`Procentpunt, -${max} links (minder vaak dezelfde kant) tot +${max} rechts (vaker) · grijs: 0 · goud: mediaan van alle paren`}
+        {`Procentpunt, -${max} links (minder vaak dezelfde kant) tot +${max} rechts (vaker) · grijs: 0 · goud: mediaan van alle paren, ook oppositie onderling`}
       </div>
     </div>
   );

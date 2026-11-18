@@ -85,8 +85,8 @@ export default async function Voorpagina() {
             <>
               <p className={s.bevinding}>
                 <span className={s.bevindingCijfer}>{getal(samen.breed)}</span>{" "}
-                van de {getal(samen.aangenomen)} aangenomen moties onder kabinet-{kabinet.naam} kregen steun van zowel het kabinet
-                als de oppositie.
+                van de {getal(samen.aangenomen)} aangenomen moties onder kabinet-{kabinet.naam} kregen stemmen voor van ten
+                minste één kabinetspartij én één oppositiepartij.
               </p>
               {/* De getallen als trechter (K3); de zin hierboven zegt hetzelfde voor schermlezers. Eigen anker en deelbeeld
                   (ontwerpronde fase A, punt 6). Geen vergroten: de trechter is al op zijn grootst. */}
@@ -109,8 +109,7 @@ export default async function Voorpagina() {
               {/* De voorwaarde bij de kernzin, direct onder de trechter (feitencontrole 18 november 2026: de indieners tellen
                   niet mee); de kernzin zelf is korter sinds de feedback van 18 november */}
               <Data>
-                Steun van zowel het kabinet als de oppositie: ten minste één kabinetsfractie en één oppositiefractie stemden voor,
-                allebei geen indiener of medeindiener van de motie.
+                Alleen fracties die de motie niet zelf indienden of mede ondertekenden, tellen mee. Gedoogsteun telt als kabinet.
               </Data>
               {kabinet.zetels < 76 && (
                 <Data>Kabinet-{kabinet.naam} heeft {kabinet.zetels} zetels en heeft er 76 nodig voor een meerderheid.</Data>
