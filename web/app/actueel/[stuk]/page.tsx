@@ -60,7 +60,7 @@ export default async function ActueelStuk({ params }: { params: Promise<{ stuk: 
   const x = stukVan((await params).stuk);
   if (!x) notFound();
   return (
-    <Inhoud>
+    <Inhoud licht>
       <section className={u.blok}>
         <Label>{x.label} · {datumTekst(x.datum)}</Label>
         {/* Op de telefoon een kleinere kop: de koppen van stukken zijn lang (K23 B3, 16 november 2026) */}

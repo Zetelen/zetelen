@@ -10,7 +10,7 @@ export const metadata: Metadata = { title: "Privacy", robots: { index: false, fo
 export default function Privacy() {
   const sectie = { display: "flex", flexDirection: "column" as const, gap: "var(--r-4)" };
   return (
-    <Inhoud>
+    <Inhoud licht>
       <section style={sectie}>
         <Label>Privacy</Label>
         <HeroKop>Welke gegevens verwerkt Zetelen?</HeroKop>

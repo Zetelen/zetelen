@@ -19,7 +19,7 @@ const sectie = { display: "flex", flexDirection: "column" as const, gap: "var(--
 
 export default function Methodiek() {
   return (
-    <Inhoud>
+    <Inhoud licht>
       {/* Dataset: vindbaar in Google Dataset Search. Geen licentie opgegeven: die is nog niet gekozen */}
       <JsonLd data={{
         "@context": "https://schema.org", "@type": "Dataset", name: "Stemmingen in de Tweede Kamer, geteld per fractie",

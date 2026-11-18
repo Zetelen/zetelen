@@ -62,7 +62,7 @@ export function GrafiekKader({ grafiek, zoek, titel, vergroot = true, id, classN
   return (
     <KaderContext.Provider value={{ grafiek, zoek, titel, vergroot, vol, zet }}>
       {/* Het blok zelf is geen knop: de knop Vergroot rechtsboven is de toegankelijke weg, de klik is een extra */}
-      <section id={id} style={style} onClick={klik} data-vol={vol || undefined} data-vergroot={(vergroot && !vol) || undefined}
+      <section id={id} style={style} onClick={klik} data-grafiek={grafiek} data-vol={vol || undefined} data-vergroot={(vergroot && !vol) || undefined}
         className={`${s.kader} ${className ?? ""}`} role={vol ? "dialog" : undefined} aria-modal={vol || undefined} aria-label={vol ? "Grafiek op volledig scherm" : undefined}>
         {children}
       </section>

@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 export default function Over() {
   const sectie = { display: "flex", flexDirection: "column" as const, gap: "var(--r-4)" };
   return (
-    <Inhoud>
+    <Inhoud licht>
       <section style={sectie}>
         <Label>Over</Label>
         <HeroKop>Wie maakt Zetelen?</HeroKop>

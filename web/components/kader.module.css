@@ -202,6 +202,24 @@
   flex-direction: column;
   gap: var(--r-8);
 }
+/* Licht leesthema: de lichte achtergrond loopt over de volle schermbreedte, de kop en de voet blijven donker */
+.inhoud[data-thema="licht"] {
+  background: var(--nacht-950);
+  color: var(--tekst);
+  box-shadow: 0 0 0 100vmax var(--nacht-950);
+  clip-path: inset(0 -100vmax);
+}
+/* Een grafiek op een lichte pagina staat in een donker vlak */
+.inhoud[data-thema="licht"] :is([data-vlak], [data-donker]) {
+  background: var(--nacht-950);
+  color: var(--tekst);
+  border-radius: var(--hoek-paneel);
+  padding: 52px var(--r-3) var(--r-4);
+}
+.inhoud[data-thema="licht"] [data-vlak] > [data-knoppen] {
+  top: var(--r-1);
+  right: var(--r-1);
+}
 /* Telefoon: 48 px tussen de blokken, zodat een scherm gevuld blijft (ontwerpregels Zetelen, 18 november 2026) */
 @media (max-width: 640px) {
   .inhoud {

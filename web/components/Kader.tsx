@@ -7,9 +7,10 @@ import { Data, Label, Woordmerk } from "./Typografie";
 export { Navigatie } from "./Navigatie";
 import s from "./kader.module.css";
 
-export function Inhoud({ children }: { children: ReactNode }) {
+// licht: het leesthema voor Actueel-stukken en tekstpagina's (ontwerpronde fase B, punt 4, 18 november 2026)
+export function Inhoud({ children, licht = false }: { children: ReactNode; licht?: boolean }) {
   return (
-    <main id="inhoud" className={s.inhoud}>
+    <main id="inhoud" className={s.inhoud} data-thema={licht ? "licht" : undefined}>
       {children}
     </main>
   );
