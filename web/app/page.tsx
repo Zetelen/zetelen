@@ -106,6 +106,9 @@ export default async function Voorpagina() {
               </div>
               </GrafiekVlak>
               </GrafiekKader>
+              {/* Eén knop naar het gereedschap in het eerste scherm: met de knoppen in de hero klikten meer bezoekers door
+                  (bezoekerscijfers, akkoord Niels 28 oktober 2026); de andere ingangen staan onder "Zoek zelf" */}
+              <Link href="/verkenner" className={s.ctaHoofd} style={{ alignSelf: "flex-start" }}>Wie stemt met wie? Zoek zelf</Link>
             </>
           ) : (
             <Tekst>
