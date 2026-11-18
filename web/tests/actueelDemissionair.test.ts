@@ -100,7 +100,8 @@ describe("Actueel: demissionaire kabinetten, de zinnen", () => {
   it("kop en slot: de daling bij de kabinetten met genoeg stemmingen, uit de data", () => {
     const dl = demDalingen(d);
     expect(dl).toMatchObject({ n: 5, lager: 5 });
-    expect(stuk.kop).toBe("Demissionair stemden de kabinetspartijen minder vaak eensgezind, bij alle vijf kabinetten met genoeg stemmingen sinds 2010");
+    // Kop in gewone woorden sinds 18 november 2026 (feedback Niels)
+    expect(stuk.kop).toBe("Na de val stemden de kabinetspartijen minder vaak gelijk, bij alle vijf kabinetten sinds 2010 met genoeg stemmingen");
     // Balkenende IV telt niet mee: de missionaire periode is klein
     expect(demVergelijking(k("Balkenende IV"))).toBeNull();
     expect(stuk.slot).toContain("Bij alle vijf kabinetten met genoeg stemmingen stemden de kabinetspartijen demissionair minder vaak eensgezind dan ervoor.");
@@ -111,10 +112,13 @@ describe("Actueel: demissionaire kabinetten, de zinnen", () => {
   it("opvalt: de sterkste daling en de grootste verschuiving tegenover de mediaan", () => {
     const [top] = sterksteDalingen(d), gv = grootsteVerschuiving(d), mb = mediaanBereik(d);
     expect(top).toMatchObject({ kabinet: "Rutte IV", periode: "demNa" });
-    expect(stuk.opvalt).toContain(`onder Rutte IV demissionair met de nieuwe Kamer, van ${procent(top.van)} naar ${procent(top.naar)}`);
+    expect(stuk.opvalt).toContain(`Het sterkst onder Rutte IV: missionair kozen de kabinetspartijen in ${procent(top.van)} van de verdeelde stemmingen allemaal dezelfde kant, demissionair met de nieuwe Kamer in ${procent(top.naar)}`);
     expect([gv.kabinet, gv.kabinetspartij, gv.oppositie]).toEqual(["Rutte III", "D66", "SGP"]);
-    expect(stuk.opvalt).toContain(`van D66 en SGP onder Rutte III met ${punt(gv.verschil)} procentpunt`);
-    expect(stuk.opvalt).toContain(`tussen ${punt(mb.min)} en ${punt(mb.max)} bleef`);
+    expect(mb.min).toBeLessThan(mb.max);
+    // Hoeveel paren met de oppositie 5 procentpunt of meer verschoven, zelf geteld uit de data
+    const veel = (naam: string) => k(naam).campagne!.kabOpp.filter((v) => Math.abs(v.verschil) >= 5).length;
+    expect([veel("Schoof"), veel("Rutte III"), k("Rutte III").campagne!.kabOpp.length]).toEqual([0, 23, 36]);
+    expect(stuk.opvalt).toContain("Met de oppositie liep het per kabinet uiteen: onder Schoof verschoof geen enkel paar 5 procentpunt of meer, onder Rutte III 23 van de 36 paren.");
   });
 
   it("aanleiding: de uitslag uit het stuk over het Belastingplan, neutraal, zonder voorspelling", () => {
@@ -129,7 +133,7 @@ describe("Actueel: demissionaire kabinetten, de zinnen", () => {
 
   it("blok val: de zinnen noemen de getallen uit de data", () => {
     const b = blok("val"), dl = demDalingen(d), mb = missionairBereik(d), r4 = k("Rutte IV").periodes;
-    expect(b.kop).toBe(`Het sterkst daalde de eensgezindheid onder Rutte IV: van ${procent(eensPct(r4.missionair!))} missionair naar ${procent(eensPct(r4.demVoor!))} vóór de nieuwe Kamer en ${procent(eensPct(r4.demNa!))} met de nieuwe Kamer`);
+    expect(b.kop).toBe(`Bij elk kabinet met genoeg stemmingen daalde het, het sterkst onder Rutte IV: van ${procent(eensPct(r4.missionair!))} naar ${procent(eensPct(r4.demNa!))}`);
     expect(b.tekst[0]).toContain(`missionair in ${Math.round(mb.min)} tot ${procent(mb.max)} van de verdeelde stemmingen eensgezind`);
     expect(dl.demVoor).toEqual({ n: 4, lager: 4 });
     expect(dl.demNa).toEqual({ n: 4, lager: 4 });
@@ -161,7 +165,9 @@ describe("Actueel: demissionaire kabinetten, de zinnen", () => {
   it("blok oppositie: per kabinet de sterkste stijgers en dalers, met de mediaan van alle paren als referentie", () => {
     const b = blok("oppositie"), mb = mediaanBereik(d), gv = grootsteVerschuiving(d);
     expect(campagneGroot(d).map((x) => x.kabinet)).toEqual(["Rutte I", "Rutte III", "Rutte IV", "Schoof"]);
-    expect(b.kop).toBe(`Demissionair vóór de nieuwe Kamer verschoof, tegenover missionair, een paar van kabinets- en oppositiepartij tot ${Math.abs(gv.verschil).toLocaleString("nl-NL", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} procentpunt, de mediaan van alle paren tussen ${punt(mb.min)} en ${punt(mb.max)}`);
+    expect(b.kop).toBe("Met de oppositie liep het per kabinet uiteen");
+    expect(b.tekst[0]).toContain(`tussen ${punt(mb.min)} en ${punt(mb.max)} procentpunt`);
+    expect(b.tekst[0]).toContain(`van ${procent(gv.voor)} naar ${procent(gv.na)}`);
     const r3 = k("Rutte III").campagne!;
     const sp = r3.perPartij.map((p) => p.stijger!), sgp = r3.perPartij.map((p) => p.daler!);
     expect(new Set(sp.map((v) => v.oppositie))).toEqual(new Set(["SP"]));
@@ -229,7 +235,7 @@ describe("Actueel: demissionaire kabinetten, afronding vanaf de breuk", () => {
     }
     const gv = grootsteVerschuiving(d);
     expect(punt(gv.verschil)).toBe("min 16,8");
-    expect(stuk.opvalt).toContain("met min 16,8 procentpunt");
+    expect(blok("oppositie").tekst[0]).toContain("De grootste verschuiving was D66 en SGP onder Rutte III");
   });
   it("NSC telt na 22 augustus 2025 niet meer als kabinetspartij in een paar", () => {
     const s = k("Schoof").periodes;

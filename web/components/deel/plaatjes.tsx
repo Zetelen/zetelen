@@ -145,7 +145,7 @@ export async function samenPlaatje() {
   ] : [];
   return (
     <Kader kop="Kabinet en oppositie" titel={samen && kabinet ? `${getal(samen.breed)} van de ${getal(samen.aangenomen)} aangenomen moties onder kabinet-${kabinet.naam}` : "Hoe vaak stemmen kabinet en oppositie samen?"}
-      stand={stand} regel="kregen stemmen voor van ten minste één kabinetsfractie én één oppositiefractie, allebei geen indiener of medeindiener van het stuk">
+      stand={stand} regel="kregen steun van zowel het kabinet als de oppositie: van ten minste één kabinets- en één oppositiefractie, allebei geen indiener">
       {!samen ? <Melding tekst="De cijfers laden nu niet" /> : (
         <div style={{ display: "flex", flexDirection: "column", width: "100%", gap: 12, justifyContent: "center" }}>
           {rijen.map((r) => (

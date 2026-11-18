@@ -146,3 +146,148 @@
     grid-row: 2;
   }
 }
+
+/* Herzien 18 november 2026: balken per periode (blok val) en een stippenstrook per kabinet (blok oppositie) */
+.kabinetNaam {
+  margin: 0;
+  font-size: 15px;
+  color: var(--tekst);
+}
+.kabinetNaam strong {
+  font-weight: 600;
+}
+.balken {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-2);
+}
+.balken li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.balkLabel {
+  font-size: 13px;
+  color: var(--tekst-zacht);
+}
+.balkRij {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--r-3);
+}
+.balkSpoor {
+  position: relative;
+  height: 18px;
+  border-radius: 3px;
+  background: var(--nacht-800);
+}
+.balkVul {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 3px;
+}
+/* Datakleuren uit de cohesieschaal, licht naar donker per periode; koper blijft voor markering */
+.periode[data-periode="missionair"] {
+  background-color: var(--schaal-100);
+}
+.periode[data-periode="demVoor"] {
+  background-color: var(--schaal-67);
+}
+.periode[data-periode="demNa"] {
+  background-color: var(--schaal-33);
+}
+.gearceerd {
+  background-image: repeating-linear-gradient(45deg, rgba(7, 11, 24, 0.55) 0 3px, transparent 3px 7px);
+}
+.balkGetal {
+  width: 48px;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: right;
+  white-space: nowrap;
+}
+.kleinWoord {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--tekst-zacht);
+}
+.tabelStrook {
+  overflow-x: auto;
+}
+.parenTabel {
+  border-collapse: collapse;
+  font-size: 13px;
+  min-width: 100%;
+}
+.parenTabel th,
+.parenTabel td {
+  padding: 4px 8px 4px 0;
+  text-align: right;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--lijn);
+}
+.parenTabel th[scope="row"],
+.parenTabel thead th:first-child {
+  text-align: left;
+  font-weight: 400;
+}
+.parenTabel thead th {
+  color: var(--tekst-zacht);
+  font-weight: 400;
+}
+.strook {
+  position: relative;
+  border-bottom: 1px solid var(--lijn);
+  min-height: 24px;
+}
+.nullijn {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--tekst-zacht);
+}
+.mediaanLijn {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin-left: -1px;
+  border-left: 2px dashed var(--goud);
+}
+.stip {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  border-radius: 50%;
+  background-color: var(--schaal-67);
+  border: 1px solid var(--nacht-950);
+}
+.asLabels {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  font-size: 12px;
+  color: var(--tekst-zacht);
+}
+.uitersten {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--r-3);
+  margin: 0;
+  font-size: 13px;
+  color: var(--tekst);
+}
+.uitersten span:last-child {
+  text-align: right;
+}
+
+/* Een klein kabinet weegt minder: doorschijnende stippen */
+.kleinBlok .stip {
+  opacity: 0.5;
+}

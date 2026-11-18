@@ -79,8 +79,10 @@ export default async function ActueelStuk({ params }: { params: Promise<{ stuk: 
             <GrafiekKader key={b.id} grafiek="actueel" zoek={{ stuk: x.slug, blok: b.id }} titel={b.kop} id={b.id} className={s.blok}>
               <p className={s.vraag}>{i + 1} · {b.vraag}</p>
               <h2 className={s.blokKop}>{b.kop}</h2>
-              {b.tekst.map((t) => <Tekst key={t}>{t}</Tekst>)}
+              {/* Eerst de grafiek, dan de uitleg (18 november 2026, feedback Niels over het stuk demissionair): de kop zegt
+                  de conclusie, de grafiek laat hem zien, de tekst geeft de details */}
               <GrafiekVlak><Grafiek d={x.data} id={b.id} /></GrafiekVlak>
+              {b.tekst.map((t) => <Tekst key={t}>{t}</Tekst>)}
               <Data>{b.data}</Data>
             </GrafiekKader>
           );
