@@ -65,6 +65,8 @@ export default async function Voorpagina() {
   const perPeriode = await periodeWerk("kabinet");
   const samen = kabinet && perPeriode ? samenwerking(perPeriode, kabinet.naam, "Rutte I") : null;
   const getal = (n: number) => n.toLocaleString("nl-NL");
+  // Brede steun per kabinet (de grafiek in "Wat opvalt"), ook voor de lezing bij het cijfer bovenaan
+  const breed = perPeriode ? bredeSteunPerKabinet(perPeriode) : [];
   // De laatste drie stukken uit Actueel, nieuwste eerst (ontwerpronde fase A, 18 november 2026)
   const nieuwste = [...STUKKEN].sort((x, y) => y.datum.localeCompare(x.datum)).slice(0, 3);
   // De kop "Hoe kwam deze Kamer tot stand?" staat boven het verhaal; de eerste kaart herhaalt hem niet
@@ -111,9 +113,7 @@ export default async function Voorpagina() {
               <Data>
                 Alleen fracties die de motie niet zelf indienden of mede ondertekenden, tellen mee. Gedoogsteun telt als kabinet.
               </Data>
-              {kabinet.zetels < 76 && (
-                <Data>Kabinet-{kabinet.naam} heeft {kabinet.zetels} zetels en heeft er 76 nodig voor een meerderheid.</Data>
-              )}
+              {/* De zetels van het kabinet staan sinds 18 november in de lezing hieronder, niet ook hier */}
               {/* Eén knop naar het gereedschap in het eerste scherm: met de knoppen in de hero klikten meer bezoekers door
                   (bezoekerscijfers, akkoord Niels 28 oktober 2026); de andere ingangen staan onder "Zoek zelf" */}
               <Link href="/verkenner" className={s.ctaHoofd} style={{ alignSelf: "flex-start" }}>Wie stemt met wie? Zoek zelf</Link>
@@ -126,10 +126,16 @@ export default async function Voorpagina() {
         </div>
       </section>
 
-      {/* De twee lezingen direct bij het cijfer (tekst akkoord Niels, 26 oktober 2026) */}
+      {/* De twee lezingen direct bij het cijfer. Herschreven op 18 november 2026 (Niels, na de feitencontrole van de
+          posts): het debat zit niet in de data, en voor "bij de begroting en de grote wetten staan ze vaak tegenover
+          elkaar" stond geen cijfer op de site. Nu staat er alleen wat de data dragen. Geen steunpartijen (besluit Niels,
+          18 november 2026, K18 3e). */}
       <Lezingen
-        links={{ titel: "Er wordt meer samengewerkt dan het lijkt", tekst: "In het debat staan ze tegenover elkaar, bij de stemming vaak niet. En dat samen stemmen is sinds 2010 flink toegenomen." }}
-        rechts={{ titel: "Of: eens zijn over een motie zegt weinig", tekst: "Over een verzoek om een onderzoek of een brief is de Kamer het snel eens. Waar het om geld en koers gaat, bij de begroting en de grote wetten, staan kabinet en oppositie nog steeds vaak tegenover elkaar." }}
+        links={{ titel: "Er wordt vaak samen gestemd", tekst: `Bij de meeste aangenomen moties stemden een kabinetspartij en een oppositiepartij allebei voor.${breed.length > 1 && breed[0].moties != null && breed[breed.length - 1].moties != null ? ` Het deel van alle moties dat zo werd aangenomen, ging van ${procent(breed[0].moties)} onder ${breed[0].kabinet} naar ${procent(breed[breed.length - 1].moties)} onder ${breed[breed.length - 1].kabinet}.` : ""}` }}
+        rechts={{
+          titel: kabinet && kabinet.zetels < 76 ? "Of: het kabinet heeft geen meerderheid" : "Of: een motie is geen wet",
+          tekst: `${kabinet && kabinet.zetels < 76 ? `Kabinet-${kabinet.naam} heeft ${kabinet.zetels} van de 150 zetels. Voor een motie heeft het bijna altijd stemmen uit de oppositie nodig. ` : ""}Een motie is een verzoek aan het kabinet, geen wet. Over wetten en de begroting zegt dit cijfer niets.`,
+        }}
       />
 
       {/* De laatste drie stukken uit Actueel. Kop en datum komen uit lib/actueel.ts, net als op /actueel zelf. */}
