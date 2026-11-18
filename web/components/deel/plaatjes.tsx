@@ -111,7 +111,7 @@ export async function bredeSteunPlaatje() {
   );
   return (
     <Kader kop="Kabinet en oppositie" titel="Met stemmen van kabinet én oppositie" stand={stand}
-      regel="Deel van alle ingediende moties en amendementen per kabinet dat zo werd aangenomen">
+      regel="Deel van alle moties en amendementen per kabinet waarover is gestemd, dat zo werd aangenomen">
       {!rijen.length ? <Melding tekst="De cijfers laden nu niet" /> : (
         <div style={{ display: "flex", width: "100%", alignItems: "flex-end", gap: 18 }}>
           <div style={{ display: "flex", flex: 1, alignItems: "flex-end", justifyContent: "space-between", borderBottom: `2px solid ${KLEUR.lijn}` }}>
@@ -139,13 +139,13 @@ export async function samenPlaatje() {
   const samen = kabinet && werk ? samenwerking(werk, kabinet.naam, "Rutte I") : null;
   const getal = (n: number) => n.toLocaleString("nl-NL");
   const rijen = samen ? [
-    { tekst: "moties ingediend", n: samen.moties, tint: "#566AA6", inkt: KLEUR.tekst },
+    { tekst: "moties in stemming gebracht", n: samen.moties, tint: "#566AA6", inkt: KLEUR.tekst },
     { tekst: "aangenomen", n: samen.aangenomen, tint: "#7FB7C9", inkt: KLEUR.achter },
     { tekst: "met stemmen van kabinet én oppositie", n: samen.breed, tint: "#F2D38B", inkt: KLEUR.achter },
   ] : [];
   return (
     <Kader kop="Kabinet en oppositie" titel={samen && kabinet ? `${getal(samen.breed)} van de ${getal(samen.aangenomen)} aangenomen moties onder kabinet-${kabinet.naam}` : "Hoe vaak stemmen kabinet en oppositie samen?"}
-      stand={stand} regel="kregen stemmen van ten minste één fractie uit het kabinet én één uit de oppositie">
+      stand={stand} regel="kregen, naast de stemmen van de indieners, stemmen voor van ten minste één kabinetsfractie én één oppositiefractie">
       {!samen ? <Melding tekst="De cijfers laden nu niet" /> : (
         <div style={{ display: "flex", flexDirection: "column", width: "100%", gap: 12, justifyContent: "center" }}>
           {rijen.map((r) => (

@@ -85,8 +85,8 @@ export default async function Voorpagina() {
             <>
               <p className={s.bevinding}>
                 <span className={s.bevindingCijfer}>{getal(samen.breed)}</span>{" "}
-                van de {getal(samen.aangenomen)} aangenomen moties onder kabinet-{kabinet.naam} kregen stemmen van ten minste
-                één fractie uit het kabinet én één uit de oppositie.
+                van de {getal(samen.aangenomen)} aangenomen moties onder kabinet-{kabinet.naam} kregen, naast de stemmen van de
+                indieners, stemmen voor van ten minste één kabinetsfractie én één oppositiefractie.
               </p>
               {/* De getallen als trechter (K3); de zin hierboven zegt hetzelfde voor schermlezers. Eigen anker en deelbeeld
                   (ontwerpronde fase A, punt 6). Geen vergroten: de trechter is al op zijn grootst. */}
@@ -94,7 +94,7 @@ export default async function Voorpagina() {
               <GrafiekVlak>
               <div className={s.trechter} aria-hidden="true">
                 {[
-                  { tekst: "moties ingediend", n: samen.moties },
+                  { tekst: "moties in stemming gebracht", n: samen.moties },
                   { tekst: "aangenomen", n: samen.aangenomen },
                   { tekst: "met stemmen van kabinet én oppositie", n: samen.breed },
                 ].map((r, i) => (
@@ -106,6 +106,9 @@ export default async function Voorpagina() {
               </div>
               </GrafiekVlak>
               </GrafiekKader>
+              {kabinet.zetels < 76 && (
+                <Data>Kabinet-{kabinet.naam} heeft {kabinet.zetels} zetels en heeft er 76 nodig voor een meerderheid.</Data>
+              )}
               {/* Eén knop naar het gereedschap in het eerste scherm: met de knoppen in de hero klikten meer bezoekers door
                   (bezoekerscijfers, akkoord Niels 28 oktober 2026); de andere ingangen staan onder "Zoek zelf" */}
               <Link href="/verkenner" className={s.ctaHoofd} style={{ alignSelf: "flex-start" }}>Wie stemt met wie? Zoek zelf</Link>
@@ -170,9 +173,9 @@ export default async function Voorpagina() {
       { naam: "Wat opvalt", inhoud: <>
       <section className={s.opening}>
         <HoofdstukKop titel="Samen stemmen door de jaren" />
-        {samen && (
+        {samen && kabinet && (
           <Tekst>
-            De oppositie kreeg {samen.oppositieNu}% van haar moties erdoor. Onder {samen.eerste} was dat {samen.oppositieEerst}%.
+            Onder kabinet-{kabinet.naam} kreeg de oppositie {samen.oppositieNu}% van haar moties erdoor. Onder {samen.eerste} was dat {samen.oppositieEerst}%.
           </Tekst>
         )}
         {perPeriode && perPeriode.length > 0 && (
@@ -180,7 +183,7 @@ export default async function Voorpagina() {
             <Label>Aangenomen met stemmen van kabinet én oppositie, per kabinet</Label>
             <GrafiekVlak><BredeSteun rijen={bredeSteunPerKabinet(perPeriode)} /></GrafiekVlak>
             <Data>
-              Deel van alle ingediende moties en amendementen per kabinet dat werd aangenomen met stemmen van kabinet én oppositie.
+              Deel van alle moties en amendementen per kabinet waarover is gestemd, dat werd aangenomen met stemmen van kabinet én oppositie.
               Naast de indieners stemde minstens één fractie uit elk kamp voor. Gedoogsteun telt als kabinet.
             </Data>
           </GrafiekKader>
