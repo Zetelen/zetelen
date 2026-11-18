@@ -103,6 +103,10 @@
 .snel {
   max-width: var(--pagina-max);
   margin: 0 auto;
+  /* Donker over de volle breedte, ook onder een lichte pagina (ontwerpronde fase B); hier geen grafiek op volledig scherm */
+  background: var(--nacht-950);
+  box-shadow: 0 0 0 100vmax var(--nacht-950);
+  clip-path: inset(0 -100vmax);
   padding: var(--r-6) var(--pagina-marge);
   border-top: 1px solid var(--lijn);
   display: flex;

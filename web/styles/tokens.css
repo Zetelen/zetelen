@@ -58,7 +58,8 @@
  * Licht leesthema (ontwerpronde fase B, punt 4, 18 november 2026): Actueel-stukken en tekstpagina's (Methodiek, Over,
  * Privacy) lezen op papier. Een pagina zet het aan met <Inhoud licht>. Grafieken houden een donker vlak: binnen het
  * grafiekvlak (GrafiekVlak, data-vlak) gelden weer de donkere kleuren; kop en tekst eromheen staan op papier. Contrast (WCAG AA, berekend): tekst 15,6:1, zachte tekst 7,9:1 en koper
- * 5,7:1 op de achtergrond; koper 4,8:1 op het donkerste vlak; lijn-licht minstens 3,5:1 voor randen.
+ * 5,7:1 op de achtergrond; koper 4,8:1 op nacht-800 en 4,35:1 op nacht-700 (daar alleen voor randen); lijn-licht
+ * minstens 3,5:1 voor randen op nacht-950, -900 en -800, niet op nacht-700 (3,19).
  */
 [data-thema="licht"] {
   --nacht-950: #f6f3ec;

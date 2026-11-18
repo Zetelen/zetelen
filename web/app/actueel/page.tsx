@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export default function Actueel() {
   const lijst = [...STUKKEN].sort((a, b) => b.datum.localeCompare(a.datum));
   return (
-    <Inhoud>
+    <Inhoud licht>
       <section className={s.blok}>
         <Label>Actueel</Label>
         <HeroKop>Het nieuws, naast de stemmingen</HeroKop>

@@ -52,3 +52,8 @@ a {
   clip-path: inset(50%);
   white-space: nowrap;
 }
+
+/* Licht leesthema (ontwerpronde fase B): de body krijgt de papierkleur als de pagina licht is; zie styles/tokens.css */
+body:has(main[data-thema="licht"]) {
+  background: #f6f3ec;
+}

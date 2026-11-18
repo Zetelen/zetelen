@@ -202,12 +202,11 @@
   flex-direction: column;
   gap: var(--r-8);
 }
-/* Licht leesthema: de lichte achtergrond loopt over de volle schermbreedte, de kop en de voet blijven donker */
+/* Licht leesthema: de lichte achtergrond komt van de body (styles/globals.css), zodat main geen clip-path of eigen
+   stapelvolgorde krijgt; met een clip-path viel de grafiek op volledig scherm onder de kop (feitencontrole 18 november
+   2026). De kop, de snelle vraag en de voet hebben een eigen donkere achtergrond. */
 .inhoud[data-thema="licht"] {
-  background: var(--nacht-950);
   color: var(--tekst);
-  box-shadow: 0 0 0 100vmax var(--nacht-950);
-  clip-path: inset(0 -100vmax);
 }
 /* Een grafiek op een lichte pagina staat in een donker vlak */
 .inhoud[data-thema="licht"] :is([data-vlak], [data-donker]) {
@@ -229,6 +228,7 @@
 }
 .voet {
   border-top: 1px solid var(--lijn);
+  background: var(--nacht-950); /* blijft donker onder een lichte pagina */
 }
 .voetbinnen {
   max-width: var(--pagina-max);

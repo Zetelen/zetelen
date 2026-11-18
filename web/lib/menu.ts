@@ -3,8 +3,8 @@
 export type MenuItem = { href: string; tekst: string; regel: string };
 export type MenuGroep = { naam: string; items: MenuItem[] };
 
-// Sinds de ontwerpronde fase B (18 november 2026, punt 2): Actueel eerst, want bezoekers van Bluesky en LinkedIn komen
-// voor een verhaal; daarna het gereedschap; Methodiek en Over staan nu ook in het menu. De adressen veranderen niet.
+// Sinds de ontwerpronde fase B (18 november 2026, punt 2): Actueel eerst (aanname: wie via Bluesky of LinkedIn komt,
+// zoekt eerst een verhaal); daarna het gereedschap; Methodiek en Over staan nu ook in het menu. De adressen veranderen niet.
 export const MENU: MenuGroep[] = [
   {
     naam: "Actueel",
